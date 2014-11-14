@@ -4,7 +4,7 @@
 
 (function(){
 
-var app = angular.module('coachSeekApp', ['ngRoute', 'xeditable', 'coachSeekControllers', 'coachSeekDirectives']);
+var app = angular.module('coachSeekApp', ['ngRoute', 'coachSeekControllers', 'coachSeekDirectives']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -33,8 +33,8 @@ app.config(['$routeProvider',
 		//$locationProvider.html5Mode(true);
   }]);
 
-app.run(function (editableOptions) {
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-});
+// app.run(function (editableOptions) {
+//     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+// });
 
 })();

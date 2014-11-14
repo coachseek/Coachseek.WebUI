@@ -4,7 +4,7 @@
 
 (function(){
 
-var app = angular.module('coachSeekApp', ['ngRoute', 'xeditable', 'coachSeekControllers', 'coachSeekDirectives']);
+var app = angular.module('coachSeekApp', ['ngRoute', 'coachSeekControllers', 'coachSeekDirectives']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -33,9 +33,9 @@ app.config(['$routeProvider',
 		//$locationProvider.html5Mode(true);
   }]);
 
-app.run(function (editableOptions) {
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-});
+// app.run(function (editableOptions) {
+//     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+// });
 
 })();
 
@@ -83,13 +83,13 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
 
     function reloadBusiness() {
         if (pageWasReloaded()) {
-            $http.get('/api/Businesses/' + $routeParams.domain)
-               .success(function (business) {
-                   refreshBusinessAndLocations(business);
-               })
-               .error(function (error) {
-                   $scope.error = error;
-               });
+            // $http.get('/api/Businesses/' + $routeParams.domain)
+            //    .success(function (business) {
+            //        refreshBusinessAndLocations(business);
+            //    })
+            //    .error(function (error) {
+            //        $scope.error = error;
+            //    });
         }
     };
 
@@ -143,15 +143,15 @@ coachSeekControllers.controller('LocationCtrl', ['$scope', '$filter', '$http', '
     $scope.saveLocation = function (data, id) {
         var location = buildLocationForSave(data, id);
 
-        return $http.post('/api/Locations', location)
-           .success(function (savedLocation) {
-               if (isNewLocation(id)) {
-                   updateLocationInArray(savedLocation);
-               }
-           })
-           .error(function (error) {
-               $scope.error = error;
-           });
+        // return $http.post('/api/Locations', location)
+        //    .success(function (savedLocation) {
+        //        if (isNewLocation(id)) {
+        //            updateLocationInArray(savedLocation);
+        //        }
+        //    })
+        //    .error(function (error) {
+        //        $scope.error = error;
+        //    });
     };
 
     function buildLocationForSave(data, id) {
@@ -188,13 +188,13 @@ coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$ro
 
     function reloadBusiness() {
         if (pageWasReloaded()) {
-            $http.get('/api/Businesses/' + $routeParams.domain)
-               .success(function (business) {
-                   refreshBusinessAndCoaches(business);
-               })
-               .error(function (error) {
-                   $scope.error = error;
-               });
+            // $http.get('/api/Businesses/' + $routeParams.domain)
+            //    .success(function (business) {
+            //        refreshBusinessAndCoaches(business);
+            //    })
+            //    .error(function (error) {
+            //        $scope.error = error;
+            //    });
         }
     };
 
@@ -211,13 +211,13 @@ coachSeekControllers.controller('CoachCtrl', ['$scope', '$filter', '$http', '$ro
         coach.email = data.email;
         coach.phone = data.phone;
 
-        return $http.post('/api/Coaches', coach)
-           .success(function (business) {
-               refreshBusinessAndCoaches(business);
-            })
-           .error(function (error) {
-               $scope.error = error;
-           });
+        // return $http.post('/api/Coaches', coach)
+        //    .success(function (business) {
+        //        refreshBusinessAndCoaches(business);
+        //     })
+        //    .error(function (error) {
+        //        $scope.error = error;
+        //    });
     };
 
     function refreshBusinessAndCoaches(business) {

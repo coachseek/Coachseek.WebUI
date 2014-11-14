@@ -16,17 +16,19 @@ module.exports = function(grunt) {
          ],
          dest: 'src/css/build.css'
        },
+       //concat src scripts so we can debug
+       //TODO - figure out how to do this on watch without css files included
        srcApp: {
         src: [
-          'src/scripts/app/*.js',
+          'src/js/scripts/*.js',
         ],
-        dest: 'src/scripts/app.js'
+        dest: 'src/js/scripts.js'
        },
        srcLibs: {
         src: [
-          'src/scripts/libs/*.js',
+          'src/js/libs/*.js',
         ],
-        dest: 'src/scripts/libs.js'
+        dest: 'src/js/libs.js'
        }
      },
      htmlmin: {                                     // Task
@@ -42,12 +44,12 @@ module.exports = function(grunt) {
      },
      uglify: {
        buildApp: {
-         src: 'src/scripts/app/*.js',
-         dest: 'build/scripts/app.js'
+         src: 'src/js/scripts/*.js',
+         dest: 'build/js/scripts.js'
        },
        buildLibs: {
-         src: 'src/scripts/libs/*.js',
-         dest: 'build/scripts/libs.js'
+         src: 'src/js/libs/*.js',
+         dest: 'build/js/libs.js'
        }
      },
     sass: {
