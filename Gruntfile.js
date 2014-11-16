@@ -72,13 +72,14 @@ module.exports = function(grunt) {
     },
     watch: {
       js: {
-        files: ['src/scripts/app/*.js'],
+        files: ['src/js/scripts/*.js'],
         tasks: ['concat']
       },
       css: {
         files: ['src/css/*.scss'],
         tasks: ['concat', 'sass'],
       }
+      //TODO - partials?
     }
   });
 
@@ -90,6 +91,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
   // Default task(s).
+  // TODO - jshint
   grunt.registerTask('default', ['concat', 'htmlmin', 'uglify', 'sass']);
 
 };
