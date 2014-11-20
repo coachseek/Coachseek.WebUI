@@ -6,13 +6,14 @@ module.exports = function(grunt) {
     concat: {
        build: {
          src: [
-           'src/css/*.scss',
+           'src/modules/**/css/*.scss',
          ],
          dest: 'build/css/build.css'
        },
+       //TODO - make this a temp file so we don't leave it lying around
        src: {
          src: [
-           'src/css/*.scss',
+           'src/modules/**/css/*.scss',
          ],
          dest: 'src/css/build.css'
        },
