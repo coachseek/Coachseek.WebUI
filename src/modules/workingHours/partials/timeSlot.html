@@ -1,0 +1,19 @@
+<div ng-repeat="weekday in weekdays">
+	<!-- how do we i18n this? -->
+	<!-- __(i18n.workingHours.{{weekday}})? -->
+	{{weekday}}
+	<toggle-switch 
+		ng-model="coach.workingHours[weekday].isAvailable"
+		on-label="yes"
+	    off-label="no"
+	></toggle-switch>
+	<input
+		ng-model='coach.workingHours[weekday].startTime'
+		ng-disabled='!coach.workingHours[weekday].isAvailable'
+	/>
+	to
+	<input
+		ng-model='coach.workingHours[weekday].finishTime'
+		ng-disabled='!coach.workingHours[weekday].isAvailable'
+	/>
+</div>

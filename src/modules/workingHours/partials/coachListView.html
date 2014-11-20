@@ -1,0 +1,14 @@
+<div ng-app='workingHours' class="container body-content">
+	<coach-list-nav></coach-list-nav>
+    <ul>
+        <li ng-repeat="coach in coachList | orderBy:'lastName'">
+            <span class="coach-name">{{coach.firstName}} {{coach.lastName}}</span>
+            <span class="coach-email">{{coach.email}}</span>
+            <span class="coach-phone">{{coach.phone}}</span>
+    		<!-- show coach edit on click -->
+            <button ng-click="editCoach(coach)">Edit</button>
+        </li>
+    </ul>
+    <!-- show coach creation on click -->
+    <button ng-click="createCoach()">Add New Coach</button>
+</div>
