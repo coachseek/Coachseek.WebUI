@@ -27,10 +27,19 @@ module.exports = function(grunt) {
        },
        srcLibs: {
         src: [
-          'src/js/libs/*.js',
+          'src/libs/*.js',
         ],
         dest: 'src/js/libs.js'
        }
+     },
+     wrap:{
+      basic: {
+        src: ['src/js/scripts.js'],
+        dest: 'src/js/scripts.js',
+        options: {
+          wrapper: ["'use strict';\n(function(){", "})();"]
+        }
+      }
      },
      htmlmin: {                                     // Task
        build: {                                      // Target
@@ -43,6 +52,29 @@ module.exports = function(grunt) {
          }
        }
      },
+     //TODO - concat and use 1 app.js file
+     ngtemplates:      {
+       build:          {
+         options:      {
+           module:     'coachSeekApp',         // (Optional) The module the templates will be added to
+            htmlmin:  { collapseWhitespace: true, collapseBooleanAttributes: true }
+         },
+         cwd: 'src/modules',
+         src:          '**/partials/**.html',
+         dest:         'build/js/templates.js'
+       },
+       src:{
+         options:      {
+           base:       'src/modules',        // $templateCache ID will be relative to this folder
+           module:     'coachSeekApp'               // (Optional) The module the templates will be added to
+                                           //            Defaults to grunt target name (e.g. `myapp`)
+         },
+         cwd: 'src/modules',
+         src:          '**/partials/**.html',
+         dest:         'src/js/templates.js'
+       }
+     },
+     //TODO - switch to ng-annotate?
      uglify: {
        buildApp: {
          src: 'src/modules/**/*.js',
@@ -79,8 +111,11 @@ module.exports = function(grunt) {
       css: {
         files: ['src/css/*.scss'],
         tasks: ['concat', 'sass'],
+      },
+      templates: {
+        files: ['src/modules/**/partials/*.html'],
+        tasks: ['ngtemplates']
       }
-      //TODO - partials?
     }
   });
 
@@ -90,9 +125,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-wrap');
 
   // Default task(s).
   // TODO - jshint
-  grunt.registerTask('default', ['concat', 'htmlmin', 'uglify', 'sass']);
+  grunt.registerTask('default', ['concat', 'wrap', 'htmlmin', 'ngtemplates', 'uglify', 'sass']);
 
 };
