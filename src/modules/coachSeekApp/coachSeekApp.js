@@ -1,6 +1,7 @@
 /* App Module */
 angular.module('coachSeekApp',
                           [
+                          	'ui.bootstrap',
                             'ngRoute',
                             'coachSeekApp.controllers', 
                             'coachSeekApp.services',

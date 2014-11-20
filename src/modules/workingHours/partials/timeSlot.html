@@ -7,13 +7,13 @@
 		on-label="yes"
 	    off-label="no"
 	></toggle-switch>
-	<input
+	<timepicker
 		ng-model='coach.workingHours[weekday].startTime'
 		ng-disabled='!coach.workingHours[weekday].isAvailable'
-	/>
+	></timepicker>
 	to
-	<input
+	<timepicker
 		ng-model='coach.workingHours[weekday].finishTime'
 		ng-disabled='!coach.workingHours[weekday].isAvailable'
-	/>
+	></timepicker>
 </div>
