@@ -20,7 +20,7 @@ module.exports = function(grunt) {
        //TODO - figure out how to do this on watch without css files included
        srcApp: {
         src: [
-          'src/js/scripts/*.js',
+          'src/modules/**/*.js',
         ],
         dest: 'src/js/scripts.js'
        },
@@ -44,11 +44,11 @@ module.exports = function(grunt) {
      },
      uglify: {
        buildApp: {
-         src: 'src/js/scripts/*.js',
+         src: 'src/modules/**/*.js',
          dest: 'build/js/scripts.js'
        },
        buildLibs: {
-         src: 'src/js/libs/*.js',
+         src: 'src/libs/*.js',
          dest: 'build/js/libs.js'
        }
      },
@@ -72,8 +72,8 @@ module.exports = function(grunt) {
     },
     watch: {
       js: {
-        files: ['src/js/scripts/*.js'],
-        tasks: ['concat']
+        files: ['src/modules/**/*.js'],
+        tasks: ['concat', 'wrap']
       },
       css: {
         files: ['src/css/*.scss'],
