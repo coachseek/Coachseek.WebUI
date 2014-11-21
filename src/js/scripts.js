@@ -5,93 +5,241 @@ angular.module('coachSeekApp.controllers', []);
 angular.module('coachSeekApp.directives', []);
 /* App Module */
 angular.module('coachSeekApp',
-                          [
-                            'ngRoute',
-                            'coachSeekApp.controllers', 
-                            'coachSeekApp.services',
-                            'coachSeekApp.directives',
-                            'workingHours'
-                          ]).config(['$routeProvider', function ($routeProvider){
-					        $routeProvider.otherwise({redirectTo: '/'});
-                          }]);
+  [
+    // LIBRARIES
+  	'ui.bootstrap',
+    'ngRoute',
+
+    // coachSeekApp
+    'coachSeekApp.controllers', 
+    'coachSeekApp.services',
+    'coachSeekApp.directives',
+
+    // MODULES
+    'workingHours',
+    'locations',
+
+    // UTILITIES
+    'ngActivityIndicator'
+  ]).config(['$routeProvider', function ($routeProvider){
+    $routeProvider.otherwise({redirectTo: '/registration/coach-list'});
+  }]);
 /* Services */
 
 angular.module('coachSeekApp.services', []).
-  factory('coachSeekAPIService', ['$http', function($http) {
+  factory('coachSeekAPIService', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
 
     var coachSeekAPI = {};
 
-    coachSeekAPI.getCoaches = function() {
+    var startTime = new Date()
+    startTime.setHours(9)
+    startTime.setMinutes(0);
+    var finishTime = new Date()
+    finishTime.setHours(17)
+    finishTime.setMinutes(0);		
+
+    coachSeekAPI.getCoaches = function(businessId) {
       // return $http({
       //   method: 'GET', 
       //   url: 'https://api.coachseek.com/api/Coaches',
       //   params: {businessId: '@businessId'}
       // });
+		this.deferred = $q.defer();
+		var self = this;
+		$timeout(function(){
+		   self.deferred.resolve({});
+		}, _.random(500, 1500));
+		return this.deferred.promise;
     };
 
-    coachSeekAPI.getCoach = function(userId){
-    	// return $http({
-    	//   method: 'GET', 
-    	//   url: 'https://api.coachseek.com/api/Coaches',
-    	//   params: {businessId: '@businessId', coachId: '@coachId'}
-    	// });
-    }
+  //   coachSeekAPI.getCoach = function(businessId, coachId){
+  //   	// return $http({
+  //   	//   method: 'GET', 
+  //   	//   url: 'https://api.coachseek.com/api/Coaches',
+  //   	//   params: {businessId: '@businessId', coachId: '@coachId'}
+  //   	// });
 
-    coachSeekAPI.saveCoach = function(){
+
+
+		// this.deferred = $q.defer();
+		// var self = this;
+		// $timeout(function(){
+		//    self.deferred.resolve({
+		// 		businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+		// 		id: null,
+		// 		firstName: "Koot",
+		// 		lastName: "Stains",
+		// 		email: "n.h@example.com",
+		// 		phone: "021 99 88 77",
+		// 		workingHours: {
+		// 			monday: { 
+		// 				isAvailable: true,
+		// 				startTime: startTime,
+		// 				finishTime: finishTime
+		// 			},
+		// 			tuesday: {
+		// 				isAvailable: true,
+		// 				startTime: startTime,
+		// 				finishTime: finishTime
+		// 			}, 
+		// 			wednesday: {
+		// 				isAvailable: true,
+		// 				startTime: startTime,
+		// 				finishTime: finishTime
+		// 			},
+		// 			thursday: {
+		// 				isAvailable: true,
+		// 				startTime: startTime,
+		// 				finishTime: finishTime
+		// 			},
+		// 			friday: {
+		// 				isAvailable: true,
+		// 				startTime: startTime,
+		// 				finishTime: finishTime
+		// 			},
+		// 			saturday: {
+		// 				isAvailable: false,
+		// 				startTime: startTime, 
+		// 				finishTime: finishTime
+		// 			}, 
+		// 			sunday: {
+		// 				isAvailable: false,
+		// 				startTime: startTime, 
+		// 				finishTime: finishTime
+		// 			}
+		// 		}
+		// 	});
+		// }, _.random(500, 1500));
+  // 		return this.deferred.promise;
+  //   }
+
+    coachSeekAPI.saveCoach = function(businessId, coachId){
     	// return $http({
     	//   method: 'POST', 
     	//   url: 'https://api.coachseek.com/api/Coaches',
     	//   params: {businessId: '@businessId', coachId: '@coachId'}
     	// });
+		var deferred = $q.defer();
+		deferred.resolve("DATA");
+		return deferred.promise;
     };
 
     coachSeekAPI.createCoach = function(){
     	// return $http({
     	//   method: 'PUT', 
     	//   url: 'https://api.coachseek.com/api/Coaches',
-    	//   params: {businessId: '@businessId', coachId: '@coachId'}
+    	//   params: {businessId: '@businessId'}
     	// });
+
+		var deferred = $q.defer();
+  		deferred.resolve({
+					businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+					id: null,
+					firstName: "NEWEST",
+					lastName: "USER",
+					email: "aaron.smith@example.com",
+					phone: "021 99 88 77",
+					workingHours: {
+						monday: { 
+							isAvailable: true,
+							startTime: startTime,
+							finishTime: finishTime
+						},
+						tuesday: {
+							isAvailable: true,
+							startTime: startTime,
+							finishTime: finishTime
+						}, 
+						wednesday: {
+							isAvailable: true,
+							startTime: startTime,
+							finishTime: finishTime
+						},
+						thursday: {
+							isAvailable: true,
+							startTime: startTime,
+							finishTime: finishTime
+						},
+						friday: {
+							isAvailable: true,
+							startTime: startTime,
+							finishTime: finishTime
+						},
+						saturday: {
+							isAvailable: false,
+							startTime: startTime, 
+							finishTime: finishTime
+						}, 
+						sunday: {
+							isAvailable: false,
+							startTime: startTime, 
+							finishTime: finishTime
+						}
+					}
+				});
+  		return deferred.promise;
     };
 
     return coachSeekAPI;
   }]);
+angular.module('locations.controllers', [])
+    .controller('locationsCtrl', ['$scope', function(){
+    	console.log('LOCATIONS CTRL');
+    }]);
+angular.module('locations',
+	              [
+	                'locations.controllers'
+	              ])
+	.config(['$routeProvider', function ($routeProvider) {
+        $routeProvider.when('/registration/locations', {templateUrl: 'locations/partials/locations.html', controller: 'locationsCtrl'});
+    }]);
 angular.module('workingHours.controllers', [])
-    .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location',
-    	function ($scope, coachSeekAPIService, $location) {
+    .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
+    	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
+    	$activityIndicator.startAnimating();
 
-        coachSeekAPIService.getCoaches().success(function(data){
-        	$scope.coachList = data;
-        }).error(function(error){
-			//log error
+        coachSeekAPIService.getCoaches().then(function(data){
+	    	$activityIndicator.stopAnimating();
+	    	//set coach list data or creat first coach
+	    	if(data.length){  		
+	        	$scope.coachList = data;
+	    	} else {
+		    	$scope.coachList = [];
+	    		$scope.createCoach();
+	    	}
+        }, function(error){
+			throw new Error(error);
         });
 
+
         $scope.editCoach = function(coach){
-        	$location.path('registration/coach-list/' + coach.bussinessId + '/' + coach.id);
+        	$scope.coach = coach;
+	    	$scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         }
 
         $scope.createCoach = function(){
-        	var data = 'new3123';
-    		// var newCoach = coachSeekAPIService.createCoach().success(function(data){
-	        	$location.path('registration/coach-list/' + data);
-    		// }).error(function(error){
-				//log error
-    		// });
+	    	$activityIndicator.startAnimating();
+
+    		coachSeekAPIService.createCoach().then(function(data){
+		    	$activityIndicator.stopAnimating();
+
+		    	$scope.coachList.push(data);
+    			$scope.editCoach(data);
+
+    		}, function(error){
+    			throw new Error(error);
+    		});
         }
-    }]).controller('coachEditCtrl', ['$scope', 'coachSeekAPIService', '$location', '$routeParams',
-    	function($scope, coachSeekAPIService, $location, $routeParams){
-
-    	coachSeekAPIService.getCoach($routeParams.coachId).success(function(data){
-    		$scope.coach = data;
-    	}).error(function(error){
-			//log error
-        });
-
-    	// need in order to keep days in order
-    	$scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
     	$scope.save = function(coach){
-    		// coachSeekAPIService.saveCoach(coach.coachId).success().error();
-    		$location.path('registration/coach-list/' + coach.businessId);
+	    	$activityIndicator.startAnimating();
+    		$scope.coach = null;
+
+    		coachSeekAPIService.saveCoach(coach.coachId).then(function(){
+		    	$activityIndicator.stopAnimating();
+    		}, function(error){
+    			throw new Error(error);
+    		});
     	}
     }]);
 angular.module('workingHours.directives', [])
@@ -100,20 +248,21 @@ angular.module('workingHours.directives', [])
 			replace: true,
 			templateUrl: 'workingHours/partials/timeSlot.html'
 		}
-	}).directive('coachListNav', function(){
-		return {
-			replace: false,
-			templateUrl: 'workingHours/partials/coachListNav.html'
-		}		
 	});
 angular.module('workingHours',
-	              [
-	              	'toggle-switch',
-	                'workingHours.controllers',
-	                'workingHours.directives',
-	              ])
+	[
+		'toggle-switch',
+	  'workingHours.controllers',
+	  'workingHours.directives',
+	])
 	.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/registration/coach-list/:businessId', {templateUrl: 'workingHours/partials/coachListView.html', controller: 'coachListCtrl'});
-        $routeProvider.when('/registration/coach-list/:businessId/:id', {templateUrl: 'workingHours/partials/coachEditView.html', controller: 'coachEditCtrl'});
-    }]);
+        $routeProvider.when('/registration/coach-list', {
+        	templateUrl: 'workingHours/partials/coachListView.html',
+        	controller: 'coachListCtrl'
+        });
+    }]).constant('timepickerConfig', {
+	  hourStep: 1,
+	  minuteStep: 15,
+	  showMeridian: false
+	});
 })();
