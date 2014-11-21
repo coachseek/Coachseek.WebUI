@@ -12,7 +12,10 @@ angular.module('coachSeekApp',
 
     // MODULES
     'workingHours',
-    'locations'
+    'locations',
+
+    // UTILITIES
+    'ngActivityIndicator'
   ]).config(['$routeProvider', function ($routeProvider){
-    $routeProvider.otherwise({redirectTo: '/'});
+    $routeProvider.otherwise({redirectTo: '/registration/coach-list'});
   }]);
