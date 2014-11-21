@@ -1,5 +1,7 @@
-<div ng-app='workingHours' class="container body-content">
-	<coach-list-nav></coach-list-nav>
+<a href="#/registration/locations">Back to Locations</a>
+<h3>Coach List</h3>
+<a href="#/registration/services">Forward to Services</a>
+<div ng-hide="coach">
     <ul>
         <li ng-repeat="coach in coachList | orderBy:'lastName'">
             <span class="coach-name">{{coach.firstName}} {{coach.lastName}}</span>
@@ -11,4 +13,16 @@
     </ul>
     <!-- show coach creation on click -->
     <button ng-click="createCoach()">Add New Coach</button>
+</div>
+<div ng-show="coach">
+    <form >
+        First Name:<input ng-model="coach.firstName"/>
+        Last Name: <input ng-model="coach.lastName"/>
+        Email: <input ng-model="coach.email"/>
+        phone: <input ng-model="coach.phone"/>
+        <time-slot></time-slot>
+
+        <!-- POST here -->
+        <button ng-click="save(coach)">Save</button>
+    </form>
 </div>

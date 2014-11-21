@@ -3,42 +3,47 @@ angular.module('workingHours.controllers', [])
     	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
     	$activityIndicator.startAnimating();
 
-        coachSeekAPIService.getCoaches().success(function(data){
-        	$scope.coachList = data;
-        }).error(function(error){
-			//log error
+        coachSeekAPIService.getCoaches().then(function(data){
 	    	$activityIndicator.stopAnimating();
+	    	//set coach list data or creat first coach
+	    	if(data.length){  		
+	        	$scope.coachList = data;
+	    	} else {
+		    	$scope.coachList = [];
+	    		$scope.createCoach();
+	    	}
+        }, function(error){
+			throw new Error(error);
         });
 
+
         $scope.editCoach = function(coach){
-        	$location.path('registration/coach-list/' + coach.bussinessId + '/' + coach.id);
+        	$scope.coach = coach;
+	    	$scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         }
 
         $scope.createCoach = function(){
-        	var data = 'new3123';
-    		// var newCoach = coachSeekAPIService.createCoach().success(function(data){
-	        	$location.path('registration/coach-list/' + data);
-    		// }).error(function(error){
-				//log error
-    		// });
-        }
-    }]).controller('coachEditCtrl', ['$scope', 'coachSeekAPIService', '$location', '$routeParams',
-    	function($scope, coachSeekAPIService, $location, $routeParams){
 	    	$activityIndicator.startAnimating();
 
-    	coachSeekAPIService.getCoach($routeParams.coachId).success(function(data){
-    		$scope.coach = data;
-    	}).error(function(error){
-			//log error
-        });
+    		coachSeekAPIService.createCoach().then(function(data){
 		    	$activityIndicator.stopAnimating();
 
-    	// need in order to keep days in order
-    	$scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+		    	$scope.coachList.push(data);
+    			$scope.editCoach(data);
+
+    		}, function(error){
+    			throw new Error(error);
+    		});
+        }
 
     	$scope.save = function(coach){
-    		// coachSeekAPIService.saveCoach(coach.coachId).success().error();
-    		$location.path('registration/coach-list/' + coach.businessId);
 	    	$activityIndicator.startAnimating();
+    		$scope.coach = null;
+
+    		coachSeekAPIService.saveCoach(coach.coachId).then(function(){
+		    	$activityIndicator.stopAnimating();
+    		}, function(error){
+    			throw new Error(error);
+    		});
     	}
     }]);
