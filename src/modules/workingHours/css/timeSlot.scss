@@ -1,0 +1,14 @@
+.workingHours-weekday{
+
+	.workingHours-timepicker{
+	  display: inline-block;
+
+	  &[disabled="disabled"]{
+	  	pointer-events: none;
+
+	  	.text-center a{
+	  		display: none;
+	  	}
+	  }
+	}
+}

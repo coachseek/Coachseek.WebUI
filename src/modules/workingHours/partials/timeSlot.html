@@ -1,4 +1,4 @@
-<div ng-repeat="weekday in weekdays">
+<div ng-repeat="weekday in weekdays" class="workingHours-weekday">
 	<!-- how do we i18n this? -->
 	<!-- __(i18n.workingHours.{{weekday}})? -->
 	{{weekday}}
@@ -10,10 +10,12 @@
 	<timepicker
 		ng-model='coach.workingHours[weekday].startTime'
 		ng-disabled='!coach.workingHours[weekday].isAvailable'
+		class="workingHours-timepicker"
 	></timepicker>
 	to
 	<timepicker
 		ng-model='coach.workingHours[weekday].finishTime'
 		ng-disabled='!coach.workingHours[weekday].isAvailable'
+		class="workingHours-timepicker"
 	></timepicker>
 </div>
