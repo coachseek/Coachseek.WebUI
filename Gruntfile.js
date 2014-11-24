@@ -33,7 +33,7 @@ module.exports = function(grunt) {
        }
      },
      wrap:{
-      basic: {
+      scripts: {
         src: ['src/js/scripts.js'],
         dest: 'src/js/scripts.js',
         options: {

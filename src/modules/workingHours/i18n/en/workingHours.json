@@ -1,0 +1,15 @@
+{
+	"coach-list-title": "Coach List",
+	"weekdays": {
+		"monday": "Monday",
+		"tuesday": "Tuesday",
+		"wednesday": "Wednesday",
+		"thursday": "Thursday",
+		"friday": "Friday",
+		"saturday": "Saturday",
+		"sunday": "Sunday"
+	},
+	"add-new-coach": "Add New Coach",
+	"nav-to-locations": "Locations",
+	"nav-to-services": "Services"
+}
