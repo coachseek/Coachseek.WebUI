@@ -4,14 +4,14 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
-       build: {
+       buildCss: {
          src: [
            'src/modules/**/css/*.scss',
          ],
          dest: 'build/css/build.css'
        },
        //TODO - make this a temp file so we don't leave it lying around
-       src: {
+       srcCss: {
          src: [
            'src/modules/**/css/*.scss',
          ],
@@ -131,6 +131,13 @@ module.exports = function(grunt) {
 
   // Default task(s).
   // TODO - jshint
-  grunt.registerTask('default', ['concat', 'wrap', 'htmlmin', 'ngtemplates', 'uglify', 'sass']);
+  grunt.registerTask('default', [
+      'concat',
+      'wrap', 
+      'htmlmin',
+      'ngtemplates',
+      'uglify',
+      'sass'
+    ]);
 
 };

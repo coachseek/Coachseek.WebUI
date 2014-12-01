@@ -2,13 +2,20 @@
 (function(){
 /* Controllers */
 angular.module('coachSeekApp.controllers', []);
-angular.module('coachSeekApp.directives', []);
+angular.module('coachSeekApp.directives', [])
+	.directive('activityIndicator', function(){
+		return {
+			replace: true,
+			templateUrl: 'coachSeekApp/partials/activityIndicator.html'
+		}
+	});
 /* App Module */
 angular.module('coachSeekApp',
   [
     // LIBRARIES
   	'ui.bootstrap',
     'ngRoute',
+    'jm.i18next',
 
     // coachSeekApp
     'coachSeekApp.controllers', 
@@ -21,8 +28,24 @@ angular.module('coachSeekApp',
 
     // UTILITIES
     'ngActivityIndicator'
+
   ]).config(['$routeProvider', function ($routeProvider){
-    $routeProvider.otherwise({redirectTo: '/registration/coach-list'});
+
+    $routeProvider.otherwise({redirectTo: '/'});
+
+  }]).config(['$i18nextProvider', function( $i18nextProvider ){
+
+    $i18nextProvider.options = {
+        lng: 'en',
+        fallbackLng: 'en',
+        ns : {
+            namespaces : ['coachSeekApp', 'workingHours'],
+            defaultNs: 'coachSeekApp'
+        },
+        resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json'
+        // defaultLoadingValue: ''
+    };
+
   }]);
 /* Services */
 
@@ -48,7 +71,7 @@ angular.module('coachSeekApp.services', []).
 		var self = this;
 		$timeout(function(){
 		   self.deferred.resolve({});
-		}, _.random(500, 1500));
+		}, _.random(500, 5500));
 		return this.deferred.promise;
     };
 
@@ -196,6 +219,37 @@ angular.module('locations',
 angular.module('workingHours.controllers', [])
     .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
     	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
+
+        $scope.editCoach = function(coach){
+            $scope.coach = coach;
+            $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        }
+
+        $scope.createCoach = function(){
+            $activityIndicator.startAnimating();
+
+            coachSeekAPIService.createCoach().then(function(data){
+                $activityIndicator.stopAnimating();
+
+                $scope.coachList.push(data);
+                $scope.editCoach(data);
+                
+            }, function(error){
+                throw new Error(error);
+            });
+        }
+
+        $scope.save = function(coach){
+            $activityIndicator.startAnimating();
+            $scope.coach = null;
+
+            coachSeekAPIService.saveCoach(coach.coachId).then(function(){
+                $activityIndicator.stopAnimating();
+            }, function(error){
+                throw new Error(error);
+            });
+        }
+
     	$activityIndicator.startAnimating();
 
         coachSeekAPIService.getCoaches().then(function(data){
@@ -210,37 +264,6 @@ angular.module('workingHours.controllers', [])
         }, function(error){
 			throw new Error(error);
         });
-
-
-        $scope.editCoach = function(coach){
-        	$scope.coach = coach;
-	    	$scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-        }
-
-        $scope.createCoach = function(){
-	    	$activityIndicator.startAnimating();
-
-    		coachSeekAPIService.createCoach().then(function(data){
-		    	$activityIndicator.stopAnimating();
-
-		    	$scope.coachList.push(data);
-    			$scope.editCoach(data);
-
-    		}, function(error){
-    			throw new Error(error);
-    		});
-        }
-
-    	$scope.save = function(coach){
-	    	$activityIndicator.startAnimating();
-    		$scope.coach = null;
-
-    		coachSeekAPIService.saveCoach(coach.coachId).then(function(){
-		    	$activityIndicator.stopAnimating();
-    		}, function(error){
-    			throw new Error(error);
-    		});
-    	}
     }]);
 angular.module('workingHours.directives', [])
 	.directive('timeSlot', function(){
@@ -252,8 +275,8 @@ angular.module('workingHours.directives', [])
 angular.module('workingHours',
 	[
 		'toggle-switch',
-	  'workingHours.controllers',
-	  'workingHours.directives',
+		'workingHours.controllers',
+		'workingHours.directives'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/registration/coach-list', {
