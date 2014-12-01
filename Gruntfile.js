@@ -22,6 +22,7 @@ module.exports = function(grunt) {
        srcApp: {
         src: [
           'src/modules/**/*.js',
+          '!src/modules/**/*.spec.js'
         ],
         dest: 'src/js/scripts.js'
        },

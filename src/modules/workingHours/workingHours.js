@@ -1,8 +1,8 @@
 angular.module('workingHours',
 	[
 		'toggle-switch',
-	  'workingHours.controllers',
-	  'workingHours.directives',
+		'workingHours.controllers',
+		'workingHours.directives'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/registration/coach-list', {
