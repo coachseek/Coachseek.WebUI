@@ -107,11 +107,11 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: ['src/modules/**/*.js'],
-        tasks: ['concat', 'wrap']
+        tasks: ['concat:srcApp', 'wrap']
       },
       css: {
         files: ['src/modules/**/*.scss'],
-        tasks: ['concat', 'sass'],
+        tasks: ['concat:srcCss', 'sass:src'],
       },
       templates: {
         files: ['src/modules/**/partials/*.html'],
