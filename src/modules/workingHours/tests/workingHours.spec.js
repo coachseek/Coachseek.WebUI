@@ -129,6 +129,16 @@ describe('WorkingHours Module', function() {
                 expect($rootScope.alert.type).to.equal('warning');
                 expect($rootScope.alert.message).to.equal('workingHours:add-coach-warning');
             });
+            describe('after adding a coach', function(){
+                var createCoachStub, saveCoachStub;
+                beforeEach(function(){
+                    scope.coachList = [{}];
+                    $testRegion.find('.nav-to-services')[0].click();
+                });
+                it('should allow navigation', function(){
+                    expect($location.path()).to.equal('/registration/coach-services');
+                });
+            });
         });
     });
     describe('time slot derective', function(){
