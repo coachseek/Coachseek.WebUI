@@ -14,6 +14,7 @@ angular.module('coachSeekApp',
     // MODULES
     'workingHours',
     'locations',
+    'coachServices',
 
     // UTILITIES
     'ngActivityIndicator'
