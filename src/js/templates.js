@@ -9,6 +9,11 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('coachServices/partials/coachServices.html',
+    "<h1>SERVICES<h1>"
+  );
+
+
   $templateCache.put('locations/partials/locations.html',
     "<h1>LOCATIONS<h1>"
   );
@@ -17,7 +22,7 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
   $templateCache.put('workingHours/partials/coachListView.html',
     "<a href=\"#/registration/locations\">{{'workingHours:nav-to-locations' | i18next}}</a>\n" +
     "<h3>{{'workingHours:coach-list-title' | i18next}}</h3>\n" +
-    "<a href=\"#/registration/services\">{{'workingHours:nav-to-services' | i18next}}</a>\n" +
+    "<a class=\"nav-to-services\" ng-click=\"navigateToServices()\">{{'workingHours:nav-to-services' | i18next}}</a>\n" +
     "<div class=\"coach-list-view\" ng-hide=\"coach\">\n" +
     "    <ul>\n" +
     "        <li class=\"coach-details\" ng-repeat=\"coach in coachList | orderBy:'lastName'\">\n" +
