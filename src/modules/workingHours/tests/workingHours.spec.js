@@ -114,6 +114,22 @@ describe('WorkingHours Module', function() {
                 })
             });
         });
+        describe('when navigating to services before adding a coach', function(){
+            beforeEach(function(){
+
+                createViewWithController(scope, templateUrl, 'coachListCtrl');
+                $location.path('/registration/coach-list');
+                // anchor tags dont listen to $.trigger('click') for some reason. assholes.
+                $testRegion.find('.nav-to-services')[0].click();
+            });
+            it('should not allow navigation', function(){
+                expect($location.path()).to.equal('/registration/coach-list');
+            });
+            it('should show a warning message', function(){
+                expect($rootScope.alert.type).to.equal('warning');
+                expect($rootScope.alert.message).to.equal('workingHours:add-coach-warning');
+            });
+        });
     });
     describe('time slot derective', function(){
         beforeEach(function(){

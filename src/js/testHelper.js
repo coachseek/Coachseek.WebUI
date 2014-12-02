@@ -4,19 +4,21 @@ var $testRegion,
     $compile,
     $rootScope,
     $injector,
-    $route, 
+    $route,
+    $location,
     createViewWithController,
     createDirective;
 
 beforeEach(module('coachSeekApp'));
 
-beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootScope_, _$injector_, _$route_) { 
+beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootScope_, _$injector_, _$route_, _$location_) { 
     $controller = _$controller_;
     $templateCache = _$templateCache_;
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     $injector = _$injector_;
     $route = _$route_;
+    $location = _$location_;
 
 
 

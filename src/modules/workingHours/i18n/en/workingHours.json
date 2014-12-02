@@ -11,5 +11,6 @@
 	},
 	"add-new-coach": "Add New Coach",
 	"nav-to-locations": "Locations",
-	"nav-to-services": "Services"
+	"nav-to-services": "Services",
+	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on."
 }

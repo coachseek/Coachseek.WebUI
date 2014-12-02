@@ -1,6 +1,6 @@
 angular.module('workingHours.controllers', [])
-    .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
-    	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
+    .controller('coachListCtrl', ['$rootScope','$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
+    	function ($rootScope, $scope, coachSeekAPIService, $location, $activityIndicator) {
 
         $scope.editCoach = function(coach){
             $scope.coach = coach;
@@ -13,9 +13,7 @@ angular.module('workingHours.controllers', [])
             coachSeekAPIService.createCoach().then(function(data){
                 $activityIndicator.stopAnimating();
 
-                $scope.coachList.push(data);
                 $scope.editCoach(data);
-                
             }, function(error){
                 throw new Error(error);
             });
@@ -23,13 +21,31 @@ angular.module('workingHours.controllers', [])
 
         $scope.save = function(coach){
             $activityIndicator.startAnimating();
-            $scope.coach = null;
-
             coachSeekAPIService.saveCoach(coach.coachId).then(function(){
+
+                if(!_.contains($scope.coachList, coach)){
+                    $scope.coachList.push(coach);
+                }
+
+                $scope.coach = null;
+                $rootScope.alert = null;
+
                 $activityIndicator.stopAnimating();
             }, function(error){
                 throw new Error(error);
             });
+        }
+
+        $scope.navigateToServices = function(){
+            if(!$scope.coachList || $scope.coachList.length <= 0){
+                //show bootstrap message
+                $rootScope.alert = {
+                    type: 'warning',
+                    message: 'workingHours:add-coach-warning'
+                };
+            } else {
+                $location.path('/registration/coach-services');
+            }
         }
 
     	$activityIndicator.startAnimating();

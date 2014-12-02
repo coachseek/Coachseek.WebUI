@@ -1,6 +1,6 @@
 <a href="#/registration/locations">{{'workingHours:nav-to-locations' | i18next}}</a>
 <h3>{{'workingHours:coach-list-title' | i18next}}</h3>
-<a href="#/registration/services">{{'workingHours:nav-to-services' | i18next}}</a>
+<a class="nav-to-services" ng-click="navigateToServices()">{{'workingHours:nav-to-services' | i18next}}</a>
 <div class="coach-list-view" ng-hide="coach">
     <ul>
         <li class="coach-details" ng-repeat="coach in coachList | orderBy:'lastName'">
