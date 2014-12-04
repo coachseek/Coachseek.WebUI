@@ -60,6 +60,8 @@ describe('WorkingHours Module', function() {
                     $coachEditView.find('.cancel-button').trigger('click');
                     expect(scope.coachList.length).to.equal(0);
                 });
+            it('should not show the cancel button', function(){
+                expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.true
             });
         });
         describe('and there are one or more coaches', function(){
