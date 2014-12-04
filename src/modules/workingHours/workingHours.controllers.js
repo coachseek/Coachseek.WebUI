@@ -5,7 +5,7 @@ angular.module('workingHours.controllers', [])
         $scope.editCoach = function(coach){
             _.pull($scope.coachList, coach);
             coachCopy = angular.copy(coach);
-            
+
             $scope.coach = coach;
             $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         }
@@ -67,20 +67,25 @@ angular.module('workingHours.controllers', [])
                     };
                 })
             } else {
-                _.forEach($scope.coachList, function(coach){
-                    if($scope.coach.firstName === coach.firstName
-                         && $scope.coach.lastName === coach.lastName){
-
-                        $rootScope.alert = {
-                            type: 'warning',
-                            message: 'workingHours:name-already-exists'
-                        };
-
-                        return valid = false;
-                    }
-                });
+                valid = checkDuplicateNames(valid);
             }
             return valid;
+        }
+
+        var checkDuplicateNames = function(valid){
+            _.forEach($scope.coachList, function(coach){
+                if($scope.coach.firstName === coach.firstName
+                     && $scope.coach.lastName === coach.lastName){
+
+                    $rootScope.alert = {
+                        type: 'warning',
+                        message: 'workingHours:name-already-exists'
+                    };
+                    // using return here to exit forEach early
+                    return valid = false;
+                }
+            });
+            return valid
         }
 
         $scope.navigateToServices = function(){
