@@ -27,13 +27,10 @@ describe('WorkingHours Module', function() {
                 return [];
             });
 
-            getCoachesStub = sinon.stub(coachSeekAPIService, 'getCoaches', function(){
+            getCoachesStub = this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
                 return $.Deferred().resolve(self.coaches);
             });
 
-        });
-        afterEach(function(){
-            getCoachesStub.restore();
         });
         it('should attempt to call getCoaches', function(){
             createViewWithController(scope, templateUrl, 'coachListCtrl');
@@ -42,14 +39,11 @@ describe('WorkingHours Module', function() {
         describe('and there are no coaches', function(){
             var createCoachStub;
             beforeEach(function(){
-                createCoachStub = sinon.stub(coachSeekAPIService, 'createCoach', function(){
+                createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
                     return $.Deferred().resolve([{}]);
                 });
 
                 createViewWithController(scope, templateUrl, 'coachListCtrl');
-            });
-            afterEach(function(){
-                createCoachStub.restore();
                 $coachEditView = $testRegion.find('.coach-edit-view');
             });
             it('should not show the coach list view', function(){
@@ -110,13 +104,10 @@ describe('WorkingHours Module', function() {
                 describe('when clicking the save button', function(){
                     var saveCoachStub;
                     beforeEach(function(){
-                        saveCoachStub = sinon.stub(coachSeekAPIService, 'saveCoach', function(){
+                        saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
                             return $.Deferred().resolve([{}]);
                         });
-                        $coachEditView.find('.save-coach').first().trigger('click');
                     });
-                    afterEach(function(){
-                        saveCoachStub.restore();
                     });
                     it('should attempt to save coach', function(){
                         expect(saveCoachStub).to.be.calledOnce;
@@ -165,7 +156,6 @@ describe('WorkingHours Module', function() {
                 expect($rootScope.alert.message).to.equal('workingHours:add-coach-warning');
             });
             describe('after adding a coach', function(){
-                var createCoachStub, saveCoachStub;
                 beforeEach(function(){
                     scope.coachList = [{}];
                     $testRegion.find('.nav-to-services')[0].click();

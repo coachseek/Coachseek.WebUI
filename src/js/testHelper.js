@@ -65,10 +65,14 @@ beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootSc
         }); 
     };
 
+    this.sinon = sinon.sandbox.create();
+
     $testRegion = $('<div></div>');
 }));
 
 
 afterEach(function(){
+    this.sinon.restore();
+
     $testRegion.remove();
 });
