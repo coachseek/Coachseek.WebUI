@@ -12,5 +12,10 @@
 	"add-new-coach": "Add New Coach",
 	"nav-to-locations": "Locations",
 	"nav-to-services": "Services",
-	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on."
+	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on.",
+	"firstName-invalid": "Oops! First Name is invalid. Try again.",
+	"lastName-invalid": "Ooops! Last Name is invalid. Try again.",
+	"email-invalid": "Oops! Email is invalid. Try again.",
+	"phone-invalid": "Oops! Phone number is invalid. Try again.",
+	"name-already-exists": "Oops! It looks like somebody already has that name. Try again."
 }

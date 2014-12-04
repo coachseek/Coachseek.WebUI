@@ -15,11 +15,19 @@
     <button ng-click="createCoach()">{{'workingHours:add-new-coach' | i18next}}</button>
 </div>
 <div class="coach-edit-view" ng-show="coach">
-    <form >
-        {{'person-details.first-name' | i18next}}<input ng-model="coach.firstName"/>
-        {{'person-details.last-name' | i18next}} <input ng-model="coach.lastName"/>
-        {{'person-details.email' | i18next}} <input ng-model="coach.email"/>
-        {{'person-details.phone' | i18next}} <input ng-model="coach.phone"/>
+    <form name="newCoachForm" novalidate>
+        <label name="firstName">{{'person-details.first-name' | i18next}}</label>
+        <input name="firstName" ng-model="coach.firstName" placeholder="{{'person-details.first-name' | i18next}}"  required ng-maxlength=50 />
+
+        <label name="lastName">{{'person-details.last-name' | i18next}}</label>
+        <input name="lastName" ng-model="coach.lastName" placeholder="{{'person-details.last-name' | i18next}}"  required ng-maxlength=50 />
+
+        <label name="email">{{'person-details.email' | i18next}}</label>
+        <input type="email" name="email" ng-model="coach.email" placeholder="{{'person-details.email' | i18next}}"  required ng-maxlength=100 />
+
+        <label name="phone">{{'person-details.phone' | i18next}}</label>
+        <input name="phone" ng-model="coach.phone" placeholder="{{'person-details.phone' | i18next}}"  required ng-maxlength=50 />
+
         <time-slot></time-slot>
 
         <!-- POST here -->

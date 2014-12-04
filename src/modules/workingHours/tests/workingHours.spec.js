@@ -108,9 +108,73 @@ describe('WorkingHours Module', function() {
                             return $.Deferred().resolve([{}]);
                         });
                     });
+                    describe('when the form is invalid', function(){
+                        describe('when the firstName is invalid', function(){
+                            it('should display an invalid input alert', function(){
+                                scope.coach.firstName = null;
+                                scope.$apply();
+                                $coachEditView.find('.save-coach').first().trigger('click');
+
+                                expect($rootScope.alert.type).to.equal('warning');
+                                expect($rootScope.alert.message).to.equal('workingHours:firstName-invalid');
+                            });
+                        });
+                        describe('when the lastName is invalid', function(){
+                            it('should display an invalid input alert', function(){
+                                scope.coach.lastName = null;
+                                scope.$apply();
+                                $coachEditView.find('.save-coach').first().trigger('click');
+
+                                expect($rootScope.alert.type).to.equal('warning');
+                                expect($rootScope.alert.message).to.equal('workingHours:lastName-invalid');
+                            });
+                        });
+                        describe('when the phone is invalid', function(){
+                            it('should display an invalid input alert', function(){
+                                scope.coach.phone = null;
+                                scope.$apply();
+                                $coachEditView.find('.save-coach').first().trigger('click');
+
+                                expect($rootScope.alert.type).to.equal('warning');
+                                expect($rootScope.alert.message).to.equal('workingHours:phone-invalid');
+                            });
+                        });
+                        describe('when the email is invalid', function(){
+                            it('should display an invalid input alert', function(){
+                                scope.coach.email = "badEmail.com";
+                                scope.$apply();
+                                $coachEditView.find('.save-coach').first().trigger('click');
+
+                                expect($rootScope.alert.type).to.equal('warning');
+                                expect($rootScope.alert.message).to.equal('workingHours:email-invalid');
+                            });
+                        });
                     });
-                    it('should attempt to save coach', function(){
-                        expect(saveCoachStub).to.be.calledOnce;
+                    describe('when the coach name already exists', function(){
+                        beforeEach(function(){
+                            scope.coachList.push(self.firstCoach);
+                            $coachEditView.find('.save-coach').first().trigger('click');
+                        });
+                        it('should display an alert', function(){
+                            expect($rootScope.alert.type).to.equal('warning');
+                            expect($rootScope.alert.message).to.equal('workingHours:name-already-exists');
+                        });
+                    });
+                    describe('when the coach name is new', function(){
+                        beforeEach(function(){
+                            $coachEditView.find('.save-coach').first().trigger('click');
+                        });
+                        it('should attempt to save coach', function(){
+                            expect(saveCoachStub).to.be.calledOnce;
+                        });
+                        it('should show the coach list view', function(){
+                            expect($coachListView.hasClass('ng-hide')).to.be.false;
+                        });
+                        it('should not show the coach edit view', function(){
+                            expect($coachEditView.hasClass('ng-hide')).to.be.true;
+                        });
+                    });
+                });
                 describe('when clicking the cancel button', function(){
                     var coachLoaded;
                     beforeEach(function(){

@@ -1,9 +1,11 @@
 angular.module('workingHours.controllers', [])
     .controller('coachListCtrl', ['$rootScope','$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
     	function ($rootScope, $scope, coachSeekAPIService, $location, $activityIndicator) {
-
+        var coachCopy;
         $scope.editCoach = function(coach){
+            _.pull($scope.coachList, coach);
             coachCopy = angular.copy(coach);
+            
             $scope.coach = coach;
             $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         }
@@ -31,17 +33,54 @@ angular.module('workingHours.controllers', [])
             resetToCoachList();
         }
 
-                if(!_.contains($scope.coachList, coach)){
+        var resetToCoachList = function(){
+            $scope.coach = null;
+            $rootScope.alert = null;
+            $scope.newCoach = null;
+            coachCopy = null;
+        }
+
+        $scope.save = function(coach){
+            var formValid = validateForm();
+            if( formValid ) {
+                $activityIndicator.startAnimating();
+                coachSeekAPIService.saveCoach(coach.coachId).then(function(){
                     $scope.coachList.push(coach);
-                }
 
-                $scope.coach = null;
-                $rootScope.alert = null;
+                    resetToCoachList();
 
-                $activityIndicator.stopAnimating();
-            }, function(error){
-                throw new Error(error);
-            });
+                    $activityIndicator.stopAnimating();
+                }, function(error){
+                    throw new Error(error);
+                });
+            }
+        }
+
+        var validateForm = function(){
+            var valid = $scope.newCoachForm.$valid;
+            if(!valid){
+                var errors = $scope.newCoachForm.$error
+                _.each(errors, function(error){
+                    $rootScope.alert = {
+                        type: 'warning',
+                        message: 'workingHours:' + error[0].$name + '-invalid'
+                    };
+                })
+            } else {
+                _.forEach($scope.coachList, function(coach){
+                    if($scope.coach.firstName === coach.firstName
+                         && $scope.coach.lastName === coach.lastName){
+
+                        $rootScope.alert = {
+                            type: 'warning',
+                            message: 'workingHours:name-already-exists'
+                        };
+
+                        return valid = false;
+                    }
+                });
+            }
+            return valid;
         }
 
         $scope.navigateToServices = function(){
