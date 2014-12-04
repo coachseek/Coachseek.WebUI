@@ -3,6 +3,7 @@ angular.module('workingHours.controllers', [])
     	function ($rootScope, $scope, coachSeekAPIService, $location, $activityIndicator) {
 
         $scope.editCoach = function(coach){
+            coachCopy = angular.copy(coach);
             $scope.coach = coach;
             $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         }
@@ -13,15 +14,22 @@ angular.module('workingHours.controllers', [])
             coachSeekAPIService.createCoach().then(function(data){
                 $activityIndicator.stopAnimating();
 
+                $scope.newCoach = true;
                 $scope.editCoach(data);
             }, function(error){
                 throw new Error(error);
             });
         }
 
-        $scope.save = function(coach){
-            $activityIndicator.startAnimating();
-            coachSeekAPIService.saveCoach(coach.coachId).then(function(){
+        $scope.cancelEdit = function(){
+            if($scope.newCoach){
+                //delete from server?
+                //hopefully wont have to do that
+            } else {
+                $scope.coachList.push(coachCopy);
+            }
+            resetToCoachList();
+        }
 
                 if(!_.contains($scope.coachList, coach)){
                     $scope.coachList.push(coach);
