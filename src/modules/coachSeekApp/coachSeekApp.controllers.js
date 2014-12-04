@@ -1,7 +1,8 @@
 /* Controllers */
 angular.module('coachSeekApp.controllers', [])
-    .controller('appCtrl', ['$rootScope','$scope', '$location',
-        function ($rootScope, $scope, $location) {
+    .controller('appCtrl', ['$rootScope',
+        function ($rootScope) {
+            //TODO add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
                 var addAlert = true;;
 
