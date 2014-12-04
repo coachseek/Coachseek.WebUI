@@ -115,56 +115,56 @@ describe('WorkingHours Module', function() {
                             it('should display an invalid input alert', function(){
                                 scope.coach.firstName = null;
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').first().trigger('click');
+                                $coachEditView.find('.save-coach').trigger('click');
 
-                                expect($rootScope.alert.type).to.equal('warning');
-                                expect($rootScope.alert.message).to.equal('workingHours:firstName-invalid');
+                                expect($rootScope.alerts[0].type).to.equal('warning');
+                                expect($rootScope.alerts[0].message).to.equal('workingHours:firstName-invalid');
                             });
                         });
                         describe('when the lastName is invalid', function(){
                             it('should display an invalid input alert', function(){
                                 scope.coach.lastName = null;
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').first().trigger('click');
+                                $coachEditView.find('.save-coach').trigger('click');
 
-                                expect($rootScope.alert.type).to.equal('warning');
-                                expect($rootScope.alert.message).to.equal('workingHours:lastName-invalid');
+                                expect($rootScope.alerts[0].type).to.equal('warning');
+                                expect($rootScope.alerts[0].message).to.equal('workingHours:lastName-invalid');
                             });
                         });
                         describe('when the phone is invalid', function(){
                             it('should display an invalid input alert', function(){
                                 scope.coach.phone = null;
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').first().trigger('click');
+                                $coachEditView.find('.save-coach').trigger('click');
 
-                                expect($rootScope.alert.type).to.equal('warning');
-                                expect($rootScope.alert.message).to.equal('workingHours:phone-invalid');
+                                expect($rootScope.alerts[0].type).to.equal('warning');
+                                expect($rootScope.alerts[0].message).to.equal('workingHours:phone-invalid');
                             });
                         });
                         describe('when the email is invalid', function(){
                             it('should display an invalid input alert', function(){
                                 scope.coach.email = "badEmail.com";
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').first().trigger('click');
+                                $coachEditView.find('.save-coach').trigger('click');
 
-                                expect($rootScope.alert.type).to.equal('warning');
-                                expect($rootScope.alert.message).to.equal('workingHours:email-invalid');
+                                expect($rootScope.alerts[0].type).to.equal('warning');
+                                expect($rootScope.alerts[0].message).to.equal('workingHours:email-invalid');
                             });
                         });
                     });
                     describe('when the coach name already exists', function(){
                         beforeEach(function(){
                             scope.coachList.push(self.firstCoach);
-                            $coachEditView.find('.save-coach').first().trigger('click');
+                            $coachEditView.find('.save-coach').trigger('click');
                         });
                         it('should display an alert', function(){
-                            expect($rootScope.alert.type).to.equal('warning');
-                            expect($rootScope.alert.message).to.equal('workingHours:name-already-exists');
+                            expect(scope.alerts[0].type).to.equal('warning');
+                            expect($rootScope.alerts[0].message).to.equal('workingHours:name-already-exists');
                         });
                     });
                     describe('when the coach name is new', function(){
                         beforeEach(function(){
-                            $coachEditView.find('.save-coach').first().trigger('click');
+                            $coachEditView.find('.save-coach').trigger('click');
                         });
                         it('should attempt to save coach', function(){
                             expect(saveCoachStub).to.be.calledOnce;
@@ -188,20 +188,20 @@ describe('WorkingHours Module', function() {
                         }
                         scope.$apply();
 
-                        $rootScope.alert = {type: 'warning', message: 'test alert'};
+                        $rootScope.alerts.push({type: 'warning', message: 'test alert'});
 
                         $coachEditView.find('.cancel-button').trigger('click');
                     });
                     it('should reset all edits made', function(){
                         var unsavedCoach = scope.coachList.pop();
-                        
+
                         expect(unsavedCoach.firstName).to.equal(self.firstCoach.firstName);
                         expect(unsavedCoach.lastName).to.equal(self.firstCoach.lastName);
                         expect(unsavedCoach.email).to.equal(self.firstCoach.email);
                         expect(unsavedCoach.phone).to.equal(self.firstCoach.phone);
                     });
                     it('should remove alert if present', function(){
-                        expect($rootScope.alert).to.be.null;
+                        expect($rootScope.alerts.length).to.equal(0);
                     });
                 });
             });
@@ -211,6 +211,7 @@ describe('WorkingHours Module', function() {
 
                 createViewWithController(scope, templateUrl, 'coachListCtrl');
                 $location.path('/registration/coach-list');
+
                 // anchor tags dont listen to $.trigger('click') for some reason. assholes.
                 $testRegion.find('.nav-to-services')[0].click();
             });
@@ -218,8 +219,8 @@ describe('WorkingHours Module', function() {
                 expect($location.path()).to.equal('/registration/coach-list');
             });
             it('should show a warning message', function(){
-                expect($rootScope.alert.type).to.equal('warning');
-                expect($rootScope.alert.message).to.equal('workingHours:add-coach-warning');
+                expect($rootScope.alerts[0].type).to.equal('warning');
+                expect($rootScope.alerts[0].message).to.equal('workingHours:add-coach-warning');
             });
             describe('after adding a coach', function(){
                 beforeEach(function(){

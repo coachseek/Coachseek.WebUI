@@ -20,7 +20,9 @@ beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootSc
     $route = _$route_;
     $location = _$location_;
 
-
+    $controller('appCtrl', {
+        $scope: $rootScope
+    });
 
     createViewWithController = function(scope, templateUrl, ctrlName) {
         if(!scope || !templateUrl || !ctrlName){

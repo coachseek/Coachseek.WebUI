@@ -9,11 +9,11 @@
     <script src="js/scripts.js"></script>
     <script src="js/templates.js"></script>
 </head>
-<body ng-app="coachSeekApp">
+<body ng-app="coachSeekApp" ng-controller="appCtrl">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <activity-indicator></activity-indicator>
-            <alert ng-show="alert" type="{{alert.type}}">{{alert.message | i18next}}</alert>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.message | i18next}}</alert>
 <!--             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>

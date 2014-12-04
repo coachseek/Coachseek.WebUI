@@ -1,6 +1,6 @@
 angular.module('workingHours.controllers', [])
-    .controller('coachListCtrl', ['$rootScope','$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
-    	function ($rootScope, $scope, coachSeekAPIService, $location, $activityIndicator) {
+    .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
+    	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
         var coachCopy;
         $scope.editCoach = function(coach){
             _.pull($scope.coachList, coach);
@@ -35,12 +35,12 @@ angular.module('workingHours.controllers', [])
 
         var resetToCoachList = function(){
             $scope.coach = null;
-            $rootScope.alert = null;
+            $scope.removeAlerts();
             $scope.newCoach = null;
             coachCopy = null;
         }
 
-        $scope.save = function(coach){
+        $scope.saveCoach = function(coach){
             var formValid = validateForm();
             if( formValid ) {
                 $activityIndicator.startAnimating();
@@ -61,10 +61,10 @@ angular.module('workingHours.controllers', [])
             if(!valid){
                 var errors = $scope.newCoachForm.$error
                 _.each(errors, function(error){
-                    $rootScope.alert = {
+                    $scope.addAlert({
                         type: 'warning',
                         message: 'workingHours:' + error[0].$name + '-invalid'
-                    };
+                    });
                 })
             } else {
                 valid = checkDuplicateNames(valid);
@@ -77,10 +77,10 @@ angular.module('workingHours.controllers', [])
                 if($scope.coach.firstName === coach.firstName
                      && $scope.coach.lastName === coach.lastName){
 
-                    $rootScope.alert = {
+                    $scope.addAlert({
                         type: 'warning',
                         message: 'workingHours:name-already-exists'
-                    };
+                    });
                     // using return here to exit forEach early
                     return valid = false;
                 }
@@ -91,10 +91,10 @@ angular.module('workingHours.controllers', [])
         $scope.navigateToServices = function(){
             if(!$scope.coachList || $scope.coachList.length <= 0){
                 //show bootstrap message
-                $rootScope.alert = {
+                $scope.addAlert({
                     type: 'warning',
                     message: 'workingHours:add-coach-warning'
-                };
+                });
             } else {
                 $location.path('/registration/coach-services');
             }

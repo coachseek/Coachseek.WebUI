@@ -36,4 +36,6 @@ angular.module('coachSeekApp',
         // defaultLoadingValue: ''
     };
 
-  }]);
+    }]).run(['$rootScope', function($rootScope){
+        $rootScope.alerts = [];
+    }]);
