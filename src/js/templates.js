@@ -34,18 +34,27 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
     "        </li>\n" +
     "    </ul>\n" +
     "    <!-- show coach creation on click -->\n" +
-    "    <button ng-click=\"createCoach()\">{{'workingHours:add-new-coach' | i18next}}</button>\n" +
+    "    <button class=\"create-coach\" ng-click=\"createCoach()\">{{'workingHours:add-new-coach' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"coach-edit-view\" ng-show=\"coach\">\n" +
-    "    <form >\n" +
-    "        {{'person-details.first-name' | i18next}}<input ng-model=\"coach.firstName\"/>\n" +
-    "        {{'person-details.last-name' | i18next}} <input ng-model=\"coach.lastName\"/>\n" +
-    "        {{'person-details.email' | i18next}} <input ng-model=\"coach.email\"/>\n" +
-    "        {{'person-details.phone' | i18next}} <input ng-model=\"coach.phone\"/>\n" +
+    "    <form name=\"newCoachForm\" novalidate>\n" +
+    "        <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
+    "        <input name=\"firstName\" ng-model=\"coach.firstName\" placeholder=\"{{'person-details.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "\n" +
+    "        <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
+    "        <input name=\"lastName\" ng-model=\"coach.lastName\" placeholder=\"{{'person-details.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "\n" +
+    "        <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
+    "        <input type=\"email\" name=\"email\" ng-model=\"coach.email\" placeholder=\"{{'person-details.email' | i18next}}\"  required ng-maxlength=100 />\n" +
+    "\n" +
+    "        <label name=\"phone\">{{'person-details.phone' | i18next}}</label>\n" +
+    "        <input name=\"phone\" ng-model=\"coach.phone\" placeholder=\"{{'person-details.phone' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "\n" +
     "        <time-slot></time-slot>\n" +
     "\n" +
     "        <!-- POST here -->\n" +
-    "        <button class=\"save-coach\" ng-click=\"save(coach)\">{{'save' | i18next}}</button>\n" +
+    "        <button class=\"save-coach\" ng-click=\"saveCoach(coach)\">{{'save' | i18next}}</button>\n" +
+    "        <button class=\"cancel-button\" ng-hide=\"!coachList.length && newCoach\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
     "    </form>\n" +
     "</div>"
   );

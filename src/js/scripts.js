@@ -1,7 +1,28 @@
 'use strict';
 (function(){
 /* Controllers */
-angular.module('coachSeekApp.controllers', []);
+angular.module('coachSeekApp.controllers', [])
+    .controller('appCtrl', ['$rootScope',
+        function ($rootScope) {
+            //TODO add ability to remove alerts by view
+            $rootScope.addAlert = function(alert){
+                var addAlert = true;;
+
+                _.forEach($rootScope.alerts, function(existingAlert){
+                    if(existingAlert.message === alert.message){
+                        return addAlert = false;
+                    }
+                });
+
+                if( addAlert ){
+                    $rootScope.alerts.push(alert);
+                }
+            }
+
+            $rootScope.removeAlerts = function(alerts){
+                $rootScope.alerts = [];
+            }
+        }]);
 angular.module('coachSeekApp.directives', [])
 	.directive('activityIndicator', function(){
 		return {
@@ -47,7 +68,9 @@ angular.module('coachSeekApp',
         // defaultLoadingValue: ''
     };
 
-  }]);
+    }]).run(['$rootScope', function($rootScope){
+        $rootScope.alerts = [];
+    }]);
 /* Services */
 
 angular.module('coachSeekApp.services', []).
@@ -72,7 +95,7 @@ angular.module('coachSeekApp.services', []).
 		var self = this;
 		$timeout(function(){
 		   self.deferred.resolve({});
-		}, _.random(500, 5500));
+		}, _.random(500, 1500));
 		return this.deferred.promise;
     };
 
@@ -162,7 +185,7 @@ angular.module('coachSeekApp.services', []).
 					firstName: "NEWEST",
 					lastName: "USER",
 					email: "aaron.smith@example.com",
-					phone: "021 99 88 77",
+					phone: "021998877",
 					workingHours: {
 						monday: { 
 							isAvailable: true,
@@ -225,10 +248,13 @@ angular.module('locations',
         $routeProvider.when('/registration/locations', {templateUrl: 'locations/partials/locations.html', controller: 'locationsCtrl'});
     }]);
 angular.module('workingHours.controllers', [])
-    .controller('coachListCtrl', ['$rootScope','$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
-    	function ($rootScope, $scope, coachSeekAPIService, $location, $activityIndicator) {
-
+    .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
+    	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
+        var coachCopy;
         $scope.editCoach = function(coach){
+            _.pull($scope.coachList, coach);
+            coachCopy = angular.copy(coach);
+
             $scope.coach = coach;
             $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         }
@@ -239,36 +265,82 @@ angular.module('workingHours.controllers', [])
             coachSeekAPIService.createCoach().then(function(data){
                 $activityIndicator.stopAnimating();
 
+                $scope.newCoach = true;
                 $scope.editCoach(data);
             }, function(error){
                 throw new Error(error);
             });
         }
 
-        $scope.save = function(coach){
-            $activityIndicator.startAnimating();
-            coachSeekAPIService.saveCoach(coach.coachId).then(function(){
+        $scope.cancelEdit = function(){
+            if(!$scope.newCoach){
+                $scope.coachList.push(coachCopy);
+            }
+            resetToCoachList();
+        }
 
-                if(!_.contains($scope.coachList, coach)){
+        var resetToCoachList = function(){
+            $scope.coach = null;
+            $scope.removeAlerts();
+            $scope.newCoach = null;
+            coachCopy = null;
+        }
+
+        $scope.saveCoach = function(coach){
+            var formValid = validateForm();
+            if( formValid ) {
+                $activityIndicator.startAnimating();
+                coachSeekAPIService.saveCoach(coach.coachId).then(function(){
                     $scope.coachList.push(coach);
+
+                    resetToCoachList();
+
+                    $activityIndicator.stopAnimating();
+                }, function(error){
+                    throw new Error(error);
+                });
+            }
+        }
+
+        var validateForm = function(){
+            var valid = $scope.newCoachForm.$valid;
+            if(!valid){
+                var errors = $scope.newCoachForm.$error
+                _.each(errors, function(error){
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'workingHours:' + error[0].$name + '-invalid'
+                    });
+                })
+            } else {
+                valid = checkDuplicateNames(valid);
+            }
+            return valid;
+        }
+
+        var checkDuplicateNames = function(valid){
+            _.forEach($scope.coachList, function(coach){
+                if($scope.coach.firstName === coach.firstName
+                     && $scope.coach.lastName === coach.lastName){
+
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'workingHours:name-already-exists'
+                    });
+                    // using return here to exit forEach early
+                    return valid = false;
                 }
-
-                $scope.coach = null;
-                $rootScope.alert = null;
-
-                $activityIndicator.stopAnimating();
-            }, function(error){
-                throw new Error(error);
             });
+            return valid
         }
 
         $scope.navigateToServices = function(){
             if(!$scope.coachList || $scope.coachList.length <= 0){
                 //show bootstrap message
-                $rootScope.alert = {
+                $scope.addAlert({
                     type: 'warning',
                     message: 'workingHours:add-coach-warning'
-                };
+                });
             } else {
                 $location.path('/registration/coach-services');
             }
