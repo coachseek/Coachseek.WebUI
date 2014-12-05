@@ -20,7 +20,7 @@ describe('WorkingHours Module', function() {
         });
     });
     describe('when the page loads', function(){
-        var $coachListView, $coachEditView, getCoachesStub, self;
+        var $coachListView, $coachEditView, getCoachesStub, createCoachStub, self;
         beforeEach(function(){
             self = this;
             self.let('coaches', function(){
@@ -30,19 +30,16 @@ describe('WorkingHours Module', function() {
             getCoachesStub = this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
                 return $.Deferred().resolve(self.coaches);
             });
-
+            createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
+                return $.Deferred().resolve([{}]);
+            });
         });
         it('should attempt to call getCoaches', function(){
             createViewWithController(scope, templateUrl, 'coachListCtrl');
             expect(getCoachesStub).to.be.calledOnce;
         })
         describe('and there are no coaches', function(){
-            var createCoachStub;
             beforeEach(function(){
-                createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
-                    return $.Deferred().resolve([{}]);
-                });
-
                 createViewWithController(scope, templateUrl, 'coachListCtrl');
                 $coachEditView = $testRegion.find('.coach-edit-view');
             });
@@ -88,6 +85,7 @@ describe('WorkingHours Module', function() {
                 expect($coachEditView.hasClass('ng-hide')).to.be.true;
             });
 
+
             describe('when clicking the edit button', function(){
                 beforeEach(function(){
                     $coachListView.find('.edit-coach').first().trigger('click');
@@ -97,6 +95,9 @@ describe('WorkingHours Module', function() {
                 });
                 it('should show the coach edit view', function(){
                     expect($coachEditView.hasClass('ng-hide')).to.be.false;
+                });
+                it('should show the cancel button', function(){
+                    expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
                 });
                 describe('when clicking the save button', function(){
                     var saveCoachStub;
@@ -199,6 +200,37 @@ describe('WorkingHours Module', function() {
                         expect($rootScope.alerts.length).to.equal(0);
                     });
                 });
+            });
+            describe('when creating a new coach', function(){
+                var initCoachListLength;
+                beforeEach(function(){
+                    initCoachListLength = scope.coachList.length;
+
+                    $coachListView.find('.create-coach').trigger('click');
+                });
+                it('should attempt to create a coach', function(){
+                    expect(createCoachStub).to.be.calledOnce;
+                });
+                it('should not show the coach list view', function(){
+                    expect($testRegion.find('.coach-list-view').hasClass('ng-hide')).to.be.true;
+                });
+                it('should show the coach edit view', function(){
+                    expect($testRegion.find('.coach-edit-view').hasClass('ng-hide')).to.be.false;
+                });
+                it('should show the cancel button', function(){
+                    expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
+                });
+                it('should set the newCoach flag to true', function(){
+                    expect(scope.newCoach).to.be.true;
+                });
+                describe('when clicking the cancel button and coach is new', function(){
+                    beforeEach(function(){
+                        $coachEditView.find('.cancel-button').trigger('click');
+                    });
+                    it('should discard the new coach', function(){
+                        expect(scope.coachList.length).to.equal(initCoachListLength);
+                    });
+                })
             });
         });
         describe('when navigating to services before adding a coach', function(){

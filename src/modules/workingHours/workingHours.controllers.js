@@ -26,10 +26,7 @@ angular.module('workingHours.controllers', [])
         }
 
         $scope.cancelEdit = function(){
-            if($scope.newCoach){
-                //delete from server?
-                //hopefully wont have to do that
-            } else {
+            if(!$scope.newCoach){
                 $scope.coachList.push(coachCopy);
             }
             resetToCoachList();
