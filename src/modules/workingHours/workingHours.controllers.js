@@ -6,8 +6,6 @@ angular.module('workingHours.controllers', [])
             _.pull($scope.coachList, coach);
             coachCopy = angular.copy(coach);
 
-            $scope.showCancelButton = showCancelButton();
-
             $scope.coach = coach;
             $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         }
@@ -30,14 +28,6 @@ angular.module('workingHours.controllers', [])
                 $scope.coachList.push(coachCopy);
             }
             resetToCoachList();
-        }
-
-        var showCancelButton = function(){
-            if(!$scope.coachList.length && $scope.newCoach){
-                return false;
-            } else {
-                return true;
-            }
         }
 
         var resetToCoachList = function(){
