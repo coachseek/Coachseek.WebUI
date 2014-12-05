@@ -31,7 +31,7 @@
         <time-slot></time-slot>
 
         <!-- POST here -->
-        <button class="save-coach" ng-click="save(coach)">{{'save' | i18next}}</button>
-        <button class="cancel-button"  ng-show="coachList.length" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
+        <button class="save-coach" ng-click="saveCoach(coach)">{{'save' | i18next}}</button>
+        <button class="cancel-button" ng-show="showCancelButton" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
     </form>
 </div>

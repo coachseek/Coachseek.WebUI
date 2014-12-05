@@ -55,13 +55,8 @@ describe('WorkingHours Module', function() {
             it('should attempt to create a coach', function(){
                 expect(createCoachStub).to.be.calledOnce;
             });
-            describe('when clicking the cancel button', function(){
-                it('should remove the coach if new and never been saved', function(){
-                    $coachEditView.find('.cancel-button').trigger('click');
-                    expect(scope.coachList.length).to.equal(0);
-                });
             it('should not show the cancel button', function(){
-                expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.true
+                expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
             });
         });
         describe('and there are one or more coaches', function(){
