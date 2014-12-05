@@ -16,6 +16,10 @@ angular.module('coachSeekApp.controllers', [])
                     $rootScope.alerts.push(alert);
                 }
             }
+            
+            $rootScope.closeAlert = function(index) {
+                $rootScope.alerts.splice(index, 1);
+            }
 
             $rootScope.removeAlerts = function(alerts){
                 $rootScope.alerts = [];
