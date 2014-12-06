@@ -17,8 +17,6 @@ module.exports = function(grunt) {
          ],
          dest: 'src/css/build.css'
        },
-       //concat src scripts so we can debug
-       //TODO - figure out how to do this on watch without css files included
        srcApp: {
         src: [
           'src/modules/**/*.js',
@@ -115,7 +113,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: ['src/modules/**/partials/*.html'],
-        tasks: ['ngtemplates']
+        tasks: ['ngtemplates:src']
       }
     }
   });
