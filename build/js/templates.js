@@ -21,8 +21,13 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('workingHours/partials/timePicker.html',
+    "<div class=\"time-picker\"><div class=\"increase\"><div class=\"hours\" ng-click=\"increaseHours()\"><span class=\"glyphicon glyphicon-chevron-up\"></span></div><div class=\"minutes\" ng-click=\"increaseMinutes()\"><span class=\"glyphicon glyphicon-chevron-up\"></span></div></div><div class=\"display\">{{time}}</div><div class=\"decrease\"><div class=\"hours\" ng-click=\"decreaseHours()\"><span class=\"glyphicon glyphicon-chevron-down\"></span></div><div class=\"minutes\" ng-click=\"decreaseMinutes()\"><span class=\"glyphicon glyphicon-chevron-down\"></span></div></div></div>"
+  );
+
+
   $templateCache.put('workingHours/partials/timeSlot.html',
-    "<div ng-repeat=\"weekday in weekdays\" class=\"workingHours-weekday\"><p ng-i18next>workingHours:weekdays.{{weekday}}</p><toggle-switch ng-model=\"coach.workingHours[weekday].isAvailable\" on-label=\"yes\" off-label=\"no\"></toggle-switch><timepicker ng-model=\"coach.workingHours[weekday].startTime\" ng-disabled=\"!coach.workingHours[weekday].isAvailable\" class=\"workingHours-timepicker\"></timepicker>to<timepicker ng-model=\"coach.workingHours[weekday].finishTime\" ng-disabled=\"!coach.workingHours[weekday].isAvailable\" class=\"workingHours-timepicker\"></timepicker></div>"
+    "<div ng-repeat=\"weekday in weekdays\" class=\"workingHours-weekday\"><p ng-i18next>workingHours:weekdays.{{weekday}}</p><toggle-switch ng-model=\"coach.workingHours[weekday].isAvailable\" on-label=\"yes\" off-label=\"no\"></toggle-switch><time-picker time=\"coach.workingHours[weekday].startTime\" ng-disabled=\"!coach.workingHours[weekday].isAvailable\"></time-picker>to<time-picker time=\"coach.workingHours[weekday].finishTime\" ng-disabled=\"!coach.workingHours[weekday].isAvailable\"></time-picker></div>"
   );
 
 }]);

@@ -7235,12 +7235,65 @@ span.hidden {
   -webkit-transition: left 0.5s;
 }
 
-.workingHours-weekday .workingHours-timepicker {
+.timePicker {
+  background: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.timePicker .increase, .timePicker .decrease {
+  text-align: center;
+  vertical-align: middle;
+  color: #707070;
+  text-shadow: 0px 1px #FFF;
+  cursor: pointer;
+  -webkit-transition: 500ms ease-out all;
+  -moz-transition: 500ms ease-out all;
+  -ms-transition: 500ms ease-out all;
+  -o-transition: 500ms ease-out all;
+  transition: 500ms ease-out all;
+  font-size: 100%;
+  border: 1px solid #CCC;
+  padding: 3px;
+  margin: 3px;
+  border: 1px solid #EDE;
+}
+
+.timePicker .increase:hover, .timePicker .decrease:hover {
+  color: rgba(112, 112, 112, 0.5);
+  border-color: #CCC;
+  background-color: #FFF;
+}
+
+.timePicker .increase:active, .timePicker .decrease:active {
+  color: #707070;
+  box-shadow: inset 1px 1px 1px #DDD;
+}
+
+.timePicker .section {
   display: inline-block;
 }
-.workingHours-weekday .workingHours-timepicker[disabled="disabled"] {
+
+.timePicker .display {
+  background-color: #f7f7f7;
+  color: #555555;
+  padding: 5px;
+  margin: 0px 3px;
+  min-width: 30px;
+  text-align: center;
+  border: 1px solid #DDD;
+  box-shadow: 1px 1px 1px #FFFFFF;
+}
+
+.workingHours-weekday .time-picker {
+  display: inline-block;
+}
+.workingHours-weekday .time-picker[disabled="disabled"] {
   pointer-events: none;
 }
-.workingHours-weekday .workingHours-timepicker[disabled="disabled"] .text-center a {
+.workingHours-weekday .time-picker[disabled="disabled"] .increase, .workingHours-weekday .time-picker[disabled="disabled"] .decrease {
   display: none;
 }

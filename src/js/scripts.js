@@ -18,6 +18,10 @@ angular.module('coachSeekApp.controllers', [])
                     $rootScope.alerts.push(alert);
                 }
             }
+            
+            $rootScope.closeAlert = function(index) {
+                $rootScope.alerts.splice(index, 1);
+            }
 
             $rootScope.removeAlerts = function(alerts){
                 $rootScope.alerts = [];
@@ -77,14 +81,7 @@ angular.module('coachSeekApp.services', []).
   factory('coachSeekAPIService', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
 
     var coachSeekAPI = {};
-
-    var startTime = new Date()
-    startTime.setHours(9)
-    startTime.setMinutes(0);
-    var finishTime = new Date()
-    finishTime.setHours(17)
-    finishTime.setMinutes(0);		
-
+    
     coachSeekAPI.getCoaches = function(businessId) {
       // return $http({
       //   method: 'GET', 
@@ -185,42 +182,48 @@ angular.module('coachSeekApp.services', []).
 					firstName: "NEWEST",
 					lastName: "USER",
 					email: "aaron.smith@example.com",
-					phone: "021998877",
+					phone: "021 99 88 77",
 					workingHours: {
 						monday: { 
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+							startTime: "9:00",
+							finishTime: "17:00"
 						},
 						tuesday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						}, 
 						wednesday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						},
 						thursday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						},
 						friday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						},
 						saturday: {
 							isAvailable: false,
-							startTime: startTime, 
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						}, 
 						sunday: {
 							isAvailable: false,
-							startTime: startTime, 
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						}
 					}
 				});
@@ -367,7 +370,85 @@ angular.module('workingHours.directives', [])
 			replace: true,
 			templateUrl: 'workingHours/partials/timeSlot.html'
 		}
-	});
+	}).directive('timePicker', function(){
+        return {
+            replace: true,
+            templateUrl: 'workingHours/partials/timePicker.html',
+            scope: {
+                time: "="
+            },
+            link: function (scope, elem, attr) {
+
+                scope.time = scope.time ? scope.time : "0:00";
+
+                var timeArray = scope.time.split(":");
+                scope.hours = parseFloat(timeArray[0]);
+                scope.minutes = parseFloat(timeArray[1]);
+     
+                /* Increases hours by one */
+                scope.increaseHours = function () {
+
+                    //Check whether hours have reached max
+                    if (scope.hours < 23) {
+                        scope.hours = ++scope.hours;
+                    }
+                    else {
+                        scope.hours = 0;
+                    }
+
+                    setTime();
+                }
+     
+                /* Decreases hours by one */
+                scope.decreaseHours = function () {
+     
+                    //Check whether hours have reached min
+                    scope.hours = scope.hours <= 0 ? 23 : --scope.hours;
+
+                    setTime();
+                }
+     
+                /* Increases minutes by 15 */
+                scope.increaseMinutes = function () {
+     
+                    //Check whether to reset
+                    if (scope.minutes >= 45) {
+                        scope.minutes = 0;
+                        scope.increaseHours();
+                    }
+                    else {
+                        scope.minutes = scope.minutes + 15;
+                    }
+                    setTime();
+                }
+     
+                /* Decreases minutes by 15 */
+                scope.decreaseMinutes = function () {
+     
+                    //Check whether to reset
+                    if (scope.minutes <= 0) {
+                        scope.minutes = 45;
+                        scope.decreaseHours();
+                    }
+                    else {
+                        scope.minutes = scope.minutes - 15;
+                    }
+                    setTime();
+                }
+
+                /* Displays minutes */
+                var displayMinutes = function () {
+                    return scope.minutes <= 9 ? "0" + scope.minutes : scope.minutes;
+                }
+
+                var setTime = function(){
+                    var minutesString = displayMinutes();
+
+                    scope.time = scope.hours + ":" + minutesString;
+                }
+            }
+        }
+    });
 angular.module('workingHours',
 	[
 		'toggle-switch',
