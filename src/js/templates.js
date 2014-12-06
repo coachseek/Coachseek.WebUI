@@ -60,6 +60,29 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('workingHours/partials/timePicker.html',
+    "<div class=\"time-picker\">\n" +
+    "    <div class=\"increase\"> \n" +
+    "        <div class=\"hours\" ng-click=\"increaseHours()\">\n" +
+    "            <span class=\"glyphicon glyphicon-chevron-up\"></span> \n" +
+    "        </div>\n" +
+    "        <div class=\"minutes\" ng-click=\"increaseMinutes()\"> \n" +
+    "            <span class=\"glyphicon glyphicon-chevron-up\"></span> \n" +
+    "        </div>\n" +
+    "    </div> \n" +
+    "    <div class=\"display\"> {{time}} </div>\n" +
+    "    <div class=\"decrease\">\n" +
+    "        <div class=\"hours\" ng-click=\"decreaseHours()\">\n" +
+    "            <span class=\"glyphicon glyphicon-chevron-down\"></span> \n" +
+    "        </div> \n" +
+    "        <div class=\"minutes\" ng-click=\"decreaseMinutes()\"> \n" +
+    "            <span class=\"glyphicon glyphicon-chevron-down\"></span> \n" +
+    "        </div> \n" +
+    "    </div>\n" +
+    "</div>"
+  );
+
+
   $templateCache.put('workingHours/partials/timeSlot.html',
     "<div ng-repeat=\"weekday in weekdays\" class=\"workingHours-weekday\">\n" +
     "\t<p ng-i18next>workingHours:weekdays.{{weekday}}</p>\n" +
@@ -68,17 +91,15 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
     "\t\ton-label=\"yes\"\n" +
     "\t    off-label=\"no\"\n" +
     "\t></toggle-switch>\n" +
-    "\t<timepicker\n" +
-    "\t\tng-model='coach.workingHours[weekday].startTime'\n" +
+    "\t<time-picker \n" +
+    "\t\ttime=\"coach.workingHours[weekday].startTime\"\n" +
     "\t\tng-disabled='!coach.workingHours[weekday].isAvailable'\n" +
-    "\t\tclass=\"workingHours-timepicker\"\n" +
-    "\t></timepicker>\n" +
+    "\t></time-picker>\n" +
     "\tto\n" +
-    "\t<timepicker\n" +
-    "\t\tng-model='coach.workingHours[weekday].finishTime'\n" +
+    "\t<time-picker \n" +
+    "\t\ttime=\"coach.workingHours[weekday].finishTime\"\n" +
     "\t\tng-disabled='!coach.workingHours[weekday].isAvailable'\n" +
-    "\t\tclass=\"workingHours-timepicker\"\n" +
-    "\t></timepicker>\n" +
+    "\t></time-picker>\n" +
     "</div>"
   );
 

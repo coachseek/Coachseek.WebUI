@@ -1,12 +1,12 @@
 .workingHours-weekday{
 
-	.workingHours-timepicker{
+	.time-picker{
 	  display: inline-block;
 
 	  &[disabled="disabled"]{
 	  	pointer-events: none;
 
-	  	.text-center a{
+	  	.increase, .decrease{
 	  		display: none;
 	  	}
 	  }

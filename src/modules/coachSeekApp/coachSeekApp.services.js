@@ -4,14 +4,7 @@ angular.module('coachSeekApp.services', []).
   factory('coachSeekAPIService', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
 
     var coachSeekAPI = {};
-
-    var startTime = new Date()
-    startTime.setHours(9)
-    startTime.setMinutes(0);
-    var finishTime = new Date()
-    finishTime.setHours(17)
-    finishTime.setMinutes(0);		
-
+    
     coachSeekAPI.getCoaches = function(businessId) {
       // return $http({
       //   method: 'GET', 
@@ -116,38 +109,44 @@ angular.module('coachSeekApp.services', []).
 					workingHours: {
 						monday: { 
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+							startTime: "9:00",
+							finishTime: "17:00"
 						},
 						tuesday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						}, 
 						wednesday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						},
 						thursday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						},
 						friday: {
 							isAvailable: true,
-							startTime: startTime,
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						},
 						saturday: {
 							isAvailable: false,
-							startTime: startTime, 
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						}, 
 						sunday: {
 							isAvailable: false,
-							startTime: startTime, 
-							finishTime: finishTime
+                            startTime: "9:00",
+                            finishTime: "17:00"
+
 						}
 					}
 				});
