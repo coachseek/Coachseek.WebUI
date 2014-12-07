@@ -105,15 +105,15 @@ module.exports = function(grunt) {
     watch: {
       js: {
         files: ['src/modules/**/*.js'],
-        tasks: ['concat:srcApp', 'wrap']
+        tasks: ['newer:concat:srcApp', 'wrap']
       },
       css: {
         files: ['src/modules/**/*.scss'],
-        tasks: ['concat:srcCss', 'sass:src'],
+        tasks: ['newer:concat:srcCss', 'sass:src'],
       },
       templates: {
         files: ['src/modules/**/partials/*.html'],
-        tasks: ['ngtemplates:src']
+        tasks: ['newer:ngtemplates:src']
       }
     }
   });
@@ -126,6 +126,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-angular-templates');
   grunt.loadNpmTasks('grunt-wrap');
+  grunt.loadNpmTasks('grunt-newer');
 
   // Default task(s).
   // TODO - jshint
