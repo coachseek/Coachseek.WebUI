@@ -1,7 +1,7 @@
 'use strict';
 (function(){
 /* Controllers */
-angular.module('coachSeekApp.controllers', [])
+angular.module('app.controllers', [])
     .controller('appCtrl', ['$rootScope',
         function ($rootScope) {
             //TODO add ability to remove alerts by view
@@ -27,15 +27,15 @@ angular.module('coachSeekApp.controllers', [])
                 $rootScope.alerts = [];
             }
         }]);
-angular.module('coachSeekApp.directives', [])
+angular.module('app.directives', [])
 	.directive('activityIndicator', function(){
 		return {
 			replace: true,
-			templateUrl: 'coachSeekApp/partials/activityIndicator.html'
+			templateUrl: 'app/partials/activityIndicator.html'
 		}
 	});
 /* App Module */
-angular.module('coachSeekApp',
+angular.module('app',
   [
     // LIBRARIES
   	'ui.bootstrap',
@@ -43,9 +43,9 @@ angular.module('coachSeekApp',
     'jm.i18next',
 
     // coachSeekApp
-    'coachSeekApp.controllers', 
-    'coachSeekApp.services',
-    'coachSeekApp.directives',
+    'app.controllers', 
+    'app.services',
+    'app.directives',
 
     // MODULES
     'workingHours',
@@ -53,7 +53,7 @@ angular.module('coachSeekApp',
     'coachServices',
 
     // UTILITIES
-    'ngActivityIndicator'
+    'ngActivityIndicator' 
 
   ]).config(['$routeProvider', function ($routeProvider){
 
@@ -65,8 +65,8 @@ angular.module('coachSeekApp',
         lng: 'en',
         fallbackLng: 'en',
         ns : {
-            namespaces : ['coachSeekApp', 'workingHours'],
-            defaultNs: 'coachSeekApp'
+            namespaces : ['app', 'workingHours'],
+            defaultNs: 'app'
         },
         resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json'
         // defaultLoadingValue: ''
@@ -77,7 +77,7 @@ angular.module('coachSeekApp',
     }]);
 /* Services */
 
-angular.module('coachSeekApp.services', []).
+angular.module('app.services', []).
   factory('coachSeekAPIService', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
 
     var coachSeekAPI = {};

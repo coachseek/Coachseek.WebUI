@@ -9,7 +9,7 @@ var $testRegion,
     createViewWithController,
     createDirective;
 
-beforeEach(module('coachSeekApp'));
+beforeEach(module('app'));
 
 beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootScope_, _$injector_, _$route_, _$location_) { 
     $controller = _$controller_;

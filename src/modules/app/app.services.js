@@ -1,6 +1,6 @@
 /* Services */
 
-angular.module('coachSeekApp.services', []).
+angular.module('app.services', []).
   factory('coachSeekAPIService', ['$http', '$q', '$timeout', function($http, $q, $timeout) {
 
     var coachSeekAPI = {};

@@ -1,5 +1,5 @@
 /* App Module */
-angular.module('coachSeekApp',
+angular.module('app',
   [
     // LIBRARIES
   	'ui.bootstrap',
@@ -7,9 +7,9 @@ angular.module('coachSeekApp',
     'jm.i18next',
 
     // coachSeekApp
-    'coachSeekApp.controllers', 
-    'coachSeekApp.services',
-    'coachSeekApp.directives',
+    'app.controllers', 
+    'app.services',
+    'app.directives',
 
     // MODULES
     'workingHours',
@@ -17,7 +17,7 @@ angular.module('coachSeekApp',
     'coachServices',
 
     // UTILITIES
-    'ngActivityIndicator'
+    'ngActivityIndicator' 
 
   ]).config(['$routeProvider', function ($routeProvider){
 
@@ -29,8 +29,8 @@ angular.module('coachSeekApp',
         lng: 'en',
         fallbackLng: 'en',
         ns : {
-            namespaces : ['coachSeekApp', 'workingHours'],
-            defaultNs: 'coachSeekApp'
+            namespaces : ['app', 'workingHours'],
+            defaultNs: 'app'
         },
         resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json'
         // defaultLoadingValue: ''

@@ -9,7 +9,7 @@
     <script src="js/scripts.js"></script>
     <script src="js/templates.js"></script>
 </head>
-<body ng-app="coachSeekApp" ng-controller="appCtrl">
+<body ng-app="app" ng-controller="appCtrl">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <activity-indicator></activity-indicator>
@@ -24,14 +24,14 @@
             </div> -->
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="/">{{'coachSeekApp:home' | i18next}}</a></li>
+                    <li><a href="/">{{'home' | i18next}}</a></li>
                     <!-- <li><a href="/Home/About">About</a></li> -->
                     <!-- <li><a href="/Home/Contact">Contact</a></li> -->
                     <!-- <li><a href="#/registration/coach-list">Coach List</a></li> -->
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#/registration/coach-list" id="registerLink">{{'coachSeekApp:register' | i18next}}</a></li>
-                    <li><a href="/Account/Login" id="loginLink">{{'coachSeekApp:login' | i18next}}</a></li>
+                    <li><a href="#/registration/coach-list" id="registerLink">{{'register' | i18next}}</a></li>
+                    <li><a href="/Account/Login" id="loginLink">{{'login' | i18next}}</a></li>
                 </ul>
             </div>
         </div>

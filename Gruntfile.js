@@ -55,7 +55,7 @@ module.exports = function(grunt) {
      ngtemplates:      {
        build:          {
          options:      {
-           module:     'coachSeekApp',         // (Optional) The module the templates will be added to
+           module:     'app',         // (Optional) The module the templates will be added to
             htmlmin:  { collapseWhitespace: true, collapseBooleanAttributes: true }
          },
          cwd: 'src/modules',
@@ -65,7 +65,7 @@ module.exports = function(grunt) {
        src:{
          options:      {
            base:       'src/modules',        // $templateCache ID will be relative to this folder
-           module:     'coachSeekApp'               // (Optional) The module the templates will be added to
+           module:     'app'               // (Optional) The module the templates will be added to
                                            //            Defaults to grunt target name (e.g. `myapp`)
          },
          cwd: 'src/modules',
