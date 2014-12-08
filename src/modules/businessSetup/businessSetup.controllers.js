@@ -118,8 +118,9 @@ angular.module('businessSetup.controllers', [])
             $activityIndicator.stopAnimating();
         });
     }])
-    .controller('locationsCtrl', ['$scope', function(){
+    .controller('locationsCtrl', ['$scope', function($scope){
         console.log('LOCATIONS CTRL');
-    }]).controller('coachServicesCtrl', ['$scope', function(){
+    }])
+    .controller('coachServicesCtrl', ['$scope', function($scope){
         console.log('SERVICES CTRL');
     }]);

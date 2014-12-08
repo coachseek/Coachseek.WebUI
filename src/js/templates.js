@@ -27,7 +27,7 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "    <button class=\"create-coach\" ng-click=\"createCoach()\">{{'businessSetup:add-new-coach' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"coach-edit-view\" ng-show=\"coach\">\n" +
-    "    <form name=\"newCoachForm\" novalidate>\n" +
+    "    <form name=\"coachForm\" novalidate>\n" +
     "        <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
     "        <input name=\"firstName\" ng-model=\"coach.firstName\" placeholder=\"{{'person-details.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
@@ -69,7 +69,7 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "        <span class=\"minutes\" ng-click=\"increaseMinutes()\"> \n" +
     "            <span class=\"glyphicon glyphicon-chevron-up\"></span> \n" +
     "        </span>\n" +
-    "    </div> \n" +
+    "    </div>\n" +
     "    <div class=\"display\"> {{time}} </div>\n" +
     "    <div class=\"decrease\">\n" +
     "        <span class=\"hours\" ng-click=\"decreaseHours()\">\n" +
@@ -83,6 +83,13 @@ angular.module('app').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('businessSetup/partials/timeRangePicker.html',
+    "<time-picker time=\"start\"></time-picker>\n" +
+    "to\n" +
+    "<time-picker time=\"finish\"></time-picker>"
+  );
+
+
   $templateCache.put('businessSetup/partials/timeSlot.html',
     "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\">\n" +
     "\t<p ng-i18next>businessSetup:weekdays.{{weekday}}</p>\n" +
@@ -91,15 +98,12 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "\t\ton-label=\"yes\"\n" +
     "\t    off-label=\"no\"\n" +
     "\t></toggle-switch>\n" +
-    "\t<time-picker \n" +
-    "\t\ttime=\"coach.workingHours[weekday].startTime\"\n" +
+    "\t<time-range-picker\n" +
+    "\t\tng-model=\"coach.workingHours[weekday]\"\n" +
+    "\t\tstart=\"coach.workingHours[weekday].startTime\"\n" +
+    "\t\tfinish=\"coach.workingHours[weekday].finishTime\"\n" +
     "\t\tng-disabled='!coach.workingHours[weekday].isAvailable'\n" +
-    "\t></time-picker>\n" +
-    "\tto\n" +
-    "\t<time-picker \n" +
-    "\t\ttime=\"coach.workingHours[weekday].finishTime\"\n" +
-    "\t\tng-disabled='!coach.workingHours[weekday].isAvailable'\n" +
-    "\t></time-picker>\n" +
+    "\t></time-range-picker>\n" +
     "</div>"
   );
 

@@ -66,8 +66,8 @@ angular.module('app',
             namespaces : ['app', 'businessSetup'],
             defaultNs: 'app'
         },
-        resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json'
-        // defaultLoadingValue: ''
+        resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json',
+        defaultLoadingValue: ''
     };
 
     }]).run(['$rootScope', function($rootScope){
@@ -289,13 +289,15 @@ angular.module('businessSetup.controllers', [])
         }
 
         var validateForm = function(){
-            var valid = $scope.newCoachForm.$valid;
+            var valid = $scope.coachForm.$valid;
+
             if(!valid){
-                var errors = $scope.newCoachForm.$error
-                _.each(errors, function(error){
+                var errors = $scope.coachForm.$error
+                _.forEach(errors, function(error, key){
+                    var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
                     $scope.addAlert({
                         type: 'warning',
-                        message: 'businessSetup:' + error[0].$name + '-invalid'
+                        message: 'businessSetup:' + errorMessage + '-invalid'
                     });
                 })
             } else {
@@ -348,9 +350,10 @@ angular.module('businessSetup.controllers', [])
             $activityIndicator.stopAnimating();
         });
     }])
-    .controller('locationsCtrl', ['$scope', function(){
+    .controller('locationsCtrl', ['$scope', function($scope){
         console.log('LOCATIONS CTRL');
-    }]).controller('coachServicesCtrl', ['$scope', function(){
+    }])
+    .controller('coachServicesCtrl', ['$scope', function($scope){
         console.log('SERVICES CTRL');
     }]);
 angular.module('businessSetup.directives', [])
@@ -432,11 +435,46 @@ angular.module('businessSetup.directives', [])
 
                 var setTime = function(){
                     var minutesString = displayMinutes();
-
                     scope.time = scope.hours + ":" + minutesString;
                 }
             }
         }
+    }).directive('timeRangePicker', function(){
+            return {
+                replace: false,
+                scope: {
+                    start: "=",
+                    finish: "=",
+                    disabled: "=ngDisabled"
+                },
+                templateUrl: 'businessSetup/partials/timeRangePicker.html',
+                require: 'ngModel',
+                link: function(scope, elm, attrs, ctrl) {
+                    scope.$watchGroup(['start', 'finish', 'disabled'], function(newValues){
+                        if(newValues[0] && newValues[1]) {
+                            var startTime = timeStringToObject(newValues[0])
+                            var finishTime = timeStringToObject(newValues[1])
+
+                            if(newValues[2] === true || startTime.hours < finishTime.hours) {
+                                ctrl.$setValidity('timeRange', true);
+                            } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) 
+                                            || startTime.hours > finishTime.hours ){
+                                ctrl.$setValidity('timeRange', false);
+                            }
+                        }
+                    });
+
+                    var timeStringToObject = function(time){
+                        var timeArray = time.split(":");
+
+                        time  = {};
+                        time.hours = parseFloat(timeArray[0]);
+                        time.minutes = parseFloat(timeArray[1]);
+
+                        return time;
+                    }
+                }
+            } 
     });
 angular.module('businessSetup',
 	[
@@ -457,8 +495,8 @@ angular.module('businessSetup',
             controller: 'locationsCtrl'
         });
     }]).constant('timepickerConfig', {
-	  hourStep: 1,
-	  minuteStep: 15,
-	  showMeridian: false
+        hourStep: 1,
+        minuteStep: 15,
+        showMeridian: false
 	});
 })();

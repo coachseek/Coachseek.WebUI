@@ -17,7 +17,7 @@ angular.module('businessSetup',
             controller: 'locationsCtrl'
         });
     }]).constant('timepickerConfig', {
-	  hourStep: 1,
-	  minuteStep: 15,
-	  showMeridian: false
+        hourStep: 1,
+        minuteStep: 15,
+        showMeridian: false
 	});

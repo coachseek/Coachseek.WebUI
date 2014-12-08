@@ -7288,12 +7288,19 @@ span.hidden {
   box-shadow: 1px 1px 1px #FFFFFF;
 }
 
-.weekday .time-picker {
-  display: inline-block;
+.weekday time-range-picker {
+  display: inline;
+  overflow: hidden;
 }
-.weekday .time-picker[disabled="disabled"] {
+.weekday time-range-picker.ng-invalid {
+  border: 1px solid red;
+}
+.weekday time-range-picker[disabled="disabled"] {
   pointer-events: none;
 }
-.weekday .time-picker[disabled="disabled"] .increase, .weekday .time-picker[disabled="disabled"] .decrease {
+.weekday time-range-picker[disabled="disabled"].ng-invalid {
+  border: none;
+}
+.weekday time-range-picker[disabled="disabled"] .increase, .weekday time-range-picker[disabled="disabled"] .decrease {
   display: none;
 }

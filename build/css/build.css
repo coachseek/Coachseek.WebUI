@@ -7061,16 +7061,23 @@ span.hidden {
     box-shadow: 1px 1px 1px #FFFFFF;
 }
 .weekday{
+    
+    time-range-picker{
+        // background: purple;
+        display: inline;
+        overflow: hidden;
+        &.ng-invalid{
+            border: 1px solid red;
+        }
 
-	.time-picker{
-	  display: inline-block;
-
-	  &[disabled="disabled"]{
-	  	pointer-events: none;
-
-	  	.increase, .decrease{
-	  		display: none;
-	  	}
-	  }
-	}
+        &[disabled="disabled"]{
+        pointer-events: none;
+            &.ng-invalid{
+                border: none;
+            }
+            .increase, .decrease{
+                display: none;
+            }
+        }
+    }
 }

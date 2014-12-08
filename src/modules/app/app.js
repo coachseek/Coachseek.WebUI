@@ -30,8 +30,8 @@ angular.module('app',
             namespaces : ['app', 'businessSetup'],
             defaultNs: 'app'
         },
-        resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json'
-        // defaultLoadingValue: ''
+        resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json',
+        defaultLoadingValue: ''
     };
 
     }]).run(['$rootScope', function($rootScope){
