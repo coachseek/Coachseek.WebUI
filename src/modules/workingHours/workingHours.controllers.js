@@ -14,12 +14,13 @@ angular.module('workingHours.controllers', [])
             $activityIndicator.startAnimating();
 
             coachSeekAPIService.createCoach().then(function(data){
-                $activityIndicator.stopAnimating();
 
                 $scope.newCoach = true;
                 $scope.editCoach(data);
             }, function(error){
                 throw new Error(error);
+            }).finally(function(){
+                $activityIndicator.stopAnimating();
             });
         }
 
@@ -45,10 +46,10 @@ angular.module('workingHours.controllers', [])
                     $scope.coachList.push(coach);
 
                     resetToCoachList();
-
-                    $activityIndicator.stopAnimating();
                 }, function(error){
                     throw new Error(error);
+                }).finally(function(){
+                    $activityIndicator.stopAnimating();
                 });
             }
         }
@@ -100,7 +101,6 @@ angular.module('workingHours.controllers', [])
     	$activityIndicator.startAnimating();
 
         coachSeekAPIService.getCoaches().then(function(data){
-	    	$activityIndicator.stopAnimating();
 	    	//set coach list data or creat first coach
 	    	if(data.length){  		
 	        	$scope.coachList = data;
@@ -110,5 +110,7 @@ angular.module('workingHours.controllers', [])
 	    	}
         }, function(error){
 			throw new Error(error);
+        }).finally(function(){
+            $activityIndicator.stopAnimating();
         });
     }]);
