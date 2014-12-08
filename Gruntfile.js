@@ -113,7 +113,7 @@ module.exports = function(grunt) {
       },
       templates: {
         files: ['src/modules/**/partials/*.html'],
-        tasks: ['newer:ngtemplates:src']
+        tasks: ['ngtemplates:src']
       }
     }
   });
