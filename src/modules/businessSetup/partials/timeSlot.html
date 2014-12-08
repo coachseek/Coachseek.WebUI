@@ -5,13 +5,10 @@
 		on-label="yes"
 	    off-label="no"
 	></toggle-switch>
-	<time-picker 
-		time="coach.workingHours[weekday].startTime"
+	<time-range-picker
+		ng-model="coach.workingHours[weekday]"
+		start="coach.workingHours[weekday].startTime"
+		finish="coach.workingHours[weekday].finishTime"
 		ng-disabled='!coach.workingHours[weekday].isAvailable'
-	></time-picker>
-	to
-	<time-picker 
-		time="coach.workingHours[weekday].finishTime"
-		ng-disabled='!coach.workingHours[weekday].isAvailable'
-	></time-picker>
+	></time-range-picker>
 </div>

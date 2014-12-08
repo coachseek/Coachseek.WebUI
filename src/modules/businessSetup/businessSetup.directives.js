@@ -77,9 +77,44 @@ angular.module('businessSetup.directives', [])
 
                 var setTime = function(){
                     var minutesString = displayMinutes();
-
                     scope.time = scope.hours + ":" + minutesString;
                 }
             }
         }
+    }).directive('timeRangePicker', function(){
+            return {
+                replace: false,
+                scope: {
+                    start: "=",
+                    finish: "=",
+                    disabled: "=ngDisabled"
+                },
+                templateUrl: 'businessSetup/partials/timeRangePicker.html',
+                require: 'ngModel',
+                link: function(scope, elm, attrs, ctrl) {
+                    scope.$watchGroup(['start', 'finish', 'disabled'], function(newValues){
+                        if(newValues[0] && newValues[1]) {
+                            var startTime = timeStringToObject(newValues[0])
+                            var finishTime = timeStringToObject(newValues[1])
+
+                            if(newValues[2] === true || startTime.hours < finishTime.hours) {
+                                ctrl.$setValidity('timeRange', true);
+                            } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) 
+                                            || startTime.hours > finishTime.hours ){
+                                ctrl.$setValidity('timeRange', false);
+                            }
+                        }
+                    });
+
+                    var timeStringToObject = function(time){
+                        var timeArray = time.split(":");
+
+                        time  = {};
+                        time.hours = parseFloat(timeArray[0]);
+                        time.minutes = parseFloat(timeArray[1]);
+
+                        return time;
+                    }
+                }
+            } 
     });

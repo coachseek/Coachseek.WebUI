@@ -57,13 +57,15 @@ angular.module('businessSetup.controllers', [])
         }
 
         var validateForm = function(){
-            var valid = $scope.newCoachForm.$valid;
+            var valid = $scope.coachForm.$valid;
+
             if(!valid){
-                var errors = $scope.newCoachForm.$error
-                _.each(errors, function(error){
+                var errors = $scope.coachForm.$error
+                _.forEach(errors, function(error, key){
+                    var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
                     $scope.addAlert({
                         type: 'warning',
-                        message: 'businessSetup:' + error[0].$name + '-invalid'
+                        message: 'businessSetup:' + errorMessage + '-invalid'
                     });
                 })
             } else {

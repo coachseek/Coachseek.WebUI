@@ -17,5 +17,6 @@
 	"lastName-invalid": "Ooops! Last Name is invalid. Try again.",
 	"email-invalid": "Oops! Email is invalid. Try again.",
 	"phone-invalid": "Oops! Phone number is invalid. Try again.",
+	"timeRange-invalid": "Oops! One of your time ranges is wrong. Try again.",
 	"name-already-exists": "Oops! It looks like somebody already has that name. Try again."
 }

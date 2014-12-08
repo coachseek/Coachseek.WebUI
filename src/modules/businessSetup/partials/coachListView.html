@@ -15,7 +15,7 @@
     <button class="create-coach" ng-click="createCoach()">{{'businessSetup:add-new-coach' | i18next}}</button>
 </div>
 <div class="coach-edit-view" ng-show="coach">
-    <form name="newCoachForm" novalidate>
+    <form name="coachForm" novalidate>
         <label name="firstName">{{'person-details.first-name' | i18next}}</label>
         <input name="firstName" ng-model="coach.firstName" placeholder="{{'person-details.first-name' | i18next}}"  required ng-maxlength=50 />
 

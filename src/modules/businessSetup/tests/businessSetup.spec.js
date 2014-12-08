@@ -157,6 +157,15 @@ describe('BusinessSetup Module', function() {
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
                             });
                         });
+                        describe('when a timeRange is invalid', function(){
+                            it('should display an invalid input alert', function(){
+                                scope.coachForm.$setValidity('timeRange', false);
+                                $coachEditView.find('.save-coach').trigger('click');
+
+                                expect($rootScope.alerts[0].type).to.equal('warning');
+                                expect($rootScope.alerts[0].message).to.equal('businessSetup:timeRange-invalid');
+                            });
+                        });
                     });
                     describe('when the coach name already exists', function(){
                         beforeEach(function(){
@@ -281,7 +290,9 @@ describe('BusinessSetup Module', function() {
                     phone: "021 99 88 77",
                     workingHours: {
                          monday: { 
-                             isAvailable: true
+                             isAvailable: true,
+                             startTime: '11:00',
+                             finishTime: '11:00'
                          },
                          tuesday: {
                              isAvailable: false
@@ -302,13 +313,13 @@ describe('BusinessSetup Module', function() {
         describe('when a day is available', function(){
             it('should enable the time spinner', function(){
                 var $monday = $testRegion.find('.weekday').first();
-                expect($monday.find('.time-picker').attr('disabled')).to.equal(undefined);
+                expect($monday.find('time-range-picker').attr('disabled')).to.equal(undefined);
             });
         });
         describe('when a day is unavailable', function(){
             it('should disable the time spinner', function(){
                 var $tuesday = $testRegion.find('.weekday:nth-child(2)');
-                expect($tuesday.find('.time-picker').attr('disabled')).to.equal('disabled');
+                expect($tuesday.find('time-range-picker').attr('disabled')).to.equal('disabled');
             });
         });
         describe('when clicking on the toggle available switch', function(){
@@ -321,12 +332,47 @@ describe('BusinessSetup Module', function() {
             it('should set isAvailable to false', function(){
                 expect(scope.coach.workingHours['monday'].isAvailable).to.be.false;
             });
+            it('the day should be valid', function(){
+                var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                expect($mondayTimeRange.hasClass('ng-invalid')).to.be.false;                
+            });
             describe('when clicking on the toggle available switch again', function(){
                 it('should set isAvailable to true', function(){
                     $mondayToggleSwitch.trigger('click');
                     expect(scope.coach.workingHours['monday'].isAvailable).to.be.true;
-                })
+                });
+                it('the day should be invalid', function(){
+                    $mondayToggleSwitch.trigger('click');
+                    var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                    expect($mondayTimeRange.hasClass('ng-invalid')).to.be.true;                
+                });
             });
+        });
+        describe('time validation', function(){
+            describe('when times are the same', function(){
+                it('the day should be invalid', function(){
+                    var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                    expect($mondayTimeRange.hasClass('ng-invalid')).to.be.true;                
+                });
+            });
+            describe('when there is negative time between the times', function(){
+                it('the day should be invalid', function(){
+                    scope.coach.workingHours.monday.startTime = "12:00";
+                    scope.$apply();
+
+                    var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                    expect($mondayTimeRange.hasClass('ng-invalid')).to.be.true;                
+                });
+            });
+            describe('when there is ample time between times', function(){
+                it('the day should be vaild', function(){
+                    scope.coach.workingHours.monday.startTime = "9:00";
+                    scope.$apply();
+
+                    var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                    expect($mondayTimeRange.hasClass('ng-invalid')).to.be.false;                
+                });  
+            })
         });
     });
     describe('timePicker directive', function(){
