@@ -7060,7 +7060,7 @@ span.hidden {
     border: 1px solid #DDD;
     box-shadow: 1px 1px 1px #FFFFFF;
 }
-.workingHours-weekday{
+.weekday{
 
 	.time-picker{
 	  display: inline-block;

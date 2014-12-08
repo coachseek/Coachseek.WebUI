@@ -48,9 +48,7 @@ angular.module('app',
     'app.directives',
 
     // MODULES
-    'workingHours',
-    'locations',
-    'coachServices',
+    'businessSetup',
 
     // UTILITIES
     'ngActivityIndicator' 
@@ -65,7 +63,7 @@ angular.module('app',
         lng: 'en',
         fallbackLng: 'en',
         ns : {
-            namespaces : ['app', 'workingHours'],
+            namespaces : ['app', 'businessSetup'],
             defaultNs: 'app'
         },
         resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json'
@@ -232,28 +230,12 @@ angular.module('app.services', []).
 
     return coachSeekAPI;
   }]);
-angular.module('coachServices',[])
-    .config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/registration/coach-services', {
-            templateUrl: 'coachServices/partials/coachServices.html'
-            // controller: 'coachServicesCtrl'
-        });
-    }]);
-angular.module('locations.controllers', [])
-    .controller('locationsCtrl', ['$scope', function(){
-    	console.log('LOCATIONS CTRL');
-    }]);
-angular.module('locations',
-	              [
-	                'locations.controllers'
-	              ])
-	.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/registration/locations', {templateUrl: 'locations/partials/locations.html', controller: 'locationsCtrl'});
-    }]);
-angular.module('workingHours.controllers', [])
+angular.module('businessSetup.controllers', [])
     .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
     	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
+        
         var coachCopy;
+        
         $scope.editCoach = function(coach){
             _.pull($scope.coachList, coach);
             coachCopy = angular.copy(coach);
@@ -266,12 +248,13 @@ angular.module('workingHours.controllers', [])
             $activityIndicator.startAnimating();
 
             coachSeekAPIService.createCoach().then(function(data){
-                $activityIndicator.stopAnimating();
 
                 $scope.newCoach = true;
                 $scope.editCoach(data);
             }, function(error){
                 throw new Error(error);
+            }).finally(function(){
+                $activityIndicator.stopAnimating();
             });
         }
 
@@ -297,10 +280,10 @@ angular.module('workingHours.controllers', [])
                     $scope.coachList.push(coach);
 
                     resetToCoachList();
-
-                    $activityIndicator.stopAnimating();
                 }, function(error){
                     throw new Error(error);
+                }).finally(function(){
+                    $activityIndicator.stopAnimating();
                 });
             }
         }
@@ -312,7 +295,7 @@ angular.module('workingHours.controllers', [])
                 _.each(errors, function(error){
                     $scope.addAlert({
                         type: 'warning',
-                        message: 'workingHours:' + error[0].$name + '-invalid'
+                        message: 'businessSetup:' + error[0].$name + '-invalid'
                     });
                 })
             } else {
@@ -328,7 +311,7 @@ angular.module('workingHours.controllers', [])
 
                     $scope.addAlert({
                         type: 'warning',
-                        message: 'workingHours:name-already-exists'
+                        message: 'businessSetup:name-already-exists'
                     });
                     // using return here to exit forEach early
                     return valid = false;
@@ -342,17 +325,16 @@ angular.module('workingHours.controllers', [])
                 //show bootstrap message
                 $scope.addAlert({
                     type: 'warning',
-                    message: 'workingHours:add-coach-warning'
+                    message: 'businessSetup:add-coach-warning'
                 });
             } else {
-                $location.path('/registration/coach-services');
+                $location.path('/business-setup/coach-services');
             }
         }
 
     	$activityIndicator.startAnimating();
 
         coachSeekAPIService.getCoaches().then(function(data){
-	    	$activityIndicator.stopAnimating();
 	    	//set coach list data or creat first coach
 	    	if(data.length){  		
 	        	$scope.coachList = data;
@@ -362,18 +344,25 @@ angular.module('workingHours.controllers', [])
 	    	}
         }, function(error){
 			throw new Error(error);
+        }).finally(function(){
+            $activityIndicator.stopAnimating();
         });
+    }])
+    .controller('locationsCtrl', ['$scope', function(){
+        console.log('LOCATIONS CTRL');
+    }]).controller('coachServicesCtrl', ['$scope', function(){
+        console.log('SERVICES CTRL');
     }]);
-angular.module('workingHours.directives', [])
+angular.module('businessSetup.directives', [])
 	.directive('timeSlot', function(){
 		return {
 			replace: true,
-			templateUrl: 'workingHours/partials/timeSlot.html'
+			templateUrl: 'businessSetup/partials/timeSlot.html'
 		}
 	}).directive('timePicker', function(){
         return {
             replace: true,
-            templateUrl: 'workingHours/partials/timePicker.html',
+            templateUrl: 'businessSetup/partials/timePicker.html',
             scope: {
                 time: "="
             },
@@ -449,16 +438,23 @@ angular.module('workingHours.directives', [])
             }
         }
     });
-angular.module('workingHours',
+angular.module('businessSetup',
 	[
-		'toggle-switch',
-		'workingHours.controllers',
-		'workingHours.directives'
+		'businessSetup.controllers',
+		'businessSetup.directives',
+
+        'toggle-switch'
 	])
 	.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/registration/coach-list', {
-        	templateUrl: 'workingHours/partials/coachListView.html',
+        $routeProvider.when('/business-setup/coach-list', {
+        	templateUrl: 'businessSetup/partials/coachListView.html',
         	controller: 'coachListCtrl'
+        }).when('/business-setup/coach-services', {
+            templateUrl: 'businessSetup/partials/coachServices.html',
+            controller: 'coachServicesCtrl'
+        }).when('/business-setup/locations', {
+            templateUrl: 'businessSetup/partials/locations.html',
+            controller: 'locationsCtrl'
         });
     }]).constant('timepickerConfig', {
 	  hourStep: 1,

@@ -10,9 +10,9 @@ angular.module('businessSetup',
         	templateUrl: 'businessSetup/partials/coachListView.html',
         	controller: 'coachListCtrl'
         }).when('/business-setup/coach-services', {
-            templateUrl: 'businessSetup/partials/coachServices.html'
-            // controller: 'coachServicesCtrl'
-        }).when('/registration/locations', {
+            templateUrl: 'businessSetup/partials/coachServices.html',
+            controller: 'coachServicesCtrl'
+        }).when('/business-setup/locations', {
             templateUrl: 'businessSetup/partials/locations.html',
             controller: 'locationsCtrl'
         });

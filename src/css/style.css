@@ -7288,12 +7288,12 @@ span.hidden {
   box-shadow: 1px 1px 1px #FFFFFF;
 }
 
-.workingHours-weekday .time-picker {
+.weekday .time-picker {
   display: inline-block;
 }
-.workingHours-weekday .time-picker[disabled="disabled"] {
+.weekday .time-picker[disabled="disabled"] {
   pointer-events: none;
 }
-.workingHours-weekday .time-picker[disabled="disabled"] .increase, .workingHours-weekday .time-picker[disabled="disabled"] .decrease {
+.weekday .time-picker[disabled="disabled"] .increase, .weekday .time-picker[disabled="disabled"] .decrease {
   display: none;
 }

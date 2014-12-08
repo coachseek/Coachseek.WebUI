@@ -118,4 +118,6 @@ angular.module('businessSetup.controllers', [])
     }])
     .controller('locationsCtrl', ['$scope', function(){
         console.log('LOCATIONS CTRL');
+    }]).controller('coachServicesCtrl', ['$scope', function(){
+        console.log('SERVICES CTRL');
     }]);

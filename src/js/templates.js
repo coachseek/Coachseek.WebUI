@@ -1,7 +1,7 @@
-angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
+angular.module('app').run(['$templateCache', function($templateCache) {
   'use strict';
 
-  $templateCache.put('coachSeekApp/partials/activityIndicator.html',
+  $templateCache.put('app/partials/activityIndicator.html',
     "<div class=\"indicator-container\">\n" +
     "\t<div class='outer-logo'></div>\n" +
     "\t<div ng-class=\"{active: AILoading}\" class='inner-logo'></div>\n" +
@@ -9,20 +9,10 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
   );
 
 
-  $templateCache.put('coachServices/partials/coachServices.html',
-    "<h1>SERVICES<h1>"
-  );
-
-
-  $templateCache.put('locations/partials/locations.html',
-    "<h1>LOCATIONS<h1>"
-  );
-
-
-  $templateCache.put('workingHours/partials/coachListView.html',
-    "<a href=\"#/registration/locations\">{{'workingHours:nav-to-locations' | i18next}}</a>\n" +
-    "<h3>{{'workingHours:coach-list-title' | i18next}}</h3>\n" +
-    "<a class=\"nav-to-services\" ng-click=\"navigateToServices()\">{{'workingHours:nav-to-services' | i18next}}</a>\n" +
+  $templateCache.put('businessSetup/partials/coachListView.html',
+    "<a href=\"#/business-setup/locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
+    "<h3>{{'businessSetup:coach-list-title' | i18next}}</h3>\n" +
+    "<a class=\"nav-to-services\" ng-click=\"navigateToServices()\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
     "<div class=\"coach-list-view\" ng-hide=\"coach\">\n" +
     "    <ul>\n" +
     "        <li class=\"coach-details\" ng-repeat=\"coach in coachList | orderBy:'lastName'\">\n" +
@@ -34,7 +24,7 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
     "        </li>\n" +
     "    </ul>\n" +
     "    <!-- show coach creation on click -->\n" +
-    "    <button class=\"create-coach\" ng-click=\"createCoach()\">{{'workingHours:add-new-coach' | i18next}}</button>\n" +
+    "    <button class=\"create-coach\" ng-click=\"createCoach()\">{{'businessSetup:add-new-coach' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"coach-edit-view\" ng-show=\"coach\">\n" +
     "    <form name=\"newCoachForm\" novalidate>\n" +
@@ -60,32 +50,42 @@ angular.module('coachSeekApp').run(['$templateCache', function($templateCache) {
   );
 
 
-  $templateCache.put('workingHours/partials/timePicker.html',
+  $templateCache.put('businessSetup/partials/coachServices.html',
+    "<h1>SERVICES<h1>"
+  );
+
+
+  $templateCache.put('businessSetup/partials/locations.html',
+    "<h1>LOCATIONS<h1>"
+  );
+
+
+  $templateCache.put('businessSetup/partials/timePicker.html',
     "<div class=\"time-picker\">\n" +
     "    <div class=\"increase\"> \n" +
-    "        <div class=\"hours\" ng-click=\"increaseHours()\">\n" +
+    "        <span class=\"hours\" ng-click=\"increaseHours()\">\n" +
     "            <span class=\"glyphicon glyphicon-chevron-up\"></span> \n" +
-    "        </div>\n" +
-    "        <div class=\"minutes\" ng-click=\"increaseMinutes()\"> \n" +
+    "        </span>\n" +
+    "        <span class=\"minutes\" ng-click=\"increaseMinutes()\"> \n" +
     "            <span class=\"glyphicon glyphicon-chevron-up\"></span> \n" +
-    "        </div>\n" +
+    "        </span>\n" +
     "    </div> \n" +
     "    <div class=\"display\"> {{time}} </div>\n" +
     "    <div class=\"decrease\">\n" +
-    "        <div class=\"hours\" ng-click=\"decreaseHours()\">\n" +
+    "        <span class=\"hours\" ng-click=\"decreaseHours()\">\n" +
     "            <span class=\"glyphicon glyphicon-chevron-down\"></span> \n" +
-    "        </div> \n" +
-    "        <div class=\"minutes\" ng-click=\"decreaseMinutes()\"> \n" +
+    "        </span> \n" +
+    "        <span class=\"minutes\" ng-click=\"decreaseMinutes()\"> \n" +
     "            <span class=\"glyphicon glyphicon-chevron-down\"></span> \n" +
-    "        </div> \n" +
+    "        </span> \n" +
     "    </div>\n" +
     "</div>"
   );
 
 
-  $templateCache.put('workingHours/partials/timeSlot.html',
-    "<div ng-repeat=\"weekday in weekdays\" class=\"workingHours-weekday\">\n" +
-    "\t<p ng-i18next>workingHours:weekdays.{{weekday}}</p>\n" +
+  $templateCache.put('businessSetup/partials/timeSlot.html',
+    "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\">\n" +
+    "\t<p ng-i18next>businessSetup:weekdays.{{weekday}}</p>\n" +
     "\t<toggle-switch \n" +
     "\t\tng-model=\"coach.workingHours[weekday].isAvailable\"\n" +
     "\t\ton-label=\"yes\"\n" +
