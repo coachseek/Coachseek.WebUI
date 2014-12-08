@@ -1,7 +1,9 @@
-angular.module('workingHours.controllers', [])
+angular.module('businessSetup.controllers', [])
     .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
     	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
+        
         var coachCopy;
+        
         $scope.editCoach = function(coach){
             _.pull($scope.coachList, coach);
             coachCopy = angular.copy(coach);
@@ -61,7 +63,7 @@ angular.module('workingHours.controllers', [])
                 _.each(errors, function(error){
                     $scope.addAlert({
                         type: 'warning',
-                        message: 'workingHours:' + error[0].$name + '-invalid'
+                        message: 'businessSetup:' + error[0].$name + '-invalid'
                     });
                 })
             } else {
@@ -77,7 +79,7 @@ angular.module('workingHours.controllers', [])
 
                     $scope.addAlert({
                         type: 'warning',
-                        message: 'workingHours:name-already-exists'
+                        message: 'businessSetup:name-already-exists'
                     });
                     // using return here to exit forEach early
                     return valid = false;
@@ -91,10 +93,10 @@ angular.module('workingHours.controllers', [])
                 //show bootstrap message
                 $scope.addAlert({
                     type: 'warning',
-                    message: 'workingHours:add-coach-warning'
+                    message: 'businessSetup:add-coach-warning'
                 });
             } else {
-                $location.path('/registration/coach-services');
+                $location.path('/business-setup/coach-services');
             }
         }
 
@@ -113,4 +115,7 @@ angular.module('workingHours.controllers', [])
         }).finally(function(){
             $activityIndicator.stopAnimating();
         });
+    }])
+    .controller('locationsCtrl', ['$scope', function(){
+        console.log('LOCATIONS CTRL');
     }]);

@@ -12,9 +12,7 @@ angular.module('app',
     'app.directives',
 
     // MODULES
-    'workingHours',
-    'locations',
-    'coachServices',
+    'businessSetup',
 
     // UTILITIES
     'ngActivityIndicator' 
@@ -29,7 +27,7 @@ angular.module('app',
         lng: 'en',
         fallbackLng: 'en',
         ns : {
-            namespaces : ['app', 'workingHours'],
+            namespaces : ['app', 'businessSetup'],
             defaultNs: 'app'
         },
         resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json'

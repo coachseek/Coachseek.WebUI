@@ -1,6 +1,6 @@
-<a href="#/registration/locations">{{'workingHours:nav-to-locations' | i18next}}</a>
-<h3>{{'workingHours:coach-list-title' | i18next}}</h3>
-<a class="nav-to-services" ng-click="navigateToServices()">{{'workingHours:nav-to-services' | i18next}}</a>
+<a href="#/business-setup/locations">{{'businessSetup:nav-to-locations' | i18next}}</a>
+<h3>{{'businessSetup:coach-list-title' | i18next}}</h3>
+<a class="nav-to-services" ng-click="navigateToServices()">{{'businessSetup:nav-to-services' | i18next}}</a>
 <div class="coach-list-view" ng-hide="coach">
     <ul>
         <li class="coach-details" ng-repeat="coach in coachList | orderBy:'lastName'">
@@ -12,7 +12,7 @@
         </li>
     </ul>
     <!-- show coach creation on click -->
-    <button class="create-coach" ng-click="createCoach()">{{'workingHours:add-new-coach' | i18next}}</button>
+    <button class="create-coach" ng-click="createCoach()">{{'businessSetup:add-new-coach' | i18next}}</button>
 </div>
 <div class="coach-edit-view" ng-show="coach">
     <form name="newCoachForm" novalidate>

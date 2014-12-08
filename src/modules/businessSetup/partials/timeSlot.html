@@ -1,5 +1,5 @@
-<div ng-repeat="weekday in weekdays" class="workingHours-weekday">
-	<p ng-i18next>workingHours:weekdays.{{weekday}}</p>
+<div ng-repeat="weekday in weekdays" class="weekday">
+	<p ng-i18next>businessSetup:weekdays.{{weekday}}</p>
 	<toggle-switch 
 		ng-model="coach.workingHours[weekday].isAvailable"
 		on-label="yes"

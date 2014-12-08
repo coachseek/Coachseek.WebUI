@@ -1,13 +1,13 @@
-angular.module('workingHours.directives', [])
+angular.module('businessSetup.directives', [])
 	.directive('timeSlot', function(){
 		return {
 			replace: true,
-			templateUrl: 'workingHours/partials/timeSlot.html'
+			templateUrl: 'businessSetup/partials/timeSlot.html'
 		}
 	}).directive('timePicker', function(){
         return {
             replace: true,
-            templateUrl: 'workingHours/partials/timePicker.html',
+            templateUrl: 'businessSetup/partials/timePicker.html',
             scope: {
                 time: "="
             },

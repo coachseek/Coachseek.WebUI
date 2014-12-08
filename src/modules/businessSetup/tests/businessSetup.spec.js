@@ -1,19 +1,19 @@
-describe('WorkingHours Module', function() {
+describe('BusinessSetup Module', function() {
 
     var scope,
         coachSeekAPIService,
-        templateUrl = 'workingHours/partials/coachListView.html';
+        templateUrl = 'businessSetup/partials/coachListView.html';
 
     beforeEach(function() {
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
     });
-    describe('workingHours routes', function() {
+    describe('businessSetup routes', function() {
         it('should map routes to controllers', function() {
-            expect($route.routes['/registration/coach-list'].controller).to.equal('coachListCtrl');
+            expect($route.routes['/business-setup/coach-list'].controller).to.equal('coachListCtrl');
         });
         it('should map routes to templates', function(){
-            expect($route.routes['/registration/coach-list'].templateUrl).to.equal('workingHours/partials/coachListView.html');
+            expect($route.routes['/business-setup/coach-list'].templateUrl).to.equal('businessSetup/partials/coachListView.html');
         });
         it('should default to root', function(){
             expect($route.routes[null].redirectTo).to.equal('/');
@@ -114,7 +114,7 @@ describe('WorkingHours Module', function() {
                                 $coachEditView.find('.save-coach').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('workingHours:firstName-invalid');
+                                expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
                             });
                         });
                         describe('when the lastName is invalid', function(){
@@ -124,7 +124,7 @@ describe('WorkingHours Module', function() {
                                 $coachEditView.find('.save-coach').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('workingHours:lastName-invalid');
+                                expect($rootScope.alerts[0].message).to.equal('businessSetup:lastName-invalid');
                             });
                         });
                         describe('when the phone is invalid', function(){
@@ -134,7 +134,7 @@ describe('WorkingHours Module', function() {
                                 $coachEditView.find('.save-coach').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('workingHours:phone-invalid');
+                                expect($rootScope.alerts[0].message).to.equal('businessSetup:phone-invalid');
                             });
                         });
                         describe('when the email is invalid', function(){
@@ -144,7 +144,7 @@ describe('WorkingHours Module', function() {
                                 $coachEditView.find('.save-coach').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('workingHours:email-invalid');
+                                expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
                             });
                         });
                     });
@@ -155,7 +155,7 @@ describe('WorkingHours Module', function() {
                         });
                         it('should display an alert', function(){
                             expect(scope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('workingHours:name-already-exists');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:name-already-exists');
                         });
                     });
                     describe('when the coach name is new', function(){
@@ -286,25 +286,25 @@ describe('WorkingHours Module', function() {
             createDirective(scope, '<div><time-slot></time-slot></div>');
         });
         it('should have as many entries as days', function(){
-            var $weekdays = $testRegion.find('.workingHours-weekday');
+            var $weekdays = $testRegion.find('.weekday');
             expect($weekdays.length).to.equal(_.size(scope.coach.workingHours));
         });
         describe('when a day is available', function(){
             it('should enable the time spinner', function(){
-                var $monday = $testRegion.find('.workingHours-weekday').first();
+                var $monday = $testRegion.find('.weekday').first();
                 expect($monday.find('.time-picker').attr('disabled')).to.equal(undefined);
             });
         });
         describe('when a day is unavailable', function(){
             it('should disable the time spinner', function(){
-                var $tuesday = $testRegion.find('.workingHours-weekday:nth-child(2)');
+                var $tuesday = $testRegion.find('.weekday:nth-child(2)');
                 expect($tuesday.find('.time-picker').attr('disabled')).to.equal('disabled');
             });
         });
         describe('when clicking on the toggle available switch', function(){
             var $mondayToggleSwitch;
             beforeEach(function(){
-                var $monday = $testRegion.find('.workingHours-weekday').first();
+                var $monday = $testRegion.find('.weekday').first();
                 $mondayToggleSwitch = $monday.find('.toggle-switch');
                 $mondayToggleSwitch.trigger('click');
             });
@@ -331,6 +331,7 @@ describe('WorkingHours Module', function() {
             });
         });
         describe('when default time is provided', function(){
+            var $timePicker;
             beforeEach(function(){
                 this.let('testTime', function(){
                     return '22:00';
@@ -338,7 +339,7 @@ describe('WorkingHours Module', function() {
 
                 scope.testTime = this.testTime;
 
-                createDirective(scope, '<div><time-picker time="testTime"></time-picker></div>');
+                $timePicker = createDirective(scope, '<div><time-picker time="testTime"></time-picker></div>');
             });
             it('should set time to time provided', function(){
                 expect(scope.testTime).to.equal(this.testTime);
@@ -386,15 +387,15 @@ describe('WorkingHours Module', function() {
                     $increaseMinute.trigger('click');
                     expect(scope.testTime).to.equal('22:15');
                 });
-                // describe('and the minutes are 45', function(){
-                //     it('should roll over to next hour', function(){
-                //         scope.testTime = "0:45";
-                //         scope.$digest();
-                //         $increaseMinute.trigger('click');
-
-                //         expect(scope.testTime).to.equal('1:00');
-                //     });
-                // });
+                describe('and the minutes are 45', function(){
+                    it('should roll over to next hour', function(){
+                        $timePicker.scope().time = "0:45"
+                        scope.$apply();
+                        // $increaseMinute.trigger('click');
+                        // debugger;
+                        expect(scope.testTime).to.equal('1:00');
+                    });
+                });
             });
             describe('when clicking the decrease minute button', function(){
                 var $decreaseMinute;
