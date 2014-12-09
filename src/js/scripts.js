@@ -317,8 +317,7 @@ angular.module('businessSetup.controllers', [])
                         message: 'businessSetup:name-already-exists'
                     });
                     // using return here to exit forEach early
-                    var valid = false;
-                    return valid;
+                    return valid = false;
                 }
             });
             return valid;

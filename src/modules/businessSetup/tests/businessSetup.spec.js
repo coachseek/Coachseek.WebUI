@@ -169,11 +169,11 @@ describe('BusinessSetup Module', function() {
                     });
                     describe('when the coach name already exists', function(){
                         beforeEach(function(){
-                            scope.coachList.push(self.firstCoach);
+                            scope.coachList.push(angular.copy(self.firstCoach));
                             $coachEditView.find('.save-coach').trigger('click');
                         });
                         it('should display an alert', function(){
-                            expect(scope.alerts[0].type).to.equal('warning');
+                            expect($rootScope.alerts[0].type).to.equal('warning');
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:name-already-exists');
                         });
                     });
