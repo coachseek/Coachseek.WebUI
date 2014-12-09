@@ -123,6 +123,17 @@ module.exports = function(grunt) {
         files: ['src/modules/**/partials/*.html'],
         tasks: ['ngtemplates:src']
       }
+    },
+    karma: {
+      unit: {
+        configFile: 'karma.config.js',
+        client: {
+          mocha: {
+            reporter: 'html', // change Karma's debug.html to the mocha web reporter
+            ui: 'bdd'
+          }
+        }
+      }
     }
   });
 
@@ -134,13 +145,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-angular-templates');
+  grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-wrap');
   grunt.loadNpmTasks('grunt-newer');
 
   // Default task(s).
   // TODO - jshint
   grunt.registerTask('default', [
-      'jshint',
       'concat',
       'wrap', 
       'htmlmin',
