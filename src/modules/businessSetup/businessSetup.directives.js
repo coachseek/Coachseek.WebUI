@@ -3,7 +3,7 @@ angular.module('businessSetup.directives', [])
 		return {
 			replace: true,
 			templateUrl: 'businessSetup/partials/timeSlot.html'
-		}
+		};
 	}).directive('timePicker', function(){
         return {
             replace: true,
@@ -31,7 +31,7 @@ angular.module('businessSetup.directives', [])
                     }
 
                     setTime();
-                }
+                };
      
                 /* Decreases hours by one */
                 scope.decreaseHours = function () {
@@ -40,7 +40,7 @@ angular.module('businessSetup.directives', [])
                     scope.hours = scope.hours <= 0 ? 23 : --scope.hours;
 
                     setTime();
-                }
+                };
      
                 /* Increases minutes by 15 */
                 scope.increaseMinutes = function () {
@@ -54,7 +54,7 @@ angular.module('businessSetup.directives', [])
                         scope.minutes = scope.minutes + 15;
                     }
                     setTime();
-                }
+                };
      
                 /* Decreases minutes by 15 */
                 scope.decreaseMinutes = function () {
@@ -68,19 +68,19 @@ angular.module('businessSetup.directives', [])
                         scope.minutes = scope.minutes - 15;
                     }
                     setTime();
-                }
+                };
 
                 /* Displays minutes */
                 var displayMinutes = function () {
                     return scope.minutes <= 9 ? "0" + scope.minutes : scope.minutes;
-                }
+                };
 
                 var setTime = function(){
                     var minutesString = displayMinutes();
                     scope.time = scope.hours + ":" + minutesString;
-                }
+                };
             }
-        }
+        };
     }).directive('timeRangePicker', function(){
             return {
                 replace: false,
@@ -94,13 +94,13 @@ angular.module('businessSetup.directives', [])
                 link: function(scope, elm, attrs, ctrl) {
                     scope.$watchGroup(['start', 'finish', 'disabled'], function(newValues){
                         if(newValues[0] && newValues[1]) {
-                            var startTime = timeStringToObject(newValues[0])
-                            var finishTime = timeStringToObject(newValues[1])
+                            var startTime = timeStringToObject(newValues[0]);
+                            var finishTime = timeStringToObject(newValues[1]);
 
                             if(newValues[2] === true || startTime.hours < finishTime.hours) {
                                 ctrl.$setValidity('timeRange', true);
-                            } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) 
-                                            || startTime.hours > finishTime.hours ){
+                            } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) || 
+                                            startTime.hours > finishTime.hours ){
                                 ctrl.$setValidity('timeRange', false);
                             }
                         }
@@ -114,7 +114,7 @@ angular.module('businessSetup.directives', [])
                         time.minutes = parseFloat(timeArray[1]);
 
                         return time;
-                    }
+                    };
                 }
-            } 
+            };
     });

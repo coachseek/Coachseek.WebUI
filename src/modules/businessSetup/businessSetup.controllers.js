@@ -10,7 +10,7 @@ angular.module('businessSetup.controllers', [])
 
             $scope.coach = coach;
             $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-        }
+        };
 
         $scope.createCoach = function(){
             $activityIndicator.startAnimating();
@@ -24,21 +24,21 @@ angular.module('businessSetup.controllers', [])
             }).finally(function(){
                 $activityIndicator.stopAnimating();
             });
-        }
+        };
 
         $scope.cancelEdit = function(){
             if(!$scope.newCoach){
                 $scope.coachList.push(coachCopy);
             }
             resetToCoachList();
-        }
+        };
 
         var resetToCoachList = function(){
             $scope.coach = null;
             $scope.removeAlerts();
             $scope.newCoach = null;
             coachCopy = null;
-        }
+        };
 
         $scope.saveCoach = function(coach){
             var formValid = validateForm();
@@ -54,41 +54,42 @@ angular.module('businessSetup.controllers', [])
                     $activityIndicator.stopAnimating();
                 });
             }
-        }
+        };
 
         var validateForm = function(){
             var valid = $scope.coachForm.$valid;
 
             if(!valid){
-                var errors = $scope.coachForm.$error
+                var errors = $scope.coachForm.$error;
                 _.forEach(errors, function(error, key){
                     var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
                     $scope.addAlert({
                         type: 'warning',
                         message: 'businessSetup:' + errorMessage + '-invalid'
                     });
-                })
+                });
             } else {
                 valid = checkDuplicateNames(valid);
             }
             return valid;
-        }
+        };
 
         var checkDuplicateNames = function(valid){
             _.forEach($scope.coachList, function(coach){
-                if($scope.coach.firstName === coach.firstName
-                     && $scope.coach.lastName === coach.lastName){
+                if($scope.coach.firstName === coach.firstName && 
+                        $scope.coach.lastName === coach.lastName){
 
                     $scope.addAlert({
                         type: 'warning',
                         message: 'businessSetup:name-already-exists'
                     });
                     // using return here to exit forEach early
-                    return valid = false;
+                    var valid = false;
+                    return valid;
                 }
             });
-            return valid
-        }
+            return valid;
+        };
 
         $scope.navigateToServices = function(){
             if(!$scope.coachList || $scope.coachList.length <= 0){
@@ -100,7 +101,7 @@ angular.module('businessSetup.controllers', [])
             } else {
                 $location.path('/business-setup/coach-services');
             }
-        }
+        };
 
     	$activityIndicator.startAnimating();
 

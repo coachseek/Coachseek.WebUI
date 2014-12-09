@@ -3,5 +3,5 @@ angular.module('app.directives', [])
 		return {
 			replace: true,
 			templateUrl: 'app/partials/activityIndicator.html'
-		}
+		};
 	});

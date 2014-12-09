@@ -3,6 +3,14 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    jshint: {
+      ignore_warning: {
+        src: [
+          'src/modules/**/*.js',
+          '!src/modules/**/*.spec.js'
+        ],
+      },
+    },
     concat: {
        buildCss: {
          src: [
@@ -124,6 +132,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-angular-templates');
   grunt.loadNpmTasks('grunt-wrap');
   grunt.loadNpmTasks('grunt-newer');
@@ -131,6 +140,7 @@ module.exports = function(grunt) {
   // Default task(s).
   // TODO - jshint
   grunt.registerTask('default', [
+      'jshint',
       'concat',
       'wrap', 
       'htmlmin',

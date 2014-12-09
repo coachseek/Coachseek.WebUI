@@ -6,33 +6,34 @@ angular.module('app.controllers', [])
         function ($rootScope) {
             //TODO add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
-                var addAlert = true;;
+                var addAlert = true;
 
                 _.forEach($rootScope.alerts, function(existingAlert){
                     if(existingAlert.message === alert.message){
-                        return addAlert = false;
+                        addAlert = false;
+                        return addAlert;
                     }
                 });
 
                 if( addAlert ){
                     $rootScope.alerts.push(alert);
                 }
-            }
+            };
             
             $rootScope.closeAlert = function(index) {
                 $rootScope.alerts.splice(index, 1);
-            }
+            };
 
             $rootScope.removeAlerts = function(alerts){
                 $rootScope.alerts = [];
-            }
+            };
         }]);
 angular.module('app.directives', [])
 	.directive('activityIndicator', function(){
 		return {
 			replace: true,
 			templateUrl: 'app/partials/activityIndicator.html'
-		}
+		};
 	});
 /* App Module */
 angular.module('app',
@@ -242,7 +243,7 @@ angular.module('businessSetup.controllers', [])
 
             $scope.coach = coach;
             $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-        }
+        };
 
         $scope.createCoach = function(){
             $activityIndicator.startAnimating();
@@ -256,21 +257,21 @@ angular.module('businessSetup.controllers', [])
             }).finally(function(){
                 $activityIndicator.stopAnimating();
             });
-        }
+        };
 
         $scope.cancelEdit = function(){
             if(!$scope.newCoach){
                 $scope.coachList.push(coachCopy);
             }
             resetToCoachList();
-        }
+        };
 
         var resetToCoachList = function(){
             $scope.coach = null;
             $scope.removeAlerts();
             $scope.newCoach = null;
             coachCopy = null;
-        }
+        };
 
         $scope.saveCoach = function(coach){
             var formValid = validateForm();
@@ -286,41 +287,42 @@ angular.module('businessSetup.controllers', [])
                     $activityIndicator.stopAnimating();
                 });
             }
-        }
+        };
 
         var validateForm = function(){
             var valid = $scope.coachForm.$valid;
 
             if(!valid){
-                var errors = $scope.coachForm.$error
+                var errors = $scope.coachForm.$error;
                 _.forEach(errors, function(error, key){
                     var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
                     $scope.addAlert({
                         type: 'warning',
                         message: 'businessSetup:' + errorMessage + '-invalid'
                     });
-                })
+                });
             } else {
                 valid = checkDuplicateNames(valid);
             }
             return valid;
-        }
+        };
 
         var checkDuplicateNames = function(valid){
             _.forEach($scope.coachList, function(coach){
-                if($scope.coach.firstName === coach.firstName
-                     && $scope.coach.lastName === coach.lastName){
+                if($scope.coach.firstName === coach.firstName && 
+                        $scope.coach.lastName === coach.lastName){
 
                     $scope.addAlert({
                         type: 'warning',
                         message: 'businessSetup:name-already-exists'
                     });
                     // using return here to exit forEach early
-                    return valid = false;
+                    var valid = false;
+                    return valid;
                 }
             });
-            return valid
-        }
+            return valid;
+        };
 
         $scope.navigateToServices = function(){
             if(!$scope.coachList || $scope.coachList.length <= 0){
@@ -332,7 +334,7 @@ angular.module('businessSetup.controllers', [])
             } else {
                 $location.path('/business-setup/coach-services');
             }
-        }
+        };
 
     	$activityIndicator.startAnimating();
 
@@ -361,7 +363,7 @@ angular.module('businessSetup.directives', [])
 		return {
 			replace: true,
 			templateUrl: 'businessSetup/partials/timeSlot.html'
-		}
+		};
 	}).directive('timePicker', function(){
         return {
             replace: true,
@@ -389,7 +391,7 @@ angular.module('businessSetup.directives', [])
                     }
 
                     setTime();
-                }
+                };
      
                 /* Decreases hours by one */
                 scope.decreaseHours = function () {
@@ -398,7 +400,7 @@ angular.module('businessSetup.directives', [])
                     scope.hours = scope.hours <= 0 ? 23 : --scope.hours;
 
                     setTime();
-                }
+                };
      
                 /* Increases minutes by 15 */
                 scope.increaseMinutes = function () {
@@ -412,7 +414,7 @@ angular.module('businessSetup.directives', [])
                         scope.minutes = scope.minutes + 15;
                     }
                     setTime();
-                }
+                };
      
                 /* Decreases minutes by 15 */
                 scope.decreaseMinutes = function () {
@@ -426,19 +428,19 @@ angular.module('businessSetup.directives', [])
                         scope.minutes = scope.minutes - 15;
                     }
                     setTime();
-                }
+                };
 
                 /* Displays minutes */
                 var displayMinutes = function () {
                     return scope.minutes <= 9 ? "0" + scope.minutes : scope.minutes;
-                }
+                };
 
                 var setTime = function(){
                     var minutesString = displayMinutes();
                     scope.time = scope.hours + ":" + minutesString;
-                }
+                };
             }
-        }
+        };
     }).directive('timeRangePicker', function(){
             return {
                 replace: false,
@@ -452,13 +454,13 @@ angular.module('businessSetup.directives', [])
                 link: function(scope, elm, attrs, ctrl) {
                     scope.$watchGroup(['start', 'finish', 'disabled'], function(newValues){
                         if(newValues[0] && newValues[1]) {
-                            var startTime = timeStringToObject(newValues[0])
-                            var finishTime = timeStringToObject(newValues[1])
+                            var startTime = timeStringToObject(newValues[0]);
+                            var finishTime = timeStringToObject(newValues[1]);
 
                             if(newValues[2] === true || startTime.hours < finishTime.hours) {
                                 ctrl.$setValidity('timeRange', true);
-                            } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) 
-                                            || startTime.hours > finishTime.hours ){
+                            } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) || 
+                                            startTime.hours > finishTime.hours ){
                                 ctrl.$setValidity('timeRange', false);
                             }
                         }
@@ -472,9 +474,9 @@ angular.module('businessSetup.directives', [])
                         time.minutes = parseFloat(timeArray[1]);
 
                         return time;
-                    }
+                    };
                 }
-            } 
+            };
     });
 angular.module('businessSetup',
 	[
