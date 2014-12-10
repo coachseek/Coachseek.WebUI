@@ -16,11 +16,13 @@ angular.module('businessSetup.controllers', [])
             $activityIndicator.startAnimating();
 
             coachSeekAPIService.createCoach().then(function(data){
-
                 $scope.newCoach = true;
                 $scope.editCoach(data);
             }, function(error){
-                throw new Error(error);
+                $scope.addAlert({
+                    type: 'danger',
+                    message: 'businessSetup:' + error.message + '-invalid'
+                });
             }).finally(function(){
                 $activityIndicator.stopAnimating();
             });
@@ -49,7 +51,10 @@ angular.module('businessSetup.controllers', [])
 
                     resetToCoachList();
                 }, function(error){
-                    throw new Error(error);
+                    $scope.addAlert({
+                        type: 'danger',
+                        message: 'businessSetup:' + error.message + '-invalid'
+                    });
                 }).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
@@ -113,7 +118,10 @@ angular.module('businessSetup.controllers', [])
 	    		$scope.createCoach();
 	    	}
         }, function(error){
-			throw new Error(error);
+            $scope.addAlert({
+                type: 'danger',
+                message: 'businessSetup:' + error.message + '-invalid'
+            });
         }).finally(function(){
             $activityIndicator.stopAnimating();
         });

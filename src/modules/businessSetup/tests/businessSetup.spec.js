@@ -45,7 +45,26 @@ describe('BusinessSetup Module', function() {
         it('should attempt to call getCoaches', function(){
             createViewWithController(scope, templateUrl, 'coachListCtrl');
             expect(getCoachesStub).to.be.calledOnce;
-        })
+        });
+        describe('when getCoaches throws an error', function(){
+            var errorMessage = "errorMessage";
+            beforeEach(function(){
+                getCoachesStub.restore();
+                getCoachesStub = this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
+                    var deferred = $q.defer();
+                    deferred.reject(new Error(errorMessage));
+                    return deferred.promise;
+                });
+            });
+            it('should throw', function(){
+                expect(createViewWithController(scope, templateUrl, 'coachListCtrl')).to.throw;
+            });
+            it('should display an error message', function(){
+                createViewWithController(scope, templateUrl, 'coachListCtrl');
+                expect($rootScope.alerts[0].type).to.equal('danger');
+                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
+            });
+        });
         describe('and there are no coaches', function(){
             beforeEach(function(){
                 createViewWithController(scope, templateUrl, 'coachListCtrl');
@@ -114,6 +133,25 @@ describe('BusinessSetup Module', function() {
                             var deferred = $q.defer();
                             deferred.resolve([{}]);
                             return deferred.promise;
+                        });
+                    });
+                    describe('when saveCoach throws an error', function(){
+                        var errorMessage = "errorMessage";
+                        beforeEach(function(){
+                            saveCoachStub.restore();
+                            saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
+                                var deferred = $q.defer();
+                                deferred.reject(new Error(errorMessage));
+                                return deferred.promise;
+                            });
+                        });
+                        it('should throw', function(){
+                            expect($coachEditView.find('.save-coach').trigger('click')).to.throw;
+                        });
+                        it('should display an error message', function(){
+                            $coachEditView.find('.save-coach').trigger('click');
+                            expect($rootScope.alerts[0].type).to.equal('danger');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
                         });
                     });
                     describe('when the form is invalid', function(){
@@ -241,6 +279,25 @@ describe('BusinessSetup Module', function() {
                 });
                 it('should set the newCoach flag to true', function(){
                     expect(scope.newCoach).to.be.true;
+                });
+                describe('when createCoach throws an error', function(){
+                    var errorMessage = "errorMessage";
+                    beforeEach(function(){
+                        createCoachStub.restore();
+                        createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
+                            var deferred = $q.defer();
+                            deferred.reject(new Error(errorMessage));
+                            return deferred.promise;
+                        });
+                    });
+                    it('should throw', function(){
+                        expect($coachListView.find('.create-coach').trigger('click')).to.throw;
+                    });
+                    it('should display an error message', function(){
+                        $coachListView.find('.create-coach').trigger('click');
+                        expect($rootScope.alerts[0].type).to.equal('danger');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
+                    });
                 });
                 describe('when clicking the cancel button and coach is new', function(){
                     beforeEach(function(){
@@ -448,7 +505,6 @@ describe('BusinessSetup Module', function() {
                 //         $timePicker.scope().time = "0:45"
                 //         scope.$apply();
                 //         // $increaseMinute.trigger('click');
-                //         // debugger;
                 //         expect(scope.testTime).to.equal('1:00');
                 //     });
                 // });
