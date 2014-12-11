@@ -12,6 +12,7 @@
 	"add-new-coach": "Add New Coach",
 	"nav-to-locations": "Locations",
 	"nav-to-services": "Services",
+	"nav-to-coaches": "Coaches",
 	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on.",
 	"firstName-invalid": "Oops! First Name is invalid. Try again.",
 	"lastName-invalid": "Ooops! Last Name is invalid. Try again.",

@@ -4,6 +4,7 @@ angular.module('app',
     // LIBRARIES
   	'ui.bootstrap',
     'ngRoute',
+    'ui.router',
     'jm.i18next',
 
     // coachSeekApp
@@ -34,6 +35,9 @@ angular.module('app',
         defaultLoadingValue: ''
     };
 
-    }]).run(['$rootScope', function($rootScope){
+    }]).run(['$rootScope', '$state', '$stateParams', function($rootScope, $stateParams, $state){
+        $rootScope.$state = $state;
+        $rootScope.$stateParams = $stateParams;
+
         $rootScope.alerts = [];
     }]);

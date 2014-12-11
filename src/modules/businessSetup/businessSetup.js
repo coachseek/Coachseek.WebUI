@@ -5,17 +5,43 @@ angular.module('businessSetup',
 
         'toggle-switch'
 	])
-	.config(['$routeProvider', function ($routeProvider) {
-        $routeProvider.when('/business-setup/coach-list', {
-        	templateUrl: 'businessSetup/partials/coachListView.html',
-        	controller: 'coachListCtrl'
-        }).when('/business-setup/coach-services', {
-            templateUrl: 'businessSetup/partials/coachServices.html',
-            controller: 'coachServicesCtrl'
-        }).when('/business-setup/locations', {
-            templateUrl: 'businessSetup/partials/locations.html',
-            controller: 'locationsCtrl'
-        });
+	.config(['$stateProvider', function ($stateProvider) {
+
+        $stateProvider
+            .state('businessSetup', {
+                abstract: true,
+                url: "/business-setup",
+                templateUrl: "businessSetup/partials/businessSetup.html",
+            })
+            .state('businessSetup.locations', {
+                url: "/locations",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/locationsView.html",
+                        controller: 'locationsCtrl'
+                    }
+                }
+            })
+            .state('businessSetup.coachList', {
+                url: "/coach-list",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/coachesView.html",
+                        controller: 'coachesCtrl'
+                    }
+                }
+            })
+            .state('businessSetup.services', {
+                url: "/services",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/servicesView.html",
+                        controller: "servicesCtrl"
+                     }
+                }
+            });
+
+
     }]).constant('timepickerConfig', {
         hourStep: 1,
         minuteStep: 15,
