@@ -1,337 +1,398 @@
 describe('BusinessSetup Module', function() {
 
     var scope,
-        coachSeekAPIService,
-        templateUrl = 'businessSetup/partials/coachListView.html';
+        coachSeekAPIService;
 
     beforeEach(function() {
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
     });
-    describe('businessSetup routes', function() {
-        it('should map routes to controllers', function() {
-            expect($route.routes['/business-setup/coach-list'].controller).to.equal('coachListCtrl');
-            expect($route.routes['/business-setup/coach-services'].controller).to.equal('coachServicesCtrl');
-            expect($route.routes['/business-setup/locations'].controller).to.equal('locationsCtrl');
-        });
-        it('should map routes to templates', function(){
-            expect($route.routes['/business-setup/coach-list'].templateUrl).to.equal('businessSetup/partials/coachListView.html');
-            expect($route.routes['/business-setup/coach-services'].templateUrl).to.equal('businessSetup/partials/coachServices.html');
-            expect($route.routes['/business-setup/locations'].templateUrl).to.equal('businessSetup/partials/locations.html');
-        });
+    describe('businessSetup states', function() {
         it('should default to root', function(){
             expect($route.routes[null].redirectTo).to.equal('/');
         });
-    });
-    describe('when the page loads', function(){
-        var $coachListView, $coachEditView, getCoachesStub, createCoachStub, self;
-        beforeEach(function(){
-            self = this;
-            self.let('coaches', function(){
-                return [];
-            });
-
-            getCoachesStub = this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
-                var deferred = $q.defer();
-                deferred.resolve(self.coaches);
-                return deferred.promise;
-            });
-            createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
-                var deferred = $q.defer();
-                deferred.resolve([{}]);
-                return deferred.promise;
-            });
-        });
-        it('should attempt to call getCoaches', function(){
-            createViewWithController(scope, templateUrl, 'coachListCtrl');
-            expect(getCoachesStub).to.be.calledOnce;
-        });
-        describe('when getCoaches throws an error', function(){
-            var errorMessage = "errorMessage";
+        describe('when navigating to businessSetup.services', function(){
+            var viewAttrs;
             beforeEach(function(){
-                getCoachesStub.restore();
+                $state.go('businessSetup.services');
+                $rootScope.$digest();
+
+                viewAttrs = $state.current.views['list-item-view'];
+            });
+            it('should map to correct template', function(){
+                expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/servicesView.html');
+            });
+            it('should map to the correct controller', function(){
+                expect(viewAttrs.controller).to.equal('servicesCtrl');
+            });
+        });
+        describe('when navigating to businessSetup.coachList', function(){
+            var viewAttrs;
+            beforeEach(function(){
+                $state.go('businessSetup.coachList');
+                $rootScope.$digest();
+
+                viewAttrs = $state.current.views['list-item-view'];
+            });
+            it('should map to correct template', function(){
+                expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/coachesView.html');
+            });
+            it('should map to the correct controller', function(){
+                expect(viewAttrs.controller).to.equal('coachesCtrl');
+            });
+        });
+        describe('when navigating to businessSetup.locations', function(){
+            var viewAttrs;
+            beforeEach(function(){
+                $state.go('businessSetup.locations');
+                $rootScope.$digest();
+
+                viewAttrs = $state.current.views['list-item-view'];
+            });
+            it('should map to correct template', function(){
+                expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/locationsView.html');
+            });
+            it('should map to the correct controller', function(){
+                expect(viewAttrs.controller).to.equal('locationsCtrl');
+            });
+        });
+    });
+    describe('Services', function(){
+        var templateUrl = 'businessSetup/partials/servicesView.html';
+        beforeEach(function(){
+            getServicesStub = this.sinon.stub(coachSeekAPIService, 'getServices', function(){
+                var deferred = $q.defer();
+                deferred.resolve([]);
+                return deferred.promise;
+            });
+        });
+        it('should make a call to getServices', function(){
+            createViewWithController(scope, templateUrl, 'servicesCtrl');
+            expect(getServicesStub).to.be.calledOnce;
+        });
+    });
+    describe('Coach List', function(){
+        describe('when the page loads', function(){
+
+            var $coachListView, 
+                $coachEditView,
+                getCoachesStub,
+                createCoachStub,
+                self,
+                templateUrl = 'businessSetup/partials/coachesView.html';
+                
+            beforeEach(function(){
+                self = this;
+                self.let('coaches', function(){
+                    return [];
+                });
+
                 getCoachesStub = this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
                     var deferred = $q.defer();
-                    deferred.reject(new Error(errorMessage));
+                    deferred.resolve(self.coaches);
+                    return deferred.promise;
+                });
+                createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
+                    var deferred = $q.defer();
+                    deferred.resolve([{}]);
                     return deferred.promise;
                 });
             });
-            it('should throw', function(){
-                expect(createViewWithController(scope, templateUrl, 'coachListCtrl')).to.throw;
+            it('should attempt to call getCoaches', function(){
+                createViewWithController(scope, templateUrl, 'coachesCtrl');
+                expect(getCoachesStub).to.be.calledOnce;
             });
-            it('should display an error message', function(){
-                createViewWithController(scope, templateUrl, 'coachListCtrl');
-                expect($rootScope.alerts[0].type).to.equal('danger');
-                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
-            });
-        });
-        describe('and there are no coaches', function(){
-            beforeEach(function(){
-                createViewWithController(scope, templateUrl, 'coachListCtrl');
-                $coachEditView = $testRegion.find('.coach-edit-view');
-            });
-            it('should not show the coach list view', function(){
-                expect($testRegion.find('.coach-list-view').hasClass('ng-hide')).to.be.true;
-            });
-            it('should show the coach edit view', function(){
-                expect($testRegion.find('.coach-edit-view').hasClass('ng-hide')).to.be.false;
-            });
-            it('should attempt to create a coach', function(){
-                expect(createCoachStub).to.be.calledOnce;
-            });
-            it('should not show the cancel button', function(){
-                expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
-            });
-        });
-        describe('and there are one or more coaches', function(){
-            beforeEach(function(){
-                self.let('firstCoach', function(){
-                    return {
-                        firstName: "Test",
-                        lastName: "User",
-                        email: "test@example.com",
-                        phone: "9090909"
-                    }
-                })
-
-                self.let('coaches', function(){
-                    return [self.firstCoach, {}];
-                });
-
-                createViewWithController(scope, templateUrl, 'coachListCtrl');
-                $coachListView = $testRegion.find('.coach-list-view');
-                $coachEditView = $testRegion.find('.coach-edit-view');
-            });
-            it('should show the coach list view', function(){
-                expect($coachListView.hasClass('ng-hide')).to.be.false;
-            });
-            it('should have as many list entries as coaches', function(){
-                expect($coachListView.find('.coach-details').length).to.equal(self.coaches.length)
-            })
-            it('should not show the coach edit view', function(){
-                expect($coachEditView.hasClass('ng-hide')).to.be.true;
-            });
-
-
-            describe('when clicking the edit button', function(){
+            describe('when getCoaches throws an error', function(){
+                var errorMessage = "errorMessage";
                 beforeEach(function(){
-                    $coachListView.find('.edit-coach').first().trigger('click');
+                    getCoachesStub.restore();
+                    getCoachesStub = this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
+                        var deferred = $q.defer();
+                        deferred.reject(new Error(errorMessage));
+                        return deferred.promise;
+                    });
+                });
+                it('should throw', function(){
+                    expect(createViewWithController(scope, templateUrl, 'coachesCtrl')).to.throw;
+                });
+                it('should display an error message', function(){
+                    createViewWithController(scope, templateUrl, 'coachesCtrl');
+                    expect($rootScope.alerts[0].type).to.equal('danger');
+                    expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
+                });
+            });
+            describe('and there are no coaches', function(){
+                beforeEach(function(){
+                    createViewWithController(scope, templateUrl, 'coachesCtrl');
+                    $coachEditView = $testRegion.find('.coach-item-view');
                 });
                 it('should not show the coach list view', function(){
-                    expect($coachListView.hasClass('ng-hide')).to.be.true;
+                    expect($testRegion.find('.coach-list-view').hasClass('ng-hide')).to.be.true;
                 });
                 it('should show the coach edit view', function(){
-                    expect($coachEditView.hasClass('ng-hide')).to.be.false;
+                    expect($testRegion.find('.coach-item-view').hasClass('ng-hide')).to.be.false;
                 });
-                it('should show the cancel button', function(){
-                    expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
+                it('should attempt to create a coach', function(){
+                    expect(createCoachStub).to.be.calledOnce;
                 });
-                describe('when clicking the save button', function(){
-                    var saveCoachStub;
+                it('should not show the cancel button', function(){
+                    expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
+                });
+            });
+            describe('and there are one or more coaches', function(){
+                beforeEach(function(){
+                    self.let('firstCoach', function(){
+                        return {
+                            firstName: "Test",
+                            lastName: "User",
+                            email: "test@example.com",
+                            phone: "9090909"
+                        }
+                    })
+
+                    self.let('coaches', function(){
+                        return [self.firstCoach, {}];
+                    });
+
+                    createViewWithController(scope, templateUrl, 'coachesCtrl');
+                    $coachListView = $testRegion.find('.coach-list-view');
+                    $coachEditView = $testRegion.find('.coach-item-view');
+                });
+                it('should show the coach list view', function(){
+                    expect($coachListView.hasClass('ng-hide')).to.be.false;
+                });
+                it('should have as many list entries as coaches', function(){
+                    expect($coachListView.find('.coach-details').length).to.equal(self.coaches.length)
+                })
+                it('should not show the coach edit view', function(){
+                    expect($coachEditView.hasClass('ng-hide')).to.be.true;
+                });
+
+
+                describe('when clicking the edit button', function(){
                     beforeEach(function(){
-                        saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
-                            var deferred = $q.defer();
-                            deferred.resolve([{}]);
-                            return deferred.promise;
+                        $coachListView.find('.edit-coach').first().trigger('click');
+                    });
+                    it('should not show the coach list view', function(){
+                        expect($coachListView.hasClass('ng-hide')).to.be.true;
+                    });
+                    it('should show the coach edit view', function(){
+                        expect($coachEditView.hasClass('ng-hide')).to.be.false;
+                    });
+                    it('should show the cancel button', function(){
+                        expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
+                    });
+                    describe('when clicking the save button', function(){
+                        var saveCoachStub;
+                        beforeEach(function(){
+                            saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
+                                var deferred = $q.defer();
+                                deferred.resolve([{}]);
+                                return deferred.promise;
+                            });
+                        });
+                        describe('when saveCoach throws an error', function(){
+                            var errorMessage = "errorMessage";
+                            beforeEach(function(){
+                                saveCoachStub.restore();
+                                saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
+                                    var deferred = $q.defer();
+                                    deferred.reject(new Error(errorMessage));
+                                    return deferred.promise;
+                                });
+                            });
+                            it('should throw', function(){
+                                expect($coachEditView.find('.save-coach').trigger('click')).to.throw;
+                            });
+                            it('should display an error message', function(){
+                                $coachEditView.find('.save-coach').trigger('click');
+                                expect($rootScope.alerts[0].type).to.equal('danger');
+                                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
+                            });
+                        });
+                        describe('when the form is invalid', function(){
+                            describe('when the firstName is invalid', function(){
+                                it('should display an invalid input alert', function(){
+                                    scope.item.firstName = null;
+                                    scope.$apply();
+                                    $coachEditView.find('.save-coach').trigger('click');
+
+                                    expect($rootScope.alerts[0].type).to.equal('warning');
+                                    expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
+                                });
+                            });
+                            describe('when the lastName is invalid', function(){
+                                it('should display an invalid input alert', function(){
+                                    scope.item.lastName = null;
+                                    scope.$apply();
+                                    $coachEditView.find('.save-coach').trigger('click');
+
+                                    expect($rootScope.alerts[0].type).to.equal('warning');
+                                    expect($rootScope.alerts[0].message).to.equal('businessSetup:lastName-invalid');
+                                });
+                            });
+                            describe('when the phone is invalid', function(){
+                                it('should display an invalid input alert', function(){
+                                    scope.item.phone = null;
+                                    scope.$apply();
+                                    $coachEditView.find('.save-coach').trigger('click');
+
+                                    expect($rootScope.alerts[0].type).to.equal('warning');
+                                    expect($rootScope.alerts[0].message).to.equal('businessSetup:phone-invalid');
+                                });
+                            });
+                            describe('when the email is invalid', function(){
+                                it('should display an invalid input alert', function(){
+                                    scope.item.email = "badEmail.com";
+                                    scope.$apply();
+                                    $coachEditView.find('.save-coach').trigger('click');
+
+                                    expect($rootScope.alerts[0].type).to.equal('warning');
+                                    expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
+                                });
+                            });
+                            describe('when a timeRange is invalid', function(){
+                                it('should display an invalid input alert', function(){
+                                    scope.itemForm.$setValidity('timeRange', false);
+                                    $coachEditView.find('.save-coach').trigger('click');
+
+                                    expect($rootScope.alerts[0].type).to.equal('warning');
+                                    expect($rootScope.alerts[0].message).to.equal('businessSetup:timeRange-invalid');
+                                });
+                            });
+                        });
+                        describe('when the coach name already exists', function(){
+                            beforeEach(function(){
+                                scope.itemList.push(angular.copy(self.firstCoach));
+                                $coachEditView.find('.save-coach').trigger('click');
+                            });
+                            it('should display an alert', function(){
+                                expect($rootScope.alerts[0].type).to.equal('warning');
+                                expect($rootScope.alerts[0].message).to.equal('businessSetup:name-already-exists');
+                            });
+                        });
+                        describe('when the coach name is new', function(){
+                            beforeEach(function(){
+                                $coachEditView.find('.save-coach').trigger('click');
+                            });
+                            it('should attempt to save coach', function(){
+                                expect(saveCoachStub).to.be.calledOnce;
+                            });
+                            it('should show the coach list view', function(){
+                                expect($coachListView.hasClass('ng-hide')).to.be.false;
+                            });
+                            it('should not show the coach edit view', function(){
+                                expect($coachEditView.hasClass('ng-hide')).to.be.true;
+                            });
                         });
                     });
-                    describe('when saveCoach throws an error', function(){
+                    describe('when clicking the cancel button', function(){
+                        var coachLoaded;
+                        beforeEach(function(){
+                            scope.item = {
+                                    firstName: "dumbnew",
+                                    lastName: "userguy",
+                                    email: "dude@dude.com",
+                                    phone: "021 99 88 77"
+                            }
+                            scope.$apply();
+
+                            $rootScope.alerts.push({type: 'warning', message: 'test alert'});
+
+                            $coachEditView.find('.cancel-button').trigger('click');
+                        });
+                        it('should reset all edits made', function(){
+                            var unsavedCoach = scope.itemList.pop();
+
+                            expect(unsavedCoach.firstName).to.equal(self.firstCoach.firstName);
+                            expect(unsavedCoach.lastName).to.equal(self.firstCoach.lastName);
+                            expect(unsavedCoach.email).to.equal(self.firstCoach.email);
+                            expect(unsavedCoach.phone).to.equal(self.firstCoach.phone);
+                        });
+                        it('should remove alert if present', function(){
+                            expect($rootScope.alerts.length).to.equal(0);
+                        });
+                    });
+                });
+                describe('when creating a new coach', function(){
+                    var initCoachListLength;
+                    beforeEach(function(){
+                        initCoachListLength = scope.itemList.length;
+
+                        $coachListView.find('.create-coach').trigger('click');
+                    });
+                    it('should attempt to create a coach', function(){
+                        expect(createCoachStub).to.be.calledOnce;
+                    });
+                    it('should not show the coach list view', function(){
+                        expect($testRegion.find('.coach-list-view').hasClass('ng-hide')).to.be.true;
+                    });
+                    it('should show the coach edit view', function(){
+                        expect($testRegion.find('.coach-item-view').hasClass('ng-hide')).to.be.false;
+                    });
+                    it('should show the cancel button', function(){
+                        expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
+                    });
+                    it('should set the newItem flag to true', function(){
+                        expect(scope.newItem).to.be.true;
+                    });
+                    describe('when createCoach throws an error', function(){
                         var errorMessage = "errorMessage";
                         beforeEach(function(){
-                            saveCoachStub.restore();
-                            saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
+                            createCoachStub.restore();
+                            createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
                                 var deferred = $q.defer();
                                 deferred.reject(new Error(errorMessage));
                                 return deferred.promise;
                             });
                         });
                         it('should throw', function(){
-                            expect($coachEditView.find('.save-coach').trigger('click')).to.throw;
+                            expect($coachListView.find('.create-coach').trigger('click')).to.throw;
                         });
                         it('should display an error message', function(){
-                            $coachEditView.find('.save-coach').trigger('click');
+                            $coachListView.find('.create-coach').trigger('click');
                             expect($rootScope.alerts[0].type).to.equal('danger');
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
                         });
                     });
-                    describe('when the form is invalid', function(){
-                        describe('when the firstName is invalid', function(){
-                            it('should display an invalid input alert', function(){
-                                scope.coach.firstName = null;
-                                scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
-
-                                expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
-                            });
-                        });
-                        describe('when the lastName is invalid', function(){
-                            it('should display an invalid input alert', function(){
-                                scope.coach.lastName = null;
-                                scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
-
-                                expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('businessSetup:lastName-invalid');
-                            });
-                        });
-                        describe('when the phone is invalid', function(){
-                            it('should display an invalid input alert', function(){
-                                scope.coach.phone = null;
-                                scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
-
-                                expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('businessSetup:phone-invalid');
-                            });
-                        });
-                        describe('when the email is invalid', function(){
-                            it('should display an invalid input alert', function(){
-                                scope.coach.email = "badEmail.com";
-                                scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
-
-                                expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
-                            });
-                        });
-                        describe('when a timeRange is invalid', function(){
-                            it('should display an invalid input alert', function(){
-                                scope.coachForm.$setValidity('timeRange', false);
-                                $coachEditView.find('.save-coach').trigger('click');
-
-                                expect($rootScope.alerts[0].type).to.equal('warning');
-                                expect($rootScope.alerts[0].message).to.equal('businessSetup:timeRange-invalid');
-                            });
-                        });
-                    });
-                    describe('when the coach name already exists', function(){
+                    describe('when clicking the cancel button and coach is new', function(){
                         beforeEach(function(){
-                            scope.coachList.push(angular.copy(self.firstCoach));
-                            $coachEditView.find('.save-coach').trigger('click');
+                            $coachEditView.find('.cancel-button').trigger('click');
                         });
-                        it('should display an alert', function(){
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:name-already-exists');
+                        it('should discard the new coach', function(){
+                            expect(scope.itemList.length).to.equal(initCoachListLength);
                         });
-                    });
-                    describe('when the coach name is new', function(){
-                        beforeEach(function(){
-                            $coachEditView.find('.save-coach').trigger('click');
-                        });
-                        it('should attempt to save coach', function(){
-                            expect(saveCoachStub).to.be.calledOnce;
-                        });
-                        it('should show the coach list view', function(){
-                            expect($coachListView.hasClass('ng-hide')).to.be.false;
-                        });
-                        it('should not show the coach edit view', function(){
-                            expect($coachEditView.hasClass('ng-hide')).to.be.true;
-                        });
-                    });
-                });
-                describe('when clicking the cancel button', function(){
-                    var coachLoaded;
-                    beforeEach(function(){
-                        scope.coach = {
-                                firstName: "dumbnew",
-                                lastName: "userguy",
-                                email: "dude@dude.com",
-                                phone: "021 99 88 77"
-                        }
-                        scope.$apply();
-
-                        $rootScope.alerts.push({type: 'warning', message: 'test alert'});
-
-                        $coachEditView.find('.cancel-button').trigger('click');
-                    });
-                    it('should reset all edits made', function(){
-                        var unsavedCoach = scope.coachList.pop();
-
-                        expect(unsavedCoach.firstName).to.equal(self.firstCoach.firstName);
-                        expect(unsavedCoach.lastName).to.equal(self.firstCoach.lastName);
-                        expect(unsavedCoach.email).to.equal(self.firstCoach.email);
-                        expect(unsavedCoach.phone).to.equal(self.firstCoach.phone);
-                    });
-                    it('should remove alert if present', function(){
-                        expect($rootScope.alerts.length).to.equal(0);
-                    });
+                    })
                 });
             });
-            describe('when creating a new coach', function(){
-                var initCoachListLength;
+            describe('when navigating to services before adding a coach', function(){
                 beforeEach(function(){
-                    initCoachListLength = scope.coachList.length;
 
-                    $coachListView.find('.create-coach').trigger('click');
+                    createViewWithController(scope, 'businessSetup/partials/businessSetup.html', 'coachesCtrl');
+                    $state.go('businessSetup.coachList');
+                    scope.$digest();
+
+                    // anchor tags dont listen to $.trigger('click') for some reason. assholes.
+                    $state.go('businessSetup.services');
+                    scope.$digest();
                 });
-                it('should attempt to create a coach', function(){
-                    expect(createCoachStub).to.be.calledOnce;
+                it('should not allow navigation', function(){
+                    expect($location.path()).to.equal('/business-setup/coach-list');
                 });
-                it('should not show the coach list view', function(){
-                    expect($testRegion.find('.coach-list-view').hasClass('ng-hide')).to.be.true;
+                it('should show a warning message', function(){
+                    expect($rootScope.alerts[0].type).to.equal('warning');
+                    expect($rootScope.alerts[0].message).to.equal('businessSetup:add-coach-warning');
                 });
-                it('should show the coach edit view', function(){
-                    expect($testRegion.find('.coach-edit-view').hasClass('ng-hide')).to.be.false;
-                });
-                it('should show the cancel button', function(){
-                    expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
-                });
-                it('should set the newCoach flag to true', function(){
-                    expect(scope.newCoach).to.be.true;
-                });
-                describe('when createCoach throws an error', function(){
-                    var errorMessage = "errorMessage";
+                describe('after adding a coach', function(){
                     beforeEach(function(){
-                        createCoachStub.restore();
-                        createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
-                            var deferred = $q.defer();
-                            deferred.reject(new Error(errorMessage));
-                            return deferred.promise;
-                        });
-                    });
-                    it('should throw', function(){
-                        expect($coachListView.find('.create-coach').trigger('click')).to.throw;
-                    });
-                    it('should display an error message', function(){
-                        $coachListView.find('.create-coach').trigger('click');
-                        expect($rootScope.alerts[0].type).to.equal('danger');
-                        expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
-                    });
-                });
-                describe('when clicking the cancel button and coach is new', function(){
-                    beforeEach(function(){
-                        $coachEditView.find('.cancel-button').trigger('click');
-                    });
-                    it('should discard the new coach', function(){
-                        expect(scope.coachList.length).to.equal(initCoachListLength);
-                    });
-                })
-            });
-        });
-        describe('when navigating to services before adding a coach', function(){
-            beforeEach(function(){
+                        scope.itemList = [{}];
 
-                createViewWithController(scope, templateUrl, 'coachListCtrl');
-                $location.path('/business-setup/coach-list');
-
-                // anchor tags dont listen to $.trigger('click') for some reason. assholes.
-                $testRegion.find('.nav-to-services')[0].click();
-            });
-            it('should not allow navigation', function(){
-                expect($location.path()).to.equal('/business-setup/coach-list');
-            });
-            it('should show a warning message', function(){
-                expect($rootScope.alerts[0].type).to.equal('warning');
-                expect($rootScope.alerts[0].message).to.equal('businessSetup:add-coach-warning');
-            });
-            describe('after adding a coach', function(){
-                beforeEach(function(){
-                    scope.coachList = [{}];
-                    $testRegion.find('.nav-to-services')[0].click();
-                });
-                it('should allow navigation', function(){
-                    expect($location.path()).to.equal('/business-setup/coach-services');
+                        $state.go('businessSetup.services');
+                        scope.$digest();
+                    });
+                    it('should allow navigation', function(){
+                        expect($location.path()).to.equal('/business-setup/services');
+                    });
                 });
             });
         });
@@ -340,7 +401,7 @@ describe('BusinessSetup Module', function() {
         beforeEach(function(){
 
             scope.weekdays = ['monday', 'tuesday', 'wednesday'];
-            scope.coach = {
+            scope.item = {
                     firstName: "NEWEST",
                     lastName: "USER",
                     email: "aaron.smith@example.com",
@@ -365,7 +426,7 @@ describe('BusinessSetup Module', function() {
         });
         it('should have as many entries as days', function(){
             var $weekdays = $testRegion.find('.weekday');
-            expect($weekdays.length).to.equal(_.size(scope.coach.workingHours));
+            expect($weekdays.length).to.equal(_.size(scope.item.workingHours));
         });
         describe('when a day is available', function(){
             it('should enable the time spinner', function(){
@@ -387,7 +448,7 @@ describe('BusinessSetup Module', function() {
                 $mondayToggleSwitch.trigger('click');
             });
             it('should set isAvailable to false', function(){
-                expect(scope.coach.workingHours['monday'].isAvailable).to.be.false;
+                expect(scope.item.workingHours['monday'].isAvailable).to.be.false;
             });
             it('the day should be valid', function(){
                 var $mondayTimeRange = $testRegion.find('time-range-picker').first();
@@ -396,7 +457,7 @@ describe('BusinessSetup Module', function() {
             describe('when clicking on the toggle available switch again', function(){
                 it('should set isAvailable to true', function(){
                     $mondayToggleSwitch.trigger('click');
-                    expect(scope.coach.workingHours['monday'].isAvailable).to.be.true;
+                    expect(scope.item.workingHours['monday'].isAvailable).to.be.true;
                 });
                 it('the day should be invalid', function(){
                     $mondayToggleSwitch.trigger('click');
@@ -414,7 +475,7 @@ describe('BusinessSetup Module', function() {
             });
             describe('when there is negative time between the times', function(){
                 it('the day should be invalid', function(){
-                    scope.coach.workingHours.monday.startTime = "12:00";
+                    scope.item.workingHours.monday.startTime = "12:00";
                     scope.$apply();
 
                     var $mondayTimeRange = $testRegion.find('time-range-picker').first();
@@ -423,7 +484,7 @@ describe('BusinessSetup Module', function() {
             });
             describe('when there is ample time between times', function(){
                 it('the day should be vaild', function(){
-                    scope.coach.workingHours.monday.startTime = "9:00";
+                    scope.item.workingHours.monday.startTime = "9:00";
                     scope.$apply();
 
                     var $mondayTimeRange = $testRegion.find('time-range-picker').first();

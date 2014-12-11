@@ -58,14 +58,36 @@ angular.module('businessSetup.controllers', [])
                 }).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
+    .controller('coachesCtrl', ['$scope', 'CRUDFactoryService', '$state',
+        function ($scope, CRUDFactoryService, $state) {
+        
+        $scope.editItem = function(coach){
+            _.pull($scope.itemList, coach);
+            $scope.itemCopy = angular.copy(coach);
+            $scope.item = coach;
+            $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        };
+
+        $scope.createItem = function(){
+            CRUDFactoryService.create('createCoach', $scope);
+        };
+
+        $scope.cancelEdit = function(){
+            CRUDFactoryService.cancelEdit($scope);
+        };
+
+        $scope.saveItem = function(coach){
+            var formValid = validateForm();
+            if(formValid){
+                CRUDFactoryService.update('saveCoach', $scope, coach);  
             }
         };
 
         var validateForm = function(){
-            var valid = $scope.coachForm.$valid;
+            var valid = $scope.itemForm.$valid;
 
             if(!valid){
-                var errors = $scope.coachForm.$error;
+                var errors = $scope.itemForm.$error;
                 _.forEach(errors, function(error, key){
                     var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
                     $scope.addAlert({
@@ -80,55 +102,30 @@ angular.module('businessSetup.controllers', [])
         };
 
         var checkDuplicateNames = function(valid){
-            _.forEach($scope.coachList, function(coach){
-                if($scope.coach.firstName === coach.firstName && 
-                        $scope.coach.lastName === coach.lastName){
-
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:name-already-exists'
-                    });
-                    // using return here to exit forEach early
-                    return valid = false;
-                }
-            });
+            var firstName = $scope.item.firstName;
+            var lastName = $scope.item.lastName;
+            if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){
+                $scope.addAlert({
+                    type: 'warning',
+                    message: 'businessSetup:name-already-exists'
+                });
+                valid = false;
+            }
             return valid;
         };
 
-        $scope.navigateToServices = function(){
-            if(!$scope.coachList || $scope.coachList.length <= 0){
-                //show bootstrap message
-                $scope.addAlert({
-                    type: 'warning',
-                    message: 'businessSetup:add-coach-warning'
-                });
-            } else {
-                $location.path('/business-setup/coach-services');
+        $scope.$on('$stateChangeStart', function(event, toState){
+            if( toState.name === "businessSetup.services" ){
+                if(!$scope.itemList || $scope.itemList.length <= 0){
+                    event.preventDefault();
+                    //show bootstrap message
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:add-coach-warning'
+                    });
+                }
             }
-        };
-
-    	$activityIndicator.startAnimating();
-
-        coachSeekAPIService.getCoaches().then(function(data){
-	    	//set coach list data or creat first coach
-	    	if(data.length){  		
-	        	$scope.coachList = data;
-	    	} else {
-		    	$scope.coachList = [];
-	    		$scope.createCoach();
-	    	}
-        }, function(error){
-            $scope.addAlert({
-                type: 'danger',
-                message: 'businessSetup:' + error.message + '-invalid'
-            });
-        }).finally(function(){
-            $activityIndicator.stopAnimating();
         });
-    }])
-    .controller('locationsCtrl', ['$scope', function($scope){
-        console.log('LOCATIONS CTRL');
-    }])
-    .controller('coachServicesCtrl', ['$scope', function($scope){
-        console.log('SERVICES CTRL');
+
+        CRUDFactoryService.get('getCoaches', $scope);
     }]);

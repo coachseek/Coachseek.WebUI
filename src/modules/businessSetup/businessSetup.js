@@ -1,7 +1,8 @@
 angular.module('businessSetup',
 	[
 		'businessSetup.controllers',
-		'businessSetup.directives',
+        'businessSetup.directives',
+		'businessSetup.services',
 
         'toggle-switch'
 	])
