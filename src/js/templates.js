@@ -9,54 +9,84 @@ angular.module('app').run(['$templateCache', function($templateCache) {
   );
 
 
-  $templateCache.put('businessSetup/partials/coachListView.html',
-    "<a href=\"#/business-setup/locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
-    "<h3>{{'businessSetup:coach-list-title' | i18next}}</h3>\n" +
-    "<a class=\"nav-to-services\" ng-click=\"navigateToServices()\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
-    "<div class=\"coach-list-view\" ng-hide=\"coach\">\n" +
+  $templateCache.put('businessSetup/partials/businessSetup.html',
+    "<a ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
+    "<a ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a>\n" +
+    "<a class=\"nav-to-services\" ui-sref=\"businessSetup.services\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
+    "<h3>{{'businessSetup:coach-services-title' | i18next}}</h3>\n" +
+    "\n" +
+    "<div ui-view=\"list-item-view\"></div>"
+  );
+
+
+  $templateCache.put('businessSetup/partials/coachesView.html',
+    "<div class=\"coach-list-view\" ng-hide=\"item\">\n" +
     "    <ul>\n" +
-    "        <li class=\"coach-details\" ng-repeat=\"coach in coachList | orderBy:'lastName'\">\n" +
-    "            <span class=\"coach-name\">{{coach.firstName}} {{coach.lastName}}</span>\n" +
-    "            <span class=\"coach-email\">{{coach.email}}</span>\n" +
-    "            <span class=\"coach-phone\">{{coach.phone}}</span>\n" +
-    "    \t\t<!-- show coach edit on click -->\n" +
-    "            <button class=\"edit-coach\" ng-click=\"editCoach(coach)\">{{'edit' | i18next}}</button>\n" +
+    "        <li class=\"coach-details\" ng-repeat=\"item in itemList | orderBy:'lastName'\">\n" +
+    "            <span class=\"coach-name\">{{item.firstName}} {{coach.lastName}}</span>\n" +
+    "            <span class=\"coach-email\">{{item.email}}</span>\n" +
+    "            <span class=\"coach-phone\">{{item.phone}}</span>\n" +
+    "            <!-- show coach edit on click -->\n" +
+    "            <button class=\"edit-coach\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
     "        </li>\n" +
     "    </ul>\n" +
     "    <!-- show coach creation on click -->\n" +
-    "    <button class=\"create-coach\" ng-click=\"createCoach()\">{{'businessSetup:add-new-coach' | i18next}}</button>\n" +
+    "    <button class=\"create-coach\" ng-click=\"createItem()\">{{'businessSetup:add-new-coach' | i18next}}</button>\n" +
     "</div>\n" +
-    "<div class=\"coach-edit-view\" ng-show=\"coach\">\n" +
-    "    <form name=\"coachForm\" novalidate>\n" +
+    "<div class=\"coach-item-view\" ng-show=\"item\">\n" +
+    "    <form name=\"itemForm\" novalidate>\n" +
     "        <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
-    "        <input name=\"firstName\" ng-model=\"coach.firstName\" placeholder=\"{{'person-details.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"firstName\" ng-model=\"item.firstName\" placeholder=\"{{'person-details.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
-    "        <input name=\"lastName\" ng-model=\"coach.lastName\" placeholder=\"{{'person-details.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"lastName\" ng-model=\"item.lastName\" placeholder=\"{{'person-details.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
-    "        <input type=\"email\" name=\"email\" ng-model=\"coach.email\" placeholder=\"{{'person-details.email' | i18next}}\"  required ng-maxlength=100 />\n" +
+    "        <input type=\"email\" name=\"email\" ng-model=\"item.email\" placeholder=\"{{'person-details.email' | i18next}}\"  required ng-maxlength=100 />\n" +
     "\n" +
     "        <label name=\"phone\">{{'person-details.phone' | i18next}}</label>\n" +
-    "        <input name=\"phone\" ng-model=\"coach.phone\" placeholder=\"{{'person-details.phone' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"phone\" ng-model=\"item.phone\" placeholder=\"{{'person-details.phone' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <time-slot></time-slot>\n" +
-    "\n" +
     "        <!-- POST here -->\n" +
-    "        <button class=\"save-coach\" ng-click=\"saveCoach(coach)\">{{'save' | i18next}}</button>\n" +
-    "        <button class=\"cancel-button\" ng-hide=\"!coachList.length && newCoach\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
+    "        <button class=\"save-coach\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
+    "        <button class=\"cancel-button\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
     "    </form>\n" +
     "</div>"
   );
 
 
-  $templateCache.put('businessSetup/partials/coachServices.html',
-    "<h1>SERVICES<h1>"
+  $templateCache.put('businessSetup/partials/locationsView.html',
+    "<h1>LOCATIONS<h1>"
   );
 
 
-  $templateCache.put('businessSetup/partials/locations.html',
-    "<h1>LOCATIONS<h1>"
+  $templateCache.put('businessSetup/partials/servicesView.html',
+    "<div class=\"services-list-view\" ng-hide=\"item\">\n" +
+    "    <ul>\n" +
+    "        <li class=\"service-details\" ng-repeat=\"item in itemList\">\n" +
+    "            <span class=\"service-name\">{{item.name}}</span>\n" +
+    "            <span class=\"service-description\">{{item.description}}</span>\n" +
+    "            <!-- show coach edit on click -->\n" +
+    "            <button class=\"edit-service\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <!-- show coach creation on click -->\n" +
+    "    <button class=\"create-service\" ng-click=\"createItem()\">{{'businessSetup:add-new-service' | i18next}}</button>\n" +
+    "</div>\n" +
+    "<div class=\"service-item-view\" ng-show=\"item\">\n" +
+    "    <form name=\"itemForm\" novalidate>\n" +
+    "        <label name=\"name\">{{'service-details.name' | i18next}}</label>\n" +
+    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'service-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "\n" +
+    "        <label name=\"description\">{{'service-details.description' | i18next}}</label>\n" +
+    "        <textbox name=\"description\" ng-model=\"item.description\" placeholder=\"{{'service-details.description' | i18next}}\"  required/>\n" +
+    "        <!-- POST here -->\n" +
+    "        <button class=\"save-service\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
+    "        <button class=\"cancel-service\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
+    "    </form>\n" +
+    "</div>"
   );
 
 
@@ -94,15 +124,15 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\">\n" +
     "\t<p ng-i18next>businessSetup:weekdays.{{weekday}}</p>\n" +
     "\t<toggle-switch \n" +
-    "\t\tng-model=\"coach.workingHours[weekday].isAvailable\"\n" +
+    "\t\tng-model=\"item.workingHours[weekday].isAvailable\"\n" +
     "\t\ton-label=\"yes\"\n" +
     "\t    off-label=\"no\"\n" +
     "\t></toggle-switch>\n" +
     "\t<time-range-picker\n" +
-    "\t\tng-model=\"coach.workingHours[weekday]\"\n" +
-    "\t\tstart=\"coach.workingHours[weekday].startTime\"\n" +
-    "\t\tfinish=\"coach.workingHours[weekday].finishTime\"\n" +
-    "\t\tng-disabled='!coach.workingHours[weekday].isAvailable'\n" +
+    "\t\tng-model=\"item.workingHours[weekday]\"\n" +
+    "\t\tstart=\"item.workingHours[weekday].startTime\"\n" +
+    "\t\tfinish=\"item.workingHours[weekday].finishTime\"\n" +
+    "\t\tng-disabled='!item.workingHours[weekday].isAvailable'\n" +
     "\t></time-range-picker>\n" +
     "</div>"
   );
