@@ -8,8 +8,58 @@ angular.module('app.services', []).
     //     getCoaches: { method: 'GET' },
     //     saveCoach: { method: 'PUT', params: {id: '@id'} },
     //     createCoach: { method: 'POST', params: {id: '@id'} },
-    //     deleteCoach: { method: 'DELETE', params: {id: '@id'} }
+    //     deleteCoach: { method: 'DELETE', params: {id: '@id'} },
+
+    //     createService: { method: 'POST'},
+    //     saveServices: { method: 'PUT'},
+    //     getServices: { method: 'GET'},
     // });
+
+    coachSeekAPI.getServices = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve([{
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: null,
+                firstName: "NEWEST",
+                name: "USER",
+                description: "aaron.smith@example.com",
+                phone: "021 99 88 77",
+            },{
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: null,
+                firstName: "NEWEST",
+                name: "USER",
+                description: "aaron.smith@example.com",
+                phone: "021 99 88 77",
+            }]);
+        }, _.random(500, 1500));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.createService = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve({
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: null,
+                firstName: "NEWEST",
+                name: "USER",
+                description: "aaron.smith@example.com",
+                phone: "021 99 88 77",
+            });
+        }, _.random(500, 800));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.saveService = function(businessId, coachId){
+        var deferred = $q.defer();
+        deferred.resolve("DATA");
+        return deferred.promise;
+    };
+
     coachSeekAPI.getCoaches = function(businessId) {
 		this.deferred = $q.defer();
 		var self = this;

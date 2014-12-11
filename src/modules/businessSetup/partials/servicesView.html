@@ -1,0 +1,25 @@
+<div class="services-list-view" ng-hide="item">
+    <ul>
+        <li class="service-details" ng-repeat="item in itemList">
+            <span class="service-name">{{item.name}}</span>
+            <span class="service-description">{{item.description}}</span>
+            <!-- show coach edit on click -->
+            <button class="edit-service" ng-click="editItem(item)">{{'edit' | i18next}}</button>
+        </li>
+    </ul>
+
+    <!-- show coach creation on click -->
+    <button class="create-service" ng-click="createItem()">{{'businessSetup:add-new-service' | i18next}}</button>
+</div>
+<div class="service-item-view" ng-show="item">
+    <form name="itemForm" novalidate>
+        <label name="name">{{'service-details.name' | i18next}}</label>
+        <input name="name" ng-model="item.name" placeholder="{{'service-details.name' | i18next}}"  required ng-maxlength=50 />
+
+        <label name="description">{{'service-details.description' | i18next}}</label>
+        <textbox name="description" ng-model="item.description" placeholder="{{'service-details.description' | i18next}}"  required/>
+        <!-- POST here -->
+        <button class="save-service" ng-click="saveItem(item)">{{'save' | i18next}}</button>
+        <button class="cancel-service" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
+    </form>
+</div>

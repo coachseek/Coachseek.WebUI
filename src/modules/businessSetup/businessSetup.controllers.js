@@ -1,63 +1,39 @@
 angular.module('businessSetup.controllers', [])
-    .controller('coachListCtrl', ['$scope', 'coachSeekAPIService', '$location', '$activityIndicator',
-    	function ($scope, coachSeekAPIService, $location, $activityIndicator) {
-        
-        var coachCopy;
-        
-        $scope.editCoach = function(coach){
-            _.pull($scope.coachList, coach);
-            coachCopy = angular.copy(coach);
+    .controller('servicesCtrl', ['$scope', 'CRUDFactoryService', 
+        function($scope, CRUDFactoryService){
 
-            $scope.coach = coach;
-            $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        $scope.createItem = function(){
+            CRUDFactoryService.create('createService', $scope);
         };
 
-        $scope.createCoach = function(){
-            $activityIndicator.startAnimating();
+        $scope.editItem = function(service){
+            _.pull($scope.itemList, service);
+            $scope.itemCopy = angular.copy(service);
 
-            coachSeekAPIService.createCoach().then(function(data){
-                $scope.newCoach = true;
-                $scope.editCoach(data);
-            }, function(error){
-                $scope.addAlert({
-                    type: 'danger',
-                    message: 'businessSetup:' + error.message + '-invalid'
-                });
-            }).finally(function(){
-                $activityIndicator.stopAnimating();
-            });
+            $scope.item = service;
         };
+
+        $scope.saveItem = function(service){
+            var formValid = $scope.itemForm.$valid;
+            if(formValid){
+                CRUDFactoryService.update('saveService', $scope, service);  
+            }
+        };
+
+        // var validateForm = function(){};
 
         $scope.cancelEdit = function(){
-            if(!$scope.newCoach){
-                $scope.coachList.push(coachCopy);
-            }
-            resetToCoachList();
+            CRUDFactoryService.cancelEdit($scope);
         };
 
-        var resetToCoachList = function(){
-            $scope.coach = null;
-            $scope.removeAlerts();
-            $scope.newCoach = null;
-            coachCopy = null;
-        };
+        CRUDFactoryService.get('getServices', $scope);
 
-        $scope.saveCoach = function(coach){
-            var formValid = validateForm();
-            if( formValid ) {
-                $activityIndicator.startAnimating();
-                coachSeekAPIService.saveCoach(coach.coachId).then(function(){
-                    $scope.coachList.push(coach);
-
-                    resetToCoachList();
-                }, function(error){
-                    $scope.addAlert({
-                        type: 'danger',
-                        message: 'businessSetup:' + error.message + '-invalid'
-                    });
-                }).finally(function(){
-                    $activityIndicator.stopAnimating();
-                });
+    }])
+    .controller('locationsCtrl', ['$scope', 
+        function($scope){
+        
+        console.log('LOCATIONS CTRL');
+    }])
     .controller('coachesCtrl', ['$scope', 'CRUDFactoryService', '$state',
         function ($scope, CRUDFactoryService, $state) {
         
