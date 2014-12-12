@@ -10,16 +10,17 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/businessSetup.html',
-    "<a ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
-    "<a ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a>\n" +
+    "<a class=\"nav-to-locations\" ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
+    "<a class=\"nav-to-coaches\" ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a>\n" +
     "<a class=\"nav-to-services\" ui-sref=\"businessSetup.services\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
-    "<h3>{{'businessSetup:coach-services-title' | i18next}}</h3>\n" +
+    "<a class=\"nav-to-scheduling\" ui-sref=\"businessSetup.scheduling\">{{'businessSetup:nav-to-scheduling' | i18next}}</a>\n" +
     "\n" +
     "<div ui-view=\"list-item-view\"></div>"
   );
 
 
   $templateCache.put('businessSetup/partials/coachesView.html',
+    "<h3>{{'businessSetup:coach-list-title' | i18next}}</h3>\n" +
     "<div class=\"coach-list-view\" ng-hide=\"item\">\n" +
     "    <ul>\n" +
     "        <li class=\"coach-details\" ng-repeat=\"item in itemList | orderBy:'lastName'\">\n" +
@@ -56,13 +57,31 @@ angular.module('app').run(['$templateCache', function($templateCache) {
   );
 
 
+  $templateCache.put('businessSetup/partials/colorPicker.html',
+    "<ul >\n" +
+    "    <li \n" +
+    "        ng-repeat=\"color in colors\"\n" +
+    "        ng-class=\"{selected: (color===currentColor)}\"\n" +
+    "        ng-click=\"$parent.currentColor = color\"\n" +
+    "        style=\"background-color:{{color}};\"\n" +
+    "    ></li>\n" +
+    "</ul>"
+  );
+
+
   $templateCache.put('businessSetup/partials/locationsView.html',
     "<h1>LOCATIONS<h1>"
   );
 
 
+  $templateCache.put('businessSetup/partials/schedulingView.html',
+    "<h3>{{'businessSetup:scheduling-title' | i18next}}</h3>"
+  );
+
+
   $templateCache.put('businessSetup/partials/servicesView.html',
-    "<div class=\"services-list-view\" ng-hide=\"item\">\n" +
+    "<h3>{{'businessSetup:coach-services-title' | i18next}}</h3>\n" +
+    "<div class=\"service-list-view\" ng-hide=\"item\">\n" +
     "    <ul>\n" +
     "        <li class=\"service-details\" ng-repeat=\"item in itemList\">\n" +
     "            <span class=\"service-name\">{{item.name}}</span>\n" +
@@ -81,7 +100,16 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'service-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <label name=\"description\">{{'service-details.description' | i18next}}</label>\n" +
-    "        <textbox name=\"description\" ng-model=\"item.description\" placeholder=\"{{'service-details.description' | i18next}}\"  required/>\n" +
+    "        <textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'service-details.description' | i18next}}\" ng-maxlength=\"200\"></textarea>\n" +
+    "        <time-picker time=\"item.timing.duration\"></time-picker>\n" +
+    "\n" +
+    "        <label name=\"studentCapacity\">{{'service-details.student-capacity' | i18next}}</label>\n" +
+    "        <input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'service-details.student-capacity' | i18next}}\"  min=\"1\" required />\n" +
+    "\n" +
+    "        <color-picker\n" +
+    "            current-color=\"item.presentation.color\"\n" +
+    "        ></color-picker>\n" +
+    "\n" +
     "        <!-- POST here -->\n" +
     "        <button class=\"save-service\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
     "        <button class=\"cancel-service\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +

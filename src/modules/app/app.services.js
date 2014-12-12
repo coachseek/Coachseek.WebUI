@@ -13,6 +13,7 @@ angular.module('app.services', []).
     //     createService: { method: 'POST'},
     //     saveServices: { method: 'PUT'},
     //     getServices: { method: 'GET'},
+    //     deleteService: { method: 'DELETE'}
     // });
 
     coachSeekAPI.getServices = function(businessId) {
@@ -22,17 +23,31 @@ angular.module('app.services', []).
         self.deferred.resolve([{
                 businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
                 id: null,
-                firstName: "NEWEST",
-                name: "USER",
-                description: "aaron.smith@example.com",
-                phone: "021 99 88 77",
+                name: "Squash",
+                description: "a pumpkin carving class",
+                timing: {
+                    duration: "0:15"
+                },
+                booking: {
+                    studentCapacity: 4
+                },
+                presentation: {
+                    color: 'red'
+                }
             },{
                 businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
                 id: null,
-                firstName: "NEWEST",
-                name: "USER",
-                description: "aaron.smith@example.com",
-                phone: "021 99 88 77",
+                name: "Tiddlywinks",
+                description: "I mean, c'mon. Its tiddlywinks",
+                timing: {
+                    duration: "0:15"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'red'
+                }
             }]);
         }, _.random(500, 1500));
         return this.deferred.promise;
@@ -48,7 +63,15 @@ angular.module('app.services', []).
                 firstName: "NEWEST",
                 name: "USER",
                 description: "aaron.smith@example.com",
-                phone: "021 99 88 77",
+                timing: {
+                    duration: "0:15"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'blue'
+                }
             });
         }, _.random(500, 800));
         return this.deferred.promise;

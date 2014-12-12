@@ -40,7 +40,6 @@ angular.module('app',
   [
     // LIBRARIES
   	'ui.bootstrap',
-    'ngRoute',
     'ui.router',
     'jm.i18next',
 
@@ -55,10 +54,8 @@ angular.module('app',
     // UTILITIES
     'ngActivityIndicator' 
 
-  ]).config(['$routeProvider', function ($routeProvider){
-
-    $routeProvider.otherwise({redirectTo: '/'});
-
+  ]).config(['$stateProvider', function ($stateProvider){
+    $stateProvider.state('home', { url: "/" });
   }]).config(['$i18nextProvider', function( $i18nextProvider ){
 
     $i18nextProvider.options = {
@@ -93,6 +90,7 @@ angular.module('app.services', []).
     //     createService: { method: 'POST'},
     //     saveServices: { method: 'PUT'},
     //     getServices: { method: 'GET'},
+    //     deleteService: { method: 'DELETE'}
     // });
 
     coachSeekAPI.getServices = function(businessId) {
@@ -102,17 +100,31 @@ angular.module('app.services', []).
         self.deferred.resolve([{
                 businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
                 id: null,
-                firstName: "NEWEST",
-                name: "USER",
-                description: "aaron.smith@example.com",
-                phone: "021 99 88 77",
+                name: "Squash",
+                description: "a pumpkin carving class",
+                timing: {
+                    duration: "0:15"
+                },
+                booking: {
+                    studentCapacity: 4
+                },
+                presentation: {
+                    color: 'red'
+                }
             },{
                 businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
                 id: null,
-                firstName: "NEWEST",
-                name: "USER",
-                description: "aaron.smith@example.com",
-                phone: "021 99 88 77",
+                name: "Tiddlywinks",
+                description: "I mean, c'mon. Its tiddlywinks",
+                timing: {
+                    duration: "0:15"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'red'
+                }
             }]);
         }, _.random(500, 1500));
         return this.deferred.promise;
@@ -128,7 +140,15 @@ angular.module('app.services', []).
                 firstName: "NEWEST",
                 name: "USER",
                 description: "aaron.smith@example.com",
-                phone: "021 99 88 77",
+                timing: {
+                    duration: "0:15"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'blue'
+                }
             });
         }, _.random(500, 800));
         return this.deferred.promise;
@@ -230,22 +250,50 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.saveItem = function(service){
-            var formValid = $scope.itemForm.$valid;
+            var formValid = CRUDFactoryService.validateForm($scope);
             if(formValid){
                 CRUDFactoryService.update('saveService', $scope, service);  
             }
         };
 
-        // var validateForm = function(){};
-
         $scope.cancelEdit = function(){
             CRUDFactoryService.cancelEdit($scope);
         };
+
+        $scope.checkDuplicateNames = function(valid){
+            var serviceName = $scope.item.name;
+            if( _.find($scope.itemList, {name: serviceName}) ){
+                $scope.addAlert({
+                    type: 'warning',
+                    message: 'businessSetup:name-already-exists'
+                });
+                valid = false;
+            }
+            return valid;
+        };
+
+        $scope.$on('$stateChangeStart', function(event, toState){
+            if( toState.name === "businessSetup.scheduling" ){
+                if(!$scope.itemList || $scope.itemList.length <= 0){
+                    event.preventDefault();
+                    //show bootstrap message
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:add-services-warning'
+                    });
+                }
+            }
+        });
 
         CRUDFactoryService.get('getServices', $scope);
 
     }])
     .controller('locationsCtrl', ['$scope', 
+        function($scope){
+        
+        console.log('LOCATIONS CTRL');
+    }])
+    .controller('schedulingCtrl', ['$scope', 
         function($scope){
         
         console.log('LOCATIONS CTRL');
@@ -269,31 +317,13 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.saveItem = function(coach){
-            var formValid = validateForm();
+            var formValid = CRUDFactoryService.validateForm($scope);
             if(formValid){
                 CRUDFactoryService.update('saveCoach', $scope, coach);  
             }
         };
 
-        var validateForm = function(){
-            var valid = $scope.itemForm.$valid;
-
-            if(!valid){
-                var errors = $scope.itemForm.$error;
-                _.forEach(errors, function(error, key){
-                    var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:' + errorMessage + '-invalid'
-                    });
-                });
-            } else {
-                valid = checkDuplicateNames(valid);
-            }
-            return valid;
-        };
-
-        var checkDuplicateNames = function(valid){
+        $scope.checkDuplicateNames = function(valid){
             var firstName = $scope.item.firstName;
             var lastName = $scope.item.lastName;
             if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){
@@ -322,12 +352,35 @@ angular.module('businessSetup.controllers', [])
         CRUDFactoryService.get('getCoaches', $scope);
     }]);
 angular.module('businessSetup.directives', [])
+    .directive('colorPicker', function() {
+        var defaultColors =  [
+            'red',
+            'green',
+            'blue',
+            'orange',
+            'yellow'
+        ];
+        return {
+            scope: {
+                currentColor: '='
+            },
+            templateUrl: 'businessSetup/partials/colorPicker.html',
+            link: function (scope, elem, attrs) {
+                scope.colors = defaultColors;
+                scope.$watch('savedhex', function(newVal) {
+                    scope.currentColor = newVal;
+                });
+            }
+        };
+
+    })
 	.directive('timeSlot', function(){
 		return {
 			replace: true,
 			templateUrl: 'businessSetup/partials/timeSlot.html'
 		};
-	}).directive('timePicker', function(){
+	})
+    .directive('timePicker', function(){
         return {
             replace: true,
             templateUrl: 'businessSetup/partials/timePicker.html',
@@ -336,11 +389,14 @@ angular.module('businessSetup.directives', [])
             },
             link: function (scope, elem, attr) {
 
-                scope.time = scope.time ? scope.time : "0:00";
-
-                var timeArray = scope.time.split(":");
-                scope.hours = parseFloat(timeArray[0]);
-                scope.minutes = parseFloat(timeArray[1]);
+                scope.$watch('time', function(newVal) {
+                    scope.time = newVal;
+                    if(scope.time){
+                        var timeArray = scope.time.split(":");
+                        scope.hours = parseFloat(timeArray[0]);
+                        scope.minutes = parseFloat(timeArray[1]);
+                    }
+                });
      
                 /* Increases hours by one */
                 scope.increaseHours = function () {
@@ -404,7 +460,8 @@ angular.module('businessSetup.directives', [])
                 };
             }
         };
-    }).directive('timeRangePicker', function(){
+    })
+    .directive('timeRangePicker', function(){
             return {
                 replace: false,
                 scope: {
@@ -483,6 +540,14 @@ angular.module('businessSetup',
                         controller: "servicesCtrl"
                      }
                 }
+            }).state('businessSetup.scheduling', {
+                url: "/scheduling",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/schedulingView.html",
+                        controller: "schedulingCtrl"
+                     }
+                }
             });
 
 
@@ -553,6 +618,24 @@ angular.module('businessSetup.services', []).
                 $scope.itemList.push($scope.itemCopy);
             }
             resetToList($scope);
+        };
+
+        CRUDFactory.validateForm = function($scope){
+            var valid = $scope.itemForm.$valid;
+
+            if(!valid){
+                var errors = $scope.itemForm.$error;
+                _.forEach(errors, function(error, key){
+                    var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:' + errorMessage + '-invalid'
+                    });
+                });
+            } else {
+                valid = $scope.checkDuplicateNames(valid);
+            }
+            return valid;
         };
 
         var resetToList = function($scope){

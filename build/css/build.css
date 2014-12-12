@@ -7009,6 +7009,23 @@ span.hidden {
     -moz-transition: left 0.5s;
     -webkit-transition: left 0.5s;
 }
+color-picker {
+    ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    li.selected{
+        border: 1px solid #333;    
+    }
+
+    li {
+        width:20px;
+        height:20px;
+        box-sizing:border-box;
+        display:inline-block;
+    }
+}
 .timePicker {
     background: none;
     -webkit-user-select: none;      
