@@ -14,7 +14,7 @@ angular.module('businessSetup.directives', [])
             templateUrl: 'businessSetup/partials/colorPicker.html',
             link: function (scope, elem, attrs) {
                 scope.colors = defaultColors;
-                scope.$watch('savedhex', function(newVal) {
+                scope.$watch('currentColor', function(newVal) {
                     scope.currentColor = newVal;
                 });
             }
