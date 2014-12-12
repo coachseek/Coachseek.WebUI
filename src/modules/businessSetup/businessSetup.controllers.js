@@ -14,17 +14,40 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.saveItem = function(service){
-            var formValid = $scope.itemForm.$valid;
+            var formValid = CRUDFactoryService.validateForm($scope);
             if(formValid){
                 CRUDFactoryService.update('saveService', $scope, service);  
             }
         };
 
-        // var validateForm = function(){};
-
         $scope.cancelEdit = function(){
             CRUDFactoryService.cancelEdit($scope);
         };
+
+        $scope.checkDuplicateNames = function(valid){
+            var serviceName = $scope.item.name;
+            if( _.find($scope.itemList, {name: serviceName}) ){
+                $scope.addAlert({
+                    type: 'warning',
+                    message: 'businessSetup:name-already-exists'
+                });
+                valid = false;
+            }
+            return valid;
+        };
+
+        $scope.$on('$stateChangeStart', function(event, toState){
+            if( toState.name === "businessSetup.scheduling" ){
+                if(!$scope.itemList || $scope.itemList.length <= 0){
+                    event.preventDefault();
+                    //show bootstrap message
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:add-services-warning'
+                    });
+                }
+            }
+        });
 
         CRUDFactoryService.get('getServices', $scope);
 

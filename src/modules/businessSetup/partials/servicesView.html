@@ -1,4 +1,5 @@
-<div class="services-list-view" ng-hide="item">
+<h3>{{'businessSetup:coach-services-title' | i18next}}</h3>
+<div class="service-list-view" ng-hide="item">
     <ul>
         <li class="service-details" ng-repeat="item in itemList">
             <span class="service-name">{{item.name}}</span>
@@ -17,7 +18,16 @@
         <input name="name" ng-model="item.name" placeholder="{{'service-details.name' | i18next}}"  required ng-maxlength=50 />
 
         <label name="description">{{'service-details.description' | i18next}}</label>
-        <textbox name="description" ng-model="item.description" placeholder="{{'service-details.description' | i18next}}"  required/>
+        <textarea name="description" ng-model="item.description" placeholder="{{'service-details.description' | i18next}}" ng-maxlength="200"></textarea>
+        <time-picker time="item.timing.duration"></time-picker>
+
+        <label name="studentCapacity">{{'service-details.student-capacity' | i18next}}</label>
+        <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'service-details.student-capacity' | i18next}}"  min="1" required />
+
+        <color-picker
+            current-color="item.presentation.color"
+        ></color-picker>
+
         <!-- POST here -->
         <button class="save-service" ng-click="saveItem(item)">{{'save' | i18next}}</button>
         <button class="cancel-service" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
