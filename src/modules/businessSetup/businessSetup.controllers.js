@@ -57,6 +57,11 @@ angular.module('businessSetup.controllers', [])
         
         console.log('LOCATIONS CTRL');
     }])
+    .controller('schedulingCtrl', ['$scope', 
+        function($scope){
+        
+        console.log('LOCATIONS CTRL');
+    }])
     .controller('coachesCtrl', ['$scope', 'CRUDFactoryService', '$state',
         function ($scope, CRUDFactoryService, $state) {
         
@@ -76,31 +81,13 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.saveItem = function(coach){
-            var formValid = validateForm();
+            var formValid = CRUDFactoryService.validateForm($scope);
             if(formValid){
                 CRUDFactoryService.update('saveCoach', $scope, coach);  
             }
         };
 
-        var validateForm = function(){
-            var valid = $scope.itemForm.$valid;
-
-            if(!valid){
-                var errors = $scope.itemForm.$error;
-                _.forEach(errors, function(error, key){
-                    var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:' + errorMessage + '-invalid'
-                    });
-                });
-            } else {
-                valid = checkDuplicateNames(valid);
-            }
-            return valid;
-        };
-
-        var checkDuplicateNames = function(valid){
+        $scope.checkDuplicateNames = function(valid){
             var firstName = $scope.item.firstName;
             var lastName = $scope.item.lastName;
             if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){

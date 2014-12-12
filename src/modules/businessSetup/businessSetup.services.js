@@ -62,6 +62,24 @@ angular.module('businessSetup.services', []).
             resetToList($scope);
         };
 
+        CRUDFactory.validateForm = function($scope){
+            var valid = $scope.itemForm.$valid;
+
+            if(!valid){
+                var errors = $scope.itemForm.$error;
+                _.forEach(errors, function(error, key){
+                    var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:' + errorMessage + '-invalid'
+                    });
+                });
+            } else {
+                valid = $scope.checkDuplicateNames(valid);
+            }
+            return valid;
+        };
+
         var resetToList = function($scope){
             $scope.item = null;
             $scope.removeAlerts();
