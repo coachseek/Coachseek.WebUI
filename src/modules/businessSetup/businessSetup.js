@@ -40,6 +40,14 @@ angular.module('businessSetup',
                         controller: "servicesCtrl"
                      }
                 }
+            }).state('businessSetup.scheduling', {
+                url: "/scheduling",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/schedulingView.html",
+                        controller: "schedulingCtrl"
+                     }
+                }
             });
 
 
