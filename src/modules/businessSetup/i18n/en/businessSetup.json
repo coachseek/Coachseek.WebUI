@@ -1,5 +1,6 @@
 {
 	"coach-list-title": "Coach List",
+	"coach-services-title": "Services",
 	"weekdays": {
 		"monday": "Monday",
 		"tuesday": "Tuesday",
@@ -13,7 +14,9 @@
 	"nav-to-locations": "Locations",
 	"nav-to-services": "Services",
 	"nav-to-coaches": "Coaches",
+	"nav-to-scheduling": "Scheduling",
 	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on.",
+	"add-services-warning": "Easy there dude! You need to add at least one service here before moving on.",
 	"firstName-invalid": "Oops! First Name is invalid. Try again.",
 	"lastName-invalid": "Ooops! Last Name is invalid. Try again.",
 	"email-invalid": "Oops! Email is invalid. Try again.",
