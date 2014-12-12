@@ -3,7 +3,6 @@ angular.module('app',
   [
     // LIBRARIES
   	'ui.bootstrap',
-    'ngRoute',
     'ui.router',
     'jm.i18next',
 
@@ -18,10 +17,8 @@ angular.module('app',
     // UTILITIES
     'ngActivityIndicator' 
 
-  ]).config(['$routeProvider', function ($routeProvider){
-
-    $routeProvider.otherwise({redirectTo: '/'});
-
+  ]).config(['$stateProvider', function ($stateProvider){
+    $stateProvider.state('home', { url: "/" });
   }]).config(['$i18nextProvider', function( $i18nextProvider ){
 
     $i18nextProvider.options = {
