@@ -1,10 +1,33 @@
 angular.module('businessSetup.directives', [])
+    .directive('colorPicker', function() {
+        var defaultColors =  [
+            'red',
+            'green',
+            'blue',
+            'orange',
+            'yellow'
+        ];
+        return {
+            scope: {
+                currentColor: '='
+            },
+            templateUrl: 'businessSetup/partials/colorPicker.html',
+            link: function (scope, elem, attrs) {
+                scope.colors = defaultColors;
+                scope.$watch('savedhex', function(newVal) {
+                    scope.currentColor = newVal;
+                });
+            }
+        };
+
+    })
 	.directive('timeSlot', function(){
 		return {
 			replace: true,
 			templateUrl: 'businessSetup/partials/timeSlot.html'
 		};
-	}).directive('timePicker', function(){
+	})
+    .directive('timePicker', function(){
         return {
             replace: true,
             templateUrl: 'businessSetup/partials/timePicker.html',
@@ -13,11 +36,14 @@ angular.module('businessSetup.directives', [])
             },
             link: function (scope, elem, attr) {
 
-                scope.time = scope.time ? scope.time : "0:00";
-
-                var timeArray = scope.time.split(":");
-                scope.hours = parseFloat(timeArray[0]);
-                scope.minutes = parseFloat(timeArray[1]);
+                scope.$watch('time', function(newVal) {
+                    scope.time = newVal;
+                    if(scope.time){
+                        var timeArray = scope.time.split(":");
+                        scope.hours = parseFloat(timeArray[0]);
+                        scope.minutes = parseFloat(timeArray[1]);
+                    }
+                });
      
                 /* Increases hours by one */
                 scope.increaseHours = function () {
@@ -81,7 +107,8 @@ angular.module('businessSetup.directives', [])
                 };
             }
         };
-    }).directive('timeRangePicker', function(){
+    })
+    .directive('timeRangePicker', function(){
             return {
                 replace: false,
                 scope: {
