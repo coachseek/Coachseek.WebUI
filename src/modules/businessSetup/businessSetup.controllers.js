@@ -9,7 +9,7 @@ angular.module('businessSetup.controllers', [])
         $scope.editItem = function(service){
             _.pull($scope.itemList, service);
             $scope.itemCopy = angular.copy(service);
-
+            
             $scope.item = service;
         };
 
@@ -29,12 +29,18 @@ angular.module('businessSetup.controllers', [])
             if( _.find($scope.itemList, {name: serviceName}) ){
                 $scope.addAlert({
                     type: 'warning',
-                    message: 'businessSetup:name-already-exists'
+                    message: 'businessSetup:service-already-exists'
                 });
                 valid = false;
             }
             return valid;
         };
+
+        $scope.$watch('item.repititon.repeatFrequency', function(newVal){
+            if(newVal === -1 || newVal === null){
+                $scope.item.pricing.coursePrice = null;
+            }
+        });
 
         $scope.$on('$stateChangeStart', function(event, toState){
             if( toState.name === "businessSetup.scheduling" ){

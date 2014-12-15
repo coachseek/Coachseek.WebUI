@@ -1,0 +1,20 @@
+{{'businessSetup:repeat-selector.repeat-session' | i18next}}
+<span ng-show="sessionCount > 0">
+    {{'businessSetup:repeat-selector.every' | i18next}}
+</span>
+<a href="#"
+    editable-select="repeatFrequency"
+    buttons="no"
+    e-ng-options="s.value as s.text for s in frequencies"
+    class="repeat-frequency"
+><span ng-i18next>businessSetup:repeat-selector.{{ showStatus() }}</span></a>
+
+<span ng-show="sessionCount > 0">
+    {{'businessSetup:repeat-selector.total-of' | i18next}}
+    <a href="#"
+        e-min="1"
+        editable-number="sessionCount"
+        class="session-count"
+    >{{ sessionCount }} </a>
+    <span ng-i18next="[i18next]({count:sessionCount})businessSetup:repeat-selector.{{ showStatus() }}"></span>
+</span>

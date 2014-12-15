@@ -23,17 +23,12 @@ angular.module('businessSetup.directives', [])
                     }
                 });
 
-                scope.$watch('sessionCount', function(newVal){
-                    console.log(newVal)
-
-                });
-
                 scope.showStatus = function() {
                   var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
                   return selected[0] ? selected[0].text : "Not set";
                 };
             }
-        }
+        };
     })
     .directive('colorPicker', function() {
         var defaultColors =  [

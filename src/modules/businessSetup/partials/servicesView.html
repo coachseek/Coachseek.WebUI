@@ -13,23 +13,37 @@
     <button class="create-service" ng-click="createItem()">{{'businessSetup:add-new-service' | i18next}}</button>
 </div>
 <div class="service-item-view" ng-show="item">
-    <form name="itemForm" novalidate>
-        <label name="name">{{'service-details.name' | i18next}}</label>
-        <input name="name" ng-model="item.name" placeholder="{{'service-details.name' | i18next}}"  required ng-maxlength=50 />
+    <form name="itemForm" editable-form novalidate>
+        <label name="name">{{'businessSetup:service-details.name' | i18next}}</label>
+        <input name="name" ng-model="item.name" placeholder="{{'businessSetup:service-details.name' | i18next}}"  required ng-maxlength=50 />
 
-        <label name="description">{{'service-details.description' | i18next}}</label>
-        <textarea name="description" ng-model="item.description" placeholder="{{'service-details.description' | i18next}}" ng-maxlength="200"></textarea>
+        <label name="description">{{'businessSetup:service-details.description' | i18next}}</label>
+        <textarea name="description" ng-model="item.description" placeholder="{{'businessSetup:service-details.description' | i18next}}" ng-maxlength="200"></textarea>
+
+        <label>{{'businessSetup:service-details.duration' | i18next}}</label>
         <time-picker time="item.timing.duration"></time-picker>
 
-        <label name="studentCapacity">{{'service-details.student-capacity' | i18next}}</label>
-        <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'service-details.student-capacity' | i18next}}"  min="1" required />
+        <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
+        <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'businessSetup:service-details.student-capacity' | i18next}}"  min="1"  />
 
         <color-picker
             current-color="item.presentation.color"
         ></color-picker>
 
-        <!-- POST here -->
-        <button class="save-service" ng-click="saveItem(item)">{{'save' | i18next}}</button>
-        <button class="cancel-service" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
+        <label name="sessionPrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
+        <input name="sessionPrice" type="number" ng-model="item.pricing.sessionPrice" placeholder="{{'businessSetup:service-details.session-price' | i18next}}"  min="0" step=".01"  />
+
+        <label name="coursePrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
+        <input name="coursePrice" ng-disabled="!item.repititon.repeatFrequency > 0" type="number" ng-model="item.pricing.coursePrice" placeholder="{{'businessSetup:service-details.course-price' | i18next}}"  min="0" step=".01" />
     </form>
+
+    <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>
+    <repeat-selector
+        repeat-frequency="item.repititon.repeatFrequency"
+        session-count="item.repititon.sessionCount"
+    ></repeat-selector>
+
+    <!-- POST here -->
+    <button class="save-service" ng-click="saveItem(item)">{{'save' | i18next}}</button>
+    <button class="cancel-service" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
 </div>

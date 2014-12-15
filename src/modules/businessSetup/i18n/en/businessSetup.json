@@ -10,7 +10,26 @@
 		"saturday": "Saturday",
 		"sunday": "Sunday"
 	},
+	"repeat-selector": {
+		"repeat-session": "Repeat this session",
+		"every": "every",
+		"total-of": "for a total of",
+		"week": "week",
+		"week_plural": "weeks",
+		"day": "day",
+		"day_plural": "days",
+		"once": "once",
+		"forever": "forever"
+	},
+	"service-details": {
+		"name": "Name:",
+		"description": "Service Description:",
+		"student-capacity": "Max Students:",
+		"duration": "Duration:",
+		"repeat-frequency": "Repeat Frequency:"
+	},
 	"add-new-coach": "Add New Coach",
+	"add-new-service": "Add New Service",
 	"nav-to-locations": "Locations",
 	"nav-to-services": "Services",
 	"nav-to-coaches": "Coaches",
@@ -22,5 +41,6 @@
 	"email-invalid": "Oops! Email is invalid. Try again.",
 	"phone-invalid": "Oops! Phone number is invalid. Try again.",
 	"timeRange-invalid": "Oops! One of your time ranges is wrong. Try again.",
-	"name-already-exists": "Oops! It looks like somebody already has that name. Try again."
+	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
+	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again."
 }
