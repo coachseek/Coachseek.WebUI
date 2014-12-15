@@ -5,6 +5,7 @@ angular.module('app',
   	'ui.bootstrap',
     'ui.router',
     'jm.i18next',
+    'xeditable',
 
     // coachSeekApp
     'app.controllers', 
@@ -15,7 +16,7 @@ angular.module('app',
     'businessSetup',
 
     // UTILITIES
-    'ngActivityIndicator' 
+    'ngActivityIndicator'
 
   ]).config(['$stateProvider', function ($stateProvider){
     $stateProvider.state('home', { url: "/" });
@@ -32,9 +33,11 @@ angular.module('app',
         defaultLoadingValue: ''
     };
 
-    }]).run(['$rootScope', '$state', '$stateParams', function($rootScope, $stateParams, $state){
+    }]).run(['$rootScope', '$state', '$stateParams', 'editableOptions',
+        function($rootScope, $stateParams, $state, editableOptions){
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
         $rootScope.alerts = [];
+        editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
     }]);

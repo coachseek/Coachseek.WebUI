@@ -1,4 +1,40 @@
 angular.module('businessSetup.directives', [])
+    .directive('repeatSelector', function(){
+        var frequencies = [
+            {value: 'w', text: 'week'},
+            {value: 'd', text: 'day'},
+            {value: null, text: 'once'},
+            {value: -1, text: 'forever'}
+        ];
+        return {
+            scope: {
+                sessionCount: '=',
+                repeatFrequency: '='
+            },
+            templateUrl: 'businessSetup/partials/repeatSelector.html',
+            link: function(scope, elem, attr){
+                scope.frequencies = frequencies;
+
+                scope.$watch('repeatFrequency', function(newVal){
+                    if(newVal === -1 || newVal === null){
+                        scope.sessionCount = newVal;
+                    } else if((scope.sessionCount < 0 || scope.sessionCount === null) && newVal ) {
+                        scope.sessionCount = 2;
+                    }
+                });
+
+                scope.$watch('sessionCount', function(newVal){
+                    console.log(newVal)
+
+                });
+
+                scope.showStatus = function() {
+                  var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
+                  return selected[0] ? selected[0].text : "Not set";
+                };
+            }
+        }
+    })
     .directive('colorPicker', function() {
         var defaultColors =  [
             'red',
@@ -12,7 +48,7 @@ angular.module('businessSetup.directives', [])
                 currentColor: '='
             },
             templateUrl: 'businessSetup/partials/colorPicker.html',
-            link: function (scope, elem, attrs) {
+            link: function (scope) {
                 scope.colors = defaultColors;
                 scope.$watch('currentColor', function(newVal) {
                     scope.currentColor = newVal;
