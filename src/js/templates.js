@@ -70,7 +70,32 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/locationsView.html',
-    "<h1>LOCATIONS<h1>"
+    "<h1>LOCATIONS<h1>\n" +
+    "<span class=\"icon-check\"></span>"
+  );
+
+
+  $templateCache.put('businessSetup/partials/repeatSelector.html',
+    "{{'businessSetup:repeat-selector.repeat-session' | i18next}}\n" +
+    "<span ng-show=\"sessionCount > 0\">\n" +
+    "    {{'businessSetup:repeat-selector.every' | i18next}}\n" +
+    "</span>\n" +
+    "<a href=\"#\"\n" +
+    "    editable-select=\"repeatFrequency\"\n" +
+    "    buttons=\"no\"\n" +
+    "    e-ng-options=\"s.value as s.text for s in frequencies\"\n" +
+    "    class=\"repeat-frequency\"\n" +
+    "><span ng-i18next>businessSetup:repeat-selector.{{ showStatus() }}</span></a>\n" +
+    "\n" +
+    "<span ng-show=\"sessionCount > 0\">\n" +
+    "    {{'businessSetup:repeat-selector.total-of' | i18next}}\n" +
+    "    <a href=\"#\"\n" +
+    "        e-min=\"1\"\n" +
+    "        editable-number=\"sessionCount\"\n" +
+    "        class=\"session-count\"\n" +
+    "    >{{ sessionCount }} </a>\n" +
+    "    <span ng-i18next=\"[i18next]({count:sessionCount})businessSetup:repeat-selector.{{ showStatus() }}\"></span>\n" +
+    "</span>"
   );
 
 
@@ -95,25 +120,39 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "    <button class=\"create-service\" ng-click=\"createItem()\">{{'businessSetup:add-new-service' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"service-item-view\" ng-show=\"item\">\n" +
-    "    <form name=\"itemForm\" novalidate>\n" +
-    "        <label name=\"name\">{{'service-details.name' | i18next}}</label>\n" +
-    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'service-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "    <form name=\"itemForm\" editable-form novalidate>\n" +
+    "        <label name=\"name\">{{'businessSetup:service-details.name' | i18next}}</label>\n" +
+    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:service-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
-    "        <label name=\"description\">{{'service-details.description' | i18next}}</label>\n" +
-    "        <textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'service-details.description' | i18next}}\" ng-maxlength=\"200\"></textarea>\n" +
+    "        <label name=\"description\">{{'businessSetup:service-details.description' | i18next}}</label>\n" +
+    "        <textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'businessSetup:service-details.description' | i18next}}\" ng-maxlength=\"200\"></textarea>\n" +
+    "\n" +
+    "        <label>{{'businessSetup:service-details.duration' | i18next}}</label>\n" +
     "        <time-picker time=\"item.timing.duration\"></time-picker>\n" +
     "\n" +
-    "        <label name=\"studentCapacity\">{{'service-details.student-capacity' | i18next}}</label>\n" +
-    "        <input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'service-details.student-capacity' | i18next}}\"  min=\"1\" required />\n" +
+    "        <label name=\"studentCapacity\">{{'businessSetup:service-details.student-capacity' | i18next}}</label>\n" +
+    "        <input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'businessSetup:service-details.student-capacity' | i18next}}\"  min=\"1\"  />\n" +
     "\n" +
     "        <color-picker\n" +
     "            current-color=\"item.presentation.color\"\n" +
     "        ></color-picker>\n" +
     "\n" +
-    "        <!-- POST here -->\n" +
-    "        <button class=\"save-service\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
-    "        <button class=\"cancel-service\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
+    "        <label name=\"sessionPrice\">{{'businessSetup:service-details.session-price' | i18next}}</label>\n" +
+    "        <input name=\"sessionPrice\" type=\"number\" ng-model=\"item.pricing.sessionPrice\" placeholder=\"{{'businessSetup:service-details.session-price' | i18next}}\"  min=\"0\" step=\".01\"  />\n" +
+    "\n" +
+    "        <label name=\"coursePrice\">{{'businessSetup:service-details.session-price' | i18next}}</label>\n" +
+    "        <input name=\"coursePrice\" ng-disabled=\"!item.repititon.repeatFrequency > 0\" type=\"number\" ng-model=\"item.pricing.coursePrice\" placeholder=\"{{'businessSetup:service-details.course-price' | i18next}}\"  min=\"0\" step=\".01\" />\n" +
     "    </form>\n" +
+    "\n" +
+    "    <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>\n" +
+    "    <repeat-selector\n" +
+    "        repeat-frequency=\"item.repititon.repeatFrequency\"\n" +
+    "        session-count=\"item.repititon.sessionCount\"\n" +
+    "    ></repeat-selector>\n" +
+    "\n" +
+    "    <!-- POST here -->\n" +
+    "    <button class=\"save-service\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
+    "    <button class=\"cancel-service\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
     "</div>"
   );
 
@@ -150,7 +189,7 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('businessSetup/partials/timeSlot.html',
     "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\">\n" +
-    "\t<p ng-i18next>businessSetup:weekdays.{{weekday}}</p>\n" +
+    "\t<span ng-i18next>businessSetup:weekdays.{{weekday}}</span>\n" +
     "\t<toggle-switch \n" +
     "\t\tng-model=\"item.workingHours[weekday].isAvailable\"\n" +
     "\t\ton-label=\"yes\"\n" +

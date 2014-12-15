@@ -42,6 +42,7 @@ angular.module('app',
   	'ui.bootstrap',
     'ui.router',
     'jm.i18next',
+    'xeditable',
 
     // coachSeekApp
     'app.controllers', 
@@ -52,7 +53,7 @@ angular.module('app',
     'businessSetup',
 
     // UTILITIES
-    'ngActivityIndicator' 
+    'ngActivityIndicator'
 
   ]).config(['$stateProvider', function ($stateProvider){
     $stateProvider.state('home', { url: "/" });
@@ -69,11 +70,13 @@ angular.module('app',
         defaultLoadingValue: ''
     };
 
-    }]).run(['$rootScope', '$state', '$stateParams', function($rootScope, $stateParams, $state){
+    }]).run(['$rootScope', '$state', '$stateParams', 'editableOptions',
+        function($rootScope, $stateParams, $state, editableOptions){
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
         $rootScope.alerts = [];
+        editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
     }]);
 /* Services */
 
@@ -97,36 +100,38 @@ angular.module('app.services', []).
         this.deferred = $q.defer();
         var self = this;
         $timeout(function(){
-        self.deferred.resolve([{
-                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
-                id: null,
-                name: "Squash",
-                description: "a pumpkin carving class",
-                timing: {
-                    duration: "0:15"
-                },
-                booking: {
-                    studentCapacity: 4
-                },
-                presentation: {
-                    color: 'red'
-                }
-            },{
-                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
-                id: null,
-                name: "Tiddlywinks",
-                description: "I mean, c'mon. Its tiddlywinks",
-                timing: {
-                    duration: "0:15"
-                },
-                booking: {
-                    studentCapacity: 8
-                },
-                presentation: {
-                    color: 'red'
-                }
-            }]);
-        }, _.random(500, 1500));
+        self.deferred.resolve([
+        // {
+        //         businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+        //         id: null,
+        //         name: "Squash",
+        //         description: "a pumpkin carving class",
+        //         timing: {
+        //             duration: "0:15"
+        //         },
+        //         booking: {
+        //             studentCapacity: 4
+        //         },
+        //         presentation: {
+        //             color: 'red'
+        //         }
+        //     },{
+        //         businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+        //         id: null,
+        //         name: "Tiddlywinks",
+        //         description: "I mean, c'mon. Its tiddlywinks",
+        //         timing: {
+        //             duration: "0:15"
+        //         },
+        //         booking: {
+        //             studentCapacity: 8
+        //         },
+        //         presentation: {
+        //             color: 'red'
+        //         }
+        //     }
+            ]);
+        }, _.random(500, 600));
         return this.deferred.promise;
     };
 
@@ -148,6 +153,14 @@ angular.module('app.services', []).
                 },
                 presentation: {
                     color: 'blue'
+                },
+                repititon: {
+                    sessionCount: 12,
+                    repeatFrequency: 'w'
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 150.0
                 }
             });
         }, _.random(500, 800));
@@ -245,7 +258,7 @@ angular.module('businessSetup.controllers', [])
         $scope.editItem = function(service){
             _.pull($scope.itemList, service);
             $scope.itemCopy = angular.copy(service);
-
+            
             $scope.item = service;
         };
 
@@ -265,12 +278,18 @@ angular.module('businessSetup.controllers', [])
             if( _.find($scope.itemList, {name: serviceName}) ){
                 $scope.addAlert({
                     type: 'warning',
-                    message: 'businessSetup:name-already-exists'
+                    message: 'businessSetup:service-already-exists'
                 });
                 valid = false;
             }
             return valid;
         };
+
+        $scope.$watch('item.repititon.repeatFrequency', function(newVal){
+            if(newVal === -1 || newVal === null){
+                $scope.item.pricing.coursePrice = null;
+            }
+        });
 
         $scope.$on('$stateChangeStart', function(event, toState){
             if( toState.name === "businessSetup.scheduling" ){
@@ -352,6 +371,37 @@ angular.module('businessSetup.controllers', [])
         CRUDFactoryService.get('getCoaches', $scope);
     }]);
 angular.module('businessSetup.directives', [])
+    .directive('repeatSelector', function(){
+        var frequencies = [
+            {value: 'w', text: 'week'},
+            {value: 'd', text: 'day'},
+            {value: null, text: 'once'},
+            {value: -1, text: 'forever'}
+        ];
+        return {
+            scope: {
+                sessionCount: '=',
+                repeatFrequency: '='
+            },
+            templateUrl: 'businessSetup/partials/repeatSelector.html',
+            link: function(scope, elem, attr){
+                scope.frequencies = frequencies;
+
+                scope.$watch('repeatFrequency', function(newVal){
+                    if(newVal === -1 || newVal === null){
+                        scope.sessionCount = newVal;
+                    } else if((scope.sessionCount < 0 || scope.sessionCount === null) && newVal ) {
+                        scope.sessionCount = 2;
+                    }
+                });
+
+                scope.showStatus = function() {
+                  var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
+                  return selected[0] ? selected[0].text : "Not set";
+                };
+            }
+        };
+    })
     .directive('colorPicker', function() {
         var defaultColors =  [
             'red',
@@ -365,9 +415,9 @@ angular.module('businessSetup.directives', [])
                 currentColor: '='
             },
             templateUrl: 'businessSetup/partials/colorPicker.html',
-            link: function (scope, elem, attrs) {
+            link: function (scope) {
                 scope.colors = defaultColors;
-                scope.$watch('savedhex', function(newVal) {
+                scope.$watch('currentColor', function(newVal) {
                     scope.currentColor = newVal;
                 });
             }

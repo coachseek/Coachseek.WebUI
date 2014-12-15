@@ -150,7 +150,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-newer');
 
   // Default task(s).
-  // TODO - jshint
   grunt.registerTask('default', [
       'concat',
       'wrap', 
