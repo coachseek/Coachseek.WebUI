@@ -20,36 +20,38 @@ angular.module('app.services', []).
         this.deferred = $q.defer();
         var self = this;
         $timeout(function(){
-        self.deferred.resolve([{
-                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
-                id: null,
-                name: "Squash",
-                description: "a pumpkin carving class",
-                timing: {
-                    duration: "0:15"
-                },
-                booking: {
-                    studentCapacity: 4
-                },
-                presentation: {
-                    color: 'red'
-                }
-            },{
-                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
-                id: null,
-                name: "Tiddlywinks",
-                description: "I mean, c'mon. Its tiddlywinks",
-                timing: {
-                    duration: "0:15"
-                },
-                booking: {
-                    studentCapacity: 8
-                },
-                presentation: {
-                    color: 'red'
-                }
-            }]);
-        }, _.random(500, 1500));
+        self.deferred.resolve([
+        // {
+        //         businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+        //         id: null,
+        //         name: "Squash",
+        //         description: "a pumpkin carving class",
+        //         timing: {
+        //             duration: "0:15"
+        //         },
+        //         booking: {
+        //             studentCapacity: 4
+        //         },
+        //         presentation: {
+        //             color: 'red'
+        //         }
+        //     },{
+        //         businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+        //         id: null,
+        //         name: "Tiddlywinks",
+        //         description: "I mean, c'mon. Its tiddlywinks",
+        //         timing: {
+        //             duration: "0:15"
+        //         },
+        //         booking: {
+        //             studentCapacity: 8
+        //         },
+        //         presentation: {
+        //             color: 'red'
+        //         }
+        //     }
+            ]);
+        }, _.random(500, 600));
         return this.deferred.promise;
     };
 
@@ -71,6 +73,14 @@ angular.module('app.services', []).
                 },
                 presentation: {
                     color: 'blue'
+                },
+                repititon: {
+                    sessionCount: 12,
+                    repeatFrequency: 'w'
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 150.0
                 }
             });
         }, _.random(500, 800));
