@@ -32,25 +32,6 @@ describe('bussinessSetup Services', function(){
         createViewWithController(scope, templateUrl, 'servicesCtrl');
         expect(getServicesStub).to.be.calledOnce;
     });
-    describe('when getServices throws an error', function(){
-        var errorMessage = "errorMessage";
-        beforeEach(function(){
-            getServicesStub.restore();
-            getServicesStub = this.sinon.stub(coachSeekAPIService, 'getServices', function(){
-                var deferred = $q.defer();
-                deferred.reject(new Error(errorMessage));
-                return deferred.promise;
-            });
-        });
-        it('should throw', function(){
-            expect(createViewWithController(scope, templateUrl, 'servicesCtrl')).to.throw;
-        });
-        it('should display an error message', function(){
-            createViewWithController(scope, templateUrl, 'servicesCtrl');
-            expect($rootScope.alerts[0].type).to.equal('danger');
-            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
-        });
-    });
     describe('and there are no services', function(){
         beforeEach(function(){
             createViewWithController(scope, templateUrl, 'servicesCtrl');
@@ -122,26 +103,6 @@ describe('bussinessSetup Services', function(){
                         return deferred.promise;
                     });
                 });
-                describe('when saveService throws an error', function(){
-                    var errorMessage = "errorMessage";
-                    beforeEach(function(){
-                        saveServiceStub.restore();
-                        saveServiceStub = this.sinon.stub(coachSeekAPIService, 'saveService', function(){
-                            var deferred = $q.defer();
-                            deferred.reject(new Error(errorMessage));
-                            return deferred.promise;
-                        });
-                    });
-                    it('should throw', function(){
-                        expect($serviceItemView.find('.save-service').trigger('click')).to.throw;
-                    });
-                    it('should display an error message', function(){
-                        $serviceItemView.find('.save-service').trigger('click');
-
-                        expect($rootScope.alerts[0].type).to.equal('danger');
-                        expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
-                    });
-                });
                 describe('when the form is invalid', function(){
                     describe('when the name is invalid', function(){
                         it('should display an invalid input alert', function(){
@@ -153,6 +114,9 @@ describe('bussinessSetup Services', function(){
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
                         });
                     });
+                    describe('when the studentCapacity is invalid', function(){
+                        
+                    });
                 });
                 describe('when the name already exists', function(){
                     beforeEach(function(){
@@ -161,7 +125,7 @@ describe('bussinessSetup Services', function(){
                     });
                     it('should display an alert', function(){
                         expect($rootScope.alerts[0].type).to.equal('warning');
-                        expect($rootScope.alerts[0].message).to.equal('businessSetup:name-already-exists');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:service-already-exists');
                     });
                 });
                 describe('when the name is new', function(){
@@ -223,25 +187,6 @@ describe('bussinessSetup Services', function(){
             });
             it('should set the newItem flag to true', function(){
                 expect(scope.newItem).to.be.true;
-            });
-            describe('when createService throws an error', function(){
-                var errorMessage = "errorMessage";
-                beforeEach(function(){
-                    createServiceStub.restore();
-                    createServiceStub = this.sinon.stub(coachSeekAPIService, 'createService', function(){
-                        var deferred = $q.defer();
-                        deferred.reject(new Error(errorMessage));
-                        return deferred.promise;
-                    });
-                });
-                it('should throw', function(){
-                    expect($serviceListView.find('.create-service').trigger('click')).to.throw;
-                });
-                it('should display an error message', function(){
-                    $serviceListView.find('.create-service').trigger('click');
-                    expect($rootScope.alerts[0].type).to.equal('danger');
-                    expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
-                });
             });
             describe('when clicking the cancel button and coach is new', function(){
                 beforeEach(function(){

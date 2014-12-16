@@ -54,7 +54,7 @@ describe('BusinessSetup Coach List', function(){
             it('should display an error message', function(){
                 createViewWithController(scope, templateUrl, 'coachesCtrl');
                 expect($rootScope.alerts[0].type).to.equal('danger');
-                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
+                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
             });
         });
         describe('and there are no coaches', function(){
@@ -125,25 +125,6 @@ describe('BusinessSetup Coach List', function(){
                             var deferred = $q.defer();
                             deferred.resolve([{}]);
                             return deferred.promise;
-                        });
-                    });
-                    describe('when saveCoach throws an error', function(){
-                        var errorMessage = "errorMessage";
-                        beforeEach(function(){
-                            saveCoachStub.restore();
-                            saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
-                                var deferred = $q.defer();
-                                deferred.reject(new Error(errorMessage));
-                                return deferred.promise;
-                            });
-                        });
-                        it('should throw', function(){
-                            expect($coachEditView.find('.save-coach').trigger('click')).to.throw;
-                        });
-                        it('should display an error message', function(){
-                            $coachEditView.find('.save-coach').trigger('click');
-                            expect($rootScope.alerts[0].type).to.equal('danger');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
                         });
                     });
                     describe('when the form is invalid', function(){
@@ -270,25 +251,6 @@ describe('BusinessSetup Coach List', function(){
                 });
                 it('should set the newItem flag to true', function(){
                     expect(scope.newItem).to.be.true;
-                });
-                describe('when createCoach throws an error', function(){
-                    var errorMessage = "errorMessage";
-                    beforeEach(function(){
-                        createCoachStub.restore();
-                        createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
-                            var deferred = $q.defer();
-                            deferred.reject(new Error(errorMessage));
-                            return deferred.promise;
-                        });
-                    });
-                    it('should throw', function(){
-                        expect($coachListView.find('.create-coach').trigger('click')).to.throw;
-                    });
-                    it('should display an error message', function(){
-                        $coachListView.find('.create-coach').trigger('click');
-                        expect($rootScope.alerts[0].type).to.equal('danger');
-                        expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage + '-invalid');
-                    });
                 });
                 describe('when clicking the cancel button and coach is new', function(){
                     beforeEach(function(){
