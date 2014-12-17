@@ -12,6 +12,15 @@ angular.module('businessSetup',
                 url: "/business-setup",
                 templateUrl: "businessSetup/partials/businessSetup.html",
             })
+            .state('businessSetup.business', {
+                url: "/business",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/businessView.html",
+                        controller: 'businessCtrl'
+                    }
+                }
+            })
             .state('businessSetup.locations', {
                 url: "/locations",
                 views: {
@@ -38,7 +47,8 @@ angular.module('businessSetup',
                         controller: "servicesCtrl"
                      }
                 }
-            }).state('businessSetup.scheduling', {
+            })
+            .state('businessSetup.scheduling', {
                 url: "/scheduling",
                 views: {
                     "list-item-view": { 

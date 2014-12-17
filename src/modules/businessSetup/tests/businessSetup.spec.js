@@ -8,6 +8,21 @@ describe('BusinessSetup Module', function() {
         scope = $rootScope.$new();
     });
     describe('businessSetup states', function() {
+        describe('when navigating to businessSetup.business', function(){
+            var viewAttrs;
+            beforeEach(function(){
+                $state.go('businessSetup.business');
+                $rootScope.$digest();
+
+                viewAttrs = $state.current.views['list-item-view'];
+            });
+            it('should map to correct template', function(){
+                expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/businessView.html');
+            });
+            it('should map to the correct controller', function(){
+                expect(viewAttrs.controller).to.equal('businessCtrl');
+            });
+        });
         describe('when navigating to businessSetup.services', function(){
             var viewAttrs;
             beforeEach(function(){

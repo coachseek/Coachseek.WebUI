@@ -1,6 +1,8 @@
 angular.module('businessSetup.controllers', [])
-    .controller('servicesCtrl', ['$scope', 'CRUDFactoryService', 
-        function($scope, CRUDFactoryService){
+    .controller('businessCtrl', ['$scope', 'CRUDService',
+        function($scope, CRUDService){
+
+    }])
     .controller('servicesCtrl', ['$scope', 'CRUDService', 
         function($scope, CRUDService){
 
