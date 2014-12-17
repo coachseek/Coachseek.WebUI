@@ -14,43 +14,47 @@ angular.module('app.services', []).
     //     saveServices: { method: 'PUT'},
     //     getServices: { method: 'GET'},
     //     deleteService: { method: 'DELETE'}
+
+    //     createLocation: { method: 'POST'},
+    //     saveLocation: { method: 'PUT'},
+    //     getLocations: { method: 'GET'},
+    //     deleteLocation: { method: 'DELETE'}
     // });
+    
+    coachSeekAPI.getLocations = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve([]);
+        }, _.random(500, 600));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.createLocation = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve({
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: null,
+                name: "Club Trouw",
+                address: "aaron.smith@example.com"
+            });
+        }, _.random(500, 800));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.saveLocation = function(businessId, coachId){
+        var deferred = $q.defer();
+        deferred.resolve("DATA");
+        return deferred.promise;
+    };
 
     coachSeekAPI.getServices = function(businessId) {
         this.deferred = $q.defer();
         var self = this;
         $timeout(function(){
-        self.deferred.resolve([
-        // {
-        //         businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
-        //         id: null,
-        //         name: "Squash",
-        //         description: "a pumpkin carving class",
-        //         timing: {
-        //             duration: "0:15"
-        //         },
-        //         booking: {
-        //             studentCapacity: 4
-        //         },
-        //         presentation: {
-        //             color: 'red'
-        //         }
-        //     },{
-        //         businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
-        //         id: null,
-        //         name: "Tiddlywinks",
-        //         description: "I mean, c'mon. Its tiddlywinks",
-        //         timing: {
-        //             duration: "0:15"
-        //         },
-        //         booking: {
-        //             studentCapacity: 8
-        //         },
-        //         presentation: {
-        //             color: 'red'
-        //         }
-        //     }
-            ]);
+        self.deferred.resolve([]);
         }, _.random(500, 600));
         return this.deferred.promise;
     };

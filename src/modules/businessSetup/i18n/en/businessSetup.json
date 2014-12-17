@@ -1,6 +1,7 @@
 {
 	"coach-list-title": "Coach List",
 	"coach-services-title": "Services",
+	"locations-title": "Locations",
 	"weekdays": {
 		"monday": "Monday",
 		"tuesday": "Tuesday",
@@ -28,19 +29,29 @@
 		"duration": "Duration:",
 		"repeat-frequency": "Repeat Frequency:"
 	},
+	"location-details": {
+		"name": "Name:"
+	},
 	"add-new-coach": "Add New Coach",
 	"add-new-service": "Add New Service",
+	"add-new-location": "Add New Location",
+
 	"nav-to-locations": "Locations",
 	"nav-to-services": "Services",
 	"nav-to-coaches": "Coaches",
+	"nav-to-business": "Business",
 	"nav-to-scheduling": "Scheduling",
+
 	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on.",
 	"add-services-warning": "Easy there dude! You need to add at least one service here before moving on.",
+	"add-location-warning": "Easy there bro! You need to add at least one location here before moving on.",
+
 	"firstName-invalid": "Oops! First Name is invalid. Try again.",
 	"lastName-invalid": "Ooops! Last Name is invalid. Try again.",
 	"email-invalid": "Oops! Email is invalid. Try again.",
 	"phone-invalid": "Oops! Phone number is invalid. Try again.",
 	"timeRange-invalid": "Oops! One of your time ranges is wrong. Try again.",
+	
 	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
 	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again."
 }

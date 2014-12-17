@@ -1,2 +1,23 @@
-<h1>LOCATIONS<h1>
-<span class="icon-check"></span>
+<h3>{{'businessSetup:locations-title' | i18next}}</h3>
+<div class="location-list-view" ng-hide="item">
+    <ul>
+        <li class="location-details" ng-repeat="item in itemList">
+            <span class="location-name">{{item.name}}</span>
+            <!-- show coach edit on click -->
+            <button class="edit-location" ng-click="editItem(item)">{{'edit' | i18next}}</button>
+        </li>
+    </ul>
+
+    <!-- show coach creation on click -->
+    <button class="create-location" ng-click="createItem()">{{'businessSetup:add-new-location' | i18next}}</button>
+</div>
+<div class="location-item-view" ng-show="item">
+    <form name="itemForm" editable-form novalidate>
+        <label name="name">{{'businessSetup:location-details.name' | i18next}}</label>
+        <input name="name" ng-model="item.name" placeholder="{{'businessSetup:location-details.name' | i18next}}"  required ng-maxlength=50 />
+    </form>
+
+    <!-- POST here -->
+    <button class="save-location" ng-click="saveItem(item)">{{'save' | i18next}}</button>
+    <button class="cancel-location" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
+</div>
