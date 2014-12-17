@@ -13,7 +13,7 @@
     <button class="create-service" ng-click="createItem()">{{'businessSetup:add-new-service' | i18next}}</button>
 </div>
 <div class="service-item-view" ng-show="item">
-    <form name="itemForm" editable-form novalidate>
+    <form name="itemForm" novalidate>
         <label name="name">{{'businessSetup:service-details.name' | i18next}}</label>
         <input name="name" ng-model="item.name" placeholder="{{'businessSetup:service-details.name' | i18next}}"  required ng-maxlength=50 />
 
@@ -38,6 +38,8 @@
     </form>
 
     <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>
+    <!-- xeditable does not play well with other inputs. yet.-->
+    <!-- https://github.com/vitalets/angular-xeditable/issues/6 -->
     <repeat-selector
         repeat-frequency="item.repititon.repeatFrequency"
         session-count="item.repititon.sessionCount"
