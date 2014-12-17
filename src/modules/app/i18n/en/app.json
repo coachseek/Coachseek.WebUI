@@ -3,10 +3,10 @@
     "register": "Register",
     "login": "Log In",
     "person-details": {
-    	"first-name": "First Name",
-    	"last-name": "Last Name",
-    	"email": "Email",
-    	"phone": "Phone Number"
+    	"first-name": "First Name:",
+    	"last-name": "Last Name:",
+    	"email": "Email:",
+    	"phone": "Phone Number:"
     },
     "edit": "Edit",
     "save": "Save",
