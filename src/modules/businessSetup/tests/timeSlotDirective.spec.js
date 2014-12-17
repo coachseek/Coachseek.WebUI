@@ -40,14 +40,14 @@ describe('timeSlot directive', function(){
     describe('when a day is unavailable', function(){
         it('should disable the time spinner', function(){
             var $tuesday = $testRegion.find('.weekday:nth-child(2)');
-            expect($tuesday.find('time-range-picker').attr('disabled')).to.equal('disabled');
+            expect($tuesday.find('time-range-picker').hasClass('ng-hide')).to.be.true;
         });
     });
     describe('when clicking on the toggle available switch', function(){
         var $mondayToggleSwitch;
         beforeEach(function(){
             var $monday = $testRegion.find('.weekday').first();
-            $mondayToggleSwitch = $monday.find('.toggle-switch');
+            $mondayToggleSwitch = $monday.find('button');
             $mondayToggleSwitch.trigger('click');
         });
         it('should set isAvailable to false', function(){

@@ -2,9 +2,7 @@ angular.module('businessSetup',
 	[
 		'businessSetup.controllers',
         'businessSetup.directives',
-		'businessSetup.services',
-
-        'toggle-switch'
+		'businessSetup.services'
 	])
 	.config(['$stateProvider', function ($stateProvider) {
 
@@ -51,8 +49,4 @@ angular.module('businessSetup',
             });
 
 
-    }]).constant('timepickerConfig', {
-        hourStep: 1,
-        minuteStep: 15,
-        showMeridian: false
-	});
+    }]);

@@ -1,21 +1,22 @@
 .weekday{
-    
+    width: 50%;
+    margin: 10px auto;
     time-range-picker{
-        // background: purple;
-        display: inline;
+        display: inline-block;
         overflow: hidden;
         &.ng-invalid{
             border: 1px solid red;
         }
 
-        &[disabled="disabled"]{
-        pointer-events: none;
-            &.ng-invalid{
-                border: none;
-            }
-            .increase, .decrease{
-                display: none;
-            }
+        .time-picker{
+            display: inline-block;
+        }
+    }
+
+    button{
+        span{
+            font-size: 18px;
+            font-weight: bold;
         }
     }
 }

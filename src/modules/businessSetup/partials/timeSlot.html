@@ -1,14 +1,19 @@
 <div ng-repeat="weekday in weekdays" class="weekday">
-	<p ng-i18next>businessSetup:weekdays.{{weekday}}</p>
-	<toggle-switch 
-		ng-model="item.workingHours[weekday].isAvailable"
-		on-label="yes"
-	    off-label="no"
-	></toggle-switch>
+	<span ng-i18next>businessSetup:weekdays.{{weekday}}</span>
 	<time-range-picker
 		ng-model="item.workingHours[weekday]"
 		start="item.workingHours[weekday].startTime"
 		finish="item.workingHours[weekday].finishTime"
 		ng-disabled='!item.workingHours[weekday].isAvailable'
-	></time-range-picker>
+		ng-show='item.workingHours[weekday].isAvailable'>
+	</time-range-picker>
+	<button
+		type="button"
+		class="btn btn-primary"
+		ng-model="item.workingHours[weekday].isAvailable"
+		ng-click="item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable">
+		<span
+			ng-class="item.workingHours[weekday].isAvailable ? 'icon-cross' : 'icon-check' "
+		></span>
+	</button>
 </div>
