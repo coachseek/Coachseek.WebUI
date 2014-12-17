@@ -1,9 +1,11 @@
 angular.module('businessSetup.controllers', [])
     .controller('servicesCtrl', ['$scope', 'CRUDFactoryService', 
         function($scope, CRUDFactoryService){
+    .controller('servicesCtrl', ['$scope', 'CRUDService', 
+        function($scope, CRUDService){
 
         $scope.createItem = function(){
-            CRUDFactoryService.create('createService', $scope);
+            CRUDService.create('createService', $scope);
         };
 
         $scope.editItem = function(service){
@@ -14,17 +16,17 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.saveItem = function(service){
-            var formValid = CRUDFactoryService.validateForm($scope);
+            var formValid = CRUDService.validateForm($scope);
             if(formValid){
-                CRUDFactoryService.update('saveService', $scope, service);  
+                CRUDService.update('saveService', $scope, service);  
             }
         };
 
         $scope.cancelEdit = function(){
-            CRUDFactoryService.cancelEdit($scope);
+            CRUDService.cancelEdit($scope);
         };
 
-        $scope.checkDuplicateNames = function(valid){
+        $scope.checkDuplicates = function(valid){
             var serviceName = $scope.item.name;
             if( _.find($scope.itemList, {name: serviceName}) ){
                 $scope.addAlert({
@@ -55,21 +57,60 @@ angular.module('businessSetup.controllers', [])
             }
         });
 
-        CRUDFactoryService.get('getServices', $scope);
+        CRUDService.get('getServices', $scope);
 
     }])
-    .controller('locationsCtrl', ['$scope', 
-        function($scope){
-        
-        console.log('LOCATIONS CTRL');
+    .controller('locationsCtrl', ['$scope', 'CRUDService',
+        function($scope, CRUDService){
+            $scope.createItem = function(){
+                CRUDService.create('createLocation', $scope);
+            };
+
+            $scope.editItem = function(location){
+                _.pull($scope.itemList, location);
+                $scope.itemCopy = angular.copy(location);
+                
+                $scope.item = location;
+            };
+
+            $scope.saveItem = function(location){
+                var formValid = CRUDService.validateForm($scope);
+                if(formValid){
+                    CRUDService.update('saveLocation', $scope, location);  
+                }
+            };
+
+            $scope.cancelEdit = function(){
+                CRUDService.cancelEdit($scope);
+            };
+
+            $scope.checkDuplicates = function(valid){
+                return valid;
+            };
+
+            //TODO - if an open item exists do we cancel or ask if they want to save?
+            $scope.$on('$stateChangeStart', function(event, toState){
+                if( toState.name === "businessSetup.coachList" ){
+                    if(!$scope.itemList || $scope.itemList.length <= 0){
+                        event.preventDefault();
+                        //show bootstrap message
+                        $scope.addAlert({
+                            type: 'warning',
+                            message: 'businessSetup:add-location-warning'
+                        });
+                    }
+                }
+            });
+
+            CRUDService.get('getLocations', $scope);
     }])
     .controller('schedulingCtrl', ['$scope', 
         function($scope){
         
-        console.log('LOCATIONS CTRL');
+        console.log('SCHEDUling CTRL');
     }])
-    .controller('coachesCtrl', ['$scope', 'CRUDFactoryService', '$state',
-        function ($scope, CRUDFactoryService, $state) {
+    .controller('coachesCtrl', ['$scope', 'CRUDService',
+        function ($scope, CRUDService) {
         
         $scope.editItem = function(coach){
             _.pull($scope.itemList, coach);
@@ -79,21 +120,21 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.createItem = function(){
-            CRUDFactoryService.create('createCoach', $scope);
+            CRUDService.create('createCoach', $scope);
         };
 
         $scope.cancelEdit = function(){
-            CRUDFactoryService.cancelEdit($scope);
+            CRUDService.cancelEdit($scope);
         };
 
         $scope.saveItem = function(coach){
-            var formValid = CRUDFactoryService.validateForm($scope);
+            var formValid = CRUDService.validateForm($scope);
             if(formValid){
-                CRUDFactoryService.update('saveCoach', $scope, coach);  
+                CRUDService.update('saveCoach', $scope, coach);  
             }
         };
 
-        $scope.checkDuplicateNames = function(valid){
+        $scope.checkDuplicates = function(valid){
             var firstName = $scope.item.firstName;
             var lastName = $scope.item.lastName;
             if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){
@@ -119,5 +160,5 @@ angular.module('businessSetup.controllers', [])
             }
         });
 
-        CRUDFactoryService.get('getCoaches', $scope);
+        CRUDService.get('getCoaches', $scope);
     }]);

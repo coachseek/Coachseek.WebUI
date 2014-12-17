@@ -1,10 +1,8 @@
 angular.module('businessSetup.services', []).
-    factory('CRUDFactoryService', ['coachSeekAPIService', '$activityIndicator',
+    service('CRUDService', ['coachSeekAPIService', '$activityIndicator',
         function(coachSeekAPIService, $activityIndicator){
 
-        var CRUDFactory = {};
-
-        CRUDFactory.get = function(functionName, $scope){
+        this.get = function(functionName, $scope){
             $activityIndicator.startAnimating();
             coachSeekAPIService[functionName]().then(function(data){
                 //set coach list data or creat first coach
@@ -17,15 +15,14 @@ angular.module('businessSetup.services', []).
             }, function(error){
                 $scope.addAlert({
                     type: 'danger',
-                    message: 'businessSetup:' + error.message + '-invalid'
+                    message: 'businessSetup:' + error.message
                 });
             }).finally(function(){
-                    $activityIndicator.stopAnimating();
-                }
-            );
+                $activityIndicator.stopAnimating();
+            });
         };
 
-        CRUDFactory.create = function(functionName, $scope){
+        this.create = function(functionName, $scope){
             $activityIndicator.startAnimating();
             coachSeekAPIService[functionName]().then(function(data){
                 $scope.newItem = true;
@@ -33,36 +30,36 @@ angular.module('businessSetup.services', []).
             }, function(error){
                 $scope.addAlert({
                     type: 'danger',
-                    message: 'businessSetup:' + error.message + '-invalid'
+                    message: 'businessSetup:' + error.message
                 });
             }).finally(function(){
                 $activityIndicator.stopAnimating();
             });
         };
 
-        CRUDFactory.update = function(functionName, $scope, item){
+        this.update = function(functionName, $scope, item){
             $activityIndicator.startAnimating();
-            coachSeekAPIService[functionName]().then(function(){
+            coachSeekAPIService[functionName]().then(function(data){
                 $scope.itemList.push(item);
                 resetToList($scope);
             }, function(error){
                 $scope.addAlert({
                     type: 'danger',
-                    message: 'businessSetup:' + error.message + '-invalid'
+                    message: 'businessSetup:' + error.message
                 });
             }).finally(function(){
                 $activityIndicator.stopAnimating();
             });
         };
 
-        CRUDFactory.cancelEdit = function($scope){
+        this.cancelEdit = function($scope){
             if(!$scope.newItem){
                 $scope.itemList.push($scope.itemCopy);
             }
             resetToList($scope);
         };
 
-        CRUDFactory.validateForm = function($scope){
+        this.validateForm = function($scope){
             var valid = $scope.itemForm.$valid;
 
             if(!valid){
@@ -75,7 +72,7 @@ angular.module('businessSetup.services', []).
                     });
                 });
             } else {
-                valid = $scope.checkDuplicateNames(valid);
+                valid = $scope.checkDuplicates(valid);
             }
             return valid;
         };
@@ -86,6 +83,4 @@ angular.module('businessSetup.services', []).
             $scope.newItem = null;
             $scope.itemCopy = null;
         };
-
-        return CRUDFactory;
     }]);

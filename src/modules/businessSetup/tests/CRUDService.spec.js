@@ -1,6 +1,6 @@
-describe('CRUDFactory Service', function(){
+describe('CRUDService', function(){
     var scope,
-        CRUDFactoryService,
+        CRUDService,
         coachSeekAPIService, 
         $activityIndicator,
 
@@ -13,7 +13,7 @@ describe('CRUDFactory Service', function(){
 
     beforeEach(function(){
         scope = $rootScope.$new();
-        CRUDFactoryService = $injector.get('CRUDFactoryService');
+        CRUDService = $injector.get('CRUDService');
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         $activityIndicator = $injector.get('$activityIndicator');
 
@@ -23,7 +23,7 @@ describe('CRUDFactory Service', function(){
     });
     describe('when calling get()', function(){
         it('should start the activity indicator', function(){
-            CRUDFactoryService.get(APIFunctionName, scope)
+            CRUDService.get(APIFunctionName, scope)
             expect(AIStartStub).to.be.calledOnce;
         });
         describe('when API call is successful', function(){
@@ -41,7 +41,7 @@ describe('CRUDFactory Service', function(){
                     APIreturn = [];
                     scope.createItem = function(){};
                     createItemStub = this.sinon.stub(scope, 'createItem');
-                    CRUDFactoryService.get(APIFunctionName, scope);
+                    CRUDService.get(APIFunctionName, scope);
                     // Must call apply here because we are not using a template
                     // and $q promise resolution is not propogated automatically
                     $rootScope.$apply();
@@ -59,7 +59,7 @@ describe('CRUDFactory Service', function(){
             describe('and there is existing data', function(){
                 beforeEach(function(){
                     APIreturn = [{},{}];
-                    CRUDFactoryService.get(APIFunctionName, scope);
+                    CRUDService.get(APIFunctionName, scope);
                     // Must call apply here because we are not using a template
                     // and $q promise resolution is not propogated automatically
                     $rootScope.$apply();
@@ -80,7 +80,7 @@ describe('CRUDFactory Service', function(){
                     return deferred.promise;
                 });
 
-                CRUDFactoryService.get(APIFunctionName, scope);
+                CRUDService.get(APIFunctionName, scope);
                 $rootScope.$apply();
             });
             it('should display an error message', function(){
@@ -95,7 +95,7 @@ describe('CRUDFactory Service', function(){
     });
     describe('when calling create()', function(){
         it('should start the activity indicator', function(){
-            CRUDFactoryService.create(APIFunctionName, scope)
+            CRUDService.create(APIFunctionName, scope)
             expect(AIStartStub).to.be.calledOnce;
         });
         describe('when API call is successful', function(){
@@ -107,7 +107,7 @@ describe('CRUDFactory Service', function(){
                 });
                 scope.editItem = function(){};
                 editItemStub = this.sinon.stub(scope, 'editItem');
-                CRUDFactoryService.create(APIFunctionName, scope);
+                CRUDService.create(APIFunctionName, scope);
                 // Must call apply here because we are not using a template
                 // and $q promise resolution is not propogated automatically
                 $rootScope.$apply();
@@ -129,7 +129,7 @@ describe('CRUDFactory Service', function(){
                     deferred.reject(new Error(errorMessage));
                     return deferred.promise;
                 });
-                CRUDFactoryService.create(APIFunctionName, scope);
+                CRUDService.create(APIFunctionName, scope);
                 $rootScope.$apply();
             });
             it('should display an error message', function(){
@@ -144,7 +144,7 @@ describe('CRUDFactory Service', function(){
     });
     describe('when calling update()', function(){
         it('should start the activity indicator', function(){
-            CRUDFactoryService.update(APIFunctionName, scope, {})
+            CRUDService.update(APIFunctionName, scope, {})
             expect(AIStartStub).to.be.calledOnce;
         });
         describe('when API call is successful', function(){
@@ -160,7 +160,7 @@ describe('CRUDFactory Service', function(){
                 });
                 removeAlertsStub = this.sinon.stub(scope, 'removeAlerts')
 
-                CRUDFactoryService.update(APIFunctionName, scope, initData);
+                CRUDService.update(APIFunctionName, scope, initData);
                 // Must call apply here because we are not using a template
                 // and $q promise resolution is not propogated automatically
                 $rootScope.$apply();
@@ -185,7 +185,7 @@ describe('CRUDFactory Service', function(){
                     deferred.reject(new Error(errorMessage));
                     return deferred.promise;
                 });
-                CRUDFactoryService.update(APIFunctionName, scope, {});
+                CRUDService.update(APIFunctionName, scope, {});
                 $rootScope.$apply();
             });
             it('should display an error message', function(){
@@ -210,7 +210,7 @@ describe('CRUDFactory Service', function(){
         it('should set reset the to the list view state', function(){
             scope.newItem = "A COOL THING";
             scope.item = ['a', 'useless', 'array'];
-            CRUDFactoryService.cancelEdit(scope);
+            CRUDService.cancelEdit(scope);
 
             expect(scope.item).to.equal(null);
             expect(scope.newItem).to.equal(null);
@@ -220,7 +220,7 @@ describe('CRUDFactory Service', function(){
         describe('when the item is new', function(){
             it('should NOT add the item to the itemList', function(){
                 scope.newItem = true;
-                CRUDFactoryService.cancelEdit(scope);
+                CRUDService.cancelEdit(scope);
 
                 expect(scope.itemList[0]).to.be.undefined;
             });
@@ -228,7 +228,7 @@ describe('CRUDFactory Service', function(){
         describe('when the item is NOT new', function(){
             it('should add the item to the itemList', function(){
                 scope.newItem = false;
-                CRUDFactoryService.cancelEdit(scope);
+                CRUDService.cancelEdit(scope);
 
                 expect(scope.itemList[0]).to.equal(initData);
             });
