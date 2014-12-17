@@ -10,12 +10,26 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/businessSetup.html',
+    "<a class=\"nav-to-business\" ui-sref=\"businessSetup.business\">{{'businessSetup:nav-to-business' | i18next}}</a>\n" +
     "<a class=\"nav-to-locations\" ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
     "<a class=\"nav-to-coaches\" ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a>\n" +
     "<a class=\"nav-to-services\" ui-sref=\"businessSetup.services\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
     "<a class=\"nav-to-scheduling\" ui-sref=\"businessSetup.scheduling\">{{'businessSetup:nav-to-scheduling' | i18next}}</a>\n" +
     "\n" +
     "<div ui-view=\"list-item-view\"></div>"
+  );
+
+
+  $templateCache.put('businessSetup/partials/businessView.html',
+    "<h3>{{'businessSetup:business-title' | i18next}}</h3>\n" +
+    "<div class=\"service-item-view\" ng-show=\"item\">\n" +
+    "    <form name=\"itemForm\" editable-form novalidate>\n" +
+    "\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <!-- POST here -->\n" +
+    "    <button class=\"save-business\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
+    "</div>"
   );
 
 
@@ -70,8 +84,29 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/locationsView.html',
-    "<h1>LOCATIONS<h1>\n" +
-    "<span class=\"icon-check\"></span>"
+    "<h3>{{'businessSetup:locations-title' | i18next}}</h3>\n" +
+    "<div class=\"location-list-view\" ng-hide=\"item\">\n" +
+    "    <ul>\n" +
+    "        <li class=\"location-details\" ng-repeat=\"item in itemList\">\n" +
+    "            <span class=\"location-name\">{{item.name}}</span>\n" +
+    "            <!-- show coach edit on click -->\n" +
+    "            <button class=\"edit-location\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "\n" +
+    "    <!-- show coach creation on click -->\n" +
+    "    <button class=\"create-location\" ng-click=\"createItem()\">{{'businessSetup:add-new-location' | i18next}}</button>\n" +
+    "</div>\n" +
+    "<div class=\"location-item-view\" ng-show=\"item\">\n" +
+    "    <form name=\"itemForm\" editable-form novalidate>\n" +
+    "        <label name=\"name\">{{'businessSetup:location-details.name' | i18next}}</label>\n" +
+    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:location-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "    </form>\n" +
+    "\n" +
+    "    <!-- POST here -->\n" +
+    "    <button class=\"save-location\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
+    "    <button class=\"cancel-location\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
+    "</div>"
   );
 
 
@@ -120,7 +155,7 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "    <button class=\"create-service\" ng-click=\"createItem()\">{{'businessSetup:add-new-service' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"service-item-view\" ng-show=\"item\">\n" +
-    "    <form name=\"itemForm\" editable-form novalidate>\n" +
+    "    <form name=\"itemForm\" novalidate>\n" +
     "        <label name=\"name\">{{'businessSetup:service-details.name' | i18next}}</label>\n" +
     "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:service-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
@@ -145,6 +180,8 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "    </form>\n" +
     "\n" +
     "    <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>\n" +
+    "    <!-- xeditable does not play well with other inputs. yet.-->\n" +
+    "    <!-- https://github.com/vitalets/angular-xeditable/issues/6 -->\n" +
     "    <repeat-selector\n" +
     "        repeat-frequency=\"item.repititon.repeatFrequency\"\n" +
     "        session-count=\"item.repititon.sessionCount\"\n" +
@@ -190,17 +227,22 @@ angular.module('app').run(['$templateCache', function($templateCache) {
   $templateCache.put('businessSetup/partials/timeSlot.html',
     "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\">\n" +
     "\t<span ng-i18next>businessSetup:weekdays.{{weekday}}</span>\n" +
-    "\t<toggle-switch \n" +
-    "\t\tng-model=\"item.workingHours[weekday].isAvailable\"\n" +
-    "\t\ton-label=\"yes\"\n" +
-    "\t    off-label=\"no\"\n" +
-    "\t></toggle-switch>\n" +
     "\t<time-range-picker\n" +
     "\t\tng-model=\"item.workingHours[weekday]\"\n" +
     "\t\tstart=\"item.workingHours[weekday].startTime\"\n" +
     "\t\tfinish=\"item.workingHours[weekday].finishTime\"\n" +
     "\t\tng-disabled='!item.workingHours[weekday].isAvailable'\n" +
-    "\t></time-range-picker>\n" +
+    "\t\tng-show='item.workingHours[weekday].isAvailable'>\n" +
+    "\t</time-range-picker>\n" +
+    "\t<button\n" +
+    "\t\ttype=\"button\"\n" +
+    "\t\tclass=\"btn btn-primary\"\n" +
+    "\t\tng-model=\"item.workingHours[weekday].isAvailable\"\n" +
+    "\t\tng-click=\"item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable\">\n" +
+    "\t\t<span\n" +
+    "\t\t\tng-class=\"item.workingHours[weekday].isAvailable ? 'icon-cross' : 'icon-check' \"\n" +
+    "\t\t></span>\n" +
+    "\t</button>\n" +
     "</div>"
   );
 

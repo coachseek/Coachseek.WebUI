@@ -32089,7 +32089,6 @@ angular.module('ngResource', ['ng']).
 
 
 })(window, window.angular);
-angular.module("toggle-switch",["ng"]).directive("toggleSwitch",function(){return{restrict:"EA",replace:!0,require:"ngModel",scope:{disabled:"@",onLabel:"@",offLabel:"@",knobLabel:"@"},template:'<div role="radio" class="toggle-switch" ng-class="{ \'disabled\': disabled }"><div class="toggle-switch-animate" ng-class="{\'switch-off\': !model, \'switch-on\': model}"><span class="switch-left" ng-bind="onLabel"></span><span class="knob" ng-bind="knobLabel"></span><span class="switch-right" ng-bind="offLabel"></span></div></div>',link:function(scope,element,attrs,ngModelCtrl){attrs.onLabel||(attrs.onLabel="On"),attrs.offLabel||(attrs.offLabel="Off"),attrs.knobLabel||(attrs.knobLabel=" "),attrs.disabled||(attrs.disabled=!1),element.on("click",function(){scope.$apply(scope.toggle)}),ngModelCtrl.$formatters.push(function(modelValue){return modelValue}),ngModelCtrl.$parsers.push(function(viewValue){return viewValue}),ngModelCtrl.$render=function(){scope.model=ngModelCtrl.$viewValue},scope.toggle=function(){scope.disabled||(scope.model=!scope.model,ngModelCtrl.$setViewValue(scope.model))}}}});
 /**
  * @license AngularJS v1.3.2
  * (c) 2010-2014 Google, Inc. http://angularjs.org
@@ -32719,7 +32718,7 @@ makeSwipeDirective('ngSwipeRight', 1, 'swiperight');
  * Version: 0.12.0 - 2014-11-16
  * License: MIT
  */
-angular.module("ui.bootstrap", ["ui.bootstrap.tpls","ui.bootstrap.alert"]);
+angular.module("ui.bootstrap", ["ui.bootstrap.tpls","ui.bootstrap.alert","ui.bootstrap.buttons"]);
 angular.module("ui.bootstrap.tpls", ["template/alert/alert.html"]);
 angular.module('ui.bootstrap.alert', [])
 
@@ -32753,6 +32752,81 @@ angular.module('ui.bootstrap.alert', [])
   };
 }]);
 
+angular.module('ui.bootstrap.buttons', [])
+
+.constant('buttonConfig', {
+  activeClass: 'active',
+  toggleEvent: 'click'
+})
+
+.controller('ButtonsController', ['buttonConfig', function(buttonConfig) {
+  this.activeClass = buttonConfig.activeClass || 'active';
+  this.toggleEvent = buttonConfig.toggleEvent || 'click';
+}])
+
+.directive('btnRadio', function () {
+  return {
+    require: ['btnRadio', 'ngModel'],
+    controller: 'ButtonsController',
+    link: function (scope, element, attrs, ctrls) {
+      var buttonsCtrl = ctrls[0], ngModelCtrl = ctrls[1];
+
+      //model -> UI
+      ngModelCtrl.$render = function () {
+        element.toggleClass(buttonsCtrl.activeClass, angular.equals(ngModelCtrl.$modelValue, scope.$eval(attrs.btnRadio)));
+      };
+
+      //ui->model
+      element.bind(buttonsCtrl.toggleEvent, function () {
+        var isActive = element.hasClass(buttonsCtrl.activeClass);
+
+        if (!isActive || angular.isDefined(attrs.uncheckable)) {
+          scope.$apply(function () {
+            ngModelCtrl.$setViewValue(isActive ? null : scope.$eval(attrs.btnRadio));
+            ngModelCtrl.$render();
+          });
+        }
+      });
+    }
+  };
+})
+
+.directive('btnCheckbox', function () {
+  return {
+    require: ['btnCheckbox', 'ngModel'],
+    controller: 'ButtonsController',
+    link: function (scope, element, attrs, ctrls) {
+      var buttonsCtrl = ctrls[0], ngModelCtrl = ctrls[1];
+
+      function getTrueValue() {
+        return getCheckboxValue(attrs.btnCheckboxTrue, true);
+      }
+
+      function getFalseValue() {
+        return getCheckboxValue(attrs.btnCheckboxFalse, false);
+      }
+
+      function getCheckboxValue(attributeValue, defaultValue) {
+        var val = scope.$eval(attributeValue);
+        return angular.isDefined(val) ? val : defaultValue;
+      }
+
+      //model -> UI
+      ngModelCtrl.$render = function () {
+        element.toggleClass(buttonsCtrl.activeClass, angular.equals(ngModelCtrl.$modelValue, getTrueValue()));
+      };
+
+      //ui->model
+      element.bind(buttonsCtrl.toggleEvent, function () {
+        scope.$apply(function () {
+          ngModelCtrl.$setViewValue(element.hasClass(buttonsCtrl.activeClass) ? getFalseValue() : getTrueValue());
+          ngModelCtrl.$render();
+        });
+      });
+    }
+  };
+});
+
 angular.module("template/alert/alert.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/alert/alert.html",
     "<div class=\"alert\" ng-class=\"['alert-' + (type || 'warning'), closeable ? 'alert-dismissable' : null]\" role=\"alert\">\n" +
@@ -32764,6 +32838,7 @@ angular.module("template/alert/alert.html", []).run(["$templateCache", function(
     "</div>\n" +
     "");
 }]);
+
 /*!
  * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
