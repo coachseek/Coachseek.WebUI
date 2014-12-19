@@ -2,6 +2,7 @@
 angular.module('app',
   [
     // LIBRARIES
+    'ngAnimate',
   	'ui.bootstrap',
     'ui.router',
     'jm.i18next',
