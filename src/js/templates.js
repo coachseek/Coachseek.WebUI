@@ -101,6 +101,19 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "    <form name=\"itemForm\" editable-form novalidate>\n" +
     "        <label name=\"name\">{{'businessSetup:location-details.name' | i18next}}</label>\n" +
     "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:location-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "\n" +
+    "        <label name=\"address\">{{'businessSetup:location-details.address' | i18next}}</label>\n" +
+    "        <input name=\"address\" ng-blur=\"updateAddress()\" ng-model=\"item.address\" placeholder=\"{{'businessSetup:location-details.address' | i18next}}\"  required />\n" +
+    "\n" +
+    "        <label name=\"city\">{{'businessSetup:location-details.city' | i18next}}</label>\n" +
+    "        <input name=\"city\" ng-model=\"item.city\" placeholder=\"{{'businessSetup:location-details.city' | i18next}}\"  required />\n" +
+    "\n" +
+    "        <label name=\"state\">{{'businessSetup:location-details.state' | i18next}}</label>\n" +
+    "        <input name=\"state\" ng-model=\"item.state\" placeholder=\"{{'businessSetup:location-details.state' | i18next}}\"  required />\n" +
+    "\n" +
+    "        <label name=\"country\">{{'businessSetup:location-details.country' | i18next}}</label>\n" +
+    "        <input name=\"country\" ng-model=\"item.country\" placeholder=\"{{'businessSetup:location-details.country' | i18next}}\"  required />\n" +
+    "\n" +
     "    </form>\n" +
     "\n" +
     "    <!-- POST here -->\n" +
@@ -175,7 +188,7 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "        <label name=\"sessionPrice\">{{'businessSetup:service-details.session-price' | i18next}}</label>\n" +
     "        <input name=\"sessionPrice\" type=\"number\" ng-model=\"item.pricing.sessionPrice\" placeholder=\"{{'businessSetup:service-details.session-price' | i18next}}\"  min=\"0\" step=\".01\"  />\n" +
     "\n" +
-    "        <label name=\"coursePrice\">{{'businessSetup:service-details.session-price' | i18next}}</label>\n" +
+    "        <label name=\"coursePrice\">{{'businessSetup:service-details.course-price' | i18next}}</label>\n" +
     "        <input name=\"coursePrice\" ng-disabled=\"!item.repititon.repeatFrequency > 0\" type=\"number\" ng-model=\"item.pricing.coursePrice\" placeholder=\"{{'businessSetup:service-details.course-price' | i18next}}\"  min=\"0\" step=\".01\" />\n" +
     "    </form>\n" +
     "\n" +

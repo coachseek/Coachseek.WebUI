@@ -6985,6 +6985,11 @@ color-picker {
         display:inline-block;
     }
 }
+.angular-google-map-container { 
+    height: 300px; 
+    width: 75%;
+    margin: 0 auto;
+}
 repeat-selector{
     .editable-hide{
         display: none;
