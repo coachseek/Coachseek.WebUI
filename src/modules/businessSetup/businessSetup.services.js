@@ -63,12 +63,14 @@ angular.module('businessSetup.services', []).
             var valid = $scope.itemForm.$valid;
 
             if(!valid){
-                var errors = $scope.itemForm.$error;
-                _.forEach(errors, function(error, key){
-                    var errorMessage = error[0] && error[0].$name ? error[0].$name : key;
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:' + errorMessage + '-invalid'
+                var errorTypes = $scope.itemForm.$error;
+                _.forEach(errorTypes, function(errorType, key){
+                    _.forEach(errorType, function(error){
+                        var errorMessage = error && error.$name ? error.$name : key;
+                        $scope.addAlert({
+                            type: 'warning',
+                            message: 'businessSetup:' + errorMessage + '-invalid'
+                        });
                     });
                 });
             } else {
