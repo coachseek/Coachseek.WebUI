@@ -13,7 +13,6 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <activity-indicator></activity-indicator>
-            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.message | i18next}}</alert>
 <!--             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -37,7 +36,9 @@
         </div>
     </div>
     <div ui-view id="main-view"></div>
-
+    <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">
+        <span ng-i18next="[i18next]({name:alert.name}){{alert.message}}"></span>
+    </alert>
     <hr />
     <footer>
         <p>&copy; 2014 - CoachSeek</p>

@@ -7,12 +7,13 @@ var $testRegion,
     $location,
     $q,
     $state,
+    $timeout,
     createViewWithController,
     createDirective;
 
 beforeEach(module('app'));
 
-beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootScope_, _$injector_, _$location_, _$q_, _$state_) { 
+beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootScope_, _$injector_, _$location_, _$q_, _$state_, _$timeout_) { 
     $controller = _$controller_;
     $templateCache = _$templateCache_;
     $compile = _$compile_;
@@ -21,6 +22,7 @@ beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootSc
     $location = _$location_;
     $q = _$q_;
     $state = _$state_;
+    $timeout = _$timeout_;
 
     $controller('appCtrl', {
         $scope: $rootScope

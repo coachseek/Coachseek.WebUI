@@ -174,6 +174,10 @@ describe('CRUDService', function(){
                 expect(scope.itemCopy).to.equal(null);
                 expect(removeAlertsStub).to.be.calledOnce;
             });
+            it('should add a success alert', function(){
+                expect($rootScope.alerts[0].type).to.equal('success');
+                expect($rootScope.alerts[0].message).to.equal('businessSetup:save-success');
+            });
             it('should stop the activity indicator', function(){
                 expect(AIStopStub).to.be.calledOnce;
             });

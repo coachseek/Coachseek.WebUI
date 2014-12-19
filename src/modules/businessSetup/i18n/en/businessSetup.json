@@ -65,5 +65,7 @@
 	"coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
 	
 	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
-	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again."
+	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",
+
+	"save-success": "You have successfully saved __name__"
 }

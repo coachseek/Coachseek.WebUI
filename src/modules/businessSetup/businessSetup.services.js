@@ -42,6 +42,12 @@ angular.module('businessSetup.services', []).
             coachSeekAPIService[functionName]().then(function(data){
                 $scope.itemList.push(item);
                 resetToList($scope);
+
+                $scope.addAlert({
+                    type: 'success',
+                    message: "businessSetup:save-success",
+                    name: item.name ? item.name: item.firstName + " " + item.lastName
+                });
             }, function(error){
                 $scope.addAlert({
                     type: 'danger',

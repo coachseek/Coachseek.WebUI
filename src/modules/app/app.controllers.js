@@ -1,8 +1,8 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope',
-        function ($rootScope) {
-            //TODO add ability to remove alerts by view
+    .controller('appCtrl', ['$rootScope', '$timeout',
+        function ($rootScope, $timeout) {
+            // TODO - add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
                 var addAlert = true;
 
@@ -15,6 +15,11 @@ angular.module('app.controllers', [])
 
                 if( addAlert ){
                     $rootScope.alerts.push(alert);
+                    if(alert.type === 'success'){
+                        $timeout(function(){
+                            _.pull($rootScope.alerts, alert);
+                        }, 2500);
+                    }
                 }
             };
             

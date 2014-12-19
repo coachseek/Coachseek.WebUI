@@ -3,11 +3,11 @@ describe('App Module', function() {
         expect($rootScope.alerts).to.be.empty;
     });
     describe('global alert system', function(){
-
         beforeEach(function(){
+
             this.let('alertOne', function(){
                 return {
-                    type: 'warning',
+                    type: 'success',
                     message: 'alert one'
                 }
             });
@@ -30,7 +30,6 @@ describe('App Module', function() {
             $rootScope.addAlert(this.alertTwo);
             $rootScope.addAlert(this.alertThree);
         });
-
         describe('when calling addAlert() with new alerts', function(){
             it('should set them on the $rootScope', function(){
                 expect($rootScope.alerts.length).to.equal(3);
@@ -57,6 +56,13 @@ describe('App Module', function() {
 
                 expect($rootScope.alerts).to.be.empty;
             })
+        });
+        describe('when adding a success alert', function(){
+            it('should disappear after 2.5 seconds', function(){
+                $timeout.flush();
+
+                expect(_.contains($rootScope.alerts, this.alertOne)).to.be.false;
+            });
         });
     });
 });
