@@ -3,6 +3,115 @@ angular.module('businessSetup.controllers', [])
         function($scope, CRUDService){
 
     }])
+    .controller('locationsCtrl', ['$scope', '$http', 'CRUDService',
+        function($scope, $http, CRUDService){
+
+            $scope.createItem = function(){
+                CRUDService.create('createLocation', $scope);
+            };
+
+            $scope.editItem = function(location){
+                _.pull($scope.itemList, location);
+                $scope.itemCopy = angular.copy(location);
+                
+                $scope.item = location;
+            };
+
+            $scope.saveItem = function(location){
+                var formValid = CRUDService.validateForm($scope);
+                if(formValid){
+                    CRUDService.update('saveLocation', $scope, location);  
+                }
+            };
+
+            $scope.cancelEdit = function(){
+                CRUDService.cancelEdit($scope);
+
+            };
+
+            $scope.checkDuplicates = function(valid){
+                var name = $scope.item.name;
+                var address = $scope.item.address;
+                if( _.find($scope.itemList, {name: name,address: address}) ){
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:location-already-exists'
+                    });
+                    valid = false;
+                }
+                return valid;
+            };
+
+            //TODO - if an open item exists do we cancel or ask if they want to save?
+            //TODO - dont navigate forward in the registration process
+            $scope.$on('$stateChangeStart', function(event, toState){
+                if(_.contains(["businessSetup.coachList", "businessSetup.services"], toState.name) ){
+                    if(!$scope.itemList || $scope.itemList.length <= 0){
+                        event.preventDefault();
+                        //show bootstrap message
+                        $scope.addAlert({
+                            type: 'warning',
+                            message: 'businessSetup:add-location-warning'
+                        });
+                    }
+                }
+            });
+
+            CRUDService.get('getLocations', $scope);
+    }])
+    .controller('coachesCtrl', ['$scope', 'CRUDService',
+        function ($scope, CRUDService) {
+        
+        $scope.editItem = function(coach){
+            _.pull($scope.itemList, coach);
+            $scope.itemCopy = angular.copy(coach);
+            $scope.item = coach;
+            $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+        };
+
+        $scope.createItem = function(){
+            CRUDService.create('createCoach', $scope);
+        };
+
+        $scope.cancelEdit = function(){
+            CRUDService.cancelEdit($scope);
+        };
+
+        $scope.saveItem = function(coach){
+            var formValid = CRUDService.validateForm($scope);
+            if(formValid){
+                CRUDService.update('saveCoach', $scope, coach);  
+            }
+        };
+
+        $scope.checkDuplicates = function(valid){
+            var firstName = $scope.item.firstName;
+            var lastName = $scope.item.lastName;
+            if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){
+                $scope.addAlert({
+                    type: 'warning',
+                    message: 'businessSetup:name-already-exists'
+                });
+                valid = false;
+            }
+            return valid;
+        };
+
+        $scope.$on('$stateChangeStart', function(event, toState){
+            if( toState.name === "businessSetup.services" ){
+                if(!$scope.itemList || $scope.itemList.length <= 0){
+                    event.preventDefault();
+                    //show bootstrap message
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:add-coach-warning'
+                    });
+                }
+            }
+        });
+
+        CRUDService.get('getCoaches', $scope);
+    }])
     .controller('servicesCtrl', ['$scope', 'CRUDService', 
         function($scope, CRUDService){
 
@@ -62,105 +171,8 @@ angular.module('businessSetup.controllers', [])
         CRUDService.get('getServices', $scope);
 
     }])
-    .controller('locationsCtrl', ['$scope', 'CRUDService',
-        function($scope, CRUDService){
-            $scope.createItem = function(){
-                CRUDService.create('createLocation', $scope);
-            };
-
-            $scope.editItem = function(location){
-                _.pull($scope.itemList, location);
-                $scope.itemCopy = angular.copy(location);
-                
-                $scope.item = location;
-            };
-
-            $scope.saveItem = function(location){
-                var formValid = CRUDService.validateForm($scope);
-                if(formValid){
-                    CRUDService.update('saveLocation', $scope, location);  
-                }
-            };
-
-            $scope.cancelEdit = function(){
-                CRUDService.cancelEdit($scope);
-            };
-
-            $scope.checkDuplicates = function(valid){
-                return valid;
-            };
-
-            //TODO - if an open item exists do we cancel or ask if they want to save?
-            $scope.$on('$stateChangeStart', function(event, toState){
-                if( toState.name === "businessSetup.coachList" ){
-                    if(!$scope.itemList || $scope.itemList.length <= 0){
-                        event.preventDefault();
-                        //show bootstrap message
-                        $scope.addAlert({
-                            type: 'warning',
-                            message: 'businessSetup:add-location-warning'
-                        });
-                    }
-                }
-            });
-
-            CRUDService.get('getLocations', $scope);
-    }])
     .controller('schedulingCtrl', ['$scope', 
         function($scope){
         
         console.log('SCHEDUling CTRL');
-    }])
-    .controller('coachesCtrl', ['$scope', 'CRUDService',
-        function ($scope, CRUDService) {
-        
-        $scope.editItem = function(coach){
-            _.pull($scope.itemList, coach);
-            $scope.itemCopy = angular.copy(coach);
-            $scope.item = coach;
-            $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-        };
-
-        $scope.createItem = function(){
-            CRUDService.create('createCoach', $scope);
-        };
-
-        $scope.cancelEdit = function(){
-            CRUDService.cancelEdit($scope);
-        };
-
-        $scope.saveItem = function(coach){
-            var formValid = CRUDService.validateForm($scope);
-            if(formValid){
-                CRUDService.update('saveCoach', $scope, coach);  
-            }
-        };
-
-        $scope.checkDuplicates = function(valid){
-            var firstName = $scope.item.firstName;
-            var lastName = $scope.item.lastName;
-            if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){
-                $scope.addAlert({
-                    type: 'warning',
-                    message: 'businessSetup:name-already-exists'
-                });
-                valid = false;
-            }
-            return valid;
-        };
-
-        $scope.$on('$stateChangeStart', function(event, toState){
-            if( toState.name === "businessSetup.services" ){
-                if(!$scope.itemList || $scope.itemList.length <= 0){
-                    event.preventDefault();
-                    //show bootstrap message
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:add-coach-warning'
-                    });
-                }
-            }
-        });
-
-        CRUDService.get('getCoaches', $scope);
     }]);

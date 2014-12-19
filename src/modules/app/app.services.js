@@ -37,8 +37,11 @@ angular.module('app.services', []).
         self.deferred.resolve({
                 businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
                 id: null,
-                name: "Club Trouw",
-                address: "aaron.smith@example.com"
+                name: "THE LAB",
+                address: "1800 taylor ave n",
+                city: "Seattle",
+                state: "WA",
+                country: "USA"
             });
         }, _.random(500, 800));
         return this.deferred.promise;
