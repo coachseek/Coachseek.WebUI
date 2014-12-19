@@ -148,6 +148,19 @@ describe('bussinessSetup Services', function(){
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePrice-invalid');
                         });
                     });
+                    describe.only('and the sessionPrice and coursePrice are invalid', function(){
+                        it('should display an alert for both', function(){
+                            scope.item.pricing.sessionPrice = -1;
+                            scope.item.pricing.coursePrice = -1;
+                            scope.$apply();
+                            $serviceItemView.find('.save-service').trigger('click');
+
+                            expect($rootScope.alerts[0].type).to.equal('warning');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
+                            expect($rootScope.alerts[1].type).to.equal('warning');
+                            expect($rootScope.alerts[1].message).to.equal('businessSetup:coursePrice-invalid');
+                        });
+                    });
                 });
                 describe('when the name already exists', function(){
                     beforeEach(function(){
