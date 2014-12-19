@@ -33,7 +33,7 @@
         <label name="sessionPrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
         <input name="sessionPrice" type="number" ng-model="item.pricing.sessionPrice" placeholder="{{'businessSetup:service-details.session-price' | i18next}}"  min="0" step=".01"  />
 
-        <label name="coursePrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
+        <label name="coursePrice">{{'businessSetup:service-details.course-price' | i18next}}</label>
         <input name="coursePrice" ng-disabled="!item.repititon.repeatFrequency > 0" type="number" ng-model="item.pricing.coursePrice" placeholder="{{'businessSetup:service-details.course-price' | i18next}}"  min="0" step=".01" />
     </form>
 

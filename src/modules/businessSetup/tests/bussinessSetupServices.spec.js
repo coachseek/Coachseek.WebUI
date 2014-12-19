@@ -58,6 +58,10 @@ describe('bussinessSetup Services', function(){
                     description: "User",
                     booking: {
                         studentCapacity: 8
+                    },
+                    pricing: {
+                        sessionPrice: 43,
+                        coursePrice: 69
                     }
                 }
             })
@@ -115,7 +119,34 @@ describe('bussinessSetup Services', function(){
                         });
                     });
                     describe('when the studentCapacity is invalid', function(){
-                        
+                        it('should display an invalid input alert', function(){
+                            scope.item.booking.studentCapacity = -1;
+                            scope.$apply();
+                            $serviceItemView.find('.save-service').trigger('click');
+
+                            expect($rootScope.alerts[0].type).to.equal('warning');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:studentCapacity-invalid');
+                        });
+                    });
+                    describe('when the sessionPrice is invalid', function(){
+                        it('should display an invalid input alert', function(){
+                            scope.item.pricing.sessionPrice = -1;
+                            scope.$apply();
+                            $serviceItemView.find('.save-service').trigger('click');
+
+                            expect($rootScope.alerts[0].type).to.equal('warning');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
+                        });
+                    });
+                    describe('when the coursePrice is invalid', function(){
+                        it('should display an invalid input alert', function(){
+                            scope.item.pricing.coursePrice = -1;
+                            scope.$apply();
+                            $serviceItemView.find('.save-service').trigger('click');
+
+                            expect($rootScope.alerts[0].type).to.equal('warning');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePrice-invalid');
+                        });
                     });
                 });
                 describe('when the name already exists', function(){
