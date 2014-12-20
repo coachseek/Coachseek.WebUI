@@ -14,19 +14,19 @@
 <div class="location-item-view" ng-show="item">
     <form name="itemForm" editable-form novalidate>
         <label name="name">{{'businessSetup:location-details.name' | i18next}}</label>
-        <input name="name" ng-model="item.name" placeholder="{{'businessSetup:location-details.name' | i18next}}"  required ng-maxlength=50 />
+        <input name="name" ng-model="item.name" placeholder="{{'businessSetup:location-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
 
         <label name="address">{{'businessSetup:location-details.address' | i18next}}</label>
-        <input name="address" ng-blur="updateAddress()" ng-model="item.address" placeholder="{{'businessSetup:location-details.address' | i18next}}"  required />
+        <input name="address" ng-blur="updateAddress()" ng-model="item.address" placeholder="{{'businessSetup:location-details.placeholder.address' | i18next}}"  required />
 
         <label name="city">{{'businessSetup:location-details.city' | i18next}}</label>
-        <input name="city" ng-model="item.city" placeholder="{{'businessSetup:location-details.city' | i18next}}"  required />
+        <input name="city" ng-model="item.city" placeholder="{{'businessSetup:location-details.placeholder.city' | i18next}}"  required />
 
         <label name="state">{{'businessSetup:location-details.state' | i18next}}</label>
-        <input name="state" ng-model="item.state" placeholder="{{'businessSetup:location-details.state' | i18next}}"  required />
+        <input name="state" ng-model="item.state" placeholder="{{'businessSetup:location-details.placeholder.state' | i18next}}"  required />
 
         <label name="country">{{'businessSetup:location-details.country' | i18next}}</label>
-        <input name="country" ng-model="item.country" placeholder="{{'businessSetup:location-details.country' | i18next}}"  required />
+        <input name="country" ng-model="item.country" placeholder="{{'businessSetup:location-details.placeholder.country' | i18next}}"  required />
 
     </form>
 

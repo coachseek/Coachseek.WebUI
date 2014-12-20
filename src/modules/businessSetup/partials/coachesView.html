@@ -15,16 +15,16 @@
 <div class="coach-item-view" ng-show="item">
     <form name="itemForm" novalidate>
         <label name="firstName">{{'person-details.first-name' | i18next}}</label>
-        <input name="firstName" ng-model="item.firstName" placeholder="{{'person-details.first-name' | i18next}}"  required ng-maxlength=50 />
+        <input name="firstName" ng-model="item.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
 
         <label name="lastName">{{'person-details.last-name' | i18next}}</label>
-        <input name="lastName" ng-model="item.lastName" placeholder="{{'person-details.last-name' | i18next}}"  required ng-maxlength=50 />
+        <input name="lastName" ng-model="item.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
 
         <label name="email">{{'person-details.email' | i18next}}</label>
-        <input type="email" name="email" ng-model="item.email" placeholder="{{'person-details.email' | i18next}}"  required ng-maxlength=100 />
+        <input type="email" name="email" ng-model="item.email" placeholder="{{'person-details.placeholder.email' | i18next}}"  required ng-maxlength=100 />
 
         <label name="phone">{{'person-details.phone' | i18next}}</label>
-        <input name="phone" ng-model="item.phone" placeholder="{{'person-details.phone' | i18next}}"  required ng-maxlength=50 />
+        <input name="phone" ng-model="item.phone" placeholder="{{'person-details.placeholder.phone' | i18next}}"  required ng-maxlength=50 />
 
         <time-slot></time-slot>
         <!-- POST here -->

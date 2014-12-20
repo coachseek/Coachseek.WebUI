@@ -25,7 +25,10 @@
 		"forever": "forever"
 	},
 	"business-details": {
-		"name": "Name:"
+		"name": "Name:",
+		"placeholder": {
+			"name": "We Ball Hard Inc."
+		}
 	},
 	"service-details": {
 		"name": "Name:",
@@ -34,14 +37,29 @@
 		"session-price": "Session Price:",
 		"course-price": "Course Price:",
 		"duration": "Duration:",
-		"repeat-frequency": "Repeat Frequency:"
+		"repeat-frequency": "Repeat Frequency:",
+		"placeholder": {
+			"name": "How to Ball Hard",
+			"description": "We show you how to...",
+			"student-capacity": "Min. 1",
+			"session-price": "Min. 0",
+			"course-price": "Min. 0"
+		}
 	},
 	"location-details": {
 		"name": "Name:",
 		"address": "Address:",
 		"city": "City:",
-		"state": "State",
-		"country": "Country"
+		"state": "State:",
+		"country": "Country:",
+		"placeholder": {
+			"name": "We Ball Hardquarters",
+			"address": "123 Weball Street",
+			"city": "Auckland",
+			"state": "Winning",
+			"country": "New Zealand"
+
+		}
 	},
 	"add-new-coach": "Add New Coach",
 	"add-new-service": "Add New Service",

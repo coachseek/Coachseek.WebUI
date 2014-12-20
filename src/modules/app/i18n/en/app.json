@@ -7,7 +7,13 @@
     	"last-name": "Last Name:",
     	"email": "Email:",
     	"phone": "Phone Number:",
-        "password": "Password:"
+        "password": "Password:",
+        "placeholder": {
+            "first-name": "Nick",
+            "last-name": "Bollettieri",
+            "email": "nick@bollettieri.com",
+            "phone": ""
+        }
     },
     "edit": "Edit",
     "save": "Save",
