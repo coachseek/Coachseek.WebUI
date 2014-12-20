@@ -27,9 +27,11 @@
         </div>
     </div>
     <div ui-view id="main-view"></div>
-    <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
-        <span ng-i18next="[i18next]({name:alert.name}){{alert.message}}"></span>
-    </alert>
+    <div class="alert-container">
+        <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
+            <span ng-i18next="[i18next]({name:alert.name}){{alert.message}}"></span>
+        </alert>
+    </div>
     <hr />
     <footer>
         <p>&copy; 2014 - CoachSeek</p>
