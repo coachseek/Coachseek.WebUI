@@ -187,13 +187,13 @@ describe('bussinessSetup Services', function(){
                     beforeEach(function(){
                         $serviceItemView.find('.save-service').trigger('click');
                     });
-                    it('should attempt to save coach', function(){
+                    it('should attempt to save service', function(){
                         expect(saveServiceStub).to.be.calledOnce;
                     });
-                    it('should show the coach list view', function(){
+                    it('should show the services list view', function(){
                         expect($serviceListView.hasClass('ng-hide')).to.be.false;
                     });
-                    it('should not show the coach edit view', function(){
+                    it('should not show the service edit view', function(){
                         expect($serviceItemView.hasClass('ng-hide')).to.be.true;
                     });
                 });
@@ -243,11 +243,11 @@ describe('bussinessSetup Services', function(){
             it('should set the newItem flag to true', function(){
                 expect(scope.newItem).to.be.true;
             });
-            describe('when clicking the cancel button and coach is new', function(){
+            describe('when clicking the cancel button and service is new', function(){
                 beforeEach(function(){
                     $serviceItemView.find('.cancel-service').trigger('click');
                 });
-                it('should discard the new coach', function(){
+                it('should discard the new service', function(){
                     expect(scope.itemList.length).to.equal(initServiceListLength);
                 });
             })

@@ -134,13 +134,13 @@ describe('bussinessSetup Locations', function(){
                     beforeEach(function(){
                         $locationItemView.find('.save-location').trigger('click');
                     });
-                    it('should attempt to save coach', function(){
+                    it('should attempt to save location', function(){
                         expect(saveLocationStub).to.be.calledOnce;
                     });
-                    it('should show the coach list view', function(){
+                    it('should show the location list view', function(){
                         expect($locationListView.hasClass('ng-hide')).to.be.false;
                     });
-                    it('should not show the coach edit view', function(){
+                    it('should not show the location edit view', function(){
                         expect($locationItemView.hasClass('ng-hide')).to.be.true;
                     });
                 });
@@ -190,11 +190,11 @@ describe('bussinessSetup Locations', function(){
             it('should set the newItem flag to true', function(){
                 expect(scope.newItem).to.be.true;
             });
-            describe('when clicking the cancel button and coach is new', function(){
+            describe('when clicking the cancel button and location is new', function(){
                 beforeEach(function(){
                     $locationItemView.find('.cancel-location').trigger('click');
                 });
-                it('should discard the new coach', function(){
+                it('should discard the new location', function(){
                     expect(scope.itemList.length).to.equal(initLocationListLength);
                 });
             })
