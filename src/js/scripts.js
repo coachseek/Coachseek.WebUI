@@ -1,5 +1,7 @@
 'use strict';
 (function(){
+'use strict';
+(function(){
 /* Controllers */
 angular.module('app.controllers', [])
     .controller('appCtrl', ['$rootScope', '$timeout',
@@ -20,7 +22,7 @@ angular.module('app.controllers', [])
                     if(alert.type === 'success'){
                         $timeout(function(){
                             _.pull($rootScope.alerts, alert);
-                        }, 2500);
+                        }, 3000);
                     }
                 }
             };
@@ -44,10 +46,10 @@ angular.module('app.directives', [])
 angular.module('app',
   [
     // LIBRARIES
+    'ngAnimate',
   	'ui.bootstrap',
     'ui.router',
     'jm.i18next',
-    'xeditable',
 
     // coachSeekApp
     'app.controllers', 
@@ -60,21 +62,19 @@ angular.module('app',
     // UTILITIES
     'ngActivityIndicator'
 
-  ]).config(['$stateProvider', function ($stateProvider){
-    $stateProvider.state('home', { url: "/" });
-  }]).config(['$i18nextProvider', function( $i18nextProvider ){
-
-    $i18nextProvider.options = {
-        lng: 'en',
-        fallbackLng: 'en',
-        ns : {
-            namespaces : ['app', 'businessSetup'],
-            defaultNs: 'app'
-        },
-        resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json',
-        defaultLoadingValue: ''
-    };
-
+    ]).config(['$stateProvider', function ($stateProvider){
+        $stateProvider.state('home', { url: "/" });
+    }]).config(['$i18nextProvider', function( $i18nextProvider ){
+        $i18nextProvider.options = {
+            lng: 'en',
+            fallbackLng: 'en',
+            ns : {
+                namespaces : ['app', 'businessSetup'],
+                defaultNs: 'app'
+            },
+            resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json',
+            defaultLoadingValue: ''
+        };
     }]).run(['$rootScope', '$state', '$stateParams', 'editableOptions',
         function($rootScope, $stateParams, $state, editableOptions){
         $rootScope.$state = $state;
@@ -622,10 +622,8 @@ angular.module('businessSetup',
 		'businessSetup.services'
 	])
 	.config(['$stateProvider', function ($stateProvider) {
-
         $stateProvider
             .state('businessSetup', {
-                abstract: true,
                 url: "/business-setup",
                 templateUrl: "businessSetup/partials/businessSetup.html",
             })
@@ -674,8 +672,6 @@ angular.module('businessSetup',
                      }
                 }
             });
-
-
     }]);
 angular.module('businessSetup.services', []).
     service('CRUDService', ['coachSeekAPIService', '$activityIndicator',
@@ -771,4 +767,5 @@ angular.module('businessSetup.services', []).
             $scope.itemCopy = null;
         };
     }]);
+})();
 })();

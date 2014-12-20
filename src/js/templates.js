@@ -239,8 +239,9 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('businessSetup/partials/timeSlot.html',
     "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\">\n" +
-    "\t<span ng-i18next>businessSetup:weekdays.{{weekday}}</span>\n" +
+    "\t<div class=\"weekday-text\" ng-i18next>businessSetup:weekdays.{{weekday}}</div>\n" +
     "\t<time-range-picker\n" +
+    "\t\tclass=\"slide-closed\"\n" +
     "\t\tng-model=\"item.workingHours[weekday]\"\n" +
     "\t\tstart=\"item.workingHours[weekday].startTime\"\n" +
     "\t\tfinish=\"item.workingHours[weekday].finishTime\"\n" +

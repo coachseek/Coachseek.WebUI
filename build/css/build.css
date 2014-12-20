@@ -51,6 +51,7 @@ table {
   width: 50px;
   height: 50px;
   display: inline;
+  cursor: pointer;
 
   div{
     height: 50px;
@@ -78,6 +79,32 @@ table {
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.alert{
+  position: fixed;
+  bottom: 0;
+  left: 0;  
+  width: 300px;
+  &.fade-in-out.ng-enter, 
+  &.fade-in-out.ng-leave
+  { 
+    -webkit-transition: 400ms linear all;
+    -moz-transition: 400ms linear all;
+    -ms-transition: 400ms linear all;
+    -o-transition: 400ms linear all;
+    transition: 400ms linear all;
+  } 
+
+  &.fade-in-out.ng-leave.fade-in-out.ng-leave-active,
+  &.fade-in-out.ng-enter {
+    bottom: -200px;
+  }
+
+  &.fade-in-out.ng-enter.ng-enter-active, 
+  &.fade-in-out.ng-leave {;
+    bottom: 0;
+  }
+}
 /* NUGET: BEGIN LICENSE TEXT
  *
  * Microsoft grants you the right to use these script files for the sole
@@ -7052,20 +7079,44 @@ repeat-selector{
 }
 .weekday{
     width: 50%;
+    overflow: hidden;
     margin: 10px auto;
+
+    .weekday-text{
+        background: white;
+        line-height: 80px;
+        float: left;
+        z-index: 1;
+    }
     time-range-picker{
-        display: inline-block;
-        overflow: hidden;
+        z-index: -1;
+        float: left;
+        position: relative;
+
         &.ng-invalid{
             border: 1px solid red;
         }
 
         .time-picker{
             display: inline-block;
+            margin-top: 10px;
+        }
+
+
+        &.slide-closed{
+            margin-left: 0px;
+
+            -webkit-transition:all linear 0.5s;
+            transition:all linear 0.5s;
+        }
+
+        &.slide-closed.ng-hide {
+            margin-left: -100px;
         }
     }
 
     button{
+        margin-top: 25px;
         span{
             font-size: 18px;
             font-weight: bold;

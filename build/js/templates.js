@@ -57,7 +57,7 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/timeSlot.html',
-    "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\"><span ng-i18next>businessSetup:weekdays.{{weekday}}</span><time-range-picker ng-model=\"item.workingHours[weekday]\" start=\"item.workingHours[weekday].startTime\" finish=\"item.workingHours[weekday].finishTime\" ng-disabled=\"!item.workingHours[weekday].isAvailable\" ng-show=\"item.workingHours[weekday].isAvailable\"></time-range-picker><button type=\"button\" class=\"btn btn-primary\" ng-model=\"item.workingHours[weekday].isAvailable\" ng-click=\"item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable\"><span ng-class=\"item.workingHours[weekday].isAvailable ? 'icon-cross' : 'icon-check' \"></span></button></div>"
+    "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\"><div class=\"weekday-text\" ng-i18next>businessSetup:weekdays.{{weekday}}</div><time-range-picker class=\"slide-closed\" ng-model=\"item.workingHours[weekday]\" start=\"item.workingHours[weekday].startTime\" finish=\"item.workingHours[weekday].finishTime\" ng-disabled=\"!item.workingHours[weekday].isAvailable\" ng-show=\"item.workingHours[weekday].isAvailable\"></time-range-picker><button type=\"button\" class=\"btn btn-primary\" ng-model=\"item.workingHours[weekday].isAvailable\" ng-click=\"item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable\"><span ng-class=\"item.workingHours[weekday].isAvailable ? 'icon-cross' : 'icon-check' \"></span></button></div>"
   );
 
 }]);
