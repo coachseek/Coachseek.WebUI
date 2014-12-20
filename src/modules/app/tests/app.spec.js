@@ -58,7 +58,7 @@ describe('App Module', function() {
             })
         });
         describe('when adding a success alert', function(){
-            it('should disappear after 2.5 seconds', function(){
+            it('should disappear after 3 seconds', function(){
                 $timeout.flush();
 
                 expect(_.contains($rootScope.alerts, this.alertOne)).to.be.false;
