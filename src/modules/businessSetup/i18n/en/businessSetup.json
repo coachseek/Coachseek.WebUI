@@ -24,6 +24,9 @@
 		"once": "once",
 		"forever": "forever"
 	},
+	"business-details": {
+		"name": "Name:"
+	},
 	"service-details": {
 		"name": "Name:",
 		"description": "Service Description:",
@@ -63,6 +66,7 @@
 	"studentCapacity-invalid": "Oops! Looks like you need to add some digits to your Student Capacity. Try again.",
 	"sessionPrice-invalid": "Oops! Looks like your Session Price isn't a price. Try again.",
 	"coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
+	"password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
 	
 	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
 	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",

@@ -20,6 +20,43 @@ angular.module('app.services', []).
     //     getLocations: { method: 'GET'},
     //     deleteLocation: { method: 'DELETE'}
     // });
+
+    coachSeekAPI.getBusiness = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve({});
+        }, _.random(500, 600));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.saveBusiness = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve([]);
+        }, _.random(500, 600));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.createBusiness = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve({
+                business: {
+                    name: "West Coast Toast"
+                },
+                admin: {
+                    firstName: "Toast",
+                    lastName: "Master",
+                    email: "toastmaster@westcoasttoast.com",
+                    password: "password"
+                }
+            });
+        }, _.random(500, 600));
+        return this.deferred.promise;
+    };
     
     coachSeekAPI.getLocations = function(businessId) {
         this.deferred = $q.defer();
@@ -69,9 +106,8 @@ angular.module('app.services', []).
         self.deferred.resolve({
                 businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
                 id: null,
-                firstName: "NEWEST",
-                name: "USER",
-                description: "aaron.smith@example.com",
+                name: "Toast Making",
+                description: "I show you how to make goddamn toast, son.",
                 timing: {
                     duration: "0:15"
                 },
@@ -121,9 +157,9 @@ angular.module('app.services', []).
   		deferred.resolve({
 					businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
 					id: null,
-					firstName: "NEWEST",
-					lastName: "USER",
-					email: "aaron.smith@example.com",
+					firstName: "Toast",
+					lastName: "Apprentice #1",
+					email: "apprentice@westcoasttoast.com",
 					phone: "021 99 88 77",
 					workingHours: {
 						monday: { 

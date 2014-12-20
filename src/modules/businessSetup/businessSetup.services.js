@@ -6,7 +6,7 @@ angular.module('businessSetup.services', []).
             $activityIndicator.startAnimating();
             coachSeekAPIService[functionName]().then(function(data){
                 //set coach list data or creat first coach
-                if(data.length){        
+                if(_.size(data)){        
                     $scope.itemList = data;
                 } else {
                     $scope.itemList = [];
@@ -46,7 +46,7 @@ angular.module('businessSetup.services', []).
                 $scope.addAlert({
                     type: 'success',
                     message: "businessSetup:save-success",
-                    name: item.name ? item.name: item.firstName + " " + item.lastName
+                    name: item.name ? item.name: findName(item)
                 });
             }, function(error){
                 $scope.addAlert({
@@ -79,8 +79,6 @@ angular.module('businessSetup.services', []).
                         });
                     });
                 });
-            } else {
-                valid = $scope.checkDuplicates(valid);
             }
             return valid;
         };
@@ -90,5 +88,13 @@ angular.module('businessSetup.services', []).
             $scope.removeAlerts();
             $scope.newItem = null;
             $scope.itemCopy = null;
+        };
+
+        var findName = function(item){
+            if(item.firstName && item.lastName){
+                return item.firstName + " " + item.lastName;
+            } else if (item.business) {
+                return item.business.name;
+            }
         };
     }]);

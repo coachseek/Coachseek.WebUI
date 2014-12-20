@@ -6,7 +6,8 @@
     	"first-name": "First Name:",
     	"last-name": "Last Name:",
     	"email": "Email:",
-    	"phone": "Phone Number:"
+    	"phone": "Phone Number:",
+        "password": "Password:"
     },
     "edit": "Edit",
     "save": "Save",
