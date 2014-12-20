@@ -62,6 +62,9 @@ describe('bussinessSetup Services', function(){
                     pricing: {
                         sessionPrice: 43,
                         coursePrice: 69
+                    },
+                    repititon: {
+                        repeatFrequency: 2
                     }
                 }
             })
@@ -97,6 +100,14 @@ describe('bussinessSetup Services', function(){
             });
             it('should show the cancel button', function(){
                 expect($serviceItemView.find('.cancel-service').hasClass('ng-hide')).to.be.false;
+            });
+            describe('when changing the repeatFrequency to -1 or null', function(){
+                it('should set the coursePrice to null', function(){
+                    scope.item.repititon.repeatFrequency = null;
+                    scope.$apply();
+
+                    expect(scope.item.pricing.coursePrice).to.equal(null);
+                })
             });
             describe('when clicking the save button', function(){
                 var saveServiceStub;
