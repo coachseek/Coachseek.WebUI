@@ -99,24 +99,24 @@ table {
   }
 }
 
-.alert {
+.alert-container {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 300px;
 }
-.alert.fade-in-out.ng-enter, .alert.fade-in-out.ng-leave {
+.alert-container .alert.fade-in-out.ng-enter, .alert-container .alert.fade-in-out.ng-leave {
   -webkit-transition: 400ms linear all;
   -moz-transition: 400ms linear all;
   -ms-transition: 400ms linear all;
   -o-transition: 400ms linear all;
   transition: 400ms linear all;
 }
-.alert.fade-in-out.ng-leave.fade-in-out.ng-leave-active, .alert.fade-in-out.ng-enter {
-  bottom: -200px;
+.alert-container .alert.fade-in-out.ng-leave.fade-in-out.ng-leave-active, .alert-container .alert.fade-in-out.ng-enter {
+  opacity: 0;
 }
-.alert.fade-in-out.ng-enter.ng-enter-active, .alert.fade-in-out.ng-leave {
-  bottom: 0;
+.alert-container .alert.fade-in-out.ng-enter.ng-enter-active, .alert-container .alert.fade-in-out.ng-leave {
+  opacity: 1;
 }
 
 /* NUGET: BEGIN LICENSE TEXT

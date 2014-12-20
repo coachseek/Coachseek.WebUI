@@ -1,7 +1,5 @@
 'use strict';
 (function(){
-'use strict';
-(function(){
 /* Controllers */
 angular.module('app.controllers', [])
     .controller('appCtrl', ['$rootScope', '$timeout',
@@ -105,6 +103,43 @@ angular.module('app.services', []).
     //     getLocations: { method: 'GET'},
     //     deleteLocation: { method: 'DELETE'}
     // });
+
+    coachSeekAPI.getBusiness = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve({});
+        }, _.random(500, 600));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.saveBusiness = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve([]);
+        }, _.random(500, 600));
+        return this.deferred.promise;
+    };
+
+    coachSeekAPI.createBusiness = function(businessId) {
+        this.deferred = $q.defer();
+        var self = this;
+        $timeout(function(){
+        self.deferred.resolve({
+                business: {
+                    name: "West Coast Toast"
+                },
+                admin: {
+                    firstName: "Toast",
+                    lastName: "Master",
+                    email: "toastmaster@westcoasttoast.com",
+                    password: "password"
+                }
+            });
+        }, _.random(500, 600));
+        return this.deferred.promise;
+    };
     
     coachSeekAPI.getLocations = function(businessId) {
         this.deferred = $q.defer();
@@ -154,9 +189,8 @@ angular.module('app.services', []).
         self.deferred.resolve({
                 businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
                 id: null,
-                firstName: "NEWEST",
-                name: "USER",
-                description: "aaron.smith@example.com",
+                name: "Toast Making",
+                description: "I show you how to make goddamn toast, son.",
                 timing: {
                     duration: "0:15"
                 },
@@ -206,9 +240,9 @@ angular.module('app.services', []).
   		deferred.resolve({
 					businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
 					id: null,
-					firstName: "NEWEST",
-					lastName: "USER",
-					email: "aaron.smith@example.com",
+					firstName: "Toast",
+					lastName: "Apprentice #1",
+					email: "apprentice@westcoasttoast.com",
 					phone: "021 99 88 77",
 					workingHours: {
 						monday: { 
@@ -263,6 +297,42 @@ angular.module('businessSetup.controllers', [])
     .controller('businessCtrl', ['$scope', 'CRUDService',
         function($scope, CRUDService){
 
+        $scope.editItem = function(business){
+            _.pull($scope.itemList, business);
+            $scope.itemCopy = angular.copy(business);
+
+            $scope.item = business;  
+        };
+
+        $scope.createItem = function(){
+            CRUDService.create('createBusiness', $scope);
+        };
+
+        $scope.saveItem = function(business){
+            var formValid = CRUDService.validateForm($scope);
+            if(formValid){
+                CRUDService.update('saveBusiness', $scope, business);  
+            }
+        };
+
+        $scope.cancelEdit = function(){
+            CRUDService.cancelEdit($scope);
+        };
+
+        $scope.$on('$stateChangeStart', function(event, toState){
+            if(_.contains(["businessSetup.locations", "businessSetup.coachList", "businessSetup.services"], toState.name) ){
+                if(!$scope.itemList || $scope.itemList.length <= 0){
+                    event.preventDefault();
+                    //show bootstrap message
+                    $scope.addAlert({
+                        type: 'warning',
+                        message: 'businessSetup:add-business-warning'
+                    });
+                }
+            }
+        });
+
+        CRUDService.get('getBusiness', $scope);
     }])
     .controller('locationsCtrl', ['$scope', '$http', 'CRUDService',
         function($scope, $http, CRUDService){
@@ -280,6 +350,7 @@ angular.module('businessSetup.controllers', [])
 
             $scope.saveItem = function(location){
                 var formValid = CRUDService.validateForm($scope);
+                formValid = checkDuplicates(formValid);
                 if(formValid){
                     CRUDService.update('saveLocation', $scope, location);  
                 }
@@ -287,10 +358,9 @@ angular.module('businessSetup.controllers', [])
 
             $scope.cancelEdit = function(){
                 CRUDService.cancelEdit($scope);
-
             };
 
-            $scope.checkDuplicates = function(valid){
+            var checkDuplicates = function(valid){
                 var name = $scope.item.name;
                 var address = $scope.item.address;
                 if( _.find($scope.itemList, {name: name,address: address}) ){
@@ -305,6 +375,7 @@ angular.module('businessSetup.controllers', [])
 
             //TODO - if an open item exists do we cancel or ask if they want to save?
             //TODO - dont navigate forward in the registration process
+            //      still skips coaches if there is a location
             $scope.$on('$stateChangeStart', function(event, toState){
                 if(_.contains(["businessSetup.coachList", "businessSetup.services"], toState.name) ){
                     if(!$scope.itemList || $scope.itemList.length <= 0){
@@ -340,12 +411,13 @@ angular.module('businessSetup.controllers', [])
 
         $scope.saveItem = function(coach){
             var formValid = CRUDService.validateForm($scope);
+                formValid = checkDuplicates(formValid);
             if(formValid){
                 CRUDService.update('saveCoach', $scope, coach);  
             }
         };
 
-        $scope.checkDuplicates = function(valid){
+        var checkDuplicates = function(valid){
             var firstName = $scope.item.firstName;
             var lastName = $scope.item.lastName;
             if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){
@@ -389,6 +461,7 @@ angular.module('businessSetup.controllers', [])
 
         $scope.saveItem = function(service){
             var formValid = CRUDService.validateForm($scope);
+                formValid = checkDuplicates(formValid);
             if(formValid){
                 CRUDService.update('saveService', $scope, service);  
             }
@@ -398,7 +471,7 @@ angular.module('businessSetup.controllers', [])
             CRUDService.cancelEdit($scope);
         };
 
-        $scope.checkDuplicates = function(valid){
+        var checkDuplicates = function(valid){
             var serviceName = $scope.item.name;
             if( _.find($scope.itemList, {name: serviceName}) ){
                 $scope.addAlert({
@@ -681,7 +754,7 @@ angular.module('businessSetup.services', []).
             $activityIndicator.startAnimating();
             coachSeekAPIService[functionName]().then(function(data){
                 //set coach list data or creat first coach
-                if(data.length){        
+                if(_.size(data)){        
                     $scope.itemList = data;
                 } else {
                     $scope.itemList = [];
@@ -721,7 +794,7 @@ angular.module('businessSetup.services', []).
                 $scope.addAlert({
                     type: 'success',
                     message: "businessSetup:save-success",
-                    name: item.name ? item.name: item.firstName + " " + item.lastName
+                    name: item.name ? item.name: findName(item)
                 });
             }, function(error){
                 $scope.addAlert({
@@ -754,8 +827,6 @@ angular.module('businessSetup.services', []).
                         });
                     });
                 });
-            } else {
-                valid = $scope.checkDuplicates(valid);
             }
             return valid;
         };
@@ -766,6 +837,13 @@ angular.module('businessSetup.services', []).
             $scope.newItem = null;
             $scope.itemCopy = null;
         };
+
+        var findName = function(item){
+            if(item.firstName && item.lastName){
+                return item.firstName + " " + item.lastName;
+            } else if (item.business) {
+                return item.business.name;
+            }
+        };
     }]);
-})();
 })();

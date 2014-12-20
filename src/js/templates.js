@@ -22,12 +22,38 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('businessSetup/partials/businessView.html',
     "<h3>{{'businessSetup:business-title' | i18next}}</h3>\n" +
-    "<div class=\"service-item-view\" ng-show=\"item\">\n" +
+    "<div class=\"business-list-view\" ng-hide=\"item\">\n" +
+    "    <ul>\n" +
+    "        <li class=\"business-details\" ng-repeat=\"item in itemList\">\n" +
+    "            <span class=\"business-name\">{{item.business.name}} {{coach.lastName}}</span>\n" +
+    "            <span class=\"business-firstName\">{{item.admin.firstName}}</span>\n" +
+    "            <span class=\"business-lastName\">{{item.admin.lastName}}</span>\n" +
+    "            <span class=\"business-email\">{{item.admin.email}}</span>\n" +
+    "            <!-- show coach edit on click -->\n" +
+    "            <button class=\"edit-business\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
+    "        </li>\n" +
+    "    </ul>\n" +
+    "</div>\n" +
+    "<div class=\"business-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" editable-form novalidate>\n" +
+    "        <label name=\"name\">{{'businessSetup:business-details.name' | i18next}}</label>\n" +
+    "        <input name=\"name\" ng-model=\"item.business.name\" placeholder=\"{{'businessSetup:business-details.placeholder.name' | i18next}}\" required ng-maxlength=50 />\n" +
     "\n" +
+    "        <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
+    "        <input name=\"firstName\" ng-model=\"item.admin.firstName\" placeholder=\"{{'person-details.placeholder.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "\n" +
+    "        <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
+    "        <input name=\"lastName\" ng-model=\"item.admin.lastName\" placeholder=\"{{'person-details.placeholder.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "\n" +
+    "        <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
+    "        <input type=\"email\" name=\"email\" ng-model=\"item.admin.email\" placeholder=\"{{'person-details.placeholder.email' | i18next}}\"  required ng-maxlength=100 />\n" +
+    "\n" +
+    "        <label name=\"password\">{{'person-details.password' | i18next}}</label>\n" +
+    "        <input type=\"password\" name=\"password\" ng-model=\"item.admin.password\" required ng-minlength=6 ng-maxlength=50 />\n" +
     "    </form>\n" +
     "\n" +
     "    <!-- POST here -->\n" +
+    "    <button class=\"cancel-button\" ng-hide=\"newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
     "    <button class=\"save-business\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
     "</div>"
   );
@@ -51,16 +77,16 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "<div class=\"coach-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" novalidate>\n" +
     "        <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
-    "        <input name=\"firstName\" ng-model=\"item.firstName\" placeholder=\"{{'person-details.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"firstName\" ng-model=\"item.firstName\" placeholder=\"{{'person-details.placeholder.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
-    "        <input name=\"lastName\" ng-model=\"item.lastName\" placeholder=\"{{'person-details.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"lastName\" ng-model=\"item.lastName\" placeholder=\"{{'person-details.placeholder.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
-    "        <input type=\"email\" name=\"email\" ng-model=\"item.email\" placeholder=\"{{'person-details.email' | i18next}}\"  required ng-maxlength=100 />\n" +
+    "        <input type=\"email\" name=\"email\" ng-model=\"item.email\" placeholder=\"{{'person-details.placeholder.email' | i18next}}\"  required ng-maxlength=100 />\n" +
     "\n" +
     "        <label name=\"phone\">{{'person-details.phone' | i18next}}</label>\n" +
-    "        <input name=\"phone\" ng-model=\"item.phone\" placeholder=\"{{'person-details.phone' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"phone\" ng-model=\"item.phone\" placeholder=\"{{'person-details.placeholder.phone' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <time-slot></time-slot>\n" +
     "        <!-- POST here -->\n" +
@@ -100,19 +126,19 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "<div class=\"location-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" editable-form novalidate>\n" +
     "        <label name=\"name\">{{'businessSetup:location-details.name' | i18next}}</label>\n" +
-    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:location-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:location-details.placeholder.name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <label name=\"address\">{{'businessSetup:location-details.address' | i18next}}</label>\n" +
-    "        <input name=\"address\" ng-blur=\"updateAddress()\" ng-model=\"item.address\" placeholder=\"{{'businessSetup:location-details.address' | i18next}}\"  required />\n" +
+    "        <input name=\"address\" ng-blur=\"updateAddress()\" ng-model=\"item.address\" placeholder=\"{{'businessSetup:location-details.placeholder.address' | i18next}}\"  required />\n" +
     "\n" +
     "        <label name=\"city\">{{'businessSetup:location-details.city' | i18next}}</label>\n" +
-    "        <input name=\"city\" ng-model=\"item.city\" placeholder=\"{{'businessSetup:location-details.city' | i18next}}\"  required />\n" +
+    "        <input name=\"city\" ng-model=\"item.city\" placeholder=\"{{'businessSetup:location-details.placeholder.city' | i18next}}\"  required />\n" +
     "\n" +
     "        <label name=\"state\">{{'businessSetup:location-details.state' | i18next}}</label>\n" +
-    "        <input name=\"state\" ng-model=\"item.state\" placeholder=\"{{'businessSetup:location-details.state' | i18next}}\"  required />\n" +
+    "        <input name=\"state\" ng-model=\"item.state\" placeholder=\"{{'businessSetup:location-details.placeholder.state' | i18next}}\"  required />\n" +
     "\n" +
     "        <label name=\"country\">{{'businessSetup:location-details.country' | i18next}}</label>\n" +
-    "        <input name=\"country\" ng-model=\"item.country\" placeholder=\"{{'businessSetup:location-details.country' | i18next}}\"  required />\n" +
+    "        <input name=\"country\" ng-model=\"item.country\" placeholder=\"{{'businessSetup:location-details.placeholder.country' | i18next}}\"  required />\n" +
     "\n" +
     "    </form>\n" +
     "\n" +
@@ -170,26 +196,26 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "<div class=\"service-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" novalidate>\n" +
     "        <label name=\"name\">{{'businessSetup:service-details.name' | i18next}}</label>\n" +
-    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:service-details.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:service-details.placeholder.name' | i18next}}\"  required ng-maxlength=50 />\n" +
     "\n" +
     "        <label name=\"description\">{{'businessSetup:service-details.description' | i18next}}</label>\n" +
-    "        <textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'businessSetup:service-details.description' | i18next}}\" ng-maxlength=\"200\"></textarea>\n" +
+    "        <textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'businessSetup:service-details.placeholder.description' | i18next}}\" ng-maxlength=\"200\"></textarea>\n" +
     "\n" +
     "        <label>{{'businessSetup:service-details.duration' | i18next}}</label>\n" +
     "        <time-picker time=\"item.timing.duration\"></time-picker>\n" +
     "\n" +
     "        <label name=\"studentCapacity\">{{'businessSetup:service-details.student-capacity' | i18next}}</label>\n" +
-    "        <input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'businessSetup:service-details.student-capacity' | i18next}}\"  min=\"1\"  />\n" +
+    "        <input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}\"  min=\"1\"  />\n" +
     "\n" +
     "        <color-picker\n" +
     "            current-color=\"item.presentation.color\"\n" +
     "        ></color-picker>\n" +
     "\n" +
     "        <label name=\"sessionPrice\">{{'businessSetup:service-details.session-price' | i18next}}</label>\n" +
-    "        <input name=\"sessionPrice\" type=\"number\" ng-model=\"item.pricing.sessionPrice\" placeholder=\"{{'businessSetup:service-details.session-price' | i18next}}\"  min=\"0\" step=\".01\"  />\n" +
+    "        <input name=\"sessionPrice\" type=\"number\" ng-model=\"item.pricing.sessionPrice\" placeholder=\"{{'businessSetup:service-details.placeholder.session-price' | i18next}}\"  min=\"0\" step=\".01\"  />\n" +
     "\n" +
     "        <label name=\"coursePrice\">{{'businessSetup:service-details.course-price' | i18next}}</label>\n" +
-    "        <input name=\"coursePrice\" ng-disabled=\"!item.repititon.repeatFrequency > 0\" type=\"number\" ng-model=\"item.pricing.coursePrice\" placeholder=\"{{'businessSetup:service-details.course-price' | i18next}}\"  min=\"0\" step=\".01\" />\n" +
+    "        <input name=\"coursePrice\" ng-disabled=\"!item.repititon.repeatFrequency > 0\" type=\"number\" ng-model=\"item.pricing.coursePrice\" placeholder=\"{{'businessSetup:service-details.placeholder.course-price' | i18next}}\"  min=\"0\" step=\".01\" />\n" +
     "    </form>\n" +
     "\n" +
     "    <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>\n" +

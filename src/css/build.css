@@ -79,30 +79,32 @@ table {
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 @-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 @keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-
-.alert{
+.alert-container{
   position: fixed;
   bottom: 0;
-  left: 0;  
+  left: 0; 
   width: 300px;
-  &.fade-in-out.ng-enter, 
-  &.fade-in-out.ng-leave
-  { 
-    -webkit-transition: 400ms linear all;
-    -moz-transition: 400ms linear all;
-    -ms-transition: 400ms linear all;
-    -o-transition: 400ms linear all;
-    transition: 400ms linear all;
-  } 
 
-  &.fade-in-out.ng-leave.fade-in-out.ng-leave-active,
-  &.fade-in-out.ng-enter {
-    bottom: -200px;
-  }
+  .alert{
+    &.fade-in-out.ng-enter, 
+    &.fade-in-out.ng-leave
+    { 
+      -webkit-transition: 400ms linear all;
+      -moz-transition: 400ms linear all;
+      -ms-transition: 400ms linear all;
+      -o-transition: 400ms linear all;
+      transition: 400ms linear all;
+    } 
 
-  &.fade-in-out.ng-enter.ng-enter-active, 
-  &.fade-in-out.ng-leave {;
-    bottom: 0;
+    &.fade-in-out.ng-leave.fade-in-out.ng-leave-active,
+    &.fade-in-out.ng-enter {
+      opacity: 0;
+    }
+
+    &.fade-in-out.ng-enter.ng-enter-active, 
+    &.fade-in-out.ng-leave {
+      opacity: 1;
+    }
   }
 }
 /* NUGET: BEGIN LICENSE TEXT
