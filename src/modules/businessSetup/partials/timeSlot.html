@@ -1,6 +1,7 @@
 <div ng-repeat="weekday in weekdays" class="weekday">
-	<span ng-i18next>businessSetup:weekdays.{{weekday}}</span>
+	<div class="weekday-text" ng-i18next>businessSetup:weekdays.{{weekday}}</div>
 	<time-range-picker
+		class="slide-closed"
 		ng-model="item.workingHours[weekday]"
 		start="item.workingHours[weekday].startTime"
 		finish="item.workingHours[weekday].finishTime"

@@ -1,19 +1,43 @@
 .weekday{
     width: 50%;
+    overflow: hidden;
     margin: 10px auto;
+
+    .weekday-text{
+        background: white;
+        line-height: 80px;
+        float: left;
+        z-index: 1;
+    }
     time-range-picker{
-        display: inline-block;
-        overflow: hidden;
+        z-index: -1;
+        float: left;
+        position: relative;
+
         &.ng-invalid{
             border: 1px solid red;
         }
 
         .time-picker{
             display: inline-block;
+            margin-top: 10px;
+        }
+
+
+        &.slide-closed{
+            margin-left: 0px;
+
+            -webkit-transition:all linear 0.5s;
+            transition:all linear 0.5s;
+        }
+
+        &.slide-closed.ng-hide {
+            margin-left: -100px;
         }
     }
 
     button{
+        margin-top: 25px;
         span{
             font-size: 18px;
             font-weight: bold;
