@@ -5,10 +5,8 @@ angular.module('businessSetup',
 		'businessSetup.services'
 	])
 	.config(['$stateProvider', function ($stateProvider) {
-
         $stateProvider
             .state('businessSetup', {
-                abstract: true,
                 url: "/business-setup",
                 templateUrl: "businessSetup/partials/businessSetup.html",
             })
@@ -57,6 +55,4 @@ angular.module('businessSetup',
                      }
                 }
             });
-
-
     }]);
