@@ -55,6 +55,7 @@ angular.module('businessSetup.controllers', [])
 
             $scope.saveItem = function(location){
                 var formValid = CRUDService.validateForm($scope);
+                formValid = checkDuplicates(formValid);
                 if(formValid){
                     CRUDService.update('saveLocation', $scope, location);  
                 }
