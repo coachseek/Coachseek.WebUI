@@ -18,7 +18,7 @@ angular.module('app.controllers', [])
                     if(alert.type === 'success'){
                         $timeout(function(){
                             _.pull($rootScope.alerts, alert);
-                        }, 2500);
+                        }, 3000);
                     }
                 }
             };
