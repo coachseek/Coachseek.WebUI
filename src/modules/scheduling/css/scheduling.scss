@@ -1,0 +1,20 @@
+.scheduling-container{
+    width: 100%;
+    margin: 0 auto;
+
+    .services-list{
+        min-height: 500px;
+
+        width: 25%;
+        float: left;
+
+        li{
+            cursor: move;
+        }
+    }
+
+    .calendar{
+        width: 75%;
+        float: right;
+    }
+}
