@@ -7,7 +7,7 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/businessSetup.html',
-    "<a class=\"nav-to-business\" ui-sref=\"businessSetup.business\">{{'businessSetup:nav-to-business' | i18next}}</a> <a class=\"nav-to-locations\" ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a> <a class=\"nav-to-coaches\" ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a> <a class=\"nav-to-services\" ui-sref=\"businessSetup.services\">{{'businessSetup:nav-to-services' | i18next}}</a> <a class=\"nav-to-scheduling\" ui-sref=\"businessSetup.scheduling\">{{'businessSetup:nav-to-scheduling' | i18next}}</a><div ui-view=\"list-item-view\"></div>"
+    "<a class=\"nav-to-business\" ui-sref=\"businessSetup.business\">{{'businessSetup:nav-to-business' | i18next}}</a> <a class=\"nav-to-locations\" ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a> <a class=\"nav-to-coaches\" ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a> <a class=\"nav-to-services\" ui-sref=\"businessSetup.services\">{{'businessSetup:nav-to-services' | i18next}}</a><div ui-view=\"list-item-view\"></div>"
   );
 
 
@@ -36,11 +36,6 @@ angular.module('app').run(['$templateCache', function($templateCache) {
   );
 
 
-  $templateCache.put('businessSetup/partials/schedulingView.html',
-    "<h3>{{'businessSetup:scheduling-title' | i18next}}</h3>"
-  );
-
-
   $templateCache.put('businessSetup/partials/servicesView.html',
     "<h3>{{'businessSetup:coach-services-title' | i18next}}</h3><div class=\"service-list-view\" ng-hide=\"item\"><ul><li class=\"service-details\" ng-repeat=\"item in itemList\"><span class=\"service-name\">{{item.name}}</span> <span class=\"service-description\">{{item.description}}</span><!-- show coach edit on click --> <button class=\"edit-service\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button></li></ul><!-- show coach creation on click --><button class=\"create-service\" ng-click=\"createItem()\">{{'businessSetup:add-new-service' | i18next}}</button></div><div class=\"service-item-view\" ng-show=\"item\"><form name=\"itemForm\" novalidate><label name=\"name\">{{'businessSetup:service-details.name' | i18next}}</label><input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:service-details.placeholder.name' | i18next}}\" required ng-maxlength=\"50\"><label name=\"description\">{{'businessSetup:service-details.description' | i18next}}</label><textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'businessSetup:service-details.placeholder.description' | i18next}}\" ng-maxlength=\"200\"></textarea><label>{{'businessSetup:service-details.duration' | i18next}}</label><time-picker time=\"item.timing.duration\"></time-picker><label name=\"studentCapacity\">{{'businessSetup:service-details.student-capacity' | i18next}}</label><input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}\" min=\"1\"><color-picker current-color=\"item.presentation.color\"></color-picker><label name=\"sessionPrice\">{{'businessSetup:service-details.session-price' | i18next}}</label><input name=\"sessionPrice\" type=\"number\" ng-model=\"item.pricing.sessionPrice\" placeholder=\"{{'businessSetup:service-details.placeholder.session-price' | i18next}}\" min=\"0\" step=\".01\"><label name=\"coursePrice\">{{'businessSetup:service-details.course-price' | i18next}}</label><input name=\"coursePrice\" ng-disabled=\"!item.repititon.repeatFrequency > 0\" type=\"number\" ng-model=\"item.pricing.coursePrice\" placeholder=\"{{'businessSetup:service-details.placeholder.course-price' | i18next}}\" min=\"0\" step=\".01\"></form><label>{{'businessSetup:service-details.repeat-frequency' | i18next}}</label><!-- xeditable does not play well with other inputs. yet.--><!-- https://github.com/vitalets/angular-xeditable/issues/6 --><repeat-selector repeat-frequency=\"item.repititon.repeatFrequency\" session-count=\"item.repititon.sessionCount\"></repeat-selector><!-- POST here --><button class=\"save-service\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button> <button class=\"cancel-service\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button></div>"
   );
@@ -58,6 +53,11 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('businessSetup/partials/timeSlot.html',
     "<div ng-repeat=\"weekday in weekdays\" class=\"weekday\"><div class=\"weekday-text\" ng-i18next>businessSetup:weekdays.{{weekday}}</div><time-range-picker class=\"slide-closed\" ng-model=\"item.workingHours[weekday]\" start=\"item.workingHours[weekday].startTime\" finish=\"item.workingHours[weekday].finishTime\" ng-disabled=\"!item.workingHours[weekday].isAvailable\" ng-show=\"item.workingHours[weekday].isAvailable\"></time-range-picker><button type=\"button\" class=\"btn btn-primary\" ng-model=\"item.workingHours[weekday].isAvailable\" ng-click=\"item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable\"><span ng-class=\"item.workingHours[weekday].isAvailable ? 'icon-cross' : 'icon-check' \"></span></button></div>"
+  );
+
+
+  $templateCache.put('scheduling/partials/schedulingView.html',
+    "<h3>{{'scheduling:scheduling-title' | i18next}}</h3><div class=\"scheduling-container\"><div class=\"services-list\"><ul><li data-drag=\"true\" data-service=\"{{item}}\" data-duration=\"{{item.timing.duration}}\" jqyoui-draggable data-jqyoui-options=\"{revert: true}\" ng-style=\"{'background-color':item.presentation.color}\" class=\"service-details\" ng-repeat=\"item in itemList\"><span class=\"service-name\">{{item.name}} {{item.repititon.sessionCount}}</span></li></ul></div><div class=\"calendar\" ui-calendar=\"uiConfig.calendar\" ng-model=\"eventSources\" calendar=\"\"></div></div>"
   );
 
 }]);

@@ -14,7 +14,6 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "<a class=\"nav-to-locations\" ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
     "<a class=\"nav-to-coaches\" ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a>\n" +
     "<a class=\"nav-to-services\" ui-sref=\"businessSetup.services\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
-    "<a class=\"nav-to-scheduling\" ui-sref=\"businessSetup.scheduling\">{{'businessSetup:nav-to-scheduling' | i18next}}</a>\n" +
     "\n" +
     "<div ui-view=\"list-item-view\"></div>"
   );
@@ -173,11 +172,6 @@ angular.module('app').run(['$templateCache', function($templateCache) {
   );
 
 
-  $templateCache.put('businessSetup/partials/schedulingView.html',
-    "<h3>{{'businessSetup:scheduling-title' | i18next}}</h3>"
-  );
-
-
   $templateCache.put('businessSetup/partials/servicesView.html',
     "<h3>{{'businessSetup:coach-services-title' | i18next}}</h3>\n" +
     "<div class=\"service-list-view\" ng-hide=\"item\">\n" +
@@ -283,6 +277,29 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "\t\t\tng-class=\"item.workingHours[weekday].isAvailable ? 'icon-cross' : 'icon-check' \"\n" +
     "\t\t></span>\n" +
     "\t</button>\n" +
+    "</div>"
+  );
+
+
+  $templateCache.put('scheduling/partials/schedulingView.html',
+    "<h3>{{'scheduling:scheduling-title' | i18next}}</h3>\n" +
+    "<div class=\"scheduling-container\">\n" +
+    "    <div class=\"services-list\">\n" +
+    "        <ul>\n" +
+    "            <li \n" +
+    "                data-drag=\"true\"\n" +
+    "                data-service=\"{{item}}\" \n" +
+    "                data-duration=\"{{item.timing.duration}}\" \n" +
+    "                jqyoui-draggable\n" +
+    "                data-jqyoui-options=\"{revert: true}\" \n" +
+    "                ng-style=\"{'background-color':item.presentation.color}\"\n" +
+    "                class=\"service-details\" \n" +
+    "                ng-repeat=\"item in itemList\">\n" +
+    "                    <span class=\"service-name\">{{item.name}} {{item.repititon.sessionCount}}</span>\n" +
+    "            </li>\n" +
+    "        </ul>\n" +
+    "    </div>\n" +
+    "    <div class=\"calendar\" ui-calendar=\"uiConfig.calendar\" ng-model=\"eventSources\" calendar=\"\"></div>\n" +
     "</div>"
   );
 

@@ -1,0 +1,108 @@
+{
+	"home": "Home",
+	"setup": "SETUP",
+	"login": "Log In",
+	"person-details": {
+		"first-name": "First Name:",
+		"last-name": "Last Name:",
+		"email": "Email:",
+		"phone": "Phone Number:",
+		"password": "Password:",
+		"placeholder": {
+			"first-name": "Nick",
+			"last-name": "Bollettieri",
+			"email": "nick@bollettieri.com",
+			"phone": ""
+		}
+	},
+	"edit": "Edit",
+	"save": "Save",
+	"cancel": "Cancel",
+	"coach-list-title": "Coach List",
+	"coach-services-title": "Services",
+	"locations-title": "Locations",
+	"business-title": "Business",
+	"weekdays": {
+		"monday": "Monday",
+		"tuesday": "Tuesday",
+		"wednesday": "Wednesday",
+		"thursday": "Thursday",
+		"friday": "Friday",
+		"saturday": "Saturday",
+		"sunday": "Sunday"
+	},
+	"repeat-selector": {
+		"repeat-session": "Repeat this session",
+		"every": "every",
+		"total-of": "for a total of",
+		"week": "week",
+		"week_plural": "weeks",
+		"day": "day",
+		"day_plural": "days",
+		"once": "once",
+		"forever": "forever"
+	},
+	"business-details": {
+		"name": "Name:",
+		"placeholder": {
+			"name": "We Ball Hard Inc."
+		}
+	},
+	"service-details": {
+		"name": "Name:",
+		"description": "Service Description:",
+		"student-capacity": "Max Students:",
+		"session-price": "Session Price:",
+		"course-price": "Course Price:",
+		"duration": "Duration:",
+		"repeat-frequency": "Repeat Frequency:",
+		"placeholder": {
+			"name": "How to Ball Hard",
+			"description": "We show you how to...",
+			"student-capacity": "Min. 1",
+			"session-price": "Min. 0",
+			"course-price": "Min. 0"
+		}
+	},
+	"location-details": {
+		"name": "Name:",
+		"address": "Address:",
+		"city": "City:",
+		"state": "State:",
+		"country": "Country:",
+		"placeholder": {
+			"name": "We Ball Hardquarters",
+			"address": "123 Weball Street",
+			"city": "Auckland",
+			"state": "Winning",
+			"country": "New Zealand"
+		}
+	},
+	"add-new-coach": "Add New Coach",
+	"add-new-service": "Add New Service",
+	"add-new-location": "Add New Location",
+	"nav-to-locations": "Locations",
+	"nav-to-services": "Services",
+	"nav-to-coaches": "Coaches",
+	"nav-to-business": "Business",
+	"nav-to-scheduling": "Scheduling",
+	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on.",
+	"add-services-warning": "Easy there tiger! You need to add at least one service here before moving on.",
+	"add-location-warning": "Easy there tiger! You need to add at least one location here before moving on.",
+	"add-business-warning": "Easy there tiger! You need to add a business here before moving on.",
+	"firstName-invalid": "Oops! First Name is invalid. Try again.",
+	"lastName-invalid": "Oops! Last Name is invalid. Try again.",
+	"name-invalid": "Oops! Name is invalid. Try again.",
+	"email-invalid": "Oops! Email is invalid. Try again.",
+	"phone-invalid": "Oops! Phone number is invalid. Try again.",
+	"timeRange-invalid": "Oops! One of your time ranges is wrong. Try again.",
+	"studentCapacity-invalid": "Oops! Looks like you need to add some digits to your Student Capacity. Try again.",
+	"sessionPrice-invalid": "Oops! Looks like your Session Price isn't a price. Try again.",
+	"coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
+	"password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
+	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
+	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",
+	"location-already-exists": "Oops! It looks like one of your locations already has that name. Try again.",
+	"save-success": "You have successfully saved __name__",
+	"scheduling-title": "Calendar"
+}
