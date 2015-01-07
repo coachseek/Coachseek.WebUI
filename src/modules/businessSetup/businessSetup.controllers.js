@@ -209,9 +209,4 @@ angular.module('businessSetup.controllers', [])
 
         CRUDService.get('getServices', $scope);
 
-    }])
-    .controller('schedulingCtrl', ['$scope', 
-        function($scope){
-        
-        console.log('SCHEDUling CTRL');
     }]);

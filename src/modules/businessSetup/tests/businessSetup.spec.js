@@ -68,20 +68,5 @@ describe('BusinessSetup Module', function() {
                 expect(viewAttrs.controller).to.equal('locationsCtrl');
             });
         });
-        describe('when navigating to businessSetup.scheduling', function(){
-            var viewAttrs;
-            beforeEach(function(){
-                $state.go('businessSetup.scheduling');
-                $rootScope.$digest();
-
-                viewAttrs = $state.current.views['list-item-view'];
-            });
-            it('should map to correct template', function(){
-                expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/schedulingView.html');
-            });
-            it('should map to the correct controller', function(){
-                expect(viewAttrs.controller).to.equal('schedulingCtrl');
-            });
-        });
     });
 }); 
