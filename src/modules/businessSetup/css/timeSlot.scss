@@ -5,12 +5,13 @@
 
     .weekday-text{
         background: white;
+        position: relative;
         line-height: 80px;
         float: left;
         z-index: 1;
     }
     time-range-picker{
-        z-index: -1;
+        z-index: 0;
         float: left;
         position: relative;
 
