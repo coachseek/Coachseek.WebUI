@@ -20,7 +20,7 @@ module.exports = function(config) {
     ],
 
     proxies: {
-        '/modules': 'http://localhost:8000/src/modules'
+        '/i18n': 'http://localhost:8000/src/i18n'
     },
 
 
