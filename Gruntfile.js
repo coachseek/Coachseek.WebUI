@@ -110,6 +110,16 @@ module.exports = function(grunt) {
         }
       }
     },
+    "merge-json": {
+        i18nSrc: {
+            src: [ "src/modules/**/i18n/en/*.json" ],
+            dest: "src/i18n/en.json"
+        },
+        i18nBuild: {
+            src: [ "src/modules/**/i18n/en/*.json" ],
+            dest: "build/i18n/en.json"
+        }
+    },
     watch: {
       js: {
         files: ['src/modules/**/*.js'],
@@ -122,6 +132,10 @@ module.exports = function(grunt) {
       templates: {
         files: ['src/modules/**/partials/*.html'],
         tasks: ['ngtemplates:src']
+      },
+      i18n: {
+        files: ['src/modules/**/i18n/en/*.json'],
+        tasks: ['merge-json:i18nSrc']
       }
     },
     karma: {
@@ -148,6 +162,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-wrap');
   grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-merge-json');
 
   // Default task(s).
   grunt.registerTask('default', [
@@ -156,7 +171,8 @@ module.exports = function(grunt) {
       'htmlmin',
       'ngtemplates',
       'uglify',
-      'sass'
+      'sass',
+      'merge-json'
     ]);
 
 };

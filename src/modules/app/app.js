@@ -28,7 +28,7 @@ angular.module('app',
                 namespaces : ['app', 'businessSetup'],
                 defaultNs: 'app'
             },
-            resGetPath: 'modules/__ns__/i18n/__lng__/__ns__.json',
+            resGetPath: 'i18n/__lng__.json',
             defaultLoadingValue: ''
         };
     }]).run(['$rootScope', '$state', '$stateParams', 'editableOptions',
