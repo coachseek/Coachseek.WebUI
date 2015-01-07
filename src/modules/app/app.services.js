@@ -94,8 +94,96 @@ angular.module('app.services', []).
         this.deferred = $q.defer();
         var self = this;
         $timeout(function(){
-        self.deferred.resolve([]);
-        }, _.random(500, 600));
+        self.deferred.resolve([{
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: _.uniqueId('service_'),
+                name: "Toast Making w",
+                description: "I show you how to make goddamn toast, son.",
+                timing: {
+                    duration: "0:30"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'blue'
+                },
+                repititon: {
+                    sessionCount: 4,
+                    repeatFrequency: 'w'
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 150.0
+                }
+            },{
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: _.uniqueId('service_'),
+                name: "Toast Roasting d",
+                description: "I show you how to roast goddamn toast, son.",
+                timing: {
+                    duration: "1:45"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'green'
+                },
+                repititon: {
+                    sessionCount: 4,
+                    repeatFrequency: 'd'
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 150.0
+                }
+            },{
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: _.uniqueId('service_'),
+                name: "Boasting",
+                description: "I show you how to boast, son.",
+                timing: {
+                    duration: "4:15"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'purple'
+                },
+                repititon: {
+                    sessionCount: -1,
+                    repeatFrequency: -1
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 150.0
+                }
+            },{
+                businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
+                id: _.uniqueId('service_'),
+                name: "Duding",
+                description: "I teach you how to be a dude.",
+                timing: {
+                    duration: "2:15"
+                },
+                booking: {
+                    studentCapacity: 8
+                },
+                presentation: {
+                    color: 'orange'
+                },
+                repititon: {
+                    sessionCount: null,
+                    repeatFrequency: null
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 150.0
+                }
+            }]);
+        }, _.random(500, 1600));
         return this.deferred.promise;
     };
 
