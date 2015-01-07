@@ -1,6 +1,6 @@
 {
     "home": "Home",
-    "register": "Register",
+    "setup": "SETUP",
     "login": "Log In",
     "person-details": {
     	"first-name": "First Name:",
