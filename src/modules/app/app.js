@@ -15,7 +15,8 @@ angular.module('app',
     // MODULES
     'businessSetup',
     'scheduling',
-
+    'xeditable',
+    
     // UTILITIES
     'ngActivityIndicator'
 
