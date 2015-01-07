@@ -14,6 +14,7 @@ angular.module('app',
 
     // MODULES
     'businessSetup',
+    'scheduling',
 
     // UTILITIES
     'ngActivityIndicator'
@@ -25,7 +26,7 @@ angular.module('app',
             lng: 'en',
             fallbackLng: 'en',
             ns : {
-                namespaces : ['app', 'businessSetup'],
+                namespaces : ['app', 'businessSetup', 'scheduling'],
                 defaultNs: 'app'
             },
             resGetPath: 'i18n/__lng__.json',
