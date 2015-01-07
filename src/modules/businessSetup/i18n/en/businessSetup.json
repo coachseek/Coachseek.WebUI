@@ -74,6 +74,7 @@
 	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on.",
 	"add-services-warning": "Easy there tiger! You need to add at least one service here before moving on.",
 	"add-location-warning": "Easy there tiger! You need to add at least one location here before moving on.",
+	"add-business-warning": "Easy there tiger! You need to add a business here before moving on.",
 
 	"firstName-invalid": "Oops! First Name is invalid. Try again.",
 	"lastName-invalid": "Oops! Last Name is invalid. Try again.",
