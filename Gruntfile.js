@@ -84,7 +84,10 @@ module.exports = function(grunt) {
      //TODO - switch to ng-annotate?
      uglify: {
        buildApp: {
-         src: 'src/modules/**/*.js',
+         src: [
+          'src/modules/**/*.js',
+          '!src/modules/**/*.spec.js'
+        ],
          dest: 'build/js/scripts.js'
        },
        buildLibs: {
@@ -127,7 +130,7 @@ module.exports = function(grunt) {
       },
       css: {
         files: ['src/modules/**/*.scss'],
-        tasks: ['newer:concat:srcCss', 'sass:src'],
+        tasks: ['concat:srcCss', 'sass:src'],
       },
       templates: {
         files: ['src/modules/**/partials/*.html'],
