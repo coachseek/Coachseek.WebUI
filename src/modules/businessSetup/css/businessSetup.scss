@@ -1,0 +1,158 @@
+[state^="businessSetup"] {
+	max-width: 445px;
+	margin: 45px auto;
+
+	hr{
+		border: none;
+		background-color: $light-grey;
+		height: 2px;
+		clear: both;
+	}
+
+	.icon-cross{
+	    font-size: 16px;
+	    font-weight: bold;
+	}
+
+	h4{
+		color: $grey;
+		float: left;
+		padding: 5px;
+	}
+
+	.setup-nav-container{
+		float: right;
+		margin-bottom: 35px;
+
+		.setup-nav{
+			&.active{
+				background: $active-background-grey;
+			}
+
+			display: inline-block;
+			text-decoration: none;
+			width: 80px;
+			margin-left: 7px;
+			background: $white;
+			font-size: 14px;
+			color: $dark-grey;
+			padding: 5px;
+			text-align: center;
+			border: 1px solid $border-grey;
+			border-radius: 5px;
+		}
+	}
+
+	input, textarea{
+		border-radius: 5px;
+		border: 1px solid transparent;
+		color: $text-dark-grey;
+		padding: 5px 10px;
+		width: 100%;
+
+		&:focus{
+			outline: none;
+		}
+	}
+
+	label{
+		color: $text-grey;
+		font-size: 11px;
+		display: block;
+		padding: 2.5px 0px;
+	}
+
+	form{
+		margin-top: 20px;
+		margin-bottom: 10px;
+		overflow: hidden;
+
+		.form-input{
+			float: left;
+			margin-bottom: 15px;
+		}
+	}
+
+	.create-item{
+		display: block;
+		border: none;
+		margin: 20px auto;
+		color: $white;
+		background: $green;
+		border-radius: 5px;
+		padding: 7.5px 25px;
+	}
+
+	.cancel-button{
+		background: none;
+		border: none;
+		float: right;
+		margin-right: 30px;
+		color: $green;
+		height: 35px;
+	}
+
+	.save-button{
+		float: right;
+		color: $white;
+		background: $green;
+		border: none;
+		border-radius: 5px;
+		padding: 7.5px 25px;
+	}
+
+	.edit-item{
+		float: right;
+		border: none;
+		background: none;
+		color: $green;
+	}
+
+	.form-input{
+		width: 100%;
+		&.left-col{
+			width: 48%;
+			margin-right: 4%;
+		}
+		&.right-col{
+			width: 48%;
+		}
+	}
+
+	ul{
+		li{
+			padding-top: 10px;
+		}
+		span{
+			width: 50%;
+			float: left;
+			color: $text-dark-grey;
+			clear: left;
+		}
+		.service-description{
+			width: 75%;
+		}
+		.coach-name, .location-name, .business-name, .service-name{
+			font-size: 16px;
+		}
+		.coach-phone, .location-address, .business-email, .service-description{
+			margin-bottom: 15px;
+		}
+	}
+
+	.coach-item-view{
+		.toggle-time-slot{
+			color: white;
+			outline: none;
+			line-height: 35px;
+
+			&.open{			
+				background: $dark-grey;
+			}
+
+			&.closed{
+				background: $green;
+			}
+		}
+	}
+}
