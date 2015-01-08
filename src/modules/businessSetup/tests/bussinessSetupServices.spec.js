@@ -47,7 +47,7 @@ describe('bussinessSetup Services', function(){
             expect(createServiceStub).to.be.calledOnce;
         });
         it('should not show the cancel button', function(){
-            expect($serviceItemView.find('.cancel-service').hasClass('ng-hide')).to.be.true;
+            expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
         });
     });
     describe('and there are one or more services', function(){
@@ -90,7 +90,7 @@ describe('bussinessSetup Services', function(){
 
         describe('when clicking the edit button', function(){
             beforeEach(function(){
-                $serviceListView.find('.edit-service').first().trigger('click');
+                $serviceListView.find('.edit-item').first().trigger('click');
             });
             it('should not show the service list view', function(){
                 expect($serviceListView.hasClass('ng-hide')).to.be.true;
@@ -99,7 +99,7 @@ describe('bussinessSetup Services', function(){
                 expect($serviceItemView.hasClass('ng-hide')).to.be.false;
             });
             it('should show the cancel button', function(){
-                expect($serviceItemView.find('.cancel-service').hasClass('ng-hide')).to.be.false;
+                expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
             describe('when changing the repeatFrequency to -1 or null', function(){
                 it('should set the coursePrice to null', function(){
@@ -123,7 +123,7 @@ describe('bussinessSetup Services', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.name = null;
                             scope.$apply();
-                            $serviceItemView.find('.save-service').trigger('click');
+                            $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
@@ -133,50 +133,50 @@ describe('bussinessSetup Services', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.booking.studentCapacity = -1;
                             scope.$apply();
-                            $serviceItemView.find('.save-service').trigger('click');
+                            $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:studentCapacity-invalid');
                         });
                     });
-                    describe('when the sessionPrice is invalid', function(){
+                    describe('when the coursePriceMin is invalid', function(){
                         it('should display an invalid input alert', function(){
-                            scope.item.pricing.sessionPrice = -1;
+                            scope.item.pricing.coursePriceMin = -1;
                             scope.$apply();
-                            $serviceItemView.find('.save-service').trigger('click');
+                            $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePriceMin-invalid');
                         });
                     });
-                    describe('when the coursePrice is invalid', function(){
+                    describe('when the coursePriceMax is invalid', function(){
                         it('should display an invalid input alert', function(){
-                            scope.item.pricing.coursePrice = -1;
+                            scope.item.pricing.coursePriceMax = -1;
                             scope.$apply();
-                            $serviceItemView.find('.save-service').trigger('click');
+                            $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePrice-invalid');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePriceMax-invalid');
                         });
                     });
-                    describe('and the sessionPrice and coursePrice are invalid', function(){
+                    describe('and the coursePriceMin and coursePriceMax are invalid', function(){
                         it('should display an alert for both', function(){
-                            scope.item.pricing.sessionPrice = -1;
-                            scope.item.pricing.coursePrice = -1;
+                            scope.item.pricing.coursePriceMin = -1;
+                            scope.item.pricing.coursePriceMax = -1;
                             scope.$apply();
-                            $serviceItemView.find('.save-service').trigger('click');
+                            $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePriceMin-invalid');
                             expect($rootScope.alerts[1].type).to.equal('warning');
-                            expect($rootScope.alerts[1].message).to.equal('businessSetup:coursePrice-invalid');
+                            expect($rootScope.alerts[1].message).to.equal('businessSetup:coursePriceMax-invalid');
                         });
                     });
                 });
                 describe('when the name already exists', function(){
                     beforeEach(function(){
                         scope.itemList.push(angular.copy(self.firstService));
-                        $serviceItemView.find('.save-service').trigger('click');
+                        $serviceItemView.find('.save-button').trigger('click');
                     });
                     it('should display an alert', function(){
                         expect($rootScope.alerts[0].type).to.equal('warning');
@@ -185,7 +185,7 @@ describe('bussinessSetup Services', function(){
                 });
                 describe('when the name is new', function(){
                     beforeEach(function(){
-                        $serviceItemView.find('.save-service').trigger('click');
+                        $serviceItemView.find('.save-button').trigger('click');
                     });
                     it('should attempt to save service', function(){
                         expect(saveServiceStub).to.be.calledOnce;
@@ -208,7 +208,7 @@ describe('bussinessSetup Services', function(){
 
                     $rootScope.alerts.push({type: 'warning', message: 'test alert'});
 
-                    $serviceItemView.find('.cancel-service').trigger('click');
+                    $serviceItemView.find('.cancel-button').trigger('click');
                 });
                 it('should reset all edits made', function(){
                     var unsavedService = scope.itemList.pop();
@@ -226,7 +226,7 @@ describe('bussinessSetup Services', function(){
             beforeEach(function(){
                 initServiceListLength = scope.itemList.length;
 
-                $serviceListView.find('.create-service').trigger('click');
+                $serviceListView.find('.create-item').trigger('click');
             });
             it('should attempt to create a service', function(){
                 expect(createServiceStub).to.be.calledOnce;
@@ -245,42 +245,12 @@ describe('bussinessSetup Services', function(){
             });
             describe('when clicking the cancel button and service is new', function(){
                 beforeEach(function(){
-                    $serviceItemView.find('.cancel-service').trigger('click');
+                    $serviceItemView.find('.cancel-button').trigger('click');
                 });
                 it('should discard the new service', function(){
                     expect(scope.itemList.length).to.equal(initServiceListLength);
                 });
             })
-        });
-    });
-    describe('when navigating to scheduling before adding a service', function(){
-        beforeEach(function(){
-
-            createViewWithController(scope, 'businessSetup/partials/businessSetup.html', 'servicesCtrl');
-            $state.go('businessSetup.services');
-            scope.$digest();
-
-            // anchor tags dont listen to $.trigger('click') for some reason. assholes.
-            $state.go('businessSetup.scheduling');
-            scope.$digest();
-        });
-        it('should not allow navigation', function(){
-            expect($location.path()).to.equal('/business-setup/services');
-        });
-        it('should show a warning message', function(){
-            expect($rootScope.alerts[0].type).to.equal('warning');
-            expect($rootScope.alerts[0].message).to.equal('businessSetup:add-services-warning');
-        });
-        describe('after adding a service', function(){
-            beforeEach(function(){
-                scope.itemList = [{}];
-
-                $state.go('businessSetup.scheduling');
-                scope.$digest();
-            });
-            it('should allow navigation', function(){
-                expect($location.path()).to.equal('/business-setup/scheduling');
-            });
         });
     });
 });

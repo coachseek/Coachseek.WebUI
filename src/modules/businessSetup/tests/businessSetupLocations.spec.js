@@ -47,7 +47,7 @@ describe('bussinessSetup Locations', function(){
             expect(createLocationStub).to.be.calledOnce;
         });
         it('should not show the cancel button', function(){
-            expect($locationItemView.find('.cancel-location').hasClass('ng-hide')).to.be.true;
+            expect($locationItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
         });
     });
     describe('and there are one or more locations', function(){
@@ -85,7 +85,7 @@ describe('bussinessSetup Locations', function(){
 
         describe('when clicking the edit button', function(){
             beforeEach(function(){
-                $locationListView.find('.edit-location').first().trigger('click');
+                $locationListView.find('.edit-item').first().trigger('click');
             });
             it('should not show the location list view', function(){
                 expect($locationListView.hasClass('ng-hide')).to.be.true;
@@ -94,7 +94,7 @@ describe('bussinessSetup Locations', function(){
                 expect($locationItemView.hasClass('ng-hide')).to.be.false;
             });
             it('should show the cancel button', function(){
-                expect($locationItemView.find('.cancel-location').hasClass('ng-hide')).to.be.false;
+                expect($locationItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
             describe('when clicking the save button', function(){
                 var saveLocationStub;
@@ -110,7 +110,7 @@ describe('bussinessSetup Locations', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.name = null;
                             scope.$apply();
-                            $locationItemView.find('.save-location').trigger('click');
+                            $locationItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
@@ -123,7 +123,7 @@ describe('bussinessSetup Locations', function(){
                 describe('when the name already exists', function(){
                     beforeEach(function(){
                         scope.itemList.push(angular.copy(self.firstLocation));
-                        $locationItemView.find('.save-location').trigger('click');
+                        $locationItemView.find('.save-button').trigger('click');
                     });
                     it('should display an alert', function(){
                         expect($rootScope.alerts[0].type).to.equal('warning');
@@ -132,7 +132,7 @@ describe('bussinessSetup Locations', function(){
                 });
                 describe('when the name is new', function(){
                     beforeEach(function(){
-                        $locationItemView.find('.save-location').trigger('click');
+                        $locationItemView.find('.save-button').trigger('click');
                     });
                     it('should attempt to save location', function(){
                         expect(saveLocationStub).to.be.calledOnce;
@@ -155,7 +155,7 @@ describe('bussinessSetup Locations', function(){
 
                     $rootScope.alerts.push({type: 'warning', message: 'test alert'});
 
-                    $locationItemView.find('.cancel-location').trigger('click');
+                    $locationItemView.find('.cancel-button').trigger('click');
                 });
                 it('should reset all edits made', function(){
                     var unsavedLocation = scope.itemList.pop();
@@ -173,7 +173,7 @@ describe('bussinessSetup Locations', function(){
             beforeEach(function(){
                 initLocationListLength = scope.itemList.length;
 
-                $locationListView.find('.create-location').trigger('click');
+                $locationListView.find('.create-item').trigger('click');
             });
             it('should attempt to create a location', function(){
                 expect(createLocationStub).to.be.calledOnce;
@@ -192,7 +192,7 @@ describe('bussinessSetup Locations', function(){
             });
             describe('when clicking the cancel button and location is new', function(){
                 beforeEach(function(){
-                    $locationItemView.find('.cancel-location').trigger('click');
+                    $locationItemView.find('.cancel-button').trigger('click');
                 });
                 it('should discard the new location', function(){
                     expect(scope.itemList.length).to.equal(initLocationListLength);

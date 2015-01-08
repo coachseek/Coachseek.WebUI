@@ -107,7 +107,7 @@ describe('BusinessSetup Coach List', function(){
 
             describe('when clicking the edit button', function(){
                 beforeEach(function(){
-                    $coachListView.find('.edit-coach').first().trigger('click');
+                    $coachListView.find('.edit-item').first().trigger('click');
                 });
                 it('should not show the coach list view', function(){
                     expect($coachListView.hasClass('ng-hide')).to.be.true;
@@ -132,7 +132,7 @@ describe('BusinessSetup Coach List', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.firstName = null;
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
+                                $coachEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
@@ -142,7 +142,7 @@ describe('BusinessSetup Coach List', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.lastName = null;
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
+                                $coachEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:lastName-invalid');
@@ -152,7 +152,7 @@ describe('BusinessSetup Coach List', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.phone = null;
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
+                                $coachEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:phone-invalid');
@@ -162,7 +162,7 @@ describe('BusinessSetup Coach List', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.email = "badEmail.com";
                                 scope.$apply();
-                                $coachEditView.find('.save-coach').trigger('click');
+                                $coachEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
@@ -171,7 +171,7 @@ describe('BusinessSetup Coach List', function(){
                         describe('when a timeRange is invalid', function(){
                             it('should display an invalid input alert', function(){
                                 scope.itemForm.$setValidity('timeRange', false);
-                                $coachEditView.find('.save-coach').trigger('click');
+                                $coachEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:timeRange-invalid');
@@ -181,7 +181,7 @@ describe('BusinessSetup Coach List', function(){
                     describe('when the coach name already exists', function(){
                         beforeEach(function(){
                             scope.itemList.push(angular.copy(self.firstCoach));
-                            $coachEditView.find('.save-coach').trigger('click');
+                            $coachEditView.find('.save-button').trigger('click');
                         });
                         it('should display an alert', function(){
                             expect($rootScope.alerts[0].type).to.equal('warning');
@@ -190,7 +190,7 @@ describe('BusinessSetup Coach List', function(){
                     });
                     describe('when the coach name is new', function(){
                         beforeEach(function(){
-                            $coachEditView.find('.save-coach').trigger('click');
+                            $coachEditView.find('.save-button').trigger('click');
                         });
                         it('should attempt to save coach', function(){
                             expect(saveCoachStub).to.be.calledOnce;
@@ -235,7 +235,7 @@ describe('BusinessSetup Coach List', function(){
                 beforeEach(function(){
                     initCoachListLength = scope.itemList.length;
 
-                    $coachListView.find('.create-coach').trigger('click');
+                    $coachListView.find('.create-item').trigger('click');
                 });
                 it('should attempt to create a coach', function(){
                     expect(createCoachStub).to.be.calledOnce;

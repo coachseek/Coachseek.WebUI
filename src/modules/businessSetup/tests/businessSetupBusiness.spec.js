@@ -109,7 +109,7 @@ describe('BusinessSetup Business', function(){
 
             describe('when clicking the edit button', function(){
                 beforeEach(function(){
-                    $businessListView.find('.edit-business').first().trigger('click');
+                    $businessListView.find('.edit-item').first().trigger('click');
                 });
                 it('should not show the business list view', function(){
                     expect($businessListView.hasClass('ng-hide')).to.be.true;
@@ -134,7 +134,7 @@ describe('BusinessSetup Business', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.business.name = null;
                                 scope.$apply();
-                                $businessEditView.find('.save-business').trigger('click');
+                                $businessEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
@@ -144,7 +144,7 @@ describe('BusinessSetup Business', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.admin.firstName = null;
                                 scope.$apply();
-                                $businessEditView.find('.save-business').trigger('click');
+                                $businessEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
@@ -154,7 +154,7 @@ describe('BusinessSetup Business', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.admin.lastName = null;
                                 scope.$apply();
-                                $businessEditView.find('.save-business').trigger('click');
+                                $businessEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:lastName-invalid');
@@ -164,7 +164,7 @@ describe('BusinessSetup Business', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.admin.email = "badEmail.com";
                                 scope.$apply();
-                                $businessEditView.find('.save-business').trigger('click');
+                                $businessEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
@@ -174,7 +174,7 @@ describe('BusinessSetup Business', function(){
                             it('should display an invalid input alert', function(){
                                 scope.item.admin.password = "short";
                                 scope.$apply();
-                                $businessEditView.find('.save-business').trigger('click');
+                                $businessEditView.find('.save-button').trigger('click');
 
                                 expect($rootScope.alerts[0].type).to.equal('warning');
                                 expect($rootScope.alerts[0].message).to.equal('businessSetup:password-invalid');
@@ -183,7 +183,7 @@ describe('BusinessSetup Business', function(){
                     });
                     describe('when all inputs are valid', function(){
                         beforeEach(function(){
-                            $businessEditView.find('.save-business').trigger('click');
+                            $businessEditView.find('.save-button').trigger('click');
                         });
                         it('should attempt to save business', function(){
                             expect(saveBusinessStub).to.be.calledOnce;

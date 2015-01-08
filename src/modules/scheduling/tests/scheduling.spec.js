@@ -1,4 +1,4 @@
-describe.only('Scheduling Module', function() {
+describe('Scheduling Module', function() {
 
     var scope,
         coachSeekAPIService,

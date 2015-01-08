@@ -194,19 +194,6 @@ angular.module('businessSetup.controllers', [])
             }
         });
 
-        $scope.$on('$stateChangeStart', function(event, toState){
-            if( toState.name === "businessSetup.scheduling" ){
-                if(!$scope.itemList || $scope.itemList.length <= 0){
-                    event.preventDefault();
-                    //show bootstrap message
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:add-services-warning'
-                    });
-                }
-            }
-        });
-
         CRUDService.get('getServices', $scope);
 
     }]);

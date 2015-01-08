@@ -4,7 +4,7 @@ describe('colorPicker directive', function(){
         scope = $rootScope.$new();
 
         this.let('currentColor', function(){
-            return 'blue';
+            return '#2980B9';
         });
 
         scope.currentColor = this.currentColor;
