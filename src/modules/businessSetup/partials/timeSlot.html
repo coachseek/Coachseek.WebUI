@@ -14,8 +14,9 @@
 		ng-class="item.workingHours[weekday].isAvailable ? 'open' : 'closed'"
 		ng-model="item.workingHours[weekday].isAvailable"
 		ng-click="item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable">
-		<span
-			ng-class="item.workingHours[weekday].isAvailable ? 'icon-cross' : 'icon-check' "
-		></span>
+		<i
+			class="fa"
+			ng-class="item.workingHours[weekday].isAvailable ? 'fa-times' : 'fa-check' "
+		></i>
 	</button>
 </div>
