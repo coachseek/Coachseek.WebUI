@@ -61,8 +61,8 @@
 
 		}
 	},
-	"add-coach": "Add New Coach",
-	"add-service": "Add New Service",
+	"add-coach": "Add Coach",
+	"add-service": "Add Service",
 	"add-location": "Add Location",
 
 	"nav-to-locations": "Locations",
