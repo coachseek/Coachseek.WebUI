@@ -1,44 +1,58 @@
 .weekday{
-    width: 50%;
+    width: 100%;
     overflow: hidden;
     margin: 10px auto;
 
     .weekday-text{
-        background: white;
+        background: $light-beige;
+        color: $dark-grey;
         position: relative;
-        line-height: 80px;
+        height: 35px;
+        width: 75px;
+        padding-right: 5px;
+        text-align: right;
+        line-height: 35px;
         float: left;
+        font-size: 12px;
         z-index: 1;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
     }
     time-range-picker{
+        background: white;
         z-index: 0;
         float: left;
         position: relative;
+        height: 35px;
+        width: 335px;
+        padding: 0 125px;
 
         &.ng-invalid{
-            border: 1px solid red;
+            border: 1px solid $red;
         }
-
         .time-picker{
             display: inline-block;
-            margin-top: 10px;
+            margin-top: 8px;
+            .increase, .decrease{
+                display: none;
+            }
         }
-
-
         &.slide-closed{
             margin-left: 0px;
-
-            -webkit-transition:all linear 0.5s;
-            transition:all linear 0.5s;
+            -webkit-transition:all linear 0.3s;
+            transition:all linear 0.3s;
         }
-
         &.slide-closed.ng-hide {
-            margin-left: -100px;
+            margin-left: -335px;
         }
     }
 
     button{
-        margin-top: 25px;
+        border: none;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        height: 35px;
+        width: 35px;
         span{
             font-size: 18px;
             font-weight: bold;

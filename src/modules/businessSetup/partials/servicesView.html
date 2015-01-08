@@ -1,40 +1,56 @@
-<h3>{{'businessSetup:coach-services-title' | i18next}}</h3>
 <div class="service-list-view" ng-hide="item">
+    <button class="create-item" ng-click="createItem()">
+        <span class="icon-plus"></span>
+        {{'businessSetup:add-service' | i18next}}
+    </button>
+    <hr />
     <ul>
         <li class="service-details" ng-repeat="item in itemList">
+            <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
             <span class="service-name">{{item.name}}</span>
             <span class="service-description">{{item.description}}</span>
-            <!-- show coach edit on click -->
-            <button class="edit-service" ng-click="editItem(item)">{{'edit' | i18next}}</button>
+            <hr />
         </li>
     </ul>
-
-    <!-- show coach creation on click -->
-    <button class="create-service" ng-click="createItem()">{{'businessSetup:add-new-service' | i18next}}</button>
 </div>
 <div class="service-item-view" ng-show="item">
     <form name="itemForm" novalidate>
-        <label name="name">{{'businessSetup:service-details.name' | i18next}}</label>
-        <input name="name" ng-model="item.name" placeholder="{{'businessSetup:service-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
+        <div class="form-input">
+            <label name="name">{{'businessSetup:service-details.name' | i18next}}</label>
+            <input name="name" ng-model="item.name" placeholder="{{'businessSetup:service-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
+        </div>
 
-        <label name="description">{{'businessSetup:service-details.description' | i18next}}</label>
-        <textarea name="description" ng-model="item.description" placeholder="{{'businessSetup:service-details.placeholder.description' | i18next}}" ng-maxlength="200"></textarea>
+        <div class="form-input">
+            <label name="description">{{'businessSetup:service-details.description' | i18next}}</label>
+            <textarea name="description" ng-model="item.description" placeholder="{{'businessSetup:service-details.placeholder.description' | i18next}}" ng-maxlength="200"></textarea>
+        </div>
 
-        <label>{{'businessSetup:service-details.duration' | i18next}}</label>
-        <time-picker time="item.timing.duration"></time-picker>
+        <div class="form-input">
+            <label>{{'businessSetup:service-details.duration' | i18next}}</label>
+            <time-picker time="item.timing.duration"></time-picker>
+        </div>
 
-        <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
-        <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  min="1"  />
+        <div class="form-input left-col">
+            <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
+            <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  min="1"  />
+        </div>
 
-        <color-picker
-            current-color="item.presentation.color"
-        ></color-picker>
+        <div class="form-input">
+            <label>{{'businessSetup:service-details.service-colour' | i18next}}</label>
+            <color-picker
+                current-color="item.presentation.color"
+            ></color-picker>
+        </div>
 
-        <label name="sessionPrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
-        <input name="sessionPrice" type="number" ng-model="item.pricing.sessionPrice" placeholder="{{'businessSetup:service-details.placeholder.session-price' | i18next}}"  min="0" step=".01"  />
+        <div class="form-input left-col">
+            <label name="coursePriceMin">{{'businessSetup:service-details.course-price-min' | i18next}}</label>
+            <input name="coursePriceMin" type="number" ng-model="item.pricing.coursePriceMin" placeholder="{{'businessSetup:service-details.placeholder.course-price-min' | i18next}}"  min="0" step=".01"  />
+        </div>
 
-        <label name="coursePrice">{{'businessSetup:service-details.course-price' | i18next}}</label>
-        <input name="coursePrice" ng-disabled="!item.repititon.repeatFrequency > 0" type="number" ng-model="item.pricing.coursePrice" placeholder="{{'businessSetup:service-details.placeholder.course-price' | i18next}}"  min="0" step=".01" />
+        <div class="form-input right-col">
+            <label name="coursePriceMax">{{'businessSetup:service-details.course-price-max' | i18next}}</label>
+            <input name="coursePriceMax" ng-disabled="!item.repititon.repeatFrequency > 0" type="number" ng-model="item.pricing.coursePriceMax" placeholder="{{'businessSetup:service-details.placeholder.course-price-max' | i18next}}"  min="0" step=".01" />
+        </div>
     </form>
 
     <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>
@@ -46,6 +62,6 @@
     ></repeat-selector>
 
     <!-- POST here -->
-    <button class="save-service" ng-click="saveItem(item)">{{'save' | i18next}}</button>
-    <button class="cancel-service" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
+    <button class="save-button" ng-click="saveItem(item)">{{'save-details' | i18next}}</button>
+    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
 </div>

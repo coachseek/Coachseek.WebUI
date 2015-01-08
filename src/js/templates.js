@@ -10,86 +10,107 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/businessSetup.html',
-    "<a class=\"nav-to-business\" ui-sref=\"businessSetup.business\">{{'businessSetup:nav-to-business' | i18next}}</a>\n" +
-    "<a class=\"nav-to-locations\" ui-sref=\"businessSetup.locations\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
-    "<a class=\"nav-to-coaches\" ui-sref=\"businessSetup.coachList\">{{'businessSetup:nav-to-coaches' | i18next}}</a>\n" +
-    "<a class=\"nav-to-services\" ui-sref=\"businessSetup.services\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
-    "\n" +
+    "<h4 class='business-setup-title'>{{'businessSetup:title' | i18next}}</h4>\n" +
+    "<div class=\"setup-nav-container\">\n" +
+    "\t<a class=\"setup-nav nav-to-business\" ui-sref=\"businessSetup.business\" ui-sref-active=\"active\">{{'businessSetup:nav-to-business' | i18next}}</a>\n" +
+    "\t<a class=\"setup-nav nav-to-locations\" ui-sref=\"businessSetup.locations\" ui-sref-active=\"active\">{{'businessSetup:nav-to-locations' | i18next}}</a>\n" +
+    "\t<a class=\"setup-nav nav-to-coaches\" ui-sref=\"businessSetup.coachList\" ui-sref-active=\"active\">{{'businessSetup:nav-to-coaches' | i18next}}</a>\n" +
+    "\t<a class=\"setup-nav nav-to-services\" ui-sref=\"businessSetup.services\" ui-sref-active=\"active\">{{'businessSetup:nav-to-services' | i18next}}</a>\n" +
+    "</div>\n" +
+    "<hr />\n" +
     "<div ui-view=\"list-item-view\"></div>"
   );
 
 
   $templateCache.put('businessSetup/partials/businessView.html',
-    "<h3>{{'businessSetup:business-title' | i18next}}</h3>\n" +
     "<div class=\"business-list-view\" ng-hide=\"item\">\n" +
     "    <ul>\n" +
     "        <li class=\"business-details\" ng-repeat=\"item in itemList\">\n" +
+    "            <button class=\"edit-item\" ng-click=\"editItem(item)\">{{'edit-details' | i18next}}</button>\n" +
     "            <span class=\"business-name\">{{item.business.name}} {{coach.lastName}}</span>\n" +
-    "            <span class=\"business-firstName\">{{item.admin.firstName}}</span>\n" +
-    "            <span class=\"business-lastName\">{{item.admin.lastName}}</span>\n" +
+    "            <span class=\"business-firstName\">{{item.admin.firstName}} {{item.admin.lastName}}</span>\n" +
     "            <span class=\"business-email\">{{item.admin.email}}</span>\n" +
-    "            <!-- show coach edit on click -->\n" +
-    "            <button class=\"edit-business\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
+    "            <hr/>\n" +
     "        </li>\n" +
     "    </ul>\n" +
     "</div>\n" +
     "<div class=\"business-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" editable-form novalidate>\n" +
-    "        <label name=\"name\">{{'businessSetup:business-details.name' | i18next}}</label>\n" +
-    "        <input name=\"name\" ng-model=\"item.business.name\" placeholder=\"{{'businessSetup:business-details.placeholder.name' | i18next}}\" required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"name\">{{'businessSetup:business-details.name' | i18next}}</label>\n" +
+    "            <input name=\"name\" ng-model=\"item.business.name\" placeholder=\"{{'businessSetup:business-details.placeholder.name' | i18next}}\" required ng-maxlength=50 />\n" +
+    "        </div>\n" +
+    "        <div class=\"form-input left-col\">\n" +
+    "            <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
+    "            <input name=\"firstName\" ng-model=\"item.admin.firstName\" placeholder=\"{{'person-details.placeholder.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
-    "        <input name=\"firstName\" ng-model=\"item.admin.firstName\" placeholder=\"{{'person-details.placeholder.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input right-col\">\n" +
+    "            <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
+    "            <input name=\"lastName\" ng-model=\"item.admin.lastName\" placeholder=\"{{'person-details.placeholder.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
-    "        <input name=\"lastName\" ng-model=\"item.admin.lastName\" placeholder=\"{{'person-details.placeholder.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
+    "            <input type=\"email\" name=\"email\" ng-model=\"item.admin.email\" placeholder=\"{{'person-details.placeholder.email' | i18next}}\"  required ng-maxlength=100 />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
-    "        <input type=\"email\" name=\"email\" ng-model=\"item.admin.email\" placeholder=\"{{'person-details.placeholder.email' | i18next}}\"  required ng-maxlength=100 />\n" +
-    "\n" +
-    "        <label name=\"password\">{{'person-details.password' | i18next}}</label>\n" +
-    "        <input type=\"password\" name=\"password\" ng-model=\"item.admin.password\" required ng-minlength=6 ng-maxlength=50 />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"password\">{{'person-details.password' | i18next}}</label>\n" +
+    "            <input type=\"password\" name=\"password\" ng-model=\"item.admin.password\" required ng-minlength=6 ng-maxlength=50 />\n" +
+    "        </div>\n" +
     "    </form>\n" +
     "\n" +
     "    <!-- POST here -->\n" +
+    "    <button class=\"save-button\" ng-click=\"saveItem(item)\">{{'save-details' | i18next}}</button>\n" +
     "    <button class=\"cancel-button\" ng-hide=\"newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
-    "    <button class=\"save-business\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
     "</div>"
   );
 
 
   $templateCache.put('businessSetup/partials/coachesView.html',
-    "<h3>{{'businessSetup:coach-list-title' | i18next}}</h3>\n" +
     "<div class=\"coach-list-view\" ng-hide=\"item\">\n" +
+    "    <button class=\"create-item\" ng-click=\"createItem()\">\n" +
+    "        <span class=\"icon-plus\"></span>\n" +
+    "        {{'businessSetup:add-coach' | i18next}}\n" +
+    "    </button>\n" +
+    "    <hr />\n" +
     "    <ul>\n" +
     "        <li class=\"coach-details\" ng-repeat=\"item in itemList | orderBy:'lastName'\">\n" +
-    "            <span class=\"coach-name\">{{item.firstName}} {{coach.lastName}}</span>\n" +
-    "            <span class=\"coach-email\">{{item.email}}</span>\n" +
-    "            <span class=\"coach-phone\">{{item.phone}}</span>\n" +
     "            <!-- show coach edit on click -->\n" +
-    "            <button class=\"edit-coach\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
+    "            <button class=\"edit-item\" ng-click=\"editItem(item)\">{{'edit-details' | i18next}}</button>\n" +
+    "            <span class=\"coach-name\">{{item.firstName}} {{item.lastName}}</span>\n" +
+    "            <span class=\"coach-phone\">{{item.phone}}</span>\n" +
+    "            <hr />\n" +
     "        </li>\n" +
     "    </ul>\n" +
-    "    <!-- show coach creation on click -->\n" +
-    "    <button class=\"create-coach\" ng-click=\"createItem()\">{{'businessSetup:add-new-coach' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"coach-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" novalidate>\n" +
-    "        <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
-    "        <input name=\"firstName\" ng-model=\"item.firstName\" placeholder=\"{{'person-details.placeholder.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input left-col\">\n" +
+    "            <label name=\"firstName\">{{'person-details.first-name' | i18next}}</label>\n" +
+    "            <input name=\"firstName\" ng-model=\"item.firstName\" placeholder=\"{{'person-details.placeholder.first-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
-    "        <input name=\"lastName\" ng-model=\"item.lastName\" placeholder=\"{{'person-details.placeholder.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input right-col\">\n" +
+    "            <label name=\"lastName\">{{'person-details.last-name' | i18next}}</label>\n" +
+    "            <input name=\"lastName\" ng-model=\"item.lastName\" placeholder=\"{{'person-details.placeholder.last-name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
-    "        <input type=\"email\" name=\"email\" ng-model=\"item.email\" placeholder=\"{{'person-details.placeholder.email' | i18next}}\"  required ng-maxlength=100 />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"email\">{{'person-details.email' | i18next}}</label>\n" +
+    "            <input type=\"email\" name=\"email\" ng-model=\"item.email\" placeholder=\"{{'person-details.placeholder.email' | i18next}}\"  required ng-maxlength=100 />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"phone\">{{'person-details.phone' | i18next}}</label>\n" +
-    "        <input name=\"phone\" ng-model=\"item.phone\" placeholder=\"{{'person-details.placeholder.phone' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"phone\">{{'person-details.phone' | i18next}}</label>\n" +
+    "            <input name=\"phone\" ng-model=\"item.phone\" placeholder=\"{{'person-details.placeholder.phone' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        </div>\n" +
     "\n" +
+    "        <label>{{'person-details.availability' | i18next}}</label>\n" +
     "        <time-slot></time-slot>\n" +
     "        <!-- POST here -->\n" +
-    "        <button class=\"save-coach\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
+    "        <button class=\"save-button\" ng-click=\"saveItem(item)\">{{'save-details' | i18next}}</button>\n" +
     "        <button class=\"cancel-button\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
     "    </form>\n" +
     "</div>"
@@ -109,41 +130,52 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/locationsView.html',
-    "<h3>{{'businessSetup:locations-title' | i18next}}</h3>\n" +
     "<div class=\"location-list-view\" ng-hide=\"item\">\n" +
+    "    <button class=\"create-item\" ng-click=\"createItem()\">\n" +
+    "        <span class=\"icon-plus\"></span>\n" +
+    "        {{'businessSetup:add-location' | i18next}}\n" +
+    "    </button>\n" +
+    "    <hr />\n" +
     "    <ul>\n" +
     "        <li class=\"location-details\" ng-repeat=\"item in itemList\">\n" +
+    "            <button class=\"edit-item\" ng-click=\"editItem(item)\">{{'edit-details' | i18next}}</button>\n" +
     "            <span class=\"location-name\">{{item.name}}</span>\n" +
-    "            <!-- show coach edit on click -->\n" +
-    "            <button class=\"edit-location\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
+    "            <span class=\"location-address\">{{item.address}}</span>\n" +
+    "            <hr />\n" +
     "        </li>\n" +
     "    </ul>\n" +
-    "\n" +
-    "    <!-- show coach creation on click -->\n" +
-    "    <button class=\"create-location\" ng-click=\"createItem()\">{{'businessSetup:add-new-location' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"location-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" editable-form novalidate>\n" +
-    "        <label name=\"name\">{{'businessSetup:location-details.name' | i18next}}</label>\n" +
-    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:location-details.placeholder.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"name\">{{'businessSetup:location-details.name' | i18next}}</label>\n" +
+    "            <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:location-details.placeholder.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        </div>\n" +
+    "        <hr />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"address\">{{'businessSetup:location-details.address' | i18next}}</label>\n" +
+    "            <input name=\"address\" ng-blur=\"updateAddress()\" ng-model=\"item.address\" placeholder=\"{{'businessSetup:location-details.placeholder.address' | i18next}}\"/>\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"address\">{{'businessSetup:location-details.address' | i18next}}</label>\n" +
-    "        <input name=\"address\" ng-blur=\"updateAddress()\" ng-model=\"item.address\" placeholder=\"{{'businessSetup:location-details.placeholder.address' | i18next}}\"  required />\n" +
+    "        <div class=\"form-input left-col\">\n" +
+    "            <label name=\"city\">{{'businessSetup:location-details.city' | i18next}}</label>\n" +
+    "            <input name=\"city\" ng-model=\"item.city\" placeholder=\"{{'businessSetup:location-details.placeholder.city' | i18next}}\"/>\n" +
+    "        </div>\n" +
+    "        \n" +
+    "        <div class=\"form-input right-col\">\n" +
+    "            <label name=\"postCode\">{{'businessSetup:location-details.post-code' | i18next}}</label>\n" +
+    "            <input name=\"postCode\" type=\"number\" ng-model=\"item.postCode\" placeholder=\"{{'businessSetup:location-details.placeholder.post-code' | i18next}}\"/>\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"city\">{{'businessSetup:location-details.city' | i18next}}</label>\n" +
-    "        <input name=\"city\" ng-model=\"item.city\" placeholder=\"{{'businessSetup:location-details.placeholder.city' | i18next}}\"  required />\n" +
-    "\n" +
-    "        <label name=\"state\">{{'businessSetup:location-details.state' | i18next}}</label>\n" +
-    "        <input name=\"state\" ng-model=\"item.state\" placeholder=\"{{'businessSetup:location-details.placeholder.state' | i18next}}\"  required />\n" +
-    "\n" +
-    "        <label name=\"country\">{{'businessSetup:location-details.country' | i18next}}</label>\n" +
-    "        <input name=\"country\" ng-model=\"item.country\" placeholder=\"{{'businessSetup:location-details.placeholder.country' | i18next}}\"  required />\n" +
-    "\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"country\">{{'businessSetup:location-details.country' | i18next}}</label>\n" +
+    "            <input name=\"country\" ng-model=\"item.country\" placeholder=\"{{'businessSetup:location-details.placeholder.country' | i18next}}\"/>\n" +
+    "        </div>\n" +
     "    </form>\n" +
     "\n" +
     "    <!-- POST here -->\n" +
-    "    <button class=\"save-location\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
-    "    <button class=\"cancel-location\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
+    "    <button class=\"save-button\" ng-click=\"saveItem(item)\">{{'save-details' | i18next}}</button>\n" +
+    "    <button class=\"cancel-button\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
     "</div>"
   );
 
@@ -173,43 +205,59 @@ angular.module('app').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('businessSetup/partials/servicesView.html',
-    "<h3>{{'businessSetup:coach-services-title' | i18next}}</h3>\n" +
     "<div class=\"service-list-view\" ng-hide=\"item\">\n" +
+    "    <button class=\"create-item\" ng-click=\"createItem()\">\n" +
+    "        <span class=\"icon-plus\"></span>\n" +
+    "        {{'businessSetup:add-service' | i18next}}\n" +
+    "    </button>\n" +
+    "    <hr />\n" +
     "    <ul>\n" +
     "        <li class=\"service-details\" ng-repeat=\"item in itemList\">\n" +
+    "            <button class=\"edit-item\" ng-click=\"editItem(item)\">{{'edit-details' | i18next}}</button>\n" +
     "            <span class=\"service-name\">{{item.name}}</span>\n" +
     "            <span class=\"service-description\">{{item.description}}</span>\n" +
-    "            <!-- show coach edit on click -->\n" +
-    "            <button class=\"edit-service\" ng-click=\"editItem(item)\">{{'edit' | i18next}}</button>\n" +
+    "            <hr />\n" +
     "        </li>\n" +
     "    </ul>\n" +
-    "\n" +
-    "    <!-- show coach creation on click -->\n" +
-    "    <button class=\"create-service\" ng-click=\"createItem()\">{{'businessSetup:add-new-service' | i18next}}</button>\n" +
     "</div>\n" +
     "<div class=\"service-item-view\" ng-show=\"item\">\n" +
     "    <form name=\"itemForm\" novalidate>\n" +
-    "        <label name=\"name\">{{'businessSetup:service-details.name' | i18next}}</label>\n" +
-    "        <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:service-details.placeholder.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"name\">{{'businessSetup:service-details.name' | i18next}}</label>\n" +
+    "            <input name=\"name\" ng-model=\"item.name\" placeholder=\"{{'businessSetup:service-details.placeholder.name' | i18next}}\"  required ng-maxlength=50 />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"description\">{{'businessSetup:service-details.description' | i18next}}</label>\n" +
-    "        <textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'businessSetup:service-details.placeholder.description' | i18next}}\" ng-maxlength=\"200\"></textarea>\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label name=\"description\">{{'businessSetup:service-details.description' | i18next}}</label>\n" +
+    "            <textarea name=\"description\" ng-model=\"item.description\" placeholder=\"{{'businessSetup:service-details.placeholder.description' | i18next}}\" ng-maxlength=\"200\"></textarea>\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label>{{'businessSetup:service-details.duration' | i18next}}</label>\n" +
-    "        <time-picker time=\"item.timing.duration\"></time-picker>\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label>{{'businessSetup:service-details.duration' | i18next}}</label>\n" +
+    "            <time-picker time=\"item.timing.duration\"></time-picker>\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"studentCapacity\">{{'businessSetup:service-details.student-capacity' | i18next}}</label>\n" +
-    "        <input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}\"  min=\"1\"  />\n" +
+    "        <div class=\"form-input left-col\">\n" +
+    "            <label name=\"studentCapacity\">{{'businessSetup:service-details.student-capacity' | i18next}}</label>\n" +
+    "            <input name=\"studentCapacity\" type=\"number\" ng-model=\"item.booking.studentCapacity\" placeholder=\"{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}\"  min=\"1\"  />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <color-picker\n" +
-    "            current-color=\"item.presentation.color\"\n" +
-    "        ></color-picker>\n" +
+    "        <div class=\"form-input\">\n" +
+    "            <label>{{'businessSetup:service-details.service-colour' | i18next}}</label>\n" +
+    "            <color-picker\n" +
+    "                current-color=\"item.presentation.color\"\n" +
+    "            ></color-picker>\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"sessionPrice\">{{'businessSetup:service-details.session-price' | i18next}}</label>\n" +
-    "        <input name=\"sessionPrice\" type=\"number\" ng-model=\"item.pricing.sessionPrice\" placeholder=\"{{'businessSetup:service-details.placeholder.session-price' | i18next}}\"  min=\"0\" step=\".01\"  />\n" +
+    "        <div class=\"form-input left-col\">\n" +
+    "            <label name=\"coursePriceMin\">{{'businessSetup:service-details.course-price-min' | i18next}}</label>\n" +
+    "            <input name=\"coursePriceMin\" type=\"number\" ng-model=\"item.pricing.coursePriceMin\" placeholder=\"{{'businessSetup:service-details.placeholder.course-price-min' | i18next}}\"  min=\"0\" step=\".01\"  />\n" +
+    "        </div>\n" +
     "\n" +
-    "        <label name=\"coursePrice\">{{'businessSetup:service-details.course-price' | i18next}}</label>\n" +
-    "        <input name=\"coursePrice\" ng-disabled=\"!item.repititon.repeatFrequency > 0\" type=\"number\" ng-model=\"item.pricing.coursePrice\" placeholder=\"{{'businessSetup:service-details.placeholder.course-price' | i18next}}\"  min=\"0\" step=\".01\" />\n" +
+    "        <div class=\"form-input right-col\">\n" +
+    "            <label name=\"coursePriceMax\">{{'businessSetup:service-details.course-price-max' | i18next}}</label>\n" +
+    "            <input name=\"coursePriceMax\" ng-disabled=\"!item.repititon.repeatFrequency > 0\" type=\"number\" ng-model=\"item.pricing.coursePriceMax\" placeholder=\"{{'businessSetup:service-details.placeholder.course-price-max' | i18next}}\"  min=\"0\" step=\".01\" />\n" +
+    "        </div>\n" +
     "    </form>\n" +
     "\n" +
     "    <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>\n" +
@@ -221,8 +269,8 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "    ></repeat-selector>\n" +
     "\n" +
     "    <!-- POST here -->\n" +
-    "    <button class=\"save-service\" ng-click=\"saveItem(item)\">{{'save' | i18next}}</button>\n" +
-    "    <button class=\"cancel-service\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
+    "    <button class=\"save-button\" ng-click=\"saveItem(item)\">{{'save-details' | i18next}}</button>\n" +
+    "    <button class=\"cancel-button\" ng-hide=\"!itemList.length && newItem\" ng-click=\"cancelEdit()\">{{'cancel' | i18next}}</button>\n" +
     "</div>"
   );
 
@@ -270,7 +318,8 @@ angular.module('app').run(['$templateCache', function($templateCache) {
     "\t</time-range-picker>\n" +
     "\t<button\n" +
     "\t\ttype=\"button\"\n" +
-    "\t\tclass=\"btn btn-primary\"\n" +
+    "\t\tclass=\"toggle-time-slot\"\n" +
+    "\t\tng-class=\"item.workingHours[weekday].isAvailable ? 'open' : 'closed'\"\n" +
     "\t\tng-model=\"item.workingHours[weekday].isAvailable\"\n" +
     "\t\tng-click=\"item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable\">\n" +
     "\t\t<span\n" +

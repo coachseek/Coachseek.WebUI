@@ -1,35 +1,42 @@
-<h3>{{'businessSetup:business-title' | i18next}}</h3>
 <div class="business-list-view" ng-hide="item">
     <ul>
         <li class="business-details" ng-repeat="item in itemList">
+            <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
             <span class="business-name">{{item.business.name}} {{coach.lastName}}</span>
-            <span class="business-firstName">{{item.admin.firstName}}</span>
-            <span class="business-lastName">{{item.admin.lastName}}</span>
+            <span class="business-firstName">{{item.admin.firstName}} {{item.admin.lastName}}</span>
             <span class="business-email">{{item.admin.email}}</span>
-            <!-- show coach edit on click -->
-            <button class="edit-business" ng-click="editItem(item)">{{'edit' | i18next}}</button>
+            <hr/>
         </li>
     </ul>
 </div>
 <div class="business-item-view" ng-show="item">
     <form name="itemForm" editable-form novalidate>
-        <label name="name">{{'businessSetup:business-details.name' | i18next}}</label>
-        <input name="name" ng-model="item.business.name" placeholder="{{'businessSetup:business-details.placeholder.name' | i18next}}" required ng-maxlength=50 />
+        <div class="form-input">
+            <label name="name">{{'businessSetup:business-details.name' | i18next}}</label>
+            <input name="name" ng-model="item.business.name" placeholder="{{'businessSetup:business-details.placeholder.name' | i18next}}" required ng-maxlength=50 />
+        </div>
+        <div class="form-input left-col">
+            <label name="firstName">{{'person-details.first-name' | i18next}}</label>
+            <input name="firstName" ng-model="item.admin.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
+        </div>
 
-        <label name="firstName">{{'person-details.first-name' | i18next}}</label>
-        <input name="firstName" ng-model="item.admin.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
+        <div class="form-input right-col">
+            <label name="lastName">{{'person-details.last-name' | i18next}}</label>
+            <input name="lastName" ng-model="item.admin.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
+        </div>
 
-        <label name="lastName">{{'person-details.last-name' | i18next}}</label>
-        <input name="lastName" ng-model="item.admin.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
+        <div class="form-input">
+            <label name="email">{{'person-details.email' | i18next}}</label>
+            <input type="email" name="email" ng-model="item.admin.email" placeholder="{{'person-details.placeholder.email' | i18next}}"  required ng-maxlength=100 />
+        </div>
 
-        <label name="email">{{'person-details.email' | i18next}}</label>
-        <input type="email" name="email" ng-model="item.admin.email" placeholder="{{'person-details.placeholder.email' | i18next}}"  required ng-maxlength=100 />
-
-        <label name="password">{{'person-details.password' | i18next}}</label>
-        <input type="password" name="password" ng-model="item.admin.password" required ng-minlength=6 ng-maxlength=50 />
+        <div class="form-input">
+            <label name="password">{{'person-details.password' | i18next}}</label>
+            <input type="password" name="password" ng-model="item.admin.password" required ng-minlength=6 ng-maxlength=50 />
+        </div>
     </form>
 
     <!-- POST here -->
+    <button class="save-button" ng-click="saveItem(item)">{{'save-details' | i18next}}</button>
     <button class="cancel-button" ng-hide="newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
-    <button class="save-business" ng-click="saveItem(item)">{{'save' | i18next}}</button>
 </div>

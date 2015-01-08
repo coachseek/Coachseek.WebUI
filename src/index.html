@@ -13,29 +13,24 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <activity-indicator ui-sref="businessSetup.business"></activity-indicator>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a ui-sref="businessSetup" id="registerLink">{{'setup' | i18next}}</a></li>
-                    <!-- <li><a href="/Home/About">About</a></li> -->
-                    <!-- <li><a href="/Home/Contact">Contact</a></li> -->
-                    <!-- <li><a href="#/registration/coach-list">Coach List</a></li> -->
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a ui-sref="scheduling" class="nav-to-scheduling" >{{'businessSetup:nav-to-scheduling' | i18next}}</a></li>
-                    <!-- <li><a href="/Account/Login" id="loginLink">{{'login' | i18next}}</a></li> -->
-                </ul>
-            </div>
+            <ul class="nav navbar-nav">
+                <li><a ui-sref="businessSetup.business" ui-sref-active="active">{{'setup' | i18next}}</a></li>
+                <li><a class="inactive" ui-sref="dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
+                <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
+                <li><a class="inactive" ui-sref="services" ui-sref-active="active">{{'services' | i18next}}</a></li>
+                <li><a class="inactive" ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
+                <li><a class="inactive" ui-sref="financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- <li><a ui-sref=""></a></li> -->
+            </ul>
         </div>
     </div>
-    <div ui-view id="main-view"></div>
+    <div ui-view id="main-view" state="{{$stateParams.current.name}}"></div>
     <div class="alert-container">
         <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
             <span ng-i18next="[i18next]({name:alert.name}){{alert.message}}"></span>
         </alert>
     </div>
-    <hr />
-    <footer>
-        <p>&copy; 2014 - CoachSeek</p>
-    </footer>
 </body>
 </html>

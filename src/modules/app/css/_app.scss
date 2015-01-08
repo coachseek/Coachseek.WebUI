@@ -1,0 +1,72 @@
+﻿$green: #00A578;
+$red: #E74C3C;
+$light-green: #00BF8C;
+
+$dark-grey: #525252;
+$grey: #999999;
+$light-grey: #E0E0E0;
+$border-grey: #B0B0B0;
+$text-grey: #A3A3A3;
+$text-dark-grey: #4D4D4D;
+$active-background-grey: #C9C9C9;
+
+$white: #FFFFFF;
+
+$background-beige: #F5F5F5;
+$light-beige: #EBEBEB;
+
+
+
+body {
+  font-family: lato-regular;
+  background: $background-beige;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+  box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+
+.ng-invalid.ng-dirty {
+  border-color: $red;
+}
+
+.ng-valid.ng-dirty {
+  border-color: $green;
+}
+
+span.hidden {
+    display: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@font-face
+{
+  font-family: lato-regular;
+  src: url('../assets/fonts/Lato-Regular.ttf');
+}

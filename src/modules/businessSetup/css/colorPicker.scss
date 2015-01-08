@@ -5,13 +5,16 @@ color-picker {
     }
 
     li.selected{
-        border: 1px solid #333;    
+        border:4px solid $light-green;    
     }
 
     li {
-        width:20px;
-        height:20px;
-        box-sizing:border-box;
+        cursor: pointer;
+        width:25px;
+        height:25px;
+        margin-right: 15px;
+        margin-top: 5px;
+        border-radius: 12.5px;
         display:inline-block;
     }
 }

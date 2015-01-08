@@ -1,6 +1,9 @@
-<a class="nav-to-business" ui-sref="businessSetup.business">{{'businessSetup:nav-to-business' | i18next}}</a>
-<a class="nav-to-locations" ui-sref="businessSetup.locations">{{'businessSetup:nav-to-locations' | i18next}}</a>
-<a class="nav-to-coaches" ui-sref="businessSetup.coachList">{{'businessSetup:nav-to-coaches' | i18next}}</a>
-<a class="nav-to-services" ui-sref="businessSetup.services">{{'businessSetup:nav-to-services' | i18next}}</a>
-
+<h4 class='business-setup-title'>{{'businessSetup:title' | i18next}}</h4>
+<div class="setup-nav-container">
+	<a class="setup-nav nav-to-business" ui-sref="businessSetup.business" ui-sref-active="active">{{'businessSetup:nav-to-business' | i18next}}</a>
+	<a class="setup-nav nav-to-locations" ui-sref="businessSetup.locations" ui-sref-active="active">{{'businessSetup:nav-to-locations' | i18next}}</a>
+	<a class="setup-nav nav-to-coaches" ui-sref="businessSetup.coachList" ui-sref-active="active">{{'businessSetup:nav-to-coaches' | i18next}}</a>
+	<a class="setup-nav nav-to-services" ui-sref="businessSetup.services" ui-sref-active="active">{{'businessSetup:nav-to-services' | i18next}}</a>
+</div>
+<hr />
 <div ui-view="list-item-view"></div>

@@ -1,8 +1,7 @@
 {
+	"title": "Setup:",
 	"coach-list-title": "Coach List",
 	"coach-services-title": "Services",
-	"locations-title": "Locations",
-	"business-title": "Business",
 
 	"weekdays": {
 		"monday": "Monday",
@@ -25,51 +24,51 @@
 		"forever": "forever"
 	},
 	"business-details": {
-		"name": "Name:",
+		"name": "Name",
 		"placeholder": {
 			"name": "We Ball Hard Inc."
 		}
 	},
 	"service-details": {
-		"name": "Name:",
-		"description": "Service Description:",
-		"student-capacity": "Max Students:",
-		"session-price": "Session Price:",
-		"course-price": "Course Price:",
-		"duration": "Duration:",
-		"repeat-frequency": "Repeat Frequency:",
+		"name": "Name",
+		"description": "Service Description",
+		"student-capacity": "Service limit capacity",
+		"service-colour": "Service Colour (green will become default color)",
+		"course-price-min": "Course price minimum",
+		"course-price-max": "Course price maximum",
+		"duration": "Service duration (in minutes)",
+		"repeat-frequency": "Repeat course",
 		"placeholder": {
 			"name": "How to Ball Hard",
 			"description": "We show you how to...",
 			"student-capacity": "Min. 1",
-			"session-price": "Min. 0",
-			"course-price": "Min. 0"
+			"course-price-min": "Min. 0",
+			"course-price-max": "Min. 0"
 		}
 	},
 	"location-details": {
-		"name": "Name:",
-		"address": "Address:",
-		"city": "City:",
-		"state": "State:",
-		"country": "Country:",
+		"name": "Name of location (e.g. Bushwood Country Club or Online)",
+		"address": "Address",
+		"city": "City",
+		"post-code": "Post Code",
+		"country": "Country",
 		"placeholder": {
 			"name": "We Ball Hardquarters",
 			"address": "123 Weball Street",
 			"city": "Auckland",
-			"state": "Winning",
+			"post-code": "Winning",
 			"country": "New Zealand"
 
 		}
 	},
-	"add-new-coach": "Add New Coach",
-	"add-new-service": "Add New Service",
-	"add-new-location": "Add New Location",
+	"add-coach": "Add New Coach",
+	"add-service": "Add New Service",
+	"add-location": "Add Location",
 
 	"nav-to-locations": "Locations",
 	"nav-to-services": "Services",
 	"nav-to-coaches": "Coaches",
 	"nav-to-business": "Business",
-	"nav-to-scheduling": "Scheduling",
 
 	"add-coach-warning": "Easy there tiger! You need to add at least one coach here before moving on.",
 	"add-services-warning": "Easy there tiger! You need to add at least one service here before moving on.",
@@ -86,6 +85,7 @@
 	"sessionPrice-invalid": "Oops! Looks like your Session Price isn't a price. Try again.",
 	"coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
 	"password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
+	"postCode-invalid": "Oops! Looks like your Post Code isn't quite right. Try again.",
 	
 	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
 	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",

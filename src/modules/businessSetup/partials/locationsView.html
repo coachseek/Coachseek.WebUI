@@ -1,36 +1,47 @@
-<h3>{{'businessSetup:locations-title' | i18next}}</h3>
 <div class="location-list-view" ng-hide="item">
+    <button class="create-item" ng-click="createItem()">
+        <span class="icon-plus"></span>
+        {{'businessSetup:add-location' | i18next}}
+    </button>
+    <hr />
     <ul>
         <li class="location-details" ng-repeat="item in itemList">
+            <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
             <span class="location-name">{{item.name}}</span>
-            <!-- show coach edit on click -->
-            <button class="edit-location" ng-click="editItem(item)">{{'edit' | i18next}}</button>
+            <span class="location-address">{{item.address}}</span>
+            <hr />
         </li>
     </ul>
-
-    <!-- show coach creation on click -->
-    <button class="create-location" ng-click="createItem()">{{'businessSetup:add-new-location' | i18next}}</button>
 </div>
 <div class="location-item-view" ng-show="item">
     <form name="itemForm" editable-form novalidate>
-        <label name="name">{{'businessSetup:location-details.name' | i18next}}</label>
-        <input name="name" ng-model="item.name" placeholder="{{'businessSetup:location-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
+        <div class="form-input">
+            <label name="name">{{'businessSetup:location-details.name' | i18next}}</label>
+            <input name="name" ng-model="item.name" placeholder="{{'businessSetup:location-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
+        </div>
+        <hr />
+        <div class="form-input">
+            <label name="address">{{'businessSetup:location-details.address' | i18next}}</label>
+            <input name="address" ng-blur="updateAddress()" ng-model="item.address" placeholder="{{'businessSetup:location-details.placeholder.address' | i18next}}"/>
+        </div>
 
-        <label name="address">{{'businessSetup:location-details.address' | i18next}}</label>
-        <input name="address" ng-blur="updateAddress()" ng-model="item.address" placeholder="{{'businessSetup:location-details.placeholder.address' | i18next}}"  required />
+        <div class="form-input left-col">
+            <label name="city">{{'businessSetup:location-details.city' | i18next}}</label>
+            <input name="city" ng-model="item.city" placeholder="{{'businessSetup:location-details.placeholder.city' | i18next}}"/>
+        </div>
+        
+        <div class="form-input right-col">
+            <label name="postCode">{{'businessSetup:location-details.post-code' | i18next}}</label>
+            <input name="postCode" type="number" ng-model="item.postCode" placeholder="{{'businessSetup:location-details.placeholder.post-code' | i18next}}"/>
+        </div>
 
-        <label name="city">{{'businessSetup:location-details.city' | i18next}}</label>
-        <input name="city" ng-model="item.city" placeholder="{{'businessSetup:location-details.placeholder.city' | i18next}}"  required />
-
-        <label name="state">{{'businessSetup:location-details.state' | i18next}}</label>
-        <input name="state" ng-model="item.state" placeholder="{{'businessSetup:location-details.placeholder.state' | i18next}}"  required />
-
-        <label name="country">{{'businessSetup:location-details.country' | i18next}}</label>
-        <input name="country" ng-model="item.country" placeholder="{{'businessSetup:location-details.placeholder.country' | i18next}}"  required />
-
+        <div class="form-input">
+            <label name="country">{{'businessSetup:location-details.country' | i18next}}</label>
+            <input name="country" ng-model="item.country" placeholder="{{'businessSetup:location-details.placeholder.country' | i18next}}"/>
+        </div>
     </form>
 
     <!-- POST here -->
-    <button class="save-location" ng-click="saveItem(item)">{{'save' | i18next}}</button>
-    <button class="cancel-location" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
+    <button class="save-button" ng-click="saveItem(item)">{{'save-details' | i18next}}</button>
+    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
 </div>

@@ -1,13 +1,18 @@
 {
-    "home": "Home",
     "setup": "SETUP",
+    "dashboard": "DASHBOARD",
+    "scheduling": "CALENDAR",
+    "services": "SERVICES",
+    "customers": "CUSTOMERS",
+    "financials": "FINANCIALS",
     "login": "Log In",
     "person-details": {
-    	"first-name": "First Name:",
-    	"last-name": "Last Name:",
-    	"email": "Email:",
-    	"phone": "Phone Number:",
-        "password": "Password:",
+    	"first-name": "First Name",
+    	"last-name": "Last Name",
+    	"email": "Email address",
+    	"phone": "Phone Number",
+        "password": "Password",
+        "availability": "Availability",
         "placeholder": {
             "first-name": "Nick",
             "last-name": "Bollettieri",
@@ -15,7 +20,7 @@
             "phone": ""
         }
     },
-    "edit": "Edit",
-    "save": "Save",
+    "edit-details": "Edit details",
+    "save-details": "Save details",
     "cancel": "Cancel"
 }

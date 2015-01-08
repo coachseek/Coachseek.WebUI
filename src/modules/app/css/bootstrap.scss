@@ -311,11 +311,9 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
 }
 
 input,
@@ -383,10 +381,6 @@ img {
 }
 
 hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 0;
-  border-top: 1px solid #eeeeee;
 }
 
 .sr-only {
@@ -473,7 +467,6 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -505,8 +498,7 @@ h3 {
 h4,
 h5,
 h6 {
-  margin-top: 10px;
-  margin-bottom: 10px;
+
 }
 
 h1,
@@ -757,10 +749,7 @@ pre code {
 }
 
 .container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  /*width: 100%;*/
 }
 
 .container:before,
@@ -1653,8 +1642,7 @@ legend {
 
 label {
   display: inline-block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  /*margin-bottom: 5px;*/
 }
 
 input[type="search"] {
@@ -4027,7 +4015,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
   z-index: 1000;
   min-height: 50px;
   margin-bottom: 20px;
-  border: 1px solid transparent;
 }
 
 .navbar:before,
@@ -4171,7 +4158,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
   position: fixed;
   right: 0;
   left: 0;
-  border-width: 0 0 1px;
 }
 
 @media (min-width: 768px) {
@@ -4246,6 +4232,11 @@ textarea.input-group-sm > .input-group-btn > .btn {
   padding-top: 10px;
   padding-bottom: 10px;
   line-height: 20px;
+  &.inactive{
+    pointer-events: none !important;
+    background: $dark-grey !important;
+    opacity: 0.7;
+  }
 }
 
 @media (max-width: 767px) {
@@ -4277,11 +4268,17 @@ textarea.input-group-sm > .input-group-btn > .btn {
     margin: 0;
   }
   .navbar-nav > li {
+    width: 100px;
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 17.5px;
+    padding-bottom: 17.5px;
+    text-align: center;
+    font-size: 12px;
+    &.active{
+      background: $light-green;
+    }
   }
 }
 
@@ -4501,8 +4498,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #222222;
-  border-color: #080808;
+  background-color: $green;
+  border-color: $green;
 }
 
 .navbar-inverse .navbar-brand {
@@ -4520,20 +4517,20 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: #ffffff;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #ffffff;
-  background-color: transparent;
+  background-color: $light-green;
 }
 
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
   color: #ffffff;
-  background-color: #080808;
+  background-color: $light-green;
 }
 
 .navbar-inverse .navbar-nav > .disabled > a,
@@ -5579,8 +5576,8 @@ a.list-group-item:focus {
   line-height: 1;
   color: #000000;
   text-shadow: 0 1px 0 #ffffff;
-  opacity: 0.2;
-  filter: alpha(opacity=20);
+  opacity: 0.4;
+  filter: alpha(opacity=40);
 }
 
 .close:hover,

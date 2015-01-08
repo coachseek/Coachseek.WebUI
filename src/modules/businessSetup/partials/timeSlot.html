@@ -10,7 +10,8 @@
 	</time-range-picker>
 	<button
 		type="button"
-		class="btn btn-primary"
+		class="toggle-time-slot"
+		ng-class="item.workingHours[weekday].isAvailable ? 'open' : 'closed'"
 		ng-model="item.workingHours[weekday].isAvailable"
 		ng-click="item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable">
 		<span

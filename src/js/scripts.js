@@ -191,7 +191,7 @@ angular.module('app.services', []).
                     studentCapacity: 8
                 },
                 presentation: {
-                    color: 'blue'
+                    color: '#00A578'
                 },
                 repititon: {
                     sessionCount: 4,
@@ -213,7 +213,7 @@ angular.module('app.services', []).
                     studentCapacity: 8
                 },
                 presentation: {
-                    color: 'green'
+                    color: '#2980B9'
                 },
                 repititon: {
                     sessionCount: 4,
@@ -235,7 +235,7 @@ angular.module('app.services', []).
                     studentCapacity: 8
                 },
                 presentation: {
-                    color: 'purple'
+                    color: '#E67E22'
                 },
                 repititon: {
                     sessionCount: -1,
@@ -257,7 +257,7 @@ angular.module('app.services', []).
                     studentCapacity: 8
                 },
                 presentation: {
-                    color: 'orange'
+                    color: '#F1C40F'
                 },
                 repititon: {
                     sessionCount: null,
@@ -288,7 +288,7 @@ angular.module('app.services', []).
                     studentCapacity: 8
                 },
                 presentation: {
-                    color: 'blue'
+                    color: '#00A578'
                 },
                 repititon: {
                     sessionCount: 12,
@@ -629,11 +629,11 @@ angular.module('businessSetup.directives', [])
     })
     .directive('colorPicker', function() {
         var defaultColors =  [
-            'red',
-            'green',
-            'blue',
-            'orange',
-            'yellow'
+            '#00A578', //green
+            '#2980B9', //blue
+            '#E74C3C', //red
+            '#E67E22', //orange
+            '#F1C40F'  //yellow
         ];
         return {
             scope: {

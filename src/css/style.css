@@ -52,19 +52,75 @@ table {
   border-spacing: 0;
 }
 
+body {
+  font-family: lato-regular;
+  background: #F5F5F5;
+  padding-top: 50px;
+  padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+  white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+}
+
+.ng-invalid.ng-dirty {
+  border-color: #E74C3C;
+}
+
+.ng-valid.ng-dirty {
+  border-color: #00A578;
+}
+
+span.hidden {
+  display: none;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@font-face {
+  font-family: lato-regular;
+  src: url("../assets/fonts/Lato-Regular.ttf");
+}
 /* Circled */
 .indicator-container {
-  width: 50px;
-  height: 50px;
-  display: inline;
+  width: 70px;
+  height: 55px;
   cursor: pointer;
+  background: #525252;
+  float: left;
+  position: relative;
 }
 .indicator-container div {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 7.5px;
+  left: 15px;
 }
 .indicator-container .outer-logo {
   background: url("../assets/pics/logo-small-outer.png") no-repeat center;
@@ -101,6 +157,21 @@ table {
   bottom: 0;
   left: 0;
   width: 300px;
+  z-index: 10000;
+}
+.alert-container .alert {
+  border-radius: 5px;
+  border: none;
+  color: #FFFFFF;
+}
+.alert-container .alert.alert-warning {
+  background: #E74C3C;
+}
+.alert-container .alert.alert-success {
+  background: #00BF8C;
+}
+.alert-container .alert.alert-danger {
+  background: #E74C3C;
 }
 .alert-container .alert.fade-in-out.ng-enter, .alert-container .alert.fade-in-out.ng-leave {
   -webkit-transition: 400ms linear all;
@@ -442,11 +513,9 @@ html {
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
 }
 
 input,
@@ -511,13 +580,6 @@ img {
 
 .img-circle {
   border-radius: 50%;
-}
-
-hr {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  border: 0;
-  border-top: 1px solid #eeeeee;
 }
 
 .sr-only {
@@ -603,7 +665,6 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 500;
   line-height: 1.1;
 }
@@ -629,13 +690,6 @@ h1,
 h2,
 h3 {
   margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-h4,
-h5,
-h6 {
-  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -891,10 +945,7 @@ pre code {
 }
 
 .container {
-  padding-right: 15px;
-  padding-left: 15px;
-  margin-right: auto;
-  margin-left: auto;
+  /*width: 100%;*/
 }
 
 .container:before,
@@ -1933,8 +1984,7 @@ legend {
 
 label {
   display: inline-block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  /*margin-bottom: 5px;*/
 }
 
 input[type="search"] {
@@ -4303,7 +4353,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
   z-index: 1000;
   min-height: 50px;
   margin-bottom: 20px;
-  border: 1px solid transparent;
 }
 
 .navbar:before,
@@ -4447,7 +4496,6 @@ textarea.input-group-sm > .input-group-btn > .btn {
   position: fixed;
   right: 0;
   left: 0;
-  border-width: 0 0 1px;
 }
 
 @media (min-width: 768px) {
@@ -4520,6 +4568,11 @@ textarea.input-group-sm > .input-group-btn > .btn {
   padding-bottom: 10px;
   line-height: 20px;
 }
+.navbar-nav > li > a.inactive {
+  pointer-events: none !important;
+  background: #525252 !important;
+  opacity: 0.7;
+}
 
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu {
@@ -4553,12 +4606,18 @@ textarea.input-group-sm > .input-group-btn > .btn {
   }
 
   .navbar-nav > li {
+    width: 100px;
     float: left;
   }
 
   .navbar-nav > li > a {
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 17.5px;
+    padding-bottom: 17.5px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .navbar-nav > li > a.active {
+    background: #00BF8C;
   }
 }
 @media (min-width: 768px) {
@@ -4778,8 +4837,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse {
-  background-color: #222222;
-  border-color: #080808;
+  background-color: #00A578;
+  border-color: #00A578;
 }
 
 .navbar-inverse .navbar-brand {
@@ -4797,20 +4856,20 @@ textarea.input-group-sm > .input-group-btn > .btn {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #999999;
+  color: #ffffff;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover,
 .navbar-inverse .navbar-nav > li > a:focus {
   color: #ffffff;
-  background-color: transparent;
+  background-color: #00BF8C;
 }
 
 .navbar-inverse .navbar-nav > .active > a,
 .navbar-inverse .navbar-nav > .active > a:hover,
 .navbar-inverse .navbar-nav > .active > a:focus {
   color: #ffffff;
-  background-color: #080808;
+  background-color: #00BF8C;
 }
 
 .navbar-inverse .navbar-nav > .disabled > a,
@@ -5856,8 +5915,8 @@ a.list-group-item:focus {
   line-height: 1;
   color: #000000;
   text-shadow: 0 1px 0 #ffffff;
-  opacity: 0.2;
-  filter: alpha(opacity=20);
+  opacity: 0.4;
+  filter: alpha(opacity=40);
 }
 
 .close:hover,
@@ -7155,41 +7214,139 @@ td.visible-print {
   content: "\e117";
 }
 
-body {
-  padding-top: 50px;
-  padding-bottom: 20px;
+[state^="businessSetup"] {
+  max-width: 445px;
+  margin: 45px auto;
 }
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-  padding-left: 15px;
-  padding-right: 15px;
+[state^="businessSetup"] hr {
+  border: none;
+  background-color: #E0E0E0;
+  height: 2px;
+  clear: both;
 }
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-  white-space: normal;
+[state^="businessSetup"] .icon-cross {
+  font-size: 16px;
+  font-weight: bold;
 }
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-  max-width: 280px;
+[state^="businessSetup"] h4 {
+  color: #999999;
+  float: left;
+  padding: 5px;
 }
-
-.ng-invalid.ng-dirty {
-  border-color: #FA787E;
+[state^="businessSetup"] .setup-nav-container {
+  float: right;
+  margin-bottom: 35px;
 }
-
-.ng-valid.ng-dirty {
-  border-color: #78FA89;
+[state^="businessSetup"] .setup-nav-container .setup-nav {
+  display: inline-block;
+  text-decoration: none;
+  width: 80px;
+  margin-left: 7px;
+  background: #FFFFFF;
+  font-size: 14px;
+  color: #525252;
+  padding: 5px;
+  text-align: center;
+  border: 1px solid #B0B0B0;
+  border-radius: 5px;
 }
-
-span.hidden {
-  display: none;
+[state^="businessSetup"] .setup-nav-container .setup-nav.active {
+  background: #C9C9C9;
+}
+[state^="businessSetup"] input, [state^="businessSetup"] textarea {
+  border-radius: 5px;
+  border: 1px solid transparent;
+  color: #4D4D4D;
+  padding: 5px 10px;
+  width: 100%;
+}
+[state^="businessSetup"] input:focus, [state^="businessSetup"] textarea:focus {
+  outline: none;
+}
+[state^="businessSetup"] label {
+  color: #A3A3A3;
+  font-size: 11px;
+  display: block;
+  padding: 2.5px 0px;
+}
+[state^="businessSetup"] form {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+[state^="businessSetup"] form .form-input {
+  float: left;
+  margin-bottom: 15px;
+}
+[state^="businessSetup"] .create-item {
+  display: block;
+  border: none;
+  margin: 20px auto;
+  color: #FFFFFF;
+  background: #00A578;
+  border-radius: 5px;
+  padding: 7.5px 25px;
+}
+[state^="businessSetup"] .cancel-button {
+  background: none;
+  border: none;
+  float: right;
+  margin-right: 30px;
+  color: #00A578;
+  height: 35px;
+}
+[state^="businessSetup"] .save-button {
+  float: right;
+  color: #FFFFFF;
+  background: #00A578;
+  border: none;
+  border-radius: 5px;
+  padding: 7.5px 25px;
+}
+[state^="businessSetup"] .edit-item {
+  float: right;
+  border: none;
+  background: none;
+  color: #00A578;
+}
+[state^="businessSetup"] .form-input {
+  width: 100%;
+}
+[state^="businessSetup"] .form-input.left-col {
+  width: 48%;
+  margin-right: 4%;
+}
+[state^="businessSetup"] .form-input.right-col {
+  width: 48%;
+}
+[state^="businessSetup"] ul li {
+  padding-top: 10px;
+}
+[state^="businessSetup"] ul span {
+  width: 50%;
+  float: left;
+  color: #4D4D4D;
+  clear: left;
+}
+[state^="businessSetup"] ul .service-description {
+  width: 75%;
+}
+[state^="businessSetup"] ul .coach-name, [state^="businessSetup"] ul .location-name, [state^="businessSetup"] ul .business-name, [state^="businessSetup"] ul .service-name {
+  font-size: 16px;
+}
+[state^="businessSetup"] ul .coach-phone, [state^="businessSetup"] ul .location-address, [state^="businessSetup"] ul .business-email, [state^="businessSetup"] ul .service-description {
+  margin-bottom: 15px;
+}
+[state^="businessSetup"] .coach-item-view .toggle-time-slot {
+  color: white;
+  outline: none;
+  line-height: 35px;
+}
+[state^="businessSetup"] .coach-item-view .toggle-time-slot.open {
+  background: #525252;
+}
+[state^="businessSetup"] .coach-item-view .toggle-time-slot.closed {
+  background: #00A578;
 }
 
 color-picker ul {
@@ -7197,19 +7354,16 @@ color-picker ul {
   margin: 0;
 }
 color-picker li.selected {
-  border: 1px solid #333;
+  border: 4px solid #00BF8C;
 }
 color-picker li {
-  width: 20px;
-  height: 20px;
-  box-sizing: border-box;
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  margin-right: 15px;
+  margin-top: 5px;
+  border-radius: 12.5px;
   display: inline-block;
-}
-
-.angular-google-map-container {
-  height: 300px;
-  width: 75%;
-  margin: 0 auto;
 }
 
 repeat-selector .editable-hide {
@@ -7273,39 +7427,58 @@ repeat-selector .form-inline {
 }
 
 .weekday {
-  width: 50%;
+  width: 100%;
   overflow: hidden;
   margin: 10px auto;
 }
 .weekday .weekday-text {
-  background: white;
+  background: #EBEBEB;
+  color: #525252;
   position: relative;
-  line-height: 80px;
+  height: 35px;
+  width: 75px;
+  padding-right: 5px;
+  text-align: right;
+  line-height: 35px;
   float: left;
+  font-size: 12px;
   z-index: 1;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 .weekday time-range-picker {
+  background: white;
   z-index: 0;
   float: left;
   position: relative;
+  height: 35px;
+  width: 335px;
+  padding: 0 125px;
 }
 .weekday time-range-picker.ng-invalid {
-  border: 1px solid red;
+  border: 1px solid #E74C3C;
 }
 .weekday time-range-picker .time-picker {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 8px;
+}
+.weekday time-range-picker .time-picker .increase, .weekday time-range-picker .time-picker .decrease {
+  display: none;
 }
 .weekday time-range-picker.slide-closed {
   margin-left: 0px;
-  -webkit-transition: all linear 0.5s;
-  transition: all linear 0.5s;
+  -webkit-transition: all linear 0.3s;
+  transition: all linear 0.3s;
 }
 .weekday time-range-picker.slide-closed.ng-hide {
-  margin-left: -100px;
+  margin-left: -335px;
 }
 .weekday button {
-  margin-top: 25px;
+  border: none;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  height: 35px;
+  width: 35px;
 }
 .weekday button span {
   font-size: 18px;
