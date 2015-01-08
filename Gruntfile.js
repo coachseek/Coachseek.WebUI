@@ -16,14 +16,13 @@ module.exports = function(grunt) {
          src: [
            'src/modules/**/css/*.scss',
          ],
-         dest: 'build/css/build.css'
+         dest: 'build/css/style.css'
        },
-       //TODO - make this a temp file so we don't leave it lying around
        srcCss: {
          src: [
            'src/modules/**/css/*.scss',
          ],
-         dest: 'src/css/build.css'
+         dest: 'src/css/style.css'
        },
        srcApp: {
         src: [
@@ -67,7 +66,7 @@ module.exports = function(grunt) {
             htmlmin:  { collapseWhitespace: true, collapseBooleanAttributes: true }
          },
          cwd: 'src/modules',
-         src:          '**/partials/**.html',
+         src:          '**/partials/*.html',
          dest:         'build/js/templates.js'
        },
        src:{
@@ -77,7 +76,7 @@ module.exports = function(grunt) {
                                            //            Defaults to grunt target name (e.g. `myapp`)
          },
          cwd: 'src/modules',
-         src:          '**/partials/**.html',
+         src:          '**/partials/*.html',
          dest:         'src/js/templates.js'
        }
      },
@@ -101,7 +100,7 @@ module.exports = function(grunt) {
           style: 'compressed'
         },
         files: {
-          'build/css/style.css': 'build/css/build.css'
+          'build/css/style.css': 'build/css/style.css'
         }
       },
       src: {
@@ -109,7 +108,7 @@ module.exports = function(grunt) {
           style: 'expanded'
         },
         files: {
-          'src/css/style.css': 'src/css/build.css'
+          'src/css/style.css': 'src/css/style.css'
         }
       }
     },
@@ -130,7 +129,7 @@ module.exports = function(grunt) {
       },
       css: {
         files: ['src/modules/**/*.scss'],
-        tasks: ['concat:srcCss', 'sass:src'],
+        tasks: ['newer:concat:srcCss', 'sass:src'],
       },
       templates: {
         files: ['src/modules/**/partials/*.html'],
