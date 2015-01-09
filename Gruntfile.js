@@ -150,6 +150,13 @@ module.exports = function(grunt) {
           }
         }
       }
+    },
+    plato: {
+      your_task: {
+        files: {
+          'reports/plato': ['src/modules/**/*.js','!src/modules/**/*.spec.js']
+        }
+      }
     }
   });
 
@@ -165,6 +172,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-wrap');
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-merge-json');
+  grunt.loadNpmTasks('grunt-plato');
 
   // Default task(s).
   grunt.registerTask('default', [
