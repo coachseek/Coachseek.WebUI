@@ -32,6 +32,16 @@ describe('bussinessSetup Locations', function(){
         createViewWithController(scope, templateUrl, 'locationsCtrl');
         expect(getLocationsStub).to.be.calledOnce;
     });
+    it('should disable the create item button while loading', function(){
+        getLocationsStub.restore();
+        this.sinon.stub(coachSeekAPIService, 'getLocations', function(){
+            return $q.defer().promise;
+        });
+
+        createViewWithController(scope, templateUrl, 'locationsCtrl');
+        $locationListView = $testRegion.find('.location-list-view');
+        expect($locationListView.find('.create-item').attr('disabled')).to.equal('disabled');
+    });
     describe('and there are no locations', function(){
         beforeEach(function(){
             createViewWithController(scope, templateUrl, 'locationsCtrl');

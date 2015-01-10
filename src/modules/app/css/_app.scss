@@ -65,6 +65,10 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+button:disabled{
+  opacity: 0.5;
+}
+
 @font-face
 {
   font-family: lato-regular;

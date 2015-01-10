@@ -32,6 +32,16 @@ describe('bussinessSetup Services', function(){
         createViewWithController(scope, templateUrl, 'servicesCtrl');
         expect(getServicesStub).to.be.calledOnce;
     });
+    it('should disable the create item button while loading', function(){
+        getServicesStub.restore();
+        this.sinon.stub(coachSeekAPIService, 'getServices', function(){
+            return $q.defer().promise;
+        });
+
+        createViewWithController(scope, templateUrl, 'servicesCtrl');
+        $serviceListView = $testRegion.find('.service-list-view');
+        expect($serviceListView.find('.create-item').attr('disabled')).to.equal('disabled');
+    });
     describe('and there are no services', function(){
         beforeEach(function(){
             createViewWithController(scope, templateUrl, 'servicesCtrl');

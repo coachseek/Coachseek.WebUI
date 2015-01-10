@@ -38,6 +38,16 @@ describe('BusinessSetup Coach List', function(){
             createViewWithController(scope, templateUrl, 'coachesCtrl');
             expect(getCoachesStub).to.be.calledOnce;
         });
+        it('should disable the create item button while loading', function(){
+            getCoachesStub.restore();
+            this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
+                return $q.defer().promise;
+            });
+
+            createViewWithController(scope, templateUrl, 'coachesCtrl');
+            $coachListView = $testRegion.find('.coach-list-view');
+            expect($coachListView.find('.create-item').attr('disabled')).to.equal('disabled');
+        });
         describe('when getCoaches throws an error', function(){
             var errorMessage = "errorMessage";
             beforeEach(function(){
