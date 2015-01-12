@@ -1,4 +1,4 @@
-describe.only('ngEnter directive', function(){
+describe('ngEnter directive', function(){
     
     var scope;
     beforeEach(function(){

@@ -18,6 +18,12 @@ describe('BusinessSetup Coach List', function(){
         deferred.resolve(this.coaches);
         return deferred.promise;
     });
+
+    let('savepromise', function(){
+        var deferred = $q.defer();
+        deferred.resolve(this.coaches);
+        return deferred.promise;
+    });
     
     var $coachListView, 
         $coachEditView,
@@ -127,8 +133,22 @@ describe('BusinessSetup Coach List', function(){
             describe('when clicking the save button', function(){
                 var saveCoachStub;
                 beforeEach(function(){
+                    self.savepromise = this.savepromise;
+
                     saveCoachStub = this.sinon.stub(coachSeekAPIService, 'saveCoach', function(){
-                        return self.promise
+                        return self.savepromise;
+                    });
+                });
+
+                describe('during save', function(){
+
+                    let('savepromise', function(){
+                        return $q.defer().promise;
+                    });
+
+                    it('should disable the save item button while loading', function(){
+                        $coachEditView.find('.save-button').trigger('click');
+                        expect($coachEditView.find('.save-button').attr('disabled')).to.equal('disabled');
                     });
                 });
                 describe('when the form is invalid', function(){

@@ -27,6 +27,12 @@ describe('bussinessSetup Locations', function(){
         return deferred.promise;
     });
 
+    let('savepromise', function(){
+        var deferred = $q.defer();
+        deferred.resolve(this.locations);
+        return deferred.promise;
+    });
+
     var templateUrl = 'businessSetup/partials/locationsView.html',
         $locationItemView,
         $locationListView,
@@ -129,12 +135,28 @@ describe('bussinessSetup Locations', function(){
                 expect($locationItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
             describe('when clicking the save button', function(){
+                
                 var saveLocationStub;
                 beforeEach(function(){
+                    self.savepromise = this.savepromise;
+
                     saveLocationStub = this.sinon.stub(coachSeekAPIService, 'saveLocation', function(){
-                        return self.promise;
+                        return self.savepromise;
                     });
                 });
+
+                describe('during save', function(){
+
+                    let('savepromise', function(){
+                        return $q.defer().promise;
+                    });
+
+                    it('should disable the save item button while loading', function(){
+                        $locationItemView.find('.save-button').trigger('click');
+                        expect($locationItemView.find('.save-button').attr('disabled')).to.equal('disabled');
+                    });
+                });
+
                 describe('when the form is invalid', function(){
                     describe('when the name is invalid', function(){
                         it('should display an invalid input alert', function(){

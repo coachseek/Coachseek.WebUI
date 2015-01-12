@@ -20,6 +20,12 @@ describe('BusinessSetup Business', function(){
         return deferred.promise;
     });
 
+    let('savepromise', function(){
+        var deferred = $q.defer();
+        deferred.resolve(this.business);
+        return deferred.promise;
+    });
+
     var $businessListView, 
         $businessItemView,
         getBusinessStub,
@@ -109,8 +115,22 @@ describe('BusinessSetup Business', function(){
             describe('when clicking the save button', function(){
                 var saveBusinessStub;
                 beforeEach(function(){
+                    self.savepromise = this.savepromise;
+
                     saveBusinessStub = this.sinon.stub(coachSeekAPIService, 'saveBusiness', function(){
-                        return self.promise;
+                        return self.savepromise;
+                    });
+                });
+
+                describe('during save', function(){
+
+                    let('savepromise', function(){
+                        return $q.defer().promise;
+                    });
+
+                    it('should disable the save item button while loading', function(){
+                        $businessItemView.find('.save-button').trigger('click');
+                        expect($businessItemView.find('.save-button').attr('disabled')).to.equal('disabled');
                     });
                 });
                 describe('when the form is invalid', function(){

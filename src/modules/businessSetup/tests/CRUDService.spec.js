@@ -21,7 +21,7 @@ describe('CRUDService', function(){
     beforeEach(function(){
         self = this;
         //WHY DO I NEED THIS??
-        this.promise = this.promise;
+        self.promise = this.promise;
         scope = $rootScope.$new();
         CRUDService = $injector.get('CRUDService');
         coachSeekAPIService = $injector.get('coachSeekAPIService');
