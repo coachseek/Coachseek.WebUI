@@ -15,7 +15,7 @@
     </ul>
 </div>
 <div class="coach-item-view" ng-show="item">
-    <form name="itemForm" novalidate>
+    <form name="itemForm" novalidate ng-enter="saveItem(item)">
         <div class="form-input left-col">
             <label name="firstName">{{'person-details.first-name' | i18next}}</label>
             <input name="firstName" ng-model="item.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
