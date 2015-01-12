@@ -1,5 +1,32 @@
 describe('bussinessSetup Services', function(){
 
+    let('service', function(){
+        return {
+            name: "Test",
+            description: "Service",
+            booking: {
+                studentCapacity: 8
+            },
+            pricing: {
+                sessionPrice: 43,
+                coursePrice: 69
+            },
+            repititon: {
+                repeatFrequency: 2
+            }
+        };
+    });
+
+    let('services', function(){
+        return [this.service];
+    });
+
+    let('promise', function(){
+        var deferred = $q.defer();
+        deferred.resolve(this.services);
+        return deferred.promise;
+    });
+
     var templateUrl = 'businessSetup/partials/servicesView.html',
         $serviceItemView,
         $serviceListView,
@@ -8,50 +35,67 @@ describe('bussinessSetup Services', function(){
         coachSeekAPIService;
         
     beforeEach(function(){
+        self = this;
+
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
 
-        self = this;
-
-        self.let('services', function(){
-            return [];
-        });
-
         getServicesStub = this.sinon.stub(coachSeekAPIService, 'getServices', function(){
-            var deferred = $q.defer();
-            deferred.resolve(self.services);
-            return deferred.promise;
+            return self.promise;
         });
         createServiceStub = this.sinon.stub(coachSeekAPIService, 'createService', function(){
-            var deferred = $q.defer();
-            deferred.resolve([{}]);
-            return deferred.promise;
-        });
-    });
-    it('should make a call to getServices', function(){
-        createViewWithController(scope, templateUrl, 'servicesCtrl');
-        expect(getServicesStub).to.be.calledOnce;
-    });
-    it('should disable the create item button while loading', function(){
-        getServicesStub.restore();
-        this.sinon.stub(coachSeekAPIService, 'getServices', function(){
-            return $q.defer().promise;
+            return self.promise;
         });
 
         createViewWithController(scope, templateUrl, 'servicesCtrl');
         $serviceListView = $testRegion.find('.service-list-view');
-        expect($serviceListView.find('.create-item').attr('disabled')).to.equal('disabled');
+        $serviceItemView = $testRegion.find('.service-item-view');
     });
-    describe('and there are no services', function(){
-        beforeEach(function(){
-            createViewWithController(scope, templateUrl, 'servicesCtrl');
-            $serviceItemView = $testRegion.find('.service-item-view');
+    it('should make a call to getServices', function(){
+        expect(getServicesStub).to.be.calledOnce;
+    });
+    describe('during loading', function(){
+        
+        let('promise', function(){
+            return $q.defer().promise;
         });
+
+        it('should disable the create item button while loading', function(){
+            expect($serviceListView.find('.create-item').attr('disabled')).to.equal('disabled');
+        });
+    });
+
+    describe('when getService throws an error', function(){
+        var errorMessage = "errorMessage";
+
+        let('promise', function(){
+            var deferred = $q.defer();
+            deferred.reject(new Error(errorMessage));
+            return deferred.promise;
+        });
+
+
+        it('should throw', function(){
+            expect(createViewWithController(scope, templateUrl, 'servicesCtrl')).to.throw;
+        });
+
+        it('should display an error message', function(){
+            expect($rootScope.alerts[0].type).to.equal('danger');
+            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
+        });
+    });
+
+    describe('and there are no services', function(){
+
+        let('services', function(){
+            return [];
+        });
+
         it('should not show the service list view', function(){
-            expect($testRegion.find('.service-list-view').hasClass('ng-hide')).to.be.true;
+            expect($serviceListView.hasClass('ng-hide')).to.be.true;
         });
         it('should show the service item view', function(){
-            expect($testRegion.find('.service-item-view').hasClass('ng-hide')).to.be.false;
+            expect($serviceItemView.hasClass('ng-hide')).to.be.false;
         });
         it('should attempt to create a service', function(){
             expect(createServiceStub).to.be.calledOnce;
@@ -61,32 +105,11 @@ describe('bussinessSetup Services', function(){
         });
     });
     describe('and there are one or more services', function(){
-        beforeEach(function(){
-            self.let('firstService', function(){
-                return {
-                    name: "Test",
-                    description: "User",
-                    booking: {
-                        studentCapacity: 8
-                    },
-                    pricing: {
-                        sessionPrice: 43,
-                        coursePrice: 69
-                    },
-                    repititon: {
-                        repeatFrequency: 2
-                    }
-                }
-            })
 
-            self.let('services', function(){
-                return [self.firstService, {}];
-            });
-
-            createViewWithController(scope, templateUrl, 'servicesCtrl');
-            $serviceListView = $testRegion.find('.service-list-view');
-            $serviceItemView = $testRegion.find('.service-item-view');
+        let('services', function(){
+            return [this.service];
         });
+
         it('should show the service list view', function(){
             expect($serviceListView.hasClass('ng-hide')).to.be.false;
         });
@@ -114,7 +137,7 @@ describe('bussinessSetup Services', function(){
             describe('when changing the repeatFrequency to -1 or null', function(){
                 it('should set the coursePrice to null', function(){
                     scope.item.repititon.repeatFrequency = null;
-                    scope.$apply();
+                    scope.$digest();
 
                     expect(scope.item.pricing.coursePrice).to.equal(null);
                 })
@@ -123,16 +146,14 @@ describe('bussinessSetup Services', function(){
                 var saveServiceStub;
                 beforeEach(function(){
                     saveServiceStub = this.sinon.stub(coachSeekAPIService, 'saveService', function(){
-                        var deferred = $q.defer();
-                        deferred.resolve([{}]);
-                        return deferred.promise;
+                        return self.promise;
                     });
                 });
                 describe('when the form is invalid', function(){
                     describe('when the name is invalid', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.name = null;
-                            scope.$apply();
+                            scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
@@ -142,7 +163,7 @@ describe('bussinessSetup Services', function(){
                     describe('when the studentCapacity is invalid', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.booking.studentCapacity = -1;
-                            scope.$apply();
+                            scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
@@ -152,7 +173,7 @@ describe('bussinessSetup Services', function(){
                     describe('when the coursePriceMin is invalid', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.pricing.coursePriceMin = -1;
-                            scope.$apply();
+                            scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
@@ -162,7 +183,7 @@ describe('bussinessSetup Services', function(){
                     describe('when the coursePriceMax is invalid', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.pricing.coursePriceMax = -1;
-                            scope.$apply();
+                            scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
@@ -173,7 +194,7 @@ describe('bussinessSetup Services', function(){
                         it('should display an alert for both', function(){
                             scope.item.pricing.coursePriceMin = -1;
                             scope.item.pricing.coursePriceMax = -1;
-                            scope.$apply();
+                            scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
@@ -185,7 +206,7 @@ describe('bussinessSetup Services', function(){
                 });
                 describe('when the name already exists', function(){
                     beforeEach(function(){
-                        scope.itemList.push(angular.copy(self.firstService));
+                        scope.itemList.push(angular.copy(self.service));
                         $serviceItemView.find('.save-button').trigger('click');
                     });
                     it('should display an alert', function(){
@@ -214,7 +235,7 @@ describe('bussinessSetup Services', function(){
                             name: "dumbnew",
                             description: "userguy"
                     }
-                    scope.$apply();
+                    scope.$digest();
 
                     $rootScope.alerts.push({type: 'warning', message: 'test alert'});
 
@@ -223,8 +244,8 @@ describe('bussinessSetup Services', function(){
                 it('should reset all edits made', function(){
                     var unsavedService = scope.itemList.pop();
 
-                    expect(unsavedService.name).to.equal(self.firstService.name);
-                    expect(unsavedService.description).to.equal(self.firstService.description);
+                    expect(unsavedService.name).to.equal(this.service.name);
+                    expect(unsavedService.description).to.equal(this.service.description);
                 });
                 it('should remove alert if present', function(){
                     expect($rootScope.alerts.length).to.equal(0);

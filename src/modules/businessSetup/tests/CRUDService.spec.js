@@ -1,4 +1,11 @@
 describe('CRUDService', function(){
+
+    let('promise', function(){
+       var deferred = $q.defer();
+       deferred.resolve(this.APIreturn);
+       return deferred.promise;; 
+    });
+
     var scope,
         CRUDService,
         coachSeekAPIService, 
@@ -12,6 +19,9 @@ describe('CRUDService', function(){
         initData = {};
 
     beforeEach(function(){
+        self = this;
+        //WHY DO I NEED THIS??
+        this.promise = this.promise;
         scope = $rootScope.$new();
         CRUDService = $injector.get('CRUDService');
         coachSeekAPIService = $injector.get('coachSeekAPIService');
@@ -20,36 +30,39 @@ describe('CRUDService', function(){
 
         AIStartStub = this.sinon.stub($activityIndicator, 'startAnimating');
         AIStopStub = this.sinon.stub($activityIndicator, 'stopAnimating');
+
+        this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
+            return self.promise
+        });
     });
     describe('when calling get()', function(){
+
+        var createItemStub;
+
+        beforeEach(function(){
+            scope.createItem = function(){};
+            createItemStub = this.sinon.stub(scope, 'createItem');
+            CRUDService.get(APIFunctionName, scope);
+            // Must call digest here because we are not using a template
+            // and $q promise resolution is not propogated automatically
+            $rootScope.$digest();
+        });
+
         it('should start the activity indicator', function(){
-            CRUDService.get(APIFunctionName, scope)
             expect(AIStartStub).to.be.calledOnce;
         });
         describe('when API call is successful', function(){
-            var APIreturn;
-            beforeEach(function(){
-                this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
-                    var deferred = $q.defer();
-                    deferred.resolve(APIreturn);
-                    return deferred.promise;
-                });
-            });
+
             describe('and there is no existing data', function(){
-                var createItemStub;
-                beforeEach(function(){
-                    APIreturn = [];
-                    scope.createItem = function(){};
-                    createItemStub = this.sinon.stub(scope, 'createItem');
-                    CRUDService.get(APIFunctionName, scope);
-                    // Must call apply here because we are not using a template
-                    // and $q promise resolution is not propogated automatically
-                    $rootScope.$apply();
+
+                let('APIreturn', function(){
+                    return [];
                 });
+
                 it('should set the itemList on the scope', function(){
-                    expect(scope.itemList.length).to.equal(APIreturn.length)
+                    expect(scope.itemList.length).to.equal(this.APIreturn.length)
                 });
-                it('should call attempt to creat a new item', function(){
+                it('should call attempt to create a new item', function(){
                     expect(createItemStub).to.be.calledOnce;
                 });
                 it('should stop the activity indicator', function(){
@@ -57,15 +70,13 @@ describe('CRUDService', function(){
                 });
             });
             describe('and there is existing data', function(){
-                beforeEach(function(){
-                    APIreturn = [{},{}];
-                    CRUDService.get(APIFunctionName, scope);
-                    // Must call apply here because we are not using a template
-                    // and $q promise resolution is not propogated automatically
-                    $rootScope.$apply();
-                })
+                
+                let('APIreturn', function(){
+                    return [{}, {}];
+                });
+
                 it('should set the itemList on the scope', function(){
-                    expect(scope.itemList).to.equal(APIreturn)
+                    expect(scope.itemList).to.equal(this.APIreturn)
                 });
                 it('should stop the activity indicator', function(){
                     expect(AIStopStub).to.be.calledOnce;
@@ -73,16 +84,13 @@ describe('CRUDService', function(){
             });
         });
         describe('when API call throws an error', function(){
-            beforeEach(function(){
-                this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
-                    var deferred = $q.defer();
-                    deferred.reject(new Error(errorMessage));
-                    return deferred.promise;
-                });
 
-                CRUDService.get(APIFunctionName, scope);
-                $rootScope.$apply();
+            let('promise', function(){
+                var deferred = $q.defer();
+                deferred.reject(new Error(errorMessage));
+                return deferred.promise;
             });
+
             it('should display an error message', function(){
                 expect($rootScope.alerts[0].type).to.equal('danger');
                 expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
@@ -99,18 +107,19 @@ describe('CRUDService', function(){
             expect(AIStartStub).to.be.calledOnce;
         });
         describe('when API call is successful', function(){
+
+            let('APIreturn', function(){
+                return [];
+            });
+
             beforeEach(function(){
-                this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
-                    var deferred = $q.defer();
-                    deferred.resolve([]);
-                    return deferred.promise;
-                });
+
                 scope.editItem = function(){};
                 editItemStub = this.sinon.stub(scope, 'editItem');
                 CRUDService.create(APIFunctionName, scope);
-                // Must call apply here because we are not using a template
+                // Must call digest here because we are not using a template
                 // and $q promise resolution is not propogated automatically
-                $rootScope.$apply();
+                $rootScope.$digest();
             });
             it('should set the newItem to true', function(){
                 expect(scope.newItem).to.equal(true)
@@ -123,14 +132,16 @@ describe('CRUDService', function(){
             });
         });
         describe('when API call throws an error', function(){
+
+            let('promise', function(){
+                var deferred = $q.defer();
+                deferred.reject(new Error(errorMessage));
+                return deferred.promise;
+            });
+
             beforeEach(function(){
-                this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
-                    var deferred = $q.defer();
-                    deferred.reject(new Error(errorMessage));
-                    return deferred.promise;
-                });
                 CRUDService.create(APIFunctionName, scope);
-                $rootScope.$apply();
+                $rootScope.$digest();
             });
             it('should display an error message', function(){
                 expect($rootScope.alerts[0].type).to.equal('danger');
@@ -148,22 +159,20 @@ describe('CRUDService', function(){
             expect(AIStartStub).to.be.calledOnce;
         });
         describe('when API call is successful', function(){
+            let('APIreturn', function(){
+                return 'data';
+            });
+
             var removeAlertsStub;
             beforeEach(function(){
                 scope.itemList = [];
                 scope.removeAlerts = function(){};
 
-                this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
-                    var deferred = $q.defer();
-                    deferred.resolve('data');
-                    return deferred.promise;
-                });
                 removeAlertsStub = this.sinon.stub(scope, 'removeAlerts')
-
                 CRUDService.update(APIFunctionName, scope, initData);
-                // Must call apply here because we are not using a template
+                // Must call digest here because we are not using a template
                 // and $q promise resolution is not propogated automatically
-                $rootScope.$apply();
+                $rootScope.$digest();
             });
             it('should add the item back to the itemList', function(){
                 expect(scope.itemList[0]).to.equal(initData)
@@ -183,14 +192,16 @@ describe('CRUDService', function(){
             });
         });
         describe('when API call throws an error', function(){
+
+            let('promise', function(){
+                var deferred = $q.defer();
+                deferred.reject(new Error(errorMessage));
+                return deferred.promise;
+            });
+
             beforeEach(function(){
-                this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
-                    var deferred = $q.defer();
-                    deferred.reject(new Error(errorMessage));
-                    return deferred.promise;
-                });
                 CRUDService.update(APIFunctionName, scope, {});
-                $rootScope.$apply();
+                $rootScope.$digest();
             });
             it('should display an error message', function(){
                 expect($rootScope.alerts[0].type).to.equal('danger');

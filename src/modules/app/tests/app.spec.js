@@ -2,30 +2,31 @@ describe('App Module', function() {
     it('should set $rootScope.alerts to an empty array', function(){
         expect($rootScope.alerts).to.be.empty;
     });
+
+    let('alertOne', function(){
+        return {
+            type: 'success',
+            message: 'alert one'
+        }
+    });
+
+    let('alertTwo', function(){
+        return {
+            type: 'warning',
+            message: 'alert two'
+        }
+    });
+
+    let('alertThree', function(){
+        return {
+            type: 'error',
+            message: 'alert three'
+        }
+    })
+
+
     describe('global alert system', function(){
         beforeEach(function(){
-
-            this.let('alertOne', function(){
-                return {
-                    type: 'success',
-                    message: 'alert one'
-                }
-            });
-
-            this.let('alertTwo', function(){
-                return {
-                    type: 'warning',
-                    message: 'alert two'
-                }
-            });
-
-            this.let('alertThree', function(){
-                return {
-                    type: 'error',
-                    message: 'alert three'
-                }
-            })
-
             $rootScope.addAlert(this.alertOne);
             $rootScope.addAlert(this.alertTwo);
             $rootScope.addAlert(this.alertThree);

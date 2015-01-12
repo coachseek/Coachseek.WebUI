@@ -1,5 +1,32 @@
 describe('bussinessSetup Locations', function(){
 
+    let('location', function(){
+        return {
+            name: "Test",
+            description: "Service",
+            booking: {
+                studentCapacity: 8
+            },
+            pricing: {
+                sessionPrice: 43,
+                coursePrice: 69
+            },
+            repititon: {
+                repeatFrequency: 2
+            }
+        };
+    });
+
+    let('locations', function(){
+        return [this.location];
+    });
+
+    let('promise', function(){
+        var deferred = $q.defer();
+        deferred.resolve(this.locations);
+        return deferred.promise;
+    });
+
     var templateUrl = 'businessSetup/partials/locationsView.html',
         $locationItemView,
         $locationListView,
@@ -8,50 +35,66 @@ describe('bussinessSetup Locations', function(){
         coachSeekAPIService;
         
     beforeEach(function(){
+        self = this;
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
 
-        self = this;
-
-        self.let('locations', function(){
-            return [];
-        });
-
         getLocationsStub = this.sinon.stub(coachSeekAPIService, 'getLocations', function(){
-            var deferred = $q.defer();
-            deferred.resolve(self.locations);
-            return deferred.promise;
+            return self.promise;
         });
         createLocationStub = this.sinon.stub(coachSeekAPIService, 'createLocation', function(){
-            var deferred = $q.defer();
-            deferred.resolve([{}]);
-            return deferred.promise;
+            return self.promise;
         });
+        createViewWithController(scope, templateUrl, 'locationsCtrl');
+        $locationListView = $testRegion.find('.location-list-view');
+        $locationItemView = $testRegion.find('.location-item-view');
     });
     it('should make a call to getLocations', function(){
-        createViewWithController(scope, templateUrl, 'locationsCtrl');
         expect(getLocationsStub).to.be.calledOnce;
     });
-    it('should disable the create item button while loading', function(){
-        getLocationsStub.restore();
-        this.sinon.stub(coachSeekAPIService, 'getLocations', function(){
+
+    describe('during loading', function(){
+        
+        let('promise', function(){
             return $q.defer().promise;
         });
 
-        createViewWithController(scope, templateUrl, 'locationsCtrl');
-        $locationListView = $testRegion.find('.location-list-view');
-        expect($locationListView.find('.create-item').attr('disabled')).to.equal('disabled');
-    });
-    describe('and there are no locations', function(){
-        beforeEach(function(){
-            createViewWithController(scope, templateUrl, 'locationsCtrl');
-            $locationItemView = $testRegion.find('.location-item-view');
+        it('should disable the create item button while loading', function(){
+            expect($locationListView.find('.create-item').attr('disabled')).to.equal('disabled');
         });
+    });
+
+    describe('when getLocations throws an error', function(){
+        var errorMessage = "errorMessage";
+
+        let('promise', function(){
+            var deferred = $q.defer();
+            deferred.reject(new Error(errorMessage));
+            return deferred.promise;
+        });
+
+
+        it('should throw', function(){
+            expect(createViewWithController(scope, templateUrl, 'locationsCtrl')).to.throw;
+        });
+
+        it('should display an error message', function(){
+            expect($rootScope.alerts[0].type).to.equal('danger');
+            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
+        });
+    });
+
+    describe('and there are no locations', function(){
+
+        let('locations', function(){
+            return [];
+        });
+
         it('should not show the location list view', function(){
-            expect($testRegion.find('.location-list-view').hasClass('ng-hide')).to.be.true;
+            expect($locationListView.hasClass('ng-hide')).to.be.true;
         });
         it('should show the location item view', function(){
-            expect($testRegion.find('.location-item-view').hasClass('ng-hide')).to.be.false;
+            expect($locationItemView.hasClass('ng-hide')).to.be.false;
         });
         it('should attempt to create a location', function(){
             expect(createLocationStub).to.be.calledOnce;
@@ -61,27 +104,6 @@ describe('bussinessSetup Locations', function(){
         });
     });
     describe('and there are one or more locations', function(){
-        beforeEach(function(){
-            self.let('firstLocation', function(){
-                return {
-                    businessId: "8786bcd0-3b14-4f7b-92db-198527a5b949",
-                    id: null,
-                    name: "THE LAB",
-                    address: "1800 taylor ave n",
-                    city: "Seattle",
-                    state: "WA",
-                    country: "USA"
-                }
-            })
-
-            self.let('locations', function(){
-                return [self.firstLocation, {}];
-            });
-
-            createViewWithController(scope, templateUrl, 'locationsCtrl');
-            $locationListView = $testRegion.find('.location-list-view');
-            $locationItemView = $testRegion.find('.location-item-view');
-        });
         it('should show the location list view', function(){
             expect($locationListView.hasClass('ng-hide')).to.be.false;
         });
@@ -110,16 +132,14 @@ describe('bussinessSetup Locations', function(){
                 var saveLocationStub;
                 beforeEach(function(){
                     saveLocationStub = this.sinon.stub(coachSeekAPIService, 'saveLocation', function(){
-                        var deferred = $q.defer();
-                        deferred.resolve([{}]);
-                        return deferred.promise;
+                        return self.promise;
                     });
                 });
                 describe('when the form is invalid', function(){
                     describe('when the name is invalid', function(){
                         it('should display an invalid input alert', function(){
                             scope.item.name = null;
-                            scope.$apply();
+                            scope.$digest();
                             $locationItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
@@ -132,7 +152,7 @@ describe('bussinessSetup Locations', function(){
                 });
                 describe('when the name already exists', function(){
                     beforeEach(function(){
-                        scope.itemList.push(angular.copy(self.firstLocation));
+                        scope.itemList.push(angular.copy(this.location));
                         $locationItemView.find('.save-button').trigger('click');
                     });
                     it('should display an alert', function(){
@@ -161,7 +181,7 @@ describe('bussinessSetup Locations', function(){
                             name: "dumbnew",
                             description: "userguy"
                     }
-                    scope.$apply();
+                    scope.$digest();
 
                     $rootScope.alerts.push({type: 'warning', message: 'test alert'});
 
@@ -170,8 +190,8 @@ describe('bussinessSetup Locations', function(){
                 it('should reset all edits made', function(){
                     var unsavedLocation = scope.itemList.pop();
 
-                    expect(unsavedLocation.name).to.equal(self.firstLocation.name);
-                    expect(unsavedLocation.description).to.equal(self.firstLocation.description);
+                    expect(unsavedLocation.name).to.equal(this.location.name);
+                    expect(unsavedLocation.description).to.equal(this.location.description);
                 });
                 it('should remove alert if present', function(){
                     expect($rootScope.alerts.length).to.equal(0);
@@ -189,10 +209,10 @@ describe('bussinessSetup Locations', function(){
                 expect(createLocationStub).to.be.calledOnce;
             });
             it('should not show the location list view', function(){
-                expect($testRegion.find('.location-list-view').hasClass('ng-hide')).to.be.true;
+                expect($locationListView.hasClass('ng-hide')).to.be.true;
             });
             it('should show the location item view', function(){
-                expect($testRegion.find('.location-item-view').hasClass('ng-hide')).to.be.false;
+                expect($locationItemView.hasClass('ng-hide')).to.be.false;
             });
             it('should show the cancel button', function(){
                 expect($locationItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
@@ -211,6 +231,11 @@ describe('bussinessSetup Locations', function(){
         });
     });
     describe('when navigating before adding a location', function(){
+
+        let('locations', function(){
+            return [];
+        });
+
         describe('when navigating to coachList', function(){
             beforeEach(function(){
 

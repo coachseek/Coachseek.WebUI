@@ -5,7 +5,7 @@ angular.module('businessSetup.services', []).
         this.get = function(functionName, $scope){
             $activityIndicator.startAnimating();
             coachSeekAPIService[functionName]().then(function(data){
-                //set coach list data or creat first coach
+                //set list data or create first item
                 if(_.size(data)){        
                     $scope.itemList = data;
                 } else {

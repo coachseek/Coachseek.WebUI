@@ -1,16 +1,16 @@
 describe('repeatSelector directive', function(){
     var scope;
+    
+    let('sessionCount', function(){
+        return 12;
+    });
+
+    let('repeatFrequency', function(){
+        return 'w';
+    });
+
     beforeEach(function(){
         scope = $rootScope.$new();
-
-        this.let('sessionCount', function(){
-            return 12;
-        });
-
-        this.let('repeatFrequency', function(){
-            return 'w';
-        });
-
         scope.sessionCount = this.sessionCount;
         scope.repeatFrequency = this.repeatFrequency;
         // must wrap here in because if the directives replace

@@ -1,11 +1,12 @@
 describe('colorPicker directive', function(){
+    
+    let('currentColor', function(){
+        return '#2980B9';
+    });
+    
     var scope;
     beforeEach(function(){
         scope = $rootScope.$new();
-
-        this.let('currentColor', function(){
-            return '#2980B9';
-        });
 
         scope.currentColor = this.currentColor;
         // must wrap here in because if the directives replace

@@ -146,7 +146,7 @@ module.exports = function(grunt) {
         client: {
           mocha: {
             reporter: 'html', // change Karma's debug.html to the mocha web reporter
-            ui: 'bdd'
+            ui: 'letbdd'
           }
         }
       }
@@ -177,7 +177,7 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', [
       'concat',
-      'wrap', 
+      'wrap',
       'htmlmin',
       'ngtemplates',
       'uglify',
