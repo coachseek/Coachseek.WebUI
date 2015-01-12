@@ -124,7 +124,8 @@ module.exports = function(grunt) {
     },
     watch: {
       js: {
-        files: ['src/modules/**/*.js'],
+        files: ['src/modules/**/*.js',
+                '!src/modules/**/*.spec.js'],
         tasks: ['newer:concat:srcApp', 'wrap']
       },
       css: {
