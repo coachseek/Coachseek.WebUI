@@ -12,7 +12,6 @@ angular.module('app.directives', [])
 		            scope.$apply(function (){
 		                scope.$eval(attrs.ngEnter);
 		            });
-
 		            event.preventDefault();
 		        }
 		    });
