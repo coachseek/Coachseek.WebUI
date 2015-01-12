@@ -1,20 +1,69 @@
-.scheduling-container{
+[state^="scheduling"] {
     width: 100%;
-    margin: 0 auto;
-
     .services-list{
+        padding-top: 30px;
         min-height: 500px;
 
         width: 25%;
         float: left;
 
+        h4{
+            text-align: center;
+            padding: 10px;
+        }
+
+        ul{
+            margin-top: 1em;
+        }
+
         li{
             cursor: move;
+            width: 90%;
+            height: 50px;
+            margin: 0 auto 10px auto;
+            padding: 10px 5px;
+            background: $white;
+            overflow: hidden;
+
+            .color-circle{
+                @extend %vertical-align;
+                float: left;
+                width: 20px;
+                height: 20px;
+                border-radius: 10px;
+            }
+
+            .fa{
+                @extend %vertical-align;
+                float: right;
+                width: 10%;
+                color: $text-grey;
+            }
+
+            .service-name, .service-description{
+                float: left;
+                width: 70%;
+                margin-left: 10px;
+            }
+            .service-name{
+                font-size: 0.9em;
+                font-weight: bold;
+                color: $text-dark-grey;
+            }
+            .service-description{
+                font-size: 0.8em;
+                max-height: 15px;
+                overflow: hidden;
+                margin-top: 3px;
+                color: $text-grey;
+            }
         }
     }
 
     .calendar{
+        padding-top: 30px;
         width: 75%;
         float: right;
+        background: $white;
     }
 }

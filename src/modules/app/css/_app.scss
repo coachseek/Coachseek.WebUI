@@ -15,19 +15,20 @@ $white: #FFFFFF;
 $background-beige: #F5F5F5;
 $light-beige: #EBEBEB;
 
-
+/* PARENT ELEMENT MUST HAVE HEIGHT */
+%vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 
 body {
   font-family: lato-regular;
   background: $background-beige;
   padding-top: 50px;
   padding-bottom: 20px;
-}
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 

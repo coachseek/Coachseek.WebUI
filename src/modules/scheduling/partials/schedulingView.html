@@ -1,19 +1,19 @@
-<h3>{{'scheduling:scheduling-title' | i18next}}</h3>
-<div class="scheduling-container">
-    <div class="services-list">
-        <ul>
-            <li 
-                data-drag="true"
-                data-service="{{item}}" 
-                data-duration="{{item.timing.duration}}" 
-                jqyoui-draggable
-                data-jqyoui-options="{revert: true}" 
-                ng-style="{'background-color':item.presentation.color}"
-                class="service-details" 
-                ng-repeat="item in itemList">
-                    <span class="service-name">{{item.name}} {{item.repititon.sessionCount}}</span>
-            </li>
-        </ul>
-    </div>
-    <div class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar=""></div>
+<div class="services-list">
+<h4>{{'scheduling:services-title' | i18next}}</h4>
+    <ul>
+        <li 
+            data-drag="true"
+            data-service="{{item}}" 
+            data-duration="{{item.timing.duration}}" 
+            jqyoui-draggable
+            data-jqyoui-options="{revert: true}" 
+            class="service-details" 
+            ng-repeat="item in itemList">
+                <i class="fa fa-lg fa-bars"></i>
+                <span class="color-circle" ng-style="{'background-color':item.presentation.color}"></span>
+                <h5 class="service-name">{{item.name}}</h5>
+                <p class="service-description">{{item.description}}</p>
+        </li>
+    </ul>
 </div>
+<div class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar=""></div>
