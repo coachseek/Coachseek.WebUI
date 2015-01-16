@@ -5,7 +5,7 @@
     </button>
     <hr />
     <ul>
-        <li class="service-details" ng-repeat="item in itemList">
+        <li class="service-details" ng-repeat="item in itemList | orderBy:'name'">
             <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
             <span class="service-name">{{item.name}}</span>
             <span class="service-description">{{item.description}}</span>
