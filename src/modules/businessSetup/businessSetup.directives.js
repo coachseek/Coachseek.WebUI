@@ -72,17 +72,17 @@ angular.module('businessSetup.directives', [])
                 scope: {
                     start: "=",
                     finish: "=",
-                    disabled: "=ngDisabled"
+                    available: "="
                 },
                 templateUrl: 'businessSetup/partials/timeRangePicker.html',
                 require: 'ngModel',
                 link: function(scope, elm, attrs, ctrl) {
-                    scope.$watchGroup(['start', 'finish', 'disabled'], function(newValues){
+                    scope.$watchGroup(['start', 'finish', 'available'], function(newValues, oldValues, scope){
                         if(newValues[0] && newValues[1]) {
                             var startTime = timeStringToObject(newValues[0]);
                             var finishTime = timeStringToObject(newValues[1]);
 
-                            if(newValues[2] === true || startTime.hours < finishTime.hours) {
+                            if(newValues[2] === false || startTime.hours < finishTime.hours) {
                                 ctrl.$setValidity('timeRange', true);
                             } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) || 
                                             startTime.hours > finishTime.hours ){
