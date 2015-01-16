@@ -47,7 +47,7 @@ angular.module('scheduling.controllers', [])
             };
 
             var buildEvents = function(date, serviceData){
-                var repeatFrequency = serviceData.repititon.repeatFrequency
+                var repeatFrequency = serviceData.repetition.repeatFrequency
                 var duration = strToMinutes(serviceData.timing.duration);
                 var id = _.uniqueId('service_')
                 if( repeatFrequency === -1 ){
@@ -58,7 +58,7 @@ angular.module('scheduling.controllers', [])
                     createEvent(id, date, serviceData, 0);
                 } else if ( repeatFrequency ) {
                     // console.log('FINITE')
-                    var sessionCount = serviceData.repititon.sessionCount;
+                    var sessionCount = serviceData.repetition.sessionCount;
                     _.times(sessionCount, function(index){
                         createEvent(id, date, serviceData, index)
                     });
@@ -67,7 +67,7 @@ angular.module('scheduling.controllers', [])
 
             var createEvent = function(id, date, serviceData, index){
                 var newDate = date.clone();
-                var repeatFrequency = serviceData.repititon.repeatFrequency
+                var repeatFrequency = serviceData.repetition.repeatFrequency
                 var duration = strToMinutes(serviceData.timing.duration);
                 var newEvent = {
                     _id: id,
