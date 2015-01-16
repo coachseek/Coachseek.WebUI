@@ -1,6 +1,6 @@
 angular.module('businessSetup.controllers', [])
-    .controller('businessCtrl', ['$scope', 'CRUDService',
-        function($scope, CRUDService){
+    .controller('businessCtrl', ['$scope', 'CRUDService', 'businessDefaults',
+        function($scope, CRUDService, businessDefaults){
 
         $scope.editItem = function(business){
             _.pull($scope.itemList, business);
@@ -10,11 +10,13 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.createItem = function(){
-            CRUDService.create('createBusiness', $scope);
+            $scope.newItem = true;
+            $scope.item = businessDefaults;
         };
 
         $scope.saveItem = function(business){
             var formValid = CRUDService.validateForm($scope);
+
             if(formValid){
                 CRUDService.update('saveBusiness', $scope, business);  
             }
@@ -39,11 +41,12 @@ angular.module('businessSetup.controllers', [])
 
         CRUDService.get('getBusiness', $scope);
     }])
-    .controller('locationsCtrl', ['$scope', '$http', 'CRUDService',
-        function($scope, $http, CRUDService){
+    .controller('locationsCtrl', ['$scope', 'CRUDService', 'locationDefaults',
+        function($scope, CRUDService, locationDefaults){
 
             $scope.createItem = function(){
-                CRUDService.create('createLocation', $scope);
+                $scope.newItem = true;
+                $scope.item = locationDefaults;
             };
 
             $scope.editItem = function(location){
@@ -56,8 +59,8 @@ angular.module('businessSetup.controllers', [])
             $scope.saveItem = function(location){
                 var formValid = CRUDService.validateForm($scope);
                 formValid = checkDuplicates(formValid);
-                if(formValid){
-                    CRUDService.update('saveLocation', $scope, location);  
+                if( formValid ){
+                    CRUDService.update('saveLocation', $scope, location);                  
                 }
             };
 
@@ -96,18 +99,19 @@ angular.module('businessSetup.controllers', [])
 
             CRUDService.get('getLocations', $scope);
     }])
-    .controller('coachesCtrl', ['$scope', 'CRUDService',
-        function ($scope, CRUDService) {
+    .controller('coachesCtrl', ['$scope', 'CRUDService', 'coachDefaults',
+        function ($scope, CRUDService, coachDefaults) {
+        $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         
         $scope.editItem = function(coach){
             _.pull($scope.itemList, coach);
             $scope.itemCopy = angular.copy(coach);
             $scope.item = coach;
-            $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
         };
 
         $scope.createItem = function(){
-            CRUDService.create('createCoach', $scope);
+            $scope.newItem = true;
+            $scope.item = coachDefaults;
         };
 
         $scope.cancelEdit = function(){
@@ -117,8 +121,8 @@ angular.module('businessSetup.controllers', [])
         $scope.saveItem = function(coach){
             var formValid = CRUDService.validateForm($scope);
                 formValid = checkDuplicates(formValid);
-            if(formValid){
-                CRUDService.update('saveCoach', $scope, coach);  
+            if( formValid ){
+                CRUDService.update('saveCoach', $scope, coach);                  
             }
         };
 
@@ -150,11 +154,12 @@ angular.module('businessSetup.controllers', [])
 
         CRUDService.get('getCoaches', $scope);
     }])
-    .controller('servicesCtrl', ['$scope', 'CRUDService', 
-        function($scope, CRUDService){
+    .controller('servicesCtrl', ['$scope', 'CRUDService', 'serviceDefaults',
+        function($scope, CRUDService, serviceDefaults){
 
         $scope.createItem = function(){
-            CRUDService.create('createService', $scope);
+            $scope.newItem = true;
+            $scope.item = serviceDefaults;
         };
 
         $scope.editItem = function(service){
@@ -167,8 +172,8 @@ angular.module('businessSetup.controllers', [])
         $scope.saveItem = function(service){
             var formValid = CRUDService.validateForm($scope);
                 formValid = checkDuplicates(formValid);
-            if(formValid){
-                CRUDService.update('saveService', $scope, service);  
+            if( formValid ){
+                CRUDService.update('saveService', $scope, service);                  
             }
         };
 
@@ -188,12 +193,102 @@ angular.module('businessSetup.controllers', [])
             return valid;
         };
 
-        $scope.$watch('item.repititon.repeatFrequency', function(newVal){
-            if(newVal === -1 || newVal === null){
-                $scope.item.pricing.coursePrice = null;
-            }
-        });
+        // $scope.$watch('item.repetition.repeatFrequency', function(newVal){
+        //     if(newVal === Infinity || newVal === null){
+        //         $scope.item.pricing.coursePrice = null;
+        //     }
+        // });
 
         CRUDService.get('getServices', $scope);
 
-    }]);
+    }])
+    .value('businessDefaults', {
+            business: {
+                name: null
+            },
+            admin: {
+                firstName: null,
+                lastName: null,
+                email: null,
+                password: null
+            }
+        }
+    )
+    .value('locationDefaults', {
+            name: null
+        }
+    )
+    .value('coachDefaults', {
+            businessId: null,
+            id: null,
+            firstName: null,
+            lastName: null,
+            email: null,
+            phone: null,
+            workingHours: {
+                monday: { 
+                    isAvailable: true,
+                    startTime: "9:00",
+                    finishTime: "17:00"
+                },
+                tuesday: {
+                    isAvailable: true,
+                    startTime: "9:00",
+                    finishTime: "17:00"
+
+                }, 
+                wednesday: {
+                    isAvailable: true,
+                    startTime: "9:00",
+                    finishTime: "17:00"
+
+                },
+                thursday: {
+                    isAvailable: true,
+                    startTime: "9:00",
+                    finishTime: "17:00"
+
+                },
+                friday: {
+                    isAvailable: true,
+                    startTime: "9:00",
+                    finishTime: "17:00"
+
+                },
+                saturday: {
+                    isAvailable: false,
+                    startTime: "9:00",
+                    finishTime: "17:00"
+
+                }, 
+                sunday: {
+                    isAvailable: false,
+                    startTime: "9:00",
+                    finishTime: "17:00"
+
+                }
+            }
+        }
+    )
+    .value('serviceDefaults', {
+            name: null,
+            description: null,
+            timing: {
+                duration: 15
+            },
+            repetition: {
+                sessionCount: 1,
+                repeatFrequency: 'd'
+            },
+            booking: {
+                studentCapacity: null
+            },
+            presentation: {
+                color: '#00A578'
+            },
+            pricing: {
+                sessionPrice: 0,
+                coursePrice: null
+            }
+        }
+    );
