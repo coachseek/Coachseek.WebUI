@@ -139,20 +139,4 @@
 			margin-bottom: 15px;
 		}
 	}
-
-	.coach-item-view{
-		.toggle-time-slot{
-			color: white;
-			outline: none;
-			line-height: 35px;
-
-			&.open{			
-				background: $dark-grey;
-			}
-
-			&.closed{
-				background: $green;
-			}
-		}
-	}
 }
