@@ -2,16 +2,16 @@ angular.module('businessSetup.controllers', [])
     .controller('businessCtrl', ['$scope', 'CRUDService', 'businessDefaults',
         function($scope, CRUDService, businessDefaults){
 
+        $scope.createItem = function(){
+            $scope.newItem = true;
+            $scope.item = _.assign({}, businessDefaults);
+        };
+
         $scope.editItem = function(business){
             _.pull($scope.itemList, business);
             $scope.itemCopy = angular.copy(business);
 
-            $scope.item = business;  
-        };
-
-        $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = angular.copy(businessDefaults);
+            $scope.item = business;
         };
 
         $scope.saveItem = function(business){
@@ -46,7 +46,7 @@ angular.module('businessSetup.controllers', [])
 
             $scope.createItem = function(){
                 $scope.newItem = true;
-                $scope.item = angular.copy(locationDefaults);
+                $scope.item = _.assign({}, locationDefaults);
             };
 
             $scope.editItem = function(location){
@@ -102,16 +102,16 @@ angular.module('businessSetup.controllers', [])
     .controller('coachesCtrl', ['$scope', 'CRUDService', 'coachDefaults',
         function ($scope, CRUDService, coachDefaults) {
         $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+
+        $scope.createItem = function(){
+            $scope.newItem = true;
+            $scope.item = _.assign({}, coachDefaults);
+        };
         
         $scope.editItem = function(coach){
             _.pull($scope.itemList, coach);
             $scope.itemCopy = angular.copy(coach);
             $scope.item = coach;
-        };
-
-        $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = angular.copy(coachDefaults);
         };
 
         $scope.cancelEdit = function(){
@@ -159,7 +159,7 @@ angular.module('businessSetup.controllers', [])
 
         $scope.createItem = function(){
             $scope.newItem = true;
-            $scope.item = angular.copy(serviceDefaults);
+            $scope.item = _.assign({}, serviceDefaults);
         };
 
         $scope.editItem = function(service){
@@ -204,27 +204,27 @@ angular.module('businessSetup.controllers', [])
     }])
     .value('businessDefaults', {
             business: {
-                name: null
+                name: undefined
             },
             admin: {
-                firstName: null,
-                lastName: null,
-                email: null,
-                password: null
+                firstName: undefined,
+                lastName: undefined,
+                email: undefined,
+                password: undefined
             }
         }
     )
     .value('locationDefaults', {
-            name: null
+            name: undefined
         }
     )
     .value('coachDefaults', {
-            businessId: null,
-            id: null,
-            firstName: null,
-            lastName: null,
-            email: null,
-            phone: null,
+            businessId: undefined,
+            id: undefined,
+            firstName: undefined,
+            lastName: undefined,
+            email: undefined,
+            phone: undefined,
             workingHours: {
                 monday: { 
                     isAvailable: true,
@@ -271,8 +271,8 @@ angular.module('businessSetup.controllers', [])
         }
     )
     .value('serviceDefaults', {
-            name: null,
-            description: null,
+            name: undefined,
+            description: undefined,
             timing: {
                 duration: 15
             },
@@ -281,14 +281,14 @@ angular.module('businessSetup.controllers', [])
                 repeatFrequency: 'd'
             },
             booking: {
-                studentCapacity: null
+                studentCapacity: undefined
             },
             presentation: {
                 color: '#00A578'
             },
             pricing: {
                 sessionPrice: 0,
-                coursePrice: null
+                coursePrice: undefined
             }
         }
     );

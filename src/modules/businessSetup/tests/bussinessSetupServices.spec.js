@@ -84,7 +84,7 @@ describe('bussinessSetup Services', function(){
             expect($serviceItemView.hasClass('ng-hide')).to.be.false;
         });
         it('should set the list item to default value', function(){
-            expect(scope.item).to.equal(serviceDefaults);
+            expect(scope.item).to.eql(serviceDefaults);
         });
         it('should not show the cancel button', function(){
             expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
@@ -260,7 +260,7 @@ describe('bussinessSetup Services', function(){
                 $serviceListView.find('.create-item').trigger('click');
             });
             it('should set the list item to default value', function(){
-                expect(scope.item).to.equal(serviceDefaults);
+                expect(scope.item).to.eql(serviceDefaults);
             });
             it('should not show the service list view', function(){
                 expect($testRegion.find('.service-list-view').hasClass('ng-hide')).to.be.true;

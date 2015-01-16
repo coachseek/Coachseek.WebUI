@@ -74,7 +74,7 @@ describe('BusinessSetup Coach List', function(){
             expect($coachEditView.hasClass('ng-hide')).to.be.false;
         });
         it('should set the list item to default value', function(){
-            expect(scope.item).to.equal(coachDefaults);
+            expect(scope.item).to.eql(coachDefaults);
         });
         it('should not show the cancel button', function(){
             expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
@@ -241,7 +241,7 @@ describe('BusinessSetup Coach List', function(){
                 $coachListView.find('.create-item').trigger('click');
             });
             it('should set the list item to default value', function(){
-                expect(scope.item).to.equal(coachDefaults);
+                expect(scope.item).to.eql(coachDefaults);
             });
             it('should not show the coach list view', function(){
                 expect($coachListView.hasClass('ng-hide')).to.be.true;

@@ -84,7 +84,7 @@ describe('bussinessSetup Locations', function(){
             expect($locationItemView.hasClass('ng-hide')).to.be.false;
         });
         it('should set the list item to default value', function(){
-            expect(scope.item).to.equal(locationDefaults);
+            expect(scope.item).to.eql(locationDefaults);
         });
         it('should not show the cancel button', function(){
             expect($locationItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
@@ -209,7 +209,7 @@ describe('bussinessSetup Locations', function(){
                 $locationListView.find('.create-item').trigger('click');
             });
             it('should set the list item to default value', function(){
-                expect(scope.item).to.equal(locationDefaults);
+                expect(scope.item).to.eql(locationDefaults);
             });
             it('should not show the location list view', function(){
                 expect($locationListView.hasClass('ng-hide')).to.be.true;
