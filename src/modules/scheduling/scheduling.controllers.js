@@ -15,7 +15,7 @@ angular.module('scheduling.controllers', [])
             $scope.onDragStop = function(){
                 // console.log('DRAGSTOP', this)
                 // $(this).fadeIn(600);
-            }
+            };
 
             $scope.uiConfig = {
                 calendar:{
@@ -54,9 +54,9 @@ angular.module('scheduling.controllers', [])
             };
 
             var buildEvents = function(date, serviceData){
-                var repeatFrequency = serviceData.repetition.repeatFrequency
+                var repeatFrequency = serviceData.repetition.repeatFrequency;
                 var duration = strToMinutes(serviceData.timing.duration);
-                var id = _.uniqueId('service_')
+                var id = _.uniqueId('service_');
                 if( repeatFrequency === -1 ){
                     // console.log('FOREVER')
                     createEvent(id, date, serviceData, 0);
@@ -67,14 +67,14 @@ angular.module('scheduling.controllers', [])
                     // console.log('FINITE')
                     var sessionCount = serviceData.repetition.sessionCount;
                     _.times(sessionCount, function(index){
-                        createEvent(id, date, serviceData, index)
+                        createEvent(id, date, serviceData, index);
                     });
                 }
             };
 
             var createEvent = function(id, date, serviceData, index){
                 var newDate = date.clone();
-                var repeatFrequency = serviceData.repetition.repeatFrequency
+                var repeatFrequency = serviceData.repetition.repeatFrequency;
                 var duration = strToMinutes(serviceData.timing.duration);
                 var newEvent = {
                     _id: id,
@@ -83,7 +83,7 @@ angular.module('scheduling.controllers', [])
                     end: moment(newDate.add(duration, 'minutes')),
                     allDay: false,
                     color: serviceData.presentation.color
-                }
+                };
                 $scope.events.push(newEvent); 
             };
 
