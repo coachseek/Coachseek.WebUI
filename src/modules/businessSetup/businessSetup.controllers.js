@@ -11,7 +11,7 @@ angular.module('businessSetup.controllers', [])
 
         $scope.createItem = function(){
             $scope.newItem = true;
-            $scope.item = businessDefaults;
+            $scope.item = angular.copy(businessDefaults);
         };
 
         $scope.saveItem = function(business){
@@ -46,7 +46,7 @@ angular.module('businessSetup.controllers', [])
 
             $scope.createItem = function(){
                 $scope.newItem = true;
-                $scope.item = locationDefaults;
+                $scope.item = angular.copy(locationDefaults);
             };
 
             $scope.editItem = function(location){
@@ -111,7 +111,7 @@ angular.module('businessSetup.controllers', [])
 
         $scope.createItem = function(){
             $scope.newItem = true;
-            $scope.item = coachDefaults;
+            $scope.item = angular.copy(coachDefaults);
         };
 
         $scope.cancelEdit = function(){
@@ -159,7 +159,7 @@ angular.module('businessSetup.controllers', [])
 
         $scope.createItem = function(){
             $scope.newItem = true;
-            $scope.item = serviceDefaults;
+            $scope.item = angular.copy(serviceDefaults);
         };
 
         $scope.editItem = function(service){
