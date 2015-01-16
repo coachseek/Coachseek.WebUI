@@ -34,16 +34,16 @@
 		"description": "Service Description",
 		"student-capacity": "Service limit capacity",
 		"service-colour": "Service Colour (green will become default color)",
-		"course-price-min": "Course price minimum",
-		"course-price-max": "Course price maximum",
+		"course-price": "Course price",
+		"session-price": "Session price",
 		"duration": "Service duration (in minutes)",
 		"repeat-frequency": "Repeat course",
 		"placeholder": {
 			"name": "How to Ball Hard",
 			"description": "We show you how to...",
 			"student-capacity": "Min. 1",
-			"course-price-min": "Min. 0",
-			"course-price-max": "Min. 0"
+			"course-price": "Min. 0",
+			"session-price": "Min. 0"
 		}
 	},
 	"location-details": {

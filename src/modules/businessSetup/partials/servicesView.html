@@ -43,13 +43,13 @@
         </div>
 
         <div class="form-input left-col">
-            <label name="coursePriceMin">{{'businessSetup:service-details.course-price-min' | i18next}}</label>
-            <input name="coursePriceMin" type="number" ng-model="item.pricing.coursePriceMin" placeholder="{{'businessSetup:service-details.placeholder.course-price-min' | i18next}}"  min="0" step=".01"  />
+            <label name="sessionPrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
+            <input name="sessionPrice" type="number" ng-model="item.pricing.sessionPrice" placeholder="{{'businessSetup:service-details.placeholder.session-price' | i18next}}"  min="0" step=".01"  />
         </div>
 
-        <div class="form-input right-col">
-            <label name="coursePriceMax">{{'businessSetup:service-details.course-price-max' | i18next}}</label>
-            <input name="coursePriceMax" ng-disabled="!item.repititon.repeatFrequency > 0" type="number" ng-model="item.pricing.coursePriceMax" placeholder="{{'businessSetup:service-details.placeholder.course-price-max' | i18next}}"  min="0" step=".01" />
+        <div class="form-input right-col" ng-disabled="!item.repetition.repeatFrequency > 0" >
+            <label name="coursePrice">{{'businessSetup:service-details.course-price' | i18next}}</label>
+            <input name="coursePrice" type="number" ng-model="item.pricing.coursePrice" placeholder="{{'businessSetup:service-details.placeholder.course-price' | i18next}}"  min="0" step=".01" />
         </div>
     </form>
 
