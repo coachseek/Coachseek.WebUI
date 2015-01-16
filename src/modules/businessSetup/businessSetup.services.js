@@ -78,6 +78,7 @@ angular.module('businessSetup.services', []).
             $scope.removeAlerts();
             $scope.newItem = null;
             $scope.itemCopy = null;
+            $scope.itemForm.$setPristine();
         };
 
         var findName = function(item){
