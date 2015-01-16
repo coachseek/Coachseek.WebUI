@@ -25,17 +25,31 @@
         position: relative;
         height: 35px;
         width: 335px;
-        padding: 0 125px;
+        /*padding: 0 75px;*/
+        text-align: center;
+        /*font-size: 18px;*/
 
-        &.ng-invalid{
-            border: 1px solid $red;
+        .to-text{
+            font-size: 16px;
+            margin: 0 20px;
         }
+
         .time-picker{
             display: inline-block;
-            margin-top: 8px;
-            .increase, .decrease{
-                display: none;
+
+            .time-picker-time{
+                width: 70px;
+                font-size: 16px;
+                height: 35px;
+                border: 1px solid $light-grey;
+                background: transparent;
+                text-align: center;
+                display: inline-block;
             }
+        }
+
+        &.ng-invalid{
+            background: $rgba-red-50;
         }
         &.slide-closed{
             margin-left: 0px;
@@ -47,15 +61,21 @@
         }
     }
 
-    button{
+    .toggle-time-slot{
         border: none;
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
         height: 35px;
         width: 35px;
-        span{
-            font-size: 18px;
-            font-weight: bold;
+        color: white;
+        outline: none;
+
+        &.open{         
+            background: $green;
+        }
+
+        &.closed{
+            background: $dark-grey;
         }
     }
 }

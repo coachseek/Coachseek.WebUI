@@ -25,9 +25,9 @@
             <textarea name="description" ng-model="item.description" placeholder="{{'businessSetup:service-details.placeholder.description' | i18next}}" ng-maxlength="200"></textarea>
         </div>
 
-        <div class="form-input">
-            <label>{{'businessSetup:service-details.duration' | i18next}}</label>
-            <time-picker time="item.timing.duration"></time-picker>
+        <div class="form-input left-col">
+            <label name="duration">{{'businessSetup:service-details.duration' | i18next}}</label>
+            <input name="duration" type="number" ng-model="item.timing.duration" placeholder="{{'businessSetup:service-details.placeholder.duration' | i18next}}"  min="15" max="1440" step="15" />
         </div>
 
         <div class="form-input left-col">

@@ -5,7 +5,7 @@
 		ng-model="item.workingHours[weekday]"
 		start="item.workingHours[weekday].startTime"
 		finish="item.workingHours[weekday].finishTime"
-		ng-disabled='!item.workingHours[weekday].isAvailable'
+		available="item.workingHours[weekday].isAvailable"
 		ng-show='item.workingHours[weekday].isAvailable'>
 	</time-range-picker>
 	<button
@@ -15,8 +15,8 @@
 		ng-model="item.workingHours[weekday].isAvailable"
 		ng-click="item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable">
 		<i
-			class="fa"
-			ng-class="item.workingHours[weekday].isAvailable ? 'fa-times' : 'fa-check' "
+			class="fa fa-2x"
+			ng-class="item.workingHours[weekday].isAvailable ? 'fa-angle-left' : 'fa-angle-right' "
 		></i>
 	</button>
 </div>
