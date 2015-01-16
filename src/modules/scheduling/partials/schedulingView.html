@@ -5,8 +5,8 @@
             data-drag="true"
             data-service="{{item}}" 
             data-duration="{{item.timing.duration}}" 
-            jqyoui-draggable
-            data-jqyoui-options="{revert: true}" 
+            jqyoui-draggable="{onStop: 'onDragStop'}" 
+            data-jqyoui-options="{revert: onRevert, revertDuration: 0}" 
             class="service-details" 
             ng-repeat="item in itemList">
                 <i class="fa fa-lg fa-bars"></i>

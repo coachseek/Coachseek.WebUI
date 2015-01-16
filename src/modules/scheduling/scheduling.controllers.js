@@ -4,9 +4,18 @@ angular.module('scheduling.controllers', [])
             $scope.events = [];
             $scope.eventSources = [$scope.events];
 
-            $scope.myCallback = function(){
-                console.log("REVERT")
+            //TODO - dont do this when invalid
+            //ELEMENT not appearing when valid c'mon son
+            $scope.onRevert = function(a, b, c){
+                console.log(a, b, c);
+                $(this).css('opacity', '0');
+                return true;
             };
+
+            $scope.onDragStop = function(){
+                // console.log('DRAGSTOP', this)
+                // $(this).fadeIn(600);
+            }
 
             $scope.uiConfig = {
                 calendar:{
@@ -17,12 +26,10 @@ angular.module('scheduling.controllers', [])
                     defaultView: 'agendaWeek',
                     eventDurationEditable: false,
                     drop: function(date, event) {
-                        $(this).hide().css({top: 0, left: 0}).fadeIn(600);
+                        $(this).animate({ opacity: 1 }, 750);
                         // console.log('Specified TIME', date.hasTime())
                         var serviceData = $(this).data('service');
                         buildEvents(date, serviceData);
-                    },
-                    eventDrop: function(event){
                     },
                     // businessHours: {
                     //     start: '10:00', // a start time (10am in this example)
@@ -33,9 +40,9 @@ angular.module('scheduling.controllers', [])
                     //     // (Monday-Thursday in this example)
                     // },
                     header:{
-                        left: 'month agendaWeek agendaDay',
-                        center: 'title',
-                        right: 'today prev,next'
+                        left: '',
+                        center: 'prev title next',
+                        right: 'month agendaWeek agendaDay today '
                     },
                     scrollTime:  "08:00:00"
                 }
