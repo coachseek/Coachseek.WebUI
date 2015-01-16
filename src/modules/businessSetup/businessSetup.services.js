@@ -13,24 +13,11 @@ angular.module('businessSetup.services', []).
                     $scope.createItem();
                 }
             }, function(error){
-                $scope.addAlert({
-                    type: 'danger',
-                    message: 'businessSetup:' + error.message
-                });
-            }).finally(function(){
-                $activityIndicator.stopAnimating();
-            });
-        };
-
-        this.create = function(functionName, $scope){
-            $activityIndicator.startAnimating();
-            coachSeekAPIService[functionName]().then(function(data){
-                $scope.newItem = true;
-                $scope.editItem(data);
-            }, function(error){
-                $scope.addAlert({
-                    type: 'danger',
-                    message: 'businessSetup:' + error.message
+                _.forEach(error.data, function(error){
+                    $scope.addAlert({
+                        type: 'danger',
+                        message: error.message
+                    });
                 });
             }).finally(function(){
                 $activityIndicator.stopAnimating();
@@ -39,7 +26,8 @@ angular.module('businessSetup.services', []).
 
         this.update = function(functionName, $scope, item){
             $activityIndicator.startAnimating();
-            coachSeekAPIService[functionName]().then(function(data){
+            coachSeekAPIService[functionName](item).then(function(response){
+                item = response.data;
                 $scope.itemList.push(item);
                 resetToList($scope);
 
@@ -49,9 +37,11 @@ angular.module('businessSetup.services', []).
                     name: item.name ? item.name: findName(item)
                 });
             }, function(error){
-                $scope.addAlert({
-                    type: 'danger',
-                    message: 'businessSetup:' + error.message
+                _.forEach(error.data, function(error){
+                    $scope.addAlert({
+                        type: 'danger',
+                        message: error.message
+                    });
                 });
             }).finally(function(){
                 $activityIndicator.stopAnimating();

@@ -11,7 +11,7 @@ describe('bussinessSetup Locations', function(){
                 sessionPrice: 43,
                 coursePrice: 69
             },
-            repititon: {
+            repetition: {
                 repeatFrequency: 2
             }
         };
@@ -29,13 +29,15 @@ describe('bussinessSetup Locations', function(){
 
     let('savepromise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.locations);
+        deferred.resolve({data:this.locations});
         return deferred.promise;
     });
 
     var templateUrl = 'businessSetup/partials/locationsView.html',
         $locationItemView,
         $locationListView,
+        getLocationsStub,
+        locationDefaults,
         self,
         scope,
         coachSeekAPIService;
@@ -43,14 +45,13 @@ describe('bussinessSetup Locations', function(){
     beforeEach(function(){
         self = this;
         coachSeekAPIService = $injector.get('coachSeekAPIService');
+        locationDefaults = $injector.get('locationDefaults');
         scope = $rootScope.$new();
 
         getLocationsStub = this.sinon.stub(coachSeekAPIService, 'getLocations', function(){
             return self.promise;
         });
-        createLocationStub = this.sinon.stub(coachSeekAPIService, 'createLocation', function(){
-            return self.promise;
-        });
+
         createViewWithController(scope, templateUrl, 'locationsCtrl');
         $locationListView = $testRegion.find('.location-list-view');
         $locationItemView = $testRegion.find('.location-item-view');
@@ -70,26 +71,6 @@ describe('bussinessSetup Locations', function(){
         });
     });
 
-    describe('when getLocations throws an error', function(){
-        var errorMessage = "errorMessage";
-
-        let('promise', function(){
-            var deferred = $q.defer();
-            deferred.reject(new Error(errorMessage));
-            return deferred.promise;
-        });
-
-
-        it('should throw', function(){
-            expect(createViewWithController(scope, templateUrl, 'locationsCtrl')).to.throw;
-        });
-
-        it('should display an error message', function(){
-            expect($rootScope.alerts[0].type).to.equal('danger');
-            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
-        });
-    });
-
     describe('and there are no locations', function(){
 
         let('locations', function(){
@@ -102,8 +83,8 @@ describe('bussinessSetup Locations', function(){
         it('should show the location item view', function(){
             expect($locationItemView.hasClass('ng-hide')).to.be.false;
         });
-        it('should attempt to create a location', function(){
-            expect(createLocationStub).to.be.calledOnce;
+        it('should set the list item to default value', function(){
+            expect(scope.item).to.equal(locationDefaults);
         });
         it('should not show the cancel button', function(){
             expect($locationItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
@@ -227,8 +208,8 @@ describe('bussinessSetup Locations', function(){
 
                 $locationListView.find('.create-item').trigger('click');
             });
-            it('should attempt to create a location', function(){
-                expect(createLocationStub).to.be.calledOnce;
+            it('should set the list item to default value', function(){
+                expect(scope.item).to.equal(locationDefaults);
             });
             it('should not show the location list view', function(){
                 expect($locationListView.hasClass('ng-hide')).to.be.true;

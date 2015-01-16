@@ -1,7 +1,7 @@
 describe('BusinessSetup Business', function(){
     
     let('business', function(){
-        return [{
+        return {
             business: {
                 name: "West Coast Toast"
             },
@@ -11,25 +11,29 @@ describe('BusinessSetup Business', function(){
                 email: "toastmaster@westcoasttoast.com",
                 password: "password"
             }
-        }];
+        };
     });
+
+    let('businesses', function(){
+        return [this.business]
+    })
 
     let('promise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.business);
+        deferred.resolve(this.businesses);
         return deferred.promise;
     });
 
     let('savepromise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.business);
+        deferred.resolve({data:this.business});
         return deferred.promise;
     });
 
     var $businessListView, 
         $businessItemView,
+        businessDefaults,
         getBusinessStub,
-        createBusinessStub,
         self,
         coachSeekAPIService,
         scope,
@@ -38,14 +42,13 @@ describe('BusinessSetup Business', function(){
     beforeEach(function(){
         self = this;
         coachSeekAPIService = $injector.get('coachSeekAPIService');
+        businessDefaults = $injector.get('businessDefaults');
         scope = $rootScope.$new();
 
         getBusinessStub = this.sinon.stub(coachSeekAPIService, 'getBusiness', function(){
             return self.promise;
         });
-        createBusinessStub = this.sinon.stub(coachSeekAPIService, 'createBusiness', function(){
-            return self.promise;
-        });
+
         createViewWithController(scope, templateUrl, 'businessCtrl');
         $businessListView = $testRegion.find('.business-list-view');
         $businessItemView = $testRegion.find('.business-item-view');
@@ -54,25 +57,8 @@ describe('BusinessSetup Business', function(){
         expect(getBusinessStub).to.be.calledOnce;
     });
 
-    describe('when getBusiness throws an error', function(){
-        var errorMessage = "errorMessage";
-
-        let('promise', function(){
-            var deferred = $q.defer();
-            deferred.reject(new Error(errorMessage));
-            return deferred.promise;
-        });
-
-        it('should throw', function(){
-            expect(createViewWithController(scope, templateUrl, 'businessCtrl')).to.throw;
-        });
-        it('should display an error message', function(){
-            expect($rootScope.alerts[0].type).to.equal('danger');
-            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
-        });
-    });
     describe('and there is no existing business', function(){
-        let('business', function(){
+        let('businesses', function(){
             return [];
         });
 
@@ -82,8 +68,8 @@ describe('BusinessSetup Business', function(){
         it('should show the business edit view', function(){
             expect($businessItemView.hasClass('ng-hide')).to.be.false;
         });
-        it('should attempt to create a business', function(){
-            expect(createBusinessStub).to.be.calledOnce;
+        it('should set the list item to default value', function(){
+            expect(scope.item).to.equal(businessDefaults);
         });
         it('should not show the cancel button', function(){
             expect($businessItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
@@ -112,130 +98,130 @@ describe('BusinessSetup Business', function(){
             it('should show the cancel button', function(){
                 expect($businessItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
-            describe('when clicking the save button', function(){
-                var saveBusinessStub;
-                beforeEach(function(){
-                    self.savepromise = this.savepromise;
+        describe('when clicking the save button', function(){
+            var saveBusinessStub;
+            beforeEach(function(){
+                self.savepromise = this.savepromise;
 
-                    saveBusinessStub = this.sinon.stub(coachSeekAPIService, 'saveBusiness', function(){
-                        return self.savepromise;
-                    });
+                saveBusinessStub = this.sinon.stub(coachSeekAPIService, 'saveBusiness', function(){
+                    return self.savepromise;
+                });
+            });
+
+            describe('during save', function(){
+
+                let('savepromise', function(){
+                    return $q.defer().promise;
                 });
 
-                describe('during save', function(){
-
-                    let('savepromise', function(){
-                        return $q.defer().promise;
-                    });
-
-                    it('should disable the save item button while loading', function(){
+                it('should disable the save item button while loading', function(){
+                    $businessItemView.find('.save-button').trigger('click');
+                    expect($businessItemView.find('.save-button').attr('disabled')).to.equal('disabled');
+                });
+            });
+            describe('when the form is invalid', function(){
+                describe('when the name is invalid', function(){
+                    it('should display an invalid input alert', function(){
+                        scope.item.business.name = null;
+                        scope.$digest();
                         $businessItemView.find('.save-button').trigger('click');
-                        expect($businessItemView.find('.save-button').attr('disabled')).to.equal('disabled');
+
+                        expect($rootScope.alerts[0].type).to.equal('warning');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
                     });
                 });
-                describe('when the form is invalid', function(){
-                    describe('when the name is invalid', function(){
-                        it('should display an invalid input alert', function(){
-                            scope.item.business.name = null;
-                            scope.$digest();
-                            $businessItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
-                        });
-                    });
-                    describe('when the firstName is invalid', function(){
-                        it('should display an invalid input alert', function(){
-                            scope.item.admin.firstName = null;
-                            scope.$digest();
-                            $businessItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
-                        });
-                    });
-                    describe('when the lastName is invalid', function(){
-                        it('should display an invalid input alert', function(){
-                            scope.item.admin.lastName = null;
-                            scope.$digest();
-                            $businessItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:lastName-invalid');
-                        });
-                    });
-                    describe('when the email is invalid', function(){
-                        it('should display an invalid input alert', function(){
-                            scope.item.admin.email = "badEmail.com";
-                            scope.$digest();
-                            $businessItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
-                        });
-                    });
-                    describe('when the password is invalid', function(){
-                        it('should display an invalid input alert', function(){
-                            scope.item.admin.password = "short";
-                            scope.$digest();
-                            $businessItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:password-invalid');
-                        });
-                    });
-                });
-                describe('when all inputs are valid', function(){
-                    beforeEach(function(){
+                describe('when the firstName is invalid', function(){
+                    it('should display an invalid input alert', function(){
+                        scope.item.admin.firstName = null;
+                        scope.$digest();
                         $businessItemView.find('.save-button').trigger('click');
+
+                        expect($rootScope.alerts[0].type).to.equal('warning');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
                     });
-                    it('should attempt to save business', function(){
-                        expect(saveBusinessStub).to.be.calledOnce;
+                });
+                describe('when the lastName is invalid', function(){
+                    it('should display an invalid input alert', function(){
+                        scope.item.admin.lastName = null;
+                        scope.$digest();
+                        $businessItemView.find('.save-button').trigger('click');
+
+                        expect($rootScope.alerts[0].type).to.equal('warning');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:lastName-invalid');
                     });
-                    it('should show the business list view', function(){
-                        expect($businessListView.hasClass('ng-hide')).to.be.false;
+                });
+                describe('when the email is invalid', function(){
+                    it('should display an invalid input alert', function(){
+                        scope.item.admin.email = "badEmail.com";
+                        scope.$digest();
+                        $businessItemView.find('.save-button').trigger('click');
+
+                        expect($rootScope.alerts[0].type).to.equal('warning');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:email-invalid');
                     });
-                    it('should not show the business edit view', function(){
-                        expect($businessItemView.hasClass('ng-hide')).to.be.true;
+                });
+                describe('when the password is invalid', function(){
+                    it('should display an invalid input alert', function(){
+                        scope.item.admin.password = "short";
+                        scope.$digest();
+                        $businessItemView.find('.save-button').trigger('click');
+
+                        expect($rootScope.alerts[0].type).to.equal('warning');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:password-invalid');
                     });
                 });
             });
-            describe('when clicking the cancel button', function(){
+            describe('when all inputs are valid', function(){
                 beforeEach(function(){
-                    scope.item = {
-                        business: {
-                            name: "New Dumb"
-                        },
-                        admin: {
-                            firstName: "Business",
-                            lastName: "Thing",
-                            email: "newdumb@westcoasttoast.com",
-                            password: "passwords"
-                        }
+                    $businessItemView.find('.save-button').trigger('click');
+                });
+                it('should attempt to save business', function(){
+                    expect(saveBusinessStub).to.be.calledOnce;
+                });
+                it('should show the business list view', function(){
+                    expect($businessListView.hasClass('ng-hide')).to.be.false;
+                });
+                it('should not show the business edit view', function(){
+                    expect($businessItemView.hasClass('ng-hide')).to.be.true;
+                });
+            });
+        });
+        describe('when clicking the cancel button', function(){
+            beforeEach(function(){
+                scope.item = {
+                    business: {
+                        name: "New Dumb"
+                    },
+                    admin: {
+                        firstName: "Business",
+                        lastName: "Thing",
+                        email: "newdumb@westcoasttoast.com",
+                        password: "passwords"
                     }
-                    scope.$digest();
+                }
+                scope.$digest();
 
-                    $rootScope.alerts.push({type: 'warning', message: 'test alert'});
+                $rootScope.alerts.push({type: 'warning', message: 'test alert'});
 
-                    $businessItemView.find('.cancel-button').trigger('click');
-                });
-                it('should reset all edits made', function(){
-                    var unsavedBusiness = scope.itemList.pop();
-
-                    expect(unsavedBusiness.firstName).to.equal(this.business.firstName);
-                    expect(unsavedBusiness.lastName).to.equal(this.business.lastName);
-                    expect(unsavedBusiness.email).to.equal(this.business.email);
-                    expect(unsavedBusiness.phone).to.equal(this.business.phone);
-                });
-                it('should remove alert if present', function(){
-                    expect($rootScope.alerts.length).to.equal(0);
-                });
+                $businessItemView.find('.cancel-button').trigger('click');
             });
+            it('should reset all edits made', function(){
+                var unsavedBusiness = scope.itemList.pop();
+
+                expect(unsavedBusiness.firstName).to.equal(this.business.firstName);
+                expect(unsavedBusiness.lastName).to.equal(this.business.lastName);
+                expect(unsavedBusiness.email).to.equal(this.business.email);
+                expect(unsavedBusiness.phone).to.equal(this.business.phone);
+            });
+            it('should remove alert if present', function(){
+                expect($rootScope.alerts.length).to.equal(0);
+            });
+        });
         });
     });
     describe('when navigating before adding a business', function(){
 
-        let('business', function(){
+        let('businesses', function(){
             return [];
         });
 

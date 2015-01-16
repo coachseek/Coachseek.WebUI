@@ -21,14 +21,14 @@ describe('BusinessSetup Coach List', function(){
 
     let('savepromise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.coaches);
+        deferred.resolve({data:this.coaches});
         return deferred.promise;
     });
     
     var $coachListView, 
         $coachEditView,
+        coachDefaults,
         getCoachesStub,
-        createCoachStub,
         self,
         scope,
         coachSeekAPIService,
@@ -38,10 +38,8 @@ describe('BusinessSetup Coach List', function(){
         self = this;
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
+        coachDefaults = $injector.get('coachDefaults');
         getCoachesStub = this.sinon.stub(coachSeekAPIService, 'getCoaches', function(){
-            return self.promise;
-        });
-        createCoachStub = this.sinon.stub(coachSeekAPIService, 'createCoach', function(){
             return self.promise;
         });
 
@@ -63,25 +61,6 @@ describe('BusinessSetup Coach List', function(){
             expect($coachListView.find('.create-item').attr('disabled')).to.equal('disabled');
         });
     });
-    describe('when getCoaches throws an error', function(){
-        var errorMessage = "errorMessage";
-
-        let('promise', function(){
-            var deferred = $q.defer();
-            deferred.reject(new Error(errorMessage));
-            return deferred.promise;
-        });
-
-
-        it('should throw', function(){
-            expect(createViewWithController(scope, templateUrl, 'coachesCtrl')).to.throw;
-        });
-
-        it('should display an error message', function(){
-            expect($rootScope.alerts[0].type).to.equal('danger');
-            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
-        });
-    });
     describe('and there are no coaches', function(){
 
         let('coaches', function(){
@@ -94,8 +73,8 @@ describe('BusinessSetup Coach List', function(){
         it('should show the coach edit view', function(){
             expect($coachEditView.hasClass('ng-hide')).to.be.false;
         });
-        it('should attempt to create a coach', function(){
-            expect(createCoachStub).to.be.calledOnce;
+        it('should set the list item to default value', function(){
+            expect(scope.item).to.equal(coachDefaults);
         });
         it('should not show the cancel button', function(){
             expect($coachEditView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
@@ -261,8 +240,8 @@ describe('BusinessSetup Coach List', function(){
 
                 $coachListView.find('.create-item').trigger('click');
             });
-            it('should attempt to create a coach', function(){
-                expect(createCoachStub).to.be.calledOnce;
+            it('should set the list item to default value', function(){
+                expect(scope.item).to.equal(coachDefaults);
             });
             it('should not show the coach list view', function(){
                 expect($coachListView.hasClass('ng-hide')).to.be.true;

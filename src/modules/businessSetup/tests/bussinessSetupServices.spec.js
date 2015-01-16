@@ -11,7 +11,7 @@ describe('bussinessSetup Services', function(){
                 sessionPrice: 43,
                 coursePrice: 69
             },
-            repititon: {
+            repetition: {
                 repeatFrequency: 2
             }
         };
@@ -29,13 +29,15 @@ describe('bussinessSetup Services', function(){
 
     let('savepromise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.services);
+        deferred.resolve({data:this.services});
         return deferred.promise;
     });
 
     var templateUrl = 'businessSetup/partials/servicesView.html',
         $serviceItemView,
         $serviceListView,
+        serviceDefaults,
+        getServicesStub,
         self,
         scope,
         coachSeekAPIService;
@@ -44,12 +46,10 @@ describe('bussinessSetup Services', function(){
         self = this;
 
         coachSeekAPIService = $injector.get('coachSeekAPIService');
+        serviceDefaults = $injector.get('serviceDefaults');
         scope = $rootScope.$new();
 
         getServicesStub = this.sinon.stub(coachSeekAPIService, 'getServices', function(){
-            return self.promise;
-        });
-        createServiceStub = this.sinon.stub(coachSeekAPIService, 'createService', function(){
             return self.promise;
         });
 
@@ -71,26 +71,6 @@ describe('bussinessSetup Services', function(){
         });
     });
 
-    describe('when getService throws an error', function(){
-        var errorMessage = "errorMessage";
-
-        let('promise', function(){
-            var deferred = $q.defer();
-            deferred.reject(new Error(errorMessage));
-            return deferred.promise;
-        });
-
-
-        it('should throw', function(){
-            expect(createViewWithController(scope, templateUrl, 'servicesCtrl')).to.throw;
-        });
-
-        it('should display an error message', function(){
-            expect($rootScope.alerts[0].type).to.equal('danger');
-            expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
-        });
-    });
-
     describe('and there are no services', function(){
 
         let('services', function(){
@@ -103,8 +83,8 @@ describe('bussinessSetup Services', function(){
         it('should show the service item view', function(){
             expect($serviceItemView.hasClass('ng-hide')).to.be.false;
         });
-        it('should attempt to create a service', function(){
-            expect(createServiceStub).to.be.calledOnce;
+        it('should set the list item to default value', function(){
+            expect(scope.item).to.equal(serviceDefaults);
         });
         it('should not show the cancel button', function(){
             expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
@@ -140,14 +120,14 @@ describe('bussinessSetup Services', function(){
             it('should show the cancel button', function(){
                 expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
-            describe('when changing the repeatFrequency to -1 or null', function(){
-                it('should set the coursePrice to null', function(){
-                    scope.item.repititon.repeatFrequency = null;
-                    scope.$digest();
+            // describe('when changing the repeatFrequency to -1 or null', function(){
+            //     it('should set the coursePrice to null', function(){
+            //         scope.item.repetition.repeatFrequency = null;
+            //         scope.$digest();
 
-                    expect(scope.item.pricing.coursePrice).to.equal(null);
-                })
-            });
+            //         expect(scope.item.pricing.coursePrice).to.equal(null);
+            //     })
+            // });
             describe('when clicking the save button', function(){
                 var saveServiceStub;
                 beforeEach(function(){
@@ -190,37 +170,37 @@ describe('bussinessSetup Services', function(){
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:studentCapacity-invalid');
                         });
                     });
-                    describe('when the coursePriceMin is invalid', function(){
+                    describe('when the coursePrice is invalid', function(){
                         it('should display an invalid input alert', function(){
-                            scope.item.pricing.coursePriceMin = -1;
+                            scope.item.pricing.coursePrice = -1;
                             scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePriceMin-invalid');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePrice-invalid');
                         });
                     });
-                    describe('when the coursePriceMax is invalid', function(){
+                    describe('when the sessionPrice is invalid', function(){
                         it('should display an invalid input alert', function(){
-                            scope.item.pricing.coursePriceMax = -1;
+                            scope.item.pricing.sessionPrice = -1;
                             scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePriceMax-invalid');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
                         });
                     });
-                    describe('and the coursePriceMin and coursePriceMax are invalid', function(){
+                    describe('and the coursePrice and sessionPrice are invalid', function(){
                         it('should display an alert for both', function(){
-                            scope.item.pricing.coursePriceMin = -1;
-                            scope.item.pricing.coursePriceMax = -1;
+                            scope.item.pricing.coursePrice = -1;
+                            scope.item.pricing.sessionPrice = -1;
                             scope.$digest();
                             $serviceItemView.find('.save-button').trigger('click');
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePriceMin-invalid');
+                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
                             expect($rootScope.alerts[1].type).to.equal('warning');
-                            expect($rootScope.alerts[1].message).to.equal('businessSetup:coursePriceMax-invalid');
+                            expect($rootScope.alerts[1].message).to.equal('businessSetup:coursePrice-invalid');
                         });
                     });
                 });
@@ -279,8 +259,8 @@ describe('bussinessSetup Services', function(){
 
                 $serviceListView.find('.create-item').trigger('click');
             });
-            it('should attempt to create a service', function(){
-                expect(createServiceStub).to.be.calledOnce;
+            it('should set the list item to default value', function(){
+                expect(scope.item).to.equal(serviceDefaults);
             });
             it('should not show the service list view', function(){
                 expect($testRegion.find('.service-list-view').hasClass('ng-hide')).to.be.true;

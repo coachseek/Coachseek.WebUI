@@ -33,7 +33,13 @@ angular.module('app',
             resGetPath: 'i18n/__lng__.json',
             defaultLoadingValue: ''
         };
-    }]).run(['$rootScope', '$state', '$stateParams', 'editableOptions',
+    }])
+    .config(['$httpProvider', function($httpProvider) {
+        //TEMP AUTH CREDENTIALS
+        //TODO - REMOVE WHEN WE HAVE SESSIONS AND CAN SET AUTH THERE
+        $httpProvider.defaults.headers.common['Authorization'] = 'Basic ZGFrLnZhbnRpbmVAZ21haWwuY29tOmFkc2RzZGZkc2Q=';
+    }])
+    .run(['$rootScope', '$state', '$stateParams', 'editableOptions',
         function($rootScope, $stateParams, $state, editableOptions){
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;

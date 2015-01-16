@@ -3,7 +3,15 @@ describe('CRUDService', function(){
     let('promise', function(){
        var deferred = $q.defer();
        deferred.resolve(this.APIreturn);
-       return deferred.promise;; 
+       return deferred.promise;
+    });
+
+    let('APIreturn', function(){
+        return {data: this.initData};
+    });
+
+    let('initData', function(){
+        return {};
     });
 
     var scope,
@@ -13,23 +21,27 @@ describe('CRUDService', function(){
 
         AIStartStub,
         AIStopStub,
+        setPristineStub,
 
         APIFunctionName = "getCoaches",
-        errorMessage = "ERROR BRO",
-        initData = {};
+        errorMessage1 = "ERROR 1 BRO",
+        errorMessage2 = "ERROR 2 BRO";
 
     beforeEach(function(){
         self = this;
         //WHY DO I NEED THIS??
         self.promise = this.promise;
         scope = $rootScope.$new();
+
         CRUDService = $injector.get('CRUDService');
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         $activityIndicator = $injector.get('$activityIndicator');
 
+        createDirective(scope, '<form name="itemForm" novalidate></form>');
 
         AIStartStub = this.sinon.stub($activityIndicator, 'startAnimating');
         AIStopStub = this.sinon.stub($activityIndicator, 'stopAnimating');
+        setPristineStub = this.sinon.stub(scope.itemForm, '$setPristine')
 
         this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
             return self.promise
@@ -83,105 +95,54 @@ describe('CRUDService', function(){
                 });
             });
         });
-        describe('when API call throws an error', function(){
 
+        describe('when API call throws an error', function(){
+            it('should stop the activity indicator', function(){
+                expect(AIStopStub).to.be.calledOnce;
+            });
             let('promise', function(){
                 var deferred = $q.defer();
-                deferred.reject(new Error(errorMessage));
+                deferred.reject({data: [{message: errorMessage1}, {message: errorMessage2}]});
                 return deferred.promise;
             });
 
-            it('should display an error message', function(){
+            it('should display correct error messages', function(){
                 expect($rootScope.alerts[0].type).to.equal('danger');
-                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
+                expect($rootScope.alerts[0].message).to.equal(errorMessage1);
+                
+                expect($rootScope.alerts[1].type).to.equal('danger');
+                expect($rootScope.alerts[1].message).to.equal(errorMessage2);
             });
-            it('should stop the activity indicator', function(){
-                expect(AIStopStub).to.be.calledOnce;
-            });
-
-        });
-    });
-    describe('when calling create()', function(){
-        it('should start the activity indicator', function(){
-            CRUDService.create(APIFunctionName, scope)
-            expect(AIStartStub).to.be.calledOnce;
-        });
-        describe('when API call is successful', function(){
-
-            let('APIreturn', function(){
-                return [];
-            });
-
-            beforeEach(function(){
-
-                scope.editItem = function(){};
-                editItemStub = this.sinon.stub(scope, 'editItem');
-                CRUDService.create(APIFunctionName, scope);
-                // Must call digest here because we are not using a template
-                // and $q promise resolution is not propogated automatically
-                $rootScope.$digest();
-            });
-            it('should set the newItem to true', function(){
-                expect(scope.newItem).to.equal(true)
-            });
-            it('should call attempt to creat a new item', function(){
-                expect(editItemStub).to.be.calledOnce;
-            });
-            it('should stop the activity indicator', function(){
-                expect(AIStopStub).to.be.calledOnce;
-            });
-        });
-        describe('when API call throws an error', function(){
-
-            let('promise', function(){
-                var deferred = $q.defer();
-                deferred.reject(new Error(errorMessage));
-                return deferred.promise;
-            });
-
-            beforeEach(function(){
-                CRUDService.create(APIFunctionName, scope);
-                $rootScope.$digest();
-            });
-            it('should display an error message', function(){
-                expect($rootScope.alerts[0].type).to.equal('danger');
-                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
-            });
-            it('should stop the activity indicator', function(){
-                expect(AIStopStub).to.be.calledOnce;
-            });
-
         });
     });
     describe('when calling update()', function(){
+
+        var removeAlertsStub;
+        beforeEach(function(){
+            scope.itemList = [];
+            scope.removeAlerts = function(){};
+
+            removeAlertsStub = this.sinon.stub(scope, 'removeAlerts')
+            CRUDService.update(APIFunctionName, scope, this.initData);
+            // Must call digest here because we are not using a template
+            // and $q promise resolution is not propogated automatically
+            $rootScope.$digest();
+        });
+
         it('should start the activity indicator', function(){
-            CRUDService.update(APIFunctionName, scope, {})
             expect(AIStartStub).to.be.calledOnce;
         });
         describe('when API call is successful', function(){
-            let('APIreturn', function(){
-                return 'data';
-            });
 
-            var removeAlertsStub;
-            beforeEach(function(){
-                scope.itemList = [];
-                scope.removeAlerts = function(){};
-
-                removeAlertsStub = this.sinon.stub(scope, 'removeAlerts')
-                CRUDService.update(APIFunctionName, scope, initData);
-                // Must call digest here because we are not using a template
-                // and $q promise resolution is not propogated automatically
-                $rootScope.$digest();
-            });
             it('should add the item back to the itemList', function(){
-                expect(scope.itemList[0]).to.equal(initData)
+                expect(scope.itemList[0]).to.equal(this.initData)
             });
             it('should set reset the to the list view state', function(){
                 expect(scope.item).to.equal(null);
                 expect(scope.newItem).to.equal(null);
                 expect(scope.itemCopy).to.equal(null);
                 expect(removeAlertsStub).to.be.calledOnce;
+                expect(setPristineStub).to.be.calledOnce;
             });
             it('should add a success alert', function(){
                 expect($rootScope.alerts[0].type).to.equal('success');
@@ -195,17 +156,16 @@ describe('CRUDService', function(){
 
             let('promise', function(){
                 var deferred = $q.defer();
-                deferred.reject(new Error(errorMessage));
+                deferred.reject({data: [{message: errorMessage1}, {message: errorMessage2}]});
                 return deferred.promise;
             });
 
-            beforeEach(function(){
-                CRUDService.update(APIFunctionName, scope, {});
-                $rootScope.$digest();
-            });
             it('should display an error message', function(){
                 expect($rootScope.alerts[0].type).to.equal('danger');
-                expect($rootScope.alerts[0].message).to.equal('businessSetup:' + errorMessage);
+                expect($rootScope.alerts[0].message).to.equal(errorMessage1);
+                
+                expect($rootScope.alerts[1].type).to.equal('danger');
+                expect($rootScope.alerts[1].message).to.equal(errorMessage2);
             });
             it('should stop the activity indicator', function(){
                 expect(AIStopStub).to.be.calledOnce;
@@ -217,7 +177,7 @@ describe('CRUDService', function(){
         var removeAlertsStub;
         beforeEach(function(){
             scope.itemList = [];
-            scope.itemCopy = initData;
+            scope.itemCopy = this.initData;
             scope.removeAlerts = function(){};
             removeAlertsStub = this.sinon.stub(scope, 'removeAlerts')
 
@@ -231,6 +191,7 @@ describe('CRUDService', function(){
             expect(scope.newItem).to.equal(null);
             expect(scope.itemCopy).to.equal(null);
             expect(removeAlertsStub).to.be.calledOnce;
+            expect(setPristineStub).to.be.calledOnce;
         });
         describe('when the item is new', function(){
             it('should NOT add the item to the itemList', function(){
@@ -245,10 +206,11 @@ describe('CRUDService', function(){
                 scope.newItem = false;
                 CRUDService.cancelEdit(scope);
 
-                expect(scope.itemList[0]).to.equal(initData);
+                expect(scope.itemList[0]).to.equal(this.initData);
             });
         });
     });
+    //TODO
     describe('when calling validateForm()', function(){
 
     });
