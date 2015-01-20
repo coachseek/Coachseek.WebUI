@@ -219,7 +219,7 @@
 		}
 
 		// Minutes view
-		for (i = 0; i < 60; i += 5) {
+		for (i = 0; i < 60; i += 15) {
 			tick = tickTpl.clone();
 			radian = i / 30 * Math.PI;
 			tick.css({
@@ -297,10 +297,10 @@
 					self.toggleView('minutes', duration / 2);
 				} else {
 					if (options.autoclose) {
-						self.minutesView.addClass('clockpicker-dial-out');
+						// self.minutesView.addClass('clockpicker-dial-out');
 						setTimeout(function(){
 							self.done();
-						}, duration / 2);
+						}, duration);
 					}
 				}
 				plate.prepend(canvas);
@@ -570,7 +570,7 @@
 	ClockPicker.prototype.setHand = function(x, y, roundBy5, dragging){
 		var radian = Math.atan2(x, - y),
 			isHours = this.currentView === 'hours',
-			unit = Math.PI / (isHours || roundBy5 ? 6 : 30),
+			unit,
 			z = Math.sqrt(x * x + y * y),
 			options = this.options,
 			inner = isHours && z < (outerRadius + innerRadius) / 2,
@@ -579,6 +579,12 @@
 			
 			if (options.twelvehour) {
 				radius = outerRadius;
+			}
+
+			if (isHours) {
+			    unit = Math.PI/ 6;
+			} else {
+			    unit = 15 / 30 * Math.PI;
 			}
 
 		// Radian should in range [0, 2PI]
@@ -613,9 +619,7 @@
 				}
 				value = inner ? (value === 0 ? 12 : value) : value === 0 ? 0 : value + 12;
 			} else {
-				if (roundBy5) {
-					value *= 5;
-				}
+				value *= 15;
 				if (value === 60) {
 					value = 0;
 				}
