@@ -62,6 +62,6 @@
     ></repeat-selector>
 
     <!-- POST here -->
-    <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading">{{'save-details' | i18next}}</button>
+    <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading" ng-i18next="[i18next]{{ AILoading ? 'saving' : 'save-details'}}"></button>
     <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
 </div>

@@ -112,10 +112,16 @@ describe('BusinessSetup Business', function(){
                     let('savepromise', function(){
                         return $q.defer().promise;
                     });
-
-                    it('should disable the save item button while loading', function(){
+                    beforeEach(function(){
                         $businessItemView.find('.save-button').trigger('click');
+                    });
+                    it('should disable the save item button while loading', function(){
                         expect($businessItemView.find('.save-button').attr('disabled')).to.equal('disabled');
+                    });
+
+                    it('should show `saving...` on the save button', function(){
+                        var saveButtonText = $businessItemView.find('.save-button').text();
+                        expect(saveButtonText).to.equal(i18n.t('saving'));
                     });
                 });
                 describe('when the form is invalid', function(){

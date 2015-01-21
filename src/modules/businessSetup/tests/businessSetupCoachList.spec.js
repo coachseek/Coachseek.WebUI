@@ -125,9 +125,16 @@ describe('BusinessSetup Coach List', function(){
                         return $q.defer().promise;
                     });
 
-                    it('should disable the save item button while loading', function(){
+                    beforeEach(function(){
                         $coachEditView.find('.save-button').trigger('click');
+                    });
+                    it('should disable the save item button while loading', function(){
                         expect($coachEditView.find('.save-button').attr('disabled')).to.equal('disabled');
+                    });
+
+                    it('should show `saving...` on the save button', function(){
+                        var saveButtonText = $coachEditView.find('.save-button').text();
+                        expect(saveButtonText).to.equal(i18n.t('saving'));
                     });
                 });
                 describe('when the form is invalid', function(){

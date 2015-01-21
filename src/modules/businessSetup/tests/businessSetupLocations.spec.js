@@ -132,9 +132,16 @@ describe('bussinessSetup Locations', function(){
                         return $q.defer().promise;
                     });
 
-                    it('should disable the save item button while loading', function(){
+                    beforeEach(function(){
                         $locationItemView.find('.save-button').trigger('click');
+                    });
+
+                    it('should disable the save item button while loading', function(){
                         expect($locationItemView.find('.save-button').attr('disabled')).to.equal('disabled');
+                    });
+                    it('should show `saving...` on the save button', function(){
+                        var saveButtonText = $locationItemView.find('.save-button').text();
+                        expect(saveButtonText).to.equal(i18n.t('saving'));
                     });
                 });
 
