@@ -265,39 +265,4 @@ describe('BusinessSetup Coach List', function(){
             })
         });
     });
-    describe('when navigating to services before adding a coach', function(){
-
-        let('coaches', function(){
-            return [];
-        });
-
-        beforeEach(function(){
-
-            createViewWithController(scope, 'businessSetup/partials/businessSetup.html', 'coachesCtrl');
-            $state.go('businessSetup.coachList');
-            scope.$digest();
-
-            // anchor tags dont listen to $.trigger('click') for some reason. assholes.
-            $state.go('businessSetup.services');
-            scope.$digest();
-        });
-        it('should not allow navigation', function(){
-            expect($location.path()).to.equal('/business-setup/coach-list');
-        });
-        it('should show a warning message', function(){
-            expect($rootScope.alerts[0].type).to.equal('warning');
-            expect($rootScope.alerts[0].message).to.equal('businessSetup:add-coach-warning');
-        });
-        describe('after adding a coach', function(){
-            beforeEach(function(){
-                scope.itemList = [{}];
-
-                $state.go('businessSetup.services');
-                scope.$digest();
-            });
-            it('should allow navigation', function(){
-                expect($location.path()).to.equal('/business-setup/services');
-            });
-        });
-    });
 });

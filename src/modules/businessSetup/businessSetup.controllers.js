@@ -26,19 +26,6 @@ angular.module('businessSetup.controllers', [])
             CRUDService.cancelEdit($scope);
         };
 
-        $scope.$on('$stateChangeStart', function(event, toState){
-            if(_.contains(["businessSetup.locations", "businessSetup.coachList", "businessSetup.services"], toState.name) ){
-                if(!$scope.itemList || $scope.itemList.length <= 0){
-                    event.preventDefault();
-                    //show bootstrap message
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:add-business-warning'
-                    });
-                }
-            }
-        });
-
         CRUDService.get('getBusiness', $scope);
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService', 'locationDefaults',
@@ -81,22 +68,6 @@ angular.module('businessSetup.controllers', [])
                 return valid;
             };
 
-            //TODO - if an open item exists do we cancel or ask if they want to save?
-            //TODO - dont navigate forward in the registration process
-            //      still skips coaches if there is a location
-            $scope.$on('$stateChangeStart', function(event, toState){
-                if(_.contains(["businessSetup.coachList", "businessSetup.services"], toState.name) ){
-                    if(!$scope.itemList || $scope.itemList.length <= 0){
-                        event.preventDefault();
-                        //show bootstrap message
-                        $scope.addAlert({
-                            type: 'warning',
-                            message: 'businessSetup:add-location-warning'
-                        });
-                    }
-                }
-            });
-
             CRUDService.get('getLocations', $scope);
     }])
     .controller('coachesCtrl', ['$scope', 'CRUDService', 'coachDefaults',
@@ -137,19 +108,6 @@ angular.module('businessSetup.controllers', [])
             }
             return valid;
         };
-
-        $scope.$on('$stateChangeStart', function(event, toState){
-            if( toState.name === "businessSetup.services" ){
-                if(!$scope.itemList || $scope.itemList.length <= 0){
-                    event.preventDefault();
-                    //show bootstrap message
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:add-coach-warning'
-                    });
-                }
-            }
-        });
 
         CRUDService.get('getCoaches', $scope);
     }])
