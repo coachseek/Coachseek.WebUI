@@ -49,12 +49,14 @@ angular.module('businessSetup.directives', [])
                 });
             }
         };
-
     })
 	.directive('timeSlot', function(){
 		return {
-			replace: true,
-			templateUrl: 'businessSetup/partials/timeSlot.html'
+			replace: false,
+			templateUrl: 'businessSetup/partials/timeSlot.html',
+            link: function(scope){
+                scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            }
 		};
 	})
     .directive('clockpicker', function(){

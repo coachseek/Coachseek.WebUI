@@ -101,7 +101,6 @@ angular.module('businessSetup.controllers', [])
     }])
     .controller('coachesCtrl', ['$scope', 'CRUDService', 'coachDefaults',
         function ($scope, CRUDService, coachDefaults) {
-        $scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 
         $scope.createItem = function(){
             $scope.newItem = true;
