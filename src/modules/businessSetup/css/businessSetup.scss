@@ -5,8 +5,12 @@
 	hr{
 		border: none;
 		background-color: $light-grey;
-		height: 2px;
+		height: 1px;
 		clear: both;
+
+		&.double-wide{
+			height: 2px;
+		}
 	}
 
 	.icon-cross{
@@ -68,8 +72,17 @@
 		overflow: hidden;
 
 		.form-input{
+			width: 100%;
 			float: left;
 			margin-bottom: 15px;
+			
+			&.left-col{
+				width: 48%;
+				margin-right: 4%;
+			}
+			&.right-col{
+				width: 48%;
+			}
 		}
 	}
 
@@ -106,17 +119,6 @@
 		border: none;
 		background: none;
 		color: $green;
-	}
-
-	.form-input{
-		width: 100%;
-		&.left-col{
-			width: 48%;
-			margin-right: 4%;
-		}
-		&.right-col{
-			width: 48%;
-		}
 	}
 
 	ul{
