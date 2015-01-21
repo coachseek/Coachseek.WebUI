@@ -1,31 +1,30 @@
 angular.module('businessSetup.directives', [])
     .directive('repeatSelector', function(){
         var frequencies = [
-            {value: 'w', text: 'week'},
-            {value: 'd', text: 'day'},
-            {value: null, text: 'once'},
-            {value: -1, text: 'forever'}
+            {value: 'w', text: 'weekly'},
+            {value: 'd', text: 'daily'},
+            {value: null, text: 'once'}
         ];
         return {
             scope: {
-                sessionCount: '=',
-                repeatFrequency: '='
+                repeatFrequency: '=',
+                sessionCount: '='
             },
             templateUrl: 'businessSetup/partials/repeatSelector.html',
             link: function(scope, elem, attr){
                 scope.frequencies = frequencies;
 
-                scope.$watch('repeatFrequency', function(newVal){
-                    if(newVal === -1 || newVal === null){
-                        scope.sessionCount = newVal;
-                    } else if((scope.sessionCount < 0 || scope.sessionCount === null) && newVal ) {
+                scope.$watch('repeatFrequency', function(newVal, oldVal){
+                    if( newVal === null ){
+                        scope.sessionCount = 1;
+                    } else if( scope.sessionCount < 2 && newVal ) {
                         scope.sessionCount = 2;
                     }
                 });
 
                 scope.showStatus = function() {
-                  var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
-                  return selected[0] ? selected[0].text : "Not set";
+                    var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
+                    return selected[0] ? selected[0].text : "Not set";
                 };
             }
         };

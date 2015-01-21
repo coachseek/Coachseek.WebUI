@@ -14,12 +14,12 @@
 	},
 	"repeat-selector": {
 		"repeat-session": "Repeat this session",
-		"every": "every",
 		"total-of": "for a total of",
+		"weekly": "weekly",
 		"week": "week",
-		"week_plural": "weeks",
-		"day": "day",
-		"day_plural": "days",
+		"weekly_plural": "weeks",
+		"daily": "daily",
+		"daily_plural": "days",
 		"once": "once",
 		"forever": "forever"
 	},

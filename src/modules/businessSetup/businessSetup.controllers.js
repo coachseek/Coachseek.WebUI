@@ -164,8 +164,8 @@ angular.module('businessSetup.controllers', [])
 
         $scope.editItem = function(service){
             _.pull($scope.itemList, service);
+            service = setRepeatFrequency(service);
             $scope.itemCopy = angular.copy(service);
-            
             $scope.item = service;
         };
 
@@ -181,6 +181,13 @@ angular.module('businessSetup.controllers', [])
             CRUDService.cancelEdit($scope);
         };
 
+        var setRepeatFrequency = function(service){
+            if(!service.repetition.repeatFrequency){
+                service.repetition.repeatFrequency = null;
+            }
+            return service;
+        }
+
         var checkDuplicates = function(valid){
             var serviceName = $scope.item.name;
             if( _.find($scope.itemList, {name: serviceName}) ){
@@ -193,11 +200,11 @@ angular.module('businessSetup.controllers', [])
             return valid;
         };
 
-        // $scope.$watch('item.repetition.repeatFrequency', function(newVal){
-        //     if(newVal === Infinity || newVal === null){
-        //         $scope.item.pricing.coursePrice = null;
-        //     }
-        // });
+        $scope.$watch('item.repetition.sessionCount', function(newVal){
+            if($scope.item && newVal < 2){
+                $scope.item.pricing.coursePrice = null;
+            }
+        });
 
         CRUDService.get('getServices', $scope);
 
@@ -278,7 +285,7 @@ angular.module('businessSetup.controllers', [])
             },
             repetition: {
                 sessionCount: 1,
-                repeatFrequency: 'd'
+                repeatFrequency: null
             },
             booking: {
                 studentCapacity: undefined

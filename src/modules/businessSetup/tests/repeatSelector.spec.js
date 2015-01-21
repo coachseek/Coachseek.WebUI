@@ -27,7 +27,7 @@ describe('repeatSelector directive', function(){
         $repeatFrequency.get(0).click();
 
         $repeatFrequencySelected = $testRegion.find('form [selected]');
-        expect($repeatFrequencySelected.text()).to.equal('week');
+        expect($repeatFrequencySelected.text()).to.equal('weekly');
     });
     describe('when changing the sessionCount', function(){
         beforeEach(function(){
@@ -56,12 +56,11 @@ describe('repeatSelector directive', function(){
     describe('when changing the repeat frequency', function(){
 
         // Reference for <select> element
-        // xeditable changes values to [0, 1, 2, 3] in DOM
+        // xeditable changes values to [0, 1, 2] in DOM
 
-        //     [{value: 'w', text: 'week'},
-        //     {value: 'd', text: 'day'},
-        //     {value: null, text: 'once'},
-        //     {value: -1, text: 'forever'}];
+        //     [{value: 'w', text: 'weekly'},
+        //     {value: 'd', text: 'daily'},
+        //     {value: null, text: 'once'}];
         var $repeatFrequency;
         beforeEach(function(){
             $repeatFrequency = $testRegion.find('.repeat-frequency');
@@ -98,13 +97,13 @@ describe('repeatSelector directive', function(){
                 $testRegion.find('select').val('2');
                 angular.element($testRegion.find('select')).triggerHandler('change');
             });
-            it('should set the session count to null', function(){
-                expect(scope.sessionCount).to.equal(null);
+            it('should set the session count to 1', function(){
+                expect(scope.sessionCount).to.equal(1);
             });
             it('should set the repeatFrequency to null', function(){
                 expect(scope.repeatFrequency).to.equal(null)
             });
-            describe('and then changing it back to days', function(){
+            describe('and then changing it back to daily', function(){
                 beforeEach(function(){
                     $repeatFrequency.get(0).click();
 
@@ -118,19 +117,7 @@ describe('repeatSelector directive', function(){
                     expect(scope.repeatFrequency).to.equal("d")
                 });
             });
-        });
-        describe('when changing it to forever', function(){
-            beforeEach(function(){
-                $testRegion.find('select').val('3');
-                angular.element($testRegion.find('select')).triggerHandler('change');
-            });
-            it('should set the session count to 1', function(){
-                expect(scope.sessionCount).to.equal(-1);
-            });
-            it('should set the repeatFrequency to -1', function(){
-                expect(scope.repeatFrequency).to.equal(-1)
-            });
-            describe('and then changing it back to weeks', function(){
+            describe('and then changing it back to weekly', function(){
                 beforeEach(function(){
                     $repeatFrequency.get(0).click();
 
