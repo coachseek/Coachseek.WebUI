@@ -68,39 +68,38 @@ angular.module('businessSetup.directives', [])
         };
     })
     .directive('timeRangePicker', function(){
-            return {
-                replace: false,
-                scope: {
-                    start: "=",
-                    finish: "=",
-                    available: "="
-                },
-                templateUrl: 'businessSetup/partials/timeRangePicker.html',
-                require: 'ngModel',
-                link: function(scope, elm, attrs, ctrl) {
-                    scope.$watchGroup(['start', 'finish', 'available'], function(newValues, oldValues, scope){
-                        if(newValues[0] && newValues[1]) {
-                            var startTime = timeStringToObject(newValues[0]);
-                            var finishTime = timeStringToObject(newValues[1]);
-
-                            if(newValues[2] === false || startTime.hours < finishTime.hours) {
-                                ctrl.$setValidity('timeRange', true);
-                            } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) || 
-                                            startTime.hours > finishTime.hours ){
-                                ctrl.$setValidity('timeRange', false);
-                            }
+        return {
+            replace: false,
+            scope: {
+                start: "=",
+                finish: "=",
+                available: "="
+            },
+            templateUrl: 'businessSetup/partials/timeRangePicker.html',
+            require: 'ngModel',
+            link: function(scope, elm, attrs, ctrl) {
+                scope.$watchGroup(['start', 'finish', 'available'], function(newValues, oldValues, scope){
+                    if(newValues[0] && newValues[1]) {
+                        var startTime = timeStringToObject(newValues[0]);
+                        var finishTime = timeStringToObject(newValues[1]);
+                        if(newValues[2] === false || startTime.hours < finishTime.hours) {
+                            ctrl.$setValidity('timeRange', true);
+                        } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) || 
+                                        startTime.hours > finishTime.hours ){
+                            ctrl.$setValidity('timeRange', false);
                         }
-                    });
+                    }
+                });
 
-                    var timeStringToObject = function(time){
-                        var timeArray = time.split(":");
+                var timeStringToObject = function(time){
+                    var timeArray = time.split(":");
 
-                        time  = {};
-                        time.hours = parseFloat(timeArray[0]);
-                        time.minutes = parseFloat(timeArray[1]);
+                    time  = {};
+                    time.hours = parseFloat(timeArray[0]);
+                    time.minutes = parseFloat(timeArray[1]);
 
-                        return time;
-                    };
-                }
-            };
+                    return time;
+                };
+            }
+        };
     });
