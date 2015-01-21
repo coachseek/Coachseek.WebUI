@@ -120,14 +120,27 @@ describe('bussinessSetup Services', function(){
             it('should show the cancel button', function(){
                 expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
-            // describe('when changing the repeatFrequency to -1 or null', function(){
-            //     it('should set the coursePrice to null', function(){
-            //         scope.item.repetition.repeatFrequency = null;
-            //         scope.$digest();
+            describe.only('when changing the sessionCount to less than 2', function(){
+                beforeEach(function(){
+                    scope.item.repetition.sessionCount = 1;
+                    scope.$digest();
+                });
+                it('should set the coursePrice to null', function(){
+                    expect(scope.item.pricing.coursePrice).to.equal(null);
+                });
+                it('should hide the coursePrice field', function(){
+                    expect($serviceItemView.find('.coursePrice').hasClass('ng-hide')).to.be.true;
+                });
 
-            //         expect(scope.item.pricing.coursePrice).to.equal(null);
-            //     })
-            // });
+                describe('and then changing the sessionCount to 2 or more', function(){
+                    it('should show the coursePrice field', function(){
+                        scope.item.repetition.sessionCount = 69;
+                        scope.$digest();
+
+                        expect($serviceItemView.find('.coursePrice').hasClass('ng-hide')).to.be.false;
+                    });
+                });
+            });
             describe('when clicking the save button', function(){
                 var saveServiceStub;
                 beforeEach(function(){
