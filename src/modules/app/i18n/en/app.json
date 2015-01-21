@@ -11,13 +11,14 @@
     	"last-name": "Last Name",
     	"email": "Email address",
     	"phone": "Phone Number",
-        "password": "Password",
+        "password": "Password (at least 6 characters)",
         "availability": "Availability",
         "placeholder": {
             "first-name": "Nick",
             "last-name": "Bollettieri",
             "email": "nick@bollettieri.com",
-            "phone": ""
+            "phone": "",
+            "password": "••••••"
         }
     },
     "edit-details": "Edit details",
