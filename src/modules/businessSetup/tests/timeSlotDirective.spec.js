@@ -1,20 +1,25 @@
 describe('timeSlot directive', function(){
-    var scope;
+
+    let('monday', function(){
+        return { 
+            isAvailable: true,
+            startTime: '11:00',
+            finishTime: '11:00'
+        }
+    });
+
+    var scope,
+        $weekdays,
+        $monday;
     beforeEach(function(){
         scope = $rootScope.$new();
-
-        scope.weekdays = ['monday', 'tuesday', 'wednesday'];
         scope.item = {
                 firstName: "NEWEST",
                 lastName: "USER",
                 email: "aaron.smith@example.com",
                 phone: "021 99 88 77",
                 workingHours: {
-                     monday: { 
-                         isAvailable: true,
-                         startTime: '11:00',
-                         finishTime: '11:00'
-                     },
+                     monday: this.monday,
                      tuesday: {
                          isAvailable: false
                      }, 
@@ -26,46 +31,64 @@ describe('timeSlot directive', function(){
         // must wrap here in because if the directives replace
         // is set to true we just get a commented out element
         createDirective(scope, '<div><time-slot></time-slot></div>');
+
+        $weekdays = $testRegion.find('.weekday');
+        $monday = $testRegion.find('.weekday').first();
     });
     it('should have as many entries as days', function(){
-        var $weekdays = $testRegion.find('.weekday');
-        expect($weekdays.length).to.equal(_.size(scope.item.workingHours));
+        expect($weekdays.length).to.equal(7);
     });
-    describe('when a day is available', function(){
-        it('should enable the time spinner', function(){
-            var $monday = $testRegion.find('.weekday').first();
-            expect($monday.find('time-range-picker').attr('disabled')).to.equal(undefined);
-        });
-    });
-    describe('when a day is unavailable', function(){
-        it('should disable the time spinner', function(){
-            var $tuesday = $testRegion.find('.weekday:nth-child(2)');
-            expect($tuesday.find('time-range-picker').hasClass('ng-hide')).to.be.true;
-        });
-    });
+
     describe('when clicking on the toggle available switch', function(){
         var $mondayToggleSwitch;
         beforeEach(function(){
-            var $monday = $testRegion.find('.weekday').first();
             $mondayToggleSwitch = $monday.find('button');
             $mondayToggleSwitch.trigger('click');
         });
-        it('should set isAvailable to false', function(){
-            expect(scope.item.workingHours['monday'].isAvailable).to.be.false;
+        describe('when time range is invalid', function(){
+
+            // let('monday', function(){
+            //     return { 
+            //         isAvailable: true,
+            //         startTime: '12:00',
+            //         finishTime: '11:00'
+            //     }
+            // });
+
+            // it('should NOT set isAvailable to false', function(){
+            //     expect(scope.item.workingHours['monday'].isAvailable).to.be.true;
+            // });
+            // it('should NOT hide the toggle switch', function(){
+            //     var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+            //     expect($mondayTimeRange.hasClass('ng-hide')).to.be.false;                   
+            // });
         });
-        it('the day should be valid', function(){
-            var $mondayTimeRange = $testRegion.find('time-range-picker').first();
-            expect($mondayTimeRange.hasClass('ng-invalid')).to.be.false;                
-        });
-        describe('when clicking on the toggle available switch again', function(){
-            it('should set isAvailable to true', function(){
-                $mondayToggleSwitch.trigger('click');
-                expect(scope.item.workingHours['monday'].isAvailable).to.be.true;
+        describe('when the time range is valid', function(){
+
+            let('monday', function(){
+                return { 
+                    isAvailable: true,
+                    startTime: '10:00',
+                    finishTime: '11:00'
+                }
             });
-            it('the day should be invalid', function(){
-                $mondayToggleSwitch.trigger('click');
+
+            it('should set isAvailable to false', function(){
+                expect(scope.item.workingHours['monday'].isAvailable).to.be.false;
+            });
+            it('should hide the toggle switch', function(){
                 var $mondayTimeRange = $testRegion.find('time-range-picker').first();
-                expect($mondayTimeRange.hasClass('ng-invalid')).to.be.true;                
+                expect($mondayTimeRange.hasClass('ng-hide')).to.be.true;                   
+            });
+            it('the day should be valid', function(){
+                var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                expect($mondayTimeRange.hasClass('ng-invalid')).to.be.false;                
+            });
+            describe('when clicking on the toggle available switch again', function(){
+                it('should set isAvailable to true', function(){
+                    $mondayToggleSwitch.trigger('click');
+                    expect(scope.item.workingHours['monday'].isAvailable).to.be.true;
+                });
             });
         });
     });
