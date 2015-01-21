@@ -291,7 +291,7 @@ angular.module('businessSetup.controllers', [])
                 studentCapacity: undefined
             },
             presentation: {
-                color: '#00A578'
+                colour: 'green'
             },
             pricing: {
                 sessionPrice: 0,

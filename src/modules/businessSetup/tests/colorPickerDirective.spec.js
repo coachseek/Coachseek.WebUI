@@ -1,7 +1,7 @@
 describe('colorPicker directive', function(){
     
     let('currentColor', function(){
-        return '#2980B9';
+        return 'green';
     });
     
     var scope;
