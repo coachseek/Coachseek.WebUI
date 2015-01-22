@@ -11,7 +11,7 @@ describe('CRUDService', function(){
     });
 
     let('initData', function(){
-        return {};
+        return [];
     });
 
     var scope,
@@ -67,12 +67,12 @@ describe('CRUDService', function(){
 
             describe('and there is no existing data', function(){
 
-                let('APIreturn', function(){
+                let('initData', function(){
                     return [];
                 });
 
                 it('should set the itemList on the scope', function(){
-                    expect(scope.itemList.length).to.equal(this.APIreturn.length)
+                    expect(scope.itemList.length).to.equal(this.initData.length)
                 });
                 it('should call attempt to create a new item', function(){
                     expect(createItemStub).to.be.calledOnce;
@@ -83,12 +83,12 @@ describe('CRUDService', function(){
             });
             describe('and there is existing data', function(){
                 
-                let('APIreturn', function(){
+                let('initData', function(){
                     return [{}, {}];
                 });
 
                 it('should set the itemList on the scope', function(){
-                    expect(scope.itemList).to.equal(this.APIreturn)
+                    expect(scope.itemList).to.equal(this.initData)
                 });
                 it('should stop the activity indicator', function(){
                     expect(AIStopStub).to.be.calledOnce;

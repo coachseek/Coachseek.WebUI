@@ -23,7 +23,7 @@ describe('bussinessSetup Locations', function(){
 
     let('promise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.locations);
+        deferred.resolve({data:this.locations});
         return deferred.promise;
     });
 

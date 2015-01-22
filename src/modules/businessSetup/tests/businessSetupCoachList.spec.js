@@ -15,7 +15,7 @@ describe('BusinessSetup Coach List', function(){
 
     let('promise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.coaches);
+        deferred.resolve({data:this.coaches});
         return deferred.promise;
     });
 

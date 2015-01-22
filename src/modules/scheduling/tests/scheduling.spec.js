@@ -55,7 +55,7 @@ describe('Scheduling Module', function() {
 
         let('promise', function(){
             var deferred = $q.defer();
-            deferred.resolve(this.services);
+            deferred.resolve({data:this.services});
             return deferred.promise;
         });
 

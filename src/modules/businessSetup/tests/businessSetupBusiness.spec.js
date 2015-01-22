@@ -20,7 +20,7 @@ describe('BusinessSetup Business', function(){
 
     let('promise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.businesses);
+        deferred.resolve({data:this.businesses});
         return deferred.promise;
     });
 

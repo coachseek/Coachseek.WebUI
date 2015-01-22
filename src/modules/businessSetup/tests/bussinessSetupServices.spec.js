@@ -23,7 +23,7 @@ describe('bussinessSetup Services', function(){
 
     let('promise', function(){
         var deferred = $q.defer();
-        deferred.resolve(this.services);
+        deferred.resolve({data:this.services});
         return deferred.promise;
     });
 
@@ -120,7 +120,7 @@ describe('bussinessSetup Services', function(){
             it('should show the cancel button', function(){
                 expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
-            describe.only('when changing the sessionCount to less than 2', function(){
+            describe('when changing the sessionCount to less than 2', function(){
                 beforeEach(function(){
                     scope.item.repetition.sessionCount = 1;
                     scope.$digest();
