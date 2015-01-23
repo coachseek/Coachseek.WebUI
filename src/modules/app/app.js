@@ -3,6 +3,7 @@ angular.module('app',
   [
     // LIBRARIES
     'ngAnimate',
+    'ngMessages',
   	'ui.bootstrap',
     'ui.router',
     'jm.i18next',

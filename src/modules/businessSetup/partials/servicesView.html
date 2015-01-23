@@ -7,8 +7,8 @@
     <ul>
         <li class="service-details" ng-repeat="item in itemList | orderBy:'name'">
             <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
-            <span class="service-name">{{item.name}}</span>
-            <span class="service-description">{{item.description}}</span>
+            <span class="item-title">{{item.name}}</span>
+            <span class="item-subtitle service-description last">{{item.description}}</span>
             <hr />
         </li>
     </ul>
@@ -18,11 +18,21 @@
         <div class="form-input">
             <label name="name">{{'businessSetup:service-details.name' | i18next}}</label>
             <input name="name" ng-model="item.name" placeholder="{{'businessSetup:service-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
+
+            <div class="error-messages" ng-messages="itemForm.name.$error" ng-if="itemForm.name.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
         </div>
 
         <div class="form-input">
             <label name="description">{{'businessSetup:service-details.description' | i18next}}</label>
             <textarea name="description" ng-model="item.description" placeholder="{{'businessSetup:service-details.placeholder.description' | i18next}}" ng-maxlength="200"></textarea>
+
+            <div class="error-messages" ng-messages="itemForm.description.$error" ng-if="itemForm.description.$touched">
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
         </div>
 
         <div class="form-input left-col">

@@ -58,12 +58,11 @@ angular.module('businessSetup.controllers', [])
             var checkDuplicates = function(valid){
                 var name = $scope.item.name;
                 var address = $scope.item.address;
-                if( _.find($scope.itemList, {name: name,address: address}) ){
-                    $scope.addAlert({
-                        type: 'warning',
-                        message: 'businessSetup:location-already-exists'
-                    });
+                if( _.find($scope.itemList, {name: name}) ){
+                    $scope.itemForm.name.$setValidity('duplicatename', false);
                     valid = false;
+                } else {
+                    $scope.itemForm.name.$setValidity('duplicatename', true);
                 }
                 return valid;
             };
@@ -99,12 +98,15 @@ angular.module('businessSetup.controllers', [])
         var checkDuplicates = function(valid){
             var firstName = $scope.item.firstName;
             var lastName = $scope.item.lastName;
-            if( _.find($scope.itemList, {firstName: firstName,lastName: lastName}) ){
-                $scope.addAlert({
-                    type: 'warning',
-                    message: 'businessSetup:name-already-exists'
-                });
+            if( _.find($scope.itemList, {firstName: firstName}) ){
+                $scope.itemForm.firstName.$setValidity('duplicatename', false);
                 valid = false;
+            } else if( _.find($scope.itemList, {lastName: lastName}) ){
+                $scope.itemForm.lastName.$setValidity('duplicatename', false);
+                valid = false;
+            } else {
+                $scope.itemForm.firstName.$setValidity('duplicatename', true);
+                $scope.itemForm.lastName.$setValidity('duplicatename', true);
             }
             return valid;
         };
@@ -148,11 +150,10 @@ angular.module('businessSetup.controllers', [])
         var checkDuplicates = function(valid){
             var serviceName = $scope.item.name;
             if( _.find($scope.itemList, {name: serviceName}) ){
-                $scope.addAlert({
-                    type: 'warning',
-                    message: 'businessSetup:service-already-exists'
-                });
+                $scope.itemForm.name.$setValidity('duplicatename', false);
                 valid = false;
+            } else {
+                $scope.itemForm.name.$setValidity('duplicatename', true);
             }
             return valid;
         };

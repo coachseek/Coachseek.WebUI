@@ -8,8 +8,8 @@
         <li class="coach-details" ng-repeat="item in itemList | orderBy:'lastName'">
             <!-- show coach edit on click -->
             <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
-            <span class="coach-name">{{item.firstName}} {{item.lastName}}</span>
-            <span class="coach-phone">{{item.phone}}</span>
+            <span class="item-title">{{item.firstName}} {{item.lastName}}</span>
+            <span class="item-subtitle last">{{item.phone}}</span>
             <hr />
         </li>
     </ul>
@@ -19,21 +19,44 @@
         <div class="form-input left-col">
             <label name="firstName">{{'person-details.first-name' | i18next}}</label>
             <input name="firstName" ng-model="item.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
+
+            <div class="error-messages" ng-messages="itemForm.firstName.$error" ng-if="itemForm.firstName.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
         </div>
 
         <div class="form-input right-col">
             <label name="lastName">{{'person-details.last-name' | i18next}}</label>
             <input name="lastName" ng-model="item.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
+
+            <div class="error-messages" ng-messages="itemForm.lastName.$error" ng-if="itemForm.lastName.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
         </div>
 
         <div class="form-input">
             <label name="email">{{'person-details.email' | i18next}}</label>
             <input type="email" name="email" ng-model="item.email" placeholder="{{'person-details.placeholder.email' | i18next}}"  required ng-maxlength=100 />
+
+            <div class="error-messages" ng-messages="itemForm.email.$error" ng-if="itemForm.email.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="email">{{'businessSetup:error.email' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
         </div>
 
         <div class="form-input">
             <label name="phone">{{'person-details.phone' | i18next}}</label>
             <input name="phone" ng-model="item.phone" placeholder="{{'person-details.placeholder.phone' | i18next}}"  required ng-maxlength=50 />
+            
+            <div class="error-messages" ng-messages="itemForm.phone.$error" ng-if="itemForm.phone.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
         </div>
 
         <label>{{'person-details.availability' | i18next}}</label>

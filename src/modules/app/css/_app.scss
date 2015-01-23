@@ -82,6 +82,24 @@ button:disabled{
   opacity: 0.5;
 }
 
+.error-messages{
+  /* Needs to be positioned absolutley so error
+     messages dont move form down */
+    position: absolute;
+    bottom: -20px;
+    height: 20px;
+    width: 100%;
+    color: $red;
+
+    i{
+      display: inline;
+      color: $red;
+      position: absolute;
+      top: -30px;
+      right: 7.5px;
+    }
+}
+
 @font-face
 {
   font-family: lato-regular;

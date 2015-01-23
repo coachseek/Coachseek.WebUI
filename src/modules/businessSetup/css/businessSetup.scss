@@ -70,11 +70,13 @@
 		margin-top: 20px;
 		margin-bottom: 10px;
 		overflow: hidden;
+		padding-bottom: 10px;
 
 		.form-input{
 			width: 100%;
 			float: left;
 			margin-bottom: 15px;
+			position: relative;
 			
 			&.left-col{
 				width: 48%;
@@ -124,21 +126,21 @@
 	ul{
 		li{
 			padding-top: 10px;
-		}
-		span{
-			width: 50%;
-			float: left;
-			color: $text-dark-grey;
-			clear: left;
-		}
-		.service-description{
-			width: 75%;
-		}
-		.coach-name, .location-name, .business-name, .service-name{
-			font-size: 16px;
-		}
-		.coach-phone, .location-address, .business-email, .service-description{
-			margin-bottom: 15px;
+			.item-title, .item-subtitle{
+				width: 50%;
+				float: left;
+				color: $text-dark-grey;
+				clear: left;
+			}
+			.service-description{
+				width: 75%;
+			}
+			.item-title{
+				font-size: 16px;
+			}
+			.item-subtitle.last{
+				margin-bottom: 15px;
+			}
 		}
 	}
 }

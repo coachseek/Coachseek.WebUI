@@ -43,7 +43,8 @@
 			"description": "We show you how to...",
 			"student-capacity": "Min. 1",
 			"course-price": "Min. 0",
-			"session-price": "Min. 0"
+			"session-price": "Min. 0",
+			"duration": "30min"
 		}
 	},
 	"location-details": {
@@ -81,6 +82,14 @@
 	"coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
 	"password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
 	"postCode-invalid": "Oops! Looks like your Post Code isn't quite right. Try again.",
+
+	"error": {
+		"maxlength": "This is too long.",
+		"minlength": "Oops! Too short.",
+		"duplicatename": "Oops! This name is a duplicate.",
+		"email": "Email is not valid.",
+		"required": "This field is required"
+	},
 	
 	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
 	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",

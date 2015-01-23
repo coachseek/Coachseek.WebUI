@@ -80,6 +80,7 @@ angular.module('businessSetup.services', []).
             $scope.newItem = null;
             $scope.itemCopy = null;
             $scope.itemForm.$setPristine();
+            $scope.itemForm.$setUntouched();
         };
 
         var findName = function(item){
