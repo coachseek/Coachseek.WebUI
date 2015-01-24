@@ -1,4 +1,4 @@
-describe.only('repeatSelector directive', function(){
+describe('repeatSelector directive', function(){
     var scope;
     
     let('sessionCount', function(){
