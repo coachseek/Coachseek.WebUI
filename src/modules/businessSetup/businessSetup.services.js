@@ -76,11 +76,11 @@ angular.module('businessSetup.services', []).
 
         var resetToList = function($scope){
             $scope.item = null;
+            $scope.itemForm.$setPristine();
+            $scope.itemForm.$setUntouched();
             $scope.removeAlerts();
             $scope.newItem = null;
             $scope.itemCopy = null;
-            $scope.itemForm.$setPristine();
-            $scope.itemForm.$setUntouched();
         };
 
         var findName = function(item){
