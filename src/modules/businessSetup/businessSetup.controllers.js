@@ -242,8 +242,7 @@ angular.module('businessSetup.controllers', [])
                 duration: 15
             },
             repetition: {
-                sessionCount: 1,
-                repeatFrequency: null
+                sessionCount: 1
             },
             booking: {
                 studentCapacity: undefined

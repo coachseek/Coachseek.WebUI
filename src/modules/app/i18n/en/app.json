@@ -25,5 +25,6 @@
     "save-details": "Save details",
     "saving": "Saving...",
     "cancel": "Cancel",
-    "to": "to"
+    "to": "to",
+    "denomination": "$"
 }

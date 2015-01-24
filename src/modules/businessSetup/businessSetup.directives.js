@@ -2,8 +2,7 @@ angular.module('businessSetup.directives', [])
     .directive('repeatSelector', function(){
         var frequencies = [
             {value: 'w', text: 'weekly'},
-            {value: 'd', text: 'daily'},
-            {value: null, text: 'once'}
+            {value: 'd', text: 'daily'}
         ];
         return {
             scope: {
@@ -14,17 +13,29 @@ angular.module('businessSetup.directives', [])
             link: function(scope, elem, attr){
                 scope.frequencies = frequencies;
 
-                scope.$watch('repeatFrequency', function(newVal, oldVal){
-                    if( newVal === null ){
-                        scope.sessionCount = 1;
-                    } else if( scope.sessionCount < 2 && newVal ) {
-                        scope.sessionCount = 2;
+                scope.$watch('sessionCount', function(newVal){
+                    if(newVal < 2){
+                        scope.repeatFrequency = null;
+                    } else if(newVal > 1 && !scope.repeatFrequency){
+                        scope.repeatFrequency = 'd';
                     }
                 });
 
+                scope.toggleRepeatable = function(){
+                    if(scope.sessionCount < 2){
+                        scope.sessionCount = 2;
+                    } else {
+                        scope.sessionCount = 1;
+                    }
+                };
+
+                scope.isChecked = function(){
+                    return scope.sessionCount > 1 ? 'checked': null;
+                };
+
                 scope.showStatus = function() {
                     var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
-                    return selected[0] ? selected[0].text : "Not set";
+                    return selected[0] ? 'businessSetup:repeat-selector.' + selected[0].text : "";
                 };
             }
         };

@@ -143,4 +143,18 @@
 			}
 		}
 	}
+
+	.course-price, .session-price{
+		input{
+			padding-left: 17px;
+		}
+
+		.money-sign{
+			color: $text-grey;
+			position: absolute;
+			top: 25px;
+			left: 6px;
+			font-size: 15px;
+		}
+	}
 }

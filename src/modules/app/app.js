@@ -16,7 +16,6 @@ angular.module('app',
     // MODULES
     'businessSetup',
     'scheduling',
-    'xeditable',
     
     // UTILITIES
     'ngActivityIndicator'
@@ -38,13 +37,12 @@ angular.module('app',
     .config(['$httpProvider', function($httpProvider) {
         //TEMP AUTH CREDENTIALS
         //TODO - REMOVE WHEN WE HAVE SESSIONS AND CAN SET AUTH THERE
-        $httpProvider.defaults.headers.common['Authorization'] = 'Basic ZGFrLnZhbnRpbmVAZ21haWwuY29tOmFkc2RzZGZkc2Q=';
+        $httpProvider.defaults.headers.common['Authorization'] = 'Basic d29ya0B3b3IuY29tOnNsYXNkamxzZA==';
     }])
-    .run(['$rootScope', '$state', '$stateParams', 'editableOptions',
+    .run(['$rootScope', '$state', '$stateParams',
         function($rootScope, $stateParams, $state, editableOptions){
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
 
         $rootScope.alerts = [];
-        editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
     }]);

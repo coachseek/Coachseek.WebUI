@@ -52,24 +52,23 @@
             ></color-picker>
         </div>
 
-        <div class="form-input left-col">
+        <repeat-selector
+            repeat-frequency="item.repetition.repeatFrequency"
+            session-count="item.repetition.sessionCount"
+        ></repeat-selector>
+
+        <div class="session-price form-input left-col">
             <label name="sessionPrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
+            <span class="money-sign">{{'denomination' | i18next}}</span>
             <input name="sessionPrice" type="number" ng-model="item.pricing.sessionPrice" placeholder="{{'businessSetup:service-details.placeholder.session-price' | i18next}}"  min="0" step=".01"  />
         </div>
 
-        <div class="coursePrice form-input right-col" ng-hide="item.repetition.sessionCount < 2" >
+        <div class="course-price form-input right-col" ng-hide="item.repetition.sessionCount < 2" >
             <label name="coursePrice">{{'businessSetup:service-details.course-price' | i18next}}</label>
+            <span class="money-sign">{{'denomination' | i18next}}</span>
             <input name="coursePrice" type="number" ng-model="item.pricing.coursePrice" placeholder="{{'businessSetup:service-details.placeholder.course-price' | i18next}}"  min="0" step=".01" />
         </div>
     </form>
-
-    <label >{{'businessSetup:service-details.repeat-frequency' | i18next}}</label>
-    <!-- xeditable does not play well with other inputs. yet.-->
-    <!-- https://github.com/vitalets/angular-xeditable/issues/6 -->
-    <repeat-selector
-        repeat-frequency="item.repetition.repeatFrequency"
-        session-count="item.repetition.sessionCount"
-    ></repeat-selector>
 
     <!-- POST here -->
     <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading" ng-i18next="[i18next]{{ AILoading ? 'saving' : 'save-details'}}"></button>
