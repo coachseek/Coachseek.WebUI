@@ -123,7 +123,6 @@ angular.module('businessSetup.controllers', [])
 
         $scope.editItem = function(service){
             _.pull($scope.itemList, service);
-            service = setRepeatFrequency(service);
             $scope.itemCopy = angular.copy(service);
             $scope.item = service;
         };
@@ -139,13 +138,6 @@ angular.module('businessSetup.controllers', [])
         $scope.cancelEdit = function(){
             CRUDService.cancelEdit($scope);
         };
-
-        var setRepeatFrequency = function(service){
-            if(!service.repetition.repeatFrequency){
-                service.repetition.repeatFrequency = null;
-            }
-            return service;
-        }
 
         var checkDuplicates = function(valid){
             var serviceName = $scope.item.name;
