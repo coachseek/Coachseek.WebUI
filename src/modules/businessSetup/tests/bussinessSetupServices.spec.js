@@ -129,7 +129,7 @@ describe('bussinessSetup Services', function(){
                     expect(scope.item.pricing.coursePrice).to.equal(null);
                 });
                 it('should hide the coursePrice field', function(){
-                    expect($serviceItemView.find('.coursePrice').hasClass('ng-hide')).to.be.true;
+                    expect($serviceItemView.find('.course-price').hasClass('ng-hide')).to.be.true;
                 });
 
                 describe('and then changing the sessionCount to 2 or more', function(){
