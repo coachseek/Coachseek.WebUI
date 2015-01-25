@@ -23,13 +23,13 @@ describe('bussinessSetup Locations', function(){
 
     let('promise', function(){
         var deferred = $q.defer();
-        deferred.resolve({data:this.locations});
+        deferred.resolve(this.locations);
         return deferred.promise;
     });
 
     let('savepromise', function(){
         var deferred = $q.defer();
-        deferred.resolve({data:this.locations});
+        deferred.resolve(this.locations);
         return deferred.promise;
     });
 
@@ -48,8 +48,8 @@ describe('bussinessSetup Locations', function(){
         locationDefaults = $injector.get('locationDefaults');
         scope = $rootScope.$new();
 
-        getLocationsStub = this.sinon.stub(coachSeekAPIService, 'getLocations', function(){
-            return self.promise;
+        getLocationsStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+            return {$promise: self.promise};
         });
 
         createViewWithController(scope, templateUrl, 'locationsCtrl');
@@ -121,8 +121,8 @@ describe('bussinessSetup Locations', function(){
                 beforeEach(function(){
                     self.savepromise = this.savepromise;
 
-                    saveLocationStub = this.sinon.stub(coachSeekAPIService, 'saveLocation', function(){
-                        return self.savepromise;
+                    saveLocationStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                        return {$promise: self.savepromise};
                     });
                 });
 

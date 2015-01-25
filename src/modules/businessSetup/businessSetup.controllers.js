@@ -1,6 +1,6 @@
 angular.module('businessSetup.controllers', [])
-    .controller('businessCtrl', ['$scope', 'CRUDService', 'businessDefaults',
-        function($scope, CRUDService, businessDefaults){
+    .controller('businessCtrl', ['$rootScope', '$scope', 'CRUDService', 'businessDefaults', '$http',
+        function($rootScope, $scope, CRUDService, businessDefaults, $http){
 
         $scope.createItem = function(){
             $scope.newItem = true;
@@ -18,7 +18,11 @@ angular.module('businessSetup.controllers', [])
             var formValid = CRUDService.validateForm($scope);
 
             if(formValid){
-                CRUDService.update('saveBusiness', $scope, business);  
+                var authHeader = 'Basic ' + btoa(business.admin.email + ':' + business.admin.password);
+                $http.defaults.headers.common['Authorization'] = authHeader;
+                $rootScope.basicAuth = authHeader;
+                console.log($rootScope.basicAuth);
+                CRUDService.update('BusinessRegistration', $scope, business);
             }
         };
 
@@ -47,7 +51,7 @@ angular.module('businessSetup.controllers', [])
                 var formValid = CRUDService.validateForm($scope);
                 formValid = checkDuplicates(formValid);
                 if( formValid ){
-                    CRUDService.update('saveLocation', $scope, location);                  
+                    CRUDService.update('Locations', $scope, location);
                 }
             };
 
@@ -67,7 +71,7 @@ angular.module('businessSetup.controllers', [])
                 return valid;
             };
 
-            CRUDService.get('getLocations', $scope);
+            CRUDService.get('Locations', $scope);
     }])
     .controller('coachesCtrl', ['$scope', 'CRUDService', 'coachDefaults',
         function ($scope, CRUDService, coachDefaults) {
@@ -91,7 +95,7 @@ angular.module('businessSetup.controllers', [])
             var formValid = CRUDService.validateForm($scope);
                 formValid = checkDuplicates(formValid);
             if( formValid ){
-                CRUDService.update('saveCoach', $scope, coach);                  
+                CRUDService.update('Coaches', $scope, coach);
             }
         };
 
@@ -111,7 +115,7 @@ angular.module('businessSetup.controllers', [])
             return valid;
         };
 
-        CRUDService.get('getCoaches', $scope);
+        CRUDService.get('Coaches', $scope);
     }])
     .controller('servicesCtrl', ['$scope', 'CRUDService', 'serviceDefaults',
         function($scope, CRUDService, serviceDefaults){
@@ -131,7 +135,7 @@ angular.module('businessSetup.controllers', [])
             var formValid = CRUDService.validateForm($scope);
                 formValid = checkDuplicates(formValid);
             if( formValid ){
-                CRUDService.update('saveService', $scope, service);                  
+                CRUDService.update('Services', $scope, service);
             }
         };
 
@@ -156,7 +160,7 @@ angular.module('businessSetup.controllers', [])
             }
         });
 
-        CRUDService.get('getServices', $scope);
+        CRUDService.get('Services', $scope);
 
     }])
     .value('businessDefaults', {

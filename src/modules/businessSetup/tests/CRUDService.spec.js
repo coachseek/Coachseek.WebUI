@@ -7,7 +7,7 @@ describe('CRUDService', function(){
     });
 
     let('APIreturn', function(){
-        return {data: this.initData};
+        return this.initData;
     });
 
     let('initData', function(){
@@ -43,8 +43,11 @@ describe('CRUDService', function(){
         AIStopStub = this.sinon.stub($activityIndicator, 'stopAnimating');
         setPristineStub = this.sinon.stub(scope.itemForm, '$setPristine')
 
-        this.sinon.stub(coachSeekAPIService, APIFunctionName, function(){
-            return self.promise
+        this.sinon.stub(coachSeekAPIService, 'get', function(){
+            return {$promise: self.promise};
+        });
+        this.sinon.stub(coachSeekAPIService, 'update', function(){
+            return {$promise: self.promise};
         });
     });
     describe('when calling get()', function(){

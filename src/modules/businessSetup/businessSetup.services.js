@@ -4,49 +4,51 @@ angular.module('businessSetup.services', []).
 
         this.get = function(functionName, $scope){
             $activityIndicator.startAnimating();
-            coachSeekAPIService[functionName]().then(function(response){
-                //set list data or create first item
-                var itemList = response.data;
-                if(_.size(itemList)){
-                    $scope.itemList = itemList;
-                } else {
-                    $scope.itemList = [];
-                    $scope.createItem();
-                }
-            }, function(error){
-                _.forEach(error.data, function(error){
-                    $scope.addAlert({
-                        type: 'danger',
-                        message: error.message
+            coachSeekAPIService.get({section: functionName})
+                .$promise.then(function(response){
+                    //set list data or create first item
+                    var itemList = response;
+                    if(_.size(itemList)){
+                        $scope.itemList = itemList;
+                    } else {
+                        $scope.itemList = [];
+                        $scope.createItem();
+                    }
+                }, function(error){
+                    _.forEach(error.data, function(error){
+                        $scope.addAlert({
+                            type: 'danger',
+                            message: error.message
+                        });
                     });
+                }).finally(function(){
+                    $activityIndicator.stopAnimating();
                 });
-            }).finally(function(){
-                $activityIndicator.stopAnimating();
-            });
         };
 
         this.update = function(functionName, $scope, item){
             $activityIndicator.startAnimating();
-            coachSeekAPIService[functionName](item).then(function(response){
-                item = response.data;
-                $scope.itemList.push(item);
-                resetToList($scope);
+            coachSeekAPIService.update({section: functionName}, item)
+                .$promise.then(function(response){
+                    item = response;
+                    $scope.itemList.push(item);
+                    resetToList($scope);
 
-                $scope.addAlert({
-                    type: 'success',
-                    message: "businessSetup:save-success",
-                    name: item.name ? item.name: findName(item)
-                });
-            }, function(error){
-                _.forEach(error.data, function(error){
                     $scope.addAlert({
-                        type: 'danger',
-                        message: error.message
+                        type: 'success',
+                        message: "businessSetup:save-success",
+                        name: item.name ? item.name: findName(item)
                     });
+                }, function(error){
+                    _.forEach(error.data, function(error){
+                        $scope.addAlert({
+                            type: 'danger',
+                            message: error.message
+                        });
+                    });
+                }).finally(function(){
+                    $activityIndicator.stopAnimating();
                 });
-            }).finally(function(){
-                $activityIndicator.stopAnimating();
-            });
         };
 
         this.cancelEdit = function($scope){
