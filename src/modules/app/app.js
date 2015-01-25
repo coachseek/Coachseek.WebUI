@@ -4,6 +4,7 @@ angular.module('app',
     // LIBRARIES
     'ngAnimate',
     'ngMessages',
+    'ngSanitize',
   	'ui.bootstrap',
     'ui.router',
     'jm.i18next',
