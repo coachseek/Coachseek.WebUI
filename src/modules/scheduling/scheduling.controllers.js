@@ -56,7 +56,7 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.minutesToStr = function(duration){
-                return Math.floor(duration/60) + ":" + duration%60;
+                return Math.floor(duration / 60) + ":" + duration % 60;
             };
 
             var buildEvents = function(date, serviceData){
