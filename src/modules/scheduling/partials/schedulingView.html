@@ -8,7 +8,7 @@
             jqyoui-draggable="{onStop: 'onDragStop'}" 
             data-jqyoui-options="{revert: onRevert, revertDuration: 0}" 
             class="service-details" 
-            ng-repeat="item in itemList">
+            ng-repeat="item in itemList | orderBy:'name'">
                 <i class="fa fa-lg fa-bars"></i>
                 <span class="colour-circle {{item.presentation.colour}}"></span>
                 <h5 class="service-name">{{item.name}}</h5>
