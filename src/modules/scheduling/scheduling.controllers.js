@@ -23,6 +23,7 @@ angular.module('scheduling.controllers', [])
                     editable: true,
                     droppable: true,
                     allDaySlot: false,
+                    firstDay: 1,
                     defaultView: 'agendaWeek',
                     eventDurationEditable: false,
                     drop: function(date, event) {
