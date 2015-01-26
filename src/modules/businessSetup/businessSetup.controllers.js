@@ -233,22 +233,23 @@ angular.module('businessSetup.controllers', [])
     )
     .value('serviceDefaults', {
             name: undefined,
-            description: undefined,
+            description: null,
             timing: {
                 duration: 15
             },
             repetition: {
-                sessionCount: 1
+                sessionCount: 1,
+                repeatFrequency: null
             },
             booking: {
-                studentCapacity: undefined
+                studentCapacity: null
             },
             presentation: {
                 colour: 'green'
             },
             pricing: {
                 sessionPrice: 0,
-                coursePrice: undefined
+                coursePrice: null
             }
         }
     );
