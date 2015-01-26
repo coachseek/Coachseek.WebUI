@@ -5,13 +5,13 @@
     </label>
 </div>
 
-<div class="form-input" ng-show="sessionCount > 1">
+<div class="form-input frequency-selector" ng-show="sessionCount > 1">
     <label name="frequency">{{'businessSetup:repeat-selector.repeat-session' | i18next}}</label>
     <select class="repeat-frequency" name="frequency" ng-model="repeatFrequency" ng-disabled="sessionCount < 2">
         <option ng-repeat="item in frequencies" value="{{item.value}}" ng-i18next>businessSetup:repeat-selector.{{item.text}}</option>
     </select>
     {{'businessSetup:repeat-selector.total-of' | i18next}}
-    <input class="session-count" name="sessionCount" type="number" ng-model="sessionCount" placeholder="{{'businessSetup:repeat-selector.placeholder.session-count' | i18next}}"  min="1" step="1"/>
+    <input class="session-count" name="sessionCount" type="number" ng-model="sessionCount" placeholder="{{'businessSetup:repeat-selector.placeholder.session-count' | i18next}}"  min="{{isChecked() ? 2 : 1}}" step="1"/>
     <span ng-i18next="[i18next]({count:sessionCount}){{ showStatus() }}"></span>
     <!-- forever checkbox -->
 </div>

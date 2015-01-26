@@ -77,9 +77,11 @@ describe('repeatSelector directive', function(){
             return 1;
         });
 
-        var $repeatCheckbox;
+        var $repeatCheckbox,
+            $frequencySelector;
         beforeEach(function(){
             $repeatCheckbox = $testRegion.find('.repeat-checkbox');
+            $frequencySelector = $testRegion.find('.frequency-selector');
             $repeatCheckbox.get(0).click();
         });
         it('should set the sessionCount to 2', function(){
@@ -87,6 +89,12 @@ describe('repeatSelector directive', function(){
         });
         it('should set the repeatFrequency to `d`', function(){
             expect(scope.repeatFrequency).to.equal('d');
+        });
+        it('should show the frequency selector', function(){
+            expect($frequencySelector.hasClass('ng-hide')).to.be.false;
+        });
+        it('should set the min on frequency-selector to 2', function(){
+            expect($frequencySelector.find('.session-count').attr('min')).to.equal('2');
         });
         describe('when unchecking the checkbox', function(){
 
@@ -98,6 +106,12 @@ describe('repeatSelector directive', function(){
             });
             it('should set the repeatFrequency to null', function(){
                 expect(scope.repeatFrequency).to.equal(null);
+            });
+            it('should hide the frequency selector', function(){
+                expect($frequencySelector.hasClass('ng-hide')).to.be.true;
+            });
+            it('should set the min on frequency-selector to 1', function(){
+                expect($frequencySelector.find('.session-count').attr('min')).to.equal('1');
             });
         });
     });
