@@ -4,17 +4,11 @@ angular.module('scheduling.controllers', [])
             $scope.events = [];
             $scope.eventSources = [$scope.events];
 
-            //TODO - dont do this when invalid
-            //ELEMENT not appearing when valid c'mon son
-            $scope.onRevert = function(a, b, c){
-                console.log(a, b, c);
-                $(this).css('opacity', '0');
+            $scope.onRevert = function(valid){
+                if(valid) {
+                    $(this).css('opacity', '0');
+                }
                 return true;
-            };
-
-            $scope.onDragStop = function(){
-                // console.log('DRAGSTOP', this)
-                // $(this).fadeIn(600);
             };
 
             $scope.uiConfig = {
@@ -27,10 +21,10 @@ angular.module('scheduling.controllers', [])
                     defaultView: 'agendaWeek',
                     eventDurationEditable: false,
                     drop: function(date, event) {
-                        $(this).animate({ opacity: 1 }, 750);
                         // console.log('Specified TIME', date.hasTime())
                         var serviceData = $(this).data('service');
                         buildEvents(date, serviceData);
+                        $(this).animate({ opacity: 1 }, 750);
                     },
                     // businessHours: {
                     //     start: '10:00', // a start time (10am in this example)
@@ -40,6 +34,10 @@ angular.module('scheduling.controllers', [])
                     //     // days of week. an array of zero-based day of week integers (0=Sunday)
                     //     // (Monday-Thursday in this example)
                     // },
+                    viewRender: function(view, element){
+                        //doing this to allow user to drop outside of box
+                        element.droppable();
+                    },
                     header:{
                         left: '',
                         center: 'prev title next',

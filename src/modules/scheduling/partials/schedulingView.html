@@ -5,7 +5,7 @@
             data-drag="true"
             data-service="{{item}}" 
             data-duration="{{minutesToStr(item.timing.duration)}}"
-            jqyoui-draggable="{onStop: 'onDragStop'}" 
+            jqyoui-draggable
             data-jqyoui-options="{revert: onRevert, revertDuration: 0}" 
             class="service-details" 
             ng-repeat="item in itemList | orderBy:'name'">
@@ -16,4 +16,4 @@
         </li>
     </ul>
 </div>
-<div class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar=""></div>
+<div class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
