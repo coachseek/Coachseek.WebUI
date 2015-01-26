@@ -37,8 +37,9 @@
             -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
             box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 
-            .color-circle{
+            .colour-circle{
                 @extend %vertical-align;
+                @extend %service-background-colors;
                 float: left;
                 width: 20px;
                 height: 20px;
@@ -94,6 +95,11 @@
             .fc-today-button{
                 margin: 0 15px;
             }
+        }
+
+        .fc-event {
+            @extend %service-background-colors;
+            @extend %service-border-colors;
         }
     }
 }

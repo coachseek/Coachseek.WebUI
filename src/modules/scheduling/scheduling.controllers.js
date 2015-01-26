@@ -82,7 +82,7 @@ angular.module('scheduling.controllers', [])
                     start: moment(newDate.add(index, repeatFrequency)),
                     end: moment(newDate.add(duration, 'minutes')),
                     allDay: false,
-                    color: serviceData.presentation.color
+                    className: serviceData.presentation.colour
                 };
                 $scope.events.push(newEvent); 
             };
