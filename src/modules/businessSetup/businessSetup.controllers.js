@@ -32,6 +32,18 @@ angular.module('businessSetup.controllers', [])
 
         CRUDService.get('getBusiness', $scope);
     }])
+    .value('businessDefaults', {
+            business: {
+                name: undefined
+            },
+            admin: {
+                firstName: undefined,
+                lastName: undefined,
+                email: undefined,
+                password: undefined
+            }
+        }
+    )
     .controller('locationsCtrl', ['$scope', 'CRUDService', 'locationDefaults',
         function($scope, CRUDService, locationDefaults){
 
@@ -73,6 +85,10 @@ angular.module('businessSetup.controllers', [])
 
             CRUDService.get('Locations', $scope);
     }])
+    .value('locationDefaults', {
+            name: undefined
+        }
+    )
     .controller('coachesCtrl', ['$scope', 'CRUDService', 'coachDefaults',
         function ($scope, CRUDService, coachDefaults) {
 
@@ -117,68 +133,6 @@ angular.module('businessSetup.controllers', [])
 
         CRUDService.get('Coaches', $scope);
     }])
-    .controller('servicesCtrl', ['$scope', 'CRUDService', 'serviceDefaults',
-        function($scope, CRUDService, serviceDefaults){
-
-        $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = angular.copy(serviceDefaults);
-        };
-
-        $scope.editItem = function(service){
-            _.pull($scope.itemList, service);
-            $scope.itemCopy = angular.copy(service);
-            $scope.item = service;
-        };
-
-        $scope.saveItem = function(service){
-            var formValid = CRUDService.validateForm($scope);
-                formValid = checkDuplicates(formValid);
-            if( formValid ){
-                CRUDService.update('Services', $scope, service);
-            }
-        };
-
-        $scope.cancelEdit = function(){
-            CRUDService.cancelEdit($scope);
-        };
-
-        var checkDuplicates = function(valid){
-            var serviceName = $scope.item.name;
-            if( _.find($scope.itemList, {name: serviceName}) ){
-                $scope.itemForm.name.$setValidity('duplicatename', false);
-                valid = false;
-            } else {
-                $scope.itemForm.name.$setValidity('duplicatename', true);
-            }
-            return valid;
-        };
-
-        $scope.$watch('item.repetition.sessionCount', function(newVal){
-            if($scope.item && newVal < 2){
-                $scope.item.pricing.coursePrice = null;
-            }
-        });
-
-        CRUDService.get('Services', $scope);
-
-    }])
-    .value('businessDefaults', {
-            business: {
-                name: undefined
-            },
-            admin: {
-                firstName: undefined,
-                lastName: undefined,
-                email: undefined,
-                password: undefined
-            }
-        }
-    )
-    .value('locationDefaults', {
-            name: undefined
-        }
-    )
     .value('coachDefaults', {
             businessId: undefined,
             id: undefined,
@@ -231,6 +185,52 @@ angular.module('businessSetup.controllers', [])
             }
         }
     )
+    .controller('servicesCtrl', ['$scope', '$filter', 'CRUDService', 'serviceDefaults',
+        function($scope, $filter, CRUDService, serviceDefaults){
+
+        $scope.createItem = function(){
+            $scope.newItem = true;
+            $scope.item = angular.copy(serviceDefaults);
+        };
+
+        $scope.editItem = function(service){
+            _.pull($scope.itemList, service);
+            $scope.itemCopy = angular.copy(service);
+            $scope.item = service;
+        };
+
+        $scope.saveItem = function(service){
+            var formValid = CRUDService.validateForm($scope);
+                formValid = checkDuplicates(formValid);
+            if( formValid ){
+                CRUDService.update('Services', $scope, service);
+            }
+        };
+
+        $scope.cancelEdit = function(){
+            CRUDService.cancelEdit($scope);
+        };
+
+        var checkDuplicates = function(valid){
+            var serviceName = $scope.item.name;
+            if( _.find($scope.itemList, {name: serviceName}) ){
+                $scope.itemForm.name.$setValidity('duplicatename', false);
+                valid = false;
+            } else {
+                $scope.itemForm.name.$setValidity('duplicatename', true);
+            }
+            return valid;
+        };
+
+        $scope.$watch('item.repetition.sessionCount', function(newVal){
+            if($scope.item && newVal < 2){
+                $scope.item.pricing.coursePrice = null;
+            }
+        });
+
+        CRUDService.get('Services', $scope);
+
+    }])
     .value('serviceDefaults', {
             name: undefined,
             description: null,
