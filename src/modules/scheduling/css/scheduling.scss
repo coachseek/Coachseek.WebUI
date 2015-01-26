@@ -1,7 +1,6 @@
 [state^="scheduling"] {
     width: 100%;
     .services-list{
-        padding-top: 15px;
         min-height: 500px;
 
         width: 25%;
@@ -74,7 +73,6 @@
     }
 
     .calendar{
-        padding-top: 15px;
         width: 75%;
         float: right;
         background: $white;
@@ -100,6 +98,19 @@
         .fc-event {
             @extend %service-background-colors;
             @extend %service-border-colors;
+        }
+
+        .fc-toolbar{
+            margin: 20px 0;
+        }
+
+/*        .fc-today{
+            background: none;
+            border: 2px solid $green;
+        }*/
+
+        .fc-highlight{
+            background: $green;
         }
     }
 }
