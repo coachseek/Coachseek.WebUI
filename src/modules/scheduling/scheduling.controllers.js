@@ -48,19 +48,18 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            var strToMinutes = function(duration){
-                var timeArray = duration.split(":");
-                return parseFloat(timeArray[0] * 60)  + parseFloat(timeArray[1]);
+            $scope.minutesToStr = function(duration){
+                return Math.floor(duration/60) + ":" + duration%60;
             };
 
             var buildEvents = function(date, serviceData){
                 var repeatFrequency = serviceData.repetition.repeatFrequency;
-                var duration = strToMinutes(serviceData.timing.duration);
+                var duration = serviceData.timing.duration;
                 var id = _.uniqueId('service_');
                 if( repeatFrequency === -1 ){
                     // console.log('FOREVER')
                     createEvent(id, date, serviceData, 0);
-                } else if ( repeatFrequency === null ) {
+                } else if ( repeatFrequency === undefined ) {
                     // console.log('ONCE')
                     createEvent(id, date, serviceData, 0);
                 } else if ( repeatFrequency ) {
@@ -75,7 +74,7 @@ angular.module('scheduling.controllers', [])
             var createEvent = function(id, date, serviceData, index){
                 var newDate = date.clone();
                 var repeatFrequency = serviceData.repetition.repeatFrequency;
-                var duration = strToMinutes(serviceData.timing.duration);
+                var duration = serviceData.timing.duration;
                 var newEvent = {
                     _id: id,
                     title: serviceData.name,
@@ -87,6 +86,6 @@ angular.module('scheduling.controllers', [])
                 $scope.events.push(newEvent); 
             };
 
-            CRUDService.get('getServices', $scope);
+            CRUDService.get('Services', $scope);
             // GET existing calendar
     }]);

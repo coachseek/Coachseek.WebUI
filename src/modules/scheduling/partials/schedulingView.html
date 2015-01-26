@@ -4,7 +4,7 @@
         <li 
             data-drag="true"
             data-service="{{item}}" 
-            data-duration="{{item.timing.duration}}" 
+            data-duration="{{minutesToStr(item.timing.duration)}}"
             jqyoui-draggable="{onStop: 'onDragStop'}" 
             data-jqyoui-options="{revert: onRevert, revertDuration: 0}" 
             class="service-details" 
