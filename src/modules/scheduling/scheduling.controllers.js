@@ -34,6 +34,14 @@ angular.module('scheduling.controllers', [])
                     //     // days of week. an array of zero-based day of week integers (0=Sunday)
                     //     // (Monday-Thursday in this example)
                     // },
+                    eventRender: function(event, element, view) {
+                        if(view.type === 'agendaDay'){
+                            $('<div></div>', {
+                                class: 'fc-description',
+                                text: event.description
+                            }).appendTo(element.find('.fc-content'));
+                        }
+                    },
                     viewRender: function(view, element){
                         //doing this to allow user to drop outside of box
                         element.droppable();
@@ -74,9 +82,11 @@ angular.module('scheduling.controllers', [])
                 var newDate = date.clone();
                 var repeatFrequency = serviceData.repetition.repeatFrequency;
                 var duration = serviceData.timing.duration;
+
                 var newEvent = {
                     _id: id,
                     title: serviceData.name,
+                    description: serviceData.description,
                     start: moment(newDate.add(index, repeatFrequency)),
                     end: moment(newDate.add(duration, 'minutes')),
                     allDay: false,
