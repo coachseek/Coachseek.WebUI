@@ -14,12 +14,26 @@ angular.module('businessSetup.directives', [])
                 scope.frequencies = frequencies;
 
                 scope.$watch('sessionCount', function(newVal){
-                    if(newVal < 2){
-                        scope.repeatFrequency = null;
-                    } else if(newVal > 1 && !scope.repeatFrequency){
-                        scope.repeatFrequency = 'd';
+                    if(!scope.isFocused){
+                        scope.isChecked = newVal > 1;
+
+                        if(newVal < 2){
+                            scope.repeatFrequency = null;
+                        } else if(newVal > 1 && !scope.repeatFrequency){
+                            scope.repeatFrequency = 'd';
+                        }
                     }
                 });
+
+                scope.setValues = function(){
+                    if(scope.sessionCount === 1){
+                        // Takes care of case where $watcher does not get triggered
+                        scope.isChecked = false;
+                    } else if(scope.sessionCount < 2){
+                        scope.sessionCount = 1;
+                    }
+                    scope.isFocused = false;
+                }
 
                 scope.toggleRepeatable = function(){
                     if(scope.sessionCount < 2){
@@ -27,15 +41,12 @@ angular.module('businessSetup.directives', [])
                     } else {
                         scope.sessionCount = 1;
                     }
-                };
-
-                scope.isChecked = function(){
-                    return scope.sessionCount > 1 ? 'checked': null;
+                    scope.setValues();
                 };
 
                 scope.showStatus = function() {
                     var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
-                    return selected[0] ? 'businessSetup:repeat-selector.' + selected[0].text : "";
+                    return selected[0] ? 'businessSetup:repeat-selector.' + selected[0].text  + "-plural": "";
                 };
             }
         };

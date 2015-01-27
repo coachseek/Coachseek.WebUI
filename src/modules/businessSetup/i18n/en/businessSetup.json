@@ -17,12 +17,12 @@
 		"repeat-session": "Repeat this session",
 		"total-of": "for a total of",
 		"weekly": "weekly",
-		"week": "week",
-		"weekly_plural": "weeks",
+		"weekly-plural": "weeks",
 		"daily": "daily",
-		"daily_plural": "days",
-		"once": "once",
-		"forever": "forever"
+		"daily-plural": "days",
+		"placeholder": {
+			"session-count": "1"
+		}
 	},
 	"business-details": {
 		"name": "Business Name",

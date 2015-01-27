@@ -32,7 +32,6 @@ describe('repeatSelector directive', function(){
 
         describe('when repeatFrequency is set to `w`', function(){
             it('should check the checkbox', function(){
-                $testRegion.appendTo('body');
                 expect($repeatCheckbox.attr('checked')).to.equal('checked');
             });
             it('should set the repeat frequency to `w`', function(){
@@ -93,9 +92,6 @@ describe('repeatSelector directive', function(){
         it('should show the frequency selector', function(){
             expect($frequencySelector.hasClass('ng-hide')).to.be.false;
         });
-        it('should set the min on frequency-selector to 2', function(){
-            expect($frequencySelector.find('.session-count').attr('min')).to.equal('2');
-        });
         describe('when unchecking the checkbox', function(){
 
             beforeEach(function(){
@@ -110,19 +106,57 @@ describe('repeatSelector directive', function(){
             it('should hide the frequency selector', function(){
                 expect($frequencySelector.hasClass('ng-hide')).to.be.true;
             });
-            it('should set the min on frequency-selector to 1', function(){
-                expect($frequencySelector.find('.session-count').attr('min')).to.equal('1');
-            });
         });
     });
     describe('when changing the sessionCount', function(){
+        var $sessionCount,
+            $frequencySelector;
         beforeEach(function(){
             $sessionCount = $testRegion.find('.session-count');
+            $frequencySelector = $testRegion.find('.frequency-selector');
             $sessionCount.val(130);
             angular.element($sessionCount).triggerHandler('change');
         });
         it('should set the sessionCount to the scope', function(){
             expect(scope.sessionCount).to.equal(130);
+        });
+        beforeEach(function(){
+                angular.element($sessionCount).triggerHandler('focus');
+        });
+        describe('when the sessionCount is focused', function(){
+
+            describe('and the sessionCount is less than 2', function(){
+                beforeEach(function(){
+                    $sessionCount.val(null);
+                    angular.element($sessionCount).triggerHandler('change');
+                });
+
+                it('should NOT hide the frequency selector', function(){
+                    expect($frequencySelector.hasClass('ng-hide')).to.be.false;
+                });
+                describe('and the sessionCount is blurred', function(){
+                    it('should hide the frequency selector', function(){
+                        angular.element($sessionCount).triggerHandler('blur');
+                        expect($frequencySelector.hasClass('ng-hide')).to.be.true;
+                    });
+                });
+            })
+
+            describe('and the sessionCount is greater than 1', function(){
+                beforeEach(function(){
+                    $sessionCount.val(69);
+                    angular.element($sessionCount).triggerHandler('change');
+                });
+                it('should NOT hide the frequency selector', function(){
+                    expect($frequencySelector.hasClass('ng-hide')).to.be.false;
+                });
+                describe('and the sessionCount is blurred', function(){
+                    it('should NOT hide the frequency selector', function(){
+                        angular.element($sessionCount).triggerHandler('blur');
+                        expect($frequencySelector.hasClass('ng-hide')).to.be.false;
+                    });
+                });
+            })
         });
     });
     describe('when changing the repeat frequency', function(){
