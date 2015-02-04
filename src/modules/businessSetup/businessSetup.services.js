@@ -5,9 +5,8 @@ angular.module('businessSetup.services', []).
         this.get = function(functionName, $scope){
             $activityIndicator.startAnimating();
             coachSeekAPIService.get({section: functionName})
-                .$promise.then(function(response){
+                .$promise.then(function(itemList){
                     //set list data or create first item
-                    var itemList = response;
                     if(_.size(itemList)){
                         $scope.itemList = itemList;
                     } else {
@@ -29,8 +28,7 @@ angular.module('businessSetup.services', []).
         this.update = function(functionName, $scope, item){
             $activityIndicator.startAnimating();
             coachSeekAPIService.update({section: functionName}, item)
-                .$promise.then(function(response){
-                    item = response;
+                .$promise.then(function(item){
                     $scope.itemList.push(item);
                     resetToList($scope);
 
