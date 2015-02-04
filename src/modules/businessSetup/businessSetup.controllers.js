@@ -242,6 +242,7 @@ angular.module('businessSetup.controllers', [])
                 repeatFrequency: null
             },
             booking: {
+                isOnlineBookable: false,
                 studentCapacity: null
             },
             presentation: {
