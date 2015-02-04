@@ -223,7 +223,7 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.$watch('item.repetition.sessionCount', function(newVal){
-            if($scope.item && newVal < 2){
+            if($scope.item && newVal < 2 && $scope.item.pricing){
                 $scope.item.pricing.coursePrice = null;
             }
         });
@@ -246,10 +246,6 @@ angular.module('businessSetup.controllers', [])
             },
             presentation: {
                 colour: 'green'
-            },
-            pricing: {
-                sessionPrice: 0,
-                coursePrice: null
             }
         }
     );
