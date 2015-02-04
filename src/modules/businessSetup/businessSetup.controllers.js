@@ -61,7 +61,6 @@ angular.module('businessSetup.controllers', [])
 
             $scope.saveItem = function(location){
                 var formValid = CRUDService.validateForm($scope);
-                formValid = checkDuplicates(formValid);
                 if( formValid ){
                     CRUDService.update('Locations', $scope, location);
                 }
@@ -71,17 +70,14 @@ angular.module('businessSetup.controllers', [])
                 CRUDService.cancelEdit($scope);
             };
 
-            var checkDuplicates = function(valid){
-                var name = $scope.item.name;
-                var address = $scope.item.address;
-                if( _.find($scope.itemList, {name: name}) ){
+
+            $scope.$watch('item.name', function(newVal){
+                if( _.find($scope.itemList, {name: newVal}) ){
                     $scope.itemForm.name.$setValidity('duplicatename', false);
-                    valid = false;
                 } else {
                     $scope.itemForm.name.$setValidity('duplicatename', true);
                 }
-                return valid;
-            };
+            });
 
             CRUDService.get('Locations', $scope);
     }])
@@ -109,27 +105,22 @@ angular.module('businessSetup.controllers', [])
 
         $scope.saveItem = function(coach){
             var formValid = CRUDService.validateForm($scope);
-                formValid = checkDuplicates(formValid);
             if( formValid ){
                 CRUDService.update('Coaches', $scope, coach);
             }
         };
 
-        var checkDuplicates = function(valid){
-            var firstName = $scope.item.firstName;
-            var lastName = $scope.item.lastName;
-            if( _.find($scope.itemList, {firstName: firstName}) ){
+        $scope.$watchGroup(['item.firstName', 'item.lastName'], function(newValues){
+            var firstName = newValues[0];
+            var lastName  = newValues[1];
+            if( _.find($scope.itemList, {firstName: firstName, lastName: lastName}) ){
                 $scope.itemForm.firstName.$setValidity('duplicatename', false);
-                valid = false;
-            } else if( _.find($scope.itemList, {lastName: lastName}) ){
                 $scope.itemForm.lastName.$setValidity('duplicatename', false);
-                valid = false;
             } else {
                 $scope.itemForm.firstName.$setValidity('duplicatename', true);
                 $scope.itemForm.lastName.$setValidity('duplicatename', true);
             }
-            return valid;
-        };
+        });
 
         CRUDService.get('Coaches', $scope);
     }])
@@ -201,7 +192,6 @@ angular.module('businessSetup.controllers', [])
 
         $scope.saveItem = function(service){
             var formValid = CRUDService.validateForm($scope);
-                formValid = checkDuplicates(formValid);
             if( formValid ){
                 CRUDService.update('Services', $scope, service);
             }
@@ -211,16 +201,13 @@ angular.module('businessSetup.controllers', [])
             CRUDService.cancelEdit($scope);
         };
 
-        var checkDuplicates = function(valid){
-            var serviceName = $scope.item.name;
-            if( _.find($scope.itemList, {name: serviceName}) ){
+        $scope.$watch('item.name', function(newVal){
+            if( _.find($scope.itemList, {name: newVal}) ){
                 $scope.itemForm.name.$setValidity('duplicatename', false);
-                valid = false;
             } else {
                 $scope.itemForm.name.$setValidity('duplicatename', true);
             }
-            return valid;
-        };
+        });
 
         $scope.$watch('item.repetition.sessionCount', function(newVal){
             if($scope.item && newVal < 2 && $scope.item.pricing){
@@ -229,7 +216,6 @@ angular.module('businessSetup.controllers', [])
         });
 
         CRUDService.get('Services', $scope);
-
     }])
     .value('serviceDefaults', {
             name: undefined,

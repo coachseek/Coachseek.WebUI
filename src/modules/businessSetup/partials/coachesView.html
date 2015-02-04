@@ -20,7 +20,7 @@
             <label name="firstName">{{'person-details.first-name' | i18next}}</label>
             <input name="firstName" ng-model="item.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
 
-            <div class="error-messages" ng-messages="itemForm.firstName.$error" ng-if="itemForm.firstName.$touched">
+            <div class="error-messages" ng-messages="itemForm.firstName.$error || itemForm.lastName.$error" ng-if="itemForm.firstName.$touched || itemForm.lastName.$touched">
                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                 <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                 <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
@@ -31,10 +31,10 @@
             <label name="lastName">{{'person-details.last-name' | i18next}}</label>
             <input name="lastName" ng-model="item.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
 
-            <div class="error-messages" ng-messages="itemForm.lastName.$error" ng-if="itemForm.lastName.$touched">
+            <div class="error-messages" ng-messages="itemForm.firstName.$error || itemForm.lastName.$error" ng-if="itemForm.firstName.$touched || itemForm.lastName.$touched">
                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                 <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename"><i class='fa fa-2x fa-times'></i></div>
             </div>
         </div>
 

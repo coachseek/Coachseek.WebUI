@@ -224,13 +224,19 @@ describe('bussinessSetup Services', function(){
                     });
                 });
                 describe('when the name already exists', function(){
-                    beforeEach(function(){
-                        scope.itemList.push(angular.copy(self.service));
-                        $serviceItemView.find('.save-button').trigger('click');
-                    });
                     it('should display an alert', function(){
+                        // have to change name to get $watch to run otherwise
+                        // it recognizes that the name hasn't changed and doesn't run
+                        scope.itemList.push(this.service);
+                        scope.item.name = "Interim";
+                        scope.$digest();
+
+                        scope.item.name = "Test";
+                        scope.$digest();
+                        $serviceItemView.find('.save-button').trigger('click');
+
                         expect($rootScope.alerts[0].type).to.equal('warning');
-                        expect($rootScope.alerts[0].message).to.equal('businessSetup:service-already-exists');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
                     });
                 });
                 describe('when the name is new', function(){

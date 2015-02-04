@@ -156,18 +156,21 @@ describe('bussinessSetup Locations', function(){
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
                         });
                     });
-                    describe('when the studentCapacity is invalid', function(){
-                        
-                    });
                 });
                 describe('when the name already exists', function(){
-                    beforeEach(function(){
-                        scope.itemList.push(angular.copy(this.location));
-                        $locationItemView.find('.save-button').trigger('click');
-                    });
                     it('should display an alert', function(){
+                        // have to change name to get $watch to run otherwise
+                        // it recognizes that the name hasn't changed and doesn't run
+                        scope.itemList.push(this.location);
+                        scope.item.name = "Interim";
+                        scope.$digest();
+
+                        scope.item.name = "Test";
+                        scope.$digest();
+                        $locationItemView.find('.save-button').trigger('click');
+
                         expect($rootScope.alerts[0].type).to.equal('warning');
-                        expect($rootScope.alerts[0].message).to.equal('businessSetup:location-already-exists');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:name-invalid');
                     });
                 });
                 describe('when the name is new', function(){

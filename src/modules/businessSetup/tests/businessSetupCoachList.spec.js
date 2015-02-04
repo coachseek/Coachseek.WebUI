@@ -189,13 +189,24 @@ describe('BusinessSetup Coach List', function(){
                     });
                 });
                 describe('when the coach name already exists', function(){
-                    beforeEach(function(){
-                        scope.itemList.push(angular.copy(this.coach));
-                        $coachEditView.find('.save-button').trigger('click');
-                    });
                     it('should display an alert', function(){
+                        // have to change name to get $watch to run otherwise
+                        // it recognizes that the name hasn't changed and doesn't run
+                        scope.itemList.push(this.coach);
+                        scope.item.firstName = "Interim";
+                        scope.item.lastName = "Guy";
+                        scope.$digest();
+
+                        scope.item.firstName = "Test";
+                        scope.item.lastName = "User";
+                        scope.$digest();
+
+                        $coachEditView.find('.save-button').trigger('click');
+
                         expect($rootScope.alerts[0].type).to.equal('warning');
-                        expect($rootScope.alerts[0].message).to.equal('businessSetup:name-already-exists');
+                        expect($rootScope.alerts[0].message).to.equal('businessSetup:firstName-invalid');
+                        expect($rootScope.alerts[1].type).to.equal('warning');
+                        expect($rootScope.alerts[1].message).to.equal('businessSetup:lastName-invalid');
                     });
                 });
                 describe('when the coach name is new', function(){
