@@ -1,3 +1,8 @@
 {
-    "services-title": "Services"
+    "services-title": "Services",
+    "no-services": {
+    	"start": "Oops! Looks like you need head on over to ",
+    	"nav-to-services": "Services",
+    	"end": " and set some up real quick."
+    }
 }

@@ -1,5 +1,10 @@
 <div class="services-list">
-<h4>{{'scheduling:services-title' | i18next}}</h4>
+<h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
+    <div class="no-services-message" ng-show="serviceList.length === 0">
+        {{'scheduling:no-services.start' | i18next}}
+        <a class="nav-to-services" ui-sref="businessSetup.services">{{'scheduling:no-services.nav-to-services' | i18next}}</a>
+        {{'scheduling:no-services.end' | i18next}}
+    </div>
     <ul>
         <li 
             data-drag="true"
@@ -8,12 +13,14 @@
             jqyoui-draggable
             data-jqyoui-options="{revert: onRevert, revertDuration: 0}" 
             class="service-details" 
-            ng-repeat="item in itemList | orderBy:'name'">
-                <i class="fa fa-lg fa-bars"></i>
+            ng-repeat="item in serviceList | orderBy:'name'">
+                <i class="fa fa-bars"></i>
                 <span class="colour-circle {{item.presentation.colour}}"></span>
                 <h5 class="service-name">{{item.name}}</h5>
-                <p class="service-description">{{item.description}}</p>
         </li>
     </ul>
 </div>
-<div class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+<div class="calendar-loading" ng-show="AILoading">
+    <activity-indicator></activity-indicator>
+</div>
+<div  class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" ></div>
