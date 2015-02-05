@@ -30,7 +30,9 @@ angular.module('businessSetup.controllers', [])
             CRUDService.cancelEdit($scope);
         };
 
-        CRUDService.get('getBusiness', $scope);
+        $scope.itemList = [];
+        $scope.createItem();
+        // CRUDService.get('BusinessRegistration', $scope);
     }])
     .value('businessDefaults', {
             business: {

@@ -1,4 +1,4 @@
-describe('Scheduling Module', function() {
+describe.only('Scheduling Module', function() {
 
     var templateUrl = 'scheduling/partials/schedulingView.html';
     describe('when navigating to scheduling', function(){
