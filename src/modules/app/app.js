@@ -40,7 +40,7 @@ angular.module('app',
     .config(['$httpProvider', function($httpProvider) {
         //TEMP AUTH CREDENTIALS
         //TODO - REMOVE WHEN WE HAVE SESSIONS AND CAN SET AUTH THERE
-        $httpProvider.defaults.headers.common['Authorization'] = 'Basic d29ya0BuaW93LmNvbTpkYWRkZGRm';
+        $httpProvider.defaults.headers.common['Authorization'] = 'Basic ckBsb2IuY29tOmxramFsZHNk';
     }])
     .run(['$rootScope', '$state', '$stateParams',
         function($rootScope, $stateParams, $state, editableOptions){
