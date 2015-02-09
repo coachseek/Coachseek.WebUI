@@ -45,7 +45,7 @@
         }
 
         .time-picker-container{
-            height: 95px;
+            height: 120px;
             width: 445px;
             margin-left: -75px;
             -webkit-transition:all linear 0.3s;
@@ -62,10 +62,16 @@
             .hours, .minutes, .semi-colon{
                 overflow: hidden;
                 display: inline-block;
+                font-size: 20px;
+                width: 40px;
+                height: 85px;
+                cursor: pointer;
             }
 
             .semi-colon{
-                height: 40px;
+                line-height: 77.5px;
+                font-size: 30px;
+                vertical-align: top;
             }
 
             .button-container{
