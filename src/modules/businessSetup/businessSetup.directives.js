@@ -77,7 +77,15 @@ angular.module('businessSetup.directives', [])
 			replace: false,
 			templateUrl: 'businessSetup/partials/timeSlot.html',
             link: function(scope){
-                scope.weekdays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                scope.weekdays = [
+                    'monday', 
+                    'tuesday', 
+                    'wednesday', 
+                    'thursday', 
+                    'friday', 
+                    'saturday', 
+                    'sunday'
+                ];
             }
 		};
 	})
@@ -94,6 +102,8 @@ angular.module('businessSetup.directives', [])
                     scope.time = newVal;
                     if(scope.time){
                         var timeArray = scope.time.split(":");
+                        scope.displayHours = timeArray[0];
+                        scope.displayMinutes = timeArray[1];
                         scope.hours = parseFloat(timeArray[0]);
                         scope.minutes = parseFloat(timeArray[1]);
                     }
@@ -150,6 +160,14 @@ angular.module('businessSetup.directives', [])
                     setTime();
                 };
 
+                scope.cancelEdit = function(){
+                    scope.$emit('closeTimePicker', true);
+                }
+
+                scope.saveEdit = function(){
+                    scope.$emit('closeTimePicker', false);
+                }
+
                 /* Displays minutes */
                 var displayMinutes = function () {
                     return scope.minutes <= 9 ? "0" + scope.minutes : scope.minutes;
@@ -157,27 +175,33 @@ angular.module('businessSetup.directives', [])
 
                 var setTime = function(){
                     var minutesString = displayMinutes();
+                    scope.displayHours = scope.hours;
+                    scope.displayMinutes = minutesString;
                     scope.time = scope.hours + ":" + minutesString;
                 };
             }
         };
     })
-    .directive('timeRangePicker', function(){
+    .directive('timeRangePicker', ['$rootScope', function($rootScope){
         return {
             replace: false,
             scope: {
-                start: "=",
-                finish: "=",
-                available: "="
+                workingHours: "="
             },
             templateUrl: 'businessSetup/partials/timeRangePicker.html',
             require: 'ngModel',
-            link: function(scope, elm, attrs, ctrl) {
-                scope.$watchGroup(['start', 'finish', 'available'], function(newValues, oldValues, scope){
-                    if(newValues[0] && newValues[1]) {
-                        var startTime = timeStringToObject(newValues[0]);
-                        var finishTime = timeStringToObject(newValues[1]);
-                        if(newValues[2] === false || startTime.hours < finishTime.hours) {
+            link: function(scope, elem, attrs, ctrl) {
+                var workingHoursCopy;
+                var $timePickerContainer = angular.element(elem.find('.time-picker-container'));
+                scope.currentTime = null;
+
+                scope.$watchCollection('workingHours', function(newValues){
+                    if(newValues) {
+                        var startTime = timeStringToObject(newValues.startTime);
+                        var finishTime = timeStringToObject(newValues.finishTime);
+                        if(newValues.isAvailable === false || 
+                                        (startTime.hours === finishTime.hours && startTime.minutes < finishTime.minutes) ||
+                                        startTime.hours < finishTime.hours) {
                             ctrl.$setValidity('timeRange', true);
                         } else if( (startTime.hours === finishTime.hours && startTime.minutes >= finishTime.minutes) || 
                                         startTime.hours > finishTime.hours ){
@@ -195,6 +219,32 @@ angular.module('businessSetup.directives', [])
 
                     return time;
                 };
+
+                scope.editTime = function(currentTime){
+                    if(scope.currentTime === null) {
+                        workingHoursCopy = angular.copy(scope.workingHours);
+                    }
+                    scope.currentTime = currentTime;
+                    scope.editingTime = true;
+                };
+
+                scope.$on('closeTimePicker', function(event, resetTime){
+                    if(!ctrl.$valid && !resetTime){
+                        $rootScope.addAlert({
+                            type: 'warning',
+                            message: 'businessSetup:timeRange-invalid'
+                        });
+                    } else {
+                        if(resetTime && workingHoursCopy){
+                            scope.workingHours = workingHoursCopy;
+                        } 
+                        scope.editingTime = false;
+                        $timePickerContainer.one('$animate:after', function(){
+                            workingHoursCopy = null;
+                            scope.currentTime = null;
+                        });
+                    }
+                });
             }
         };
-    });
+    }]);

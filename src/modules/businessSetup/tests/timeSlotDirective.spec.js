@@ -21,10 +21,14 @@ describe('timeSlot directive', function(){
                 workingHours: {
                      monday: this.monday,
                      tuesday: {
-                         isAvailable: false
+                        startTime: '11:00',
+                        finishTime: '12:00',
+                        isAvailable: false 
                      }, 
                      wednesday: {
-                         isAvailable: true
+                        startTime: '11:00',
+                        finishTime: '12:00',
+                        isAvailable: true
                      }
                  }
         };
@@ -37,6 +41,110 @@ describe('timeSlot directive', function(){
     });
     it('should have as many entries as days', function(){
         expect($weekdays.length).to.equal(7);
+    });
+
+    describe('when clicking on the start time to edit', function(){
+        
+        let('monday', function(){
+            return { 
+                isAvailable: true,
+                startTime: '11:30',
+                finishTime: '12:15'
+            }
+        });
+
+        beforeEach(function(){
+            $monday.find('.time-picker-time.start').trigger('click');
+        });
+        it('should show the time picker with the clicked time', function(){
+            var $timePicker = $monday.find('.time-picker');
+            var timeArray = this.monday.startTime.split(":");
+
+            expect($monday.find('.time-picker-container').hasClass('ng-hide')).to.be.false;
+            expect($timePicker.find('.hours .display').text().trim()).to.equal(timeArray[0]);
+            expect($timePicker.find('.minutes .display').text().trim()).to.equal(timeArray[1]);
+        });
+        describe('when clicking on the end time to edit', function(){
+            it('should change the timepicker to the other time', function(){
+                $monday.find('.time-picker-time.finish').trigger('click');
+
+                var $timePicker = $monday.find('.time-picker');
+                var timeArray = this.monday.finishTime.split(":");
+
+                expect($monday.find('.time-picker-container').hasClass('ng-hide')).to.be.false;
+                expect($timePicker.find('.hours .display').text().trim()).to.equal(timeArray[0]);
+                expect($timePicker.find('.minutes .display').text().trim()).to.equal(timeArray[1]);
+            });
+        });
+        describe('when clicking the save button', function(){
+            describe('when the time range is valid', function(){
+                it('should hide the timepicker', function(){
+                    $monday.find('.time-picker-save-button').trigger('click');
+
+                    expect($monday.find('.time-picker-container').hasClass('ng-hide')).to.be.true;
+                });
+            });
+            describe('when the time range is NOT valid', function(){
+                beforeEach(function(){
+                    scope.item.workingHours.monday.startTime = "9:00";
+                    scope.item.workingHours.monday.finishTime = "8:00";
+                    scope.$digest();
+
+                    $monday.find('.time-picker-save-button').trigger('click');
+                })
+                it('should not hide the timepicker', function(){
+                    expect($monday.find('.time-picker-container').hasClass('ng-hide')).to.be.false;
+                });
+                it('should display an error message', function(){
+                    expect($rootScope.alerts[0].type).to.equal('warning');
+                    expect($rootScope.alerts[0].message).to.equal('businessSetup:time-range-invalid');
+                });
+            });
+        });
+        describe('when clicking the cancel button', function(){
+            var mondayCopy;
+            beforeEach(function(){
+                mondayCopy = angular.copy(this.monday);
+            });
+            describe('when the time range is valid', function(){
+                beforeEach(function(){
+                    scope.item.workingHours.monday.startTime = "09:00";
+                    scope.$digest();
+
+                    $monday.find('.time-picker-cancel-button').trigger('click');
+                });
+                it('should reset both time ranges', function(){
+                    var $timePicker = $monday.find('.time-picker');
+                    var timeArray = mondayCopy.startTime.split(":");
+
+                    expect($timePicker.find('.hours .display').text().trim()).to.equal(timeArray[0]);
+                    expect($timePicker.find('.minutes .display').text().trim()).to.equal(timeArray[1]);
+                });
+                it('should hide the time picker', function(){
+                    expect($monday.find('.time-picker-container').hasClass('ng-hide')).to.be.true;
+                });
+            });
+            describe('when the time range is NOT valid', function(){
+                beforeEach(function(){
+                    scope.item.workingHours.monday.startTime = "9:00";
+                    scope.item.workingHours.monday.finishTime = "8:00";
+                    scope.$digest();
+
+                    $monday.find('.time-picker-cancel-button').trigger('click');
+                })
+                it('should reset both time ranges', function(){
+                    var $timePicker = $monday.find('.time-picker');
+                    var timeArray = mondayCopy.startTime.split(":");
+
+                    expect($timePicker.find('.hours .display').text().trim()).to.equal(timeArray[0]);
+                    expect($timePicker.find('.minutes .display').text().trim()).to.equal(timeArray[1]);
+                });
+                it('should hide the time picker', function(){
+                    expect($monday.find('.time-picker-container').hasClass('ng-hide')).to.be.true;
+                });
+            });
+
+        });
     });
 
     describe('when clicking on the toggle available switch', function(){
@@ -102,20 +210,31 @@ describe('timeSlot directive', function(){
         describe('when there is negative time between the times', function(){
             it('the day should be invalid', function(){
                 scope.item.workingHours.monday.startTime = "12:00";
-                scope.$apply();
+                scope.$digest();
 
                 var $mondayTimeRange = $testRegion.find('time-range-picker').first();
                 expect($mondayTimeRange.hasClass('ng-invalid')).to.be.true;                
             });
         });
         describe('when there is ample time between times', function(){
-            it('the day should be vaild', function(){
-                scope.item.workingHours.monday.startTime = "9:00";
-                scope.$apply();
+            describe('and the hour is the same', function(){
+                it('the day should be vaild', function(){
+                    scope.item.workingHours.monday.startTime = "11:00";
+                    scope.$digest();
 
-                var $mondayTimeRange = $testRegion.find('time-range-picker').first();
-                expect($mondayTimeRange.hasClass('ng-invalid')).to.be.false;                
-            });  
+                    var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                    expect($mondayTimeRange.hasClass('ng-invalid')).to.be.false;                
+                });
+            });
+            describe('and the hour is different', function(){
+                it('the day should be vaild', function(){
+                    scope.item.workingHours.monday.startTime = "9:00";
+                    scope.$digest();
+
+                    var $mondayTimeRange = $testRegion.find('time-range-picker').first();
+                    expect($mondayTimeRange.hasClass('ng-invalid')).to.be.false;                
+                });  
+            });
         })
     });
 });

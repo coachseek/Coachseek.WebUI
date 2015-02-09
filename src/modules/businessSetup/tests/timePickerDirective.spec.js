@@ -16,7 +16,7 @@ describe('timePicker directive', function(){
         });
         describe('when clicking the increase hour button', function(){
             beforeEach(function(){
-                var $increaseHour = $testRegion.find('.increase .hours');
+                var $increaseHour = $testRegion.find('.hours .increase');
                 $increaseHour.trigger('click');
             });
             it('should add an hour to the set time', function(){
@@ -36,7 +36,7 @@ describe('timePicker directive', function(){
         });
         describe('when clicking the decrease hour button', function(){
             beforeEach(function(){
-                var $decreaseHour = $testRegion.find('.decrease .hours');
+                var $decreaseHour = $testRegion.find('.hours .decrease');
                 $decreaseHour.trigger('click');
             });
             it('should subtract an hour to the set time', function(){
@@ -55,7 +55,7 @@ describe('timePicker directive', function(){
         });
         describe('when clicking the increase minute button', function(){
             beforeEach(function(){
-                var $increaseMinute = $testRegion.find('.increase .minutes');
+                var $increaseMinute = $testRegion.find('.minutes .increase');
                 $increaseMinute.trigger('click');
             });
             it('should increase the time by 15 minutes', function(){
@@ -79,7 +79,7 @@ describe('timePicker directive', function(){
             });
 
             beforeEach(function(){
-                var $decreaseMinute = $testRegion.find('.decrease .minutes');
+                var $decreaseMinute = $testRegion.find('.minutes .decrease');
                 $decreaseMinute.trigger('click');
             });
             it('should reduce the time by 15 minutes', function(){

@@ -102,12 +102,14 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.cancelEdit = function(){
+            $scope.$broadcast('closeTimePicker', true);
             CRUDService.cancelEdit($scope);
         };
 
         $scope.saveItem = function(coach){
             var formValid = CRUDService.validateForm($scope);
             if( formValid ){
+                $scope.$broadcast('closeTimePicker', false);
                 CRUDService.update('Coaches', $scope, coach);
             }
         };

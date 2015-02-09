@@ -77,7 +77,7 @@
 	"name-invalid": "Oops! Name is invalid. Try again.",
 	"email-invalid": "Oops! Email is invalid. Try again.",
 	"phone-invalid": "Oops! Phone number is invalid. Try again.",
-	"timeRange-invalid": "Oops! One of your time ranges is wrong. Try again.",
+	"timeRange-invalid": "Oops! Looks like one of your time ranges is wrong. Fix that up or cancel.",
 	"studentCapacity-invalid": "Oops! Looks like you need to add some digits to your Student Capacity. Try again.",
 	"sessionPrice-invalid": "Oops! Looks like your Session Price isn't a price. Try again.",
 	"coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
