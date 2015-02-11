@@ -105,7 +105,7 @@
             height: 30px;
             top: 20px;
             position: absolute;
-            background: $light-grey;
+            background: #F5F5F5;
 
             &.coach-list{
                 left: 10px;
@@ -162,8 +162,8 @@
             }
 
             .fc-center{
-                position: relative;
-                float: right;
+                position: absolute;
+                left: 35%;
 
                 button{
                     position: absolute;

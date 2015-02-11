@@ -12,7 +12,7 @@ angular.module('scheduling.controllers', [])
                     droppable: true,
                     allDaySlot: false,
                     firstDay: 1,
-                    aspectRatio: 1,
+                    // aspectRatio: 1,
                     snapDuration: '00:15:00',
                     defaultView: 'agendaWeek',
                     eventDurationEditable: false,
