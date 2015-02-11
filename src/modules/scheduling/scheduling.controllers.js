@@ -1,17 +1,18 @@
 angular.module('scheduling.controllers', [])
     .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator',
         function($scope, $q, coachSeekAPIService, $activityIndicator){
-            var rangesLoaded = [];
 
+            var rangesLoaded = [];
             $scope.events = [];
             $scope.eventSources = [$scope.events];
+
             $scope.uiConfig = {
                 calendar:{
-                    height: 500,
                     editable: true,
                     droppable: true,
                     allDaySlot: false,
                     firstDay: 1,
+                    aspectRatio: 1,
                     snapDuration: '00:15:00',
                     defaultView: 'agendaWeek',
                     eventDurationEditable: false,
@@ -72,12 +73,12 @@ angular.module('scheduling.controllers', [])
                         // have been loaded and don't load those. must use month because it
                         // is the biggest denomination allowed by calendar. if using week/day 
                         // we load days/weeks twice when switching to month.
-                        var intervalStart = view.intervalStart.clone().startOf('month');
-                        var intervalEnd = view.intervalStart.clone().endOf('month');
-                        var newRange = moment().range(intervalStart, intervalEnd);
+                        $scope.intervalStart = view.intervalStart.clone().startOf('month');
+                        $scope.intervalEnd = view.intervalStart.clone().endOf('month');
+                        var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
 
                         if(intervalLoaded(newRange)){
-                            loadNewInterval(intervalStart, intervalEnd, newRange);
+                            loadInterval(newRange);
                         }
                     },
                     header:{
@@ -99,13 +100,15 @@ angular.module('scheduling.controllers', [])
                 return isNewRange;
             };
 
-            var loadNewInterval = function(intervalStart, intervalEnd, newRange){
+            var loadInterval = function(newRange){
                 // TODO? - how do we make this work for sessions that start before our
                 // interval but carry into the current day/week/month?
                 // GET sessions here
                 var getSessionsParams = {
-                    startDate: intervalStart.format('YYYY-MM-DD'),
-                    endDate: intervalEnd.format('YYYY-MM-DD'),
+                    startDate: $scope.intervalStart.format('YYYY-MM-DD'),
+                    endDate: $scope.intervalEnd.format('YYYY-MM-DD'),
+                    locationId: $scope.currentLocationId,
+                    coachId: $scope.currentCoachId,
                     section: 'Sessions'
                 };
 
@@ -113,7 +116,9 @@ angular.module('scheduling.controllers', [])
                 coachSeekAPIService.get(getSessionsParams)
                     .$promise.then(function(sessions){
                         addSessionsWithinInterval(sessions);
-                        rangesLoaded.push(newRange);
+                        if(newRange){
+                            rangesLoaded.push(newRange);
+                        }
                     }, function(error){
                         _.forEach(error.data, function(error){
                             $scope.addAlert({
@@ -201,15 +206,17 @@ angular.module('scheduling.controllers', [])
 
 
             var buildSessionObject = function(date, serviceData){
+                var currentLocation = _.find($scope.locationList, {id: $scope.currentLocationId})
+                var currentCoach = _.find($scope.coachList, {id: $scope.currentCoachId})
                 return {
                     service: serviceData,
                     location: {
-                        id: $scope.locationList[0].id,
-                        name: $scope.locationList[0].name
+                        id: currentLocation ? currentLocation.id : $scope.locationList[0].id,
+                        name: currentLocation ? currentLocation.name : $scope.locationList[0].name
                     },
                     coach: {
-                        id: $scope.coachList[0].id,
-                        name: $scope.coachList[0].name  
+                        id: currentCoach ? currentCoach.id : $scope.coachList[0].id,
+                        name: currentCoach ? currentCoach.name : $scope.coachList[0].name  
                     },
                     timing: {
                         startDate: date.format('YYYY-MM-DD'),
@@ -220,6 +227,13 @@ angular.module('scheduling.controllers', [])
                         studentCapacity: 1
                     }
                 };
+            };
+
+            $scope.filterSessions = function(){
+                // Clear All Calendar Events
+                // TODO - figure out how to get calendar element from Dependency Injection
+                $('#session-calendar').fullCalendar('removeEvents')
+                loadInterval();
             };
 
             // HELPER FUNCTIONS
@@ -247,14 +261,14 @@ angular.module('scheduling.controllers', [])
                     // prevent drops from happening while loading
                     $scope.calendarView.calendar.options.droppable = false;
                     $scope.$calendarElement.droppable( "option", "disabled", true );
-                    $activityIndicator.startAnimating();
+                    $scope.calendarLoading = true;
                 }
             };
 
             var stopCalendarLoading = function(view, $element){
                 $scope.$calendarElement.droppable( "option", "disabled", false );
                 $scope.calendarView.calendar.options.droppable = true;
-                $activityIndicator.stopAnimating();
+                $scope.calendarLoading = false;
             };
 
             // INITIAL LOAD

@@ -80,10 +80,8 @@
     .calendar-loading{
         width: 72.5%;
         right: 0;
-        top: 0;
-        position: absolute;
-        height: 500px;
-        float: right;
+        position: fixed;
+        height: 100%;
         z-index: 50000;
         background: $light-grey-50;
 
@@ -96,45 +94,105 @@
         }
     }
 
-    .calendar{
-        width: 72.5%;
-        float: right;
+    .calendar-container{
         background: $white;
+        float: left;
+        width: 72.5%;
+        position: relative;
 
-        
-        button, button:active{
-            outline: none;
-        }
+        .dropdown-container{
+            width: 100px;
+            height: 30px;
+            top: 20px;
+            position: absolute;
+            background: $light-grey;
 
-        .fa-lg{
-            font-size: 2.3em;
-        }
-
-        .fc-right{
-            .fc-button{
-                padding: 0 10px;
+            &.coach-list{
+                left: 10px;
             }
-            .fc-today-button{
-                margin: 0 15px;
+            &.location-list{
+                left: 120px;
+            }
+
+            select{
+                padding: 5px 20px 5px 5px;
+                border: none;
+                box-shadow: none;
+                background: transparent;
+                background-image: none;
+                -webkit-appearance: none;
+                cursor: pointer;
+                text-align: center;
+                width: 100%;
+
+                &:focus{
+                    outline: none;
+                }
+            }
+
+            i{
+                @extend %vertical-align;
+                position: absolute;
+                right: 5px;
+                pointer-events: none;
             }
         }
 
-        .fc-event {
-            @extend %service-background-colors;
-            @extend %service-border-colors;
-        }
+        .calendar{
+            /*width: 100%;*/
+            /*position: fixed;*/
+            /*height: 100%;*/
+            /*right: 0;*/
 
-        .fc-toolbar{
-            margin: 20px 0;
-        }
+            button, button:active{
+                outline: none;
+            }
 
-/*        .fc-today{
-            background: none;
-            border: 2px solid $green;
-        }*/
+            .fa-lg{
+                font-size: 2.3em;
+            }
 
-        .fc-highlight{
-            background: $green;
+            .fc-right{
+                .fc-button{
+                    padding: 0 10px;
+                }
+                .fc-today-button{
+                    margin: 0 15px;
+                }
+            }
+
+            .fc-center{
+                position: relative;
+                float: right;
+
+                button{
+                    position: absolute;
+                }
+                .fc-prev-button{
+                    left: -10px;
+                }
+                .fc-next-button{
+                    right: -10px;
+                }
+            }
+
+            .fc-event {
+                @extend %service-background-colors;
+                @extend %service-border-colors;
+            }
+
+            .fc-toolbar{
+                margin: 20px 0;
+            }
+
+    /*        .fc-today{
+                background: none;
+                border: 2px solid $green;
+            }*/
+
+            .fc-highlight{
+                background: $green;
+            }
         }
     }
 }

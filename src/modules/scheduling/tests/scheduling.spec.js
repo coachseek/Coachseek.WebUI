@@ -245,12 +245,12 @@ describe('Scheduling Module', function() {
             });
         });
         describe('while services are loading', function(){
-            // let('servicesPromise', function(){
-            //     return $q.defer().promise;
-            // });
-            // it('should not allow the calendar to exist', function(){
-            //     expect($calendar.length).to.equal(0);
-            // });
+            let('servicesPromise', function(){
+                return $q.defer().promise;
+            });
+            it('should not allow the calendar to exist', function(){
+                expect($calendar.length).to.equal(0);
+            });
         });
         it('should attempt to get existing services, locations, and coaches', function(){
             expect(getStub).to.be.calledWith({section: 'Coaches'})
@@ -279,6 +279,8 @@ describe('Scheduling Module', function() {
                 var getSessionsParams = {
                     startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
                     endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    locationId: '',
+                    coachId: '',
                     section: 'Sessions'
                 };
                 expect(getStub).to.be.calledWith(getSessionsParams);
@@ -326,6 +328,8 @@ describe('Scheduling Module', function() {
                         var getSessionsParams = {
                             startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
                             endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                            locationId: '',
+                            coachId: '',
                             section: 'Sessions'
                         };
                         expect(getStub).to.be.calledWith(getSessionsParams);

@@ -20,7 +20,28 @@
         </li>
     </ul>
 </div>
-<div class="calendar-loading" ng-show="AILoading">
-    <activity-indicator></activity-indicator>
+
+<div class="calendar-loading" ng-show="AILoading || calendarLoading">
+    <div class="indicator-container">
+        <div class='outer-logo'></div>
+        <div ng-class="{active: AILoading || calendarLoading}" class='inner-logo'></div>
+    </div>
 </div>
-<div ng-if="serviceList" class="calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" ></div>
+
+<div class="calendar-container">
+    <div class="dropdown-container coach-list">
+        <select ng-init="currentCoachId=''" ng-change="filterSessions()" name="coaches" ng-model="currentCoachId">
+            <option value="">{{'scheduling:all-coaches' | i18next}}</option>
+            <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
+        </select>
+        <i class="fa fa-caret-down"></i>
+    </div>
+    <div class="dropdown-container location-list">
+        <select ng-init="currentLocationId=''" ng-change="filterSessions()" name="locations" ng-model="currentLocationId">
+            <option value="">{{'scheduling:all-locations' | i18next}}</option>
+            <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
+        </select>
+        <i class="fa fa-caret-down"></i>
+    </div>
+    <div ng-if="serviceList" class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" ></div>
+</div>
