@@ -1,10 +1,10 @@
 angular.module('businessSetup.controllers', [])
-    .controller('businessCtrl', ['$rootScope', '$scope', 'CRUDService', 'businessDefaults', '$http',
-        function($rootScope, $scope, CRUDService, businessDefaults, $http){
+    .controller('businessCtrl', ['$rootScope', '$scope', 'CRUDService', '$http',
+        function($rootScope, $scope, CRUDService, $http){
 
         $scope.createItem = function(){
             $scope.newItem = true;
-            $scope.item = angular.copy(businessDefaults);
+            $scope.item = {};
         };
 
         $scope.editItem = function(business){
@@ -34,24 +34,12 @@ angular.module('businessSetup.controllers', [])
         $scope.createItem();
         // CRUDService.get('BusinessRegistration', $scope);
     }])
-    .value('businessDefaults', {
-            business: {
-                name: undefined
-            },
-            admin: {
-                firstName: undefined,
-                lastName: undefined,
-                email: undefined,
-                password: undefined
-            }
-        }
-    )
-    .controller('locationsCtrl', ['$scope', 'CRUDService', 'locationDefaults',
-        function($scope, CRUDService, locationDefaults){
+    .controller('locationsCtrl', ['$scope', 'CRUDService',
+        function($scope, CRUDService){
 
             $scope.createItem = function(){
                 $scope.newItem = true;
-                $scope.item = angular.copy(locationDefaults);
+                $scope.item = {};
             };
 
             $scope.editItem = function(location){
@@ -83,10 +71,6 @@ angular.module('businessSetup.controllers', [])
 
             CRUDService.get('Locations', $scope);
     }])
-    .value('locationDefaults', {
-            name: undefined
-        }
-    )
     .controller('coachesCtrl', ['$scope', 'CRUDService', 'coachDefaults',
         function ($scope, CRUDService, coachDefaults) {
 
@@ -129,12 +113,6 @@ angular.module('businessSetup.controllers', [])
         CRUDService.get('Coaches', $scope);
     }])
     .value('coachDefaults', {
-            businessId: undefined,
-            id: undefined,
-            firstName: undefined,
-            lastName: undefined,
-            email: undefined,
-            phone: undefined,
             workingHours: {
                 monday: { 
                     isAvailable: true,
@@ -222,18 +200,11 @@ angular.module('businessSetup.controllers', [])
         CRUDService.get('Services', $scope);
     }])
     .value('serviceDefaults', {
-            name: undefined,
-            description: null,
             timing: {
                 duration: 15
             },
             repetition: {
-                sessionCount: 1,
-                repeatFrequency: null
-            },
-            booking: {
-                isOnlineBookable: false,
-                studentCapacity: null
+                sessionCount: 1
             },
             presentation: {
                 colour: 'green'

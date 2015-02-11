@@ -63,9 +63,9 @@ describe('repeatSelector directive', function(){
                     expect($repeatCheckbox.attr('checked')).to.equal(undefined);
                 });
                 it('should set the repeat frequency to null', function(){
-                    //TODO – is this correct? Angular puts ? object:null ? if it
+                    //TODO – is this correct? Angular puts ? undefined:undefined ? if it
                     //      does not detect a null value in a select element
-                    expect($repeatFrequency.val()).to.equal('? object:null ?');
+                    expect($repeatFrequency.val()).to.equal('? undefined:undefined ?');
                 });
             });
         });
@@ -101,7 +101,7 @@ describe('repeatSelector directive', function(){
                 expect(scope.sessionCount).to.equal(1);
             });
             it('should set the repeatFrequency to null', function(){
-                expect(scope.repeatFrequency).to.equal(null);
+                expect(scope.repeatFrequency).to.equal(undefined);
             });
             it('should hide the frequency selector', function(){
                 expect($frequencySelector.hasClass('ng-hide')).to.be.true;
@@ -127,7 +127,7 @@ describe('repeatSelector directive', function(){
 
             describe('and the sessionCount is less than 2', function(){
                 beforeEach(function(){
-                    $sessionCount.val(null);
+                    $sessionCount.val(undefined);
                     angular.element($sessionCount).triggerHandler('change');
                 });
 

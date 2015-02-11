@@ -32,7 +32,6 @@ describe('BusinessSetup Business', function(){
 
     var $businessListView, 
         $businessItemView,
-        businessDefaults,
         getBusinessStub,
         self,
         coachSeekAPIService,
@@ -42,7 +41,6 @@ describe('BusinessSetup Business', function(){
     beforeEach(function(){
         self = this;
         coachSeekAPIService = $injector.get('coachSeekAPIService');
-        businessDefaults = $injector.get('businessDefaults');
         scope = $rootScope.$new();
 
         getBusinessStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
@@ -69,7 +67,7 @@ describe('BusinessSetup Business', function(){
             expect($businessItemView.hasClass('ng-hide')).to.be.false;
         });
         it('should set the list item to default value', function(){
-            expect(scope.item).to.eql(businessDefaults);
+            expect(scope.item).to.eql({});
         });
         it('should not show the cancel button', function(){
             expect($businessItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;

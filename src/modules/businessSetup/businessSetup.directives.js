@@ -18,7 +18,7 @@ angular.module('businessSetup.directives', [])
                         scope.isChecked = newVal > 1;
 
                         if(newVal < 2){
-                            scope.repeatFrequency = null;
+                            delete scope.repeatFrequency;
                         } else if(newVal > 1 && !scope.repeatFrequency){
                             scope.repeatFrequency = 'd';
                         }
