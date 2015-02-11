@@ -97,7 +97,7 @@ describe('timeSlot directive', function(){
                 });
                 it('should display an error message', function(){
                     expect($rootScope.alerts[0].type).to.equal('warning');
-                    expect($rootScope.alerts[0].message).to.equal('businessSetup:time-range-invalid');
+                    expect($rootScope.alerts[0].message).to.equal('businessSetup:timeRange-invalid');
                 });
             });
         });
@@ -220,6 +220,7 @@ describe('timeSlot directive', function(){
             describe('and the hour is the same', function(){
                 it('the day should be vaild', function(){
                     scope.item.workingHours.monday.startTime = "11:00";
+                    scope.item.workingHours.monday.finishTime = "11:30";
                     scope.$digest();
 
                     var $mondayTimeRange = $testRegion.find('time-range-picker').first();
