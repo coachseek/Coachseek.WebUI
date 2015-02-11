@@ -175,7 +175,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-merge-json');
     grunt.loadNpmTasks('grunt-plato');
-    grunt.loadNpmTasks('grunt-devserver');
 
     // Default task(s).
     grunt.registerTask('default', [
