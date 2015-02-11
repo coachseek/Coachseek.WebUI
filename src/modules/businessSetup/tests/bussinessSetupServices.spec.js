@@ -126,7 +126,7 @@ describe('bussinessSetup Services', function(){
                     scope.$digest();
                 });
                 it('should set the coursePrice to null', function(){
-                    expect(scope.item.pricing.coursePrice).to.equal(null);
+                    expect(scope.item.pricing.coursePrice).to.equal(undefined);
                 });
                 it('should hide the coursePrice field', function(){
                     expect($serviceItemView.find('.course-price').hasClass('ng-hide')).to.be.true;
