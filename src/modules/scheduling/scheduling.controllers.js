@@ -18,7 +18,7 @@ angular.module('scheduling.controllers', [])
                     top: 15,
                     left: 15
                 }
-            }
+            };
 
             $scope.dragstart = function(event){
                 $(event.target).addClass('dragging');
@@ -291,7 +291,7 @@ angular.module('scheduling.controllers', [])
                 if ($scope.currentSessionForm.locations.$viewValue){
                     return _.find($scope.locationList, {id: $scope.currentSessionForm.locations.$viewValue}).name;
                 }
-            }
+            };
 
             $scope.getSessionTimeRange = function(){
                 if($scope.currentSession){

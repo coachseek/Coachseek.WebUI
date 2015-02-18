@@ -33,7 +33,7 @@ angular.module('businessSetup.directives', [])
                         scope.sessionCount = 1;
                     }
                     scope.isFocused = false;
-                }
+                };
 
                 scope.toggleRepeatable = function(){
                     if(scope.sessionCount < 2){
@@ -162,11 +162,11 @@ angular.module('businessSetup.directives', [])
 
                 scope.cancelEdit = function(){
                     scope.$emit('closeTimePicker', true);
-                }
+                };
 
                 scope.saveEdit = function(){
                     scope.$emit('closeTimePicker', false);
-                }
+                };
 
                 /* Displays minutes */
                 var displayMinutes = function () {
