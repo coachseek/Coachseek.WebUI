@@ -93,7 +93,8 @@ module.exports = function(grunt) {
         sass: {
             build: {
                 options: {
-                    style: 'compressed'
+                    style: 'compressed',
+                    sourcemap: 'none'
                 },
                 files: {
                     'build/css/style.css': 'build/css/style.css'
@@ -119,12 +120,16 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            js: {
+            jsApp: {
                 files: [
                     'src/modules/**/*.js',
-                    '!srcAppc/modules/**/*.spec.js'
+                    '!src/modules/**/*.spec.js'
                 ],
                 tasks: ['newer:concat:srcApp', 'wrap']
+            },
+            jsLibs: {
+                files: ['src/libs/*.js'],
+                tasks: ['newer:concat:srcLibs']
             },
             css: {
                 files: ['src/modules/**/*.scss'],
