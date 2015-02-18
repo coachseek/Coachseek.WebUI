@@ -6,5 +6,21 @@
     	"end": " and set some up real quick."
     },
     "all-coaches": "All Coaches",
-    "all-locations": "All Locations"
+    "all-locations": "All Locations",
+    "coach": "Coach:",
+    "coaches": "Coaches",
+    "location": "Location:",
+    "locations": "Locations",
+    "service-details": {
+    	"duration": "Session duration:",
+    	"name": "Session name:"
+	},
+	"error": {
+		"coach-required": "Coach required.",
+		"location-required": "Location required."
+	},
+	"prompt": {
+		"coach": "Please specify a coach.",
+		"location": "Please specify a location."
+	}
 }

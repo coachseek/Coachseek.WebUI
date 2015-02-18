@@ -47,75 +47,12 @@
 		}
 	}
 
-	input, textarea{
-		border-radius: 5px;
-		border: 1px solid transparent;
-		color: $text-dark-grey;
-		padding: 5px 10px;
-		width: 100%;
-
-		&:focus{
-			outline: none;
-		}
-	}
-
-	label{
-		color: $text-grey;
-		font-size: 11px;
-		display: block;
-		padding: 2.5px 0px;
-	}
-
-	form{
-		margin-top: 20px;
-		margin-bottom: 10px;
-		overflow: hidden;
-		padding-bottom: 10px;
-
-		.form-input{
-			width: 100%;
-			float: left;
-			margin-bottom: 15px;
-			position: relative;
-			
-			&.left-col{
-				width: 48%;
-				margin-right: 4%;
-			}
-			&.right-col{
-				width: 48%;
-			}
-
-			&:last-of-type{
-				margin-bottom: 20px;
-			}
-		}
-	}
-
 	.create-item{
 		display: block;
 		border: none;
 		margin: 20px auto;
 		color: $white;
 		background: $green;
-		border-radius: 5px;
-		padding: 7.5px 25px;
-	}
-
-	.cancel-button{
-		background: none;
-		border: none;
-		float: right;
-		margin-right: 30px;
-		color: $green;
-		height: 35px;
-	}
-
-	.save-button{
-		float: right;
-		color: $white;
-		background: $green;
-		border: none;
 		border-radius: 5px;
 		padding: 7.5px 25px;
 	}
@@ -145,20 +82,6 @@
 			.item-subtitle.last{
 				margin-bottom: 15px;
 			}
-		}
-	}
-
-	.course-price, .session-price{
-		input{
-			padding-left: 17px;
-		}
-
-		.money-sign{
-			color: $text-grey;
-			position: absolute;
-			top: 25px;
-			left: 6px;
-			font-size: 15px;
 		}
 	}
 }

@@ -4013,8 +4013,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .navbar {
   position: relative;
   z-index: 1000;
-  min-height: 50px;
-  margin-bottom: 20px;
+  height: $nav-bar-height;
 }
 
 .navbar:before,

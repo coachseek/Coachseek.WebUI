@@ -23,9 +23,13 @@
     },
     "edit-details": "Edit details",
     "save-details": "Save details",
-    "saving": "Saving...",
+    "saving": "Saving",
     "save": "Save",
     "cancel": "Cancel",
     "to": "to",
-    "denomination": "$"
+    "denomination": "$",
+    "month": "Month",
+    "week": "Week",
+    "day": "Day",
+    "today": "Today"
 }

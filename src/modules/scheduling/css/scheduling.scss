@@ -1,12 +1,17 @@
 [state^="scheduling"] {
     width: 100%;
-    position: relative;
+    min-width: 1080px;
 
     .services-list{
-        min-height: 500px;
-
-        width: 27.5%;
+        padding-top: 15px;
         float: left;
+        width: 270px;
+        height: calc(100vh - 55px);
+
+        &[disabled]{
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
         .no-services-message{
             width: 85%;
@@ -18,6 +23,7 @@
             font-size: 1.2em;
             padding: 10px;
             cursor: pointer;
+            color: $grey;
         }
 
         ul{
@@ -25,24 +31,27 @@
         }
 
         li{
-            &.ui-draggable-dragging{
-                width: 60px;
-                background: rgba(255, 255, 255, 0.75);
-                .service-name, .service-description{
-                    display: none;
-                }
-            }   
-
             cursor: move;
             width: 90%;
             height: 50px;
             margin: 0 auto 10px auto;
-            padding: 10px 5px;
+            padding: 10px 12.5px;
             background: $white;
             overflow: hidden;
             -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
             -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
             box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+
+            &.dragging{
+                background: transparent;
+                -webkit-box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
+                -moz-box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
+                box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
+
+                *{
+                    display: none;
+                }
+            }
 
             .colour-circle{
                 @extend %vertical-align;
@@ -56,7 +65,6 @@
             .fa{
                 @extend %vertical-align;
                 float: right;
-                width: 20px;
                 color: $text-grey;
             }
 
@@ -73,56 +81,72 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                font-size: 14px;
             }
         }
     }
 
     .calendar-loading{
-        width: 72.5%;
-        right: 0;
+        width: 100%;
         position: fixed;
         height: 100%;
         z-index: 50000;
-        background: $light-grey-50;
+        background: rgba(255,255,255, 0.75);
 
         .indicator-container{
-            @extend %vertical-align;
-
-            float: none;
+            position: relative;
+            top: 35%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
             margin: 0 auto;
             background: none;
+            float: none;
+
+            div{
+                top: 0;
+                left: 0;
+                height: 60px;
+                width: 60px;
+            }
         }
     }
 
     .calendar-container{
         background: $white;
-        float: left;
-        width: 72.5%;
+        padding: 0 20px;
+        overflow: hidden;
         position: relative;
+        /* $nav-bar-height not used here because calendar has trouble
+            determining scroll if its a sass variable */
+        height: calc(100vh - 55px);
 
         .dropdown-container{
-            width: 100px;
+            width: 105px;
             height: 30px;
             top: 20px;
             position: absolute;
             background: #F5F5F5;
+            color: $grey;
+            border: 1px solid $border-light-grey;
 
             &.coach-list{
-                left: 10px;
+                border-right: none;
+                left: 20px;
             }
             &.location-list{
-                left: 120px;
+                left: 125px;
             }
 
             select{
-                padding: 5px 20px 5px 5px;
+                color: $grey;
+                padding: 4px;
                 border: none;
                 box-shadow: none;
-                background: transparent;
+                background: $another-white;
                 background-image: none;
                 -webkit-appearance: none;
                 cursor: pointer;
-                text-align: center;
                 width: 100%;
 
                 &:focus{
@@ -138,51 +162,103 @@
             }
         }
 
-        .calendar{
-            /*width: 100%;*/
-            /*position: fixed;*/
-            /*height: 100%;*/
-            /*right: 0;*/
+        .coach-title{
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 55px;
+            font-size: 16px;
+            color: $dark-grey;
+        }
 
+        .calendar{
+            height: 95%;
+            .fc-view-container{
+                height: 100%;
+                overflow-y: scroll;
+            }
             button, button:active{
                 outline: none;
+                color: $grey;
+                text-shadow: none;
             }
 
-            .fa-lg{
-                font-size: 2.3em;
+            thead{
+                border-color: #DFDFDF;
+            }
+            .fc-time span, .fc-day-header{
+                color: $grey;
+            }
+            .fc-center{
+                position: absolute;
+                left: 35%;
+                color: $grey;
+                h2{
+                    width: 220px;
+                }
+                button{
+                    position: absolute;
+                    font-size: 21px;
+                    height: 30px;
+                }
+                .fc-prev-button{
+                    left: 0px;
+                }
+                .fc-next-button{
+                    right: 0px;
+                }
             }
 
             .fc-right{
                 .fc-button{
                     padding: 0 10px;
+                    border: 1px solid $border-light-grey;
+                    width: 70px;
+                    background: $another-white;
+
+
+                    &.fc-state-active{
+                        background: $dark-blue;
+                        border-color: $dark-blue;
+                        color: $white;
+                    }
+
+                    &.fc-agendaWeek-button{
+                        border-left: none;
+                        border-right: none;
+                    }
                 }
                 .fc-today-button{
-                    margin: 0 15px;
+                    margin-left: 7.5px;
                 }
             }
 
-            .fc-center{
-                position: absolute;
-                left: 35%;
-
-                button{
-                    position: absolute;
-                }
-                .fc-prev-button{
-                    left: -10px;
-                }
-                .fc-next-button{
-                    right: -10px;
-                }
+            .fc-time-grid-container{
+                height: auto !important;
             }
 
             .fc-event {
-                @extend %service-background-colors;
+                @extend %service-background-colors-60;
                 @extend %service-border-colors;
+                border-width: 1.5px;
+                border-radius: 0;
+
+                .fc-bg{
+                    background: none;
+                }
             }
 
             .fc-toolbar{
-                margin: 20px 0;
+                margin: 20px 0 35px 0;
+            }
+            .fc-content .fc-time{
+               display : none;
+            }
+
+            .fc-unthemed{
+                td{
+                    border-color: #DFDFDF
+                }
             }
 
     /*        .fc-today{
@@ -195,4 +271,71 @@
             }
         }
     }
+
+    .session-modal{
+        position: fixed;
+        height: 100%;
+        width: 400px;
+        z-index: 50;
+        background: $background-beige;
+        top: $nav-bar-height;
+        right: 0px;
+        -webkit-transition:all linear 0.3s;
+        transition:all linear 0.3s;
+
+        &.ng-hide {
+            right: -400px;
+        }
+
+        .session-header{
+            height: 75px;
+            padding: 5px 10px;
+            width: 100%;
+            color: $white;
+            font-size: 22px;
+            text-align: center;
+            vertical-align: middle;
+            margin-bottom: 20px;
+            @extend %service-background-colors-60;
+
+            .service-name{
+                font-family: lato-bold;
+                font-size: 16px;
+                height: 22px;
+            }
+            .location-name, .time-range{
+                height: 20px;
+                font-size: 14px;
+            }
+
+            i{
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                cursor: pointer;
+            }
+        }
+
+        form{
+            select.coaches, select.locations{
+                width: 100%;
+            }
+
+            margin: 0 auto;
+            width: 90%;
+        }
+
+        .save-button{
+            margin-right: 5%;
+        }
+    }
+}
+
+.service-drag-helper{
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    border: 1.5px solid;
+    @extend %service-background-colors-60;
+    @extend %service-border-colors;
 }
