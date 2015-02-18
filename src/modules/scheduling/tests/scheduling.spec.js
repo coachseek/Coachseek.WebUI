@@ -16,19 +16,28 @@ describe('Scheduling Module', function() {
     });
 
 
-    describe('when loading the calendar', function(){
+    describe('when loading the calendar initially', function(){
 
         let('coach', function(){
             return {
-                firstName: "Test",
-                lastName: "User",
+                name: "First Dude",
+                id: "coach_1",
                 email: "test@example.com",
                 phone: "9090909"
             };
         });
 
+        let('coachTwo', function(){
+            return {
+                name: "New Guy",
+                id: "coach_2",
+                email: "test@exaple.com",
+                phone: "900909"
+            }; 
+        })
+
         let('coaches', function(){
-            return [this.coach];
+            return [this.coach, this.coachTwo];
         });
 
         let('coachesPromise', function(){
@@ -40,12 +49,21 @@ describe('Scheduling Module', function() {
         let('location', function(){
             return {
                 name: "Test",
-                description: "Location"
+                description: "Location",
+                id: 'location_1'
+            };
+        });
+
+        let('locationTwo', function(){
+            return {
+                name: "Two",
+                description: "Location",
+                id: 'location_2'
             };
         });
 
         let('locations', function(){
-            return [this.location];
+            return [this.location, this.locationTwo];
         });
 
         let('locationsPromise', function(){
@@ -143,7 +161,7 @@ describe('Scheduling Module', function() {
             return {
                 service: this.serviceTwo,
                 location: this.location,
-                coach: this.coach,
+                coach: this.coachTwo,
                 timing: {
                     duration: this.serviceTwo.duration,
                     startTime: this.dateTwo.format('HH:mm'),
@@ -184,6 +202,12 @@ describe('Scheduling Module', function() {
         let('nextMonthSessionsPromise', function(){
             var deferred = $q.defer();
             deferred.resolve(this.nextMonthSessions);
+            return deferred.promise;
+        });
+
+        let('updatePromise', function(){
+            var deferred = $q.defer();
+            deferred.resolve(scope.currentSession);
             return deferred.promise;
         });
 
@@ -264,6 +288,39 @@ describe('Scheduling Module', function() {
             expect(scope.calendarView.name).to.equal('agendaWeek');
             expect($calendar.find('.fc-view').hasClass('fc-agendaWeek-view')).to.be.true;
         });
+        it('should load the coaches into the coach selector', function(){
+            var $coachOptions = $testRegion.find('.coach-list option');
+            _.forEach($coachOptions, function(coachOption, index){
+                // UNDEFINED OPTION (ALL COACHES)
+                var $coachOption = $(coachOption);
+                if(index === 0){
+                    expect($coachOption.val()).to.equal("");
+                    expect($coachOption.text()).to.equal("");
+                // COACH NAMES
+                } else {
+                    expect($coachOption.val()).to.equal(self.coaches[index - 1].id);
+                    expect($coachOption.text()).to.equal(self.coaches[index - 1].name);
+                }
+            });
+        });
+        it('should load the locations into the location selector', function(){
+            var $locationOptions = $testRegion.find('.location-list option');
+            _.forEach($locationOptions, function(locationOption, index){
+                // UNDEFINED OPTION (ALL LOCATIONS)
+                var $locationOption = $(locationOption);
+                if(index === 0){
+                    expect($locationOption.val()).to.equal("");
+                    expect($locationOption.text()).to.equal("");
+                // LOCATION NAMES
+                } else {
+                    expect($locationOption.val()).to.equal(self.locations[index - 1].id);
+                    expect($locationOption.text()).to.equal(self.locations[index - 1].name);
+                }
+            });
+        })
+        it('should NOT show the session modal', function(){
+            expect($testRegion.find('.session-modal').hasClass('ng-hide')).to.be.true;
+        });
         describe('when loading the list of services', function(){
             it('should set the title', function(){
                 var firstServiceTitle = $firstService.find('.service-name').text();
@@ -289,12 +346,219 @@ describe('Scheduling Module', function() {
                 // This won't work if view is changed or repeat frequncy is set to w
                 // because the sessions may not be in the range of the calendar view
                 // so it has not rendered them
+                // TODO - Check this on scope.events? These are going to fail sometimes based on what
+                //          Day it is in the real world. that aint gonna cut it.
                 var numSessions  = 0;
                 _.forEach(this.sessions, function(session){
                     numSessions += session.service.repetition.sessionCount;
                 });
-
                 expect($testRegion.find('.fc-content').length).to.equal(numSessions);
+            });
+        });
+        describe('when clicking on a session in the calendar', function(){
+
+            let('sessions', function(){
+                return [this.sessionTwo];
+            });
+
+            var $calendarEvent, $sessionModal;
+            beforeEach(function(){
+                $calendarEvent = $calendar.find('.fc-event');
+                $calendarEvent.trigger('click');
+                $timeout.flush();
+                $sessionModal = $testRegion.find('.session-modal');
+            });
+            it('should show the session modal', function(){
+                expect($sessionModal.hasClass('ng-hide')).to.be.false;
+            });
+            it('should set the currentSession on the scope', function(){
+                expect(scope.currentSession).to.exist;
+            });
+            it('should disable the session list', function(){
+                expect($servicesList.attr('disabled')).to.equal('disabled');
+            });
+            describe('the session modal', function(){
+                it('should load the coach into the coach list', function(){
+                    var $coachOptions = $testRegion.find('.form-input .coaches option');
+                    _.forEach($coachOptions, function(coachOption, index){
+                        var $coachOption = $(coachOption);
+                        expect($coachOption.val()).to.equal(self.coaches[index].id);
+                        expect($coachOption.text()).to.equal(self.coaches[index].name);
+                    });
+                });
+                it('should load the locations into the location list', function(){
+                    var $locationOptions = $testRegion.find('.form-input .locations option');
+                    _.forEach($locationOptions, function(locationOption, index){
+                        var $locationOption = $(locationOption);
+                        expect($locationOption.val()).to.equal(self.locations[index].id);
+                        expect($locationOption.text()).to.equal(self.locations[index].name);
+                    });
+                });
+                describe('when changing the session in the modal', function(){
+
+                    var updateStub;
+                    beforeEach(function(){
+                        self.updatePromise = this.updatePromise;
+                        updateStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                            return {$promise: self.updatePromise}
+                        });
+                    });
+                    describe('and then saving', function(){
+                        describe('while saving', function(){
+                            let('updatePromise', function(){
+                                return $q.defer().promise;
+                            });
+                            beforeEach(function(){
+                                $sessionModal.find('.save-button').trigger('click');
+                            });
+                            it('should start calendar loading', function(){
+                                expect(scope.calendarLoading).to.be.true;
+                            });
+                            it('should set the locations and coaches inputs to touched', function(){
+                                expect(scope.currentSessionForm.coaches.$touched).to.be.true;
+                                expect(scope.currentSessionForm.locations.$touched).to.be.true;
+                            });
+                        });
+                        describe('when the form is valid', function(){
+                            beforeEach(function(){
+                                _.assign(scope.currentSession, {
+                                    location: {
+                                        id: 'location_2'
+                                    },
+                                    coach: {
+                                        id: 'coach_1'
+                                    },
+                                    timing: {
+                                        duration: 90
+                                    }
+                                });
+                                scope.$digest();
+                                $sessionModal.find('.save-button').trigger('click');
+                            });
+                            it('should attempt to save the session', function(){
+                                expect(updateStub).to.be.calledWith({section: 'Sessions'}, scope.currentSession);
+                            });
+                            it('should hide the session modal', function(){
+                                expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                            });
+                            it('should enable the session list', function(){
+                                expect($servicesList.attr('disabled')).to.equal(undefined);
+                            });
+                        });
+                        describe('when the form is invalid', function(){
+                            beforeEach(function(){
+                                _.assign(scope.currentSession, {
+                                    coach: {
+                                        id: ''
+                                    },
+                                    location: {
+                                        id: ''
+                                    }
+                                });
+                                scope.$digest();
+                                $sessionModal.find('.save-button').trigger('click');
+                            });
+                            it('should NOT attempt to save the session', function(){
+                                expect(updateStub).to.not.be.called;
+                            });
+                            it('should show error messages', function(){
+                                expect($sessionModal.find('.error-messages.locations .required').length).not.equal(0);
+                                expect($sessionModal.find('.error-messages.coaches .required').length).not.equal(0);
+                            });
+                            it('should disable the session list', function(){
+                                expect($servicesList.attr('disabled')).to.equal('disabled');
+                            });
+                        });
+                    });
+                    describe('and then cancelling with the cancel button', function(){
+                        beforeEach(function(){
+                            $sessionModal.find('.form-input .duration').trigger('input');
+                            $sessionModal.find('.cancel-button').trigger('click');
+                        });
+                        it('should NOT attempt to save the session', function(){
+                            expect(updateStub).to.not.be.called;
+                        });
+                        it('should hide the session modal', function(){
+                            expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                        });
+                        it('should set the form to untouched and pristine', function(){
+                            expect(scope.currentSessionForm.$pristine).to.be.true;
+                            expect($sessionModal.find('form').hasClass('ng-dirty')).to.be.false;
+                        });
+                        it('should enable the session list', function(){
+                            expect($servicesList.attr('disabled')).to.equal(undefined);
+                        });
+                    });
+                    describe('and then cancelling with the `X` button', function(){
+                        beforeEach(function(){
+                            $sessionModal.find('.form-input .duration').trigger('input');
+                            $sessionModal.find('.session-header i.fa-times').trigger('click');
+                        });
+                        it('should NOT attempt to save the session', function(){
+                            expect(updateStub).to.not.be.called;
+                        });
+                        it('should hide the session modal', function(){
+                            expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                        });
+                        it('should set the form to untouched and pristine', function(){
+                            expect(scope.currentSessionForm.$pristine).to.be.true;
+                            expect($sessionModal.find('form').hasClass('ng-dirty')).to.be.false;
+                        });
+                        it('should enable the session list', function(){
+                            expect($servicesList.attr('disabled')).to.equal(undefined);
+                        });
+                    });
+                });
+            });
+        });
+        describe('when filtering the calendar by coach', function(){
+            var $coachSelector, fullCalendarStub;
+            beforeEach(function(){
+                fullCalendarStub = this.sinon.spy($.fn, 'fullCalendar');
+
+                $coachSelector = $testRegion.find('.coach-list select').val(this.coachTwo.id);
+                angular.element($coachSelector).triggerHandler('change');
+            });
+            it('should attempt to remove all events', function(){
+                expect(fullCalendarStub).to.be.calledWith('removeEvents');
+            });
+            it('should set the currentCoach on the scope', function(){
+                expect(scope.currentCoach).to.equal(this.coachTwo);
+            });
+            it('should make a call to the API with the new coach ID', function(){
+                var getSessionsParams = {
+                    startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    locationId: '',
+                    coachId: this.coachTwo.id,
+                    section: 'Sessions'
+                };
+                expect(getStub).to.be.calledWith(getSessionsParams);
+            });
+        });
+        describe('when filtering the calendar by location', function(){
+            var $locationSelector, fullCalendarStub;
+            beforeEach(function(){
+                fullCalendarStub = this.sinon.stub($.fn, 'fullCalendar');
+
+                $locationSelector = $testRegion.find('.location-list select').val(this.locationTwo.id);
+                angular.element($locationSelector).triggerHandler('change');
+            });
+            it('should attempt to remove all events', function(){
+                expect(fullCalendarStub).to.be.calledWith('removeEvents');
+            });
+            it('should set the currentLocation on the scope', function(){
+                expect(scope.currentLocation).to.equal(this.locationTwo);
+            });
+            it('should make a call to the API with the new coach ID', function(){
+                var getSessionsParams = {
+                    startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    locationId: this.locationTwo.id,
+                    coachId: '',
+                    section: 'Sessions'
+                };
+                expect(getStub).to.be.calledWith(getSessionsParams);
             });
         });
         describe('when changing the calendar view', function(){
@@ -313,6 +577,9 @@ describe('Scheduling Module', function() {
                 });
                 it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
                     expect(getStub).to.not.be.called;
+                });
+                it('should add the location to the session content', function(){
+                    expect($calendar.find('.fc-location').first().text()).to.equal(this.location.name);
                 });
                 describe('and then to a new month', function(){
                     beforeEach(function(){
@@ -356,6 +623,18 @@ describe('Scheduling Module', function() {
                             expect(getStub).to.not.be.called;
                         });
                     });
+                    describe('and then switching to `week`', function(){
+                        beforeEach(function(){
+                            getStub.restore();
+                            getStub = this.sinon.stub(coachSeekAPIService, 'get');
+
+                            $calendar.find('.fc-agendaWeek-button').trigger('click');
+                            $timeout.flush();
+                        });
+                        it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
+                            expect(getStub).to.not.be.called;
+                        });
+                    });
                 });
             });
             describe('to day view', function(){
@@ -374,8 +653,8 @@ describe('Scheduling Module', function() {
                 it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
                     expect(getStub).to.not.be.called;
                 });
-                it('should add the description to the session content', function(){
-                    expect($calendar.find('.fc-description').text()).to.equal(this.serviceOne.description);
+                it('should add the location to the session content', function(){
+                    expect($calendar.find('.fc-location').first().text()).to.equal(this.location.name);
                 });
                 describe('and then switching it back to week view', function(){
                     beforeEach(function(){
@@ -390,8 +669,8 @@ describe('Scheduling Module', function() {
                     it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
                         expect(getStub).to.not.be.called;
                     });
-                    it('should remove the description to the session content', function(){
-                        expect($calendar.find('.fc-description').text()).to.equal('');
+                    it('should add the location to the session content', function(){
+                        expect($calendar.find('.fc-location').first().text()).to.equal(this.location.name);
                     });
                 });
                 describe('and then switching it to month view', function(){
@@ -407,8 +686,8 @@ describe('Scheduling Module', function() {
                     it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
                         expect(getStub).to.not.be.called;
                     });
-                    it('should remove the description to the session content', function(){
-                        expect($calendar.find('.fc-description').text()).to.equal('');
+                    it('should add the location to the session content', function(){
+                        expect($calendar.find('.fc-location').first().text()).to.equal(this.location.name);
                     });
                 });
             });
