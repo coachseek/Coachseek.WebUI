@@ -61,8 +61,8 @@
 
         <label>{{'person-details.availability' | i18next}}</label>
         <time-slot></time-slot>
-        <!-- POST here -->
-        <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading" ng-i18next>{{ AILoading ? 'saving' : 'save-details'}}</button>
-        <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
     </form>
+
+    <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
+    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
 </div>

@@ -114,7 +114,6 @@
             <input name="coursePrice" type="number" ng-model="currentSession.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
         </div>
     </form>
-    <button class="save-button" ng-click="saveModalEdit()" ng-hide="calendarLoading" >{{'save-details' | i18next}}</button>
-<!--     <button class="save-button" ng-disabled="calendarLoading" ng-show="calendarLoading">{{'saving' | i18next}}<ellipsis-animated /></button> -->
+    <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="calendarLoading"/></button>
     <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'cancel' | i18next}}</button>
 </div>
