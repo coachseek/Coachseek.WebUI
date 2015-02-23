@@ -17,7 +17,7 @@
     <form name="itemForm" novalidate ng-enter="saveItem(item)">
         <div class="form-input">
             <label name="name">{{'businessSetup:location-details.name' | i18next}}</label>
-            <input name="name" ng-blur="onInputBlur()" ng-model="item.name" placeholder="{{'businessSetup:location-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
+            <input name="name" ng-model="item.name" placeholder="{{'businessSetup:location-details.placeholder.name' | i18next}}"  required ng-maxlength=50 />
 
             <div class="error-messages" ng-messages="itemForm.name.$error" ng-if="itemForm.name.$touched">
                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
