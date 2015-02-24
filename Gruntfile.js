@@ -164,6 +164,15 @@ module.exports = function(grunt) {
                     ]
                 }
             }
+        },
+        connect: {
+            src: {
+                options: {
+                    port: 8000,
+                    keepalive: true,
+                    // base: 'src'
+                }
+            }
         }
     });
 
@@ -180,6 +189,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-merge-json');
     grunt.loadNpmTasks('grunt-plato');
+    grunt.loadNpmTasks('grunt-contrib-connect');
 
     // Default task(s).
     grunt.registerTask('default', [
