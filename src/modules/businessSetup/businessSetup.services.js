@@ -17,7 +17,7 @@ angular.module('businessSetup.services', []).
                     _.forEach(error.data, function(error){
                         $scope.addAlert({
                             type: 'danger',
-                            message: error.message
+                            message: error.message ? error.message: error
                         });
                     });
                 }).finally(function(){
@@ -41,7 +41,7 @@ angular.module('businessSetup.services', []).
                     _.forEach(error.data, function(error){
                         $scope.addAlert({
                             type: 'danger',
-                            message: error.message
+                            message: error.message ? error.message: error
                         });
                     });
                 }).finally(function(){
