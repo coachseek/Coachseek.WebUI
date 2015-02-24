@@ -4,28 +4,26 @@ angular.module('scheduling.controllers', [])
 
             //TODO - add ability to edit time range in modal?
 
-            var rangesLoaded = [];
-            var tempEventId;
-            $scope.events = [];
-            $scope.eventSources = [$scope.events];
+            $scope.eventSources = [];
+            $scope.tempEventId;
+
+            var rangesLoaded = [],
+                events = [],
+                currentEventCopy;
 
             $scope.draggableOptions = {
                 helper: function(event) {
                     var serviceData = $(this).data('service');
-                    return $('<span class="service-drag-helper ' + serviceData.presentation.colour + '"><span/>');
+                    return $('<span class="service-drag-helper ' + serviceData.presentation.colour + '">' + serviceData.name + '<span/>');
                 },
                 cursorAt: {
                     top: 15,
-                    left: 15
+                    left: 45
                 }
             };
 
-            $scope.dragstart = function(event){
-                $(event.target).addClass('dragging');
-            };
-
-            $scope.dragstop = function(event){
-                $(event.target).removeClass('dragging');
+            $scope.toggleDrag = function(event){
+                $(event.target).toggleClass('dragging');
             };
 
             $scope.uiConfig = {
@@ -33,7 +31,6 @@ angular.module('scheduling.controllers', [])
                     editable: true,
                     droppable: true,
                     allDaySlot: false,
-                    handleWindowResize: false,
                     firstDay: 1,
                     aspectRatio: 1.2,
                     snapDuration: '00:15:00',
@@ -46,9 +43,7 @@ angular.module('scheduling.controllers', [])
                         right: 'month agendaWeek agendaDay today'
                     },
                     drop: function(date, event) {
-                        // console.log("DROP")
-                        var serviceData = $(this).data('service');
-                        handleServiceDrop(date, serviceData);
+                        handleServiceDrop(date, $(this).data('service'));
                     },
                     // businessHours: {
                     //     // start: '00:00', // a start time (10am in this example)
@@ -65,7 +60,6 @@ angular.module('scheduling.controllers', [])
                     //             start: '10:00', // a start time (10am in this example)
                     //             end: '18:00', // an end time (6pm in this example)
                     //         }
-
                     //     }
                     // },
                     eventRender: function(event, element) {
@@ -74,10 +68,14 @@ angular.module('scheduling.controllers', [])
                             text: event.session.location.name
                         }).appendTo(element.find('.fc-content'));
                     },
+                    windowResize: function(view){
+                        $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
+                    },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
-                        //When we have an open event we don't want to save
-                        if(event._id === tempEventId){
+                        // When we have an open event we don't want to save
+                        // we just want to change the time displayed in the modal
+                        if(event._id === $scope.tempEventId){
                             $scope.currentSession.timing.startDate = event._start.format('YYYY-MM-DD');
                             $scope.currentSession.timing.startTime = event._start.format('HH:mm');
                         } else {
@@ -92,7 +90,7 @@ angular.module('scheduling.controllers', [])
                             });
 
                             startCalendarLoading();     
-                            saveEvent(session).then(function(){
+                            updateSession(session).then(function(){
                                 $scope.removeAlerts();
                             }, function(error){
                                 console.log('SENT Session', session, error);
@@ -113,14 +111,14 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event) {
-                        $scope.showModal = true;
-                        $scope.currentSession = event.session;
+                        if(!event.session.parentId){
+                            $scope.showModal = true;
+                            $scope.currentEvent = event;
+                            currentEventCopy = angular.copy(event);
+                        }
                     },
                     viewRender: function(view, $element){
-                        //doing this to allow user to drop outside of box
-                        $element.droppable();
-                        $scope.calendarView = view;
-                        $scope.$calendarElement = $element;
+                        $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
 
                         // load one month at a time and keep track of what months
                         // have been loaded and don't load those. must use month because it
@@ -129,6 +127,7 @@ angular.module('scheduling.controllers', [])
                         $scope.intervalStart = view.intervalStart.clone().startOf('month');
                         $scope.intervalEnd = view.intervalStart.clone().endOf('month');
                         var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
+
                         if(isNewRange(newRange)){
                             loadInterval(newRange);
                         }
@@ -136,8 +135,6 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            // THIS NEEDS TO INCLUDE COACHES AND LOCATIONS?
-            // also need to get rid of loaded ranges when clearing.
             var isNewRange = function(newRange){
                 var isNewRange = true;
                 _.forEach(rangesLoaded, function(loadedRange){
@@ -149,9 +146,6 @@ angular.module('scheduling.controllers', [])
             };
 
             var loadInterval = function(newRange, removeEvents){
-                // TODO? - how do we make this work for sessions that start before our
-                // interval but carry into the current day/week/month?
-                // GET sessions here
                 var getSessionsParams = {
                     startDate: $scope.intervalStart.format('YYYY-MM-DD'),
                     endDate: $scope.intervalEnd.format('YYYY-MM-DD'),
@@ -184,60 +178,44 @@ angular.module('scheduling.controllers', [])
                     // TODO - figure out how to get calendar element from Dependency Injection?
                     rangesLoaded = [];
                     $('#session-calendar').fullCalendar('removeEvents');
+                    events = [];
                 }
                 startCalendarLoading();
                 _.forEach(sessions, function(session, index){
                     var newDate = getNewDate(session.timing);
-                    var serviceData = _.find($scope.serviceList, {id: session.service.id});
-                    buildCalendarEvents(newDate, serviceData, session);
+                    events.push(buildCalendarEvent(newDate, session));
                 });
+                $scope.eventSources[0] = events;
                 stopCalendarLoading();
             };
 
             var handleServiceDrop = function(date, serviceData){
                 $scope.showModal = true;
                 var session = buildSessionObject(date, serviceData);
-                $scope.currentSession = session;
-                tempEventId = _.uniqueId('service_');
-                buildCalendarEvents(date, serviceData, session);
+                $scope.tempEventId = _.uniqueId('service_');
+
+                var newEvent = buildCalendarEvent(date, session);
+                $scope.currentEvent = newEvent;
+                events.push(newEvent);
             };
 
-            var buildCalendarEvents = function(date, serviceData, session){
-                var repeatFrequency = session.repetition.repeatFrequency;
-                var id = tempEventId || _.uniqueId('service_');
-                // ONCE
-                if ( repeatFrequency === undefined ) {
-                    addEventToCalendar(id, date, serviceData, 0, session);
-                // FINITE
-                } else if ( repeatFrequency ) {
-                    var sessionCount = session.repetition.sessionCount;
-                    _.times(sessionCount, function(index){
-                        addEventToCalendar(id, date, serviceData, index, session);
-                    });
-                }
-            };
-
-            var addEventToCalendar = function(id, date, serviceData, index, session){
+            var buildCalendarEvent = function(date, session){
                 var newDate = date.clone();
-                // always use duration/repeatFrequency that was set when session was originally
-                // dragged into calendar
-                var repeatFrequency = session.repetition.repeatFrequency;
                 var duration = session.timing.duration;
-
                 var newEvent = {
-                    _id: id,
+                    _id: $scope.tempEventId || session.parentId,
                     title: session.service.name,
-                    description: serviceData.description,
-                    start: moment(newDate.add(index, repeatFrequency)),
-                    end: moment(newDate.add(duration, 'minutes')),
+                    start: moment(newDate),
+                    end: moment(newDate.add(session.timing.duration, 'minutes')),
                     allDay: false,
-                    className: serviceData.presentation.colour,
+                    editable: $scope.tempEventId || session.parentId ? false: true,
+                    className: session.presentation.colour,
                     // events need to know about sessions in order to save
                     // when moved/dragged while in calendar
                     // may need to do get here
                     session: session
                 };
-                $scope.eventSources[0].push(newEvent);
+                return newEvent;
             };
 
             var buildSessionObject = function(date, serviceData){
@@ -272,30 +250,50 @@ angular.module('scheduling.controllers', [])
                 $scope.currentLocation = _.find($scope.locationList, {id: $scope.currentLocationId});
                 $scope.currentCoach = _.find($scope.coachList, {id: $scope.currentCoachId});
                 $scope.removeAlerts();
-                loadInterval(false, true);
+                var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
+                loadInterval(newRange, true);
                 // SET BIZ HOURS
                 // $('#session-calendar').fullCalendar({businessHours: {}});
                 // $('#session-calendar').fullCalendar('render');
             };
 
-            // var buildAvailableHours = function(coachAvailibility){
+            // var buildAvailableHours = function(coachAvailibility){}
 
-            // }
+            $scope.changeServiceName = function(){
+                var newService = _.find($scope.serviceList, {id: $scope.currentSessionForm.services.$viewValue});
+                $scope.currentEvent.session.presentation.colour = newService.presentation.colour;
+                _.assign($scope.currentEvent, {
+                    className: newService.presentation.colour,
+                    title: newService.name
+                });
+                updateCurrentEvent();
+            };
+
+            $scope.changeLocationName = function(){
+                var newLocation = _.find($scope.locationList, {id: $scope.currentSessionForm.locations.$viewValue});
+                $scope.currentEvent.session.location = newLocation;
+                updateCurrentEvent();
+            };
+
+            $scope.changeDuration = function(){
+                console.log('CHANGE DURATION')
+            };
+
+            var updateCurrentEvent = function(){
+                //TODO - why does this freak out when currentEvent is a new event?
+                if(!$scope.tempEventId){
+                    $('#session-calendar').fullCalendar('updateEvent', $scope.currentEvent);                    
+                }
+            };
 
             // HELPER FUNCTIONS
             $scope.minutesToStr = function(duration){
                 return Math.floor(duration / 60) + ":" + duration % 60;
             };
 
-            $scope.getLocationName = function(){
-                if ($scope.currentSessionForm.locations.$viewValue){
-                    return _.find($scope.locationList, {id: $scope.currentSessionForm.locations.$viewValue}).name;
-                }
-            };
-
             $scope.getSessionTimeRange = function(){
-                if($scope.currentSession){
-                    var sessionTiming = $scope.currentSession.timing;
+                if($scope.currentEvent && $scope.currentEvent.session){
+                    var sessionTiming = $scope.currentEvent.session.timing;
                     var startTime = sessionTiming.startTime;
                     var endTime = moment(startTime, "HH:mm").add(sessionTiming.duration, 'minutes').format('HH:mm');
                     return startTime + " – " + endTime;
@@ -303,23 +301,26 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.cancelModalEdit = function(){
-                //TODO - unset currentSession so we don't load edited values if we click this session again
                 $scope.removeAlerts();
                 resetForm();
                 removeTempEvents();
+                if(currentEventCopy){
+                    _.assign($scope.currentEvent, currentEventCopy);
+                    $('#session-calendar').fullCalendar('updateEvent', $scope.currentEvent);            
+                }
                 $scope.showModal = false;
             };
 
             $scope.saveModalEdit = function(){
-                $scope.currentSessionForm.coaches.$setTouched();
-                $scope.currentSessionForm.locations.$setTouched();
+                forceFormTouched();
                 if($scope.currentSessionForm.$valid){
                     startCalendarLoading();
-                    saveEvent($scope.currentSession).then(function(session){
-                        resetForm(); 
+                    updateSession($scope.currentEvent.session).then(function(session){
+                        resetForm();
                         $scope.showModal = false;
-                        tempEventId = null;
-                        loadInterval(false, true);
+                        $scope.tempEventId = null;
+                        var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
+                        loadInterval(newRange, true);
                     }, function(error){
                         _.forEach(error.data, function(error){
                             $scope.addAlert({
@@ -337,10 +338,15 @@ angular.module('scheduling.controllers', [])
                 $scope.currentSessionForm.$setPristine();
             };
 
+            var forceFormTouched = function(){
+                $scope.currentSessionForm.coaches.$setTouched();
+                $scope.currentSessionForm.locations.$setTouched();
+            };
+
             var removeTempEvents = function(){
-                if(tempEventId){
-                    $('#session-calendar').fullCalendar('removeEvents', tempEventId);
-                    tempEventId = null;
+                if($scope.tempEventId){
+                    $('#session-calendar').fullCalendar('removeEvents', $scope.tempEventId);
+                    $scope.tempEventId = null;
                 }
             };
 
@@ -348,7 +354,7 @@ angular.module('scheduling.controllers', [])
                 return moment(timing.startDate + " " + timing.startTime, "YYYY-MM-DD HH:mm");
             };
 
-            var saveEvent = function(sessionObject){
+            var updateSession = function(sessionObject){
                 return coachSeekAPIService.update({section: 'Sessions'}, sessionObject).$promise;
             };
 
@@ -377,7 +383,7 @@ angular.module('scheduling.controllers', [])
                     _.forEach(error.data, function(error){
                         $scope.addAlert({
                             type: 'danger',
-                            message: error.message
+                            message: error.message ? error.message: error
                         });
                     });
                     stopCalendarLoading();

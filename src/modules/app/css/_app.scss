@@ -93,6 +93,14 @@ textarea {
   box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+select{
+    background: $white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
 
 .ng-invalid.ng-dirty {
   border-color: $red;
@@ -125,7 +133,7 @@ button:disabled{
   opacity: 0.5;
 }
 
-.error-messages{
+.error-messages, .prompt-messages{
   /* Needs to be positioned absolutley so error
      messages dont move form down */
     position: absolute;
@@ -217,6 +225,25 @@ form{
     top: 25px;
     left: 6px;
     font-size: 15px;
+  }
+}
+
+select-arrows{
+  position: absolute;
+  right: 15px;
+  bottom: 0;
+  height: 30px;
+  pointer-events: none;
+
+  i{
+    position: absolute;
+
+    &.fa-caret-down{
+      bottom: 5px;
+    }
+    &.fa-caret-up{
+      top: 3px;
+    }
   }
 }
 

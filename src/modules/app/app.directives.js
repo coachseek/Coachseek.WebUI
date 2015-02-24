@@ -16,4 +16,16 @@ angular.module('app.directives', [])
 		        }
 		    });
 		};
+	})
+	.directive('selectArrows', function(){
+		return {
+			restrict: "E",
+	        templateUrl:'app/partials/selectArrows.html'	
+		}
+	})
+	.directive('ellipsisAnimated', function () {
+	    return {
+	        restrict: "EAC",
+	        templateUrl:'app/partials/ellipsisAnimated.html'
+	    };
 	});

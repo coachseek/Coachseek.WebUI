@@ -11,6 +11,7 @@
     "coaches": "Coaches",
     "location": "Location:",
     "locations": "Locations",
+    "service-name": "Service name:",
     "service-details": {
     	"duration": "Session duration:",
     	"name": "Session name:"

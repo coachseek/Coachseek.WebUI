@@ -1,24 +1,37 @@
-<div class="services-list" ng-disabled="showModal">
-    <h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
-    <div class="no-services-message" ng-show="serviceList.length === 0">
-        {{'scheduling:no-services.start' | i18next}}
-        <a class="nav-to-services" ui-sref="scheduling.services">{{'scheduling:no-services.nav-to-services' | i18next}}</a>
-        {{'scheduling:no-services.end' | i18next}}
+<div class="services-list-container" ng-init="toggleOpen = true" ng-class="{closed: !toggleOpen}">
+    <span
+        class="toggle-service-drawer"
+        ng-click="toggleOpen = !toggleOpen">
+            <i class="fa" ng-class="toggleOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
+    </span>
+    <div class="service-list" ng-disabled="showModal">
+        <h4>{{'scheduling:services-title' | i18next}}</h4>
+        <div class="no-services-message" ng-show="serviceList.length === 0">
+            {{'scheduling:no-services.start' | i18next}}
+            <a class="nav-to-services" ui-sref="businessSetup.servicesEdit">{{'scheduling:no-services.nav-to-services' | i18next}}</a>
+            {{'scheduling:no-services.end' | i18next}}
+        </div>
+        <ul>
+            <li>
+                <button class="create-item" ui-sref="businessSetup.servicesEdit">
+                    <i class="fa fa-plus"></i>
+                    {{'businessSetup:add-service' | i18next}}
+                </button>
+            </li>
+            <li 
+                data-drag="true"
+                data-service="{{item}}" 
+                data-duration="{{minutesToStr(item.timing.duration)}}"
+                jqyoui-draggable="{onStart: 'toggleDrag', onStop: 'toggleDrag'}"
+                data-jqyoui-options="draggableOptions" 
+                class="service-details" 
+                ng-repeat="item in serviceList | orderBy:'name'">
+                    <i class="fa fa-bars"></i>
+                    <span class="colour-circle {{item.presentation.colour}}"></span>
+                    <h5 class="service-name">{{item.name}}</h5>
+            </li>
+        </ul>
     </div>
-    <ul>
-        <li 
-            data-drag="true"
-            data-service="{{item}}" 
-            data-duration="{{minutesToStr(item.timing.duration)}}"
-            jqyoui-draggable="{onStart: 'dragstart', onStop: 'dragstop'}"
-            data-jqyoui-options="draggableOptions" 
-            class="service-details" 
-            ng-repeat="item in serviceList | orderBy:'name'">
-                <i class="fa fa-bars"></i>
-                <span class="colour-circle {{item.presentation.colour}}"></span>
-                <h5 class="service-name">{{item.name}}</h5>
-        </li>
-    </ul>
 </div>
 
 <div class="calendar-loading" ng-show="calendarLoading">
@@ -28,15 +41,15 @@
     </div>
 </div>
 
-<div class="calendar-container">
-    <div class="dropdown-container coach-list">
+<div class="calendar-container" ng-class="{'toggle-closed': !toggleOpen}">
+    <div class="dropdown-container coach-list" ng-disabled="showModal">
         <select ng-init="currentCoachId=''" ng-change="filterSessions()" name="coaches" ng-model="currentCoachId">
             <option value="">{{'scheduling:coaches' | i18next}}</option>
             <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
         </select>
         <i class="fa fa-chevron-down"></i>
     </div>
-    <div class="dropdown-container location-list">
+    <div class="dropdown-container location-list" ng-disabled="showModal">
         <select ng-init="currentLocationId=''" ng-change="filterSessions()" name="locations" ng-model="currentLocationId">
             <option value="">{{'scheduling:locations' | i18next}}</option>
             <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
@@ -44,25 +57,29 @@
         <i class="fa fa-chevron-down"></i>
     </div>
     <div class="coach-title">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div>
-    <div ng-if="serviceList" class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" ></div>
+    <div ng-if="serviceList" class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 </div>
 
 <div class="session-modal" ng-show="showModal">
-    <div class="session-header" ng-class='currentSession.presentation.colour'>
-        <div class="service-name">{{ currentSession.service.name }}</div>
-        <div class="location-name">{{ currentLocation.name || getLocationName() }}</div>
+    <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
+        <div class="service-name">{{ currentEvent.title }}</div>
+        <div class="location-name">{{ currentEvent.session.location.name || currentLocation.name}}</div>
         <div class="time-range">{{ getSessionTimeRange() }}</div>
         <i class="fa fa-times" ng-click="cancelModalEdit()"></i>
     </div>
     <form name="currentSessionForm" novalidate ng-enter="saveEdit()">
         <div class="form-input left-col">
-            <label name="name">{{'scheduling:service-details.name' | i18next}}</label>
-            <input name="name" ng-model="currentSession.service.name" required ng-maxlength=50 />
+            <label name="services">{{'scheduling:service-name' | i18next}}</label>
+            <select-arrows></select-arrows>
+            <select class="services" name="services" ng-change="changeServiceName()" ng-model="currentEvent.session.service.id" required>
+                <option ng-repeat="service in serviceList" value="{{service.id}}">{{service.name}}</option>
+            </select>
         </div>
 
         <div class="form-input right-col">
             <label name="locations">{{'scheduling:location' | i18next}}</label>
-            <select class="locations" name="locations" ng-model="currentSession.location.id" required>
+            <select-arrows></select-arrows>
+            <select class="locations" name="locations" ng-change="changeLocationName()"  ng-model="currentEvent.session.location.id" required>
                 <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
             </select>
 
@@ -76,7 +93,8 @@
 
         <div class="form-input left-col">
             <label name="coaches">{{'scheduling:coach' | i18next}}</label>
-            <select class="coaches" name="coaches" ng-model="currentSession.coach.id" required>
+            <select-arrows></select-arrows>
+            <select class="coaches" name="coaches" ng-model="currentEvent.session.coach.id" required>
                 <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
             </select>
             <div class="error-messages coaches" ng-messages="currentSessionForm.coaches.$error" ng-if="currentSessionForm.coaches.$touched">
@@ -89,7 +107,7 @@
 
         <div class="form-input right-col">
             <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
-            <input class="duration" name="duration" type="number" ng-model="currentSession.timing.duration" min="15" max="1440" step="15" />
+            <input class="duration" ng-change="changeDuration()" name="duration" type="number" ng-model="currentEvent.session.timing.duration" min="15" max="1440" step="15" />
         </div>
 
         <!--<div class="form-input right-col">
@@ -98,20 +116,21 @@
         </div> -->
 
         <repeat-selector
-            repeat-frequency="currentSession.repetition.repeatFrequency"
-            session-count="currentSession.repetition.sessionCount"
+            ng-show="tempEventId"
+            repeat-frequency="currentEvent.session.repetition.repeatFrequency"
+            session-count="currentEvent.session.repetition.sessionCount"
         ></repeat-selector>
 
         <div class="session-price form-input left-col">
             <label name="sessionPrice">{{'scheduling:service-details.session-price' | i18next}}</label>
             <span class="money-sign">{{'denomination' | i18next}}</span>
-            <input name="sessionPrice" type="number" ng-model="currentSession.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
+            <input name="sessionPrice" type="number" ng-model="currentEvent.session.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
         </div>
 
-        <div class="course-price form-input right-col" ng-hide="currentSession.repetition.sessionCount < 2" >
+        <div class="course-price form-input right-col" ng-hide="currentEvent.session.repetition.sessionCount < 2" >
             <label name="coursePrice">{{'scheduling:service-details.course-price' | i18next}}</label>
             <span class="money-sign">{{'denomination' | i18next}}</span>
-            <input name="coursePrice" type="number" ng-model="currentSession.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
+            <input name="coursePrice" type="number" ng-model="currentEvent.session.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
         </div>
     </form>
     <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="calendarLoading"/></button>
