@@ -14,8 +14,8 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <activity-indicator ui-sref="businessSetup.business"></activity-indicator>
-            <ul class="nav navbar-nav">
-                <li><a ui-sref="businessSetup.business" ui-sref-active="active">{{'setup' | i18next}}</a></li>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
                 <li><a class="inactive" ui-sref="dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
                 <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
                 <li><a class="inactive" ui-sref="services" ui-sref-active="active">{{'services' | i18next}}</a></li>
@@ -27,7 +27,7 @@
             </ul>
         </div>
     </div>
-    <div ui-view id="main-view" state="{{$stateParams.current.name}}"></div>
+    <div ui-view id="main-view" state="{{$state.current.name}}"></div>
     <div class="alert-container">
         <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
             <span ng-i18next="[i18next]({name:alert.name}){{alert.message}}"></span>
