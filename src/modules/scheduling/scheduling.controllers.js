@@ -36,7 +36,7 @@ angular.module('scheduling.controllers', [])
                     snapDuration: '00:15:00',
                     defaultView: 'agendaWeek',
                     eventDurationEditable: false,
-                    scrollTime:  "08:00:00",
+                    scrollTime:  "06:00:00",
                     header:{
                         left: '',
                         center: 'prev title next',
