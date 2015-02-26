@@ -3,26 +3,41 @@
     min-width: 1040px;
 
     .services-list-container{
-        .service-list{
+        float: left;
+        width: 270px;
+        position: relative;
+        padding-top: 25px;
+        height: calc(100vh - 55px);
+        -webkit-transition:width linear 0.3s;
+        transition:width linear 0.3s;
+
+        &.closed {
+            width: 0px;
+
+            .toggle-service-drawer{
+                background: $background-beige;
+                right: -50px;
+
+                i{
+                    border: 2px solid $grey;
+                    padding-left: 5px;
+                }
+            }
+        }
+
+        .services-list{
             width: 270px;
+
             &[disabled]{
                 pointer-events: none;
                 opacity: 0.5;
             }
         }
 
-        padding-top: 20px;
-        float: left;
-        width: 270px;
-        position: relative;
-        height: calc(100vh - 55px);
-        -webkit-transition:width linear 0.3s;
-        transition:width linear 0.3s;
-
         .toggle-service-drawer{
             position: absolute;
             right: 0px;
-            top: 5px;
+            top: 10px;
             width: 50px;
             line-height: 50px;
             height: 50px;
@@ -43,23 +58,24 @@
             }
         }
 
-        &.closed {
-            width: 0px;
-
-            .toggle-service-drawer{
-                background: $background-beige;
-                right: -50px;
-
-                i{
-                    border: 2px solid $grey;
-                    padding-left: 5px;
-                }
-            }
-        }
-
         .no-services-message{
             width: 85%;
             margin: 0 auto;
+
+            div{
+                font-size: 16px;
+                text-align: center;
+                margin-top: 20px;
+
+                &.no-services-start{
+                    margin-top: 25px;
+                }
+
+                &.no-services-end{
+                    font-size: 12px;
+                    margin-bottom: 30px;
+                }
+            }
         }
 
         h4{
@@ -72,78 +88,78 @@
         }
 
         ul{
-            margin-top: 1em;
-        }
+            margin-top: 20px;
 
-        button.create-item{
-            height: 30px;
-            width: 145px;
-            display: block;
-            font-size: 14px;
-            border: none;
-            margin: 0 auto 25px auto;
-            color: $white;
-            background: $green;
-            border-radius: 5px;
+            button.create-item{
+                height: 30px;
+                width: 145px;
+                display: block;
+                font-size: 14px;
+                border: none;
+                margin: 0 auto 25px auto;
+                color: $white;
+                background: $green;
+                border-radius: 5px;
 
-            i{
-                margin-right: 10px;
-            }
-        }
-
-
-        li.service-details{
-            cursor: move;
-            width: 90%;
-            height: 50px;
-            margin: 0 auto 10px auto;
-            padding: 10px 12.5px;
-            background: $white;
-            overflow: hidden;
-            -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
-            -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
-            box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
-
-            &.dragging{
-                background: transparent;
-                -webkit-box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
-                -moz-box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
-                box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
-
-                *{
-                    display: none;
+                i{
+                    margin-right: 10px;
                 }
             }
 
-            .colour-circle{
-                @extend %vertical-align;
-                @extend %service-background-colors;
-                float: left;
-                width: 15px;
-                height: 15px;
-                border-radius: 10px;
-            }
 
-            .fa{
-                @extend %vertical-align;
-                float: right;
-                color: $text-grey;
-            }
-
-            .service-name{
-                @extend %vertical-align;
-                font-family: lato-bold;
-                float: left;
-                width: 70%;
-                margin-left: 10px;
-                font-size: 0.9em;
-                max-height: 20px;
-                line-height: 20px;
-                color: $text-dark-grey;
+            li.service-details{
+                cursor: move;
+                width: 90%;
+                height: 50px;
+                margin: 0 auto 10px auto;
+                padding: 10px 12.5px;
+                background: $white;
                 overflow: hidden;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                font-size: 14px;
+                -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+                -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+                box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+
+                &.dragging{
+                    background: transparent;
+                    -webkit-box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
+                    -moz-box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
+                    box-shadow: inset 2px 2px 5px 2px rgba(0,0,0,0.25);
+
+                    *{
+                        display: none;
+                    }
+                }
+
+                .colour-circle{
+                    @extend %vertical-align;
+                    @extend %service-background-colors;
+                    float: left;
+                    width: 15px;
+                    height: 15px;
+                    border-radius: 10px;
+                }
+
+                .fa{
+                    @extend %vertical-align;
+                    float: right;
+                    color: $text-grey;
+                }
+
+                .service-name{
+                    @extend %vertical-align;
+                    font-family: lato-bold;
+                    float: left;
+                    width: 70%;
+                    margin-left: 10px;
+                    font-size: 0.9em;
+                    max-height: 20px;
+                    line-height: 20px;
+                    color: $text-dark-grey;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    font-size: 14px;
+                }
             }
         }
     }
@@ -308,9 +324,8 @@
 
 
                     &.fc-state-active{
-                        background: $dark-blue;
-                        border-color: $dark-blue;
-                        color: $white;
+                        color: $dark-grey;
+                        background: $background-grey;
                     }
 
                     &.fc-agendaWeek-button{
@@ -328,6 +343,7 @@
                 @extend %service-border-colors;
                 border-width: 1.5px;
                 border-radius: 0;
+                margin: 1px 0;
 
                 .fc-bg{
                     background: none;
