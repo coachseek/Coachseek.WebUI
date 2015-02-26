@@ -10,6 +10,9 @@ angular.module('scheduling',
             .state('scheduling', {
                 url: "/scheduling",
                 templateUrl: "scheduling/partials/schedulingView.html",
-                controller: 'schedulingCtrl'
+                controller: 'schedulingCtrl',
+                data: {
+                    requireLogin: true
+                }
             });
     }]);

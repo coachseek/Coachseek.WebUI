@@ -8,7 +8,7 @@ angular.module('businessSetup',
         $stateProvider
             .state('businessSetup', {
                 url: "/business-setup",
-                templateUrl: "businessSetup/partials/businessSetup.html",
+                templateUrl: "businessSetup/partials/businessSetup.html"
             })
             .state('businessSetup.business', {
                 url: "/business",
@@ -17,6 +17,21 @@ angular.module('businessSetup',
                         templateUrl: "businessSetup/partials/businessView.html",
                         controller: 'businessCtrl'
                     }
+                },
+                data: {
+                    requireLogin: true
+                }
+            })
+            .state('businessSetup.business.newUser', {
+                url: "/new-user",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/businessView.html",
+                        controller: 'businessCtrl'
+                    }
+                },
+                data: {
+                    requireLogin: false
                 }
             })
             .state('businessSetup.locations', {
@@ -26,6 +41,9 @@ angular.module('businessSetup',
                         templateUrl: "businessSetup/partials/locationsView.html",
                         controller: 'locationsCtrl'
                     }
+                },
+                data: {
+                    requireLogin: true
                 }
             })
             .state('businessSetup.coachList', {
@@ -35,10 +53,29 @@ angular.module('businessSetup',
                         templateUrl: "businessSetup/partials/coachesView.html",
                         controller: 'coachesCtrl'
                     }
+                },
+                data: {
+                    requireLogin: true
                 }
             })
             .state('businessSetup.services', {
                 url: "/services",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "businessSetup/partials/servicesView.html",
+                        controller: "servicesCtrl"
+                     }
+                },
+                data: {
+                    requireLogin: true
+                }
+            })
+            .state('businessSetup.services.newItem', {
+                url: "/new-item",
+                data: {
+                    newService: true,
+                    requireLogin: true
+                },
                 views: {
                     "list-item-view": { 
                         templateUrl: "businessSetup/partials/servicesView.html",

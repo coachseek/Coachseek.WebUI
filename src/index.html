@@ -23,7 +23,7 @@
                 <li><a class="inactive" ui-sref="financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <!-- <li><a ui-sref=""></a></li> -->
+                <li class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</li>
             </ul>
         </div>
     </div>

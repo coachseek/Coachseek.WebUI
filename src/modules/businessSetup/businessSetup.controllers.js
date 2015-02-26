@@ -20,8 +20,8 @@ angular.module('businessSetup.controllers', [])
             if(formValid){
                 var authHeader = 'Basic ' + btoa(business.admin.email + ':' + business.admin.password);
                 $http.defaults.headers.common['Authorization'] = authHeader;
-                $rootScope.basicAuth = authHeader;
-                console.log($rootScope.basicAuth);
+                $rootScope.currentUser = authHeader;
+                
                 CRUDService.update('BusinessRegistration', $scope, business);
             }
         };

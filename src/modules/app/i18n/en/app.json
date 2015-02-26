@@ -1,11 +1,13 @@
 {
-    "setup": "SETUP",
+    "settings": "SETTINGS",
     "dashboard": "DASHBOARD",
     "scheduling": "CALENDAR",
     "services": "SERVICES",
     "customers": "CUSTOMERS",
     "financials": "FINANCIALS",
-    "login": "Log In",
+    "logout-text": "LOG OUT",
+    "login-text": "LOGIN",
+    "logged-out": "You have logged out.",
     "person-details": {
     	"first-name": "First Name",
     	"last-name": "Last Name",
@@ -17,9 +19,18 @@
             "first-name": "Nick",
             "last-name": "Bollettieri",
             "email": "nick@bollettieri.com",
-            "phone": "",
-            "password": "⚾⚾⚾⚾⚾⚾"
+            "phone": ""
         }
+    },
+    "login": {
+        "placeholder": {
+            "email": "Email"
+        },
+        "password-min": "Password must contain at least 6 characters",
+        "logging-in": "Logging in",
+        "login-to-coachseek": "Login to Coachseek",
+        "new-here": "New here? ",
+        "create-account": "Create an account."
     },
     "edit-details": "Edit details",
     "save-details": "Save details",

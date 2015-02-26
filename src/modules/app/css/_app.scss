@@ -133,6 +133,20 @@ button:disabled{
   opacity: 0.5;
 }
 
+.container{
+  width: 100% !important;
+  max-width: none !important;
+
+  li.logout{
+    height: 55px;
+    line-height: 55px;
+    font-size: 12px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+  }
+}
+
 .error-messages, .prompt-messages{
   /* Needs to be positioned absolutley so error
      messages dont move form down */
