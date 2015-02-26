@@ -368,6 +368,13 @@ angular.module('scheduling.controllers', [])
                 $scope.calendarLoading = false;
             };
 
+            // TODO - do this in repeat selector
+            $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
+                if($scope.currentEvent && newVal < 2 && $scope.currentEvent.session.pricing){
+                    delete $scope.currentEvent.session.pricing.coursePrice;
+                }
+            });
+
             // INITIAL LOAD
             startCalendarLoading();
             $q.all({
