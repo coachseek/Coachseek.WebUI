@@ -33,6 +33,10 @@ describe('bussinessSetup Services', function(){
         return deferred.promise;
     });
 
+    let('isNewService', function(){
+        return null;
+    });
+
     var templateUrl = 'businessSetup/partials/servicesView.html',
         $serviceItemView,
         $serviceListView,
@@ -49,6 +53,8 @@ describe('bussinessSetup Services', function(){
         serviceDefaults = $injector.get('serviceDefaults');
         scope = $rootScope.$new();
 
+        $state.current.data = this.isNewService;
+
         getServicesStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
             return {$promise: self.promise};
         });
@@ -59,6 +65,22 @@ describe('bussinessSetup Services', function(){
     });
     it('should make a call to getServices', function(){
         expect(getServicesStub).to.be.calledOnce;
+    });
+    describe('when navigating from businessSetup.servicesEdit', function(){
+
+        let('isNewService', function(){
+            return {
+                newService: true
+            };
+        });
+
+        it('should show the edit view', function(){
+            console.log($serviceItemView)
+            expect($serviceItemView.hasClass('ng-hide')).to.be.false;
+        });
+        it('should create a new service', function(){
+            expect(scope.item).to.eql(serviceDefaults);
+        });
     });
     describe('during loading', function(){
         

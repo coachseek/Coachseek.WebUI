@@ -60,7 +60,6 @@ angular.module('businessSetup.controllers', [])
                 CRUDService.cancelEdit($scope);
             };
 
-
             $scope.$watch('item.name', function(newVal){
                 if( _.find($scope.itemList, {name: newVal}) ){
                     $scope.itemForm.name.$setValidity('duplicatename', false);
@@ -158,8 +157,8 @@ angular.module('businessSetup.controllers', [])
             }
         }
     )
-    .controller('servicesCtrl', ['$scope', '$filter', 'CRUDService', 'serviceDefaults',
-        function($scope, $filter, CRUDService, serviceDefaults){
+    .controller('servicesCtrl', ['$scope', '$state', 'CRUDService', 'serviceDefaults',
+        function($scope, $state, CRUDService, serviceDefaults){
 
         $scope.createItem = function(){
             $scope.newItem = true;
@@ -198,6 +197,9 @@ angular.module('businessSetup.controllers', [])
         });
 
         CRUDService.get('Services', $scope);
+        if ($state.current.data && $state.current.data.newService) {
+            $scope.createItem();
+        }
     }])
     .value('serviceDefaults', {
             timing: {
