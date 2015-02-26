@@ -15,7 +15,6 @@ describe('Scheduling Module', function() {
         });
     });
 
-
     describe('when loading the calendar initially', function(){
 
         let('coach', function(){
@@ -153,7 +152,10 @@ describe('Scheduling Module', function() {
                     startTime: this.dateOne.format('HH:mm'),
                     startDate: this.dateOne.format('YYYY-MM-DD')
                 },
-                repetition: this.serviceOne.repetition
+                repetition: this.serviceOne.repetition,
+                presentation: {
+                    colour: this.serviceOne.colour
+                }
             }
         });
 
@@ -167,7 +169,10 @@ describe('Scheduling Module', function() {
                     startTime: this.dateTwo.format('HH:mm'),
                     startDate: this.dateTwo.format('YYYY-MM-DD')
                 },
-                repetition: this.serviceTwo.repetition
+                repetition: this.serviceTwo.repetition,
+                presentation: {
+                    colour: this.serviceTwo.colour
+                }
             }
         });
 
@@ -181,7 +186,10 @@ describe('Scheduling Module', function() {
                     startTime: this.dateThree.format('HH:mm'),
                     startDate: this.dateThree.format('YYYY-MM-DD')
                 },
-                repetition: this.serviceOne.repetition
+                repetition: this.serviceOne.repetition,
+                presentation: {
+                    colour: this.serviceOne.colour
+                }
             }
         });
 
@@ -250,7 +258,7 @@ describe('Scheduling Module', function() {
             $testRegion.appendTo('body');
             createViewWithController(scope, templateUrl, 'schedulingCtrl');
             $calendar = $testRegion.find('.calendar');
-            $servicesList = $testRegion.find('.services-list');
+            $servicesList = $testRegion.find('.services-list-container');
             $firstService = $servicesList.find('.service-details').first();
 
             // must render here or calendar does nothing because of elementVisible()
@@ -259,6 +267,20 @@ describe('Scheduling Module', function() {
             // fuuuuuuuck. this has to be here because all event listeners have a $timeout
             // attached to them and the tests do not wait. could possibly use done() instead?
             $timeout.flush();
+        });
+        it('should attempt to get existing services, locations, and coaches', function(){
+            expect(getStub).to.be.calledWith({section: 'Coaches'})
+            expect(getStub).to.be.calledWith({section: 'Locations'})
+            expect(getStub).to.be.calledWith({section: 'Services'})
+        });
+        it('should load as many services in the service list', function(){
+            expect(_.size($servicesList.find('.service-details'))).to.equal(_.size(this.services))
+        });
+        it('should load the agendaWeek view', function(){
+            expect($calendar.find('.fc-view').hasClass('fc-agendaWeek-view')).to.be.true;
+        });
+        it('should show the service list', function(){
+            expect($servicesList.hasClass('closed')).to.be.false;
         });
         describe('when sessions are loading', function(){
             let('sessionsPromise', function(){
@@ -275,18 +297,6 @@ describe('Scheduling Module', function() {
             it('should not allow the calendar to exist', function(){
                 expect($calendar.length).to.equal(0);
             });
-        });
-        it('should attempt to get existing services, locations, and coaches', function(){
-            expect(getStub).to.be.calledWith({section: 'Coaches'})
-            expect(getStub).to.be.calledWith({section: 'Locations'})
-            expect(getStub).to.be.calledWith({section: 'Services'})
-        });
-        it('should load as many services in the service list', function(){
-            expect(_.size($servicesList.find('.service-details'))).to.equal(_.size(this.services))
-        });
-        it('should load the agendaWeek view', function(){
-            expect(scope.calendarView.name).to.equal('agendaWeek');
-            expect($calendar.find('.fc-view').hasClass('fc-agendaWeek-view')).to.be.true;
         });
         it('should load the coaches into the coach selector', function(){
             var $coachOptions = $testRegion.find('.coach-list option');
@@ -334,8 +344,8 @@ describe('Scheduling Module', function() {
         describe('when GETting the sessions', function(){
             it('should make a call to get', function(){
                 var getSessionsParams = {
-                    startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
-                    endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    startDate: scope.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: scope.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: '',
                     section: 'Sessions'
@@ -371,11 +381,11 @@ describe('Scheduling Module', function() {
             it('should show the session modal', function(){
                 expect($sessionModal.hasClass('ng-hide')).to.be.false;
             });
-            it('should set the currentSession on the scope', function(){
-                expect(scope.currentSession).to.exist;
+            it('should set the currentEvent on the scope', function(){
+                expect(scope.currentEvent).to.exist;
             });
             it('should disable the session list', function(){
-                expect($servicesList.attr('disabled')).to.equal('disabled');
+                expect($servicesList.find('.services-list').attr('disabled')).to.equal('disabled');
             });
             describe('the session modal', function(){
                 it('should load the coach into the coach list', function(){
@@ -421,7 +431,7 @@ describe('Scheduling Module', function() {
                         });
                         describe('when the form is valid', function(){
                             beforeEach(function(){
-                                _.assign(scope.currentSession, {
+                                _.assign(scope.currentEvent.session, {
                                     location: {
                                         id: 'location_2'
                                     },
@@ -436,7 +446,7 @@ describe('Scheduling Module', function() {
                                 $sessionModal.find('.save-button').trigger('click');
                             });
                             it('should attempt to save the session', function(){
-                                expect(updateStub).to.be.calledWith({section: 'Sessions'}, scope.currentSession);
+                                expect(updateStub).to.be.calledWith({section: 'Sessions'}, scope.currentEvent.session);
                             });
                             it('should hide the session modal', function(){
                                 expect($sessionModal.hasClass('ng-hide')).to.be.true;
@@ -447,7 +457,7 @@ describe('Scheduling Module', function() {
                         });
                         describe('when the form is invalid', function(){
                             beforeEach(function(){
-                                _.assign(scope.currentSession, {
+                                _.assign(scope.currentEvent.session, {
                                     coach: {
                                         id: ''
                                     },
@@ -466,7 +476,7 @@ describe('Scheduling Module', function() {
                                 expect($sessionModal.find('.error-messages.coaches .required').length).not.equal(0);
                             });
                             it('should disable the session list', function(){
-                                expect($servicesList.attr('disabled')).to.equal('disabled');
+                                expect($servicesList.find('.services-list').attr('disabled')).to.equal('disabled');
                             });
                         });
                     });
@@ -527,8 +537,8 @@ describe('Scheduling Module', function() {
             });
             it('should make a call to the API with the new coach ID', function(){
                 var getSessionsParams = {
-                    startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
-                    endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    startDate: scope.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: scope.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: this.coachTwo.id,
                     section: 'Sessions'
@@ -552,8 +562,8 @@ describe('Scheduling Module', function() {
             });
             it('should make a call to the API with the new coach ID', function(){
                 var getSessionsParams = {
-                    startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
-                    endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    startDate: scope.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: scope.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
                     locationId: this.locationTwo.id,
                     coachId: '',
                     section: 'Sessions'
@@ -572,7 +582,6 @@ describe('Scheduling Module', function() {
                 });
                 // don't really need to test this but whatever
                 it('should change the view', function(){
-                    expect(scope.calendarView.name).to.equal('month');
                     expect($calendar.find('.fc-view').hasClass('fc-month-view')).to.be.true;
                 });
                 it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
@@ -593,8 +602,8 @@ describe('Scheduling Module', function() {
                     });
                     it('should GET a new month', function(){
                         var getSessionsParams = {
-                            startDate: scope.calendarView.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
-                            endDate: scope.calendarView.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                            startDate: scope.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                            endDate: scope.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
                             locationId: '',
                             coachId: '',
                             section: 'Sessions'
@@ -647,7 +656,6 @@ describe('Scheduling Module', function() {
                 });
                 // don't really need to test this but whatever
                 it('should change the view', function(){
-                    expect(scope.calendarView.name).to.equal('agendaDay');
                     expect($calendar.find('.fc-view').hasClass('fc-agendaDay-view')).to.be.true;
                 });
                 it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
@@ -663,7 +671,6 @@ describe('Scheduling Module', function() {
                     });
                     // don't really need to test this but whatever
                     it('should change the view', function(){
-                        expect(scope.calendarView.name).to.equal('agendaWeek');
                         expect($calendar.find('.fc-view').hasClass('fc-agendaWeek-view')).to.be.true;
                     });
                     it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
@@ -680,7 +687,6 @@ describe('Scheduling Module', function() {
                     });
                     // don't really need to test this but whatever
                     it('should change the view', function(){
-                        expect(scope.calendarView.name).to.equal('month');
                         expect($calendar.find('.fc-view').hasClass('fc-month-view')).to.be.true;
                     });
                     it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
@@ -692,6 +698,15 @@ describe('Scheduling Module', function() {
                 });
             });
         });
+        describe('when toggling the service drawer', function(){
+            beforeEach(function(){
+                $servicesList.find('.toggle-service-drawer').trigger('click');
+            });
+            it('should hide the service list', function(){
+                expect($servicesList.hasClass('closed')).to.be.true;
+            });
+        });
+
         // describe('when dragging a service from the list to the calendar', function(){
 
         //     beforeEach(function(){
