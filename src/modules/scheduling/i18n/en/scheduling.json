@@ -1,9 +1,9 @@
 {
     "services-title": "Services",
     "no-services": {
-    	"start": "Oops! Looks like you need head on over to ",
-    	"nav-to-services": "Services",
-    	"end": " and set some up real quick."
+    	"start": "Oh no!",
+    	"middle": "It looks like you don't have any services set up. Click the button below to add one.",
+    	"end": "e.g. Junior rowing training or advanced tennis serves, either oar..."
     },
     "all-coaches": "All Coaches",
     "all-locations": "All Locations",

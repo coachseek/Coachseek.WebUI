@@ -7,9 +7,9 @@
     <div class="services-list" ng-disabled="showModal">
         <h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
         <div class="no-services-message" ng-show="serviceList.length === 0">
-            {{'scheduling:no-services.start' | i18next}}
-            <a class="nav-to-services" ui-sref="businessSetup.servicesEdit">{{'scheduling:no-services.nav-to-services' | i18next}}</a>
-            {{'scheduling:no-services.end' | i18next}}
+            <div class="no-services-start">{{'scheduling:no-services.start' | i18next}}</div>
+            <div class="no-services-middle">{{'scheduling:no-services.middle' | i18next}}</div>
+            <div class="no-services-end">{{'scheduling:no-services.end' | i18next}}</div>
         </div>
         <ul>
             <li>
