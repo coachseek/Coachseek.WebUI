@@ -18,32 +18,31 @@
 	    font-weight: bold;
 	}
 
-	h4{
-		color: $grey;
-		float: left;
-		padding: 5px;
-	}
-
 	.setup-nav-container{
 		float: right;
 		margin-bottom: 35px;
+		width: 100%;
 
 		.setup-nav{
 			&.active{
 				background: $background-grey;
 			}
 
+			&:last-of-type{
+				margin-right: 0;
+			}
+
 			display: inline-block;
 			text-decoration: none;
-			width: 80px;
-			margin-left: 7px;
+			width: 22%;
+			margin-right: 4%;
 			background: $white;
 			font-size: 14px;
 			color: $dark-grey;
 			padding: 5px;
 			text-align: center;
 			border: 1px solid $border-grey;
-			border-radius: 5px;
+			float: left;
 		}
 	}
 
