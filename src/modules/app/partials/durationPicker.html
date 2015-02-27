@@ -1,5 +1,7 @@
-<input type="text" ng-click="editTime()" ng-init="editingTime = false" ng-model='time' class="time-picker-time" ng-readonly="true">
+<div class="duration-picker-container" ng-class="{editing: editingTime}">
+	<input type="text" ng-click="editTime()" ng-model='time' class="time-picker-time" ng-readonly="true">
 
-<div class="time-picker-container" ng-show="editingTime">
-    <time-picker time="time"></time-picker>
+	<div class="time-picker-container" ng-show="editingTime">
+	    <time-picker time="time"></time-picker>
+	</div>
 </div>

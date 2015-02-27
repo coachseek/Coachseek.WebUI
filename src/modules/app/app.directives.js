@@ -7,6 +7,8 @@ angular.module('app.directives', [])
 			restrict: "E",
 			templateUrl: 'app/partials/durationPicker.html',
 			link: function(scope, elem){
+				scope.editingTime = false;
+
 				var durationCopy,
 					minutes,
 					hours;

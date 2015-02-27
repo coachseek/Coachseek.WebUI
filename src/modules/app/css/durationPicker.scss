@@ -1,7 +1,18 @@
 duration-picker{
 	display: block;
 
-	input[readonly]{
-	    background-color: $white;
+	.duration-picker-container{
+		border-radius: 5px;
+		&.editing{
+			background: $background-grey;
+		}
+
+		input[readonly]{
+		    background-color: $white;
+		}
+
+		.time-picker-container{
+			width: 100%;
+		}
 	}
 }
