@@ -1,6 +1,6 @@
-<input type="text" ng-click="editTime('startTime')" ng-model='workingHours.startTime' class="form-control time-picker-time start" ng-readonly="true">
+<input type="text" ng-click="editTime('startTime')" ng-model='workingHours.startTime' class="time-picker-time start" ng-readonly="true">
 <span class='to-text'>{{'to' | i18next}}</span>
-<input type="text" ng-click="editTime('finishTime')" ng-model='workingHours.finishTime' class="form-control time-picker-time finish" ng-readonly="true">
+<input type="text" ng-click="editTime('finishTime')" ng-model='workingHours.finishTime' class="time-picker-time finish" ng-readonly="true">
 
 <div class="time-picker-container" ng-show="editingTime">
 	<time-picker ng-if="currentTime === 'startTime'" time="workingHours.startTime"></time-picker>

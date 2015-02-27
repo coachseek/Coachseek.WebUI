@@ -1,51 +1,72 @@
-.timePicker {
-    background: none;
-    -webkit-user-select: none;      
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-}
-.timePicker .increase, .timePicker .decrease{
+.time-picker-container{
+    height: 120px;
+    width: 445px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    -webkit-transition:all linear 0.3s;
+    transition:all linear 0.3s;
+    overflow: hidden;
     text-align: center;
-    vertical-align: middle;    
-    color: rgb(112, 112, 112);    
-    text-shadow: 0px 1px #FFF;
+}
+
+.time-picker-container.ng-hide {
+    height: 0px;
+}
+
+.time-picker{
+    background: $background-grey;
+
+    .hours, .minutes, .semi-colon {
+        overflow: hidden;
+        display: inline-block;
+        font-size: 20px;
+        width: 40px;
+        height: 85px;
+        cursor: pointer;
+    }
+
+    .semi-colon {
+        line-height: 77.5px;
+        font-size: 30px;
+        vertical-align: top;
+    }
+
+    .button-container{
+        width: 100%;
+        height: 30px;
+
+        button{
+            height: 30px;
+            width: 50%;
+            border: none;
+            color: $white;
+            float: left;
+        }
+
+        .time-picker-cancel-button{
+            background: $dark-grey;
+            border-bottom-left-radius: 5px;
+        }
+
+        .time-picker-save-button{
+            border-bottom-right-radius: 5px;
+            background: $green;
+        }
+    }
+}
+
+.time-picker-time{
     cursor: pointer;
-    -webkit-transition: 500ms ease-out all;
-    -moz-transition: 500ms ease-out all;
-    -ms-transition: 500ms ease-out all;
-    -o-transition: 500ms ease-out all;
-    transition: 500ms ease-out all;
-    font-size: 100%;
-    border: 1px solid #CCC;
-    padding: 3px;
-    margin: 3px;
-    border: 1px solid #EDE;
-}
- 
-.timePicker .increase:hover, .timePicker .decrease:hover{
-    color: rgba(112, 112, 112, 0.5);   
-    border-color: #CCC;
-    background-color: #FFF;
-}
- 
-.timePicker .increase:active, .timePicker .decrease:active{
-    color: rgb(112, 112, 112);
-    box-shadow: inset 1px 1px 1px #DDD;
-}
- 
-.timePicker .section{
     display: inline-block;
-}
- 
-.timePicker .display{
-    background-color: rgb(247, 247, 247);
-    color: #555555;
-    padding: 5px;
-    margin: 0px 3px;
-    min-width: 30px;
+    width: 70px;
+    font-size: 16px;
+    height: 35px;
+    border: 1px solid $light-grey;
+    background: transparent;
     text-align: center;
-    border: 1px solid #DDD;
-    box-shadow: 1px 1px 1px #FFFFFF;
+    display: inline-block;
+
+    &:focus{
+        border-color: $green;
+    }
 }

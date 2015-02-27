@@ -102,10 +102,11 @@ angular.module('businessSetup.directives', [])
                     scope.time = newVal;
                     if(scope.time){
                         var timeArray = scope.time.split(":");
-                        scope.displayHours = timeArray[0];
-                        scope.displayMinutes = timeArray[1];
                         scope.hours = parseFloat(timeArray[0]);
                         scope.minutes = parseFloat(timeArray[1]);
+
+                        scope.displayHours = displayHours();
+                        scope.displayMinutes = displayMinutes();
                     }
                 });
      
@@ -173,11 +174,18 @@ angular.module('businessSetup.directives', [])
                     return scope.minutes <= 9 ? "0" + scope.minutes : scope.minutes;
                 };
 
+                var displayHours = function () {
+                    return scope.hours <= 9 ? "0" + scope.hours : scope.hours;
+                };
+
                 var setTime = function(){
                     var minutesString = displayMinutes();
-                    scope.displayHours = scope.hours;
+                    var hoursString = displayHours();
+
+                    scope.displayHours = hoursString;
                     scope.displayMinutes = minutesString;
-                    scope.time = scope.hours + ":" + minutesString;
+
+                    scope.time = hoursString + ":" + minutesString;
                 };
             }
         };

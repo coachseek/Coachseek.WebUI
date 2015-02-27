@@ -107,13 +107,8 @@
 
         <div class="form-input right-col">
             <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
-            <input class="duration" ng-change="changeDuration()" name="duration" type="number" ng-model="currentEvent.session.timing.duration" min="15" max="1440" step="15" />
+            <duration-picker duration="currentEvent.session.timing.duration"></duration-picker>
         </div>
-
-        <!--<div class="form-input right-col">
-            <label name="studentCapacity">{{'scheduling:service-details.student-capacity' | i18next}}</label>
-            <input name="studentCapacity" type="number" ng-model="currentSession.booking.studentCapacity" placeholder="{{'scheduling:service-details.placeholder.student-capacity' | i18next}}"  min="1"  />
-        </div> -->
 
         <repeat-selector
             ng-show="tempEventId"

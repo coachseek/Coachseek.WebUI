@@ -32,7 +32,7 @@
         z-index: 1;
     }
     time-range-picker{
-        background: white;
+        background: $white;
         z-index: 0;
         float: left;
         position: relative;
@@ -44,74 +44,13 @@
             margin: 0 20px;
         }
 
+        input[readonly]{
+            background-color: $white;
+        }
+
         .time-picker-container{
-            height: 120px;
             width: 445px;
             margin-left: -75px;
-            -webkit-transition:all linear 0.3s;
-            transition:all linear 0.3s;
-        }
-
-        .time-picker-container.ng-hide {
-            height: 0px;
-        }
-
-        .time-picker{
-            background: $background-grey;
-
-            .hours, .minutes, .semi-colon{
-                overflow: hidden;
-                display: inline-block;
-                font-size: 20px;
-                width: 40px;
-                height: 85px;
-                cursor: pointer;
-            }
-
-            .semi-colon{
-                line-height: 77.5px;
-                font-size: 30px;
-                vertical-align: top;
-            }
-
-            .button-container{
-                width: 100%;
-                height: 30px;
-
-                button{
-                    height: 30px;
-                    width: 50%;
-                    border: none;
-                    color: $white;
-                    float: left;
-                }
-
-                .time-picker-cancel-button{
-                    background: $dark-grey;
-                    border-bottom-left-radius: 5px;
-                }
-
-                .time-picker-save-button{
-                    border-bottom-right-radius: 5px;
-                    background: $green;
-                }
-            }
-        }
-
-        .time-picker-time{
-            cursor: pointer;
-            display: inline-block;
-            width: 70px;
-            font-size: 16px;
-            height: 35px;
-            border: 1px solid $light-grey;
-            background: transparent;
-            text-align: center;
-            display: inline-block;
-
-            &:focus{
-                border-color: $green;
-            }
         }
 
         &.ng-invalid{
@@ -132,7 +71,7 @@
         border: none;
         height: 35px;
         width: 35px;
-        color: white;
+        color: $white;
         outline: none;
 
         i{

@@ -118,7 +118,6 @@
                 }
             }
 
-
             li.service-details{
                 cursor: move;
                 width: 90%;
@@ -206,8 +205,6 @@
         background: $white;
         overflow: hidden;
         position: relative;
-        /* $nav-bar-height not used here because calendar has trouble
-            determining scroll if its a sass variable */
         height: calc(100vh - 55px);
 
         &.toggle-closed{
@@ -447,6 +444,11 @@
             label {
                 color: $text-dark-grey;
                 font-size: 14px;
+            }
+
+            .time-picker-container{
+                width: 358px;
+                margin-left: -185px;
             }
 
             .money-sign{

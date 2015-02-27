@@ -37,8 +37,9 @@
 
         <div class="form-input left-col">
             <label name="duration">{{'businessSetup:service-details.duration' | i18next}}</label>
-            <input name="duration" type="number" ng-model="item.timing.duration" placeholder="{{'businessSetup:service-details.placeholder.duration' | i18next}}"  min="15" max="1440" step="15" />
+            <duration-picker duration="item.timing.duration"></duration-picker>
         </div>
+
 
         <div class="form-input left-col">
             <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
