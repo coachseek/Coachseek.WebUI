@@ -6,7 +6,6 @@
         float: left;
         width: 270px;
         position: relative;
-        padding-top: 25px;
         height: calc(100vh - 55px);
         -webkit-transition:width linear 0.3s;
         transition:width linear 0.3s;
@@ -15,18 +14,25 @@
             width: 0px;
 
             .toggle-service-drawer{
-                background: $background-beige;
-                right: -50px;
+                right: -99px;
+                background: #F5F5F5;
+                border: 1px solid $border-light-grey;
+                width: 100px;
+                padding-right: 5px;
+            }
 
-                i{
-                    border: 2px solid $grey;
-                    padding-left: 5px;
-                }
+            h4{
+                font-family: lato-regular;
+                font-size: 14px;
+                top: 27px;
+                right: -65px;
+                pointer-events: none;
             }
         }
 
         .services-list{
             width: 270px;
+            margin-top: 70px;
 
             &[disabled]{
                 pointer-events: none;
@@ -37,24 +43,20 @@
         .toggle-service-drawer{
             position: absolute;
             right: 0px;
-            top: 10px;
-            width: 50px;
-            line-height: 50px;
-            height: 50px;
-            text-align: center;
+            top: 20px;
+            line-height: 30px;
+            height: 30px;
+            padding-right: 15px;
+            text-align: right;
             cursor: pointer;
             z-index: 500;
             font-size: 1.5em;
-            -webkit-transition:right linear 0.3s;
-            transition:right linear 0.3s;
+            -webkit-transition:all linear 0.3s;
+            transition:all linear 0.3s;
 
             i{
                 font-size: 21px;
                 color: $grey;
-                height: 35px;
-                width: 35px;
-                line-height: 33px;
-                border-radius: 17px;
             }
         }
 
@@ -83,8 +85,18 @@
             font-family: lato-bold;
             font-size: 15px;
             color: $grey;
-            margin-bottom: 25px;
             cursor: pointer;
+            z-index: 500;
+            width: 50px;
+            top: 26px;
+            position: absolute;
+            left:0;
+            right:0;
+            margin-left:auto;
+            margin-right:auto;
+
+            -webkit-transition:right linear 0.3s;
+            transition:right linear 0.3s;
         }
 
         ul{
@@ -201,10 +213,10 @@
         &.toggle-closed{
             .dropdown-container{
                 &.coach-list{
-                    left: 100px;
+                    left: 150px;
                 }
                 &.location-list{
-                    left: 200px;
+                    left: 250px;
                 }
             }
         }

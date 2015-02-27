@@ -4,8 +4,8 @@
         ng-click="toggleOpen = !toggleOpen">
             <i class="fa" ng-class="toggleOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
     </span>
+    <h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
     <div class="services-list" ng-disabled="showModal">
-        <h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
         <div class="no-services-message" ng-show="serviceList.length === 0">
             <div class="no-services-start">{{'scheduling:no-services.start' | i18next}}</div>
             <div class="no-services-middle">{{'scheduling:no-services.middle' | i18next}}</div>
