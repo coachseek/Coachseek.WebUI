@@ -304,6 +304,7 @@ angular.module('scheduling.controllers', [])
                 $scope.removeAlerts();
                 resetForm();
                 removeTempEvents();
+                $scope.$broadcast('closeTimePicker', true);
                 if(currentEventCopy){
                     _.assign($scope.currentEvent, currentEventCopy);
                     $('#session-calendar').fullCalendar('updateEvent', $scope.currentEvent);            
@@ -316,6 +317,7 @@ angular.module('scheduling.controllers', [])
                 if($scope.currentSessionForm.$valid){
                     startCalendarLoading();
                     updateSession($scope.currentEvent.session).then(function(session){
+                        $scope.$broadcast('closeTimePicker', false);
                         resetForm();
                         $scope.showModal = false;
                         $scope.tempEventId = null;

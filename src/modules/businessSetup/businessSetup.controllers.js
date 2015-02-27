@@ -174,11 +174,13 @@ angular.module('businessSetup.controllers', [])
         $scope.saveItem = function(service){
             var formValid = CRUDService.validateForm($scope);
             if( formValid ){
+                $scope.$broadcast('closeTimePicker', false);
                 CRUDService.update('Services', $scope, service);
             }
         };
 
         $scope.cancelEdit = function(){
+            $scope.$broadcast('closeTimePicker', true);
             CRUDService.cancelEdit($scope);
         };
 
