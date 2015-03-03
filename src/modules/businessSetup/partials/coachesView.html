@@ -1,4 +1,4 @@
-<div class="coach-list-view" ng-hide="item">
+<div class="coach-list-view crud-list" ng-hide="item">
     <button class="create-item" ng-click="createItem()" ng-disabled="AILoading">
         <i class="fa fa-plus"></i>
         {{'businessSetup:add-coach' | i18next}}
@@ -14,7 +14,7 @@
         </li>
     </ul>
 </div>
-<div class="coach-item-view" ng-show="item">
+<div class="coach-item-view crud-item" ng-show="item">
     <form name="itemForm" novalidate ng-enter="saveItem(item)">
         <div class="form-input left-col">
             <label name="firstName">{{'person-details.first-name' | i18next}}</label>

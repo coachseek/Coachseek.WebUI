@@ -1,4 +1,4 @@
-<div class="service-list-view" ng-hide="item">
+<div class="service-list-view crud-list" ng-hide="item">
     <button class="create-item" ng-click="createItem()" ng-disabled="AILoading">
         <i class="fa fa-plus"></i>
         {{'businessSetup:add-service' | i18next}}
@@ -13,7 +13,7 @@
         </li>
     </ul>
 </div>
-<div class="service-item-view" ng-show="item">
+<div class="service-item-view crud-item" ng-show="item">
     <form name="itemForm" novalidate ng-enter="saveItem(item)">
         <div class="form-input">
             <label name="name">{{'businessSetup:service-details.name' | i18next}}</label>

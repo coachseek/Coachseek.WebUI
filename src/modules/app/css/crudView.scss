@@ -1,0 +1,124 @@
+.crud-list{
+	.create-item{
+		display: block;
+		border: none;
+		margin: 20px auto;
+		color: $white;
+		background: $green;
+		border-radius: 5px;
+		padding: 7.5px 25px;
+	}
+
+	.edit-item{
+		float: right;
+		border: none;
+		background: none;
+		color: $green;
+	}
+
+	ul{
+		li{
+			padding-top: 10px;
+			.item-title, .item-subtitle{
+				width: 50%;
+				float: left;
+				color: $text-dark-grey;
+				clear: left;
+			}
+			.service-description{
+				width: 75%;
+			}
+			.item-title{
+				font-size: 16px;
+			}
+			.item-subtitle.last{
+				margin-bottom: 15px;
+			}
+		}
+	}
+}
+
+.crud-item{
+	.form-input{
+	  width: 100%;
+	  float: left;
+	  margin-bottom: 15px;
+	  position: relative;
+	  
+	  &.left-col{
+	    width: 48%;
+	    margin-right: 4%;
+	  }
+	  &.right-col{
+	    width: 48%;
+	  }
+
+	  &:last-of-type{
+	    margin-bottom: 20px;
+	  }
+	}
+
+	.error-messages, .prompt-messages{
+	  /* Needs to be positioned absolutley so error
+	     messages dont move form down */
+	    position: absolute;
+	    bottom: -20px;
+	    height: 20px;
+	    width: 100%;
+	    color: $red;
+
+	    i{
+	      display: inline;
+	      color: $red;
+	      position: absolute;
+	      top: -30px;
+	      right: 7.5px;
+	    }
+	}
+
+	form{
+	  margin-top: 20px;
+	  margin-bottom: 10px;
+	  overflow: hidden;
+	  padding-bottom: 10px;
+
+	  label{
+	    color: $text-grey;
+	    font-size: 11px;
+	    display: block;
+	    padding: 2.5px 0px;
+	  }
+	}
+
+	.course-price, .session-price{
+	  input{
+	    padding-left: 17px;
+	  }
+
+	  .money-sign{
+	    color: $text-grey;
+	    position: absolute;
+	    top: 25px;
+	    left: 6px;
+	    font-size: 15px;
+	  }
+	}
+
+	.cancel-button{
+	  background: none;
+	  border: none;
+	  float: right;
+	  margin-right: 30px;
+	  color: $green;
+	  height: 35px;
+	}
+
+	.save-button{
+	  float: right;
+	  color: $white;
+	  background: $green;
+	  border: none;
+	  border-radius: 5px;
+	  padding: 7.5px 25px;
+	}
+}

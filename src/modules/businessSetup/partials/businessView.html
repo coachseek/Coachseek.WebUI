@@ -1,4 +1,4 @@
-<div class="business-list-view" ng-hide="item">
+<div class="business-list-view crud-list" ng-hide="item">
     <ul>
         <li class="business-details" ng-repeat="item in itemList">
             <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
@@ -9,7 +9,7 @@
         </li>
     </ul>
 </div>
-<div class="business-item-view" ng-show="item">
+<div class="business-item-view crud-item" ng-show="item">
     <form name="itemForm" novalidate ng-enter="saveItem(item)">
         <div class="form-input">
             <label name="name">{{'businessSetup:business-details.name' | i18next}}</label>
