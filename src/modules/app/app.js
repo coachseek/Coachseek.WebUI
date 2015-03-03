@@ -18,6 +18,7 @@ angular.module('app',
     // MODULES
     'businessSetup',
     'scheduling',
+    'customers',
     
     // UTILITIES
     'ngActivityIndicator'
