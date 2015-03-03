@@ -200,6 +200,7 @@ angular.module('businessSetup.controllers', [])
 
         CRUDService.get('Services', $scope);
         if ($state.current.data && $state.current.data.newService) {
+            $scope.AILoading = false;
             $scope.createItem();
         }
     }])
