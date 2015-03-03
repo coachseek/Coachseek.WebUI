@@ -4,8 +4,9 @@ angular.module('app.controllers', [])
         function ($rootScope, $state, $http, $timeout, loginModal) {
             // TODO - add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
+
                 _.forEach($rootScope.alerts, function(existingAlert, index){
-                    if(existingAlert.message === alert.message){
+                    if(existingAlert && existingAlert.message === alert.message){
                         $rootScope.closeAlert(index)
                     }
                 });
