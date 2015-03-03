@@ -5,7 +5,6 @@ angular.module('scheduling.controllers', [])
             //TODO - add ability to edit time range in modal?
 
             $scope.eventSources = [];
-            $scope.tempEventId;
 
             var rangesLoaded = [],
                 events = [],
@@ -274,10 +273,6 @@ angular.module('scheduling.controllers', [])
                 var newLocation = _.find($scope.locationList, {id: $scope.currentSessionForm.locations.$viewValue});
                 $scope.currentEvent.session.location = newLocation;
                 updateCurrentEvent();
-            };
-
-            $scope.changeDuration = function(){
-                console.log('CHANGE DURATION')
             };
 
             var updateCurrentEvent = function(){

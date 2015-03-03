@@ -7,7 +7,7 @@ angular.module('app.controllers', [])
 
                 _.forEach($rootScope.alerts, function(existingAlert, index){
                     if(existingAlert && existingAlert.message === alert.message){
-                        $rootScope.closeAlert(index)
+                        $rootScope.closeAlert(index);
                     }
                 });
 
@@ -28,7 +28,7 @@ angular.module('app.controllers', [])
             };
 
             $rootScope.logout = function(){
-                $http.defaults.headers.common['Authorization'] = null;
+                $http.defaults.headers.common.Authorization = null;
                 delete $rootScope.currentUser;
                 $state.go('businessSetup.business.newUser');
                 $rootScope.addAlert({
@@ -66,14 +66,14 @@ angular.module('app.controllers', [])
                 $scope.removeAlerts();
                 if($scope.loginForm.$valid){
                     var authHeader = 'Basic ' + btoa(email + ':' + password);
-                    $http.defaults.headers.common['Authorization'] = authHeader;
+                    $http.defaults.headers.common.Authorization = authHeader;
 
                     $activityIndicator.startAnimating();
                     coachSeekAPIService.get({section: 'Locations'})
                         .$promise.then(function(){
                             $scope.$close(authHeader);
                         }, function(error){
-                            $http.defaults.headers.common['Authorization'] = null;
+                            $http.defaults.headers.common.Authorization = null;
 
                             $scope.addAlert({
                                 type: 'danger',
@@ -94,7 +94,7 @@ angular.module('app.controllers', [])
                         });
                     });
                 }
-            }
+            };
 
             $scope.cancel = $scope.$dismiss;
         }]);

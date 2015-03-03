@@ -11,8 +11,8 @@ angular.module('app.directives', [])
 
 				var durationCopy,
 					minutes,
-					hours;
-				var $timePickerContainer = angular.element(elem.find('.time-picker-container'));
+					hours,
+					$timePickerContainer = angular.element(elem.find('.time-picker-container'));
 
                 scope.$watch('duration', function(newVal) {
                 	scope.duration = newVal;
@@ -88,7 +88,7 @@ angular.module('app.directives', [])
 		return {
 			restrict: "E",
 	        templateUrl:'app/partials/selectArrows.html'	
-		}
+		};
 	})
 	.directive('ellipsisAnimated', function () {
 	    return {

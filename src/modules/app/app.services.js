@@ -39,7 +39,7 @@ angular.module('app.services', []).
 					templateUrl: 'app/partials/loginModal.html',
 					controller: 'loginModalCtrl',
 					backdropClass: 'modal-backdrop'
-				})
+				});
 
 				return instance.result.then(assignCurrentUser);
 			};
