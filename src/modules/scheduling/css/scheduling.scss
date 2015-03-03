@@ -244,14 +244,14 @@
 
             select{
                 color: $grey;
-                padding: 4px 10px;
+                padding: 4px 20px 4px 10px;
                 border: none;
                 box-shadow: none;
                 background: $another-white;
                 background-image: none;
                 -webkit-appearance: none;
                 cursor: pointer;
-                width: 90px;
+                width: 103px;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;

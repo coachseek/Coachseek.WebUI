@@ -11,6 +11,7 @@ angular.module('scheduling.controllers', [])
                 events = [],
                 currentEventCopy;
 
+            $scope.eventSources[0] = events;
             $scope.draggableOptions = {
                 helper: function(event) {
                     var serviceData = $(this).data('service');
@@ -32,7 +33,7 @@ angular.module('scheduling.controllers', [])
                     droppable: true,
                     allDaySlot: false,
                     firstDay: 1,
-                    aspectRatio: 1.2,
+                    // aspectRatio: 1.3,
                     snapDuration: '00:15:00',
                     defaultView: 'agendaWeek',
                     eventDurationEditable: false,
