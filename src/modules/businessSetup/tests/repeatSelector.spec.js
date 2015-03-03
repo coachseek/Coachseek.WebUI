@@ -114,11 +114,11 @@ describe('repeatSelector directive', function(){
         beforeEach(function(){
             $sessionCount = $testRegion.find('.session-count');
             $frequencySelector = $testRegion.find('.frequency-selector');
-            $sessionCount.val(130);
+            $sessionCount.val(22);
             angular.element($sessionCount).triggerHandler('change');
         });
         it('should set the sessionCount to the scope', function(){
-            expect(scope.sessionCount).to.equal(130);
+            expect(scope.sessionCount).to.equal(22);
         });
         beforeEach(function(){
                 angular.element($sessionCount).triggerHandler('focus');
@@ -144,7 +144,7 @@ describe('repeatSelector directive', function(){
 
             describe('and the sessionCount is greater than 1', function(){
                 beforeEach(function(){
-                    $sessionCount.val(69);
+                    $sessionCount.val(22);
                     angular.element($sessionCount).triggerHandler('change');
                 });
                 it('should NOT hide the frequency selector', function(){
