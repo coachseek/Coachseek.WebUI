@@ -75,7 +75,6 @@ describe('bussinessSetup Services', function(){
         });
 
         it('should show the edit view', function(){
-            console.log($serviceItemView)
             expect($serviceItemView.hasClass('ng-hide')).to.be.false;
         });
         it('should create a new service', function(){

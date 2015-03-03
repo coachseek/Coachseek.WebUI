@@ -1,12 +1,11 @@
 <div class="login-modal-container">
 	<div class="coachseek-logo"></div>
-	<form name="loginForm" novalidate ng-submit="attemptLogin(email, password)">
+	<form name="loginForm" novalidate ng-enter="attemptLogin(email, password)">
 		<input class="login-email" name="email" type="email" ng-model="email" placeholder="{{'login.placeholder.email' | i18next}}"  required ng-maxlength=100 />
 
 		<input class="login-password" name="password" type="password" ng-model="password" placeholder="&#xf1e3;&#xf1e3;&#xf1e3;&#xf1e3;&#xf1e3;&#xf1e3;" required ng-minlength=6 ng-maxlength=50 />
 		<label name="password">{{'login.password-min' | i18next}}</label>
-
-		<button ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'login.logging-in' : 'login.login-to-coachseek'}}</span><ellipsis-animated ng-show="AILoading"/></button>
 	</form>
+	<button class="save-button" ng-click="attemptLogin(email, password)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'login.logging-in' : 'login.login-to-coachseek'}}</span><ellipsis-animated ng-show="AILoading"/></button>
 	<div class="new-user">{{'login.new-here' | i18next}}<a ng-click="cancel()" ui-sref="businessSetup.business.newUser">{{'login.create-account' | i18next}}</a></div>
 </div>

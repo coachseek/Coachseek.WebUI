@@ -22,9 +22,7 @@ angular.module('app',
     // UTILITIES
     'ngActivityIndicator'
 
-    ]).config(['$stateProvider', '$locationProvider', function ($stateProvider){
-        $stateProvider.state('home', { url: "/" });
-    }]).config(['$i18nextProvider', function( $i18nextProvider ){
+    ]).config(['$i18nextProvider', function( $i18nextProvider ){
         $i18nextProvider.options = {
             lng: 'en',
             fallbackLng: 'en',

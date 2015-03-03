@@ -30,7 +30,7 @@ describe('timePicker directive', function(){
                 });
 
                 it('should roll over to 0', function(){
-                    expect(scope.testTime).to.equal('0:00');
+                    expect(scope.testTime).to.equal('00:00');
                 });
             });
         });

@@ -1,10 +1,16 @@
 describe('BusinessSetup Module', function() {
 
     var scope,
-        coachSeekAPIService;
+        loginModalStub;
 
     beforeEach(function() {
-        coachSeekAPIService = $injector.get('coachSeekAPIService');
+        var loginModal = $injector.get('$modal');
+        loginModalStub = this.sinon.stub(loginModal, 'open', function(){
+            var deferred = $q.defer();
+            deferred.resolve("User");
+            return {result: deferred.promise};
+        });
+
         scope = $rootScope.$new();
     });
     describe('businessSetup states', function() {
@@ -15,6 +21,9 @@ describe('BusinessSetup Module', function() {
                 $rootScope.$digest();
 
                 viewAttrs = $state.current.views['list-item-view'];
+            });
+            it('should attempt to bring up the login modal if not logged in', function(){
+                expect(loginModalStub).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/businessView.html');
@@ -31,6 +40,9 @@ describe('BusinessSetup Module', function() {
 
                 viewAttrs = $state.current.views['list-item-view'];
             });
+            it('should attempt to bring up the login modal if not logged in', function(){
+                expect(loginModalStub).to.be.calledOnce;
+            });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/servicesView.html');
             });
@@ -45,6 +57,9 @@ describe('BusinessSetup Module', function() {
                 $rootScope.$digest();
 
                 viewAttrs = $state.current.views['list-item-view'];
+            });
+            it('should attempt to bring up the login modal if not logged in', function(){
+                expect(loginModalStub).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/coachesView.html');
@@ -61,6 +76,9 @@ describe('BusinessSetup Module', function() {
 
                 viewAttrs = $state.current.views['list-item-view'];
             });
+            it('should attempt to bring up the login modal if not logged in', function(){
+                expect(loginModalStub).to.be.calledOnce;
+            });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/locationsView.html');
             });
@@ -71,10 +89,13 @@ describe('BusinessSetup Module', function() {
         describe('when navigating to businessSetup.servicesEdit', function(){
             var viewAttrs;
             beforeEach(function(){
-                $state.go('businessSetup.servicesEdit');
+                $state.go('businessSetup.services.newItem');
                 $rootScope.$digest();
 
                 viewAttrs = $state.current.views['list-item-view'];
+            });
+            it('should attempt to bring up the login modal if not logged in', function(){
+                expect(loginModalStub).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/servicesView.html');

@@ -74,6 +74,14 @@ module.exports = function(grunt) {
                 cwd: 'src/modules',
                 src: '**/partials/*.html',
                 dest: 'src/js/templates.js'
+            },
+            test: {
+                options:{
+                    module: 'app',
+                },
+                cwd: 'src',
+                src: 'index.html',
+                dest: 'src/js.spec/testTemplates.js'
             }
         },
         //TODO - switch to ng-annotate?
