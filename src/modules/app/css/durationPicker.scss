@@ -13,6 +13,11 @@ duration-picker{
 
 		.time-picker-container{
 			width: 100%;
+
+			.button-container{
+				position: absolute;
+				bottom: 0;
+			}
 		}
 	}
 }
