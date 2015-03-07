@@ -1,0 +1,25 @@
+.page-loading{
+    width: 100%;
+    position: fixed;
+    height: 100%;
+    z-index: 50000;
+    background: rgba(255,255,255, 0.75);
+
+    .indicator-container{
+        position: relative;
+        top: 35%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        margin: 0 auto;
+        background: none;
+        float: none;
+
+        div{
+            top: 0;
+            left: 0;
+            height: 60px;
+            width: 60px;
+        }
+    }
+}
