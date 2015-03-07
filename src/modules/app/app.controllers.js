@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$state', '$http', '$timeout', 'loginModal',
-        function ($rootScope, $state, $http, $timeout, loginModal) {
+    .controller('appCtrl', ['$rootScope', '$state', '$http', '$timeout', 'loginModal', '$window',
+        function ($rootScope, $state, $http, $timeout, loginModal, $window) {
             // TODO - add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
 
@@ -84,6 +84,17 @@ angular.module('app.controllers', [])
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
+<<<<<<< HEAD
+=======
+
+                if (typeof $rootScope.currentUser === 'undefined') {
+                    if ($window.sessionStorage.getItem("user") && $window.sessionStorage.getItem("authHeader")) {
+                        $rootScope.currentUser = $window.sessionStorage.getItem("user");
+                        $http.defaults.headers.common.Authorization = $window.sessionStorage.getItem("authHeader");
+                    }
+                }
+
+>>>>>>> Store credentials in session storage to preserve authentication between page reloads.
                 if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
                     event.preventDefault();
 
@@ -99,13 +110,19 @@ angular.module('app.controllers', [])
             $rootScope.isCollapsed = true;
 
         }])
-        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', 
-            function ($scope, coachSeekAPIService, $http, $activityIndicator) {
+        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',
+            function ($scope, coachSeekAPIService, $http, $activityIndicator, $window) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
                 if($scope.loginForm.$valid){
+<<<<<<< HEAD
                     $scope.setUserAuth(email, password);
+=======
+                    var authHeader = 'Basic ' + btoa(email + ':' + password);
+                    $http.defaults.headers.common.Authorization = authHeader;
+                    $window.sessionStorage.setItem("authHeader", authHeader);
+>>>>>>> Store credentials in session storage to preserve authentication between page reloads.
 
                     $activityIndicator.startAnimating();
                     coachSeekAPIService.get({section: 'Locations'})

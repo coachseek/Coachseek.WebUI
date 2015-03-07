@@ -55,7 +55,6 @@ angular.module('app.services', [])
             }
             resetToList($scope);
         };
-
         this.validateForm = function($scope){
             var valid = $scope.itemForm.$valid;
 
