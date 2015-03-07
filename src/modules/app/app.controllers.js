@@ -95,6 +95,9 @@ angular.module('app.controllers', [])
                     $rootScope.removeAlerts();
                 }
             });
+
+            $rootScope.isCollapsed = true;
+
         }])
         .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', 
             function ($scope, coachSeekAPIService, $http, $activityIndicator) {
