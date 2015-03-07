@@ -27,10 +27,11 @@ angular.module('app.services', []).
 	//         document.cookie = cookie;
 	//     }
 	// })
-	.service('loginModal', ['$modal', '$rootScope',
-		function ($modal, $rootScope) {
+	.service('loginModal', ['$modal', '$rootScope', '$window', 
+		function ($modal, $rootScope, $window) {
 			function assignCurrentUser (user) {
 				$rootScope.currentUser = user;
+                $window.sessionStorage.setItem("user", user);
 				return user;
 			}
 

@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$state', '$http', '$timeout', 'loginModal',
-        function ($rootScope, $state, $http, $timeout, loginModal) {
+    .controller('appCtrl', ['$rootScope', '$state', '$http', '$timeout', 'loginModal', '$window',
+        function ($rootScope, $state, $http, $timeout, loginModal, $window) {
             // TODO - add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
 
@@ -30,6 +30,8 @@ angular.module('app.controllers', [])
             $rootScope.logout = function(){
                 $http.defaults.headers.common.Authorization = null;
                 delete $rootScope.currentUser;
+                $window.sessionStorage.removeItem("user");
+                $window.sessionStorage.removeItem("authHeader");
                 $state.go('businessSetup.business.newUser');
                 Intercom('shutdown');
                 $rootScope.addAlert({
@@ -57,6 +59,13 @@ angular.module('app.controllers', [])
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
 
+                if (typeof $rootScope.currentUser === 'undefined') {
+                    if ($window.sessionStorage.getItem("user") && $window.sessionStorage.getItem("authHeader")) {
+                        $rootScope.currentUser = $window.sessionStorage.getItem("user");
+                        $http.defaults.headers.common.Authorization = $window.sessionStorage.getItem("authHeader");
+                    }
+                }
+
                 if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
                     $http.defaults.headers.common.Authorization = 'Basic b25lQGR1ZGUuY29tOnBhc3N3b3Jk';
                     // event.preventDefault();
@@ -73,14 +82,15 @@ angular.module('app.controllers', [])
             $rootScope.isCollapsed = true;
 
         }])
-        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', 
-            function ($scope, coachSeekAPIService, $http, $activityIndicator) {
+        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',
+            function ($scope, coachSeekAPIService, $http, $activityIndicator, $window) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
                 if($scope.loginForm.$valid){
                     var authHeader = 'Basic ' + btoa(email + ':' + password);
                     $http.defaults.headers.common.Authorization = authHeader;
+                    $window.sessionStorage.setItem("authHeader", authHeader);
 
                     $activityIndicator.startAnimating();
                     coachSeekAPIService.get({section: 'Locations'})
