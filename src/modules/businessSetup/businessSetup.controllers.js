@@ -21,7 +21,8 @@ angular.module('businessSetup.controllers', [])
                 var authHeader = 'Basic ' + btoa(business.admin.email + ':' + business.admin.password);
                 $http.defaults.headers.common.Authorization = authHeader;
                 $rootScope.currentUser = authHeader;
-                
+                var nameString = business.admin.firstName + " " + business.admin.lastName;
+                $scope.startIntercom(business.admin.email, Date.now(), nameString);
                 CRUDService.update('BusinessRegistration', $scope, business);
             }
         };

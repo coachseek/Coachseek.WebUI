@@ -31,6 +31,7 @@ angular.module('app.controllers', [])
                 $http.defaults.headers.common.Authorization = null;
                 delete $rootScope.currentUser;
                 $state.go('businessSetup.business.newUser');
+                Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -44,16 +45,26 @@ angular.module('app.controllers', [])
                 });
             };
 
+            $rootScope.startIntercom = function(email, date, name){
+                Intercom('boot', {
+                    app_id: "udg0papy",
+                    name: name,
+                    email: email,
+                    created_at: date
+                });
+            };
+
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
 
                 if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
-                    event.preventDefault();
+                    $http.defaults.headers.common.Authorization = 'Basic b25lQGR1ZGUuY29tOnBhc3N3b3Jk';
+                    // event.preventDefault();
 
-                    loginModal().then(function () {
-                        $rootScope.removeAlerts();
-                        return $state.go(toState.name, toParams);
-                    });
+                    // loginModal().then(function () {
+                    //     $rootScope.removeAlerts();
+                    //     return $state.go(toState.name, toParams);
+                    // });
                 } else {
                     $rootScope.removeAlerts();
                 }
@@ -71,7 +82,8 @@ angular.module('app.controllers', [])
                     $activityIndicator.startAnimating();
                     coachSeekAPIService.get({section: 'Locations'})
                         .$promise.then(function(){
-                            $scope.$close(authHeader);
+                            $scope.startIntercom(email);
+                            $scope.$close(email);
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
 

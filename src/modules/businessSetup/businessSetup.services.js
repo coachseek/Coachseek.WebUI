@@ -30,13 +30,18 @@ angular.module('businessSetup.services', []).
             coachSeekAPIService.update({section: functionName}, item)
                 .$promise.then(function(item){
                     $scope.itemList.push(item);
-                    resetToList($scope);
 
                     $scope.addAlert({
                         type: 'success',
                         message: "businessSetup:save-success",
                         name: item.name ? item.name: findName(item)
                     });
+                    if($scope.newItem){
+                        var updateObject = {};
+                        updateObject[functionName] = $scope.itemList.length;
+                        Intercom('update', updateObject);
+                    }
+                    resetToList($scope);
                 }, function(error){
                     _.forEach(error.data, function(error){
                         $scope.addAlert({
