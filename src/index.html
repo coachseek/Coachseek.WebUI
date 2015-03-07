@@ -11,23 +11,34 @@
     <script src="js/templates.js"></script>
     <script src="//static.intercomcdn.com/intercom.v1.js"></script>
 </head>
+
 <body ng-app="app" ng-controller="appCtrl">
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <activity-indicator ui-sref="businessSetup.business"></activity-indicator>
-            <ul class="nav navbar-nav navbar-left">
-                <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
-                <li><a class="inactive" ui-sref="dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
-                <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
-                <li><a class="inactive" ui-sref="services" ui-sref-active="active">{{'services' | i18next}}</a></li>
-                <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
-                <li><a class="inactive" ui-sref="financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</li>
-            </ul>
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button class="navbar-toggle" type="button" ng-click="isCollapsed = !isCollapsed">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <activity-indicator ui-sref="businessSetup.business"></activity-indicator>
+            </div>
+            <div collapse="isCollapsed" class="navbar-collapse bs-js-navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
+                    <li><a class="inactive" ui-sref="dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
+                    <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
+                    <li><a class="inactive" ui-sref="services" ui-sref-active="active">{{'services' | i18next}}</a></li>
+                    <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
+                    <li><a class="inactive" ui-sref="financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </nav>
     <div ui-view id="main-view" state="{{$state.current.name}}"></div>
     <div class="alert-container">
         <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
