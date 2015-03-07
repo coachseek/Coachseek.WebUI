@@ -1,3 +1,5 @@
 {
-	"add-customer": "Add Customer"
+	"add-customer": "Add Customer",
+	"no-customers-found": "No search results.",
+	"search-customers": "Search cutomers"
 }

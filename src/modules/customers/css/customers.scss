@@ -1,4 +1,65 @@
 [state^="customers"] {
 	max-width: 445px;
 	margin: 45px auto;
+
+	.create-item{
+		margin-bottom: 40px;
+	}
+
+	.search-container{
+		position: relative;
+		i{
+			position: absolute;
+			top: 9px;
+			left: 10px;
+			color: $text-grey;
+		}
+
+		input{
+			padding-left: 35px;
+		}
+	}
+
+	.customer-details {
+		.item-title{
+			clear: none;
+			width: auto;
+
+			&.last-name{
+				margin-left: 5px;
+			}
+		}
+	}
+
+	.no-customers{
+		margin-top: 30px;
+		font-size: 20px;
+		width: 100%;
+		text-align: center;
+	}
+
+	.letter-search{
+		margin: 15px 0;
+		color: $text-dark-grey;
+
+		span{
+			font-size: 15px;
+			height: 20px;
+			line-height: 20px;
+			cursor: pointer;
+			text-align: center;
+			width: calc(100%/27);
+			display: inline-block;
+
+			&.active{
+				font-size: 17px;
+				font-family: lato-bold;
+			}
+		}
+	}
+	
+	.highlighted{
+		font-family: lato-bold;
+		color: black;
+	}
 }

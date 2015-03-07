@@ -1,6 +1,10 @@
 angular.module('customers.controllers', [])
-    .controller('customersCtrl', ['$scope', 'CRUDService',
-    	function($scope, CRUDService){
+    .controller('customersCtrl', ['$scope', '$filter', 'CRUDService',
+    	function($scope, $filter, CRUDService){
+
+        var peopleList;
+        //TODO - make this i18nable
+        $scope.alphabetLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","ALL"]
 
     	$scope.createItem = function(){
     	    $scope.newItem = true;
@@ -26,7 +30,98 @@ angular.module('customers.controllers', [])
     	    CRUDService.cancelEdit($scope);
     	};
 
-    	$scope.itemList = [];
-    	$scope.createItem();
-    	// CRUDService.get('Customers', $scope);
-    }]);
+        $scope.loadMore = function() {
+            _.forEach(peopleList.shift(), function(person){
+                $scope.customerList.push(person);
+            });
+        };
+
+        var filterText = function(){
+            peopleList = $scope.itemList;
+            if($scope.searchLetter){
+                peopleList = $filter('byLastName')(peopleList, $scope.searchLetter);
+            } 
+            peopleList = $filter('searchBox')(peopleList, $scope.searchText);
+            peopleList = $filter('orderBy')(peopleList, ['lastName', 'firstName']);
+            peopleList = _.chunk(peopleList, 20);
+            $scope.customerList = [];
+            $scope.loadMore();    
+        }
+
+        $scope.$watch("searchText", function (newVal) {
+            if(newVal === ''){
+                $scope.searchText = null;
+            }
+            filterText();
+        });
+
+        var unregister = $scope.$watch('itemList', function(newVal){
+            if(newVal){
+                filterText();
+                unregister()
+            }
+        });
+
+        $scope.$watchGroup(["searchLetter", "searchText"], function(newVals){
+            if(!newVals[0]){
+                $scope.filterHighlight = newVals[1];
+            } else if (!newVals[1]) {
+                $scope.filterHighlight = newVals[0];
+            } else {
+                $scope.filterHighlight = newVals[1] + " " + newVals[0];
+            }
+        });
+
+        $scope.sortBy = function(letter){
+            if(letter === "ALL"){
+                $scope.searchLetter = null;
+            } else {
+                $scope.searchLetter = letter;
+            }
+            filterText();
+        };
+
+    	CRUDService.get('Customers', $scope);
+    }])
+    .filter('highlight', function($sce) {
+        return function(text, scope) {
+            var phrase = scope.filterHighlight;
+            if (text && phrase){
+                var phrases = phrase.split(" ");
+                var regex = scope.searchText ? new RegExp(phrases.join("|"),"gi") : new RegExp("^" + phrases.join("|"),"gi");
+                text = text.replace(regex, function(matched){
+                    return '<span class="highlighted">' + matched + '</span>';
+                });
+            }
+            return $sce.trustAsHtml(text)
+        }
+     })
+    .filter('byLastName', function($sce) {
+        return function(items, letter){
+            return _.filter(items, function (item) {
+                return new RegExp(letter, "i").test(item.lastName.substring(0, 1));
+            });
+        }
+     })
+    .filter('searchBox', function(){
+        return function(items, value){
+            if(!value){
+                return items;
+            } else {
+                value = value.toLowerCase();
+                var values = value.split(" ");
+
+                return _.filter(items, function(item){
+                        var firstName = item.firstName.toLowerCase();
+                        var lastName = item.lastName.toLowerCase();
+                        var matches = [];
+                        _.forEach(values, function(value){
+                            if(_.includes(firstName, value) || _.includes(lastName, value) || _.includes(item.phone, value) ){
+                                matches.push(true);
+                            }
+                        })
+                        return matches.length === values.length;
+                });
+            }
+        }
+    });

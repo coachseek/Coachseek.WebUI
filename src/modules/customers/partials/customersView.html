@@ -3,14 +3,30 @@
         <i class="fa fa-plus"></i>
         {{'customers:add-customer' | i18next}}
     </button>
-    <hr />
-    <ul>
-        <li class="customers-details" ng-repeat="item in itemList">
+    <div class="search-container">
+        <i class="fa fa-lg fa-search"></i>    
+        <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
+    </div>
+    <div class="letter-search">
+        <span ng-repeat="letter in alphabetLetters" ng-class="{active: searchLetter === letter}" ng-click="sortBy(letter)">{{letter}}</span>
+    </div>
+    <hr class="double-wide"/>
+    <ul infinite-scroll='loadMore()'>
+        <li class="customer-details" ng-repeat="item in customerList">
             <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
-            <span class="item-title">{{item.firstName}} {{item.lastName}}</span>
-            <span class="item-subtitle last">{{item.phone}}</span>
+            <div ng-if="searchText">
+                <span class="item-title first-name" ng-bind-html="item.firstName | highlight:this">{{item.firstName}}</span>
+                <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
+                <span class="item-subtitle last" ng-bind-html="item.phone | highlight:this">{{item.phone}}</span>
+            </div>
+            <div ng-if="!searchText">
+                <span class="item-title first-name">{{item.firstName}}</span>
+                <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
+                <span class="item-subtitle last">{{item.phone}}</span>
+            </div>
             <hr/>
         </li>
+        <div class="no-customers" ng-if="!customerList.length && !AILoading">{{'customers:no-customers-found' | i18next}}</div>
     </ul>
 </div>
 <div class="customers-item-view crud-item" ng-show="item">
