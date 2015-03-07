@@ -1,6 +1,8 @@
 angular.module('customers',
     [
         'customers.controllers',
+
+        'infinite-scroll'
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider
