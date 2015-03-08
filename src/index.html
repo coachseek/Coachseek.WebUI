@@ -40,7 +40,9 @@
             </div>
         </div>
     </nav>
-    <div ui-view id="main-view" state="{{$state.current.name}}"></div>
+    <div class="main-container">
+        <div ui-view id="main-view" state="{{$state.current.name}}"></div>
+    </div>
     <div class="alert-container">
         <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
             <span ng-i18next="[i18next]({name:alert.name}){{alert.message}}"></span>
