@@ -4,6 +4,9 @@ READE ME
 Follow these steps to get CoachSeek up and running
 --------------
 
+- Install Ruby from http://rubyinstaller.org/downloads/ 
+    Check the box to add to path.
+- Install sass; gem install sass
 - Make sure node is installed
 - From the root directory run: npm install
 - start simple wedserver with: grunt connect
