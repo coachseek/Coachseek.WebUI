@@ -14,7 +14,8 @@
 
 		.setup-nav{
 			&.active{
-				background: $background-grey;
+				background: $background-navy;
+				color: $white;
 			}
 
 			&:last-of-type{
