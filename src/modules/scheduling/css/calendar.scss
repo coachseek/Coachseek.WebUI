@@ -1,0 +1,183 @@
+[state^="scheduling"] {
+    .calendar-container{
+        background: $white;
+        overflow: hidden;
+        position: relative;
+        height: calc(100vh - 55px);
+
+        &.toggle-closed{
+            .dropdown-container{
+                &.coach-list{
+                    left: 150px;
+                }
+                &.location-list{
+                    left: 250px;
+                }
+            }
+        }
+
+        .dropdown-container{
+            width: 105px;
+            height: 30px;
+            top: 20px;
+            position: absolute;
+            background: #F5F5F5;
+            color: $grey;
+            border: 1px solid $border-light-grey;
+            -webkit-transition:left linear 0.3s;
+            transition:left linear 0.3s;
+
+            &[disabled]{
+                pointer-events: none;
+                opacity: 0.5;
+            }
+
+            &.coach-list{
+                border-right: none;
+                left: 20px;
+            }
+            &.location-list{
+                left: 125px;
+            }
+
+            select{
+                color: $grey;
+                padding: 3px 20px 3px 10px;
+                border: none;
+                box-shadow: none;
+                background: $another-white;
+                background-image: none;
+                -webkit-appearance: none;
+                cursor: pointer;
+                width: 103px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+
+                &:focus{
+                    outline: none;
+                }
+            }
+
+            i{
+                @extend %vertical-align;
+                position: absolute;
+                right: 10px;
+                pointer-events: none;
+                font-size: 10px;
+            }
+        }
+
+        .coach-title{
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            top: 55px;
+            font-size: 16px;
+            color: $dark-grey;
+        }
+
+        .calendar{
+            .fc-view-container{
+                padding: 0 20px;
+            }
+
+            button, button:active{
+                outline: none;
+                color: $grey;
+                text-shadow: none;
+            }
+
+            thead{
+                border-color: #DFDFDF;
+            }
+            .fc-time span, .fc-day-header{
+                color: $grey;
+            }
+            .fc-center{
+                position: relative;
+                width: 220px;
+                margin: 0 auto;
+                color: $grey;
+                overflow: hidden;
+
+                h2{
+                    font-size: 1.1em;
+                    line-height: 35px;
+                    width: 220px;
+                }
+                button{
+                    position: absolute;
+                    font-size: 1.5em;
+                    height: auto;
+                }
+                .fc-prev-button{
+                    left: 0px;
+                }
+                .fc-next-button{
+                    right: 0px;
+                }
+            }
+
+            .fc-right{
+                position: absolute;
+                right: 20px;
+
+                .fc-button{
+                    padding: 0 10px;
+                    border: 1px solid $border-light-grey;
+                    width: 60px;
+                    background: $another-white;
+
+
+                    &.fc-state-active{
+                        color: $white;
+                        background: $background-navy;
+                    }
+
+                    &.fc-agendaWeek-button{
+                        border-left: none;
+                        border-right: none;
+                    }
+                }
+                .fc-today-button{
+                    margin-left: 7.5px;
+                }
+            }
+
+            .fc-event {
+                @extend %service-background-colors-60;
+                @extend %service-border-colors;
+                border-width: 1.5px;
+                border-radius: 0;
+                margin: 1px 0;
+
+                .fc-bg{
+                    background: none;
+                }
+            }
+
+            .fc-title{
+                font-size: 13px;
+            }
+
+            .fc-toolbar{
+                margin: 20px 0 35px 0;
+            }
+
+            .fc-content .fc-time{
+               display : none;
+            }
+
+            .fc-unthemed{
+                td{
+                    border-color: #DFDFDF
+                }
+            }
+
+            .fc-highlight{
+                background: $green;
+            }
+        }
+    }
+}
