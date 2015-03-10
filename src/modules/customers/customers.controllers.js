@@ -65,6 +65,18 @@ angular.module('customers.controllers', [])
             }
         });
 
+        $scope.$watch('item.email', function(newVal){
+            if(newVal === ''){
+                $scope.item.email = null;
+            }
+        });
+
+        $scope.$watch('item.phone', function(newVal){
+            if(newVal === ''){
+                $scope.item.phone = null;
+            }
+        });
+
         $scope.$watchGroup(["searchLetter", "searchText"], function(newVals){
             if(!newVals[0]){
                 $scope.filterHighlight = newVals[1];
