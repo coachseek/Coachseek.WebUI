@@ -1,10 +1,6 @@
 angular.module('customers.controllers', [])
-    .controller('customersCtrl', ['$scope', '$filter', 'CRUDService',
-    	function($scope, $filter, CRUDService){
-
-        var peopleList;
-        //TODO - make this i18nable
-        $scope.alphabetLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","ALL"]
+    .controller('customersCtrl', ['$scope', 'CRUDService',
+    	function($scope, CRUDService){
 
     	$scope.createItem = function(){
     	    $scope.newItem = true;
@@ -29,6 +25,13 @@ angular.module('customers.controllers', [])
     	$scope.cancelEdit = function(){
     	    CRUDService.cancelEdit($scope);
     	};
+
+    	CRUDService.get('Customers', $scope);
+    }])
+    .controller('customerSearchCtrl', ['$scope', '$filter', function($scope, $filter){
+        var peopleList;
+        //TODO - make this i18nable
+        $scope.alphabetLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","| ALL"];
 
         $scope.loadMore = function() {
             _.forEach(peopleList.shift(), function(person){
@@ -80,8 +83,6 @@ angular.module('customers.controllers', [])
             }
             filterText();
         };
-
-    	CRUDService.get('Customers', $scope);
     }])
     .filter('highlight', function($sce) {
         return function(text, scope) {
