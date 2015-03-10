@@ -111,11 +111,9 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event) {
-                        if(!event.session.parentId){
-                            $scope.showModal = true;
-                            $scope.currentEvent = event;
-                            currentEventCopy = angular.copy(event);
-                        }
+                        $scope.showModal = true;
+                        $scope.currentEvent = event;
+                        currentEventCopy = angular.copy(event);
                     },
                     viewRender: function(view, $element){
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
@@ -198,12 +196,11 @@ angular.module('scheduling.controllers', [])
                 var newDate = date.clone();
                 var duration = session.timing.duration;
                 var newEvent = {
-                    _id: $scope.tempEventId || session.parentId,
+                    _id: $scope.tempEventId,
                     title: session.service.name,
                     start: moment(newDate),
                     end: moment(newDate.add(session.timing.duration, 'minutes')),
                     allDay: false,
-                    editable: $scope.tempEventId || session.parentId ? false: true,
                     className: session.presentation.colour,
                     // events need to know about sessions in order to save
                     // when moved/dragged while in calendar
