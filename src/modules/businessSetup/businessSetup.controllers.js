@@ -207,7 +207,7 @@ angular.module('businessSetup.controllers', [])
     }])
     .value('serviceDefaults', {
             timing: {
-                duration: 15
+                duration: 60
             },
             repetition: {
                 sessionCount: 1
