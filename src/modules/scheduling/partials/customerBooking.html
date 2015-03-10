@@ -1,0 +1,7 @@
+<li class="student-details">
+    <div class="attending-checkbox" ng-click="toggleAttendance()">
+    	<i class="fa" ng-class="{'fa-check': checked}" ng-hide="bookingLoading"></i>
+    	<ellipsis-animated ng-show="bookingLoading"/>
+    </div>
+    <div class="item-title">{{student.firstName}} {{student.lastName}}</div>
+</li>

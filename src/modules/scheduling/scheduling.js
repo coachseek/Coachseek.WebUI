@@ -1,6 +1,7 @@
 angular.module('scheduling',
     [
         'scheduling.controllers',
+        'scheduling.directives',
 
         'ngDragDrop',
         'ui.calendar'

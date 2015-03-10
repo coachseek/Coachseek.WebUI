@@ -1,0 +1,103 @@
+.attendance-list{
+    margin: 0 auto;
+    width: 90%;
+
+    &::-webkit-scrollbar { 
+        display: none; 
+    }
+
+    .create-item{
+        display: block;
+        border: none;
+        margin: 20px auto;
+        color: $white;
+        background: $green;
+        border-radius: 5px;
+        padding: 7.5px 25px;
+    }
+
+    .customer-list{
+        .search-container{
+            margin-bottom: 10px;
+        }
+
+        ul{
+            li{
+                width: 100%;
+                .item-title{
+                    line-height: 45px;
+                }
+                button{
+                    width: 45px;
+                    height: 45px;
+                    border: none;
+                    background: none;
+                    float: right;
+
+                    font-size: 23px;
+                    line-height: 45px;
+                    &.fa-plus{
+                        color: $green;                    
+                    }
+                    &.fa-check{
+                        color: $grey;
+                    }
+                    &[disabled]{
+                        pointer-events: none;
+                    }
+                }
+                ellipsis-animated{
+                    color: $green;
+                    font-size: 22px;
+                    float: right;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+    .no-students{
+        margin-top: 30px;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .student-details{
+        margin-bottom: 10px;
+        width: 100%;
+        background: $white;
+        overflow: hidden;
+
+        div{
+            float: left;
+        }
+        .item-title{
+            padding-left: 15px;
+            width: calc(100%-45px);
+            line-height: 45px;
+            font-size: 14px;
+        }
+        .attending-checkbox{
+            -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+            -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+            box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+
+            cursor: pointer;
+            background: $green;
+            width: 45px;
+            height: 45px;
+            color: $white;
+            text-align: center;
+
+            .fa{
+                line-height: 45px;
+                font-size: 30px;
+            }
+
+            ellipsis-animated{
+                font-size: 23px;
+            }
+        }
+    }
+}
