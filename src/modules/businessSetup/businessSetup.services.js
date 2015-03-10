@@ -13,14 +13,7 @@ angular.module('businessSetup.services', []).
                         $scope.itemList = [];
                         $scope.createItem();
                     }
-                }, function(error){
-                    _.forEach(error.data, function(error){
-                        $scope.addAlert({
-                            type: 'danger',
-                            message: error.message ? error.message: error
-                        });
-                    });
-                }).finally(function(){
+                }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
         };
@@ -42,14 +35,7 @@ angular.module('businessSetup.services', []).
                         Intercom('update', updateObject);
                     }
                     resetToList($scope);
-                }, function(error){
-                    _.forEach(error.data, function(error){
-                        $scope.addAlert({
-                            type: 'danger',
-                            message: error.message ? error.message: error
-                        });
-                    });
-                }).finally(function(){
+                }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
         };

@@ -18,6 +18,15 @@ angular.module('app.controllers', [])
                     }, 3000);
                 }
             };
+
+            $rootScope.handleErrors = function(error){
+                _.forEach(error.data, function(error){
+                    $rootScope.addAlert({
+                        type: 'danger',
+                        message: error.message ? error.message: error
+                    });
+                });
+            };
             
             $rootScope.closeAlert = function(index) {
                 $rootScope.alerts.splice(index, 1);
@@ -87,10 +96,7 @@ angular.module('app.controllers', [])
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
 
-                            $scope.addAlert({
-                                type: 'danger',
-                                message: error.statusText
-                            });
+                            $scope.handleErrors(error)
                         }).finally(function(){
                             $activityIndicator.stopAnimating();
                         });

@@ -163,12 +163,7 @@ angular.module('scheduling.controllers', [])
                         }
                     }, function(error){
                         //remove temp event here
-                        _.forEach(error.data, function(error){
-                            $scope.addAlert({
-                                type: 'danger',
-                                message: error.message
-                            });
-                        });
+                        $scope.handleErrors(error);
                         stopCalendarLoading();
                     });
             };
@@ -320,12 +315,7 @@ angular.module('scheduling.controllers', [])
                         var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
                         loadInterval(newRange, true);
                     }, function(error){
-                        _.forEach(error.data, function(error){
-                            $scope.addAlert({
-                                type: 'danger',
-                                message: error.message
-                            });
-                        });
+                        $scope.handleErrors(error);
                         stopCalendarLoading();
                     });
                 }
@@ -385,12 +375,24 @@ angular.module('scheduling.controllers', [])
                     $scope.locationList = response.locations;
                     $scope.serviceList  = response.services;
                 },function(error){
-                    _.forEach(error.data, function(error){
-                        $scope.addAlert({
-                            type: 'danger',
-                            message: error.message ? error.message: error
-                        });
-                    });
+                    $scope.handleErrors(error);
                     stopCalendarLoading();
                 });
+    }])
+    .controller('attendanceCtrl', ['$scope', 'coachSeekAPIService',
+        function($scope, coachSeekAPIService){
+            $scope.showCustomers = false;
+
+            $scope.showCustomerList = function(){
+                $scope.showCustomers = true;
+            };
+
+            $scope.hideCustomerList = function(){
+                $scope.showCustomers = false;
+            };
+
+            coachSeekAPIService.get({section: 'Customers'})
+                .$promise.then(function(customerList){
+                    $scope.itemList  =  customerList;
+                }, $scope.handleErrors);
     }]);
