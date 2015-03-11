@@ -47,8 +47,10 @@ angular.module('businessSetup.controllers', [])
         function($scope, CRUDService){
 
             $scope.createItem = function(){
-                $scope.newItem = true;
-                $scope.item = {};
+                if(!$scope.item){
+                    $scope.newItem = true;
+                    $scope.item = {};
+                }
             };
 
             $scope.editItem = function(location){
@@ -83,8 +85,10 @@ angular.module('businessSetup.controllers', [])
         function ($scope, CRUDService, coachDefaults) {
 
         $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = angular.copy(coachDefaults);
+            if(!$scope.item){
+                $scope.newItem = true;
+                $scope.item = angular.copy(coachDefaults);
+            }
         };
         
         $scope.editItem = function(coach){
@@ -170,8 +174,10 @@ angular.module('businessSetup.controllers', [])
         function($scope, $state, CRUDService, serviceDefaults){
 
         $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = angular.copy(serviceDefaults);
+            if(!$scope.item){
+                $scope.newItem = true;
+                $scope.item = angular.copy(serviceDefaults);
+            }
         };
 
         $scope.editItem = function(service){
