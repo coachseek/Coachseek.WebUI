@@ -28,7 +28,10 @@
                 ng-repeat="item in serviceList | orderBy:'name'">
                     <i class="fa fa-bars"></i>
                     <span class="colour-circle {{item.presentation.colour}}"></span>
-                    <h5 class="service-name">{{item.name}}</h5>
+                    <div class="service-text">
+                        <h5 class="service-name">{{item.name}}</h5>
+                        <div class="service-description" ng-if="item.description">{{item.description}}</div>
+                    </div>
             </li>
         </ul>
     </div>

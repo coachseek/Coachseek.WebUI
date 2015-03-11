@@ -153,20 +153,28 @@
                     color: $text-grey;
                 }
 
-                .service-name{
+                .service-text{
                     @extend %vertical-align;
-                    font-family: lato-bold;
                     float: left;
                     width: 70%;
                     margin-left: 10px;
-                    font-size: 0.9em;
-                    max-height: 20px;
-                    line-height: 20px;
-                    color: $text-dark-grey;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    font-size: 14px;
+
+                    .service-name{
+                        font-family: lato-bold;
+                        font-size: 14px;
+                        color: $text-dark-grey;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+
+                    .service-description{
+                        font-size: 12px;
+                        color: $grey;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
                 }
             }
         }
