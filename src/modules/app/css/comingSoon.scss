@@ -1,0 +1,40 @@
+.coming-soon-container{
+	width: 60%;
+	margin: 75px auto 0 auto;
+
+	.coming-soon-message{
+		color: $text-dark-grey;;
+		font-size: 27px;
+		text-align: center;
+	}
+
+	.coming-soon-submessage{
+		margin-bottom: 30px;
+		color: $grey;
+		text-align: center;
+	}
+
+	textarea{
+		min-height: 200px;
+	}
+
+	.save-button{
+		@extend %green-button;
+
+		margin-top: 30px;
+		float: right;
+	}
+
+	.feedback-sent{
+		color: $text-dark-grey;
+		font-size: 20px;
+		text-align: center;
+	}
+	.be-the-unicorn{
+		margin: 50px auto 0 auto;
+		width: 300px;
+		height: 380px;
+		background: url("../assets/pics/betheunicorn.jpg") no-repeat center;
+		background-size: 100%;
+	}
+}

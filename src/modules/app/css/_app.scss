@@ -34,6 +34,14 @@ $nav-bar-height: 55px;
   transform: translateY(-50%);
 }
 
+%green-button{
+    color: $white;
+    background: $green;
+    border: none;
+    border-radius: 5px;
+    padding: 7.5px 25px;
+}
+
 %service-background-colors{
   &.green { background-color: $green; }
   &.blue  { background-color: $blue; }
