@@ -53,6 +53,14 @@ angular.module('customers.controllers', [])
             $scope.loadMore();    
         }
 
+        $scope.$on('updateSuccess', function(){
+            filterText();
+        });
+
+        $scope.$on('getSuccess', function(){
+            filterText();
+        });
+
         $scope.$watch("searchText", function (newVal) {
             if(newVal === ''){
                 $scope.searchText = null;
@@ -60,22 +68,13 @@ angular.module('customers.controllers', [])
             filterText();
         });
 
-        var unregister = $scope.$watch('itemList', function(newVal){
-            if(newVal){
-                filterText();
-                unregister()
-            }
-        });
-
-        $scope.$watch('item.email', function(newVal){
-            if(newVal === ''){
-                $scope.item.email = null;
-            }
-        });
-
-        $scope.$watch('item.phone', function(newVal){
-            if(newVal === ''){
-                $scope.item.phone = null;
+        $scope.$watchCollection('item', function(newVals){
+            if(newVals){
+                if(newVals.email === ""){
+                    delete $scope.item.email;
+                } else if (newVals.phone === ""){
+                    delete $scope.item.phone;
+                }
             }
         });
 
