@@ -70,7 +70,7 @@
         <div class="time-range">{{ getSessionTimeRange() }}</div>
         <i class="fa fa-times" ng-click="cancelModalEdit()"></i>
     </div>
-    <div class="session-modal-nav" ng-init="currentTab = 'attendance'">
+    <div class="session-modal-nav" ng-init="currentTab = 'general'">
         <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>
         <div class="attendance" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>
     </div>
