@@ -13,6 +13,7 @@ angular.module('businessSetup.services', []).
                         $scope.itemList = [];
                         $scope.createItem();
                     }
+                    $scope.$broadcast('getSuccess');
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
@@ -35,6 +36,7 @@ angular.module('businessSetup.services', []).
                         Intercom('update', updateObject);
                     }
                     resetToList($scope);
+                    $scope.$broadcast('updateSuccess');
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
