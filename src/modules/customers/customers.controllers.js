@@ -57,8 +57,11 @@ angular.module('customers.controllers', [])
             filterText();
         });
 
-        $scope.$on('getSuccess', function(){
-            filterText();
+        var unregister = $scope.$watch('itemList', function(newVal){
+            if(newVal){
+                filterText();
+                unregister();
+            }
         });
 
         $scope.$watch("searchText", function (newVal) {
