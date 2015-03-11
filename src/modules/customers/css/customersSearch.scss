@@ -50,6 +50,11 @@
 				font-size: 17px;
 				font-family: lato-bold;
 			}
+
+			&:last-of-type{
+				border-left: 2px solid $text-dark-grey;
+				padding-left: 5px;
+			}
 		}
 	}
 
