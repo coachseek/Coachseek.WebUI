@@ -6,32 +6,31 @@ angular.module('scheduling.directives', [])
 			templateUrl:'scheduling/partials/modalCustomerDetails.html',
 			scope: true,
 			link: function(scope){
-				scope.addStudent = function(){
-				    var booking = buildBooking();
-				    console.log(booking);
-				    // scope.bookingLoading = true;
-	        		scope.currentEvent.session.booking.bookings.push(scope.item)
-		        	scope.hideCustomerList();
 
-				    // coachSeekAPIService.update({section: 'Bookings'}, booking)
-				    //     .$promise.then(function(booking){
-				    //         scope.currentEvent.session.booking.bookings.push(booking);
-				    //         scope.isStudent = true;
-				    //     }, scope.handleErrors).finally(function(){
-				    //     	scope.hideCustomerList();
-				    //         scope.bookingLoading = false;
-				    //     });
+				scope.addStudent = function(){
+				    var bookingObject = buildBooking();
+
+				    scope.bookingLoading = true;
+				    coachSeekAPIService.update({section: 'Bookings'}, bookingObject)
+				        .$promise.then(function(booking){
+				        	console.log(booking)
+				            scope.currentEvent.session.booking.bookings.push(bookingObject);
+				            scope.isStudent = true;
+				        }, scope.handleErrors).finally(function(){
+				        	scope.hideCustomerList();
+				            scope.bookingLoading = false;
+				        });
 				};
 
 				scope.$watch('currentEvent', function(newVal){
 				    if(newVal){
+			        	scope.isStudent = false;
 				    	var bookings = newVal.session.booking.bookings;
-				        // if(_.find(bookings, {customer: scope.item})){
-				        	scope.isStudent = _.random(1);
-				        	if(scope.isStudent){
-				        		scope.currentEvent.session.booking.bookings.push(scope.item)
-				        	}
-				        // }
+				    	_.forEach(bookings, function(booking){
+				    		if(booking.customer.id === scope.item.id){
+					        	scope.isStudent = true;
+				    		}
+				    	});
 				    }
 				});
 
@@ -43,7 +42,8 @@ angular.module('scheduling.directives', [])
 				        },
 				        customer: {
 				            id: scope.item.id,
-				            name: scope.item.firstName + ' ' + scope.item.lastName
+				            firstName: scope.item.firstName,
+				            lastName: scope.item.lastName
 				        }
 				    };
 				};

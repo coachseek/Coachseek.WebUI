@@ -157,7 +157,7 @@
         </div>
         <div class="student-list" ng-hide="showCustomers">
             <ul>
-                <customer-booking ng-repeat="student in currentEvent.session.booking.bookings | filter:[lastName, firstName]"></customer-booking>
+                <customer-booking ng-repeat="booking in currentEvent.session.booking.bookings | orderBy:['customer.lastName', 'customer.firstName']"></customer-booking>
                 <div class="no-students" ng-if="!currentEvent.session.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div>
             </ul>
         </div>
