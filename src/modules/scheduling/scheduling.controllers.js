@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService',
-        function($scope, $q, coachSeekAPIService){
+    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator',
+        function($scope, $q, coachSeekAPIService, $activityIndicator){
 
             //TODO - add ability to edit time range in modal?
 
@@ -89,7 +89,7 @@ angular.module('scheduling.controllers', [])
                                 startTime: newDate.format('HH:mm')
                             });
 
-                            startCalendarLoading();     
+                            $activityIndicator.startAnimating();
                             updateSession(session).then(function(){
                                 $scope.removeAlerts();
                             }, function(error){
@@ -106,7 +106,7 @@ angular.module('scheduling.controllers', [])
                                     });
                                 });
                             }).finally(function(){
-                                stopCalendarLoading();
+                                $activityIndicator.stopAnimating();
                             });
                         }
                     },
