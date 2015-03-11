@@ -72,6 +72,17 @@ angular.module('app.directives', [])
 			templateUrl: 'app/partials/activityIndicator.html'
 		};
 	})
+	.directive('ngTabAdd', function(){
+		return function (scope, element, attrs) {
+		    $(window).on("keydown keypress", function (event) {
+		        if(event.which === 9) {
+		            scope.$apply(function (){
+		                scope.$eval(attrs.ngTabAdd);
+		            });
+		        }
+		    });
+		};
+	})
 	.directive('ngEnter', function(){
 		return function (scope, element, attrs) {
 		    element.on("keydown keypress", function (event) {
