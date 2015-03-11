@@ -3,8 +3,10 @@ angular.module('customers.controllers', [])
     	function($scope, CRUDService){
 
     	$scope.createItem = function(){
-    	    $scope.newItem = true;
-    	    $scope.item = {};
+            if(!$scope.item){
+                $scope.newItem = true;
+                $scope.item = {};
+            }
     	};
 
     	$scope.editItem = function(customer){
