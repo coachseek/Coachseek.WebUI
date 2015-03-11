@@ -31,8 +31,16 @@ angular.module('businessSetup.controllers', [])
             CRUDService.cancelEdit($scope);
         };
 
-        $scope.itemList = [];
-        $scope.createItem();
+        if(!$scope.currentUser){
+            $scope.itemList = [];
+            $scope.createItem();
+        } else {
+            $scope.itemList = [{
+                admin:{
+                    email: $scope.currentUser
+                }
+            }]
+        }
         // CRUDService.get('BusinessRegistration', $scope);
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService',
