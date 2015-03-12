@@ -65,15 +65,13 @@ angular.module('app.controllers', [])
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-
                 if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
-                    $http.defaults.headers.common.Authorization = 'Basic b25lQGR1ZGUuY29tOnBhc3N3b3Jk';
-                    // event.preventDefault();
+                    event.preventDefault();
 
-                    // loginModal().then(function () {
-                    //     $rootScope.removeAlerts();
-                    //     return $state.go(toState.name, toParams);
-                    // });
+                    loginModal().then(function () {
+                        $rootScope.removeAlerts();
+                        return $state.go(toState.name, toParams);
+                    });
                 } else {
                     $rootScope.removeAlerts();
                 }
