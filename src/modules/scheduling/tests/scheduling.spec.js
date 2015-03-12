@@ -2,15 +2,8 @@ describe('Scheduling Module', function() {
 
     var templateUrl = 'scheduling/partials/schedulingView.html';
     describe('when navigating to scheduling', function(){
-        var viewAttrs, loginModalStub;
+        var viewAttrs;
         beforeEach(function(){
-            var loginModal = $injector.get('$modal');
-            loginModalStub = this.sinon.stub(loginModal, 'open', function(){
-                var deferred = $q.defer();
-                deferred.resolve("User");
-                return {result: deferred.promise};
-            });
-
             $state.go('scheduling');
             $rootScope.$digest();
         });

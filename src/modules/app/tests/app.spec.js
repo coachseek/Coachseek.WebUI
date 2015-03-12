@@ -68,6 +68,9 @@ describe('App Module', function() {
     });
 
     describe('login modal', function(){
+        beforeEach(function(){
+            loginModalStub.restore();
+        });
         describe('when clicking the login button', function(){
             beforeEach(function(){
                 createViewWithController($rootScope, 'index.html', 'appCtrl')

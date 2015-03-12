@@ -57,6 +57,13 @@ beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootSc
 
     this.sinon = sinon.sandbox.create();
 
+    var loginModal = $injector.get('$modal');
+    loginModalStub = this.sinon.stub(loginModal, 'open', function(){
+        var deferred = $q.defer();
+        deferred.resolve("User");
+        return {result: deferred.promise};
+    });
+
     $testRegion = $('<div></div>');
 }));
 
