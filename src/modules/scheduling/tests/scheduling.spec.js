@@ -543,8 +543,8 @@ describe('Scheduling Module', function() {
             });
             it('should make a call to the API with the new coach ID', function(){
                 var getSessionsParams = {
-                    startDate: scope.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
-                    endDate: scope.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    startDate: scope.currentRanges[0].start.format('YYYY-MM-DD'),
+                    endDate: scope.currentRanges[0].end.format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: this.coachTwo.id,
                     section: 'Sessions'
@@ -568,8 +568,8 @@ describe('Scheduling Module', function() {
             });
             it('should make a call to the API with the new coach ID', function(){
                 var getSessionsParams = {
-                    startDate: scope.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
-                    endDate: scope.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    startDate: scope.currentRanges[0].start.format('YYYY-MM-DD'),
+                    endDate: scope.currentRanges[0].end.format('YYYY-MM-DD'),
                     locationId: this.locationTwo.id,
                     coachId: '',
                     section: 'Sessions'
@@ -580,9 +580,6 @@ describe('Scheduling Module', function() {
         describe('when changing the calendar view', function(){
             describe('to month view', function(){
                 beforeEach(function(){
-                    getStub.restore();
-                    getStub = this.sinon.stub(coachSeekAPIService, 'get');
-
                     $calendar.find('.fc-month-button').trigger('click');
                     $timeout.flush();
                 });
@@ -590,8 +587,15 @@ describe('Scheduling Module', function() {
                 it('should change the view', function(){
                     expect($calendar.find('.fc-view').hasClass('fc-month-view')).to.be.true;
                 });
-                it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
-                    expect(getStub).to.not.be.called;
+                it('should GET a new month', function(){
+                    var getSessionsParams = {
+                        startDate: scope.currentRanges[1].start.format('YYYY-MM-DD'),
+                        endDate: scope.currentRanges[1].end.format('YYYY-MM-DD'),
+                        locationId: '',
+                        coachId: '',
+                        section: 'Sessions'
+                    };
+                    expect(getStub).to.be.calledWith(getSessionsParams);
                 });
                 it('should add the location to the session content', function(){
                     expect($calendar.find('.fc-location').first().text()).to.equal(this.location.name);
@@ -608,8 +612,8 @@ describe('Scheduling Module', function() {
                     });
                     it('should GET a new month', function(){
                         var getSessionsParams = {
-                            startDate: scope.intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
-                            endDate: scope.intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                            startDate: scope.currentRanges[1].start.format('YYYY-MM-DD'),
+                            endDate: scope.currentRanges[1].end.format('YYYY-MM-DD'),
                             locationId: '',
                             coachId: '',
                             section: 'Sessions'
@@ -684,6 +688,11 @@ describe('Scheduling Module', function() {
                 });
                 describe('and then switching it to month view', function(){
                     beforeEach(function(){
+                        getStub.restore();
+                        getStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+                            return {$promise: self.nextMonthSessionsPromise}
+                        });
+
                         $calendar.find('.fc-month-button').trigger('click');
                         $timeout.flush();
                     });
@@ -691,8 +700,15 @@ describe('Scheduling Module', function() {
                     it('should change the view', function(){
                         expect($calendar.find('.fc-view').hasClass('fc-month-view')).to.be.true;
                     });
-                    it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
-                        expect(getStub).to.not.be.called;
+                    it('should GET a new month', function(){
+                        var getSessionsParams = {
+                            startDate: scope.currentRanges[1].start.format('YYYY-MM-DD'),
+                            endDate: scope.currentRanges[1].end.format('YYYY-MM-DD'),
+                            locationId: '',
+                            coachId: '',
+                            section: 'Sessions'
+                        };
+                        expect(getStub).to.be.calledWith(getSessionsParams);
                     });
                     it('should add the location to the session content', function(){
                         expect($calendar.find('.fc-location').first().text()).to.equal(this.location.name);

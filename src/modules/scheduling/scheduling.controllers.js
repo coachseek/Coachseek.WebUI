@@ -5,6 +5,7 @@ angular.module('scheduling.controllers', [])
             //TODO - add ability to edit time range in modal?
 
             $scope.eventSources = [];
+            $scope.currentRanges = [];
 
             var rangesLoaded = [],
                 events = [],
@@ -117,19 +118,21 @@ angular.module('scheduling.controllers', [])
                     },
                     viewRender: function(view, $element){
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
-
                         // load one month at a time and keep track of what months
                         // have been loaded and don't load those. must use month because it
                         // is the biggest denomination allowed by calendar. if using week/day 
                         // we load days/weeks twice when switching to month.
-                        $scope.intervalStart = view.intervalStart.clone().startOf('month');
-                        $scope.intervalEnd = view.intervalStart.clone().endOf('month');
-                        var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
-
-                        if(isNewRange(newRange)){
-                            loadInterval(newRange);
-                        }
+                        determineCurrentRange(view.intervalStart, view.intervalEnd);
+                        loadCurrentRanges();
                     }
+                }
+            };
+
+            var determineCurrentRange = function(intervalStart, intervalEnd){
+                $scope.currentRanges = [];
+                $scope.currentRanges.push(moment().range(intervalStart.clone().startOf('month'), intervalStart.clone().endOf('month')));
+                if (intervalStart.format('MM') !== intervalEnd.format('MM')){
+                    $scope.currentRanges.push(moment().range(intervalEnd.clone().startOf('month'), intervalEnd.clone().endOf('month')));
                 }
             };
 
@@ -143,43 +146,48 @@ angular.module('scheduling.controllers', [])
                 return isNewRange;
             };
 
-            var loadInterval = function(newRange, removeEvents){
-                var getSessionsParams = {
-                    startDate: $scope.intervalStart.format('YYYY-MM-DD'),
-                    endDate: $scope.intervalEnd.format('YYYY-MM-DD'),
-                    locationId: $scope.currentLocationId,
-                    coachId: $scope.currentCoachId,
-                    section: 'Sessions'
-                };
-
+            var loadCurrentRanges = function(removeEvents, forceLoad){
                 startCalendarLoading();
-                coachSeekAPIService.get(getSessionsParams)
-                    .$promise.then(function(sessions){
-                        addSessionsWithinInterval(sessions, removeEvents);
-                        if(newRange){
-                            rangesLoaded.push(newRange);
+                var sessionPromises = [];
+                _.forEach($scope.currentRanges, function(range){
+                    if(removeEvents || isNewRange(range)){
+                        var getSessionsParams = {
+                            startDate: range.start.format('YYYY-MM-DD'),
+                            endDate: range.end.format('YYYY-MM-DD'),
+                            locationId: $scope.currentLocationId,
+                            coachId: $scope.currentCoachId,
+                            section: 'Sessions'
+                        };
+                        sessionPromises.push(coachSeekAPIService.get(getSessionsParams).$promise)
+                    }
+                });
+                $q.all(sessionPromises)
+                    .then(function(sessionLists) {
+                        if(removeEvents){
+                            // TODO - figure out how to get calendar element from Dependency Injection?
+                            rangesLoaded = [];
+                            $('#session-calendar').fullCalendar('removeEvents');
+                            events = [];
                         }
-                    }, function(error){
-                        //remove temp event here
+                        _.forEach(sessionLists, function(sessions){
+                            addSessionsWithinInterval(sessions, removeEvents);
+                        });
+                        _.forEach($scope.currentRanges, function(range){
+                            rangesLoaded.push(range);
+                        });
+                    },function(error){
                         $scope.handleErrors(error);
+                    }).finally(function(){
                         stopCalendarLoading();
                     });
             };
 
             var addSessionsWithinInterval = function(sessions, removeEvents){
-                if(removeEvents){                            
-                    // TODO - figure out how to get calendar element from Dependency Injection?
-                    rangesLoaded = [];
-                    $('#session-calendar').fullCalendar('removeEvents');
-                    events = [];
-                }
-                startCalendarLoading();
                 _.forEach(sessions, function(session, index){
                     var newDate = getNewDate(session.timing);
                     events.push(buildCalendarEvent(newDate, session));
                 });
                 $scope.eventSources[0] = events;
-                stopCalendarLoading();
             };
 
             var handleServiceDrop = function(date, serviceData){
@@ -242,8 +250,7 @@ angular.module('scheduling.controllers', [])
                 $scope.currentLocation = _.find($scope.locationList, {id: $scope.currentLocationId});
                 $scope.currentCoach = _.find($scope.coachList, {id: $scope.currentCoachId});
                 $scope.removeAlerts();
-                var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
-                loadInterval(newRange, true);
+                loadCurrentRanges(true);
                 // SET BIZ HOURS
                 // $('#session-calendar').fullCalendar({businessHours: {}});
                 // $('#session-calendar').fullCalendar('render');
@@ -309,8 +316,8 @@ angular.module('scheduling.controllers', [])
                         resetForm();
                         $scope.showModal = false;
                         $scope.tempEventId = null;
-                        var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
-                        loadInterval(newRange, true);
+
+                        loadCurrentRanges(true);
                     }, function(error){
                         $scope.handleErrors(error);
                         stopCalendarLoading();
