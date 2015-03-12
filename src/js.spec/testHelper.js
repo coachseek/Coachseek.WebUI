@@ -14,6 +14,10 @@ var $testRegion,
 beforeEach(module('app'));
 
 beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootScope_, _$injector_, _$location_, _$q_, _$state_, _$timeout_) { 
+//stop $urlRouterProvider from running otherwise()/loading default views
+beforeEach(module(function($urlRouterProvider) {
+  $urlRouterProvider.deferIntercept();
+}));
     $controller = _$controller_;
     $templateCache = _$templateCache_;
     $compile = _$compile_;
