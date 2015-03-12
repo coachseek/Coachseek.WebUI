@@ -2,10 +2,6 @@
     margin: 0 auto;
     width: 90%;
 
-    &::-webkit-scrollbar { 
-        display: none; 
-    }
-
     .create-item{
         display: block;
         border: none;
@@ -22,14 +18,22 @@
         }
 
         ul{
+            height: calc(100vh - 275px);
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar { 
+                display: none; 
+            }
+
             li{
-                width: 100%;
+                width: 95%;
+                margin: 0 auto;
                 .item-title{
-                    line-height: 45px;
+                    line-height: 35px;
                 }
                 button{
-                    width: 45px;
-                    height: 45px;
+                    width: 35px;
+                    height: 35px;
                     border: none;
                     background: none;
                     float: right;
@@ -63,40 +67,48 @@
         text-align: center;
     }
 
-    .student-details{
-        margin-bottom: 10px;
-        width: 100%;
-        background: $white;
-        overflow: hidden;
+    .student-list{
+        height: calc(100vh - 300px);
+        overflow-y: scroll;
+        &::-webkit-scrollbar { 
+            display: none; 
+        }    
 
-        div{
-            float: left;
-        }
-        .item-title{
-            padding-left: 15px;
-            width: calc(100%-45px);
-            line-height: 45px;
-            font-size: 14px;
-        }
-        .attending-checkbox{
-            -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-            -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-            box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+        .student-details{
+            width: 95%;
+            margin: 0 auto 10px auto;
+            background: $white;
+            overflow: hidden;
 
-            cursor: pointer;
-            background: $green;
-            width: 45px;
-            height: 45px;
-            color: $white;
-            text-align: center;
-
-            .fa{
-                line-height: 45px;
-                font-size: 30px;
+            div{
+                float: left;
             }
+            .item-title{
+                padding-left: 15px;
+                width: calc(100%-45px);
+                line-height: 45px;
+                font-size: 14px;
+            }
+            .attending-checkbox{
+                -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+                -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+                box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
 
-            ellipsis-animated{
-                font-size: 23px;
+                cursor: pointer;
+                background: $green;
+                width: 45px;
+                height: 45px;
+                color: $white;
+                text-align: center;
+
+                .fa{
+                    line-height: 45px;
+                    font-size: 30px;
+                }
+
+                ellipsis-animated{
+                    font-size: 23px;
+                }
             }
         }
     }
