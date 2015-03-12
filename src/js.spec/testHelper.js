@@ -70,6 +70,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
     });
 
     $testRegion = $('<div></div>');
+    $rootScope.$digest();    
 }));
 
 
