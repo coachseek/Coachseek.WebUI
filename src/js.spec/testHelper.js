@@ -10,6 +10,7 @@ var $testRegion,
     $timeout,
     createViewWithController,
     createDirective;
+    Intercom,
 
 beforeEach(module('app'));
 
@@ -58,6 +59,8 @@ beforeEach(module(function($urlRouterProvider) {
             $testRegion.append(view);
         }
     };
+
+    Intercom = function(){};
 
     this.sinon = sinon.sandbox.create();
 
