@@ -427,10 +427,11 @@ describe('Scheduling Module', function() {
                     });
                     describe('and then saving', function(){
                         describe('while saving', function(){
-                            let('updatePromise', function(){
-                                return $q.defer().promise;
-                            });
                             beforeEach(function(){
+                                updateStub.restore();
+                                updateStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                                    return {$promise: $q.defer().promise}
+                                });
                                 $sessionModal.find('.save-button').trigger('click');
                             });
                             it('should start calendar loading', function(){
