@@ -236,7 +236,8 @@ angular.module('scheduling.controllers', [])
                     },
                     booking: {
                         isOnlineBookable: false,
-                        studentCapacity: 1
+                        studentCapacity: 1,
+                        bookings: []
                     },
                     // need to specify these here for modal data
                     pricing: serviceData.pricing,

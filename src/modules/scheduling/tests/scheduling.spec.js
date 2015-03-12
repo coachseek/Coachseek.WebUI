@@ -165,6 +165,9 @@ describe('Scheduling Module', function() {
                 repetition: this.serviceOne.repetition,
                 presentation: {
                     colour: this.serviceOne.colour
+                },
+                booking: {
+                    bookings: []
                 }
             }
         });
@@ -182,6 +185,9 @@ describe('Scheduling Module', function() {
                 repetition: this.serviceTwo.repetition,
                 presentation: {
                     colour: this.serviceTwo.colour
+                },
+                booking: {
+                    bookings: []
                 }
             }
         });
@@ -199,6 +205,9 @@ describe('Scheduling Module', function() {
                 repetition: this.serviceOne.repetition,
                 presentation: {
                     colour: this.serviceOne.colour
+                },
+                booking: {
+                    bookings: []
                 }
             }
         });
@@ -255,6 +264,10 @@ describe('Scheduling Module', function() {
                         return {$promise: self.servicesPromise};
                         break;
                     case 'Sessions':
+                        return {$promise: self.sessionsPromise};
+                        break;
+                    case 'Customers':
+                        //TODO add customer promise
                         return {$promise: self.sessionsPromise};
                         break;
                     default:
