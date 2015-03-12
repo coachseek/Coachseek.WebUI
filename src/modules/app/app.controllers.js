@@ -95,8 +95,10 @@ angular.module('app.controllers', [])
                             $scope.$close(email);
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
-
-                            $scope.handleErrors(error)
+                            $rootScope.addAlert({
+                                type: 'danger',
+                                message: error.statusText
+                            });
                         }).finally(function(){
                             $activityIndicator.stopAnimating();
                         });
