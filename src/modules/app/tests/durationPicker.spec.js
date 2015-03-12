@@ -17,9 +17,9 @@ describe('durationPicker directive', function(){
     it('should show the duration in HH:MM', function(){
         expect($durationPicker.find('input').val()).to.equal('01:15');
     });
-    describe('when clicking on the input', function(){
+    describe('when focusing on the input', function(){
         beforeEach(function(){
-            $durationPicker.find('input').trigger('click');
+            angular.element($durationPicker.find('input')).triggerHandler('focus');
         });
         it('should show the timepicker', function(){
             expect($durationPicker.find('.time-picker-container').hasClass('ng-hide')).to.be.false;
