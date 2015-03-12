@@ -78,4 +78,6 @@ afterEach(function(){
     this.sinon.restore();
 
     $testRegion.remove();
+    $('.modal-backdrop').remove();
+    $('.modal').remove();
 });
