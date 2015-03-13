@@ -12,8 +12,7 @@ angular.module('scheduling.directives', [])
 
 				    scope.bookingLoading = true;
 				    coachSeekAPIService.update({section: 'Bookings'}, bookingObject)
-				        .$promise.then(function(booking){
-				        	console.log(booking)
+				        .$promise.then(function(){
 				            scope.currentEvent.session.booking.bookings.push(bookingObject);
 				            scope.isStudent = true;
 				        }, scope.handleErrors).finally(function(){
@@ -58,25 +57,24 @@ angular.module('scheduling.directives', [])
 			scope: true,
 			link: function(scope){
 				scope.checked = false;
-				var booking;
 				scope.toggleAttendance = function(){
 					scope.checked = !scope.checked;
 					// scope.bookingLoading = true;
 					// if(scope.checked){
 
-					// 	coachSeekAPIService.delete({section: 'Bookings', id: booking.id})
-					// 	    .$promise.then(function(booking){
-					// 	    	scope.checked = false;
-					// 	    },function(error){
-			  //                   _.forEach(error.data, function(error){
-			  //                       scope.addAlert({
-			  //                           type: 'danger',
-			  //                           message: error.message ? error.message: error
-			  //                       });
-			  //                   });
-			  //               }).finally(function(){
-					// 			scope.bookingLoading = false;
-     //                        });
+						// coachSeekAPIService.delete({section: 'Bookings', id: scope.booking.id})
+						//     .$promise.then(function(booking){
+						//     	scope.checked = false;
+						//     },function(error){
+			   //                  _.forEach(error.data, function(error){
+			   //                      scope.addAlert({
+			   //                          type: 'danger',
+			   //                          message: error.message ? error.message: error
+			   //                      });
+			   //                  });
+			   //              }).finally(function(){
+						// 		scope.bookingLoading = false;
+      //                       });
 					// } else {
 					// 	if(!booking){
 					// 		booking = buildBooking();						
