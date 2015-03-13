@@ -46,8 +46,8 @@ angular.module('customers.controllers', [])
 
         $scope.loadMore = function() {
             if(peopleList){
-                _.forEach(peopleList.shift(), function(person){
-                    $scope.customerList.push(person);
+                _.forEach(peopleList.shift(), function(people){
+                    $scope.customerList.push(people);
                 });
             }
         };
