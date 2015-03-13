@@ -306,14 +306,6 @@ describe('Scheduling Module', function() {
                 expect($testRegion.find('.calendar-loading').hasClass('ng-hide')).to.be.false;
             });
         });
-        describe('while services are loading', function(){
-            let('servicesPromise', function(){
-                return $q.defer().promise;
-            });
-            it('should not allow the calendar to exist', function(){
-                expect($calendar.length).to.equal(0);
-            });
-        });
         it('should load the coaches into the coach selector', function(){
             var $coachOptions = $testRegion.find('.coach-list option');
             _.forEach($coachOptions, function(coachOption, index){
