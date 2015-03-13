@@ -18,7 +18,6 @@ angular.module('customers.controllers', [])
 
     	$scope.saveItem = function(customer){
     	    var formValid = CRUDService.validateForm($scope);
-
     	    if(formValid){
     	        CRUDService.update('Customers', $scope, customer);
     	    }
@@ -27,6 +26,16 @@ angular.module('customers.controllers', [])
     	$scope.cancelEdit = function(){
     	    CRUDService.cancelEdit($scope);
     	};
+
+        $scope.$watchCollection('item', function(newVals){
+            if(newVals){
+                if(newVals.email === ""){
+                    delete $scope.item.email;
+                } else if (newVals.phone === ""){
+                    delete $scope.item.phone;
+                }
+            }
+        });
 
     	CRUDService.get('Customers', $scope);
     }])
@@ -71,16 +80,6 @@ angular.module('customers.controllers', [])
                 $scope.searchText = null;
             }
             filterText();
-        });
-
-        $scope.$watchCollection('item', function(newVals){
-            if(newVals){
-                if(newVals.email === ""){
-                    delete $scope.item.email;
-                } else if (newVals.phone === ""){
-                    delete $scope.item.phone;
-                }
-            }
         });
 
         $scope.$watchGroup(["searchLetter", "searchText"], function(newVals){
