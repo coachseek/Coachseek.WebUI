@@ -126,12 +126,14 @@ describe('CRUDService', function(){
     });
     describe('when calling update()', function(){
 
-        var removeAlertsStub, updateSuccess;
+        var removeAlertsStub, updateSuccess, intercomStub;
         beforeEach(function(){
             scope.itemList = [];
+            scope.newItem = true;
             scope.removeAlerts = function(){};
 
             removeAlertsStub = this.sinon.stub(scope, 'removeAlerts')
+            intercomStub = this.sinon.stub(window, 'Intercom');
             scope.$on('updateSuccess', function(){
                 updateSuccess = true;
             });
@@ -166,6 +168,12 @@ describe('CRUDService', function(){
 
             it('should broadcast a updateSuccess event', function(){
                 expect(updateSuccess).to.be.true;
+            });
+
+            it('should make a call to Intercom', function(){
+                var updateObject = {};
+                updateObject[APIFunctionName] = scope.itemList.length;
+                expect(intercomStub).to.be.calledWith('update', updateObject);
             });
         });
         describe('when API call throws an error', function(){

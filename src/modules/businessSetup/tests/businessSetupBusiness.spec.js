@@ -179,7 +179,11 @@ describe('BusinessSetup Business', function(){
                     });
                 });
                 describe('when all inputs are valid', function(){
+                    var intercomStub, admin;
                     beforeEach(function(){
+                        $http = $injector.get('$http');
+                        intercomStub = this.sinon.stub(window, 'Intercom');
+                        admin = scope.item.admin;
                         $businessItemView.find('.save-button').trigger('click');
                     });
                     it('should attempt to save business', function(){
@@ -190,6 +194,17 @@ describe('BusinessSetup Business', function(){
                     });
                     it('should not show the business edit view', function(){
                         expect($businessItemView.hasClass('ng-hide')).to.be.true;
+                    });
+                    it('should make a call to boot Intercom', function(){
+                        expect(intercomStub).to.be.calledWith('boot');
+                    });
+                    it('should set the auth header', function(){
+                        var $http = $injector.get('$http');
+                        var authHeader = 'Basic ' + btoa(admin.email + ':' + admin.password);
+                        expect($http.defaults.headers.common['Authorization']).to.equal(authHeader)
+                    });
+                    it('should set the currentUser on $rootScope', function(){
+                        expect(scope.currentUser).to.equal(admin.email);
                     });
                 });
             });

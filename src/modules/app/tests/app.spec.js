@@ -67,8 +67,10 @@ describe('App Module', function() {
     });
 
     describe('login modal', function(){
+        var intercomStub;
         beforeEach(function(){
             loginModalStub.restore();
+            intercomStub = this.sinon.stub(window, 'Intercom');
         });
         describe('when clicking the login button', function(){
             beforeEach(function(){
@@ -113,6 +115,9 @@ describe('App Module', function() {
             });
             it('should attempt to navigate', function(){
                 expect($stateStub).to.be.calledWith('businessSetup.business.newUser');
+            });
+            it('should log out of Intercom', function(){
+                expect(intercomStub).to.be.calledWith('shutdown');
             });
         });
         describe('when navigating to a page that requires a login', function(){
@@ -166,6 +171,18 @@ describe('App Module', function() {
                     });
                     it('should attempt to navigate', function(){
                         expect($stateStub).to.be.calledWith('scheduling');
+                    });
+                    it('should make a call to Intercom', function(){
+                        expect(intercomStub).to.be
+                            .calledWith(
+                                'boot', 
+                                {
+                                    app_id: "udg0papy",
+                                    name: undefined,
+                                    email: $rootScope.email,
+                                    created_at: undefined
+                                }
+                            );
                     });
                 });
                 describe('when the login is unsuccessful', function(){
