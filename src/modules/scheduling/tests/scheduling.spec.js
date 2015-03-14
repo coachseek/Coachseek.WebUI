@@ -2,7 +2,6 @@ describe('Scheduling Module', function() {
 
     var templateUrl = 'scheduling/partials/schedulingView.html';
     describe('when navigating to scheduling', function(){
-        var viewAttrs;
         beforeEach(function(){
             $state.go('scheduling');
             $rootScope.$digest();

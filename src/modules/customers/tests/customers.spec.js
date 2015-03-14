@@ -1,6 +1,5 @@
 describe('Customers Module', function() {
     describe('when navigating to customers', function(){
-        var viewAttrs;
         beforeEach(function(){
             $state.go('customers');
             $rootScope.$digest();
