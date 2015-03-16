@@ -4,5 +4,7 @@
 	<a class="setup-nav nav-to-coaches" ui-sref="businessSetup.coachList" ui-sref-active="active">{{'businessSetup:nav-to-coaches' | i18next}}</a>
 	<a class="setup-nav nav-to-services" ui-sref="businessSetup.services" ui-sref-active="active">{{'businessSetup:nav-to-services' | i18next}}</a>
 </div>
-<hr class="double-wide"/>
-<div ui-view="list-item-view"></div>
+<div class="list-item-container-wrapper">
+    <hr class="double-wide"/>
+    <div ui-view="list-item-view"></div>
+</div>

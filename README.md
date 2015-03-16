@@ -15,4 +15,6 @@ Follow these steps to get CoachSeek up and running
     and then hit 'DEBUG' in order to bring up spec runner
     *presently only set up to run on Chrome*
 
+- to compile scss, run command grunt watch (if didn't run grunt yet, run command grunt first) in your root folder.
+
 

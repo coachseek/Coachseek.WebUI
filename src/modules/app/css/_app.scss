@@ -15,7 +15,7 @@ $light-green: #00BF8C;
 $grey: #989898;
 $dark-grey: #525252;
 $light-grey: #E0E0E0;
-$border-light-grey: #AFAFAF;
+$border-light-grey: #d6d6d6;
 $text-grey: #A3A3A3;
 $text-dark-grey: #4D4D4D;
 
@@ -221,5 +221,9 @@ select-arrows{
 }
 
 .main-container{
- padding: 10px;
+// padding: 10px;
+  .list-item-container-wrapper{
+    padding:10px;
+  }
 }
+
