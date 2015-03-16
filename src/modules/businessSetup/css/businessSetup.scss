@@ -1,11 +1,14 @@
 [state^="businessSetup"] {
-	max-width: 445px;
-	margin: 45px auto;
+
+
+	max-width: 100%;
+	margin: 0px auto 44px auto;
 
 	.icon-cross{
 	    font-size: 16px;
 	    font-weight: bold;
 	}
+
 
 	.setup-nav-container{
 		float: right;
@@ -15,6 +18,7 @@
 		.setup-nav{
 			&.active{
 				background: $background-grey;
+                color:$white;
 			}
 
 			&:last-of-type{
@@ -23,14 +27,19 @@
 
 			display: inline-block;
 			text-decoration: none;
-			width: 22%;
-			margin-right: 4%;
+			width: 25%;
+//			margin-right: 4%;
 			background: $white;
 			font-size: 14px;
-			color: $dark-grey;
-			padding: 5px;
+			color: $text-grey;
+			padding: 12px;
 			text-align: center;
-			border: 1px solid #B0B0B0;
+            vertical-align: middle;
+
+			border-right: 1px solid $border-light-grey;
+            &:last-child{
+              border-right: 0px;
+            }
 			float: left;
 		}
 	}

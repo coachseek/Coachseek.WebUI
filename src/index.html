@@ -16,6 +16,8 @@
 
     <nav class="navbar navbar-inverse navbar-fixed-top custom-navbar" role="navigation">
         <div class="container-fluid">
+
+
             <div class="navbar-header">
                 <button class="navbar-toggle pull-left" type="button" ng-click="isCollapsed = !isCollapsed">
                     <span class="sr-only">Toggle navigation</span>
@@ -25,6 +27,8 @@
                 </button>
                 <activity-indicator class="pull-right"  ui-sref="businessSetup.business"></activity-indicator>
             </div>
+
+
             <div collapse="isCollapsed" class="navbar-collapse bs-js-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
@@ -38,6 +42,7 @@
                     <li><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
                 </ul>
             </div>
+
         </div>
     </nav>
     <div class="main-container">
