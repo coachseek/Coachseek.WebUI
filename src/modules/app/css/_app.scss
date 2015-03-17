@@ -228,3 +228,131 @@ select-arrows{
   }
 }
 
+
+
+
+@media (max-width: 767px) {
+  
+
+  .desktop-nav{
+    display:none !important;
+  }
+
+  .mobi-nav{
+    position: absolute;
+    top:0px;
+    left: 0px;
+    width:100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+
+      z-index: 9999;
+
+    .mobi-nav-content{
+      position: relative;
+      top: 0px;
+      left: 0px;
+      height: 100%;
+      width: 45%;
+      min-width: 130px;
+    
+      background-color: $green;
+      z-index: 9999;
+      -webkit-transform: translate3d(0,0,0); /* Chrome, Safari, Opera */
+      transform: translate3d(0,0,0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-perspective: 1000;
+      perspective: 1000;
+
+      .mobi-nav-content.ng-hide-add,
+      .mobi-nav-content.ng-hide-remove {
+        display:block!important;
+      }
+
+      .mobi-nav-content.ng-hide-remove.ng-hide-remove-active {
+        -webkit-animation:0.8s slide-up;
+        animation:0.8s slide-up;
+      }
+
+      .mobi-nav-content.ng-hide-add.ng-hide-add-active {
+        -webkit-animation:0.5s slide-down;
+        animation:0.5s slide-down;
+      }
+
+      .mobi-nav-content.ng-hide {
+        right:80%;
+        display:block!important;
+      }
+
+      /* Chrome, Safari, Opera */
+      @-webkit-keyframes slide-up
+      {
+        0%   {right:80%;}
+        100%  {right:0;}
+      }
+
+      /* Standard syntax */
+      @keyframes slide-up
+      {
+        0%   {right:80%;}
+        100%  {right:0;}
+      }
+
+      /* Chrome, Safari, Opera */
+      @-webkit-keyframes slide-down
+      {
+        0%  {right:0;}
+        100%   {right:80%;}
+      }
+
+      /* Standard syntax */
+      @keyframes slide-down
+      {
+        0%  {right:0;}
+        100%   {right:80%;}
+      }
+
+
+
+      ul{
+
+        li{
+
+          padding:25px 15px 25px 0px;
+           &.active{
+            background-color: $light-green;
+           }
+          a{
+            
+            float: right;
+            padding-right: 10px;
+            color: $white;
+            
+          }
+          &:last-child{
+              position: absolute;
+              bottom: 0px;
+              right: 0px;
+              width: 100%;
+             
+              background-color: $mobile-background-dark;
+              padding:15px 15px 15px 0px;
+
+          }
+        }
+      }
+
+    }
+  }
+
+}
+
+@media (min-width: 768px){
+  .mobi-nav{
+    display: none !important;
+  }
+
+}
+
+
