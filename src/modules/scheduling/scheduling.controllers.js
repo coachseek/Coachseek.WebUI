@@ -5,9 +5,8 @@ angular.module('scheduling.controllers', [])
 
             //TODO: get window size
             var w = angular.element($window);
-            $scope.toggleOpen = (function(){
+            $scope.isBigScreen = (function(){
                return w.width()>768;
-
             }());
 
   
