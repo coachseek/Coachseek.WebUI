@@ -1,78 +1,81 @@
-<div class="customers-list-view crud-list" ng-hide="item">
-    <button class="create-item" ng-click="createItem()" ng-disabled="AILoading">
-        <i class="fa fa-plus"></i>
-        {{'customers:add-customer' | i18next}}
-    </button>
-    <div class="search-container">
-        <i class="fa fa-lg fa-search"></i>    
-        <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
+
+<div class="list-item-container-wrapper">
+    <div class="customers-list-view crud-list" ng-hide="item">
+        <button class="create-item" ng-click="createItem()" ng-disabled="AILoading">
+            <i class="fa fa-plus"></i>
+            {{'customers:add-customer' | i18next}}
+        </button>
+        <div class="search-container">
+            <i class="fa fa-lg fa-search"></i>    
+            <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
+        </div>
+        <div class="letter-search">
+            <span ng-repeat="letter in alphabetLetters" ng-class="{active: searchLetter === letter}" ng-click="sortBy(letter)">{{letter}}</span>
+        </div>
+        <hr class="double-wide"/>
+        <ul infinite-scroll='loadMore()'>
+            <li class="customer-details" ng-repeat="item in customerList">
+                <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
+                <div ng-if="searchText">
+                    <span class="item-title first-name" ng-bind-html="item.firstName | highlight:this">{{item.firstName}}</span>
+                    <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
+                    <span class="item-subtitle last" ng-bind-html="item.phone | highlight:this">{{item.phone}}</span>
+                </div>
+                <div ng-if="!searchText">
+                    <span class="item-title first-name">{{item.firstName}}</span>
+                    <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
+                    <span class="item-subtitle last">{{item.phone}}</span>
+                </div>
+                <hr/>
+            </li>
+            <div class="no-customers" ng-if="!customerList.length && !AILoading">{{'customers:no-customers-found' | i18next}}</div>
+        </ul>
     </div>
-    <div class="letter-search">
-        <span ng-repeat="letter in alphabetLetters" ng-class="{active: searchLetter === letter}" ng-click="sortBy(letter)">{{letter}}</span>
+    <div class="customers-item-view crud-item" ng-show="item">
+        <form name="itemForm" novalidate ng-enter="saveItem(item)">
+            <div class="form-input left-col">
+                <label name="firstName">{{'person-details.first-name' | i18next}}</label>
+                <input name="firstName" ng-model="item.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
+
+                <div class="error-messages" ng-messages="itemForm.firstName.$error || itemForm.lastName.$error" ng-if="itemForm.firstName.$touched || itemForm.lastName.$touched">
+                    <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                    <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                    <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                </div>
+            </div>
+
+            <div class="form-input right-col">
+                <label name="lastName">{{'person-details.last-name' | i18next}}</label>
+                <input name="lastName" ng-model="item.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
+
+                <div class="error-messages" ng-messages="itemForm.firstName.$error || itemForm.lastName.$error" ng-if="itemForm.firstName.$touched || itemForm.lastName.$touched">
+                    <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                    <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                    <div ng-message="duplicatename"><i class='fa fa-2x fa-times'></i></div>
+                </div>
+            </div>
+
+            <div class="form-input">
+                <label name="email">{{'person-details.email' | i18next}}</label>
+                <input type="email" name="email" ng-model="item.email" placeholder="{{'person-details.placeholder.email' | i18next}}" ng-maxlength=100 />
+
+                <div class="error-messages" ng-messages="itemForm.email.$error" ng-if="itemForm.email.$touched">
+                    <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                    <div ng-message="email">{{'businessSetup:error.email' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                </div>
+            </div>
+
+            <div class="form-input">
+                <label name="phone">{{'person-details.phone' | i18next}}</label>
+                <input name="phone" ng-model="item.phone" placeholder="{{'person-details.placeholder.phone' | i18next}}" ng-maxlength=50 />
+                
+                <div class="error-messages" ng-messages="itemForm.phone.$error" ng-if="itemForm.phone.$touched">
+                    <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                </div>
+            </div>
+        </form>
+
+        <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
+        <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
     </div>
-    <hr class="double-wide"/>
-    <ul infinite-scroll='loadMore()'>
-        <li class="customer-details" ng-repeat="item in customerList">
-            <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
-            <div ng-if="searchText">
-                <span class="item-title first-name" ng-bind-html="item.firstName | highlight:this">{{item.firstName}}</span>
-                <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
-                <span class="item-subtitle last" ng-bind-html="item.phone | highlight:this">{{item.phone}}</span>
-            </div>
-            <div ng-if="!searchText">
-                <span class="item-title first-name">{{item.firstName}}</span>
-                <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
-                <span class="item-subtitle last">{{item.phone}}</span>
-            </div>
-            <hr/>
-        </li>
-        <div class="no-customers" ng-if="!customerList.length && !AILoading">{{'customers:no-customers-found' | i18next}}</div>
-    </ul>
-</div>
-<div class="customers-item-view crud-item" ng-show="item">
-    <form name="itemForm" novalidate ng-enter="saveItem(item)">
-        <div class="form-input left-col">
-            <label name="firstName">{{'person-details.first-name' | i18next}}</label>
-            <input name="firstName" ng-model="item.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
-
-            <div class="error-messages" ng-messages="itemForm.firstName.$error || itemForm.lastName.$error" ng-if="itemForm.firstName.$touched || itemForm.lastName.$touched">
-                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-            </div>
-        </div>
-
-        <div class="form-input right-col">
-            <label name="lastName">{{'person-details.last-name' | i18next}}</label>
-            <input name="lastName" ng-model="item.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
-
-            <div class="error-messages" ng-messages="itemForm.firstName.$error || itemForm.lastName.$error" ng-if="itemForm.firstName.$touched || itemForm.lastName.$touched">
-                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="duplicatename"><i class='fa fa-2x fa-times'></i></div>
-            </div>
-        </div>
-
-        <div class="form-input">
-            <label name="email">{{'person-details.email' | i18next}}</label>
-            <input type="email" name="email" ng-model="item.email" placeholder="{{'person-details.placeholder.email' | i18next}}" ng-maxlength=100 />
-
-            <div class="error-messages" ng-messages="itemForm.email.$error" ng-if="itemForm.email.$touched">
-                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="email">{{'businessSetup:error.email' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-            </div>
-        </div>
-
-        <div class="form-input">
-            <label name="phone">{{'person-details.phone' | i18next}}</label>
-            <input name="phone" ng-model="item.phone" placeholder="{{'person-details.placeholder.phone' | i18next}}" ng-maxlength=50 />
-            
-            <div class="error-messages" ng-messages="itemForm.phone.$error" ng-if="itemForm.phone.$touched">
-                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-            </div>
-        </div>
-    </form>
-
-    <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
-    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
 </div>
