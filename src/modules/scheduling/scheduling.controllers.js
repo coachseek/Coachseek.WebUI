@@ -71,6 +71,15 @@ angular.module('scheduling.controllers', [])
                     },
                     windowResize: function(view){
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
+                        //mobi size
+                        if($(window).width()<768){
+                            console.log($(window).width()*0.9);
+                        //     $('#session-calendar').fullCalendar('option', 'height', ($(window).width()*0.8));
+                        // $('#session-calendar').fullCalendar('option', 'aspectRatio', 0.6);
+                            // $('#session-calendar').fullCalendar( 'changeView', 'basicDay' );
+
+                        }
+
                     },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
