@@ -1,8 +1,9 @@
-angular.module('app.services', []).
-	factory('coachSeekAPIService', ['$resource', function($resource) {
-	    return $resource('http://coachseek-api.azurewebsites.net/api/:section', {}, {
+angular.module('app.services', [])
+	.factory('coachSeekAPIService', ['$resource', function($resource) {
+	    return $resource('http://coachseek-api.azurewebsites.net/api/:section/:id', {}, {
 	        get: { method: 'GET', isArray: true},
-	        update: {method: 'POST'}
+	        update: {method: 'POST'},
+	        delete: {method: 'DELETE'}
 	    });
 	}])
     .service('CRUDService', ['coachSeekAPIService', '$activityIndicator',
