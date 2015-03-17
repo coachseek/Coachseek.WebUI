@@ -6,7 +6,7 @@
     "customers": "CUSTOMERS",
     "financials": "FINANCIALS",
     "logout-text": "LOG OUT",
-    "login-text": "LOGIN",
+    "login-text": "LOG IN",
     "logged-out": "You have logged out.",
     "person-details": {
     	"first-name": "First Name",
@@ -28,7 +28,7 @@
         },
         "password-min": "Password must contain at least 6 characters",
         "logging-in": "Logging in",
-        "login-to-coachseek": "Login to Coachseek",
+        "login-to-coachseek": "Log in to Coachseek",
         "new-here": "New here? ",
         "create-account": "Create an account."
     },
