@@ -159,7 +159,7 @@ describe('Scheduling Module', function() {
                     colour: this.serviceOne.colour
                 },
                 booking: {
-                    bookings: []
+                    bookings: [{}, {}]
                 }
             }
         });
@@ -179,7 +179,7 @@ describe('Scheduling Module', function() {
                     colour: this.serviceTwo.colour
                 },
                 booking: {
-                    bookings: []
+                    bookings: [{customer: this.customerOne}, {customer: this.customerTwo}]
                 }
             }
         });
@@ -204,9 +204,37 @@ describe('Scheduling Module', function() {
             }
         });
 
+        let('customerOne', function(){
+            return {
+                id: 'one',
+                firstName: 'first',
+                lastName: 'last'
+            }
+        });
+
+        let('customerTwo', function(){
+            return {
+                id: 'two',
+                firstName: 'first',
+                lastName: 'last'
+            }
+        });
+
+        let('customerThree', function(){
+            return {
+                id: 'three',
+                firstName: 'first',
+                lastName: 'last'
+            }
+        });
+
         let('sessions', function(){
             return [this.sessionOne, this.sessionTwo];
         });
+
+        let('customers', function(){
+            return [this.customerOne, this.customerTwo, this.customerThree];
+        })
 
         let('nextMonthSessions', function(){
             return [this.sessionThree];
@@ -216,6 +244,12 @@ describe('Scheduling Module', function() {
             var deferred = $q.defer();
             deferred.resolve(this.sessions);
             return deferred.promise;
+        });
+
+        let('customersPromise', function(){
+            var deferred = $q.defer();
+            deferred.resolve(this.customers);
+            return deferred.promise;   
         });
 
         let('nextMonthSessionsPromise', function(){
@@ -259,8 +293,7 @@ describe('Scheduling Module', function() {
                         return {$promise: self.sessionsPromise};
                         break;
                     case 'Customers':
-                        //TODO add customer promise
-                        return {$promise: self.sessionsPromise};
+                        return {$promise: self.customersPromise};
                         break;
                     default:
                         throw new Error('NADA');
@@ -383,6 +416,13 @@ describe('Scheduling Module', function() {
             });
             it('should show the session modal', function(){
                 expect($sessionModal.hasClass('ng-hide')).to.be.false;
+            });
+            it('should show the session form', function(){
+                expect(scope.currentTab).to.equal('general');
+                expect($sessionModal.find('.session-form').hasClass('ng-hide')).to.be.false;
+            });
+            it('should hide the attendance list', function(){
+                expect($sessionModal.find('.attendance-list').hasClass('ng-hide')).to.be.true;
             });
             it('should set the currentEvent on the scope', function(){
                 expect(scope.currentEvent).to.exist;
@@ -520,6 +560,54 @@ describe('Scheduling Module', function() {
                         });
                         it('should enable the session list', function(){
                             expect($servicesList.attr('disabled')).to.equal(undefined);
+                        });
+                    });
+                });
+            });
+            describe('the attendance tab', function(){
+                var $attendanceList;
+                beforeEach(function(){
+                    $sessionModal.find('.session-modal-nav .attendance').trigger('click');
+                    $attendanceList = $sessionModal.find('.attendance-list');
+                });
+                it('should show the student list', function(){
+                    expect(scope.currentTab).to.equal('attendance');
+                    expect($attendanceList.hasClass('ng-hide')).to.be.false;
+                });
+                it('should hide the customer list', function(){
+                    expect($sessionModal.find('.session-form').hasClass('ng-hide')).to.be.true;
+                });
+                it('should hide the customer list', function(){ 
+                    expect($attendanceList.find('.customer-list').hasClass('ng-hide')).to.be.true;
+                });
+                it('should show the student list', function(){
+                    expect($attendanceList.find('.student-list').hasClass('ng-hide')).to.be.false;
+                });
+                it('should have as many students as are in bookings', function(){
+                    expect($attendanceList.find('customer-booking').length).to.equal(this.sessionTwo.booking.bookings.length);
+                });
+                it('should show a list of all the customers', function(){
+                    expect($attendanceList.find('modal-customer-details').length).to.equal(this.customers.length);
+                });
+                describe('when clicking the "ADD STUDENT" button', function(){
+                    beforeEach(function(){
+                        $attendanceList.find('.create-item').trigger('click');
+                    });
+                    it('should hide the student list', function(){
+                        expect($attendanceList.find('.student-list').hasClass('ng-hide')).to.be.true;
+                    });
+                    it('should show the customer list', function(){
+                        expect($attendanceList.find('.customer-list').hasClass('ng-hide')).to.be.false;
+                    });
+                    describe('and then clicking the back arrow', function(){
+                        beforeEach(function(){
+                            $attendanceList.find('.back-arrow').trigger('click');
+                        });
+                        it('should hide the customer list', function(){ 
+                            expect($attendanceList.find('.customer-list').hasClass('ng-hide')).to.be.true;
+                        });
+                        it('should show the student list', function(){
+                            expect($attendanceList.find('.student-list').hasClass('ng-hide')).to.be.false;
                         });
                     });
                 });
