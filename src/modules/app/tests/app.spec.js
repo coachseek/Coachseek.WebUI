@@ -110,11 +110,8 @@ describe('App Module', function() {
             it('should unset the auth', function(){
                 expect($http.defaults.headers.common['Authorization']).to.equal(null);
             });            
-            it('should not bring up the login modal', function(){
-                expect($loginModal.length).to.equal(0);
-            });
-            it('should attempt to navigate', function(){
-                expect($stateStub).to.be.calledWith('businessSetup.business.newUser');
+            it('should bring up the login modal', function(){
+                expect($loginModal.length).to.equal(1);
             });
             it('should log out of Intercom', function(){
                 expect(intercomStub).to.be.calledWith('shutdown');

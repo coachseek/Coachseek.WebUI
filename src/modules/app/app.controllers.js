@@ -39,11 +39,15 @@ angular.module('app.controllers', [])
             $rootScope.logout = function(){
                 $http.defaults.headers.common.Authorization = null;
                 delete $rootScope.currentUser;
-                $state.go('businessSetup.business.newUser');
                 Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
+                });
+
+                loginModal().then(function () {
+                    $rootScope.removeAlerts();
+                    return $state.go(toState.name, toParams);
                 });
             };
 
