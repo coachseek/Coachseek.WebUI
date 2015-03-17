@@ -1,6 +1,6 @@
 [state^="scheduling"] {
     width: 100%;
-    min-width: 1040px;
+    min-width: 320px;//minimum size is iphone5
 
     .services-list-container{
         float: left;
@@ -177,9 +177,11 @@
 
     .calendar-container{
         background: $white;
-        overflow: hidden;
+        overflow: scroll;
+
         position: relative;
         height: calc(100vh - 55px);
+
 
         &.toggle-closed{
             .dropdown-container{
