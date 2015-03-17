@@ -85,7 +85,6 @@
             }
             .item-title{
                 padding-left: 15px;
-                width: calc(100%-45px);
                 line-height: 45px;
                 font-size: 14px;
             }
@@ -109,6 +108,21 @@
                 ellipsis-animated{
                     font-size: 23px;
                 }
+            }
+
+            .delete-booking{
+                width: 60px;
+                height: 45px;
+                text-align: center;
+                float: right;
+                background: $background-beige;
+                cursor: pointer;
+
+                .fa{
+                    line-height: 45px;
+                    font-size: 22px;
+                    color: $text-grey;
+                }   
             }
         }
     }

@@ -56,44 +56,22 @@ angular.module('scheduling.directives', [])
 			templateUrl:'scheduling/partials/customerBooking.html',
 			scope: true,
 			link: function(scope){
+				//TODO - load attendance info for checked attribute
 				scope.checked = false;
+
 				scope.toggleAttendance = function(){
 					scope.checked = !scope.checked;
-					// scope.bookingLoading = true;
-					// if(scope.checked){
+				};
 
-						// coachSeekAPIService.delete({section: 'Bookings', id: scope.booking.id})
-						//     .$promise.then(function(booking){
-						//     	scope.checked = false;
-						//     },function(error){
-			   //                  _.forEach(error.data, function(error){
-			   //                      scope.addAlert({
-			   //                          type: 'danger',
-			   //                          message: error.message ? error.message: error
-			   //                      });
-			   //                  });
-			   //              }).finally(function(){
-						// 		scope.bookingLoading = false;
-      //                       });
-					// } else {
-					// 	if(!booking){
-					// 		booking = buildBooking();						
-					// 	}
-
-					// 	coachSeekAPIService.update({section: 'Bookings'}, booking)
-					// 	    .$promise.then(function(booking){
-					// 	    	scope.checked = true;
-					// 	    },function(error){
-			  //                   _.forEach(error.data, function(error){
-			  //                       scope.addAlert({
-			  //                           type: 'danger',
-			  //                           message: error.message ? error.message: error
-			  //                       });
-			  //                   });
-			  //               }).finally(function(){
-					// 			scope.bookingLoading = false;
-     //                        });
-					// }
+				scope.removeBooking = function(){
+					scope.bookingLoading = true;
+					var bookingId = scope.booking.id;
+					coachSeekAPIService.delete({section: 'Bookings', id: bookingId})
+					    .$promise.then(function(){
+			                _.pull(scope.currentEvent.session.booking.bookings, scope.booking);
+					    },scope.handleErrors).finally(function(){
+							scope.bookingLoading = false;
+                        });
 				};
 			}
 		};
