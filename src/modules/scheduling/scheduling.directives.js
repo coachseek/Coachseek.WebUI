@@ -12,26 +12,26 @@ angular.module('scheduling.directives', [])
 
 				    scope.bookingLoading = true;
 				    coachSeekAPIService.update({section: 'Bookings'}, bookingObject)
-				        .$promise.then(function(){
-				            scope.currentEvent.session.booking.bookings.push(bookingObject);
-				            scope.isStudent = true;
+				        .$promise.then(function(booking){
+				        	_.assign(booking.customer, 
+				        		{
+				        			firstName: bookingObject.customer.firstName,
+				        			lastName: bookingObject.customer.lastName
+				        		}
+				        	);
+				            scope.currentEvent.session.booking.bookings.push(booking);
 				        }, scope.handleErrors).finally(function(){
-				        	scope.hideCustomerList();
 				            scope.bookingLoading = false;
 				        });
 				};
 
-				scope.$watch('currentEvent', function(newVal){
+				scope.$watch('currentEvent.session.booking.bookings', function(newVal){
 				    if(newVal){
-			        	scope.isStudent = false;
-				    	var bookings = newVal.session.booking.bookings;
-				    	_.forEach(bookings, function(booking){
-				    		if(booking.customer.id === scope.item.id){
-					        	scope.isStudent = true;
-				    		}
-				    	});
+			        	scope.isStudent = _.size(_.filter(newVal, function(booking){
+				    		return booking.customer.id === scope.item.id;
+				    	}));
 				    }
-				});
+				}, true);
 
 				var buildBooking = function(customer){
 				    return {
