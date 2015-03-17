@@ -13,6 +13,19 @@
     }
 
     .customer-list{
+        .back-arrow{
+            height: 35px;
+            cursor: pointer;
+            width: 35px;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            i{
+                color: $white;
+                font-size: 20px;            
+            }
+        }
+
         .search-container{
             margin-bottom: 10px;
         }
