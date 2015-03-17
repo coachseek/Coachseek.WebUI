@@ -34,7 +34,13 @@ angular.module('scheduling.controllers', [])
                     firstDay: 1,
                     // aspectRatio: 1.3,
                     snapDuration: '00:15:00',
-                    defaultView: 'agendaWeek',
+                    defaultView:  (function(){
+                        if($(window).width()<768){
+                            return 'agendaDay';
+                        }else{
+                            return 'agendaWeek';
+                        }
+                    }()),
                     eventDurationEditable: false,
                     scrollTime:  "06:00:00",
                     header:{
@@ -75,7 +81,7 @@ angular.module('scheduling.controllers', [])
                             console.log($(window).width()*0.9);
                         //     $('#session-calendar').fullCalendar('option', 'height', ($(window).width()*0.8));
                         // $('#session-calendar').fullCalendar('option', 'aspectRatio', 0.6);
-                            // $('#session-calendar').fullCalendar( 'changeView', 'basicDay' );
+                            $('#session-calendar').fullCalendar( 'changeView', 'agendaDay' );
 
                         }
 
