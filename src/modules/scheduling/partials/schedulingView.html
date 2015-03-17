@@ -1,9 +1,13 @@
-<div class="services-list-container" ng-init="toggleOpen" ng-class="{closed: !toggleOpen}">
+<span class="toggle-service-drawer" ng-click="toggleOpen = !toggleOpen" ng-hide="isBigScreen">
+    <i class="fa fa-plus fa-lg"></i>
+</span>
+<div class="services-list-container" ng-init="toggleOpen = isBigScreen" ng-class="{closed: !toggleOpen}">
     <span
         class="toggle-service-drawer"
-        ng-click="toggleOpen = !toggleOpen">
-            <i class="fa" ng-class="toggleOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
-    </span>
+        ng-click="toggleOpen = !toggleOpen" ng-show="isBigScreen">
+            <i class="fa" ng-show="isBigScreen" ng-class="toggleOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
+     </span>
+
     <h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
     <div class="services-list" ng-disabled="showModal">
         <div class="no-services-message" ng-show="serviceList.length === 0">

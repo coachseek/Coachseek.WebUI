@@ -14,3 +14,32 @@
     @extend %service-background-colors-60;
     @extend %service-border-colors;
 }
+
+@media (max-width: 768px){
+    [state^="scheduling"]{
+        .services-list-container{
+            h4{
+                display: none !important;
+            } 
+           
+
+           
+
+        }
+         .toggle-service-drawer{
+                position: absolute;
+                right:80px;
+                top:18px;
+                z-index: 9998;
+               
+
+                border: 0px;
+                background: transparent;
+                i{
+                 color: $white;
+                }   
+
+            }
+    }
+
+}    
