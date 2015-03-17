@@ -1,6 +1,14 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator',
-        function($scope, $q, coachSeekAPIService, $activityIndicator){
+    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator', '$window',
+        function($scope, $q, coachSeekAPIService, $activityIndicator, $window){
+
+
+            //TODO: get window size
+            var w = angular.element($window);
+            $scope.toggleOpen = (function(){
+               return w.width()>768;
+
+            }());
 
             //TODO - add ability to edit time range in modal?
 
@@ -80,9 +88,7 @@ angular.module('scheduling.controllers', [])
                         //mobi size
                         if($(window).width()<768){
                             console.log($(window).width()*0.9);
-                        //     $('#session-calendar').fullCalendar('option', 'height', ($(window).width()*0.8));
-                        // $('#session-calendar').fullCalendar('option', 'aspectRatio', 0.6);
-                            $('#session-calendar').fullCalendar( 'changeView', 'agendaDay' );
+                 
 
                         }
 
