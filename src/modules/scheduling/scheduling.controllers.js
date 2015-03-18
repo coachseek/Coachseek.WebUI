@@ -152,6 +152,9 @@ angular.module('scheduling.controllers', [])
                         determineCurrentRange(view.intervalStart, view.intervalEnd);
                         loadCurrentRanges();
                     }
+
+
+
                 }
             };
 
