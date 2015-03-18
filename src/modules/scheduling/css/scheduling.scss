@@ -1,6 +1,6 @@
 [state^="scheduling"] {
     width: 100%;
-    min-width: 320px;//minimum size is iphone5
+    min-width: 290px;//minimum size for calendar
 
     .services-list-container{
         float: left;
@@ -177,7 +177,8 @@
 
     .calendar-container{
         background: $white;
-        overflow: scroll;
+        // overflow: scroll;
+        overflow: hidden;
 
         position: relative;
         height: calc(100vh - 55px);
@@ -460,18 +461,77 @@
     @extend %service-border-colors;
 }
 
+
+
+
+
 @media (max-width: 768px){
     [state^="scheduling"]{
+        .calendar-container {
+            .calendar{
+                .fc-toolbar{
+                    top: -12px;
+                    position: relative;
+                    margin: 0px auto 45px auto;
+
+                    .fc-left{
+                        float:none;
+                    }
+                    .fc-center{
+                        top:13px;
+                    }
+                    .fc-right{
+                        position: relative;
+                        
+                        width: 100%;
+                        right:0;
+                        float: none;
+                        .fc-button{
+                            width: 33.33333333%;
+                        }
+                        .fc-today-button{
+                            margin-left: 0px;
+                        }
+                    }
+                }
+            }
+
+            .dropdown-container{
+                float: left;
+                position: relative;
+                width: 50%;
+                top:0px;
+              
+                border-right:0px;
+                text-align: center;
+
+                .location-list-responsive,.coach-list-responsive{
+                
+                }
+            }
+        }
+        
+
+
         .services-list-container{
+            width: 100%;
             h4{
                 display: none !important;
             } 
+            .services-list{
+                width: 100%;
+                margin-top: 30px;
+            }
            
 
            
 
         }
-         .toggle-service-drawer{
+        .calendar-container .coach-title {
+            position: relative;
+            top:95px;
+        }
+        .toggle-service-drawer{
                 position: absolute;
                 right:80px;
                 top:18px;
@@ -484,7 +544,8 @@
                  color: $white;
                 }   
 
-            }
+        }
+      
     }
 
 }    
