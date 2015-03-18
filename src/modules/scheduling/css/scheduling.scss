@@ -24,7 +24,7 @@
         .calendar-container {
             .calendar{
                 .fc-toolbar{
-                    top: -12px;
+                    top: 10px;
                     position: relative;
                     margin: 0px auto 15px auto;
 
@@ -33,6 +33,7 @@
                     }
                     .fc-center{
                         top:13px;
+                        margin-bottom: 35px;
                     }
                     .fc-right{
                         position: relative;
@@ -60,7 +61,7 @@
                 padding: 7px 0px;
                 border-right:0px;
                 text-align: center;
-                margin-bottom: 20px;
+              
                 select{
                     background: transparent;
                 }
