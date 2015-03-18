@@ -144,9 +144,12 @@ angular.module('scheduling.controllers', [])
                     },
                     eventClick: function(event) {
                         if(!event.session.parentId){
-                            $scope.showModal = true;
+                            // $scope.showModal = true;
+
                             $scope.currentEvent = event;
                             currentEventCopy = angular.copy(event);
+                            $('#session-calendar').fullCalendar('changeView', 'agendaDay');
+
                         }
                     },
                     viewRender: function(view, $element){
@@ -164,6 +167,9 @@ angular.module('scheduling.controllers', [])
                             loadInterval(newRange);
                         }
                     }
+
+
+
                 }
             };
 

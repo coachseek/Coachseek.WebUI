@@ -472,7 +472,7 @@
                 .fc-toolbar{
                     top: -12px;
                     position: relative;
-                    margin: 0px auto 45px auto;
+                    margin: 0px auto 15px auto;
 
                     .fc-left{
                         float:none;
@@ -488,6 +488,7 @@
                         float: none;
                         .fc-button{
                             width: 33.33333333%;
+                            height: 45px;
                         }
                         .fc-today-button{
                             margin-left: 0px;
@@ -501,13 +502,15 @@
                 position: relative;
                 width: 50%;
                 top:0px;
-              
+                height: 45px;
+                padding: 7px 0px;
                 border-right:0px;
                 text-align: center;
-
-                .location-list-responsive,.coach-list-responsive{
-                
+                margin-bottom: 20px;
+                select{
+                    background: transparent;
                 }
+             
             }
         }
         
@@ -529,7 +532,7 @@
         }
         .calendar-container .coach-title {
             position: relative;
-            top:95px;
+            top:105px;
         }
         .toggle-service-drawer{
                 position: absolute;
