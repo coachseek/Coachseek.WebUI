@@ -1,76 +1,168 @@
-[state^="businessSetup"] {
-	max-width: 445px;
-	margin: 45px auto;
+@media(min-width:768px){
+  [state^="businessSetup"] {
+    max-width: 445px;
+    margin: 45px auto;
 
-	.icon-cross{
-	    font-size: 16px;
-	    font-weight: bold;
-	}
+    .icon-cross{
+      font-size: 16px;
+      font-weight: bold;
+    }
 
-	.setup-nav-container{
-		float: right;
-		margin-bottom: 35px;
-		width: 100%;
+    .setup-nav-container{
+      float: right;
+      margin-bottom: 35px;
+      width: 100%;
 
-		.setup-nav{
-			&.active{
-				background: $background-navy;
-				color: $white;
-			}
+      .setup-nav{
+        &.active{
+          background: $background-grey;
+          color: $white;
+        }
 
-			&:last-of-type{
-				margin-right: 0;
-			}
+        &:last-of-type{
+          margin-right: 0;
+        }
 
-			display: inline-block;
-			text-decoration: none;
-			width: 22%;
-			margin-right: 4%;
-			background: $white;
-			font-size: 14px;
-			color: $dark-grey;
-			padding: 5px;
-			text-align: center;
-			border: 1px solid #B0B0B0;
-			float: left;
-		}
-	}
+        display: inline-block;
+        text-decoration: none;
+        width: 22%;
+        margin-right: 4%;
+        background: $white;
+        font-size: 14px;
+        color: $dark-grey;
+        padding: 5px;
+        text-align: center;
+        border: 1px solid #B0B0B0;
+        float: left;
+      }
+    }
 
-	.create-item{
-		display: block;
-		border: none;
-		margin: 20px auto;
-		color: $white;
-		background: $green;
-		border-radius: 5px;
-		padding: 7.5px 25px;
-	}
+    .create-item{
+      display: block;
+      border: none;
+      margin: 20px auto;
+      color: $white;
+      background: $green;
+      border-radius: 5px;
+      padding: 7.5px 25px;
+    }
 
-	.edit-item{
-		float: right;
-		border: none;
-		background: none;
-		color: $green;
-	}
+    .edit-item{
+      float: right;
+      border: none;
+      background: none;
+      color: $green;
+    }
 
-	ul{
-		li{
-			padding-top: 10px;
-			.item-title, .item-subtitle{
-				width: 50%;
-				float: left;
-				color: $text-dark-grey;
-				clear: left;
-			}
-			.service-description{
-				width: 75%;
-			}
-			.item-title{
-				font-size: 16px;
-			}
-			.item-subtitle.last{
-				margin-bottom: 15px;
-			}
-		}
-	}
+    ul{
+      li{
+        padding-top: 10px;
+        .item-title, .item-subtitle{
+          width: 50%;
+          float: left;
+          color: $text-dark-grey;
+          clear: left;
+        }
+        .service-description{
+          width: 75%;
+        }
+        .item-title{
+          font-size: 16px;
+        }
+        .item-subtitle.last{
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
+}
+
+
+@media(max-width:767px){
+
+  [state^="businessSetup"] {
+
+
+    max-width: 100%;
+    margin: 0px auto 44px auto;
+
+    .icon-cross{
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+
+    .setup-nav-container{
+      float: right;
+      margin-bottom: 35px;
+      width: 100%;
+
+      .setup-nav{
+        &.active{
+          background: $mobile-background-dark;
+          color:$white;
+          border-right: 0px solid $mobile-text-grey;
+        }
+
+        &:last-of-type{
+          margin-right: 0;
+        }
+
+        display: inline-block;
+        text-decoration: none;
+        width: 25%;
+        //			margin-right: 4%;
+        background: $white;
+        font-size: 14px;
+        color:$mobile-text-grey;
+        padding: 12px;
+        text-align: center;
+        vertical-align: middle;
+
+        border-right: 1px solid $mobile-text-grey;
+        &:last-child{
+          border-right: 0px;
+        }
+        float: left;
+      }
+    }
+
+    .create-item{
+      display: block;
+      border: none;
+      margin: 20px auto;
+      color: $white;
+      background: $green;
+      border-radius: 5px;
+      padding: 7.5px 25px;
+    }
+
+    .edit-item{
+      float: right;
+      border: none;
+      background: none;
+      color: $green;
+    }
+
+    ul{
+      li{
+        padding-top: 10px;
+        .item-title, .item-subtitle{
+          width: 50%;
+          float: left;
+          color: $text-dark-grey;
+          clear: left;
+        }
+        .service-description{
+          width: 75%;
+        }
+        .item-title{
+          font-size: 16px;
+        }
+        .item-subtitle.last{
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
 }
