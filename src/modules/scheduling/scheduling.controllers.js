@@ -102,6 +102,7 @@ angular.module('scheduling.controllers', [])
                  
 
                         }
+                        
 
                     },
                     // handle event drag/drop within calendar
