@@ -58,13 +58,28 @@ angular.module('app.controllers', [])
                 });
             };
 
-            $rootScope.startIntercom = function(email, date, name){
-                Intercom('boot', {
-                    app_id: "udg0papy",
-                    name: name,
-                    email: email,
-                    created_at: date
-                });
+            var startIntercom = function(email, date, name){
+                if(Intercom){
+                    Intercom('boot', {
+                        app_id: "udg0papy",
+                        name: name,
+                        email: email,
+                        created_at: date
+                    });
+                } else {
+                    console.log("UHHHHH INTERCOM C'MON")
+                }
+            };
+
+            $rootScope.setupCurrentUser = function(user){
+                $rootScope.setUserAuth(user.email, user.password)
+                startIntercom(user.email, Date.now(), user.firstName + " " + user.lastName);
+                $rootScope.currentUser = user.email;
+            };
+
+            $rootScope.setUserAuth = function(email, password){
+                var authHeader = 'Basic ' + btoa(email + ':' + password);
+                $http.defaults.headers.common.Authorization = authHeader;
             };
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
@@ -87,17 +102,19 @@ angular.module('app.controllers', [])
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
                 if($scope.loginForm.$valid){
-                    var authHeader = 'Basic ' + btoa(email + ':' + password);
-                    $http.defaults.headers.common.Authorization = authHeader;
+                    $scope.setUserAuth(email, password);
 
                     $activityIndicator.startAnimating();
                     coachSeekAPIService.get({section: 'Locations'})
                         .$promise.then(function(){
-                            $scope.startIntercom(email);
-                            $scope.$close(email);
+                            var user = {
+                                email: email,
+                                password: password
+                            }
+                            $scope.$close(user);
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
-                            $rootScope.addAlert({
+                            $scope.addAlert({
                                 type: 'danger',
                                 message: error.statusText
                             });
