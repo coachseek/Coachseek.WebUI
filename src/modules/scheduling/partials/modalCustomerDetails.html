@@ -1,0 +1,7 @@
+<li class="customer-details">
+    <span class="item-title first-name" ng-bind-html="item.firstName | highlight:this">{{item.firstName}}</span>
+    <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
+    <button class="add-student fa" ng-disabled="isStudent" ng-class="isStudent ? 'fa-check' : 'fa-plus'" ng-click="addStudent()" ng-hide="bookingLoading"></button>
+    <ellipsis-animated ng-show="bookingLoading"></ellipsis-animated>
+    <hr/>
+</li>

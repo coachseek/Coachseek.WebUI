@@ -3,29 +3,28 @@ describe('App Module', function() {
         expect($rootScope.alerts).to.be.empty;
     });
 
-    let('alertOne', function(){
-        return {
-            type: 'success',
-            message: 'alert one'
-        }
-    });
-
-    let('alertTwo', function(){
-        return {
-            type: 'warning',
-            message: 'alert two'
-        }
-    });
-
-    let('alertThree', function(){
-        return {
-            type: 'error',
-            message: 'alert three'
-        }
-    })
-
-
     describe('global alert system', function(){
+        let('alertOne', function(){
+            return {
+                type: 'success',
+                message: 'alert one'
+            }
+        });
+
+        let('alertTwo', function(){
+            return {
+                type: 'warning',
+                message: 'alert two'
+            }
+        });
+
+        let('alertThree', function(){
+            return {
+                type: 'error',
+                message: 'alert three'
+            }
+        })
+
         beforeEach(function(){
             $rootScope.addAlert(this.alertOne);
             $rootScope.addAlert(this.alertTwo);
@@ -68,6 +67,11 @@ describe('App Module', function() {
     });
 
     describe('login modal', function(){
+        var intercomStub;
+        beforeEach(function(){
+            loginModalStub.restore();
+            intercomStub = this.sinon.stub(window, 'Intercom');
+        });
         describe('when clicking the login button', function(){
             beforeEach(function(){
                 createViewWithController($rootScope, 'index.html', 'appCtrl')
@@ -106,11 +110,11 @@ describe('App Module', function() {
             it('should unset the auth', function(){
                 expect($http.defaults.headers.common['Authorization']).to.equal(null);
             });            
-            it('should not bring up the login modal', function(){
-                expect($loginModal.length).to.equal(0);
+            it('should bring up the login modal', function(){
+                expect($loginModal.length).to.equal(1);
             });
-            it('should attempt to navigate', function(){
-                expect($stateStub).to.be.calledWith('businessSetup.business.newUser');
+            it('should log out of Intercom', function(){
+                expect(intercomStub).to.be.calledWith('shutdown');
             });
         });
         describe('when navigating to a page that requires a login', function(){
@@ -143,7 +147,6 @@ describe('App Module', function() {
                     loginStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
                         return self.loginPromise
                     });
-
                     $rootScope.password = "password"
                     $rootScope.email = "fake@email.com"
                     $rootScope.$apply();
@@ -166,6 +169,18 @@ describe('App Module', function() {
                     it('should attempt to navigate', function(){
                         expect($stateStub).to.be.calledWith('scheduling');
                     });
+                    it('should make a call to Intercom', function(){
+                        expect(intercomStub).to.be
+                            .calledWith(
+                                'boot', 
+                                {
+                                    app_id: "udg0papy",
+                                    name: undefined,
+                                    email: $rootScope.email,
+                                    created_at: undefined
+                                }
+                            );
+                    });
                 });
                 describe('when the login is unsuccessful', function(){
                     let('loginPromise', function(){
@@ -186,4 +201,59 @@ describe('App Module', function() {
             });
         });
     });
+
+    describe('when navigating to comingSoon', function(){
+        beforeEach(function(){
+            $state.go('comingSoon');
+            $rootScope.$digest();
+        });
+        it('should attempt to bring up the login modal if not logged in', function(){
+            expect(loginModalStub).to.be.calledOnce;
+        });
+        it('should map to correct template', function(){
+            expect($state.current.templateUrl).to.equal('app/partials/comingSoon.html');
+        });
+        it('should map to the correct controller', function(){
+            expect($state.current.controller).to.equal('comingSoonCtrl');
+        });
+    });
+
+    describe('coming soon page', function(){
+        var scope;
+        beforeEach(function(){
+            scope = $rootScope.$new();
+            createViewWithController(scope, 'app/partials/comingSoon.html', 'comingSoonCtrl');
+        });
+        describe('when clicking the save feedback button', function(){
+            var intercomStub, textareaContent;
+            beforeEach(function(){
+                intercomStub = this.sinon.stub(window, 'Intercom');
+                textareaContent = "HERE IS SOME STUFF";
+                $testRegion.find('textarea').val(textareaContent).trigger('input');
+                $testRegion.find('.save-button').trigger('click');
+            });
+            it('should send feedback to Intercom', function(){
+                expect(intercomStub).to.be.calledWith('trackEvent', 'feedback', {feedback: textareaContent})
+            });
+            it('should set feedbackSent to true', function(){
+                expect(scope.feedbackSent).to.be.true;
+            });
+        });
+    });
+
+    // describe('when navigating to an unavailable URL', function(){
+    //     beforeEach(function(){
+    //         $state.go('/url/not/known');
+    //         $rootScope.$digest();
+    //     });
+    //     it('should attempt to bring up the login modal if not logged in', function(){
+    //         expect(loginModalStub).to.be.calledOnce;
+    //     });
+    //     it('should map to scheduling template', function(){
+    //         expect($state.current.templateUrl).to.equal('scheduling/partials/schedulingView.html');
+    //     });
+    //     it('should map to the scheduling controller', function(){
+    //         expect($state.current.controller).to.equal('schedulingCtrl');
+    //     });
+    // });
 });

@@ -6,7 +6,7 @@
     "customers": "CUSTOMERS",
     "financials": "FINANCIALS",
     "logout-text": "LOG OUT",
-    "login-text": "LOGIN",
+    "login-text": "LOG IN",
     "logged-out": "You have logged out.",
     "person-details": {
     	"first-name": "First Name",
@@ -28,7 +28,7 @@
         },
         "password-min": "Password must contain at least 6 characters",
         "logging-in": "Logging in",
-        "login-to-coachseek": "Login to Coachseek",
+        "login-to-coachseek": "Log in to Coachseek",
         "new-here": "New here? ",
         "create-account": "Create an account."
     },
@@ -42,5 +42,9 @@
     "month": "Month",
     "week": "Week",
     "day": "Day",
-    "today": "Today"
+    "today": "Today",
+    "coming-soon": "Woooaah Nelly! We're not quite done here but let us know what else you'd like to see on Coachseek.",
+    "coming-soon-submessage": "(Also, harsh criticism of things we have forgotten is always appreciated.)",
+    "feedback-thanks": "Thanks! We'll throw that in our oven and see what comes out.",
+    "feedback-thanks-submessage": "(Now go find something else to do you beautiful being.)"
 }

@@ -1,25 +1,28 @@
 var $testRegion,
     $controller,
-    $templateCache,
     $compile,
     $rootScope,
     $injector,
-    $location,
     $q,
     $state,
     $timeout,
     createViewWithController,
-    createDirective;
+    createDirective,
+    Intercom,
+    loginModalStub;
 
 beforeEach(module('app'));
 
-beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootScope_, _$injector_, _$location_, _$q_, _$state_, _$timeout_) { 
+//stop $urlRouterProvider from running otherwise()/loading default views
+beforeEach(module(function($urlRouterProvider) {
+  $urlRouterProvider.deferIntercept();
+}));
+
+beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_, _$q_, _$state_, _$timeout_) { 
     $controller = _$controller_;
-    $templateCache = _$templateCache_;
     $compile = _$compile_;
     $rootScope = _$rootScope_;
     $injector = _$injector_;
-    $location = _$location_;
     $q = _$q_;
     $state = _$state_;
     $timeout = _$timeout_;
@@ -32,7 +35,7 @@ beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootSc
         if(!scope || !templateUrl || !ctrlName){
             throw new Error('Scope, templateUrl, or ctrlName not defined!');
         } else {
-            var html = $templateCache.get(templateUrl);
+            var html = $injector.get('$templateCache').get(templateUrl);
             $controller(ctrlName, {
                 $scope: scope
             });
@@ -55,9 +58,19 @@ beforeEach(inject(function(_$controller_, _$templateCache_, _$compile_, _$rootSc
         }
     };
 
+    Intercom = function(){};
+
     this.sinon = sinon.sandbox.create();
 
+    var loginModal = $injector.get('$modal');
+    loginModalStub = this.sinon.stub(loginModal, 'open', function(){
+        var deferred = $q.defer();
+        deferred.resolve("User");
+        return {result: deferred.promise};
+    });
+
     $testRegion = $('<div></div>');
+    $rootScope.$digest();    
 }));
 
 
@@ -65,4 +78,6 @@ afterEach(function(){
     this.sinon.restore();
 
     $testRegion.remove();
+    $('.modal-backdrop').remove();
+    $('.modal').remove();
 });

@@ -1,0 +1,118 @@
+[state^="scheduling"] {
+    .session-modal{
+        position: fixed;
+        height: 100%;
+        width: 400px;
+        z-index: 50;
+        background: $background-beige;
+        top: $nav-bar-height;
+        right: 0px;
+        -webkit-transition:all linear 0.3s;
+        transition:all linear 0.3s;
+
+        &.ng-hide {
+            right: -400px;
+        }
+
+        .session-header{
+            height: 75px;
+            padding: 5px 10px;
+            width: 100%;
+            color: $white;
+            font-size: 22px;
+            text-align: center;
+            vertical-align: middle;
+            @extend %service-background-colors-60;
+
+            .service-name{
+                font-family: lato-bold;
+                font-size: 16px;
+                height: 22px;
+            }
+            .location-name, .time-range{
+                height: 20px;
+                font-size: 14px;
+            }
+
+            i{
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                font-size: 23px;
+                cursor: pointer;
+            }
+        }
+
+        .session-modal-nav{
+            margin: 20px auto;
+            width: 90%;
+            overflow: hidden;
+            div{
+                cursor: pointer;
+                font-size: 14px;
+                width: 48%;
+                height: 30px;
+                float: left;
+                line-height: 30px;
+                border: 1px solid $grey;
+                background: $white;
+                text-align: center;
+
+                &.attendance{
+                    margin-left: 4%;
+                }
+
+                &.active{
+                    color: $white;
+                    background: $background-navy;
+                }
+            }
+        }
+
+        .double-wide{
+            margin: 0 auto 20px auto;
+            width: 90%;
+        }
+
+        form{            
+            margin: 0 auto;
+            width: 90%;
+
+            select.coaches, select.locations, select.services{
+                width: 100%;
+                height: 30px;
+            }
+            repeat-selector{
+                color: $text-dark-grey;
+                label{
+                    display: block;
+                }
+                select{
+                    margin: 0;
+                }
+            }
+            label {
+                color: $text-dark-grey;
+                font-size: 14px;
+            }
+
+            .time-picker-time{
+                display: block;
+                margin: 0 auto;
+            }
+
+            .money-sign{
+                top: 30px;
+            }
+
+            .prompt-messages{
+                color: $grey;
+                font-size: 12px;
+            }
+        }
+
+        .save-button{
+            margin-right: 5%;
+        }
+    }
+}

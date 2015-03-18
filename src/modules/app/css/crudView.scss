@@ -114,11 +114,7 @@
 	}
 
 	.save-button{
-	  float: right;
-	  color: $white;
-	  background: $green;
-	  border: none;
-	  border-radius: 5px;
-	  padding: 7.5px 25px;
+		@extend %green-button;
+		float: right;
 	}
 }

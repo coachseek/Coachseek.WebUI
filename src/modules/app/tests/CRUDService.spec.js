@@ -52,11 +52,14 @@ describe('CRUDService', function(){
     });
     describe('when calling get()', function(){
 
-        var createItemStub;
+        var createItemStub, getSuccess;
 
         beforeEach(function(){
             scope.createItem = function(){};
             createItemStub = this.sinon.stub(scope, 'createItem');
+            scope.$on('getSuccess', function(){
+                getSuccess = true;
+            });
             CRUDService.get(APIFunctionName, scope);
             // Must call digest here because we are not using a template
             // and $q promise resolution is not propogated automatically
@@ -82,6 +85,9 @@ describe('CRUDService', function(){
                 });
                 it('should stop the activity indicator', function(){
                     expect(AIStopStub).to.be.calledOnce;
+                });
+                it('should broadcast a getSuccess event', function(){
+                    expect(getSuccess).to.be.true;
                 });
             });
             describe('and there is existing data', function(){
@@ -120,12 +126,17 @@ describe('CRUDService', function(){
     });
     describe('when calling update()', function(){
 
-        var removeAlertsStub;
+        var removeAlertsStub, updateSuccess, intercomStub;
         beforeEach(function(){
             scope.itemList = [];
+            scope.newItem = true;
             scope.removeAlerts = function(){};
 
             removeAlertsStub = this.sinon.stub(scope, 'removeAlerts')
+            intercomStub = this.sinon.stub(window, 'Intercom');
+            scope.$on('updateSuccess', function(){
+                updateSuccess = true;
+            });
             CRUDService.update(APIFunctionName, scope, this.initData);
             // Must call digest here because we are not using a template
             // and $q promise resolution is not propogated automatically
@@ -153,6 +164,16 @@ describe('CRUDService', function(){
             });
             it('should stop the activity indicator', function(){
                 expect(AIStopStub).to.be.calledOnce;
+            });
+
+            it('should broadcast a updateSuccess event', function(){
+                expect(updateSuccess).to.be.true;
+            });
+
+            it('should make a call to Intercom', function(){
+                var updateObject = {};
+                updateObject[APIFunctionName] = scope.itemList.length;
+                expect(intercomStub).to.be.calledWith('update', updateObject);
             });
         });
         describe('when API call throws an error', function(){

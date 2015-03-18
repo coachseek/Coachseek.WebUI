@@ -36,6 +36,25 @@ angular.module('app',
             defaultLoadingValue: ''
         };
     }])
+    .config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
+        $urlRouterProvider.otherwise('/scheduling');
+
+        $stateProvider
+            .state('comingSoon', {
+                templateUrl: "app/partials/comingSoon.html",
+                controller: 'comingSoonCtrl',
+                data: {
+                    requireLogin: true
+                }
+            })
+            .state('comingSoon.dashboard', {
+                url: "/dashboard/coming-soon"
+            }).state('comingSoon.services', {
+                url: "/services/coming-soon"
+            }).state('comingSoon.financials', {
+                url: "/financials/coming-soon"
+            });
+    }])
     .run(['$rootScope', '$state', '$stateParams',
         function($rootScope, $state, $stateParams){
             $rootScope.$state = $state;

@@ -460,7 +460,7 @@ function distributeHeight(els, availableHeight, shouldRedistribute) {
         var newHeight = minOffset - (naturalOffset - naturalHeight); // subtract the margin/padding
 
         if (naturalOffset < minOffset) { // we check this again because redistribution might have changed things
-            $(el).height(newHeight);
+            $(el).css("min-height", newHeight);
         }
     });
 }
@@ -8568,9 +8568,16 @@ function EventManager(options) { // assumed to be a calendar
                 while (date.isBefore(_rangeEnd)) {
 
                     if (!dowHash || dowHash[date.day()]) { // if everyday, or this particular day-of-week
-
-                        startTime = abstractEvent.start; // the stored start and end properties are times (Durations)
-                        endTime = abstractEvent.end; // "
+                        // Speicfy time for each one here!
+                        var availableHours = abstractEvent.availableHours;
+                        if(availableHours && availableHours[date.day()]){
+                            var availableHours = availableHours[date.day()];
+                            startTime = moment.duration(availableHours.start);
+                            endTime = moment.duration(availableHours.end);
+                        } else {
+                            startTime = abstractEvent.start; // the stored start and end properties are times (Durations)
+                            endTime = abstractEvent.end; // "
+                        }
                         start = date.clone();
                         end = null;
 

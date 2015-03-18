@@ -1,8 +1,7 @@
 angular.module('businessSetup',
 	[
 		'businessSetup.controllers',
-        'businessSetup.directives',
-		'businessSetup.services'
+        'businessSetup.directives'
 	])
 	.config(['$stateProvider', function ($stateProvider) {
         $stateProvider

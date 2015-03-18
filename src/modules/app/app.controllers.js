@@ -18,6 +18,15 @@ angular.module('app.controllers', [])
                     }, 3000);
                 }
             };
+
+            $rootScope.handleErrors = function(error){
+                _.forEach(error.data, function(error){
+                    $rootScope.addAlert({
+                        type: 'danger',
+                        message: error.message ? error.message: error
+                    });
+                });
+            };
             
             $rootScope.closeAlert = function(index) {
                 $rootScope.alerts.splice(index, 1);
@@ -30,13 +39,15 @@ angular.module('app.controllers', [])
             $rootScope.logout = function(){
                 $http.defaults.headers.common.Authorization = null;
                 delete $rootScope.currentUser;
-                $window.sessionStorage.removeItem("user");
-                $window.sessionStorage.removeItem("authHeader");
-                $state.go('businessSetup.business.newUser');
                 Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
+                });
+
+                loginModal().then(function () {
+                    $rootScope.removeAlerts();
+                    return $state.go(toState.name, toParams);
                 });
             };
 
@@ -58,22 +69,13 @@ angular.module('app.controllers', [])
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-
-                if (typeof $rootScope.currentUser === 'undefined') {
-                    if ($window.sessionStorage.getItem("user") && $window.sessionStorage.getItem("authHeader")) {
-                        $rootScope.currentUser = $window.sessionStorage.getItem("user");
-                        $http.defaults.headers.common.Authorization = $window.sessionStorage.getItem("authHeader");
-                    }
-                }
-
                 if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
-                    $http.defaults.headers.common.Authorization = 'Basic b25lQGR1ZGUuY29tOnBhc3N3b3Jk';
-                    // event.preventDefault();
+                    event.preventDefault();
 
-                    // loginModal().then(function () {
-                    //     $rootScope.removeAlerts();
-                    //     return $state.go(toState.name, toParams);
-                    // });
+                    loginModal().then(function () {
+                        $rootScope.removeAlerts();
+                        return $state.go(toState.name, toParams);
+                    });
                 } else {
                     $rootScope.removeAlerts();
                 }
@@ -99,8 +101,7 @@ angular.module('app.controllers', [])
                             $scope.$close(email);
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
-
-                            $scope.addAlert({
+                            $rootScope.addAlert({
                                 type: 'danger',
                                 message: error.statusText
                             });
@@ -122,4 +123,11 @@ angular.module('app.controllers', [])
             };
 
             $scope.cancel = $scope.$dismiss;
+        }])
+        .controller('comingSoonCtrl', ['$scope', 
+            function ($scope) {
+                $scope.saveFeedback = function(){
+                    Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
+                    $scope.feedbackSent = true;
+                };
         }]);

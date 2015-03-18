@@ -5,6 +5,7 @@
     	"middle": "It looks like you don't have any services set up. Click the button below to add one.",
     	"end": "e.g. Junior rowing training or advanced tennis serves, either oar..."
     },
+    "no-students-found": "Add some students to this course.",
     "all-coaches": "All Coaches",
     "all-locations": "All Locations",
     "coach": "Coach:",
@@ -21,5 +22,8 @@
 	"prompt": {
 		"coach": "Please specify a coach.",
 		"location": "Please specify a location."
-	}
+	},
+    "general": "General",
+    "add-student": "Add Student",
+    "attendance": "Attendance"
 }

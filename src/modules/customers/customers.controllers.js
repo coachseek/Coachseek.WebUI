@@ -1,14 +1,12 @@
 angular.module('customers.controllers', [])
-    .controller('customersCtrl', ['$scope', '$filter', 'CRUDService',
-    	function($scope, $filter, CRUDService){
-
-        var peopleList;
-        //TODO - make this i18nable
-        $scope.alphabetLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","ALL"]
+    .controller('customersCtrl', ['$scope', 'CRUDService',
+    	function($scope, CRUDService){
 
     	$scope.createItem = function(){
-    	    $scope.newItem = true;
-    	    $scope.item = {};
+            if(!$scope.item){
+                $scope.newItem = true;
+                $scope.item = {};
+            }
     	};
 
     	$scope.editItem = function(customer){
@@ -20,7 +18,6 @@ angular.module('customers.controllers', [])
 
     	$scope.saveItem = function(customer){
     	    var formValid = CRUDService.validateForm($scope);
-
     	    if(formValid){
     	        CRUDService.update('Customers', $scope, customer);
     	    }
@@ -30,10 +27,29 @@ angular.module('customers.controllers', [])
     	    CRUDService.cancelEdit($scope);
     	};
 
+        $scope.$watchCollection('item', function(newVals){
+            if(newVals){
+                if(newVals.email === ""){
+                    delete $scope.item.email;
+                } else if (newVals.phone === ""){
+                    delete $scope.item.phone;
+                }
+            }
+        });
+
+    	CRUDService.get('Customers', $scope);
+    }])
+    .controller('customerSearchCtrl', ['$scope', '$filter', function($scope, $filter){
+        var peopleList;
+        //TODO - make this i18nable
+        $scope.alphabetLetters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","ALL"];
+
         $scope.loadMore = function() {
-            _.forEach(peopleList.shift(), function(person){
-                $scope.customerList.push(person);
-            });
+            if(peopleList){
+                _.forEach(peopleList.shift(), function(people){
+                    $scope.customerList.push(people);
+                });
+            }
         };
 
         var filterText = function(){
@@ -48,18 +64,22 @@ angular.module('customers.controllers', [])
             $scope.loadMore();    
         }
 
-        $scope.$watch("searchText", function (newVal) {
-            if(newVal === ''){
-                $scope.searchText = null;
-            }
+        $scope.$on('updateSuccess', function(){
             filterText();
         });
 
         var unregister = $scope.$watch('itemList', function(newVal){
             if(newVal){
                 filterText();
-                unregister()
+                unregister();
             }
+        });
+
+        $scope.$watch("searchText", function (newVal) {
+            if(newVal === ''){
+                $scope.searchText = null;
+            }
+            filterText();
         });
 
         $scope.$watchGroup(["searchLetter", "searchText"], function(newVals){
@@ -80,8 +100,6 @@ angular.module('customers.controllers', [])
             }
             filterText();
         };
-
-    	CRUDService.get('Customers', $scope);
     }])
     .filter('highlight', function($sce) {
         return function(text, scope) {

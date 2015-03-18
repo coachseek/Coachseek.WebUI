@@ -20,7 +20,7 @@ angular.module('businessSetup.controllers', [])
             if(formValid){
                 var authHeader = 'Basic ' + btoa(business.admin.email + ':' + business.admin.password);
                 $http.defaults.headers.common.Authorization = authHeader;
-                $rootScope.currentUser = authHeader;
+                $rootScope.currentUser = business.admin.email;
                 var nameString = business.admin.firstName + " " + business.admin.lastName;
                 $scope.startIntercom(business.admin.email, Date.now(), nameString);
                 CRUDService.update('BusinessRegistration', $scope, business);
@@ -31,16 +31,26 @@ angular.module('businessSetup.controllers', [])
             CRUDService.cancelEdit($scope);
         };
 
-        $scope.itemList = [];
-        $scope.createItem();
+        if(!$scope.currentUser){
+            $scope.itemList = [];
+            $scope.createItem();
+        } else {
+            $scope.itemList = [{
+                admin:{
+                    email: $scope.currentUser
+                }
+            }]
+        }
         // CRUDService.get('BusinessRegistration', $scope);
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService',
         function($scope, CRUDService){
 
             $scope.createItem = function(){
-                $scope.newItem = true;
-                $scope.item = {};
+                if(!$scope.item){
+                    $scope.newItem = true;
+                    $scope.item = {};
+                }
             };
 
             $scope.editItem = function(location){
@@ -75,8 +85,10 @@ angular.module('businessSetup.controllers', [])
         function ($scope, CRUDService, coachDefaults) {
 
         $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = angular.copy(coachDefaults);
+            if(!$scope.item){
+                $scope.newItem = true;
+                $scope.item = angular.copy(coachDefaults);
+            }
         };
         
         $scope.editItem = function(coach){
@@ -162,8 +174,10 @@ angular.module('businessSetup.controllers', [])
         function($scope, $state, CRUDService, serviceDefaults){
 
         $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = angular.copy(serviceDefaults);
+            if(!$scope.item){
+                $scope.newItem = true;
+                $scope.item = angular.copy(serviceDefaults);
+            }
         };
 
         $scope.editItem = function(service){
@@ -207,7 +221,7 @@ angular.module('businessSetup.controllers', [])
     }])
     .value('serviceDefaults', {
             timing: {
-                duration: 15
+                duration: 60
             },
             repetition: {
                 sessionCount: 1

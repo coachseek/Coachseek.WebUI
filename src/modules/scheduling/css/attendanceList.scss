@@ -1,0 +1,142 @@
+.attendance-list{
+    margin: 0 auto;
+    width: 90%;
+
+    .create-item{
+        display: block;
+        border: none;
+        margin: 20px auto;
+        color: $white;
+        background: $green;
+        border-radius: 5px;
+        padding: 7.5px 25px;
+    }
+
+    .customer-list{
+        .back-arrow{
+            height: 35px;
+            cursor: pointer;
+            width: 35px;
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            i{
+                color: $white;
+                font-size: 20px;            
+            }
+        }
+
+        .search-container{
+            margin-bottom: 10px;
+        }
+
+        ul{
+            height: calc(100vh - 275px);
+            overflow-y: scroll;
+
+            &::-webkit-scrollbar { 
+                display: none; 
+            }
+
+            li{
+                width: 95%;
+                margin: 0 auto;
+                .item-title{
+                    line-height: 35px;
+                }
+                button{
+                    width: 35px;
+                    height: 35px;
+                    border: none;
+                    background: none;
+                    float: right;
+
+                    font-size: 23px;
+                    line-height: 35px;
+                    &.fa-plus{
+                        color: $green;                    
+                    }
+                    &.fa-check{
+                        color: $grey;
+                    }
+                    &[disabled]{
+                        pointer-events: none;
+                    }
+                }
+                ellipsis-animated{
+                    color: $green;
+                    font-size: 22px;
+                    float: right;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+
+    .no-students{
+        margin-top: 30px;
+        font-size: 16px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .student-list{
+        height: calc(100vh - 300px);
+        overflow-y: scroll;
+        &::-webkit-scrollbar { 
+            display: none; 
+        }    
+
+        .student-details{
+            width: 95%;
+            margin: 0 auto 10px auto;
+            background: $white;
+            overflow: hidden;
+
+            div{
+                float: left;
+            }
+            .item-title{
+                padding-left: 15px;
+                line-height: 45px;
+                font-size: 14px;
+            }
+            .attending-checkbox{
+                -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+                -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+                box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+
+                cursor: pointer;
+                background: $green;
+                width: 45px;
+                height: 45px;
+                color: $white;
+                text-align: center;
+
+                .fa{
+                    line-height: 45px;
+                    font-size: 30px;
+                }
+
+                ellipsis-animated{
+                    font-size: 23px;
+                }
+            }
+
+            .delete-booking{
+                width: 60px;
+                height: 45px;
+                text-align: center;
+                float: right;
+                background: $background-beige;
+                cursor: pointer;
+
+                .fa{
+                    line-height: 45px;
+                    font-size: 22px;
+                    color: $text-grey;
+                }   
+            }
+        }
+    }
+}

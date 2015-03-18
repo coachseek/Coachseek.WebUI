@@ -1,16 +1,8 @@
 describe('BusinessSetup Module', function() {
 
-    var scope,
-        loginModalStub;
+    var scope;
 
     beforeEach(function() {
-        var loginModal = $injector.get('$modal');
-        loginModalStub = this.sinon.stub(loginModal, 'open', function(){
-            var deferred = $q.defer();
-            deferred.resolve("User");
-            return {result: deferred.promise};
-        });
-
         scope = $rootScope.$new();
     });
     describe('businessSetup states', function() {
