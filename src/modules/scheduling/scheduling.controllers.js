@@ -143,29 +143,18 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event) {
-                        if(!event.session.parentId){
-                            // $scope.showModal = true;
-
-                            $scope.currentEvent = event;
-                            currentEventCopy = angular.copy(event);
-                            $('#session-calendar').fullCalendar('changeView', 'agendaDay');
-
-                        }
+                        $scope.showModal = true;
+                        $scope.currentEvent = event;
+                        currentEventCopy = angular.copy(event);
                     },
                     viewRender: function(view, $element){
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
-
                         // load one month at a time and keep track of what months
                         // have been loaded and don't load those. must use month because it
                         // is the biggest denomination allowed by calendar. if using week/day 
                         // we load days/weeks twice when switching to month.
-                        $scope.intervalStart = view.intervalStart.clone().startOf('month');
-                        $scope.intervalEnd = view.intervalStart.clone().endOf('month');
-                        var newRange = moment().range($scope.intervalStart, $scope.intervalEnd);
-
-                        if(isNewRange(newRange)){
-                            loadInterval(newRange);
-                        }
+                        determineCurrentRange(view.intervalStart, view.intervalEnd);
+                        loadCurrentRanges();
                     }
 
 
