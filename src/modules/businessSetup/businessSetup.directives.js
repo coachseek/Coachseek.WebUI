@@ -53,11 +53,16 @@ angular.module('businessSetup.directives', [])
     })
     .directive('colorPicker', function() {
         var defaultColors =  [
-            'green',
-            'blue',
-            'red',
-            'orange',
-            'yellow'
+            "green",
+            "mid-green",
+            "dark-green",
+            "red",
+            "dark-red",
+            "yellow",
+            "orange",
+            "blue",
+            "mid-blue",
+            "dark-blue"
         ];
         return {
             scope: {
