@@ -232,11 +232,18 @@ select-arrows{
 
 
 @media (max-width: 767px) {
-  
+
+
+  .navbar-header .indicator-container{
+    display: none !important;
+  }
 
   .desktop-nav{
     display:none !important;
   }
+
+
+
 
   .mobi-nav{
     position: absolute;

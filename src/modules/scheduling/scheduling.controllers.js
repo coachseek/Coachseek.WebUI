@@ -54,7 +54,14 @@ angular.module('scheduling.controllers', [])
                     header:{
                         left: '',
                         center: 'prev title next',
-                        right: 'month agendaWeek agendaDay today'
+                        right: (function(){
+                            if($(window).width()<768){
+                                return 'month agendaDay today'
+                            }else{
+                                return 'month agendaWeek agendaDay today';
+                            }   
+
+                        }()) 
                     },
                     drop: function(date, event) {
                         handleServiceDrop(date, $(this).data('service'));
