@@ -191,8 +191,10 @@
         min-height: 3em;
     }
     [state^="scheduling"] {
+
         .fc-ltr .fc-basic-view td.fc-day-number{
             text-align: center;
+            font-size: 18px;
         }
         .calendar-container .calendar {
        
@@ -201,20 +203,26 @@
                     display: block !important;
                     
                 }
-                .calendar-container .calendar {
-                    a.fc-event{
-                        position: relative;
-                        top: 0px;
-                        left: 0px;
-                        margin:1px 0px;
-                    }
-             
-               
+          
+                a.fc-event{
+                    position: relative;
+                    top: 0px;
+                    left: 0px;
+                     margin:1px 0px;
+
                 }
                 
             }
+            th.fc-day-header{
+                color: $green;
+                font-size: 16px;
+                 padding: 5px 0px 20px 0px;
+            }
 
             .fc-month-view{
+                td,th{
+                    border-width: 0px;
+                }
                 .fc-title,.fc-location{
                     display: none !important;
                     

@@ -140,9 +140,19 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event) {
-                        $scope.showModal = true;
+                        var view = $('#session-calendar').fullCalendar('getView');
+                        if( view.type == 'agendaDay'){
+                            $scope.showModal = true;
+                        }else{
+
+                        }
+
                         $scope.currentEvent = event;
                         currentEventCopy = angular.copy(event);
+                      
+                        // $('#session-calendar').fullCalendar('changeView', 'agendaDay');
+                    
+
                     },
                     viewRender: function(view, $element){
                         if($(window).width()<768){
@@ -157,7 +167,17 @@ angular.module('scheduling.controllers', [])
                         // we load days/weeks twice when switching to month.
                         determineCurrentRange(view.intervalStart, view.intervalEnd);
                         loadCurrentRanges();
+                    },
+
+                    dayClick: function(date, allDay, jsEvent, view) {
+
+                        if (allDay) {
+                            $('#session-calendar').fullCalendar('changeView', 'agendaDay'/* or 'basicDay' */); 
+                             $('#session-calendar').fullCalendar('gotoDate', date); 
+                            
+                        }
                     }
+                        
 
 
 

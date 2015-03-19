@@ -39,7 +39,12 @@
 
 
 
-        .calendar-container {
+        div.calendar-container {
+            background: #eee;
+            .fc-unthemed .fc-today{
+                color: $green;
+                background: transparent;
+            }
             .calendar{
                 .fc-toolbar{
                     top: 10px;
@@ -62,6 +67,11 @@
                         .fc-button{
                             width: 33.33333333%;
                             height: 45px;
+                            background: $white;
+                            border: 0px;
+                            &.fc-state-active{
+                                background: #C8C8C8;
+                            }
                         }
                         .fc-today-button{
                             margin-left: 0px;
@@ -79,6 +89,7 @@
                 padding: 7px 0px;
                 border-right:0px;
                 text-align: center;
+                background: $white;
               
                 select{
                     background: transparent;
