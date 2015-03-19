@@ -145,7 +145,12 @@ angular.module('scheduling.controllers', [])
                         currentEventCopy = angular.copy(event);
                     },
                     viewRender: function(view, $element){
-                        $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
+                        if($(window).width()<768){
+                                 $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 40 ));
+                        }else{
+                                 $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
+                        }   
+                      
                         // load one month at a time and keep track of what months
                         // have been loaded and don't load those. must use month because it
                         // is the biggest denomination allowed by calendar. if using week/day 
