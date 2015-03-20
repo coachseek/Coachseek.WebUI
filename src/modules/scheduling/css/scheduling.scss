@@ -111,6 +111,14 @@
             .services-list{
                 width: 100%;
                 margin-top: 30px;
+
+
+                .services-list-show{
+                    display: block;
+                }
+                .services-list-hide{
+                    display: none;
+                }
             }
            
 

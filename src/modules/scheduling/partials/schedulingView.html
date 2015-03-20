@@ -15,7 +15,7 @@
             <div class="no-services-middle">{{'scheduling:no-services.middle' | i18next}}</div>
             <div class="no-services-end">{{'scheduling:no-services.end' | i18next}}</div>
         </div>
-        <ul>
+        <ul ng-class="toggleOpen ? 'services-list-show' : 'services-list-hide' ">
             <li>
                 <button class="create-item" ui-sref="businessSetup.services.newItem">
                     <i class="fa fa-plus"></i>
