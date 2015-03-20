@@ -41,6 +41,7 @@
 
         div.calendar-container {
             background: #eee;
+
             .fc-unthemed .fc-today{
                 color: $green;
                 background: transparent;
@@ -122,7 +123,7 @@
         }
         .toggle-service-drawer{
                 position: fixed;
-                right:80px;
+                right:20px;
                 top:18px;
                 z-index: 9998;
                

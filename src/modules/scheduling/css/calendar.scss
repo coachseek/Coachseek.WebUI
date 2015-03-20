@@ -197,6 +197,9 @@
             font-size: 18px;
         }
         .calendar-container .calendar {
+            div.fc-view-container{
+                padding: 0px;
+            }
        
             .fc-agendaDay-view{
                 .fc-title,.fc-location{
@@ -216,7 +219,7 @@
             th.fc-day-header{
                 color: $green;
                 font-size: 16px;
-                 padding: 5px 0px 20px 0px;
+                padding: 5px 0px 10px 0px;
             }
 
             .fc-month-view{

@@ -143,20 +143,22 @@ angular.module('scheduling.controllers', [])
                         var view = $('#session-calendar').fullCalendar('getView');
                         if( view.type == 'agendaDay'){
                             $scope.showModal = true;
-                        }else{
-
                         }
 
                         $scope.currentEvent = event;
                         currentEventCopy = angular.copy(event);
-                      
-                        // $('#session-calendar').fullCalendar('changeView', 'agendaDay');
+  
                     
 
                     },
                     viewRender: function(view, $element){
+                        //detect whether is a mobile device
                         if($(window).width()<768){
-                                 $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 40 ));
+                            var calendarView =  $('#session-calendar').fullCalendar('getView');
+                            if(calendarView.type == 'agendaDay')
+                                $('#session-calendar').fullCalendar('option', 'height',  $(window).height() );
+                            else if(calendarView.type == 'agendaWeek')
+                                $('#session-calendar').fullCalendar('option', 'height',  $(window).height() );
                         }else{
                                  $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
                         }   
@@ -173,7 +175,7 @@ angular.module('scheduling.controllers', [])
 
                         if (allDay) {
                             $('#session-calendar').fullCalendar('changeView', 'agendaDay'/* or 'basicDay' */); 
-                             $('#session-calendar').fullCalendar('gotoDate', date); 
+                            $('#session-calendar').fullCalendar('gotoDate', date); 
                             
                         }
                     }
