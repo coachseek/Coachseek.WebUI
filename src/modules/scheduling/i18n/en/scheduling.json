@@ -25,5 +25,6 @@
 	},
     "general": "General",
     "add-student": "Add Student",
-    "attendance": "Attendance"
+    "attendance": "Attendance",
+    "clashing-error": "This change clashes with __clashingMessage__"
 }

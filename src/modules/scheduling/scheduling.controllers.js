@@ -134,9 +134,12 @@ angular.module('scheduling.controllers', [])
                                 event.session.timing = sessionTimingCopy;
 
                                 _.forEach(error.data, function(error){
+                                    var clashingMessage = error.data;
+                                    clashingMessage = clashingMessage.substring(clashingMessage.indexOf(":") + 2, clashingMessage.indexOf(";"));
                                     $scope.addAlert({
                                         type: 'danger',
-                                        message: error.message
+                                        message: 'scheduling:clashing-error',
+                                        clashingMessage: clashingMessage
                                     });
                                 });
                             }).finally(function(){
