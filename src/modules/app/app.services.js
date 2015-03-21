@@ -94,7 +94,7 @@ angular.module('app.services', [])
 	.service('loginModal', ['$modal', '$rootScope',
 		function ($modal, $rootScope) {
 			function assignCurrentUser (user) {
-				$rootScope.currentUser = user;
+                $rootScope.setupCurrentUser(user);
 				return user;
 			}
 
