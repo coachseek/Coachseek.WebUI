@@ -102,7 +102,9 @@ angular.module('app.services', [])
 				var instance = $modal.open({
 					templateUrl: 'app/partials/loginModal.html',
 					controller: 'loginModalCtrl',
-					backdropClass: 'modal-backdrop'
+					backdropClass: 'modal-backdrop',
+                    backdrop: 'static',
+                    keyboard: false
 				});
 
 				return instance.result.then(assignCurrentUser);

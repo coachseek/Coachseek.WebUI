@@ -84,7 +84,25 @@ describe('App Module', function() {
                 $loginModal.remove();
             });
             it('should bring up the login modal', function(){
-                expect($loginModal.length).to.not.equal(0);
+                expect($('body').hasClass('modal-open')).to.be.true;
+            });
+            describe('when clicking outside the login modal', function(){
+                it('should not dismiss the login modal', function(){
+                    $('.modal').trigger('click');
+                    $timeout.flush();
+
+                    expect($('body').hasClass('modal-open')).to.be.true;
+                });
+            });
+            describe('when hitting the ESC key', function(){
+                it('should not dismiss the login modal', function(){
+                    var e = jQuery.Event("keydown");
+                    e.which = 27; // # Some key code value
+                    $(document).trigger(e);
+                    $timeout.flush();
+
+                    expect($('body').hasClass('modal-open')).to.be.true;
+                });
             });
         });
         describe('when clicking the logout button', function(){
@@ -111,7 +129,7 @@ describe('App Module', function() {
                 expect($http.defaults.headers.common['Authorization']).to.equal(null);
             });            
             it('should bring up the login modal', function(){
-                expect($loginModal.length).to.equal(1);
+                expect($('body').hasClass('modal-open')).to.be.true;
             });
             it('should log out of Intercom', function(){
                 expect(intercomStub).to.be.calledWith('shutdown');
@@ -130,7 +148,7 @@ describe('App Module', function() {
                 $loginModal.remove();
             });
             it('should bring up the login modal', function(){
-                expect($loginModal.length).to.not.equal(0);
+                expect($('body').hasClass('modal-open')).to.be.true;
             });
             describe('when attempting to login and form is valid', function(){
                 let('loginPromise', function(){
@@ -164,7 +182,7 @@ describe('App Module', function() {
                         expect($http.defaults.headers.common['Authorization']).to.equal(authHeader)
                     });
                     it('should remove the login modal', function(){
-                        expect($('.modal').length).to.equal(0);
+                        expect($('body').hasClass('modal-open')).to.be.false;
                     });
                     it('should attempt to navigate', function(){
                         expect($stateStub).to.be.calledWith('scheduling');
