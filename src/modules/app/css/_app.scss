@@ -215,8 +215,6 @@ select-arrows{
 
 
 @media (max-width: 767px) {
-
-
   .navbar-header .indicator-container{
     display: none !important;
   }
@@ -224,9 +222,6 @@ select-arrows{
   .desktop-nav{
     display:none !important;
   }
-
-
-
 
   .mobi-nav{
     position: absolute;
@@ -318,6 +313,7 @@ select-arrows{
             float: right;
             padding-right: 10px;
             color: $white;
+            text-decoration: none;
             
           }
           &:last-child{
