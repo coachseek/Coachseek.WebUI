@@ -239,16 +239,17 @@ angular.module('scheduling.controllers', [])
             var buildCalendarEvent = function(date, session){
                 var newDate = date.clone();
                 var duration = session.timing.duration;
+                // set default display length to never be less than 30
+                duration =  duration < 30 ? 30 : duration;
+
                 var newEvent = {
                     _id: $scope.tempEventId,
                     title: session.service.name,
                     start: moment(newDate),
-                    end: moment(newDate.add(session.timing.duration, 'minutes')),
+                    end: moment(newDate.add(duration, 'minutes')),
                     allDay: false,
                     className: session.presentation.colour,
-                    // events need to know about sessions in order to save
-                    // when moved/dragged while in calendar
-                    // may need to do get here
+                    // calendar events need to know about sessions. adding as extra attribute.
                     session: session
                 };
                 return newEvent;
@@ -275,7 +276,6 @@ angular.module('scheduling.controllers', [])
                         studentCapacity: 1,
                         bookings: []
                     },
-                    // need to specify these here for modal data
                     pricing: serviceData.pricing,
                     presentation: serviceData.presentation,
                     repetition: serviceData.repetition
