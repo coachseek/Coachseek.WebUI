@@ -25,9 +25,9 @@ angular.module('scheduling.directives', [])
 				        });
 				};
 
-				scope.$watch('currentEvent.session.booking.bookings', function(newVal){
-				    if(newVal){
-			        	scope.isStudent = _.size(_.filter(newVal, function(booking){
+				scope.$watch('currentEvent.session.booking.bookings', function(newBookings){
+				    if(newBookings){
+			        	scope.isStudent = _.size(_.filter(newBookings, function(booking){
 				    		return booking.customer.id === scope.item.id;
 				    	}));
 				    }
