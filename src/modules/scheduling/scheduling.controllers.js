@@ -1,18 +1,9 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService','$window',
-        function($scope, $q, coachSeekAPIService,$window){
-
+    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator',
+        function($scope, $q, coachSeekAPIService, $activityIndicator){
 
             //TODO: get window size
-            var w = angular.element($window);
-            $scope.isBigScreen = (function(){
-               return w.width()>768;
-            }());
-
-  
-
-
-
+            $scope.isBigScreen = $(window).width() > 768;
 
             //TODO - add ability to edit time range in modal?
 
@@ -47,26 +38,13 @@ angular.module('scheduling.controllers', [])
                     firstDay: 1,
                     // aspectRatio: 1.3,
                     snapDuration: '00:15:00',
-                    defaultView:  (function(){
-                        if($(window).width()<768){
-                            return 'agendaDay';
-                        }else{
-                            return 'agendaWeek';
-                        }
-                    }()),
+                    defaultView: $scope.isBigScreen ? 'agendaWeek' : 'agendaDay',
                     eventDurationEditable: false,
                     scrollTime:  "06:00:00",
                     header:{
                         left: '',
                         center: 'prev title next',
-                        right: (function(){
-                            if($(window).width()<768){
-                                return 'month agendaDay today'
-                            }else{
-                                return 'month agendaWeek agendaDay today';
-                            }   
-
-                        }()) 
+                        right: $scope.isBigScreen ? 'month agendaWeek agendaDay today' : 'month agendaDay today'
                     },
                     drop: function(date, event) {
                         handleServiceDrop(date, $(this).data('service'));
@@ -94,16 +72,9 @@ angular.module('scheduling.controllers', [])
                             text: event.session.location.name
                         }).appendTo(element.find('.fc-content'));
                     },
-                    windowResize: function(view){
+                    windowResize: function(){
+                        $scope.isBigScreen = $(window).width() > 768;
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
-                        //mobi size
-                        if($(window).width()<768){
-                            console.log($(window).width()*0.9);
-                 
-
-                        }
-                        
-
                     },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
@@ -148,22 +119,29 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event) {
-                        $scope.showModal = true;
+                        var view = $('#session-calendar').fullCalendar('getView');
+                        if($scope.isBigScreen || view.type == 'agendaDay'){
+                            $scope.showModal = true;
+                        }
+
                         $scope.currentEvent = event;
                         currentEventCopy = angular.copy(event);
                     },
-                    viewRender: function(view, $element){
-                        $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10 ));
+                    viewRender: function(view){
+                        var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
+                        $('#session-calendar').fullCalendar('option', 'height', heightToSet);
+
                         // load one month at a time and keep track of what months
                         // have been loaded and don't load those. must use month because it
                         // is the biggest denomination allowed by calendar. if using week/day 
                         // we load days/weeks twice when switching to month.
                         determineCurrentRange(view.intervalStart, view.intervalEnd);
                         loadCurrentRanges();
+                    },
+                    dayClick: function(date, jsEvent, view) {
+                        $('#session-calendar').fullCalendar('changeView', 'agendaDay'); 
+                        $('#session-calendar').fullCalendar('gotoDate', date);
                     }
-
-
-
                 }
             };
 

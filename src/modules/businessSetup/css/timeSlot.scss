@@ -36,7 +36,7 @@
         z-index: 0;
         float: left;
         position: relative;
-        width: 335px;
+        width: 315px;
         text-align: center;
 
         .to-text{
@@ -79,3 +79,45 @@
         }
     }
 }
+
+
+@media (max-width: 768px){
+    .weekday{
+        time-range-picker{
+            width: 100%;
+            .to-text{
+                display: none;
+            }
+            .time-picker-container{
+                width: 100%;
+                margin-left: 0px;
+            }
+            .time-picker-time{
+                margin-left: 10px;
+                position: relative;
+                left: 15px;
+            }
+        }
+        &.closed{
+            .weekday-text{
+                position: relative;
+            }
+            .toggle-time-slot{
+                position: relative;
+            }
+        }
+        .weekday-text{
+            position: absolute;
+            text-align: center;
+        }
+        .toggle-time-slot{
+            position: absolute;
+            right:10px;
+        }
+    }
+}
+
+
+
+
+

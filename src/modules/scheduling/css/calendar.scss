@@ -181,3 +181,57 @@
         }
     }
 }
+
+@media (max-width: 768px){
+    .fc-basic-view tbody div.fc-row{
+        min-height: 3em;
+    }
+    div.fc-row.fc-week.fc-widget-content{
+        min-height: 3em;
+    }
+    [state^="scheduling"] {
+        .fc-ltr .fc-basic-view td.fc-day-number{
+            text-align: center;
+            font-size: 18px;
+        }
+        .calendar-container .calendar {
+            div.fc-view-container{
+                padding: 0px;
+            }
+            .fc-agendaDay-view{
+                .fc-title,.fc-location{
+                    display: block !important;
+                }
+                a.fc-event{
+                    position: relative;
+                    top: 0px;
+                    left: 0px;
+                     margin:1px 0px;
+                }
+            }
+            th.fc-day-header{
+                color: $green;
+                font-size: 16px;
+                padding: 5px 0px 10px 0px;
+            }
+
+            .fc-month-view{
+                td,th{
+                    border-width: 0px;
+                }
+                .fc-title,.fc-location{
+                    display: none !important;
+                }
+                .fc-row{
+                    cursor: pointer;
+                }
+                a.fc-event{
+                    position: relative;
+                    top: 0px;
+                    left: 0px;
+                    margin:1px 45%;
+                }
+            }
+        }
+    }
+}

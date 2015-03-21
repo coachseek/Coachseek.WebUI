@@ -15,7 +15,7 @@
             <div class="no-services-middle">{{'scheduling:no-services.middle' | i18next}}</div>
             <div class="no-services-end">{{'scheduling:no-services.end' | i18next}}</div>
         </div>
-        <ul>
+        <ul ng-class="toggleOpen ? 'services-list-show' : 'services-list-hide' ">
             <li>
                 <button class="create-item" ui-sref="businessSetup.services.newItem">
                     <i class="fa fa-plus"></i>
@@ -173,4 +173,7 @@
                 <div class="no-students" ng-if="!currentEvent.session.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div>
             </ul>
         </div>
-    </div>
+    </form>
+    <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="calendarLoading"/></button>
+    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'cancel' | i18next}}</button>
+</div>
