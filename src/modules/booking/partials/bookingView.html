@@ -1,0 +1,37 @@
+<div class="booking-view crud-item">
+  <div class="filter-bar">
+    <div class="dropdown-container coach-list">
+        <select ng-change="filterSessions()" name="service" ng-model="service">
+            <option value="">{{'booking:all-services' | i18next}}</option>
+            <option ng-repeat="service in services" value="{{service.id}}">{{service.name}}</option>
+        </select>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+    <div class="dropdown-container location-list">
+        <select ng-change="filterSessions()" name="location" ng-model="location">
+            <option value="">{{'booking:all-locations' | i18next}}</option>
+            <option ng-repeat="location in locations" value="{{location.id}}">{{location.name}}</option>
+        </select>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+  </div>
+  <ul class="session-list">
+    <li ng-repeat="session in sessions" ng-click="selectSession(session)" class="session-details">
+      <div class="session-color">
+        <span class="colour-circle {{session.presentation.colour}}"></span>
+      </div>
+      <div class="session-more">
+        <div class="session-service">
+          <span class="session-service">{{session.service.name}}</span>
+        </div>
+        <div>
+          <span class="session-location">{{session.location.name}}</span>
+          <span class="session-duration">{{session.timing.duration}} {{'booking:duration' | i18next}}</span>
+        </div>
+        <div>
+          <span class="session-timing">{{session.timing.startDate}} {{session.timing.startTime}}</span>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

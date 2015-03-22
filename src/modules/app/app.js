@@ -12,7 +12,7 @@ angular.module('app',
     'jm.i18next',
 
     // coachSeekApp
-    'app.controllers', 
+    'app.controllers',
     'app.services',
     'app.directives',
 
@@ -20,7 +20,8 @@ angular.module('app',
     'businessSetup',
     'scheduling',
     'customers',
-    
+    'booking',
+
     // UTILITIES
     'ngActivityIndicator'
 
@@ -29,7 +30,7 @@ angular.module('app',
             lng: 'en',
             fallbackLng: 'en',
             ns : {
-                namespaces : ['app', 'businessSetup', 'scheduling', 'customers'],
+                namespaces : ['app', 'businessSetup', 'scheduling', 'customers', 'booking'],
                 defaultNs: 'app'
             },
             resGetPath: 'i18n/__lng__.json',

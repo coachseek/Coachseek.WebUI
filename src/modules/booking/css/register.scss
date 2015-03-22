@@ -1,0 +1,8 @@
+[state^="register"] {
+	max-width: 445px;
+	margin: 20px auto;
+
+	@media (max-width: 768px){
+		margin: 0px auto;
+	}
+}

@@ -1,0 +1,109 @@
+[state^="booking"] {
+	max-width: 445px;
+	margin: 20px auto;
+	.filter-bar {
+		margin: 0 0 10px 0;
+	}
+
+	.dropdown-container{
+		position: relative;
+		width: 50%;
+		float: left;
+		height: 30px;
+		background: #F5F5F5;
+		color: $grey;
+		border: 1px solid $border-light-grey;
+		-webkit-transition:left linear 0.3s;
+		transition:left linear 0.3s;
+
+		select{
+			color: $grey;
+			padding: 3px 20px 3px 10px;
+			border: none;
+			box-shadow: none;
+			background: $another-white;
+			background-image: none;
+			-webkit-appearance: none;
+			cursor: pointer;
+			width: 100%;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+
+			&:focus{
+					outline: none;
+			}
+		}
+
+		i{
+			@extend %vertical-align;
+			position: absolute;
+			right: 10px;
+			pointer-events: none;
+			font-size: 10px;
+		}
+	}
+
+	.session-list {
+		.session-details {
+			cursor: pointer;
+			width: 100%;
+			margin: 0;
+			padding: 10px 12.5px;
+			background: $white;
+			overflow: hidden;
+			-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+			-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+			box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+
+			.session-color{
+				float: left;
+				padding: 0 10px 0 0;
+				height: 60px;
+			}
+
+			.colour-circle{
+				display: block;
+				@extend %vertical-align;
+				@extend %service-background-colors;
+				width: 15px;
+				height: 15px;
+				border-radius: 10px;
+			}
+
+
+			.session-service {
+				font-family: lato-bold;
+				font-size: 14px;
+				color: $text-dark-grey;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+
+			.session-duration {
+				float: right;
+			}
+
+			.session-location, .session-duration, .session-timing {
+				font-size: 12px;
+				color: $grey;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+		}
+	}
+
+	@media (max-width: 768px){
+		margin: 0px auto;
+		.filter-bar {
+			margin: 0;
+		}
+
+		.dropdown-container{
+			height: 45px;
+			padding: 9px 0;
+		}
+	}
+}
