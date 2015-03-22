@@ -74,6 +74,14 @@ angular.module('scheduling.controllers', [])
                     },
                     windowResize: function(){
                         $scope.isBigScreen = $(window).width() > 768;
+                        if($scope.isBigScreen){
+                            $('.fc-agendaWeek-button').show();
+                            $('#session-calendar').fullCalendar('changeView', 'agendaWeek');     
+                        }else{
+                            $('.fc-agendaWeek-button').hide();
+                            $('#session-calendar').fullCalendar('changeView', 'agendaDay');
+                        }
+
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
                     },
                     // handle event drag/drop within calendar
