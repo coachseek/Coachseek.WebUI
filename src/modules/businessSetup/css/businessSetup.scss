@@ -79,9 +79,13 @@
 
 
 @media(max-width:767px){
-
+   .main-container .list-item-container-wrapper{
+      padding:40px 10px 10px 10px;
+      .business-list-view{
+        margin-top: 25px;
+      }
+    }
   [state^="businessSetup"] {
-
 
     max-width: 100%;
     margin: 0px auto 44px auto;
@@ -90,11 +94,12 @@
       font-size: 16px;
       font-weight: bold;
     }
-
-
     .setup-nav-container{
+      background: $background-beige;
+      position: fixed;
+      z-index: 30;
       float: right;
-      margin-bottom: 35px;
+      padding-bottom: 5px;
       width: 100%;
 
       .setup-nav{
@@ -106,6 +111,7 @@
 
         &:last-of-type{
           margin-right: 0;
+          margin-bottom: 20px;
         }
 
         display: inline-block;
@@ -127,10 +133,12 @@
       }
     }
 
+   
+
     .create-item{
       display: block;
       border: none;
-      margin: 20px auto;
+      margin: 40px auto 10px auto;
       color: $white;
       background: $green;
       border-radius: 5px;
