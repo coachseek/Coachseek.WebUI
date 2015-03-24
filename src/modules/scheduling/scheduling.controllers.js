@@ -336,7 +336,25 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            var resetForm = function(){
+            $scope.deleteSession = function(){
+                startCalendarLoading();
+                coachSeekAPIService.delete({section: 'Sessions', id: $scope.currentEvent.session.id})
+                    .$promise.then(function(){
+
+                        $scope.addAlert({
+                            type: 'success',
+                            message: "scheduling:delete-success",
+                            name: $scope.currentEvent.session.service.name,
+                            date: $scope.currentEvent.start.format("MMMM Do YYYY, h:mm a")
+                        });
+
+                        closeModal();
+                        loadCurrentRanges(true);
+                    },  function(error){
+                        $scope.handleErrors(error);
+                        stopCalendarLoading();
+                    });
+            };
 
             var closeModal = function(resetTimePicker){
                 removeTempEvents();

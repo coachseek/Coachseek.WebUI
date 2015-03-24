@@ -563,6 +563,54 @@ describe('Scheduling Module', function() {
                         });
                     });
                 });
+                describe('when deleting the session', function(){
+
+                    let('deletePromise', function(){
+                        var deferred = $q.defer();
+                        deferred.resolve();
+                        return deferred.promise;
+                    });
+
+                    var self, deleteStub;
+                    beforeEach(function(){
+                        self = this;
+                        deleteStub = this.sinon.stub($injector.get('coachSeekAPIService'), 'delete', function(){
+                            return {$promise: self.deletePromise};
+                        });
+                        $sessionModal.find('.delete-button').trigger('click');
+                    })
+
+                    describe('and deletion is successful', function(){
+                        it('should call delete', function(){
+                            expect(deleteStub).to.be.calledWith({section: 'Sessions', id: scope.currentEvent.session.id})
+                        });
+                        it('should hide the session modal', function(){
+                            expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                        });
+                        it('should enable the session list', function(){
+                            expect($servicesList.attr('disabled')).to.equal(undefined);
+                        });
+                        it('should show a success error', function(){
+                            expect($rootScope.alerts[0].type).to.equal('success');
+                            expect($rootScope.alerts[0].message).to.equal('scheduling:delete-success');
+                            expect($rootScope.alerts[0].name).to.equal(scope.currentEvent.session.service.name);
+                            expect($rootScope.alerts[0].date).to.equal(scope.currentEvent.start.format("MMMM Do YYYY, h:mm a"));
+                        })
+                    });
+                    describe('and deletion fails', function(){
+
+                        let('deletePromise', function(){
+                            var deferred = $q.defer();
+                            deferred.reject({data: {message:"error-message"}});
+                            return deferred.promise;
+                        });
+
+                        it('should show an error message', function(){
+                            expect($rootScope.alerts[0].type).to.equal('danger');
+                            expect($rootScope.alerts[0].message).to.equal('error-message');
+                        });
+                    });
+                });
             });
             describe('the attendance tab', function(){
                 var $attendanceList;
