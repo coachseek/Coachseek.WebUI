@@ -30,26 +30,26 @@
                     <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
+                    <li><a class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-        <!-- mobi nav -->
-        <div class="mobi-nav" ng-hide="isCollapsed" ng-click="isCollapsed = !isCollapsed">
-            <div class="mobi-nav-content" >
-                <ul>
-                    <li><a href="" class="fa fa-bars fa-lg mobi-nav-icon"></a></li>
-                    <li><a ui-sref="comingSoon.dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
-                    <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
-                    <!-- <li><a ui-sref="comingSoon.services" ui-sref-active="active">{{'services' | i18next}}</a></li> -->
-                    <li><a ui-sref="comingSoon.financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
-                    <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
-                    <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
-                    <li><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
-                </ul>
-            </div>
+    <!-- mobi nav -->
+    <div class="mobi-nav" ng-hide="isCollapsed" ng-click="isCollapsed = !isCollapsed">
+        <div class="mobi-nav-content" >
+            <ul>
+                <li><a href="" class="fa fa-bars fa-lg mobi-nav-icon"></a></li>
+                <li><a ui-sref="comingSoon.dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
+                <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
+                <!-- <li><a ui-sref="comingSoon.services" ui-sref-active="active">{{'services' | i18next}}</a></li> -->
+                <li><a ui-sref="comingSoon.financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
+                <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
+                <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
+                <li><a class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
+            </ul>
         </div>
+    </div>
     <div class="main-container">
         <div ui-view id="main-view" state="{{$state.current.name}}"></div>
     </div>
