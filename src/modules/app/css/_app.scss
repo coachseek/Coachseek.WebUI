@@ -48,6 +48,12 @@ $nav-bar-height: 55px;
     padding: 7.5px 25px;
 }
 
+%delete-button{
+    color: $text-grey;
+    background: transparent;
+    border: none;
+}
+
 %service-background-colors{
   &.green      { background-color: $green; }
   &.mid-green  { background-color: $mid-green; }
