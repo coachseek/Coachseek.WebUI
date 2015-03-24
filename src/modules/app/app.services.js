@@ -31,18 +31,17 @@ angular.module('app.services', [])
             coachSeekAPIService.update({section: functionName}, item)
                 .$promise.then(function(item){
                     $scope.itemList.push(item);
-
-                    $scope.addAlert({
-                        type: 'success',
-                        message: "businessSetup:save-success",
-                        name: item.name ? item.name: findName(item)
-                    });
                     if($scope.newItem){
                         var updateObject = {};
                         updateObject[functionName] = $scope.itemList.length;
                         Intercom('update', updateObject);
                     }
                     resetToList($scope);
+                    $scope.addAlert({
+                        type: 'success',
+                        message: "businessSetup:save-success",
+                        name: item.name ? item.name: findName(item)
+                    });
                     $scope.$broadcast('updateSuccess');
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
