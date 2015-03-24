@@ -12,47 +12,49 @@
     <script src="js/templates.js"></script> 
 </head>
 <body ng-app="app" ng-controller="appCtrl">
-    <div id="wrapper" ng-class="!isCollapsed?'toggled': ''">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button class="navbar-toggle pull-left" type="button" ng-click="isCollapsed = !isCollapsed">
-                        <i class="fa fa-bars fa-2x"></i>
-                    </button>
-                    <activity-indicator class="pull-right"  ui-sref="businessSetup.business"></activity-indicator>
-                </div>
-            </div>
-                   <!-- Sidebar -->
-            <div ng-class="isBigScreen ? '' : 'sidebar-wrapper' " >
-                <ul ng-class="isBigScreen? 'nav navbar-nav' : 'sidebar-nav' ">
-                    <li class="toggle-icon">
-                        <a ng-click="isCollapsed = !isCollapsed">
+    <div class="shadow-wrapper">
+        <div id="wrapper" ng-class="!isCollapsed?'toggled': ''">
+            <div class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle pull-left" type="button" ng-click="isCollapsed = !isCollapsed">
                             <i class="fa fa-bars fa-2x"></i>
-                        </a>
-                    </li>                              
-                    <li><a ui-sref="comingSoon.dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
-                    <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
-                    <!-- <li><a ui-sref="comingSoon.services" ui-sref-active="active">{{'services' | i18next}}</a></li> -->
-                    <li><a ui-sref="comingSoon.financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
-                    <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
-                    <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>                          
-                    <li ng-class="isBigScreen ? 'login-right' : '' "><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
-                 </ul>
-                           
+                        </button>
+                        <activity-indicator class="pull-right"  ui-sref="businessSetup.business"></activity-indicator>
+                    </div>
+                </div>
+                       <!-- Sidebar -->
+                <div ng-class="isBigScreen ? '' : 'sidebar-wrapper' " >
+                    <ul ng-class="isBigScreen? 'nav navbar-nav' : 'sidebar-nav' ">
+                        <li class="toggle-icon">
+                            <a ng-click="isCollapsed = !isCollapsed">
+                                <i class="fa fa-bars fa-2x"></i>
+                            </a>
+                        </li>                              
+                        <li><a ui-sref="comingSoon.dashboard" ui-sref-active="active">{{'dashboard' | i18next}}</a></li>
+                        <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
+                        <!-- <li><a ui-sref="comingSoon.services" ui-sref-active="active">{{'services' | i18next}}</a></li> -->
+                        <li><a ui-sref="comingSoon.financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
+                        <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
+                        <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>                          
+                        <li ng-class="isBigScreen ? 'login-right' : '' "><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
+                     </ul>
+                               
+                </div>
+                       
             </div>
-                   
-        </div>
 
-        <div id="page-content-wrapper">
-            <div class="main-container">
-                <div ui-view id="main-view" state="{{$state.current.name}}"></div>
-            </div>
-            <div class="alert-container">
-                    <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
-                        <span ng-i18next="[i18next]({name:alert.name, clashingMessage:alert.clashingMessage}){{alert.message}}"></span>
-                    </alert>
-            </div>
-         </div>
+            <div id="page-content-wrapper">
+                <div class="main-container">
+                    <div ui-view id="main-view" state="{{$state.current.name}}"></div>
+                </div>
+                <div class="alert-container">
+                        <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
+                            <span ng-i18next="[i18next]({name:alert.name, clashingMessage:alert.clashingMessage}){{alert.message}}"></span>
+                        </alert>
+                </div>
+             </div>
+        </div>
     </div>
 </body>
 </html>
