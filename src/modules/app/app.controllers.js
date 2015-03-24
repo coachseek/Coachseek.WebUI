@@ -59,12 +59,14 @@ angular.module('app.controllers', [])
             };
 
             var startIntercom = function(user, date){
-                Intercom('boot', {
-                    app_id: "udg0papy",
-                    name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
-                    email: user.email,
-                    created_at: date
-                });
+                if(window.Intercom){
+                    Intercom('boot', {
+                        app_id: "udg0papy",
+                        name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
+                        email: user.email,
+                        created_at: date
+                    });
+                }
             };
 
             $rootScope.setupCurrentUser = function(user){
