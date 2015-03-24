@@ -95,6 +95,13 @@ angular.module('app.controllers', [])
             });
 
             $rootScope.isCollapsed = true;
+            $rootScope.isBigScreen = $(window).width() > 768 
+            var w = angular.element($window);
+            w.bind('resize', function () {
+                $rootScope.isBigScreen = w.width() > 768 ;
+               
+            });
+           
 
         }])
         .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',

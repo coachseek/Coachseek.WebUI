@@ -74,12 +74,15 @@ angular.module('scheduling.controllers', [])
                     },
                     windowResize: function(){
                         $scope.isBigScreen = $(window).width() > 768;
+                        var view = $('#session-calendar').fullCalendar('getView');
                         if($scope.isBigScreen){
                             $('.fc-agendaWeek-button').show();
                             $('#session-calendar').fullCalendar('changeView', 'agendaWeek');     
-                        }else{
+                        }else if(!$scope.isBigScreen && view.type =='agendaWeek'){
                             $('.fc-agendaWeek-button').hide();
                             $('#session-calendar').fullCalendar('changeView', 'agendaDay');
+                        }else{
+                            $('.fc-agendaWeek-button').hide();
                         }
 
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
