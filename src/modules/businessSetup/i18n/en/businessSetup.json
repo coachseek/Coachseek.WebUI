@@ -96,5 +96,5 @@
 	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",
 	"location-already-exists": "Oops! It looks like one of your locations already has that name. Try again.",
 
-	"save-success": "You have successfully saved __name__"
+	"save-success": "You have successfully saved __alert.name__"
 }

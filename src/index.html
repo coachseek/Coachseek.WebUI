@@ -55,7 +55,7 @@
     </div>
     <div class="alert-container">
         <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
-            <span ng-i18next="[i18next]({name:alert.name, clashingMessage:alert.clashingMessage}){{alert.message}}"></span>
+            <span ng-i18next="[i18next]({alert:alert}){{alert.message}}"></span>
         </alert>
     </div>
 </body>

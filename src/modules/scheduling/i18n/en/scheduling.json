@@ -26,5 +26,6 @@
     "general": "General",
     "add-student": "Add Student",
     "attendance": "Attendance",
-    "clashing-error": "This change clashes with __clashingMessage__"
+    "clashing-error": "This change clashes with __alert.clashingMessage__",
+    "delete-success": "You have deleted __alert.name__ at __alert.date__"
 }

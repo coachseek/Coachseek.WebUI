@@ -113,13 +113,7 @@ angular.module('scheduling.controllers', [])
                                 event.session.timing = sessionTimingCopy;
 
                                 _.forEach(error.data, function(error){
-                                    var clashingMessage = error.data;
-                                    clashingMessage = clashingMessage.substring(clashingMessage.indexOf(":") + 2, clashingMessage.indexOf(";"));
-                                    $scope.addAlert({
-                                        type: 'danger',
-                                        message: 'scheduling:clashing-error',
-                                        clashingMessage: clashingMessage
-                                    });
+                                    handleClashingError(error)
                                 });
                             }).finally(function(){
                                 $activityIndicator.stopAnimating();
@@ -159,6 +153,17 @@ angular.module('scheduling.controllers', [])
                 if (intervalStart.format('MM') !== intervalEnd.format('MM')){
                     $scope.currentRanges.push(moment().range(intervalEnd.clone().startOf('month'), intervalEnd.clone().endOf('month')));
                 }
+            };
+
+            var handleClashingError = function(error){
+                var clashingMessage = error.data;
+                clashingMessage = clashingMessage.substring(clashingMessage.indexOf(":") + 2, clashingMessage.indexOf(";"));
+
+                $scope.addAlert({
+                    type: 'danger',
+                    message: 'scheduling:clashing-error',
+                    clashingMessage: clashingMessage
+                });
             };
 
             var isNewRange = function(newRange){
@@ -345,7 +350,16 @@ angular.module('scheduling.controllers', [])
 
                         loadCurrentRanges(true);
                     }, function(error){
-                        $scope.handleErrors(error);
+                        _.forEach(error.data, function(error){
+                            if(error.code === "clashing-session"){
+                                handleClashingError(error);
+                            } else {
+                                $scope.addAlert({
+                                    type: 'danger',
+                                    message: error.message ? error.message: error
+                                });
+                            }
+                        });
                         stopCalendarLoading();
                     });
                 }
