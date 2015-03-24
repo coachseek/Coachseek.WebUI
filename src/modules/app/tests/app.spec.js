@@ -75,7 +75,7 @@ describe('App Module', function() {
         describe('when clicking the login button', function(){
             beforeEach(function(){
                 createViewWithController($rootScope, 'index.html', 'appCtrl')
-                $testRegion.find('li.logout').trigger('click');
+                $testRegion.find('.logout').trigger('click');
 
                 $loginModal = $('.modal');
             });
@@ -114,7 +114,7 @@ describe('App Module', function() {
                 $rootScope.currentUser = "TESTUSER";
 
                 createViewWithController($rootScope, 'index.html', 'appCtrl')
-                $testRegion.find('li.logout').trigger('click');
+                $testRegion.find('.logout').trigger('click');
 
                 $loginModal = $('.modal');
             });
@@ -188,16 +188,7 @@ describe('App Module', function() {
                         expect($stateStub).to.be.calledWith('scheduling');
                     });
                     it('should make a call to Intercom', function(){
-                        expect(intercomStub).to.be
-                            .calledWith(
-                                'boot', 
-                                {
-                                    app_id: "udg0papy",
-                                    name: undefined,
-                                    email: $rootScope.email,
-                                    created_at: undefined
-                                }
-                            );
+                        expect(intercomStub).to.be.calledWith('boot');
                     });
                 });
                 describe('when the login is unsuccessful', function(){

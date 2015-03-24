@@ -80,7 +80,7 @@ angular.module('app.controllers', [])
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
+                if (requireLogin && !$rootScope.currentUser) {
                     event.preventDefault();
 
                     loginModal().then(function () {
