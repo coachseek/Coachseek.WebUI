@@ -49,7 +49,7 @@ describe('modalCustomerDetails directive', function(){
 
     describe('when bookings[] contains the customer', function(){
         it('should set the isStudent flag to true', function(){
-            expect(scope.$$childHead.isStudent).to.be.truthy;
+            expect(scope.isStudent).to.be.truthy;
         });
     });
     describe('when bookings[] does not contain the customer', function(){
@@ -58,7 +58,7 @@ describe('modalCustomerDetails directive', function(){
         });
 
         it('should not set the isStudent flag to true', function(){
-            expect(scope.$$childHead.isStudent).to.be.falsy;
+            expect(scope.isStudent).to.be.falsy;
         });
 
         describe('when clicking addStudent', function(){
@@ -87,7 +87,7 @@ describe('modalCustomerDetails directive', function(){
             });
             describe('while loading', function(){
                 it('should set bookingLoading to true', function(){
-                    expect(scope.$$childHead.bookingLoading).to.be.truthy;
+                    expect(scope.bookingLoading).to.be.truthy;
                 });
                 it('should hide the button', function(){
                     expect($addStudent.hasClass('ng-hide')).to.be.true;
@@ -103,7 +103,7 @@ describe('modalCustomerDetails directive', function(){
                     return deferred.promise;
                 });
                 it('should set the isStudent flag to true', function(){
-                    expect(scope.$$childHead.isStudent).to.be.truthy;
+                    expect(scope.isStudent).to.be.truthy;
                 });
                 it('should show the add student button', function(){
                     expect($addStudent.hasClass('ng-hide')).to.be.false;
@@ -115,7 +115,7 @@ describe('modalCustomerDetails directive', function(){
                     expect($modalCustomerDetails.find('ellipsis-animated').hasClass('ng-hide')).to.be.true;
                 });
                 it('should set bookingLoading to false', function(){
-                    expect(scope.$$childHead.bookingLoading).to.be.falsy;
+                    expect(scope.bookingLoading).to.be.falsy;
                 });
 
             });
@@ -126,7 +126,7 @@ describe('modalCustomerDetails directive', function(){
                     return deferred.promise;
                 });
                 it('should set the isStudent flag to false', function(){
-                    expect(scope.$$childHead.isStudent).to.be.falsy;
+                    expect(scope.isStudent).to.be.falsy;
                 });
                 it('should show the add student button', function(){
                     expect($addStudent.hasClass('ng-hide')).to.be.false;
@@ -135,7 +135,7 @@ describe('modalCustomerDetails directive', function(){
                     expect($modalCustomerDetails.find('ellipsis-animated').hasClass('ng-hide')).to.be.true;
                 });
                 it('should set bookingLoading to false', function(){
-                    expect(scope.$$childHead.bookingLoading).to.be.false;
+                    expect(scope.bookingLoading).to.be.false;
                 });
                 it('should show an error message', function(){
                     expect($rootScope.alerts[0].type).to.equal('danger');

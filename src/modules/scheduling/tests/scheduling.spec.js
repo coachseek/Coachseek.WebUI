@@ -422,7 +422,7 @@ describe('Scheduling Module', function() {
                 expect($sessionModal.find('.session-form').hasClass('ng-hide')).to.be.false;
             });
             it('should hide the attendance list', function(){
-                expect($sessionModal.find('.attendance-list').hasClass('ng-hide')).to.be.true;
+                expect($sessionModal.find('modal-session-attendance-list').hasClass('ng-hide')).to.be.true;
             });
             it('should set the currentEvent on the scope', function(){
                 expect(scope.currentEvent).to.exist;
@@ -568,14 +568,11 @@ describe('Scheduling Module', function() {
                 var $attendanceList;
                 beforeEach(function(){
                     $sessionModal.find('.session-modal-nav .attendance').trigger('click');
-                    $attendanceList = $sessionModal.find('.attendance-list');
+                    $attendanceList = $sessionModal.find('modal-session-attendance-list');
                 });
                 it('should show the student list', function(){
                     expect(scope.currentTab).to.equal('attendance');
                     expect($attendanceList.hasClass('ng-hide')).to.be.false;
-                });
-                it('should hide the customer list', function(){
-                    expect($sessionModal.find('.session-form').hasClass('ng-hide')).to.be.true;
                 });
                 it('should hide the customer list', function(){ 
                     expect($attendanceList.find('.customer-list').hasClass('ng-hide')).to.be.true;

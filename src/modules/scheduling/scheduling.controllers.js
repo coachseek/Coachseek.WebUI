@@ -120,13 +120,13 @@ angular.module('scheduling.controllers', [])
                             });
                         }
                     },
-                    eventClick: function(event) {
-                        var view = $('#session-calendar').fullCalendar('getView');
+                    eventClick: function(event, jsEvent, view) {
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
                         }
 
                         $scope.currentEvent = event;
+                        delete $scope.tempEventId;
                         currentEventCopy = angular.copy(event);
                     },
                     viewRender: function(view){
@@ -140,9 +140,11 @@ angular.module('scheduling.controllers', [])
                         determineCurrentRange(view.intervalStart, view.intervalEnd);
                         loadCurrentRanges();
                     },
-                    dayClick: function(date, jsEvent, view) {
-                        $('#session-calendar').fullCalendar('changeView', 'agendaDay'); 
-                        $('#session-calendar').fullCalendar('gotoDate', date);
+                    dayClick: function(date) {
+                        if(!$scope.isBigScreen){
+                            $('#session-calendar').fullCalendar('changeView', 'agendaDay'); 
+                            $('#session-calendar').fullCalendar('gotoDate', date);
+                        }
                     }
                 }
             };
@@ -289,29 +291,6 @@ angular.module('scheduling.controllers', [])
 
             // var buildAvailableHours = function(coachAvailibility){}
 
-            $scope.changeServiceName = function(){
-                var newService = _.find($scope.serviceList, {id: $scope.currentSessionForm.services.$viewValue});
-                $scope.currentEvent.session.presentation.colour = newService.presentation.colour;
-                _.assign($scope.currentEvent, {
-                    className: newService.presentation.colour,
-                    title: newService.name
-                });
-                updateCurrentEvent();
-            };
-
-            $scope.changeLocationName = function(){
-                var newLocation = _.find($scope.locationList, {id: $scope.currentSessionForm.locations.$viewValue});
-                $scope.currentEvent.session.location = newLocation;
-                updateCurrentEvent();
-            };
-
-            var updateCurrentEvent = function(){
-                //TODO - why does this freak out when currentEvent is a new event?
-                if(!$scope.tempEventId){
-                    $('#session-calendar').fullCalendar('updateEvent', $scope.currentEvent);                    
-                }
-            };
-
             // HELPER FUNCTIONS
             $scope.minutesToStr = function(duration){
                 return Math.floor(duration / 60) + ":" + duration % 60;
@@ -327,15 +306,11 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.cancelModalEdit = function(){
-                $scope.removeAlerts();
-                resetForm();
-                removeTempEvents();
-                $scope.$broadcast('closeTimePicker', true);
                 if(currentEventCopy){
                     _.assign($scope.currentEvent, currentEventCopy);
                     $('#session-calendar').fullCalendar('updateEvent', $scope.currentEvent);            
                 }
-                $scope.showModal = false;
+                closeModal(true);
             };
 
             $scope.saveModalEdit = function(){
@@ -343,11 +318,7 @@ angular.module('scheduling.controllers', [])
                 if($scope.currentSessionForm.$valid){
                     startCalendarLoading();
                     updateSession($scope.currentEvent.session).then(function(session){
-                        $scope.$broadcast('closeTimePicker', false);
-                        resetForm();
-                        $scope.showModal = false;
-                        $scope.tempEventId = null;
-
+                        closeModal()
                         loadCurrentRanges(true);
                     }, function(error){
                         _.forEach(error.data, function(error){
@@ -366,8 +337,13 @@ angular.module('scheduling.controllers', [])
             };
 
             var resetForm = function(){
+
+            var closeModal = function(resetTimePicker){
+                removeTempEvents();
+                $scope.$broadcast('closeTimePicker', resetTimePicker);
                 $scope.currentSessionForm.$setUntouched();
                 $scope.currentSessionForm.$setPristine();
+                $scope.showModal = false;
             };
 
             var forceFormTouched = function(){
@@ -378,7 +354,7 @@ angular.module('scheduling.controllers', [])
             var removeTempEvents = function(){
                 if($scope.tempEventId){
                     $('#session-calendar').fullCalendar('removeEvents', $scope.tempEventId);
-                    $scope.tempEventId = null;
+                    delete $scope.tempEventId;
                 }
             };
 
@@ -396,7 +372,7 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            var stopCalendarLoading = function(view, $element){
+            var stopCalendarLoading = function(){
                 $scope.calendarLoading = false;
             };
 
@@ -422,21 +398,4 @@ angular.module('scheduling.controllers', [])
                     $scope.handleErrors(error);
                     stopCalendarLoading();
                 });
-    }])
-    .controller('attendanceCtrl', ['$scope', 'coachSeekAPIService',
-        function($scope, coachSeekAPIService){
-            $scope.showCustomers = false;
-
-            $scope.showCustomerList = function(){
-                $scope.showCustomers = true;
-            };
-
-            $scope.hideCustomerList = function(){
-                $scope.showCustomers = false;
-            };
-
-            coachSeekAPIService.get({section: 'Customers'})
-                .$promise.then(function(customerList){
-                    $scope.itemList  =  customerList;
-                }, $scope.handleErrors);
     }]);

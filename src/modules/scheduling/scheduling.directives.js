@@ -1,10 +1,70 @@
 angular.module('scheduling.directives', [])
+    .directive('schedulingServicesList', function(){
+		return {
+			restrict: "E",
+			replace: false,
+			templateUrl:'scheduling/partials/schedulingServicesList.html'
+		};
+	})
+    .directive('modalSessionForm', function(){
+		return {
+			restrict: "E",
+			replace: false,
+			templateUrl:'scheduling/partials/modalSessionForm.html',
+			link: function(scope){
+				scope.changeServiceName = function(){
+				    var newService = _.find(scope.serviceList, {id: scope.currentSessionForm.services.$viewValue});
+				    scope.currentEvent.session.presentation.colour = newService.presentation.colour;
+				    _.assign(scope.currentEvent, {
+				        className: newService.presentation.colour,
+				        title: newService.name
+				    });
+				    updateCurrentEvent();
+				};
+
+				scope.changeLocationName = function(){
+				    var newLocation = _.find(scope.locationList, {id: scope.currentSessionForm.locations.$viewValue});
+				    scope.currentEvent.session.location = newLocation;
+				    updateCurrentEvent();
+				};
+
+				var updateCurrentEvent = function(){
+				    //TODO - why does this freak out when currentEvent is a new event?
+				    if(!scope.tempEventId){
+				        $('#session-calendar').fullCalendar('updateEvent', scope.currentEvent);                    
+				    }
+				};
+			}
+		};
+	})
+    .directive('modalSessionAttendanceList', ['coachSeekAPIService', function(coachSeekAPIService){
+		return {
+			restrict: "E",
+			replace: false,
+			templateUrl:'scheduling/partials/modalSessionAttendanceList.html',
+			link: function(scope){
+				scope.showCustomers = false;
+
+				scope.showCustomerList = function(){
+				    scope.showCustomers = true;
+				};
+
+				scope.hideCustomerList = function(){
+				    scope.showCustomers = false;
+				};
+
+				coachSeekAPIService.get({section: 'Customers'})
+				    .$promise.then(function(customerList){
+				        scope.itemList  =  customerList;
+				    }, scope.handleErrors);
+			}
+		};
+	}])
     .directive('modalCustomerDetails', ['coachSeekAPIService', function(coachSeekAPIService){
 		return {
 			restrict: "E",
 			replace: false,
 			templateUrl:'scheduling/partials/modalCustomerDetails.html',
-			scope: true,
 			link: function(scope){
 
 				scope.addStudent = function(){
@@ -54,7 +114,6 @@ angular.module('scheduling.directives', [])
 			restrict: "E",
 			replace: false,
 			templateUrl:'scheduling/partials/customerBooking.html',
-			scope: true,
 			link: function(scope){
 				//TODO - load attendance info for checked attribute
 				scope.checked = false;

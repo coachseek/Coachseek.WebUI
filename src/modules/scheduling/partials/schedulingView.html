@@ -2,43 +2,7 @@
     <i class="fa fa-plus fa-lg"></i>
 </span>
 <div class="services-list-container" ng-init="toggleOpen = isBigScreen" ng-class="{closed: !toggleOpen}">
-    <span
-        class="toggle-service-drawer"
-        ng-click="toggleOpen = !toggleOpen" ng-show="isBigScreen">
-            <i class="fa" ng-show="isBigScreen" ng-class="toggleOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
-     </span>
-
-    <h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
-    <div class="services-list" ng-disabled="showModal">
-        <div class="no-services-message" ng-show="serviceList.length === 0">
-            <div class="no-services-start">{{'scheduling:no-services.start' | i18next}}</div>
-            <div class="no-services-middle">{{'scheduling:no-services.middle' | i18next}}</div>
-            <div class="no-services-end">{{'scheduling:no-services.end' | i18next}}</div>
-        </div>
-        <ul ng-class="toggleOpen ? 'services-list-show' : 'services-list-hide' ">
-            <li>
-                <button class="create-item" ui-sref="businessSetup.services.newItem">
-                    <i class="fa fa-plus"></i>
-                    {{'businessSetup:add-service' | i18next}}
-                </button>
-            </li>
-            <li 
-                data-drag="true"
-                data-service="{{item}}" 
-                data-duration="{{minutesToStr(item.timing.duration)}}"
-                jqyoui-draggable="{onStart: 'toggleDrag', onStop: 'toggleDrag'}"
-                data-jqyoui-options="draggableOptions" 
-                class="service-details" 
-                ng-repeat="item in serviceList | orderBy:'name'">
-                    <i class="fa fa-bars"></i>
-                    <span class="colour-circle {{item.presentation.colour}}"></span>
-                    <div class="service-text">
-                        <h5 class="service-name">{{item.name}}</h5>
-                        <div class="service-description" ng-if="item.description">{{item.description}}</div>
-                    </div>
-            </li>
-        </ul>
-    </div>
+    <scheduling-services-list></scheduling-services-list>
 </div>
 
 <div class="page-loading" ng-show="calendarLoading">
@@ -63,16 +27,11 @@
         </select>
         <i class="fa fa-chevron-down"></i>
     </div>
-<!--     <div class="coach-title">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div> -->
+    <!-- <div class="coach-title">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div> -->
     <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 </div>
 
-
-
-
-
-
-<div class="session-modal crud-item" ng-show="showModal">
+<div class="session-modal" ng-show="showModal">
     <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
         <div class="service-name">{{ currentEvent.title }}</div>
         <div class="location-name">{{ currentEvent.session.location.name || currentLocation.name}}</div>
@@ -84,94 +43,9 @@
         <div class="attendance" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>
     </div>
     <hr class="double-wide"/>
-    <div class="session-form" ng-show="currentTab === 'general'">
-        <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
-            <div class="form-input left-col">
-                <label name="services">{{'scheduling:service-name' | i18next}}</label>
-                <select-arrows></select-arrows>
-                <select class="services" name="services" ng-change="changeServiceName()" ng-model="currentEvent.session.service.id" required>
-                    <option ng-repeat="service in serviceList" value="{{service.id}}">{{service.name}}</option>
-                </select>
-            </div>
+        
+    <modal-session-form ng-show="currentTab === 'general'"></modal-session-form>
 
-            <div class="form-input right-col">
-                <label name="locations">{{'scheduling:location' | i18next}}</label>
-                <select-arrows></select-arrows>
-                <select class="locations" name="locations" ng-change="changeLocationName()"  ng-model="currentEvent.session.location.id" required>
-                    <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
-                </select>
+    <modal-session-attendance-list ng-show="currentTab === 'attendance'"></modal-session-attendance-list>
 
-                <div class="error-messages locations" ng-messages="currentSessionForm.locations.$error" ng-if="currentSessionForm.locations.$touched">
-                    <div class="required" ng-message="required">{{'scheduling:error.location-required' | i18next}}</div>
-                </div>
-                <div class="prompt-messages" ng-messages="currentSessionForm.locations.$error" ng-if="currentSessionForm.locations.$untouched">
-                    <div ng-message="required">{{'scheduling:prompt.location' | i18next}}</div>
-                </div>
-            </div>
-
-            <div class="form-input left-col">
-                <label name="coaches">{{'scheduling:coach' | i18next}}</label>
-                <select-arrows></select-arrows>
-                <select class="coaches" name="coaches" ng-model="currentEvent.session.coach.id" required>
-                    <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
-                </select>
-                <div class="error-messages coaches" ng-messages="currentSessionForm.coaches.$error" ng-if="currentSessionForm.coaches.$touched">
-                    <div class="required" ng-message="required">{{'scheduling:error.coach-required' | i18next}}</div>
-                </div>
-                <div class="prompt-messages" ng-messages="currentSessionForm.coaches.$error" ng-if="currentSessionForm.coaches.$untouched">
-                    <div ng-message="required">{{'scheduling:prompt.coach' | i18next}}</div>
-                </div>
-            </div>
-
-            <div class="form-input right-col">
-                <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
-                <duration-picker duration="currentEvent.session.timing.duration"></duration-picker>
-            </div>
-
-            <repeat-selector
-                ng-show="tempEventId"
-                repeat-frequency="currentEvent.session.repetition.repeatFrequency"
-                session-count="currentEvent.session.repetition.sessionCount"
-            ></repeat-selector>
-
-            <div class="session-price form-input left-col">
-                <label name="sessionPrice">{{'scheduling:service-details.session-price' | i18next}}</label>
-                <span class="money-sign">{{'denomination' | i18next}}</span>
-                <input name="sessionPrice" type="number" ng-model="currentEvent.session.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
-            </div>
-
-            <div class="course-price form-input right-col" ng-hide="currentEvent.session.repetition.sessionCount < 2" >
-                <label name="coursePrice">{{'scheduling:service-details.course-price' | i18next}}</label>
-                <span class="money-sign">{{'denomination' | i18next}}</span>
-                <input name="coursePrice" type="number" ng-model="currentEvent.session.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
-            </div>
-        </form>
-        <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="calendarLoading"/></button>
-        <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'cancel' | i18next}}</button>
-    </div>
-    <div class="attendance-list" ng-show="currentTab === 'attendance'" ng-controller="attendanceCtrl">
-        <button class="create-item" ng-click="showCustomerList()" ng-hide="showCustomers">
-            <i class="fa fa-plus"></i>
-            {{'scheduling:add-student' | i18next}}
-        </button>
-        <div class="customer-list" ng-show="showCustomers" ng-controller="customerSearchCtrl">
-            <span class="back-arrow" ng-click="hideCustomerList()">
-                <i class="fa fa-left-single-arrow"></i>
-            </span>
-            <div class="search-container">
-                <i class="fa fa-lg fa-search"></i>    
-                <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
-            </div>
-            <ul infinite-scroll='loadMore()'>
-                <modal-customer-details ng-repeat="item in customerList"></modal-customer-details>
-                <div class="no-customers" ng-if="!customerList.length">{{'customers:no-customers-found' | i18next}}</div>
-            </ul>
-        </div>
-        <div class="student-list" ng-hide="showCustomers">
-            <ul>
-                <customer-booking ng-repeat="booking in currentEvent.session.booking.bookings | orderBy:['customer.lastName', 'customer.firstName']"></customer-booking>
-                <div class="no-students" ng-if="!currentEvent.session.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div>
-            </ul>
-        </div>
-    </form>
 </div>
