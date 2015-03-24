@@ -1,0 +1,25 @@
+<div class="attendance-list">
+    <button class="create-item" ng-click="showCustomerList()" ng-hide="showCustomers">
+        <i class="fa fa-plus"></i>
+        {{'scheduling:add-student' | i18next}}
+    </button>
+    <div class="customer-list" ng-show="showCustomers" ng-controller="customerSearchCtrl">
+        <span class="back-arrow" ng-click="hideCustomerList()">
+            <i class="fa fa-left-single-arrow"></i>
+        </span>
+        <div class="search-container">
+            <i class="fa fa-lg fa-search"></i>    
+            <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
+        </div>
+        <ul infinite-scroll='loadMore()'>
+            <modal-customer-details ng-repeat="item in customerList"></modal-customer-details>
+            <div class="no-customers" ng-if="!customerList.length">{{'customers:no-customers-found' | i18next}}</div>
+        </ul>
+    </div>
+    <div class="student-list" ng-hide="showCustomers">
+        <ul>
+            <customer-booking ng-repeat="booking in currentEvent.session.booking.bookings | orderBy:['customer.lastName', 'customer.firstName']"></customer-booking>
+            <div class="no-students" ng-if="!currentEvent.session.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div>
+        </ul>
+    </div>
+</div>

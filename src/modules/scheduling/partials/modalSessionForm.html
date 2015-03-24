@@ -1,0 +1,68 @@
+<div class="session-form crud-item">
+    <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
+        <div class="form-input">
+            <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
+            <duration-picker duration="currentEvent.session.timing.duration"></duration-picker>
+        </div>
+    
+        <div class="form-input">
+            <label name="services">{{'scheduling:service-name' | i18next}}</label>
+            <select-arrows></select-arrows>
+            <select class="services" name="services" ng-change="changeServiceName()" ng-model="currentEvent.session.service.id" required>
+                <option ng-repeat="service in serviceList" value="{{service.id}}">{{service.name}}</option>
+            </select>
+        </div>
+
+        <div class="form-input">
+            <label name="locations">{{'scheduling:location' | i18next}}</label>
+            <select-arrows></select-arrows>
+            <select class="locations" name="locations" ng-change="changeLocationName()"  ng-model="currentEvent.session.location.id" required>
+                <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
+            </select>
+
+            <div class="error-messages locations" ng-messages="currentSessionForm.locations.$error" ng-if="currentSessionForm.locations.$touched">
+                <div class="required" ng-message="required">{{'scheduling:error.location-required' | i18next}}</div>
+            </div>
+            <div class="prompt-messages" ng-messages="currentSessionForm.locations.$error" ng-if="currentSessionForm.locations.$untouched">
+                <div ng-message="required">{{'scheduling:prompt.location' | i18next}}</div>
+            </div>
+        </div>
+
+        <div class="form-input">
+            <label name="coaches">{{'scheduling:coach' | i18next}}</label>
+            <select-arrows></select-arrows>
+            <select class="coaches" name="coaches" ng-model="currentEvent.session.coach.id" required>
+                <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
+            </select>
+            <div class="error-messages coaches" ng-messages="currentSessionForm.coaches.$error" ng-if="currentSessionForm.coaches.$touched">
+                <div class="required" ng-message="required">{{'scheduling:error.coach-required' | i18next}}</div>
+            </div>
+            <div class="prompt-messages" ng-messages="currentSessionForm.coaches.$error" ng-if="currentSessionForm.coaches.$untouched">
+                <div ng-message="required">{{'scheduling:prompt.coach' | i18next}}</div>
+            </div>
+        </div>
+
+        <repeat-selector
+            ng-show="tempEventId"
+            repeat-frequency="currentEvent.session.repetition.repeatFrequency"
+            session-count="currentEvent.session.repetition.sessionCount"
+        ></repeat-selector>
+
+        <div class="session-price form-input">
+            <label name="sessionPrice">{{'scheduling:service-details.session-price' | i18next}}</label>
+            <span class="money-sign">{{'denomination' | i18next}}</span>
+            <input name="sessionPrice" type="number" ng-model="currentEvent.session.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
+        </div>
+
+        <div class="course-price form-input" ng-hide="currentEvent.session.repetition.sessionCount < 2" >
+            <label name="coursePrice">{{'scheduling:service-details.course-price' | i18next}}</label>
+            <span class="money-sign">{{'denomination' | i18next}}</span>
+            <input name="coursePrice" type="number" ng-model="currentEvent.session.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
+        </div>
+    </form>
+    <button class="delete-button" ng-click="deleteSession()" ng-hide="tempEventId">
+        <i class="fa fa-trash-o"></i>
+    </button>
+    <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="calendarLoading"/></button>
+    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'cancel' | i18next}}</button>
+</div>

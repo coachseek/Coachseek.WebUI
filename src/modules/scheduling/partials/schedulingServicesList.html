@@ -1,0 +1,36 @@
+<span
+    class="toggle-service-drawer"
+    ng-click="toggleOpen = !toggleOpen" ng-show="isBigScreen">
+        <i class="fa" ng-show="isBigScreen" ng-class="toggleOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
+ </span>
+
+<h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
+<div class="services-list" ng-disabled="showModal">
+    <div class="no-services-message" ng-show="serviceList.length === 0">
+        <div class="no-services-start">{{'scheduling:no-services.start' | i18next}}</div>
+        <div class="no-services-middle">{{'scheduling:no-services.middle' | i18next}}</div>
+        <div class="no-services-end">{{'scheduling:no-services.end' | i18next}}</div>
+    </div>
+    <button class="create-item" ui-sref="businessSetup.services.newItem">
+        <i class="fa fa-plus"></i>
+        {{'businessSetup:add-service' | i18next}}
+    </button>
+
+    <ul ng-class="toggleOpen ? 'services-list-show' : 'services-list-hide' ">
+        <li 
+            data-drag="true"
+            data-service="{{item}}" 
+            data-duration="{{minutesToStr(item.timing.duration)}}"
+            jqyoui-draggable="{onStart: 'toggleDrag', onStop: 'toggleDrag'}"
+            data-jqyoui-options="draggableOptions" 
+            class="service-details" 
+            ng-repeat="item in serviceList | orderBy:'name'">
+                <i class="fa fa-bars"></i>
+                <span class="colour-circle {{item.presentation.colour}}"></span>
+                <div class="service-text">
+                    <h5 class="service-name">{{item.name}}</h5>
+                    <div class="service-description" ng-if="item.description">{{item.description}}</div>
+                </div>
+        </li>
+    </ul>
+</div>
