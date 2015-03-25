@@ -12,6 +12,7 @@ angular.module('scheduling.controllers', [])
 
             var rangesLoaded = [],
                 events = [],
+                tempEventId,
                 currentEventCopy;
 
             $scope.eventSources[0] = events;
@@ -134,7 +135,6 @@ angular.module('scheduling.controllers', [])
                         }
 
                         $scope.currentEvent = event;
-                        delete $scope.tempEventId;
                         currentEventCopy = angular.copy(event);
                     },
                     viewRender: function(view){
@@ -233,30 +233,36 @@ angular.module('scheduling.controllers', [])
             var handleServiceDrop = function(date, serviceData){
                 $scope.showModal = true;
                 var session = buildSessionObject(date, serviceData);
-                $scope.tempEventId = _.uniqueId('service_');
+                var repeatFrequency = serviceData.repetition.repeatFrequency;
+                tempEventId = _.uniqueId('service_');
 
-                var newEvent = buildCalendarEvent(date, session);
-                $scope.currentEvent = newEvent;
-                events.push(newEvent);
+                _.times(serviceData.repetition.sessionCount, function(index){
+                    var dateClone = date.clone();
+                    var newEvent = buildCalendarEvent(date.add(index, repeatFrequency), session);
+                    events.push(newEvent);
+                    if(index === 0){
+                        $scope.currentEvent = newEvent;
+                    }
+                });
             };
 
             var buildCalendarEvent = function(date, session){
-                var newDate = date.clone();
+                var dateClone = date.clone();
                 var duration = session.timing.duration;
                 // set default display length to never be less than 30
                 duration =  duration < 30 ? 30 : duration;
 
-                var newEvent = {
-                    _id: $scope.tempEventId,
+                return {
+                    _id: tempEventId,
+                    tempEventId: tempEventId,
                     title: session.service.name,
-                    start: moment(newDate),
-                    end: moment(newDate.add(duration, 'minutes')),
+                    start: moment(dateClone),
+                    end: moment(dateClone.add(duration, 'minutes')),
                     allDay: false,
                     className: session.presentation.colour,
                     // calendar events need to know about sessions. adding as extra attribute.
                     session: session
                 };
-                return newEvent;
             };
 
             var buildSessionObject = function(date, serviceData){
@@ -326,8 +332,15 @@ angular.module('scheduling.controllers', [])
                 if($scope.currentSessionForm.$valid){
                     startCalendarLoading();
                     updateSession($scope.currentEvent.session).then(function(session){
-                        closeModal()
-                        loadCurrentRanges(true);
+                        if($scope.currentEvent.tempEventId){
+                            removeTempEvents();
+                            delete $scope.currentEvent.tempEventId;
+                            $scope.currentEvent.session = session.sessions[0];
+                        } else {
+                            closeModal();
+                        }
+                        $scope.removeAlerts();
+                        loadCurrentRanges(true);        
                     }, function(error){
                         _.forEach(error.data, function(error){
                             if(error.code === "clashing-session"){
@@ -378,9 +391,9 @@ angular.module('scheduling.controllers', [])
             };
 
             var removeTempEvents = function(){
-                if($scope.tempEventId){
-                    $('#session-calendar').fullCalendar('removeEvents', $scope.tempEventId);
-                    delete $scope.tempEventId;
+                if(tempEventId){
+                    $('#session-calendar').fullCalendar('removeEvents', tempEventId);
+                    tempEventId = null;
                 }
             };
 

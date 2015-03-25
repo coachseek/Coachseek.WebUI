@@ -30,7 +30,7 @@ angular.module('scheduling.directives', [])
 
 				var updateCurrentEvent = function(){
 				    //TODO - why does this freak out when currentEvent is a new event?
-				    if(!scope.tempEventId){
+				    if(!scope.currentEvent.tempEventId){
 				        $('#session-calendar').fullCalendar('updateEvent', scope.currentEvent);                    
 				    }
 				};
