@@ -76,8 +76,13 @@ angular.module('scheduling.controllers', [])
                         $scope.isBigScreen = $(window).width() > 768;
                         var view = $('#session-calendar').fullCalendar('getView');
                         if($scope.isBigScreen){
+
                             $('.fc-agendaWeek-button').show();
-                            $('#session-calendar').fullCalendar('changeView', 'agendaWeek');     
+                            if(view.type == 'agendaDay'){
+                                $('#session-calendar').fullCalendar('changeView', 'agendaWeek');  
+                            }
+                               
+
                         }else if(!$scope.isBigScreen && view.type =='agendaWeek'){
                             $('.fc-agendaWeek-button').hide();
                             $('#session-calendar').fullCalendar('changeView', 'agendaDay');
