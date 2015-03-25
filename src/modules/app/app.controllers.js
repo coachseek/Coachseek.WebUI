@@ -1,6 +1,6 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$state', '$http', '$timeout', 'loginModal', '$window',
+    .controller('appCtrl', ['$rootScope', '$state', '$http', '$timeout', 'loginModal',
         function ($rootScope, $state, $http, $timeout, loginModal, $window) {
             // TODO - add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
@@ -96,10 +96,8 @@ angular.module('app.controllers', [])
 
             $rootScope.isCollapsed = true;
             $rootScope.isBigScreen = $(window).width() > 768 
-            var w = angular.element($window);
-            w.bind('resize', function () {
-                $rootScope.isBigScreen = w.width() > 768 ;
-               
+            $(window).on('resize', function () {
+                $rootScope.isBigScreen = $(this).width() > 768 ;
             });
            
 

@@ -2,9 +2,6 @@ angular.module('scheduling.controllers', [])
     .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator',
         function($scope, $q, coachSeekAPIService, $activityIndicator){
 
-            //TODO: get window size
-            $scope.isBigScreen = $(window).width() > 768;
-
             //TODO - add ability to edit time range in modal?
 
             $scope.eventSources = [];
@@ -73,22 +70,16 @@ angular.module('scheduling.controllers', [])
                             text: event.session.location.name
                         }).appendTo(element.find('.fc-content'));
                     },
-                    windowResize: function(){
-                        $scope.isBigScreen = $(window).width() > 768;
+                    windowResize: function(view){
                         var view = $('#session-calendar').fullCalendar('getView');
                         if($scope.isBigScreen){
-
                             $('.fc-agendaWeek-button').show();
-                            if(view.type == 'agendaDay'){
-                                $('#session-calendar').fullCalendar('changeView', 'agendaWeek');  
+                        } else {
+                            $('.fc-agendaWeek-button').hide();
+                            $scope.toggleOpen = false;
+                            if(view.name === 'agendaWeek'){
+                                $('#session-calendar').fullCalendar('changeView', 'agendaDay');
                             }
-                               
-
-                        }else if(!$scope.isBigScreen && view.type =='agendaWeek'){
-                            $('.fc-agendaWeek-button').hide();
-                            $('#session-calendar').fullCalendar('changeView', 'agendaDay');
-                        }else{
-                            $('.fc-agendaWeek-button').hide();
                         }
 
                         $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
