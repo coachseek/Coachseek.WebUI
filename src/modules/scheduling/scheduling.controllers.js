@@ -1,12 +1,10 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator','$window',
-        function($scope, $q, coachSeekAPIService, $activityIndicator,$window){
+    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator',
+        function($scope, $q, coachSeekAPIService, $activityIndicator){
 
             //TODO: get window size
-            var w = angular.element($window);
-            w.bind('resize', function () {
-                $scope.isBigScreen = w.width() > 768 ;        
-            });
+            $scope.isBigScreen = $(window).width() > 768;
+
             //TODO - add ability to edit time range in modal?
 
             $scope.eventSources = [];
