@@ -97,9 +97,9 @@ angular.module('scheduling.controllers', [])
                     eventDrop: function( event, delta, revertDate){
                         // When we have an open event we don't want to save
                         // we just want to change the time displayed in the modal
-                        if(event._id === $scope.tempEventId){
-                            $scope.currentSession.timing.startDate = event._start.format('YYYY-MM-DD');
-                            $scope.currentSession.timing.startTime = event._start.format('HH:mm');
+                        if(event.tempEventId){
+                            $scope.currentEvent.session.timing.startDate = event._start.format('YYYY-MM-DD');
+                            $scope.currentEvent.session.timing.startTime = event._start.format('HH:mm');
                         } else {
                             var session = event.session;
                             var sessionTimingCopy = angular.copy(session.timing);
