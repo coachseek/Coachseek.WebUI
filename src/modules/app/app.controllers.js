@@ -71,7 +71,7 @@ angular.module('app.controllers', [])
 
             $rootScope.setupCurrentUser = function(user){
                 $rootScope.setUserAuth(user.email, user.password)
-                startIntercom(user, Date.now());
+                startIntercom(user, _.now());
                 $rootScope.currentUser = user.email;
             };
 
