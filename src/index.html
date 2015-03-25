@@ -12,7 +12,7 @@
     <script src="js/templates.js"></script> 
 </head>
 <body ng-app="app" ng-controller="appCtrl">
-    <div class="shadow-wrapper">
+   
         <div id="wrapper" ng-class="!isCollapsed?'toggled': ''">
             <div class="navbar navbar-inverse navbar-fixed-top">
                 <div class="container-fluid">
@@ -37,7 +37,7 @@
                         <li><a ui-sref="comingSoon.financials" ui-sref-active="active">{{'financials' | i18next}}</a></li>
                         <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
                         <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>                          
-                        <li ng-class="isBigScreen ? 'login-right' : '' "><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
+                        <li class="login-right"><a href="#" class="logout" ng-click="currentUser ? logout() : loginModal()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a></li>
                      </ul>
                                
                 </div>
@@ -55,6 +55,6 @@
                 </div>
              </div>
         </div>
-    </div>
+
 </body>
 </html>
