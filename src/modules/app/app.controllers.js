@@ -51,7 +51,7 @@ angular.module('app.controllers', [])
                 });
             };
 
-            $rootScope.loginModal = function(){
+            $rootScope.login = function(){
                 loginModal().then(function () {
                     $rootScope.removeAlerts();
                     $state.go('scheduling');
