@@ -337,7 +337,7 @@ angular.module('scheduling.controllers', [])
                         if($scope.currentEvent.tempEventId){
                             removeTempEvents();
                             delete $scope.currentEvent.tempEventId;
-                            $scope.currentEvent.session = session.sessions[0];
+                            $scope.currentEvent.session = session.sessions ? session.sessions[0] : session;
                         } else {
                             closeModal();
                         }
