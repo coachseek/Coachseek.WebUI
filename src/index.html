@@ -24,8 +24,8 @@
                     </div>
                 </div>
                        <!-- Sidebar -->
-                <div ng-class="isBigScreen ? '' : 'sidebar-wrapper' " >
-                    <ul ng-class="isBigScreen? 'nav navbar-nav' : 'sidebar-nav' ">
+                <div ng-class="isBigScreen ? '' : 'sidebar-wrapper' " ng-click="isCollapsed = !isCollapsed">
+                    <ul ng-class="isBigScreen? 'nav navbar-nav' : 'sidebar-nav' "  ng-click="isCollapsed = !isCollapsed">
                         <li class="toggle-icon">
                             <a ng-click="isCollapsed = !isCollapsed">
                                 <i class="fa fa-bars fa-2x"></i>
