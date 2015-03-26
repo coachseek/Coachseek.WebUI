@@ -45,7 +45,7 @@ angular.module('scheduling.controllers', [])
                     header:{
                         left: '',
                         center: 'prev title next',
-                        right: $scope.isBigScreen ? 'month agendaWeek agendaDay today' : 'month agendaDay today'
+                        right: 'month agendaWeek agendaDay today' 
                     },
                     drop: function(date, event) {
                         handleServiceDrop(date, $(this).data('service'));
@@ -140,6 +140,8 @@ angular.module('scheduling.controllers', [])
                     viewRender: function(view){
                         var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
                         $('#session-calendar').fullCalendar('option', 'height', heightToSet);
+
+                        $scope.isBigScreen? $('.fc-agendaWeek-button').show() : $('.fc-agendaWeek-button').hide();
 
                         // load one month at a time and keep track of what months
                         // have been loaded and don't load those. must use month because it
