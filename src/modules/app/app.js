@@ -38,7 +38,10 @@ angular.module('app',
         };
     }])
     .config(['$urlRouterProvider', '$stateProvider', function ($urlRouterProvider, $stateProvider) {
-        $urlRouterProvider.otherwise('/scheduling');
+        $urlRouterProvider.otherwise(function($injector) {
+            var $state = $injector.get("$state");
+            $state.go("scheduling");
+        });
 
         $stateProvider
             .state('comingSoon', {
