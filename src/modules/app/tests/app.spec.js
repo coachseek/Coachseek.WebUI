@@ -250,6 +250,59 @@ describe('App Module', function() {
         });
     });
 
+    describe('when resizing the window', function(){
+
+        let('screenWidth', function(){
+            return 301;
+        });
+
+        var widthStub, self;
+        beforeEach(function(){
+            self = this;
+            widthStub = this.sinon.stub($.fn, 'width', function(){
+                return self.screenWidth;
+            });
+            $(window).trigger('resize');
+        });
+
+        describe('when it is smaller than 768px', function(){
+            it('should set isBigScreen to FALSE', function(){
+                expect($rootScope.isBigScreen).to.be.false;
+            });
+            describe('and then changing it to a big screen size', function(){
+
+                let('screenWidth', function(){
+                    return 800;
+                });
+
+                it('should set isBigScreen to TRUE', function(){
+                    expect($rootScope.isBigScreen).to.be.true;
+                });
+            });
+        });
+        describe('when it is bigger than 768px', function(){
+
+            let('screenWidth', function(){
+                return 800;
+            });
+
+            it('should set isBigScreen to TRUE', function(){
+                expect($rootScope.isBigScreen).to.be.true;
+            });
+
+            describe('and then changing it to a small screen size', function(){
+
+                let('screenWidth', function(){
+                    return 301;
+                });
+
+                it('should set isBigScreen to FALSE', function(){
+                    expect($rootScope.isBigScreen).to.be.false;
+                });
+            })
+        });
+    });
+
     // describe('when navigating to an unavailable URL', function(){
     //     beforeEach(function(){
     //         $state.go('/url/not/known');
