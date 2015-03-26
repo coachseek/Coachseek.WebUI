@@ -1,4 +1,8 @@
 <div class="attendance-list">
+    <div class="session-modal-title">
+        <span ng-i18next>{{showCustomers ? 'scheduling:add-student' : 'scheduling:service-details.register'}}</span>
+        <i class="fa fa-times" ng-click="cancelModalEdit()"></i>        
+    </div>
     <button class="create-item" ng-click="showCustomerList()" ng-hide="showCustomers">
         <i class="fa fa-plus"></i>
         {{'scheduling:add-student' | i18next}}
@@ -6,6 +10,7 @@
     <div class="customer-list" ng-show="showCustomers" ng-controller="customerSearchCtrl">
         <span class="back-arrow" ng-click="hideCustomerList()">
             <i class="fa fa-left-single-arrow"></i>
+            <span>{{'scheduling:back' | i18next}}</span>
         </span>
         <div class="search-container">
             <i class="fa fa-lg fa-search"></i>    

@@ -1,4 +1,8 @@
 <div class="session-form crud-item">
+    <div class="session-modal-title">
+        {{'scheduling:service-details.general' | i18next}}
+        <i class="fa fa-times" ng-click="cancelModalEdit()"></i>        
+    </div>
     <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
         <div class="form-input">
             <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
@@ -60,6 +64,8 @@
             <input name="coursePrice" type="number" ng-model="currentEvent.session.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
         </div>
     </form>
+</div>
+<div class="edit-button-container">
     <button class="delete-button" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
         <i class="fa fa-trash-o"></i>
     </button>

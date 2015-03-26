@@ -13,7 +13,9 @@
     "service-name": "Service name:",
     "service-details": {
     	"duration": "Session duration:",
-    	"name": "Session name:"
+    	"name": "Session name:",
+        "general": "General",
+        "register": "Register"
 	},
 	"error": {
 		"coach-required": "Coach required.",
@@ -25,6 +27,7 @@
 	},
     "general": "General",
     "add-student": "Add Student",
+    "back": "Back",
     "attendance": "Attendance",
     "clashing-error": "This change clashes with __alert.clashingMessage__",
     "delete-success": "You have deleted __alert.name__ at __alert.date__"

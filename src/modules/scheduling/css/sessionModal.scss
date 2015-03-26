@@ -39,33 +39,25 @@
                 height: 20px;
                 font-size: 14px;
             }
-
-            i{
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                font-size: 23px;
-                cursor: pointer;
-            }
         }
 
         .session-modal-nav{
-            margin: 20px auto;
-            width: 90%;
+            margin: 15px auto;
+            width: 60%;
             overflow: hidden;
             div{
                 cursor: pointer;
                 font-size: 14px;
-                width: 48%;
+                width: 45%;
                 height: 30px;
                 float: left;
                 line-height: 30px;
-                border: 1px solid $grey;
-                background: $white;
+                border-radius: 5px;
+                color: $dark-grey;
                 text-align: center;
 
                 &.attendance{
-                    margin-left: 4%;
+                    float: right;
 
                     &[disabled]{
                         pointer-events: none;
@@ -75,31 +67,59 @@
 
                 &.active{
                     color: $white;
-                    background: $background-navy;
+                    background: $dark-grey;
                 }
             }
         }
 
         .double-wide{
-            margin: 0 auto 20px auto;
-            width: 90%;
+            width: 100%;
         }
+
+
+        .session-modal-title{
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px solid $light-grey;
+            padding: 5px 0px 10px 0px;
+            margin-bottom: 15px;
+            color: $text-dark-grey;
+            font-size: 18px;
+
+            i{
+                float: right;
+                font-size: 21px;
+                margin-right: -17px;
+                cursor: pointer;
+            }
+        }
+
         .session-form{
-            height: calc(100vh - 245px);
+            height: calc(100vh - 270px);
             overflow-y: scroll;
+            padding: 0 35px;
 
             &::-webkit-scrollbar { 
                 display: none; 
             }
 
             form{            
-                margin: 0 auto;
+                margin: 0 auto 20px auto;
                 width: 100%;
-                padding: 0 35px;
+                overflow: hidden;
+
+                .form-input{
+                    margin-bottom: 5px;
+
+                    input{
+                        border: 1px solid $light-grey;
+                    }
+                }
 
                 select.coaches, select.locations, select.services{
                     width: 100%;
                     height: 30px;
+                    border: 1px solid $light-grey;
                 }
                 repeat-selector{
                     color: $text-dark-grey;
@@ -125,22 +145,30 @@
                     top: 30px;
                 }
 
+                .error-messages{
+                    text-align: right;
+                }
+
                 .prompt-messages{
                     color: $grey;
                     font-size: 12px;
+                    text-align: right;
                 }
             }
+        }
+
+        .edit-button-container{
+            position: absolute;
+            bottom: 55px;
+            background: $white;
+            width: 100%;
+            padding: 10px 15px;
 
             .delete-button{
                 @extend %delete-button;
                 height: 35px;
-                line-height: 35px;
                 font-size: 22px;
-                margin-left: 35px;
-            }
-
-            .save-button{
-                margin-right: 35px;
+                float: left;
             }
         }
     }

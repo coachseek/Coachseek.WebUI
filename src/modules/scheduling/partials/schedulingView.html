@@ -36,7 +36,6 @@
         <div class="service-name">{{ currentEvent.title }}</div>
         <div class="location-name">{{ currentEvent.session.location.name || currentLocation.name}}</div>
         <div class="time-range">{{ getSessionTimeRange() }}</div>
-        <i class="fa fa-times" ng-click="cancelModalEdit()"></i>
     </div>
     <div class="session-modal-nav" ng-init="currentTab = 'general'">
         <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>

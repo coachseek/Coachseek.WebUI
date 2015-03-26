@@ -79,7 +79,6 @@
 	form{
 	  margin-top: 20px;
 	  margin-bottom: 10px;
-	  overflow: hidden;
 	  padding-bottom: 10px;
 
 	  label{
@@ -103,18 +102,18 @@
 	    font-size: 15px;
 	  }
 	}
+}
 
-	.cancel-button{
-	  background: none;
-	  border: none;
-	  float: right;
-	  margin-right: 30px;
-	  color: $green;
-	  height: 35px;
-	}
+.cancel-button{
+  background: none;
+  border: none;
+  float: right;
+  margin-right: 30px;
+  color: $green;
+  height: 35px;
+}
 
-	.save-button{
-		@extend %green-button;
-		float: right;
-	}
+.save-button{
+	@extend %green-button;
+	float: right;
 }
