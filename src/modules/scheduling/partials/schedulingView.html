@@ -1,5 +1,5 @@
 <span class="toggle-service-drawer" ng-click="toggleOpen = !toggleOpen" ng-hide="isBigScreen">
-    <i class="fa fa-plus fa-lg"></i>
+    <i ng-class="toggleOpen ? 'fa fa-close fa-lg toggle-service-drawer-icon' : 'fa fa-plus fa-lg'"></i>
 </span>
 <div class="services-list-container" ng-init="toggleOpen = isBigScreen" ng-class="{closed: !toggleOpen}">
     <scheduling-services-list></scheduling-services-list>
