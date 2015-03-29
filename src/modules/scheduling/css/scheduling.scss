@@ -18,19 +18,8 @@
 
 @media (max-width: 768px){
     [state^="scheduling"]{
-        .session-modal.crud-item{
-            width: 100%;
-            .session-header{
-                padding: 5px 22px;
-            }
-            form span.money-sign{
-                top:25px;
-                position: relative;
-            }
-
-        }
-        select{
-              padding: 0px 20px 0px 10px;
+        .session-modal{
+            max-width: 100%;
         }
 
         div.calendar-container {
