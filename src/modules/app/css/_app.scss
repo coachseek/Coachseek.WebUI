@@ -235,9 +235,6 @@ select-arrows{
   }
 }
 
-
-
-
 @media (max-width: 767px) {
   
   .navbar-header .indicator-container{
@@ -271,13 +268,7 @@ select-arrows{
           // }
         }
       }
-
-   /*!
-   * Start Bootstrap - Simple Sidebar HTML Template (http://startbootstrap.com)
-   * Code licensed under the Apache License v2.0.
-   * For details, see http://www.apache.org/licenses/LICENSE-2.0.
-   */
-
+      
   /* Toggle Styles */
 
   .toggle-icon{
@@ -413,38 +404,3 @@ select-arrows{
   }
 
 }
-
-@media(max-width:768px) {
-
- 
-}
-
-// @media(min-width:768px) {
-//     #wrapper {
-//         padding-left: 250px;
-//     }
-
-//     #wrapper.toggled {
-//         padding-left: 0;
-//     }
-
-//     .sidebar-wrapper {
-//         width: 250px;
-//     }
-
-//     #wrapper.toggled .sidebar-wrapper {
-//         width: 0;
-//     }
-
-//     #page-content-wrapper {
-//         padding: 20px;
-//         position: relative;
-//     }
-
-//     #wrapper.toggled #page-content-wrapper {
-//         position: relative;
-//         margin-right: 0;
-//     }
-// }
-
-
