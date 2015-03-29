@@ -42,3 +42,14 @@
     }
   }
 }
+
+@media (max-width: 767px){
+  .alert-container{
+    width: 100%;
+  }
+  .alert{
+    &:last-child{
+      margin-bottom: 0px;
+    }
+  }
+}
