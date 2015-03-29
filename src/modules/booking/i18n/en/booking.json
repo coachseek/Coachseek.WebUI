@@ -1,5 +1,20 @@
 {
   "all-services": "All Services",
   "all-locations": "All Locations",
-  "duration": "min"
+  "duration": "min",
+  "confirm": {
+    "title": "Confirm",
+    "your-details": "Your details",
+    "your-booking": "Your booking",
+    "your-enquiry": "Your enquiry"
+  },
+  "enquiry": {
+    "title": "Make an enquiry"
+  },
+  "select": {
+    "title": "Online Booking",
+    "text": "Welcome to our site blabla, please select the type of course you want to register for",
+    "private-session": "Private Session",
+    "public-session": "Public Session"
+  }
 }

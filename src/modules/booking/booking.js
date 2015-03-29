@@ -1,6 +1,7 @@
 angular.module('booking',
     [
-        'booking.controllers'
+        'booking.controllers',
+        'booking.directives',
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider
@@ -11,13 +12,5 @@ angular.module('booking',
                 data: {
                     requireLogin: true
                 }
-            })
-            .state('register', {
-              url: "/booking/register",
-              templateUrl: "booking/partials/customerView.html",
-              controller: "registerCtrl",
-              data: {
-                requireLogin: true
-              }
             });
     }]);

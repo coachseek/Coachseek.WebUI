@@ -1,6 +1,57 @@
 angular.module('booking.controllers', [])
   .controller('bookingCtrl', ['$scope', '$location', '$q', 'coachSeekAPIService', function ($scope, $location, $q, coachSeekAPIService) {
 
+    var savedCustomer = localStorage.getItem('customer');
+
+    $scope.booking = {
+      session: null,
+      customer: savedCustomer ? JSON.parse(savedCustomer) : null,
+      enquiry: null
+    };
+
+    $scope.step = 'select';
+    $scope.navigate = {
+      to: function (step) {
+        var whiteList = ['select', 'booking', 'enquiry', 'register', 'confirm'];
+
+        if (!_.contains(whiteList, step)) {
+          throw new Error(step + ' is not a valid step.');
+        }
+
+        $scope.step = step;
+      },
+      back: function () {
+        if (_.contains(['booking', 'enquiry'], $scope.step)) {
+          return $scope.step = 'select';
+        }
+
+        if ($scope.step === 'register') {
+          if ($scope.booking.session !== null) {
+            return $scope.step = 'booking';
+          }
+
+          return $scope.step = 'enquiry';
+        }
+
+        if ($scope.step === 'confirm') {
+          $scope.step = 'select';
+        }
+      },
+      forward: function () {
+        if (_.contains(['booking', 'enquiry'], $scope.step)) {
+          if ($scope.booking.customer !== null) {
+            return $scope.step = 'confirm';
+          }
+
+          return $scope.step = 'register';
+        }
+
+        if ($scope.step === 'register') {
+          return $scope.step = 'confirm';
+        }
+      }
+    };
+
     var startBookingLoading = function(){
         if(!$scope.bookingLoading){
             $scope.bookingLoading = true;
@@ -29,10 +80,6 @@ angular.module('booking.controllers', [])
       });
     };
 
-    $scope.selectSession = function (session) {
-      $location.path('/booking/register');
-    };
-
     startBookingLoading();
     $q.all({
             locations: coachSeekAPIService.get({section: 'Locations'}).$promise,
@@ -53,5 +100,5 @@ angular.module('booking.controllers', [])
       $location.path('/booking');
     };
 
-    
+
   }]);

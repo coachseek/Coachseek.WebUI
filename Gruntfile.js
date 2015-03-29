@@ -57,9 +57,9 @@ module.exports = function(grunt) {
             build:{
                 options:{
                     module:'app',         // (Optional) The module the templates will be added to
-                    htmlmin: { 
+                    htmlmin: {
                         collapseWhitespace: true,
-                        collapseBooleanAttributes: true 
+                        collapseBooleanAttributes: true
                     }
                 },
                 cwd: 'src/modules',
@@ -144,7 +144,7 @@ module.exports = function(grunt) {
                 tasks: ['newer:concat:srcCss', 'sass:src'],
             },
             templates: {
-                files: ['src/modules/**/partials/*.html'],
+                files: ['src/modules/**/partials/*.html', 'src/index.html'],
                 tasks: ['ngtemplates:src']
             },
             i18n: {

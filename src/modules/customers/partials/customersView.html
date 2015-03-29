@@ -5,7 +5,7 @@
     </button>
     <div class="customer-list" ng-controller="customerSearchCtrl">
         <div class="search-container">
-            <i class="fa fa-lg fa-search"></i>    
+            <i class="fa fa-lg fa-search"></i>
             <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
         </div>
         <div class="letter-search">
@@ -68,7 +68,7 @@
             <div class="form-input">
                 <label name="phone">{{'person-details.phone' | i18next}}</label>
                 <input name="phone" ng-model="item.phone" placeholder="{{'person-details.placeholder.phone' | i18next}}" ng-maxlength=50 />
-                
+
                 <div class="error-messages" ng-messages="itemForm.phone.$error" ng-if="itemForm.phone.$touched">
                     <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                 </div>
