@@ -70,3 +70,9 @@
         border-color: $green;
     }
 }
+
+@media (max-width: 767px){
+    .duration-picker-container .time-picker-time{
+        width: 100%;
+    }
+}

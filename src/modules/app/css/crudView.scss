@@ -117,3 +117,23 @@
 	@extend %green-button;
 	float: right;
 }
+
+@media (max-width: 767px){
+	.crud-item{
+		.form-input{
+			&.left-col{
+				width: 100%;
+			}
+			&.right-col{
+				width: 100%;
+			}
+
+		}
+		form{
+			margin-top: 32px;
+		}
+		.cancel-button{
+		float: left;
+		}
+	}	
+}

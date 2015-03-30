@@ -104,6 +104,7 @@
             }
             .toggle-time-slot{
                 position: relative;
+                left: 0;
             }
         }
         .weekday-text{
@@ -112,7 +113,7 @@
         }
         .toggle-time-slot{
             position: absolute;
-            right:10px;
+            right:35px;
         }
     }
 }
