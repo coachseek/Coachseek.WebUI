@@ -173,3 +173,11 @@
         }
     }
 }
+
+@media (max-width: 767px){
+    [state^="scheduling"] {
+        .session-modal.session-modal-responsive{
+            width: 100%;
+        }
+    }
+}

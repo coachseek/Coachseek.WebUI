@@ -31,7 +31,7 @@
     <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
 </div>
 
-<div class="session-modal" ng-show="showModal">
+<div class="session-modal session-modal-responsive" ng-show="showModal">
     <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
         <div class="service-name">{{ currentEvent.title }}</div>
         <div class="location-name">{{ currentEvent.session.location.name || currentLocation.name}}</div>
