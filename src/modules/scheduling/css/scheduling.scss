@@ -16,7 +16,7 @@
     @extend %service-border-colors;
 }
 
-@media (max-width: 768px){
+@media (max-width: 767px){
     [state^="scheduling"]{
         .session-modal.crud-item{
             width: 100%;

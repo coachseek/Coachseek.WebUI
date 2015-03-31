@@ -190,7 +190,7 @@
         }
     }
 }
-@media (max-width: 768px){
+@media (max-width: 767px){
     [state^="scheduling"] {
         .toggle-service-drawer i.toggle-service-drawer-icon{
             color: $text-dark-grey;
