@@ -1,0 +1,8 @@
+<div class="alert-container">
+	<span class="fa fa-close" ng-click="$dismiss()"></span>
+	<p class="session-or-course-text">{{'scheduling:session-or-course' | i18next}}</p>
+	<div class="button-container">
+		<button class="session-button" ng-click="$close(currentEvent.session.id)">{{'scheduling:session' | i18next}}</button>
+		<button class="course-button" ng-click="$close(currentEvent.session.parentId)">{{'scheduling:course' | i18next}}</button>
+	</div>
+</div>

@@ -30,5 +30,9 @@
     "back": "Back",
     "attendance": "Attendance",
     "clashing-error": "This change clashes with __alert.clashingMessage__",
-    "delete-success": "You have deleted __alert.name__ at __alert.date__"
+    "delete-session-success": "You have deleted __alert.name__ which started at __alert.startDate__",
+    "delete-course-success": "You have deleted all sessions associated with __alert.name__ which started at __alert.startDate__",
+    "session-or-course": "Are you wanting to make these changes for this single session or for all the sessions in the course?",
+    "session": "This session",
+    "course": "Entire course"
 }

@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator',
-        function($scope, $q, coachSeekAPIService, $activityIndicator){
+    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal',
+        function($scope, $q, coachSeekAPIService, $activityIndicator, sessionOrCourseModal){
 
             //TODO - add ability to edit time range in modal?
 
@@ -351,15 +351,23 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.deleteSession = function(){
+                if($scope.currentEvent.session.parentId){
+                    sessionOrCourseModal($scope).then(deleteSessions);
+                } else {
+                    deleteSessions($scope.currentEvent.session.id)
+                }
+            };
+
+            var deleteSessions = function(id){
                 startCalendarLoading();
-                coachSeekAPIService.delete({section: 'Sessions', id: $scope.currentEvent.session.id})
+                coachSeekAPIService.delete({section: 'Sessions', id: id})
                     .$promise.then(function(){
 
                         $scope.addAlert({
                             type: 'success',
-                            message: "scheduling:delete-success",
+                            message: $scope.currentEvent.session.parentId ? "scheduling:delete-course-success" : "scheduling:delete-session-success",
                             name: $scope.currentEvent.session.service.name,
-                            date: $scope.currentEvent.start.format("MMMM Do YYYY, h:mm a")
+                            startDate: $scope.currentEvent.start.format("MMMM Do YYYY, h:mm a")
                         });
 
                         closeModal();
