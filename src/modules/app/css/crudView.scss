@@ -119,6 +119,9 @@
 }
 
 @media (max-width: 767px){
+	div.session-form.crud-item div.session-price span.money-sign{
+		top:35px;
+	}
 	.crud-item{
 		.form-input{
 			&.left-col{

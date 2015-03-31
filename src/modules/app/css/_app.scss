@@ -236,6 +236,9 @@ select-arrows{
 }
 
 @media (max-width: 767px) {
+  input,textarea{
+    padding: 10px 10px;
+  }
   .navbar-header .indicator-container{
     display: none !important;
   }
