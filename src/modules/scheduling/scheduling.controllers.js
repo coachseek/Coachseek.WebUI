@@ -363,7 +363,7 @@ angular.module('scheduling.controllers', [])
 
                         $scope.addAlert({
                             type: 'success',
-                            message: $scope.currentEvent.session.parentId ? "scheduling:delete-course-success" : "scheduling:delete-session-success",
+                            message: id === $scope.currentEvent.session.parentId ? "scheduling:delete-course-success" : "scheduling:delete-session-success",
                             name: $scope.currentEvent.session.service.name,
                             startDate: $scope.currentEvent.start.format("MMMM Do YYYY, h:mm a")
                         });
