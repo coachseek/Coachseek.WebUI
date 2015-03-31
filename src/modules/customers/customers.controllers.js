@@ -101,7 +101,7 @@ angular.module('customers.controllers', [])
             filterText();
         };
     }])
-    .filter('highlight', function($sce) {
+    .filter('highlight', ['$sce', function($sce) {
         return function(text, scope) {
             var phrase = scope.filterHighlight;
             if (text && phrase){
@@ -113,8 +113,8 @@ angular.module('customers.controllers', [])
             }
             return $sce.trustAsHtml(text)
         }
-     })
-    .filter('byLastName', function($sce) {
+     }])
+    .filter('byLastName', function() {
         return function(items, letter){
             return _.filter(items, function (item) {
                 return new RegExp(letter, "i").test(item.lastName.substring(0, 1));
