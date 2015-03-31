@@ -23,7 +23,7 @@
                 </div>
             </div>
            <!-- Sidebar -->
-            <div ng-class="isBigScreen ? '' : 'sidebar-wrapper' " ng-click="isCollapsed = !isCollapsed">
+            <div ng-class="isBigScreen ? '' : 'sidebar-wrapper' ">
                 <ul ng-class="isBigScreen? 'nav navbar-nav' : 'sidebar-nav' "  ng-click="isCollapsed = !isCollapsed">
                     <li class="toggle-icon">
                         <a ng-click="isCollapsed = !isCollapsed">
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div id="page-content-wrapper">
+        <div id="page-content-wrapper" ng-click="isCollapsed = true">
             <div class="main-container">
                 <div ui-view id="main-view" state="{{$state.current.name}}"></div>
             </div>
