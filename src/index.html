@@ -47,7 +47,7 @@
                 <div ui-view id="main-view" state="{{$state.current.name}}"></div>
             </div>
             <div class="alert-container">
-                <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)" >
+                <alert class="fade-in-out" ng-repeat="alert in alerts" type="{{alert.type}}" dismiss-on-timeout="{{alert.dismissTimeout}}" close="closeAlert($index)" >
                     <span ng-i18next="[i18next]({alert:alert}){{alert.message}}"></span>
                 </alert>
             </div>

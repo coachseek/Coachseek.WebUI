@@ -11,12 +11,11 @@ angular.module('app.controllers', [])
                     }
                 });
 
+                _.assign(alert, {
+                    dismissTimeout: alert.type === 'success' ? 13000 : 15000
+                });
+
                 $rootScope.alerts.push(alert);
-                if(alert.type === 'success'){
-                    $timeout(function(){
-                        _.pull($rootScope.alerts, alert);
-                    }, 3000);
-                }
             };
 
             $rootScope.handleErrors = function(error){
