@@ -205,12 +205,11 @@ angular.module('scheduling.controllers', [])
                         _.forEach(sessionLists, function(sessions){
                             addSessionsWithinInterval(sessions, removeEvents);
                         });
+                        $scope.eventSources[0] = events;
                         _.forEach($scope.currentRanges, function(range){
                             rangesLoaded.push(range);
                         });
-                    },function(error){
-                        $scope.handleErrors(error);
-                    }).finally(function(){
+                    }, $scope.handleErrors).finally(function(){
                         stopCalendarLoading();
                     });
             };
@@ -230,8 +229,7 @@ angular.module('scheduling.controllers', [])
                 tempEventId = _.uniqueId('service_');
 
                 _.times(serviceData.repetition.sessionCount, function(index){
-                    var dateClone = date.clone();
-                    var newEvent = buildCalendarEvent(date.add(index, repeatFrequency), session);
+                    var newEvent = buildCalendarEvent(moment(date).add(index, repeatFrequency), session);
                     events.push(newEvent);
                     if(index === 0){
                         $scope.currentEvent = newEvent;
