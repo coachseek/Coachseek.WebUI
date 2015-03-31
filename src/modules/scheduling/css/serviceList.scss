@@ -15,7 +15,8 @@
                 background: #F5F5F5;
                 border: 1px solid $border-light-grey;
                 width: 100px;
-                padding-right: 5px;               
+                padding-right: 5px;
+                cursor: pointer;
             }
 
             h4{
@@ -192,11 +193,11 @@
 @media (max-width: 768px){
     [state^="scheduling"] {
         .toggle-service-drawer i.toggle-service-drawer-icon{
-                    color: $text-dark-grey;
-                    position: relative;
-                    top:50px;
-                    transition: all 1.5s ease;
-                }
+            color: $text-dark-grey;
+            position: relative;
+            top:50px;
+            transition: all 1.5s ease;
+        }
 
         .services-list-container ul li.service-details{
             width: 76%;
