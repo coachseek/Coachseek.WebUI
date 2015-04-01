@@ -4,5 +4,16 @@
 
 	.create-item{
 		margin-bottom: 40px;
+
+	}
+}
+
+@media (max-width: 767px){
+	[state^="customers"] {
+		max-width: 445px;
+		margin: 15px 20px;
+		.create-item{
+			margin-bottom: 15px;
+		}
 	}
 }

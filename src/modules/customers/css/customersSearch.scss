@@ -63,3 +63,23 @@
 		color: black;
 	}
 }
+
+@media (max-width: 767px){
+	.customer-list {
+		.letter-search{
+			width:10%;
+			float:left;
+			span{
+				display: list-item;
+			}
+		}
+		ul{
+			width:90%;
+			float:right;
+		}
+		&:after{
+		clear:both;
+	}
+	}
+	
+}
