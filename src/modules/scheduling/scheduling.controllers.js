@@ -321,31 +321,43 @@ angular.module('scheduling.controllers', [])
             $scope.saveModalEdit = function(){
                 forceFormTouched();
                 if($scope.currentSessionForm.$valid){
-                    startCalendarLoading();
-                    updateSession($scope.currentEvent.session).then(function(session){
-                        if($scope.currentEvent.tempEventId){
-                            removeTempEvents();
-                            delete $scope.currentEvent.tempEventId;
-                            $scope.currentEvent.session = session.sessions ? session.sessions[0] : session;
-                        } else {
-                            closeModal();
-                        }
-                        $scope.removeAlerts();
-                        loadCurrentRanges(true);        
-                    }, function(error){
-                        _.forEach(error.data, function(error){
-                            if(error.code === "clashing-session"){
-                                handleClashingError(error);
+                    var session = $scope.currentEvent.session;
+                    if(session.parentId){
+                        sessionOrCourseModal($scope).then(function(id){
+                            if(id === session.parentId){
+                                startCalendarLoading();
+                                coachSeekAPIService.getOne({section: "Sessions", id: id})
+                                    .$promise.then(function(course){
+                                        _.assign(session, {
+                                            id: course.id,
+                                            repetition: course.repetition,
+                                            timing: course.timing
+                                        });
+                                        saveSession(session);
+                                    });
                             } else {
-                                $scope.addAlert({
-                                    type: 'danger',
-                                    message: error.message ? error.message: error
-                                });
+                                saveSession(session);
                             }
                         });
-                        stopCalendarLoading();
-                    });
+                    } else {
+                        saveSession(session);
+                    }
                 }
+            };
+
+            var saveSession = function(session){
+                startCalendarLoading();
+                updateSession(session).then(function(session){
+                    if($scope.currentEvent.tempEventId){
+                        removeTempEvents();
+                        delete $scope.currentEvent.tempEventId;
+                        $scope.currentEvent.session = session.sessions ? session.sessions[0] : session;
+                    } else {
+                        closeModal();
+                    }
+                    $scope.removeAlerts();
+                    loadCurrentRanges(true);
+                }, handleCalendarErrors);
             };
 
             $scope.deleteSession = function(){
@@ -374,6 +386,20 @@ angular.module('scheduling.controllers', [])
                         $scope.handleErrors(error);
                         stopCalendarLoading();
                     });
+            };
+
+            var handleCalendarErrors = function(error){
+                _.forEach(error.data, function(error){
+                    if(error.code === "clashing-session"){
+                        handleClashingError(error);
+                    } else {
+                        $scope.addAlert({
+                            type: 'danger',
+                            message: error.message ? error.message: error
+                        });
+                    }
+                });
+                stopCalendarLoading();
             };
 
             var closeModal = function(resetTimePicker){
