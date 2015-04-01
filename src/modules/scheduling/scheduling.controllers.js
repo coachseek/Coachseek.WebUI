@@ -195,7 +195,7 @@ angular.module('scheduling.controllers', [])
                 return isNewRange;
             };
 
-            var loadCurrentRanges = function(removeEvents, forceLoad){
+            var loadCurrentRanges = function(removeEvents){
                 startCalendarLoading();
                 var sessionPromises = [];
                 _.forEach($scope.currentRanges, function(range){
