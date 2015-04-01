@@ -116,6 +116,7 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
+                        if(!$scope.showModal) $scope.currentTab = 'attendance';
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
                         }
@@ -238,6 +239,7 @@ angular.module('scheduling.controllers', [])
             };
 
             var handleServiceDrop = function(date, serviceData){
+                $scope.currentTab = 'general';
                 $scope.showModal = true;
                 var session = buildSessionObject(date, serviceData);
                 var repeatFrequency = serviceData.repetition.repeatFrequency;
