@@ -86,38 +86,33 @@ angular.module('scheduling.controllers', [])
                     },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
-                        // When we have an open event we don't want to save
-                        // we just want to change the time displayed in the modal
                         if(event.tempEventId){
-                            $scope.currentEvent.session.timing.startDate = event._start.format('YYYY-MM-DD');
-                            $scope.currentEvent.session.timing.startTime = event._start.format('HH:mm');
+                            _.assign($scope.currentEvent.session.timing, {
+                                startDate: event._start.format('YYYY-MM-DD'),
+                                startTime: event._start.format('HH:mm')
+                            });
                         } else {
                             var session = event.session;
-                            var sessionTimingCopy = angular.copy(session.timing);
-                            var newDate = getNewDate(session.timing);
-                            newDate.add(delta);
 
-                            _.assign(session.timing, {
-                                startDate: newDate.format('YYYY-MM-DD'),
-                                startTime: newDate.format('HH:mm')
-                            });
-
-                            $activityIndicator.startAnimating();
-                            updateSession(session).then(function(){
-                                $scope.removeAlerts();
-                            }, function(error){
-                                console.log('SENT Session', session, error);
-                                revertDate();
-                                // fullcalendar revertDate function does not reset all
-                                // values so we must reset our changes
-                                event.session.timing = sessionTimingCopy;
-
-                                _.forEach(error.data, function(error){
-                                    handleClashingError(error)
+                            if(session.parentId){
+                                //have to set $scope.currentEvent so sessionOrCourseModal can return id
+                                $scope.currentEvent = event;
+                                sessionOrCourseModal($scope).then(function(id){
+                                    if(id === session.parentId){
+                                        startCalendarLoading();
+                                        coachSeekAPIService.getOne({section: "Sessions", id: id})
+                                            .$promise.then(function(session){
+                                                updateSessionTiming(session, delta, revertDate, true);
+                                            });
+                                    } else {
+                                        updateSessionTiming(session, delta, revertDate, false);
+                                    }
+                                }, function(){
+                                    revertDate();
                                 });
-                            }).finally(function(){
-                                $activityIndicator.stopAnimating();
-                            });
+                            } else {
+                                updateSessionTiming(session, delta, revertDate, false);
+                            }
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
@@ -150,6 +145,26 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
+            var updateSessionTiming = function(session, delta, revertDate, reloadRanges){
+                var newDate = getNewDate(session.timing);
+                newDate.add(delta);
+
+                _.assign(session.timing, {
+                    startDate: newDate.format('YYYY-MM-DD'),
+                    startTime: newDate.format('HH:mm')
+                });
+
+                $activityIndicator.startAnimating();
+                updateSession(session).then(function(session){
+                    $scope.removeAlerts();
+                    if(reloadRanges) loadCurrentRanges(true);
+                }, function(error){
+                    revertDate();
+                    handleClashingError(error);
+                }).finally(function(){
+                    $activityIndicator.stopAnimating();
+                });
+            };
             var determineCurrentRange = function(intervalStart, intervalEnd){
                 $scope.currentRanges = [];
                 $scope.currentRanges.push(moment().range(intervalStart.clone().startOf('month'), intervalStart.clone().endOf('month')));
