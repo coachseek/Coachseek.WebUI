@@ -3,7 +3,6 @@
         <i class="fa fa-plus"></i>
         {{'customers:add-customer' | i18next}}
     </button>
-    <hr class="double-wide"/>
     <div class="customer-list" ng-controller="customerSearchCtrl">
         <div class="search-container">
             <i class="fa fa-lg fa-search"></i>
@@ -12,7 +11,7 @@
         <div class="letter-search">
             <span ng-repeat="letter in alphabetLetters" ng-class="{active: searchLetter === letter}" ng-click="sortBy(letter)">{{letter}}</span>
         </div>
-  
+        <hr class="double-wide" ng-if="isBigScreen"/>
         <ul infinite-scroll='loadMore()'>
             <li class="customer-details" ng-repeat="item in customerList">
                 <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
