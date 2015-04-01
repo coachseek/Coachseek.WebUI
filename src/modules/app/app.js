@@ -53,8 +53,6 @@ angular.module('app',
             })
             .state('comingSoon.dashboard', {
                 url: "/dashboard/coming-soon"
-            }).state('comingSoon.services', {
-                url: "/services/coming-soon"
             }).state('comingSoon.financials', {
                 url: "/financials/coming-soon"
             });
