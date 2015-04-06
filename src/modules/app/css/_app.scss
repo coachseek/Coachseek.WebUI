@@ -359,6 +359,7 @@ select-arrows{
       color: #fff;
       background: rgba(255,255,255,0.2);
   }
+  .sidebar-nav li.toggle-icon a:hover{background: transparent;}
 
   .sidebar-nav li a:active,
   .sidebar-nav li a:focus {
