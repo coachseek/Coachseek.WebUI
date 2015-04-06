@@ -229,7 +229,6 @@ select-arrows{
 }
 
 .main-container{
-// padding: 10px;
   .list-item-container-wrapper{
     padding:10px;
   }
@@ -393,6 +392,12 @@ select-arrows{
 }
 
 @media (min-width: 768px){
+  .main-container{
+    .list-item-container-wrapper{
+      position: relative;
+      top:28px
+    }
+  }
   .mobi-nav{
     display: none !important;
   }
@@ -401,8 +406,7 @@ select-arrows{
   }
   .nav > li.login-right{
     position: absolute;
-    right: 0px;
-    
+    right: 0px;    
   }
 
 }
