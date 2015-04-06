@@ -119,8 +119,8 @@
 }
 
 @media (max-width: 767px){
-	div.session-form.crud-item div.session-price span.money-sign{
-		top:35px;
+	.crud-item .course-price .money-sign, .crud-item .session-price .money-sign{
+		top:30px;
 	}
 	.crud-item{
 		.form-input{
