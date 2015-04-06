@@ -67,15 +67,16 @@
 @media (max-width: 767px){
 	.customer-list {
 		.letter-search{
-			width:10%;
-			float:left;
+			// width:10%;
+			// float:left;
+			display: none !important;
 			span{
 				display: list-item;
 			}
 		}
 		ul{
-			width:90%;
-			float:right;
+			// width:90%;
+			// float:right;
 		}
 		&:after{
 		clear:both;
