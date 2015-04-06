@@ -39,8 +39,8 @@
     </div>
     <hr class="double-wide"/>
         
-    <modal-session-form ng-show="currentTab === 'general'"></modal-session-form>
+     <stop-scrolling-propagation><modal-session-form ng-show="currentTab === 'general'"></modal-session-form> </stop-scrolling-propagation>
 
-    <modal-session-attendance-list ng-show="currentTab === 'attendance'"></modal-session-attendance-list>
+    <stop-scrolling-propagation> <modal-session-attendance-list ng-show="currentTab === 'attendance'"></modal-session-attendance-list> </stop-scrolling-propagation>
 
 </div>

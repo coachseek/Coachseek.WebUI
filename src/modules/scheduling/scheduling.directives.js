@@ -134,4 +134,19 @@ angular.module('scheduling.directives', [])
 				};
 			}
 		};
-	}]);
+
+	}])
+	.directive('stop-scrolling-propagation', [function () {
+		return {
+			restrict: 'E',
+			link: function (scope) {
+				$(this).click(function(e) {
+					/* Act on the event */
+					e.stopPropagation();
+				});
+				
+			}
+		};
+	}])
+
+	;
