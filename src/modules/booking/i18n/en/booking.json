@@ -15,6 +15,23 @@
     "title": "Online Booking",
     "text": "Welcome to our site blabla, please select the type of course you want to register for",
     "private-session": "Private Session",
-    "public-session": "Public Session"
+    "public-session": "Public Session",
+    "empty-option": "-- select --"
+  },
+  "search": "Search",
+  "single-session": "This session",
+  "full-course": "Full Course",
+  "filter": {
+    "service": "Please, select a service.",
+    "location": "Please, select a location"
+  },
+  "session": {
+    "title": "Sessions selection",
+    "select-all": "Select all sessions"
+  },
+  "tabs" : {
+    "session": "SESSION",
+    "register": "REGISTER",
+    "confirm": "CONFIRM"
   }
 }
