@@ -61,7 +61,7 @@
                         right:0;
                         float: none;
                         .fc-button{
-                            width: 33.33333333%;
+                            width: calc(100%/3);
                             height: 45px;
                             background: $white;
                             border: 0px;
