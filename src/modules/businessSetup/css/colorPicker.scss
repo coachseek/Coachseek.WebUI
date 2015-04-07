@@ -19,3 +19,18 @@ color-picker {
         display:inline-block;
     }
 }
+@media (max-width: 767px){
+    color-picker {
+        ul {
+            margin: 5px auto 0 auto;
+            width: 255px;
+            text-align: center;
+        }
+        li {
+            width:35px;
+            height:35px;
+            border-radius: 18px;
+
+        }
+    }
+}
