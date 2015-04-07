@@ -5,6 +5,11 @@
     </div>
     <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
         <div class="form-input">
+            <label name="duration">{{'scheduling:service-details.start-time' | i18next}}</label>
+            <start-time-picker start-time="currentEvent.session.timing.startTime"></start-time-picker>
+        </div>
+
+        <div class="form-input">
             <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
             <duration-picker duration="currentEvent.session.timing.duration"></duration-picker>
         </div>

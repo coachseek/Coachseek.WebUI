@@ -120,7 +120,7 @@ angular.module('businessSetup.directives', [])
 
                     //Check whether hours have reached max
                     if (scope.hours < 23) {
-                        scope.hours = ++scope.hours;
+                        scope.hours++;
                     }
                     else {
                         scope.hours = 0;

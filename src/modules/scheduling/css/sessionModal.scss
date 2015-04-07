@@ -96,6 +96,11 @@
 
                     input{
                         border: 1px solid $light-grey;
+                        background: $white;
+
+                        &.time-picker-time{
+                            background: $white;
+                        }
                     }
 
                     select-arrows{
@@ -106,6 +111,10 @@
                         .fa-caret-down{
                             bottom: 8px;
                         }
+                    }
+
+                    .time-picker-container{
+                        width: auto;
                     }
                 }
 

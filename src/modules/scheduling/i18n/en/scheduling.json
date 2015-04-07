@@ -15,7 +15,8 @@
     	"duration": "Session duration:",
     	"name": "Session name:",
         "general": "General",
-        "register": "Register"
+        "register": "Register",
+        "start-time": "Start Time"
 	},
 	"error": {
 		"coach-required": "Coach required.",

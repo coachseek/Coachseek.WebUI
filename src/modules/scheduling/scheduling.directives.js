@@ -37,6 +37,38 @@ angular.module('scheduling.directives', [])
 			}
 		};
 	})
+	.directive('startTimePicker', function(){
+		return {
+			scope: {
+			    startTime: '='
+			},
+			restrict: "E",
+			templateUrl:'scheduling/partials/startTimePicker.html',
+			link: function(scope, elem){
+				scope.editingTime = false;
+
+				var startTimeCopy,
+					$timePickerContainer = angular.element(elem.find('.time-picker-container'));
+
+                scope.editTime = function(currentTime){
+                    if(!scope.editingTime) {
+                        startTimeCopy = angular.copy(scope.startTime);
+	                    scope.editingTime = true;
+                    }
+                };
+
+                scope.$on('closeTimePicker', function(event, resetTime){
+                    if(resetTime && startTimeCopy){
+                        scope.startTime = startTimeCopy;
+                    }
+                    scope.editingTime = false;
+                    $timePickerContainer.one('$animate:after', function(){
+                        startTimeCopy = null;
+                    });
+                });
+			}
+		}
+	})
     .directive('modalSessionAttendanceList', ['coachSeekAPIService', function(coachSeekAPIService){
 		return {
 			restrict: "E",
