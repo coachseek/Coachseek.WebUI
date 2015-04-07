@@ -8,7 +8,7 @@
             <i class="fa fa-lg fa-search"></i>
             <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
         </div>
-        <div class="letter-search">
+        <div class="letter-search" ng-if="isBigScreen">
             <span ng-repeat="letter in alphabetLetters" ng-class="{active: searchLetter === letter}" ng-click="sortBy(letter)">{{letter}}</span>
         </div>
         <hr class="double-wide" ng-if="isBigScreen"/>
