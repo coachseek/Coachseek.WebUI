@@ -350,7 +350,11 @@ angular.module('scheduling.controllers', [])
                                         _.assign(session, {
                                             id: course.id,
                                             repetition: course.repetition,
-                                            timing: course.timing
+                                            timing: {
+                                                duration: session.timing.duration,
+                                                startDate: course.timing.startDate,
+                                                startTime: session.timing.startTime
+                                            }
                                         });
                                         saveSession(session);
                                     });
