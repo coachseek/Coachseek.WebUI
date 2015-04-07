@@ -1,6 +1,7 @@
 angular
 .module('booking.controllers', [])
-.controller('bookingCtrl', function ($scope, $location, $q, $state, coachSeekAPIService) {
+.controller('bookingCtrl', ['$scope', '$location', '$q', '$state', 'coachSeekAPIService',
+    function ($scope, $location, $q, $state, coachSeekAPIService) {
   var savedCustomer = localStorage.getItem('customer');
 
   $scope.booking = {
@@ -110,4 +111,4 @@ angular
 
     $state.go('booking.confirm');
   };
-});
+}]);

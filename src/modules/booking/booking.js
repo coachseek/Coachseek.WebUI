@@ -1,6 +1,6 @@
 angular
 .module('booking', [ 'booking.controllers' ])
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
   $stateProvider
   .state('booking', {
     url: "/booking",
@@ -40,4 +40,4 @@ angular
   });
 
   $urlRouterProvider.otherwise('/booking/session');
-});
+}]);
