@@ -145,7 +145,7 @@ module.exports = function(grunt) {
             },
             templates: {
                 files: ['src/modules/**/partials/*.html', 'src/index.html'],
-                tasks: ['ngtemplates:src']
+                tasks: ['ngtemplates:src', 'ngtemplates:test']
             },
             i18n: {
                 files: ['src/modules/**/i18n/en/*.json'],
