@@ -152,6 +152,7 @@ angular.module('scheduling.directives', [])
 
 				scope.toggleAttendance = function(){
 					scope.checked = !scope.checked;
+					console.log(scope.courseBooking);
 				};
 
 				scope.removeBooking = function(){
@@ -170,11 +171,11 @@ angular.module('scheduling.directives', [])
 	}])
 	.directive('stop-scrolling-propagation', [function () {
 		return {
-			restrict: 'E',
-			link: function (scope) {
-				$(this).click(function(e) {
+			restrict: 'A',
+			link: function (scope, elem) {
+				$(elem).on('click',function(event){
 					/* Act on the event */
-					e.stopPropagation();
+					event.stopPropagation();
 				});
 				
 			}
