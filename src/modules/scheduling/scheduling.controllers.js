@@ -71,18 +71,7 @@ angular.module('scheduling.controllers', [])
                         }).appendTo(element.find('.fc-content'));
                     },
                     windowResize: function(view){
-                        var view = $('#session-calendar').fullCalendar('getView');
-                        if($scope.isBigScreen){
-                            $('.fc-agendaWeek-button').show();
-                        } else {
-                            $('.fc-agendaWeek-button').hide();
-                            $scope.toggleOpen = false;
-                            if(view.name === 'agendaWeek'){
-                                $('#session-calendar').fullCalendar('changeView', 'agendaDay');
-                            }
-                        }
-
-                        $('#session-calendar').fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
+                        handleWindowResize(view.name);
                     },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
@@ -125,17 +114,16 @@ angular.module('scheduling.controllers', [])
                         currentEventCopy = angular.copy(event);
                     },
                     viewRender: function(view){
-                        var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
-                        $('#session-calendar').fullCalendar('option', 'height', heightToSet);
-
-                        $scope.isBigScreen? $('.fc-agendaWeek-button').show() : $('.fc-agendaWeek-button').hide();
-
                         // load one month at a time and keep track of what months
                         // have been loaded and don't load those. must use month because it
                         // is the biggest denomination allowed by calendar. if using week/day 
                         // we load days/weeks twice when switching to month.
                         determineCurrentRange(view.intervalStart, view.intervalEnd);
                         loadCurrentRanges();
+
+                        var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
+                        $('#session-calendar').fullCalendar('option', 'height', heightToSet);
+                        handleWindowResize(view);
                     },
                     dayClick: function(date) {
                         if(!$scope.isBigScreen){
@@ -165,6 +153,20 @@ angular.module('scheduling.controllers', [])
                 }).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
+            };
+            var handleWindowResize = function(viewName){
+                var $sessionCalendar = $('#session-calendar');
+                if($scope.isBigScreen){
+                    $sessionCalendar.find('.fc-agendaWeek-button').show();
+                } else {
+                    $sessionCalendar.find('.fc-agendaWeek-button').hide();
+                    $scope.toggleOpen = false;
+                    if(viewName === 'agendaWeek'){
+                        $sessionCalendar.fullCalendar('changeView', 'agendaDay');
+                    }
+                }
+
+                $sessionCalendar.fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
             };
             var determineCurrentRange = function(intervalStart, intervalEnd){
                 $scope.currentRanges = [];
