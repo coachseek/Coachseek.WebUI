@@ -8,7 +8,7 @@
         &.toggle-closed{
             .dropdown-container{
                 &.coach-list{
-                    left: 150px;
+                    left: 130px;
                 }
                 &.location-list{
                     left: 250px;
@@ -17,7 +17,7 @@
         }
 
         .dropdown-container{
-            width: 105px;
+            width: 120px;
             height: 30px;
             top: 20px;
             position: absolute;
@@ -26,6 +26,7 @@
             border: 1px solid $border-light-grey;
             -webkit-transition:left linear 0.3s;
             transition:left linear 0.3s;
+            overflow: hidden;
 
             &[disabled]{
                 pointer-events: none;
@@ -42,29 +43,21 @@
 
             select{
                 color: $grey;
-                padding: 3px 20px 3px 10px;
                 border: none;
                 box-shadow: none;
                 background: $another-white;
                 background-image: none;
                 -webkit-appearance: none;
                 cursor: pointer;
-                width: 103px;
+                width: 100%;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
+                text-indent: 7px;
 
                 &:focus{
                     outline: none;
                 }
-            }
-
-            i{
-                @extend %vertical-align;
-                position: absolute;
-                right: 10px;
-                pointer-events: none;
-                font-size: 10px;
             }
         }
 

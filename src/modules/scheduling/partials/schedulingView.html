@@ -18,14 +18,12 @@
             <option value="">{{'scheduling:all-coaches' | i18next}}</option>
             <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
         </select>
-        <i class="fa fa-chevron-down"></i>
     </div>
     <div class="dropdown-container" ng-class="isBigScreen? 'location-list' :'location-list-responsive' " ng-disabled="showModal">
         <select ng-init="currentLocationId=''" ng-change="filterSessions()" name="locations" ng-model="currentLocationId">
             <option value="">{{'scheduling:all-locations' | i18next}}</option>
             <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
         </select>
-        <i class="fa fa-chevron-down"></i>
     </div>
     <div class="coach-title" ng-show="isBigScreen">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div>
     <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
