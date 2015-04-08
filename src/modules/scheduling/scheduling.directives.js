@@ -125,19 +125,21 @@ angular.module('scheduling.directives', [])
 				    }
 				}, true);
 
-				var buildBooking = function(customer){
-				    return {
-				        session: {
-				            id: scope.currentEvent.session.id,
-				            name: scope.currentEvent.session.service.name
-				        },
-				        customer: {
-				            id: scope.item.id,
-				            firstName: scope.item.firstName,
-				            lastName: scope.item.lastName
-				        }
-				    };
-				};
+				var buildBooking = function(addToCourse){
+                    return {
+                        session: {
+                            id: scope.currentEvent.session.id,
+                            name: scope.currentEvent.session.service.name
+                        },
+                        customer: {
+                            id: scope.item.id,
+                            firstName: scope.item.firstName,
+                            lastName: scope.item.lastName
+                        },
+                        paymentStatus: "Awaiting Payment",
+                        hasAttended: false
+                    };
+                };
 			}
 		};
 	}])
@@ -152,7 +154,6 @@ angular.module('scheduling.directives', [])
 
 				scope.toggleAttendance = function(){
 					scope.checked = !scope.checked;
-					console.log(scope.courseBooking);
 				};
 
 				scope.removeBooking = function(){
@@ -169,7 +170,7 @@ angular.module('scheduling.directives', [])
 		};
 
 	}])
-	.directive('stop-scrolling-propagation', [function () {
+	.directive('stopScrollingPropagation', [function () {
 		return {
 			restrict: 'A',
 			link: function (scope, elem) {
