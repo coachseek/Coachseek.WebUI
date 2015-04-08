@@ -44,11 +44,29 @@
 		}
 	}
 
+	.separator {
+		text-align: center;
+	}
+
 	.session {
+		cursor: pointer;
+		width: 100%;
+		margin: 0;
+		padding: 10px 12.5px;
+		background: $white;
+		overflow: hidden;
+		-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+		-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+		box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 		.session-checkbox{
 			float: left;
 			padding: 0 10px 0 0;
-			width: 60px;
+			width: 40px;
+			height: 40px;
+			line-height: 40px;
+			checkbox {
+				margin: 0px;
+			}
 		}
 
 		.session-date {
@@ -58,17 +76,18 @@
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			text-align: center;
 		}
 
 		.session-duration {
-			float: left;
-		}
-
-		.session-pricing {
 			float: right;
 		}
 
-		.session-duration, .session-pricing {
+		.session-pricing, .session-price {
+			float: right;
+		}
+
+		.session-duration, .session-price {
 			font-size: 12px;
 			color: $grey;
 			overflow: hidden;
@@ -110,50 +129,14 @@
 			border-radius: 10px;
 		}
 
-
-		.course-service {
-			font-family: lato-bold;
-			font-size: 14px;
-			color: $text-dark-grey;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-		}
-
 		.course-duration, .course-pricing {
 			float: right;
-		}
-
-		.course-location, .course-duration, .course-timing, .course-pricing {
-			font-size: 12px;
-			color: $grey;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
 		}
 	}
 
 	.customer-recap {
 		overflow: auto;
 		width: 100%;
-		.customer-details {
-			.customer-name {
-				font-family: lato-bold;
-				font-size: 14px;
-				color: $text-dark-grey;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-
-			.customer-email, .customer-phone {
-				font-size: 12px;
-				color: $grey;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
-			}
-		}
 	}
 
 	.actions {
@@ -196,6 +179,32 @@
 
 	.full-width {
 		width: 100%;
+		float: none;
+	}
+
+	.separator {
+		margin: 15px 0;
+	}
+
+	.bottom-margin {
+		margin-bottom: 20px;
+	}
+
+	.primary-text {
+		font-family: lato-bold;
+		font-size: 14px;
+		color: $text-dark-grey;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	.secondary-text {
+		font-size: 12px;
+		color: $grey;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	@media (max-width: 768px){

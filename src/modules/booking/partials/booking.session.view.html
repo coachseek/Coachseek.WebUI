@@ -1,31 +1,37 @@
 <div class="wrapper crud-item">
-  <h1>{{'booking:session.title' | i18next}}</h1>
-  <p>
-    {{course.name}}
-  </p>
-  <p>
-    {{course.location}}
-  </p>
-  <div class="">
-    <label for="checkAll">
-      <input type="checkbox" name="all" id="checkAll" value="0">
-      {{'booking:session.select-all' | i18next}}
-    </label>
+  <h2 class="text-center">{{course.name}}</h2>
+  <div class="vertical-margin">
+    <p class="secondary-text">
+      {{course.location}}
+    </p>
+    <p class="secondary-text">
+      10 {{'booking:choose.sessions' | i18next}}
+    </p>
   </div>
-  <ul class="session-list">
-    <li ng-repeat="session in course.sessions" class="session session-details">
-      <div class="session-checkbox">
-        <input type="checkbox" ng-model="session.selected" name="session-{{session._id}}">
-      </div>
-      <div class="session-more">
-        <div class="session-date">
-          {{session.timing.startDate}} {{session.timing.startTime}}
+  <div class="full">
+    <button type="button" class="save-button full-width" name="full" ng-click="bookCourse(course)">{{'booking:choose.book-course'|i18next}} {{course.pricing || 120}}$</button>
+  </div>
+  <div class="separator">
+    {{'booking:choose.or' | i18next}}
+  </div>
+  <h2 class="text-center">{{'booking:choose.desc' | i18next}}</h2>
+  <div class="sessions-selection">
+    <ul class="session-list">
+      <li ng-repeat="session in course.sessions" class="session session-details">
+        <div class="session-checkbox">
+          <input type="checkbox" ng-model="session.selected" name="session-{{session.id}}">
         </div>
-        <div>
-          <span class="session-duration">{{session.timing.duration}} {{'booking:duration' | i18next}}</span>
-          <span class="session-price">{{session.pricing.sessionPrice}}</span>
+        <div class="session-more">
+          <div class="session-date">
+            {{session.timing.startDate}} {{session.timing.startTime}}
+          </div>
+          <div>
+            <span class="session-duration">{{session.timing.duration}} {{'booking:duration' | i18next}}</span>
+            <span class="session-price">${{session.pricing.sessionPrice}}</span>
+          </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
+  <button type="button" class="save-button full-width" name="full" ng-click="bookSessions(course.sessions)">{{'booking:choose.book-sessions'|i18next}}</button>
 </div>

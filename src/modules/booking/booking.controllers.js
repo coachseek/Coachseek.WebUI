@@ -1,12 +1,13 @@
 angular
 .module('booking.controllers', [])
 .controller('bookingCtrl', ['$scope', '$location', '$q', '$state', 'coachSeekAPIService',
-    function ($scope, $location, $q, $state, coachSeekAPIService) {
+function ($scope, $location, $q, $state, coachSeekAPIService) {
   var savedCustomer = localStorage.getItem('customer');
-
+  $state.go('booking.course');
   $scope.booking = {
     customer: savedCustomer ? JSON.parse(savedCustomer) : null,
-    session: null
+    sessions: [],
+    enquiry: false
   };
 
   $scope.course = null;
@@ -47,6 +48,7 @@ angular
   };
 
   $scope.filterSessions = function (filters) {
+    $scope.booking.enquiry = false;
     filterSessions(filters).then(function (sessions) {
       var courses = _.groupBy(sessions, function (session) {
         return session.parentId;
@@ -71,8 +73,9 @@ angular
     $state.go('booking.session');
   };
 
-  $scope.selectSession = function (sessions) {
-    $scope.booking.sessions = sessions.filter(function (session) { return session.selected === true; });
+  $scope.bookCourse = function (course) {
+    course.type = 'course';
+    $scope.booking.sessions = [course];
     if ($scope.booking.customer) {
       $state.go('booking.confirm');
     } else {
@@ -80,11 +83,33 @@ angular
     }
   };
 
+  $scope.bookSessions = function (sessions) {
+    $scope.booking.sessions = sessions
+      .filter(function (session) { return session.selected === true; })
+      .map(function (session) {
+        session.type = 'session';
+        return session;
+      });
+
+    if ($scope.booking.customer) {
+      $state.go('booking.confirm');
+    } else {
+      $state.go('booking.register');
+    }
+  };
+
+  $scope.selectEnquiry = function ($event) {
+    $event.preventDefault();
+    $scope.booking.enquiry = true;
+    $scope.booking.sessions = [];
+    $state.go('booking.register');
+  }
+
   $scope.cancel = function () {
-    $scope.booking.session = null;
-    $scope.booking.fullCourse = false;
-    $scope.booking.enquiry = null;
+    $scope.booking.sessions = [];
+    $scope.booking.enquiry = false;
     $scope.course = null;
+    $scope.filterSessions($scope.filters);
     $state.go('booking.course');
   };
 
@@ -96,11 +121,18 @@ angular
           localStorage.setItem('customer', JSON.stringify(customer));
         }
 
-        booking.customer = customer;
+        var bookingList = booking.sessions
+          .map(function (session) { return { id: session.id }; })
+          .forEach(function (session) {
+            var data = {
+              customer: customer,
+              session: session
+            };
 
-        coachSeekAPIService
-        .update({ section: 'Bookings' }, booking).$promise
-        .then(function (booking) {
+            return coachSeekAPIService.update({ section: 'Bookings' }, data).$promise;
+          });
+
+        $q.all(bookingList).then(function (booking) {
           console.log('your booking has been taken into consideration...');
           console.log(booking);
         });

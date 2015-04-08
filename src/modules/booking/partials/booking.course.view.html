@@ -21,6 +21,9 @@
           <span ng-show="form.service.$error.required">{{'booking:filter.service-error' | i18next}}</span>
         </div>
       </div>
+        <p ng-show="filters.location && filters.service">
+          {{'booking:enquiry.hint' | i18next}}<a href="#" ng-click="selectEnquiry($event)">{{'booking:enquiry.title' | i18next}}</a>
+        </p>
       <div class="section" ng-show="filters.location && filters.service">
         <button type="submit" class="save-button full-width" ng-click="filterSessions(filters)"><span>{{'booking:search' | i18next}}</span></button>
       </div>
@@ -54,11 +57,11 @@
       </div>
       <div class="course-more">
         <div class="course-service">
-          <span class="course-service">{{course.name}}</span>
+          <span class="course-service primary-text">{{course.name}}</span>
         </div>
         <div>
-          <span class="course-location">{{course.location}}</span>
-          <span class="course-duration">{{course.duration}} {{'booking:duration' | i18next}}</span>
+          <span class="course-location secondary-text">{{course.location}}</span>
+          <span class="course-duration secondary-text">{{course.duration}} {{'booking:duration' | i18next}}</span>
         </div>
       </div>
     </li>
