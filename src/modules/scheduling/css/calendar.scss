@@ -1,4 +1,5 @@
 [state^="scheduling"] {
+    .calendar-fix{position: fixed;}
     .calendar-container{
         background: $white;
         overflow: hidden;
