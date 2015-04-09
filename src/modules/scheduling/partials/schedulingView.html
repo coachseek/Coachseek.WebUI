@@ -1,44 +1,46 @@
-<span class="toggle-service-drawer" ng-click="toggleOpen = !toggleOpen" ng-hide="isBigScreen||!isCollapsed||showModal" >
-    <i class="fa fa-lg" ng-class="toggleOpen ? 'fa-close toggle-service-drawer-icon' : 'fa-plus'"></i>
-</span>
-<div class="services-list-container" ng-init="toggleOpen = isBigScreen" ng-class="{closed: !toggleOpen}">
-    <scheduling-services-list></scheduling-services-list>
-</div>
-
-<div class="page-loading" ng-show="calendarLoading">
-    <div class="indicator-container">
-        <div class='outer-logo'></div>
-        <div ng-class="{active: calendarLoading}" class='inner-logo'></div>
+<div ng-class="{'calendar-fix': showModal}">
+    <span class="toggle-service-drawer" ng-click="toggleOpen = !toggleOpen" ng-hide="isBigScreen||!isCollapsed||showModal" >
+        <i class="fa fa-lg" ng-class="toggleOpen ? 'fa-close toggle-service-drawer-icon' : 'fa-plus'"></i>
+    </span>
+    <div class="services-list-container" ng-init="toggleOpen = isBigScreen" ng-class="{closed: !toggleOpen}">
+        <scheduling-services-list></scheduling-services-list>
     </div>
-</div>
 
-<div class="calendar-container calendar-container-desktop" ng-class="{'toggle-closed': !toggleOpen}">
-    <div class="dropdown-container" ng-class="isBigScreen? 'coach-list' : 'coach-list-responsive' " ng-disabled="showModal">
-        <select ng-init="currentCoachId=''" ng-change="filterSessions()" name="coaches" ng-model="currentCoachId">
-            <option value="">{{'scheduling:all-coaches' | i18next}}</option>
-            <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
-        </select>
+    <div class="page-loading" ng-show="calendarLoading">
+        <div class="indicator-container">
+            <div class='outer-logo'></div>
+            <div ng-class="{active: calendarLoading}" class='inner-logo'></div>
+        </div>
     </div>
-    <div class="dropdown-container" ng-class="isBigScreen? 'location-list' :'location-list-responsive' " ng-disabled="showModal">
-        <select ng-init="currentLocationId=''" ng-change="filterSessions()" name="locations" ng-model="currentLocationId">
-            <option value="">{{'scheduling:all-locations' | i18next}}</option>
-            <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
-        </select>
+
+    <div class="calendar-container calendar-container-desktop" ng-class="{'toggle-closed': !toggleOpen }">
+        <div class="dropdown-container" ng-class="isBigScreen? 'coach-list' : 'coach-list-responsive' " ng-disabled="showModal">
+            <select ng-init="currentCoachId=''" ng-change="filterSessions()" name="coaches" ng-model="currentCoachId">
+                <option value="">{{'scheduling:all-coaches' | i18next}}</option>
+                <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
+            </select>
+        </div>
+        <div class="dropdown-container" ng-class="isBigScreen? 'location-list' :'location-list-responsive' " ng-disabled="showModal">
+            <select ng-init="currentLocationId=''" ng-change="filterSessions()" name="locations" ng-model="currentLocationId">
+                <option value="">{{'scheduling:all-locations' | i18next}}</option>
+                <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
+            </select>
+        </div>
+        <div class="coach-title" ng-show="isBigScreen">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div>
+        <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
     </div>
-    <div class="coach-title" ng-show="isBigScreen">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div>
-    <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
-</div>
 
-<div class="session-modal session-modal-responsive" ng-show="showModal">
-    <div class="session-header" ng-class='currentEvent.session.presentation.colour'></div>
-    <div class="session-modal-nav" ng-init="currentTab = 'general'">
-        <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>
-        <div class="attendance" ng-disabled="currentEvent.tempEventId" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>
+    <div class="session-modal session-modal-responsive" ng-show="showModal">
+        <div class="session-header" ng-class='currentEvent.session.presentation.colour'></div>
+        <div class="session-modal-nav" ng-init="currentTab = 'general'">
+            <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>
+            <div class="attendance" ng-disabled="currentEvent.tempEventId" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>
+        </div>
+        <hr class="double-wide"/>
+            
+        <modal-session-form ng-show="currentTab === 'general'"></modal-session-form>
+
+        <modal-session-attendance-list ng-show="currentTab === 'attendance'"></modal-session-attendance-list> 
+
     </div>
-    <hr class="double-wide"/>
-        
-    <modal-session-form stop-scrolling-propagation ng-show="currentTab === 'general'"></modal-session-form>
-
-    <modal-session-attendance-list stop-scrolling-propagation ng-show="currentTab === 'attendance'"></modal-session-attendance-list> 
-
 </div>

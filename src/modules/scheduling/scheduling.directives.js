@@ -166,21 +166,20 @@ angular.module('scheduling.directives', [])
 							scope.bookingLoading = false;
                         });
 				};
+
+				scope.updateAttendance = function(){
+					scope.bookingLoading = true;
+					var attendance = scope.booking;
+					console.log(attendance);
+					coachSeekAPIService.update({section:'Bookings'}, attendance)
+						.$promise.then(function(){
+							attendance = scope.checked;
+						},scope.handleErrors).finally(function(error){
+							scope.bookingLoading = false;
+                        });
+				};
+
 			}
 		};
 
-	}])
-	.directive('stopScrollingPropagation', [function () {
-		return {
-			restrict: 'A',
-			link: function (scope, elem) {
-				$(elem).on('click',function(event){
-					/* Act on the event */
-					event.stopPropagation();
-				});
-				
-			}
-		};
-	}])
-
-	;
+	}]);
