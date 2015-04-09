@@ -142,3 +142,8 @@
         }
     }
 }
+@media (max-width: 767px){
+    .attendance-list div.customer-list ul{
+        height: calc(100vh - 300px);
+    }
+}
