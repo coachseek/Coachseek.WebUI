@@ -1,0 +1,28 @@
+<div class="content-container">
+
+  <form name="form" class="content">
+    <div class="row">
+      <div class="col-sm-2 col-xs-12">
+        <h2>{{'booking:location-section.title' | i18next}}</h2>
+        <div class="form-input section">
+          <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
+          <select name="location" ng-model="filters.location" id="location" class="full-width" required>
+              <option value=""></option>
+              <option ng-repeat="location in locations" value="{{location.id}}" ng-selected="filters.location === location.id">{{location.name}}</option>
+          </select>
+            <div class="form-error" ng-show="form.location.$error.required">{{'booking:location-section.error' | i18next}}</div>
+        </div>
+      </div>
+
+      <div class="col-sm-10 col-xs-12">
+        <!-- Future Map -->
+      </div>
+
+    </div>
+    <div class="actions">
+      <button type="submit" class="btn-save" ng-disabled="form.$invalid" ng-click="selectLocation()">{{'booking:common.next'|i18next}}</button>
+    </div>
+  </form>
+
+
+</div>

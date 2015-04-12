@@ -1,10 +1,21 @@
 <div class="row">
-  <!-- <div class="page-header text-center">
-    <div class="status-buttons">
-      <a ui-sref-active="active" ui-sref=".session">{{'booking:tabs.session' | i18next}}</a>
-      <a ui-sref-active="active" ui-sref=".register">{{'booking:tabs.register' | i18next}}</a>
-      <a ui-sref-active="active" ui-sref=".confirm">{{'booking:tabs.confirm' | i18next}}</a>
-    </div> -->
+  <div class="page-header text-center">
+    <div class="tabs">
+      <ul>
+        <li>
+          <a ui-sref-active="active" ui-sref=".location">{{'booking:tabs.location-tab' | i18next}}</a>
+        </li>
+        <li>
+          <a ui-sref-active="active" ui-sref=".services">{{'booking:tabs.services-tab' | i18next}}</a>
+        </li>
+        <li>
+          <a ui-sref-active="active" ui-sref=".details">{{'booking:tabs.details-tab' | i18next}}</a>
+        </li>
+        <li>
+          <a ui-sref-active="active" ui-sref=".confirmation">{{'booking:tabs.confirmation-tab' | i18next}}</a>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="content" ui-view>
 

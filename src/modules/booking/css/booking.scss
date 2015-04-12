@@ -1,152 +1,140 @@
 [state^="booking"] {
-	max-width: 445px;
-	margin: 20px auto;
-	.filter-bar {
-		margin: 0 0 10px 0;
-	}
-
-	.dropdown-container{
-		position: relative;
-		width: 50%;
-		float: left;
-		height: 30px;
-		background: #F5F5F5;
-		color: $grey;
-		border: 1px solid $border-light-grey;
-		-webkit-transition:left linear 0.3s;
-		transition:left linear 0.3s;
-
-		select{
-			color: $grey;
-			padding: 3px 20px 3px 10px;
-			border: none;
-			box-shadow: none;
-			background: $another-white;
-			background-image: none;
-			-webkit-appearance: none;
-			cursor: pointer;
-			width: 100%;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-			overflow: hidden;
-
-			&:focus{
-					outline: none;
+	margin: 0 auto;
+	width: 90%;
+	.page-header {
+		border-bottom: 1px solid #ccc;
+		ul {
+			li {
+				display: inline-block;
+				font-size: 0;
+				margin-right: -4px;
+				a {
+					font-size: 16px;
+					display: block;
+					width: 200px;
+					text-align: center;
+					padding: 10px 20px;
+					text-decoration: none;
+					color: #525252;
+					background-color: #fff;
+					&.active {
+						background-color: #525252;
+						color: #fff;
+					}
+				}
 			}
 		}
+	}
+	.content-container {
+		.content {
+			.actions {
+				position: fixed;
+				bottom: 0;
+				right: 100px;
+				.back-link {
+					font-decoration: none;
+					color: #00A478;
+					margin-right: 20px;
+				}
 
-		i{
-			@extend %vertical-align;
-			position: absolute;
-			right: 10px;
-			pointer-events: none;
-			font-size: 10px;
+				.btn-save {
+					border: none;
+					margin: 20px auto;
+					text-align: center;
+					width: 200px;
+					color: #FFFFFF;
+					background: #00A478;
+					border-radius: 4px;
+					padding: 10px 25px;
+
+					&[disabled] {
+						opacity: 50px;
+					}
+				}
+			}
+
+			.form-error {
+				color: #E88801;
+			}
+
+			.ng-invalid {
+				border-color: #E88801;
+			}
+
+			.right-border {
+				border-right: 1px solid #ccc;
+			}
 		}
 	}
 
-	.separator {
-		text-align: center;
+	.service-description {
+		margin-top: 30px;
+	}
+
+	.block {
+		display: block;
+	}
+
+	.bold {
+		font-weight: bold;
+	}
+
+	.container-center {
+		max-width: 450px;
+		margin: 0 auto;
 	}
 
 	.session {
+		text-align: center;
+		display: inline-block;
 		cursor: pointer;
-		width: 100%;
-		margin: 0;
+		width: 45%;
+		margin: 10px;
 		padding: 10px 12.5px;
 		background: $white;
 		overflow: hidden;
+		border-radius: 5px;
 		-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 		-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 		box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
-		.session-checkbox{
-			float: left;
-			padding: 0 10px 0 0;
-			width: 40px;
-			height: 40px;
-			line-height: 40px;
-			checkbox {
-				margin: 0px;
-			}
+		border: 1px solid transparent;
+		&.selected {
+			border: 1px solid $green;
 		}
-
-		.session-date {
-			font-family: lato-bold;
-			font-size: 14px;
-			color: $text-dark-grey;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			text-align: center;
-		}
-
-		.session-duration {
-			float: right;
-		}
-
-		.session-pricing, .session-price {
-			float: right;
-		}
-
-		.session-duration, .session-price {
-			font-size: 12px;
-			color: $grey;
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
+		&.full-course {
+			width: 100% !important;
 		}
 	}
 
 	.course {
+		border: 1px solid transparent;
 		&.course-details {
+			text-align: center;
+			display: inline-block;
 			cursor: pointer;
-			width: 100%;
-			margin: 0;
+			width: 45%;
+			margin: 10px;
 			padding: 10px 12.5px;
 			background: $white;
 			overflow: hidden;
+			border-radius: 5px;
 			-webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 			-moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 			box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
 		}
-		&.course-recap {
-			margin-bottom: 20px;
-			overflow: auto;
-			width: 100%;
+
+		&.selected {
+			border: 1px solid $green;
 		}
 
-		.course-color{
-			float: left;
-			padding: 0 10px 0 0;
-			height: 60px;
-		}
-
-		.colour-circle{
-			display: block;
-			@extend %vertical-align;
-			@extend %service-background-colors;
-			width: 15px;
-			height: 15px;
-			border-radius: 10px;
-		}
-
-		.course-duration, .course-pricing {
-			float: right;
+		.name {
+			text-transform: uppercase;
 		}
 	}
 
 	.customer-recap {
 		overflow: auto;
 		width: 100%;
-	}
-
-	.actions {
-		float: right;
-		button {
-			border: none;
-			background: none;
-			color: #00A478;
-			font-weight: normal;
-		}
 	}
 
 	.enquiry {

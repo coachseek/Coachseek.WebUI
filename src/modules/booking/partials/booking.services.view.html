@@ -1,0 +1,76 @@
+<div class="content-container">
+  <form name="form" class="content">
+    <div class="row">
+
+      <!-- Service selection -->
+      <div class="col-sm-2 col-xs-12 right-border">
+        <h2>{{'booking:services-section.title' | i18next}}</h2>
+        <div class="form-input section">
+          <label for="service" class="block bold">{{'booking:services-section.label' | i18next}}</label>
+          <select name="service" id="service" ng-model="filters.service" class="full-width" required ng-change="selectService()">
+              <option value=""></option>
+              <option ng-repeat="service in services" value="{{service.id}}" ng-selected="filters.service === service.id">{{service.name}}</option>
+          </select>
+            <div class="form-error" ng-show="form.service.$error.required">{{'booking:service-section.error' | i18next}}</div>
+        </div>
+        <div ng-show="serviceDescription" class="service-description">
+          <label class="block bold">{{'booking:services-section.description' | i18next}}</label>
+          <p ng-bind="serviceDescription"></p>
+        </div>
+      </div>
+
+      <!-- Courses -->
+      <div class="col-sm-5 col-xs-12 right-border">
+        <div class="courses-container" ng-show="courses">
+          <div ng-repeat="course in courses" ng-click="selectCourse(course)" class="course course-details" ng-class="{selected: course.id === filters.course.id}">
+            <p class="name">
+              {{course.type | i18next}}
+            </p>
+            <p class="days">
+              {{course.name}}
+            </p>
+            <p class="hours">
+              {{course.duration}}
+            </p>
+            <p class="date">
+              {{course.location}}
+            </p>
+            <p class="price">
+              {{'denomination' | i18next}}{{course.price || 300}}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sessions-->
+      <div class="col-sm-5 col-xs-12">
+        <div class="sessions-container" ng-show="filters.course.sessions">
+          <div class="session full-course" ng-click="selectFullCourse(filters.course)">
+            {{'booking:service-section.whole-course' | i18next}} {{'denomination' | i18next}} {{course.pricing.coursePrice || 300}}
+          </div>
+          <div ng-repeat="session in filters.course.sessions" class="session session-details" ng-click="selectSession(session)" ng-class="{selected: session.selected === true}">
+            <p>
+              {{session.timing.date}}
+            </p>
+            <p>
+              {{session.timing.hour.start}} - {{session.timing.hour.end}}
+            </p>
+            <p>
+              {{'denomination' | i18next}}{{session.pricing.sessionPrice}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="actions">
+          <a href="#" class="back-link" ng-click="backToLocation($event)">{{'booking:common.back' | i18next}}</a>
+          <button type="submit" class="btn-save btn-large" ng-disabled="form.$invalid" ng-click="bookSessions()">{{'booking:common.next' | i18next}}</button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+</div>

@@ -1,0 +1,56 @@
+<div class="crud-item container-center">
+  <h1>{{'booking:details.title' | i18next}}</h1>
+  <form name="form">
+      <div class="form-input left-col">
+        <label name="firstName">{{'person-details.first-name' | i18next}}</label>
+        <input name="firstName" ng-model="booking.customer.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength="50" />
+
+        <div class="error-messages" ng-messages="form.firstName.$error">
+          <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+          <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+          <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+        </div>
+      </div>
+
+      <div class="form-input right-col">
+        <label name="lastName">{{'person-details.last-name' | i18next}}</label>
+        <input name="lastName" ng-model="booking.customer.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength="50" />
+
+        <div class="error-messages" ng-messages="form.lastName.$error">
+          <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+          <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+          <div ng-message="duplicatename"><i class='fa fa-2x fa-times'></i></div>
+        </div>
+      </div>
+
+      <div class="form-input">
+        <label name="email">{{'person-details.email' | i18next}}</label>
+        <input type="email" name="email" ng-model="booking.customer.email" placeholder="{{'person-details.placeholder.email' | i18next}}" ng-maxlength="100" />
+
+        <div class="error-messages" ng-messages="form.email.$error">
+          <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+          <div ng-message="email">{{'businessSetup:error.email' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+        </div>
+      </div>
+
+      <div class="form-input">
+        <label name="phone">{{'person-details.phone' | i18next}}</label>
+        <input name="phone" ng-model="booking.customer.phone" placeholder="{{'person-details.placeholder.phone' | i18next}}" ng-maxlength="50" />
+
+        <div class="error-messages" ng-messages="form.phone.$error">
+          <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+        </div>
+      </div>
+
+      <div class="form-input">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="remember-me" ng-model="booking.customer.remember"/> {{'person-details.remember' | i18next}}
+          </label>
+        </div>
+      </div>
+    </form>
+
+    <button class="save-button" ui-sref="booking.confirmation" ng-disabled="form.$invalid"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span></button>
+    <button class="cancel-button" ui-sref="booking.services">{{'booking:common.back' | i18next}}</button>
+</div>

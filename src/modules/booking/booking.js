@@ -10,30 +10,30 @@ angular
       requireLogin: true
     }
   })
-  .state('booking.course', {
-    url: "/course",
-    templateUrl: "booking/partials/booking.course.view.html",
+  .state('booking.location', {
+    url: "/location",
+    templateUrl: "booking/partials/booking.location.view.html",
     data: {
       requireLogin: true
     }
   })
-  .state('booking.session', {
-    url: "/session",
-    templateUrl: "booking/partials/booking.session.view.html",
+  .state('booking.services', {
+    url: "/services",
+    templateUrl: "booking/partials/booking.services.view.html",
     data: {
       requireLogin: true
     }
   })
-  .state('booking.register', {
-    url: "/register",
-    templateUrl: "booking/partials/booking.register.view.html",
+  .state('booking.details', {
+    url: "/details",
+    templateUrl: "booking/partials/booking.details.view.html",
     data: {
       requireLogin: true
     }
   })
-  .state('booking.confirm', {
-    url: "/confirm",
-    templateUrl: "booking/partials/booking.confirm.view.html",
+  .state('booking.confirmation', {
+    url: "/confirmation",
+    templateUrl: "booking/partials/booking.confirmation.view.html",
     data: {
       requireLogin: true
     }

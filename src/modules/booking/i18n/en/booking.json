@@ -1,34 +1,38 @@
 {
-  "all-services": "All Services",
-  "all-locations": "All Locations",
-  "duration": "min",
-  "course": "Course",
-  "session":"Session",
-  "confirm": {
-    "title": "Confirm",
-    "your-details": "Your details",
-    "your-booking": "Your booking",
-    "your-enquiry": "Your enquiry"
+  "tabs": {
+    "location-tab": "Location",
+    "services-tab": "Services",
+    "details-tab": "Details",
+    "confirmation-tab": "Confirm"
   },
-  "choose": {
-    "sessions": "sessions",
-    "desc": "Select the sessions you want to book",
-    "book-course": "Book the full course for ",
-    "book-sessions": "Book selected sessions",
-    "or": "-- or --"
+  "common": {
+    "next": "Next",
+    "back": "Back",
+    "duration": "min"
   },
-  "enquiry": {
-    "title": "Enquire here",
-    "hint": "Want to book a Private Lesson, or have a question about making booking ?",
-    "details": "Your enquiry will be taken into account once you will confirm it. We will contact you as soon as possible"
+  "location-section": {
+    "title": "Select location:",
+    "label": "Location:",
+    "error": "Please select a local homie."
   },
-  "search": "Search",
-  "filter": {
-    "service": "Please, select a service.",
-    "location": "Please, select a location"
+  "services-section": {
+    "title": "Select service:",
+    "label": "Service:",
+    "error": "Please select a service homie.",
+    "description": "Description:"
   },
-  "select": {
-    "title": "Online Booking",
-    "empty-option": "-- select --"
+  "courses": {
+    "single-session": "SINGLE SESSION",
+    "multi-session": "COURSE"
+  },
+  "details": {
+    "title": "Personal details:"
+  },
+  "confirmation": {
+    "title": "Final booking:",
+    "location": "Location:",
+    "session": "Session:",
+    "price": "Price:",
+    "finish": "Finish"
   }
 }
