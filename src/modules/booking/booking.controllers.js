@@ -4,6 +4,7 @@ angular
 function ($scope, $location, $q, $state, coachSeekAPIService) {
   var savedCustomer = localStorage.getItem('customer');
 
+  $state.go('booking.location');
   $scope.booking = {
     customer: savedCustomer ? JSON.parse(savedCustomer) : null,
     sessions: [],
