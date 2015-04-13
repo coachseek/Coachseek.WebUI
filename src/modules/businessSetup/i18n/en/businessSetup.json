@@ -36,7 +36,7 @@
 		"student-capacity": "Maximum Number of Students",
 		"service-colour": "Service Colour (green will become default color)",
 		"course-price": "Entire course price",
-		"session-price": "Per session price (optional)",
+		"session-price": "Per session price",
 		"duration": "Service duration (in minutes)",
 		"repeat-frequency": "Repeat course",
 		"placeholder": {
