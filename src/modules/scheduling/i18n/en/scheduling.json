@@ -26,6 +26,12 @@
 		"coach": "Please specify a coach.",
 		"location": "Please specify a location."
 	},
+    "payment-status": {
+        "awaiting-invoice": "Awaiting Invoice",
+        "awaiting-payment": "Awaiting Payment",
+        "paid": "Paid",
+        "overdue": "Overdue"
+    },
     "general": "General",
     "add-student": "Add Student",
     "back": "Back",

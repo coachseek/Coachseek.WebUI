@@ -149,17 +149,35 @@ angular.module('scheduling.directives', [])
 			replace: false,
 			templateUrl:'scheduling/partials/customerBooking.html',
 			link: function(scope){
-				//TODO - load attendance info for checked attribute
-				scope.checked = false;
+				var paymentStatusOptions = [
+					'awaiting-invoice',
+					'awaiting-payment',
+					'paid',
+					'overdue'
+				];
+
+				var paymentStatusIndex = _.indexOf(paymentStatusOptions, scope.booking.paymentStatus);
+    			if(paymentStatusIndex === -1) paymentStatusIndex = 0;
+				scope.paymentStatus = paymentStatusOptions[paymentStatusIndex];
 
 				scope.toggleAttendance = function(){
-					scope.checked = !scope.checked;
+					var updateAttendance = {
+						commandName: 'BookingSetAttendance',
+						hasAttended: !scope.booking.hasAttended
+					}
+
+					scope.bookingLoading = true;
+					coachSeekAPIService.update({section: 'Bookings', id: scope.booking.id}, updateAttendance)
+					    .$promise.then(function(){
+					    	scope.booking.hasAttended = !scope.booking.hasAttended;
+					    },scope.handleErrors).finally(function(){
+							scope.bookingLoading = false;
+                        });
 				};
 
 				scope.removeBooking = function(){
 					scope.bookingLoading = true;
-					var bookingId = scope.booking.id;
-					coachSeekAPIService.delete({section: 'Bookings', id: bookingId})
+					coachSeekAPIService.delete({section: 'Bookings', id: scope.booking.id})
 					    .$promise.then(function(){
 			                _.pull(scope.currentEvent.session.booking.bookings, scope.booking);
 					    },scope.handleErrors).finally(function(){
@@ -167,19 +185,31 @@ angular.module('scheduling.directives', [])
                         });
 				};
 
-				scope.updateAttendance = function(){
-					scope.bookingLoading = true;
-					var attendance = scope.booking;
-					console.log(attendance);
-					coachSeekAPIService.update({section:'Bookings'}, attendance)
-						.$promise.then(function(){
-							attendance = scope.checked;
-						},scope.handleErrors).finally(function(error){
-							scope.bookingLoading = false;
-                        });
+				scope.changePaymentStatus = function(){
+					if(paymentStatusIndex + 1 === _.size(paymentStatusOptions)) {
+						paymentStatusIndex = 0;
+					} else {
+						paymentStatusIndex++;
+					}
+
+					scope.paymentStatus = paymentStatusOptions[paymentStatusIndex];
+					savePaymentStatus();
 				};
 
-			}
-		};
+				var savePaymentStatus = _.debounce(function(){
+					var updatePaymentStatus = {
+						commandName: 'BookingSetPaymentStatus',
+						paymentStatus: scope.paymentStatus
+					}
 
+					scope.bookingLoading = true;
+					coachSeekAPIService.update({section: 'Bookings', id: scope.booking.id}, updatePaymentStatus)
+					    .$promise.then(function(){
+					    	scope.booking.paymentStatus = scope.paymentStatus;
+					    },scope.handleErrors).finally(function(){
+							scope.bookingLoading = false;
+                        });
+				}, 1000);
+			}
+		}
 	}]);
