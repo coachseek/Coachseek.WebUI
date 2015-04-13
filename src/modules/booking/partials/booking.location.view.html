@@ -1,6 +1,6 @@
 <div class="content-container">
 
-  <form name="form" class="content">
+  <form name="form" class="content container">
     <div class="row">
       <div class="col-sm-2 col-xs-12">
         <h2>{{'booking:location-section.title' | i18next}}</h2>
@@ -19,8 +19,12 @@
       </div>
 
     </div>
-    <div class="actions">
-      <button type="submit" class="btn-save" ng-disabled="form.$invalid" ng-click="selectLocation()">{{'booking:common.next'|i18next}}</button>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="actions">
+          <button type="submit" class="btn-save" ng-disabled="form.$invalid" ng-click="selectLocation()">{{'booking:common.next'|i18next}}</button>
+        </div>
+      </div>
     </div>
   </form>
 

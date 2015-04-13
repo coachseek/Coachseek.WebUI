@@ -66,11 +66,7 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
       return session.selected === true;
     });
 
-    if ($scope.booking.customer) {
-      $state.go('booking.confirmation');
-    } else {
-      $state.go('booking.details');
-    }
+    $state.go('booking.details');
   };
 
   $q.all({
