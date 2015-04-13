@@ -12,7 +12,7 @@ angular.module('app.controllers', [])
                 });
 
                 _.assign(alert, {
-                    dismissTimeout: alert.type === 'success' ? 13000 : 15000
+                    dismissTimeout: alert.type === 'success' ? 3000 : 5000
                 });
 
                 $rootScope.alerts.push(alert);
