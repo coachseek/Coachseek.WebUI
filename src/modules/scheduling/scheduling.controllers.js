@@ -177,7 +177,8 @@ angular.module('scheduling.controllers', [])
             };
 
             var handleClashingError = function(error){
-                var clashingMessage = error.data;
+                var clashingMessage = error.data[0].data || error.data;
+
                 clashingMessage = clashingMessage.substring(clashingMessage.indexOf(":") + 2, clashingMessage.indexOf(";"));
 
                 $scope.addAlert({
