@@ -177,7 +177,23 @@
     }
 }
 @media (max-width: 767px){
+    [state^="scheduling"] .session-modal div.session-modal-title{
+        padding: 5px 35px 10px 35px;
+    }
     .attendance-list div.customer-list ul{
         height: calc(100vh - 300px);
     }
+    .attendance-list {
+        padding: 0px 10px;
+        .student-list .student-details{
+            .item-title{
+                max-width: 110px;
+                overflow:hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 21px;
+                padding-left: 10px;
+            }
+        }
+    }   
 }
