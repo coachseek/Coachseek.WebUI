@@ -1,6 +1,6 @@
 angular.module('app.services', [])
 	.factory('coachSeekAPIService', ['$resource', function($resource) {
-	    return $resource('http://coachseek-api.azurewebsites.net/api/:section/:id', {}, {
+	    return $resource('http://api.coachseek.com/:section/:id', {}, {
             get:    { method: 'GET', isArray: true},
 	        getOne: { method: 'GET'},
 	        update: { method: 'POST'},
