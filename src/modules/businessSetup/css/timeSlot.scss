@@ -97,6 +97,10 @@
                 position: relative;
                 left: 15px;
             }
+            &.slide-closed{
+                -webkit-transition: all linear 0s;
+                transition: all linear 0s;
+            }
         }
         &.closed{
             .weekday-text{
@@ -110,11 +114,19 @@
         .weekday-text{
             position: absolute;
             text-align: center;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
         }
+
+
         .toggle-time-slot{
             position: absolute;
-            right:30px;
+            right:20px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+
         }
+
     }
 }
 
