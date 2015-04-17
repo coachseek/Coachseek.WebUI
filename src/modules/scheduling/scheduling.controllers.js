@@ -81,26 +81,21 @@ angular.module('scheduling.controllers', [])
                                 startTime: event._start.format('HH:mm')
                             });
                         } else {
-                            var session = event.session;
-
-                            if(session.parentId){
+                            if(event.course){
                                 //have to set $scope.currentEvent so sessionOrCourseModal can return id
                                 $scope.currentEvent = event;
                                 sessionOrCourseModal($scope).then(function(id){
-                                    if(id === session.parentId){
+                                    if(id === event.course.id){
                                         startCalendarLoading();
-                                        coachSeekAPIService.getOne({section: "Sessions", id: id})
-                                            .$promise.then(function(session){
-                                                updateSessionTiming(session, delta, revertDate, true);
-                                            });
+                                        updateSessionTiming(event.course, delta, revertDate, true);
                                     } else {
-                                        updateSessionTiming(session, delta, revertDate, false);
+                                        updateSessionTiming(event.session, delta, revertDate, false);
                                     }
                                 }, function(){
                                     revertDate();
                                 });
                             } else {
-                                updateSessionTiming(session, delta, revertDate, false);
+                                updateSessionTiming(event.session, delta, revertDate, false);
                             }
                         }
                     },
@@ -198,49 +193,6 @@ angular.module('scheduling.controllers', [])
                 return isNewRange;
             };
 
-            var loadCurrentRanges = function(removeEvents){
-                startCalendarLoading();
-                var sessionPromises = [];
-                _.forEach($scope.currentRanges, function(range){
-                    if(removeEvents || isNewRange(range)){
-                        var getSessionsParams = {
-                            startDate: range.start.format('YYYY-MM-DD'),
-                            endDate: range.end.format('YYYY-MM-DD'),
-                            locationId: $scope.currentLocationId,
-                            coachId: $scope.currentCoachId,
-                            section: 'Sessions'
-                        };
-                        sessionPromises.push(coachSeekAPIService.get(getSessionsParams).$promise)
-                    }
-                });
-                $q.all(sessionPromises)
-                    .then(function(sessionLists) {
-                        if(removeEvents){
-                            // TODO - figure out how to get calendar element from Dependency Injection?
-                            rangesLoaded = [];
-                            $('#session-calendar').fullCalendar('removeEvents');
-                            events = [];
-                        }
-                        _.forEach(sessionLists, function(sessions){
-                            addSessionsWithinInterval(sessions, removeEvents);
-                        });
-                        $scope.eventSources[0] = events;
-                        _.forEach($scope.currentRanges, function(range){
-                            rangesLoaded.push(range);
-                        });
-                    }, $scope.handleErrors).finally(function(){
-                        stopCalendarLoading();
-                    });
-            };
-
-            var addSessionsWithinInterval = function(sessions, removeEvents){
-                _.forEach(sessions, function(session, index){
-                    var newDate = getNewDate(session.timing);
-                    events.push(buildCalendarEvent(newDate, session));
-                });
-                $scope.eventSources[0] = events;
-            };
-
             var handleServiceDrop = function(date, serviceData){
                 $scope.currentTab = 'general';
                 $scope.showModal = true;
@@ -257,7 +209,58 @@ angular.module('scheduling.controllers', [])
                 });
             };
 
-            var buildCalendarEvent = function(date, session){
+            var loadCurrentRanges = function(removeEvents){
+                startCalendarLoading();
+                var sessionPromises = [];
+                _.forEach($scope.currentRanges, function(range){
+                    if(removeEvents || isNewRange(range)){
+                        var getSessionsParams = {
+                            startDate: range.start.format('YYYY-MM-DD'),
+                            endDate: range.end.format('YYYY-MM-DD'),
+                            locationId: $scope.currentLocationId,
+                            coachId: $scope.currentCoachId,
+                            useNewSearch: true,
+                            section: 'Sessions'
+                        };
+                        sessionPromises.push(coachSeekAPIService.getOne(getSessionsParams).$promise)
+                    }
+                });
+                $q.all(sessionPromises)
+                    .then(function(sessionObjects) {
+                        if(removeEvents){
+                            // TODO - figure out how to get calendar element from Dependency Injection?
+                            rangesLoaded = [];
+                            $('#session-calendar').fullCalendar('removeEvents');
+                            events = [];
+                        }
+                        _.forEach(sessionObjects, function(sessionObject){
+                            addSessionsWithinInterval(sessionObject.sessions);
+                            addCoursesWithinInterval(sessionObject.courses);
+                        });
+                        $scope.eventSources[0] = events;
+                        _.forEach($scope.currentRanges, function(range){
+                            rangesLoaded.push(range);
+                        });
+                    }, $scope.handleErrors).finally(function(){
+                        stopCalendarLoading();
+                    });
+            };
+
+            var addCoursesWithinInterval = function(courses){
+                _.forEach(courses, function(course){
+                    addSessionsWithinInterval(course.sessions, course)
+                });
+            };
+
+            var addSessionsWithinInterval = function(sessions, course){
+                _.forEach(sessions, function(session){
+                    var newDate = getNewDate(session.timing);
+                    events.push(buildCalendarEvent(newDate, session, course));
+                });
+                $scope.eventSources[0] = events;
+            };
+
+            var buildCalendarEvent = function(date, session, course){
                 var dateClone = date.clone();
                 var duration = session.timing.duration;
                 // set default display length to never be less than 30
@@ -272,7 +275,8 @@ angular.module('scheduling.controllers', [])
                     allDay: false,
                     className: session.presentation.colour,
                     // calendar events need to know about sessions. adding as extra attribute.
-                    session: session
+                    session: session,
+                    course: course
                 };
             };
 
@@ -341,32 +345,31 @@ angular.module('scheduling.controllers', [])
             $scope.saveModalEdit = function(){
                 forceFormTouched();
                 if($scope.currentSessionForm.$valid){
-                    var session = $scope.currentEvent.session;
-                    if(session.parentId){
+                    var course = $scope.currentEvent.course;
+                    if(course){
                         sessionOrCourseModal($scope).then(function(id){
-                            if(id === session.parentId){
-                                startCalendarLoading();
-                                coachSeekAPIService.getOne({section: "Sessions", id: id})
-                                    .$promise.then(function(course){
-                                        _.assign(session, {
-                                            id: course.id,
-                                            repetition: course.repetition,
-                                            timing: {
-                                                duration: session.timing.duration,
-                                                startDate: course.timing.startDate,
-                                                startTime: session.timing.startTime
-                                            }
-                                        });
-                                        saveSession(session);
-                                    });
+                            if(id === course.id){
+                                saveSession(assignCourseAttributes(course));
                             } else {
-                                saveSession(session);
+                                saveSession($scope.currentEvent.session);
                             }
                         });
                     } else {
-                        saveSession(session);
+                        saveSession($scope.currentEvent.session);
                     }
                 }
+            };
+
+            var assignCourseAttributes = function(course){
+                return _.assign($scope.currentEvent.session, {
+                    id: course.id,
+                    repetition: course.repetition,
+                    timing: {
+                        duration: $scope.currentEvent.session.timing.duration,
+                        startDate: course.sessions[0].timing.startDate,
+                        startTime: $scope.currentEvent.session.timing.startTime
+                    }
+                });
             };
 
             var saveSession = function(session){
@@ -385,7 +388,7 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.deleteSession = function(){
-                if($scope.currentEvent.session.parentId){
+                if($scope.currentEvent.course){
                     sessionOrCourseModal($scope).then(deleteSessions);
                 } else {
                     deleteSessions($scope.currentEvent.session.id)
