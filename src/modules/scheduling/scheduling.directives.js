@@ -149,30 +149,16 @@ angular.module('scheduling.directives', [])
 			replace: false,
 			templateUrl:'scheduling/partials/customerBooking.html',
 			link: function(scope){
-				var paymentStatusOptions = [
-					'awaiting-invoice',
-					'awaiting-payment',
-					'paid',
-					'overdue'
-				];
-
-				var paymentStatusIndex = _.indexOf(paymentStatusOptions, scope.booking.paymentStatus);
-    			if(paymentStatusIndex === -1) paymentStatusIndex = 0;
-				scope.paymentStatus = paymentStatusOptions[paymentStatusIndex];
 
 				scope.toggleAttendance = function(){
-					var updateAttendance = {
+					updateBooking({
 						commandName: 'BookingSetAttendance',
 						hasAttended: !scope.booking.hasAttended
-					}
-
-					scope.bookingLoading = true;
-					coachSeekAPIService.update({section: 'Bookings', id: scope.booking.id}, updateAttendance)
-					    .$promise.then(function(){
-					    	scope.booking.hasAttended = !scope.booking.hasAttended;
-					    },scope.handleErrors).finally(function(){
-							scope.bookingLoading = false;
-                        });
+					}).then(function(){
+				    	scope.booking.hasAttended = !scope.booking.hasAttended;
+				    },scope.handleErrors).finally(function(){
+						scope.bookingLoading = false;
+                    });
 				};
 
 				scope.removeBooking = function(){
@@ -185,11 +171,22 @@ angular.module('scheduling.directives', [])
                         });
 				};
 
+				var paymentStatusOptions = [
+					'awaiting-invoice',
+					'awaiting-payment',
+					'paid',
+					'overdue'
+				];
+
+				var paymentStatusIndex = _.indexOf(paymentStatusOptions, scope.booking.paymentStatus);
+				// if we havn't set payment status set to default
+    			if(paymentStatusIndex === -1) paymentStatusIndex = 0;
+				scope.paymentStatus = paymentStatusOptions[paymentStatusIndex];
+
 				scope.changePaymentStatus = function(){
-					if(paymentStatusIndex + 1 === _.size(paymentStatusOptions)) {
+					paymentStatusIndex++;
+					if(paymentStatusIndex === _.size(paymentStatusOptions)) {
 						paymentStatusIndex = 0;
-					} else {
-						paymentStatusIndex++;
 					}
 
 					scope.paymentStatus = paymentStatusOptions[paymentStatusIndex];
@@ -197,19 +194,20 @@ angular.module('scheduling.directives', [])
 				};
 
 				var savePaymentStatus = _.debounce(function(){
-					var updatePaymentStatus = {
+					updateBooking({
 						commandName: 'BookingSetPaymentStatus',
 						paymentStatus: scope.paymentStatus
-					}
-
-					scope.bookingLoading = true;
-					coachSeekAPIService.update({section: 'Bookings', id: scope.booking.id}, updatePaymentStatus)
-					    .$promise.then(function(){
-					    	scope.booking.paymentStatus = scope.paymentStatus;
-					    },scope.handleErrors).finally(function(){
-							scope.bookingLoading = false;
-                        });
+					}).then(function(){
+				    	scope.booking.paymentStatus = scope.paymentStatus;
+				    },scope.handleErrors).finally(function(){
+						scope.bookingLoading = false;
+                    });
 				}, 1000);
+
+				function updateBooking(updateCommand){
+					scope.bookingLoading = true;
+					return coachSeekAPIService.update({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
+				}
 			}
 		}
 	}]);

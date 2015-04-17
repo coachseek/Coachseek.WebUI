@@ -9,7 +9,8 @@ var $testRegion,
     createViewWithController,
     createDirective,
     Intercom,
-    loginModalStub;
+    loginModalStub,
+    clock;
 
 beforeEach(module('app'));
 
@@ -26,6 +27,10 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
     $q = _$q_;
     $state = _$state_;
     $timeout = _$timeout_;
+
+    // these two lines are here so we can use sinon fakeTimers to move debounce/throttle forward
+    clock = sinon.useFakeTimers();
+    _ = _.runInContext();
 
     $controller('appCtrl', {
         $scope: $rootScope
