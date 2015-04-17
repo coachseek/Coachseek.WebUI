@@ -22,7 +22,9 @@
 		"daily-plural": "days",
 		"placeholder": {
 			"session-count": "1"
-		}
+		},
+		"yes":"Yes",
+		"no":"No"
 	},
 	"business-details": {
 		"name": "Business Name",

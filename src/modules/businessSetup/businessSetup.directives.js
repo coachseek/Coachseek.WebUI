@@ -4,6 +4,10 @@ angular.module('businessSetup.directives', [])
             {value: 'w', text: 'weekly'},
             {value: 'd', text: 'daily'}
         ];
+        var options = [
+            {value: 1, text:'no' },
+            {value: 2, text:'yes' }
+        ];
         return {
             scope: {
                 repeatFrequency: '=',
@@ -12,6 +16,7 @@ angular.module('businessSetup.directives', [])
             templateUrl: 'businessSetup/partials/repeatSelector.html',
             link: function(scope, elem, attr){
                 scope.frequencies = frequencies;
+                scope.options = options;
 
                 scope.$watch('sessionCount', function(newVal){
                     if(!scope.isFocused){
@@ -43,6 +48,8 @@ angular.module('businessSetup.directives', [])
                     }
                     scope.setValues();
                 };
+            
+                scope.isSelected = scope.options[0];
 
                 scope.showStatus = function() {
                     var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
