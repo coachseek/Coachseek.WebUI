@@ -11,7 +11,7 @@
 				a {
 					font-size: 16px;
 					display: block;
-					width: 200px;
+					width: 170px;
 					text-align: center;
 					padding: 10px 20px;
 					text-decoration: none;
@@ -31,6 +31,8 @@
 				position: fixed;
 				bottom: 0;
 				right: 100px;
+				text-align: right;
+
 				.back-link {
 					font-decoration: none;
 					color: #00A478;
@@ -76,13 +78,44 @@
 		display: block;
 	}
 
+	.remember-me {
+		input[type=checkbox] {
+			float: right;
+			width: 10px;
+			vertical-align: middle;
+			line-height: 20px;
+			height: 20px;
+			margin: 0;
+		}
+	}
+
 	.bold {
 		font-weight: bold;
+	}
+
+	.section-disabled {
+		color: #ccc !important;
 	}
 
 	.container-center {
 		max-width: 450px;
 		margin: 0 auto;
+	}
+
+	.session-row {
+	  height: 30px;
+	  line-height: 30px;
+		label {
+			width: 100%;
+			input[type=checkbox] {
+				float: right;
+				width: 10px;
+				vertical-align: middle;
+				line-height: 30px;
+				height: 30px;
+				margin: 0;
+			}
+		}
 	}
 
 	.session {
@@ -115,7 +148,7 @@
 			display: inline-block;
 			cursor: pointer;
 			width: 45%;
-			margin: 10px;
+			margin: 2%;
 			padding: 10px 12.5px;
 			background: $white;
 			overflow: hidden;
@@ -222,7 +255,6 @@
 			&.course-details {
 				width: 46%;
 				padding: 5px;
-				margin: 5px;
 			}
 		}
 

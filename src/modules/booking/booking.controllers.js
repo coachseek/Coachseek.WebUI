@@ -2,70 +2,86 @@ angular
 .module('booking.controllers', [])
 .controller('bookingCtrl', ['$scope', '$location', '$q', '$state', 'coachSeekAPIService',
 function ($scope, $location, $q, $state, coachSeekAPIService) {
+  window.SCOPE = $scope;
   var savedCustomer = localStorage.getItem('customer');
 
+  // Redirect to the location page when you try to load any page from booking
   $state.go('booking.location');
+
+
   $scope.booking = {
     customer: savedCustomer ? JSON.parse(savedCustomer) : null,
-    sessions: [],
-    enquiry: false
+    sessions: []
   };
 
   $scope.filters = {
-    location: "",
-    service: "",
+    location: null,
+    service: null,
     course: null
   };
 
   $scope.selectLocation = function () {
-    $state.go('booking.services');
+    $scope.filters.service = null;
+    $scope.filters.course = null;
+    $scope.courses = null;
+    $scope.booking.sessions = [];
   };
 
   $scope.selectService = function () {
-    $scope.serviceDescription = _($scope.services)
-    .find(function (service) {
-      return service.id === $scope.filters.service;
-    })['description'];
-
+    $scope.filters.course = null;
+    $scope.booking.sessions = [];
     $scope.filterSessions();
   };
 
   $scope.selectCourse = function (course) {
+    if ($scope.filters.course && $scope.filters.course.id === course.id) {
+      return;
+    }
+
+    course.selected = false;
+
+    // Uncheck sessions currently selected
+    if ($scope.filters.course) {
+      $scope.filters.course.sessions = $scope.filters.course.sessions.map(function (session) {
+        session.selected = false;
+        return session;
+      });
+    }
+
     $scope.filters.course = course;
+    $scope.booking.sessions = [];
+
+    if (course.type === 'single-session') {
+      $scope.filters.course.sessions[0].selected = !$scope.filters.course.sessions[0].selected;
+      $scope.booking.sessions = $scope.filters.course.sessions;
+    }
   };
 
-  $scope.selectSession = function (session) {
-    session.selected = !session.selected;
-    if (session.selected) {
-      $scope.booking.sessions.push(session.id);
-    } else {
-      $scope.booking.sessions = _.without($scope.booking.sessions, session.id);
-    }
+  $scope.selectSession = function () {
+    $scope.booking.sessions = $scope.filters.course.sessions.filter(function (session) {
+      return session.selected === true;
+    });
   };
 
   $scope.selectFullCourse = function (course) {
-    course.selected = !course.selected;
-    if (course.selected) {
-      $scope.booking.sessions = [course.id];
-    } else {
-      $scope.booking.sessions = [];
-    }
+    $scope.filters.course.sessions = $scope.filters.course.sessions.map(function (session) {
+      session.selected = course.selected;
+      return session;
+    });
+
+    $scope.selectSession();
   };
 
   $scope.backToLocation = function ($event) {
     $event.preventDefault();
 
-    $scope.filters.service = '';
+    $scope.filters.service = null;
     $scope.filters.course = null;
 
     $state.go('booking.location');
   };
 
   $scope.bookSessions = function () {
-    $scope.booking.sessions = $scope.filters.course.sessions.filter(function (session) {
-      return session.selected === true;
-    });
-
     $state.go('booking.details');
   };
 
@@ -75,14 +91,7 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
   })
   .then(function (response) {
     $scope.locations = response.locations;
-    if (response.locations.length === 1) {
-      $scope.filters.location = response.locations[0].id;
-    }
-
     $scope.services  = response.services;
-    if (response.services.length === 1) {
-      $scope.filters.service = response.services[0].id;
-    }
   },function (error) {
     $scope.handleErrors(error);
   });
@@ -91,8 +100,8 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
     var params = {
       startDate: moment().format('YYYY-MM-DD'),
       endDate: moment().add(12, 'week').format('YYYY-MM-DD'),
-      locationId: filters.location || undefined,
-      serviceId: filters.service || undefined,
+      locationId: filters.location ? filters.location.id : undefined,
+      serviceId: filters.service ? filters.service.id : undefined,
       section: 'Sessions'
     };
 

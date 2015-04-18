@@ -19,6 +19,7 @@
     "title": "Select service:",
     "label": "Service:",
     "error": "Please select a service homie.",
+    "whole-course": "Whole course",
     "description": "Description:"
   },
   "courses": {

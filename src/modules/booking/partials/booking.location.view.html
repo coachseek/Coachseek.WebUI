@@ -6,9 +6,7 @@
         <h2>{{'booking:location-section.title' | i18next}}</h2>
         <div class="form-input section">
           <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
-          <select name="location" ng-model="filters.location" id="location" class="full-width" required>
-              <option value=""></option>
-              <option ng-repeat="location in locations" value="{{location.id}}" ng-selected="filters.location === location.id">{{location.name}}</option>
+          <select name="location" ng-options="location.name for location in locations" ng-model="filters.location" id="location" class="full-width" required ng-change="selectLocation()">
           </select>
             <div class="form-error" ng-show="form.location.$error.required">{{'booking:location-section.error' | i18next}}</div>
         </div>
@@ -20,9 +18,9 @@
 
     </div>
     <div class="row">
-      <div class="col-xs-12">
+      <div class="col-xs-12 col-sm-5">
         <div class="actions">
-          <button type="submit" class="btn-save" ng-disabled="form.$invalid" ng-click="selectLocation()">{{'booking:common.next'|i18next}}</button>
+          <button type="submit" class="btn-save" ui-sref="booking.services" ng-disabled="form.$invalid">{{'booking:common.next'|i18next}}</button>
         </div>
       </div>
     </div>
