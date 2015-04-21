@@ -370,7 +370,7 @@ angular.module('scheduling.controllers', [])
                     repetition: course.repetition,
                     timing: {
                         duration: $scope.currentEvent.session.timing.duration,
-                        startDate: course.sessions[0].timing.startDate,
+                        startDate: course.timing.startDate,
                         startTime: $scope.currentEvent.session.timing.startTime
                     }
                 });
