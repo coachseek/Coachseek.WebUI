@@ -387,10 +387,10 @@ angular.module('scheduling.controllers', [])
                         if(session.sessions){
                             $scope.currentEvent.session = session.sessions[0];
                             $scope.currentEvent.course = session;
+                            setCurrentCourseEvents($scope.currentEvent);
                         } else {
                             $scope.currentEvent.session = session;
                         }
-                        setCurrentCourseEvents($scope.currentEvent);
                     } else {
                         closeModal();
                     }
