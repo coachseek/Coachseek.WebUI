@@ -15,8 +15,12 @@
         <div class="search-container">
             <i class="fa fa-lg fa-search"></i>    
             <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
+            <div class="add-to-titles" ng-if="currentEvent.course">
+                <div>{{'customers:entire-course' | i18next}}</div>
+                <div>{{'customers:single-session' | i18next}}</div>
+            </div>
         </div>
-        <ul infinite-scroll='loadMore()'>
+        <ul infinite-scroll='loadMore()' ng-class="{'short-list': currentEvent.course}">
             <modal-customer-details ng-repeat="item in customerList"></modal-customer-details>
             <div class="no-customers" ng-if="!customerList.length">{{'customers:no-customers-found' | i18next}}</div>
         </ul>

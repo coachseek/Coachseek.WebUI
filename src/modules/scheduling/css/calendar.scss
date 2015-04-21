@@ -146,6 +146,10 @@
                 border-radius: 0;
                 margin: 1px 0;
 
+                &.current-event{
+                    border-width: 3px;
+                }
+
                 .fc-bg{
                     background: none;
                 }

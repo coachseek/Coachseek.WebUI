@@ -107,6 +107,10 @@ angular.module('scheduling.controllers', [])
 
                         $scope.currentEvent = event;
                         currentEventCopy = angular.copy(event);
+
+                        if(event.course){
+                            setCurrentCourseEvents(event);
+                        }
                     },
                     viewRender: function(view){
                         // load one month at a time and keep track of what months
@@ -378,13 +382,25 @@ angular.module('scheduling.controllers', [])
                     if($scope.currentEvent.tempEventId){
                         removeTempEvents();
                         delete $scope.currentEvent.tempEventId;
-                        $scope.currentEvent.session = session.sessions ? session.sessions[0] : session;
+                        if(session.sessions){
+                            $scope.currentEvent.session = session.sessions[0];
+                            $scope.currentEvent.course = session;
+                        } else {
+                            $scope.currentEvent.session = session;
+                        }
+                        setCurrentCourseEvents($scope.currentEvent);
                     } else {
                         closeModal();
                     }
                     $scope.removeAlerts();
                     loadCurrentRanges(true);
                 }, handleCalendarErrors);
+            };
+
+            var setCurrentCourseEvents = function(event){
+                $scope.currentCourseEvents = _.filter($scope.eventSources[0], function(event){
+                    return event.course && event.course.id === $scope.currentEvent.course.id;
+                });
             };
 
             $scope.deleteSession = function(){
