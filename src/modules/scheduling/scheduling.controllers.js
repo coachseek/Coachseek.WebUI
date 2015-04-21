@@ -12,7 +12,6 @@ angular.module('scheduling.controllers', [])
                 tempEventId,
                 currentEventCopy;
 
-            $scope.eventSources[0] = events;
             $scope.draggableOptions = {
                 helper: function(event) {
                     var serviceData = $(this).data('service');
@@ -35,6 +34,7 @@ angular.module('scheduling.controllers', [])
                     allDaySlot: false,
                     slotEventOverlap: false,
                     firstDay: 1,
+                    titleFormat: 'MMM YYYY',
                     snapDuration: '00:15:00',
                     defaultView: $scope.isBigScreen ? 'agendaWeek' : 'agendaDay',
                     eventDurationEditable: false,
