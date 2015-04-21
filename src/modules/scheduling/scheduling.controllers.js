@@ -340,6 +340,8 @@ angular.module('scheduling.controllers', [])
 
             $scope.cancelModalEdit = function(){
                 if(currentEventCopy){
+                    // must keep autosaved edits even if canceled
+                    _.assign(currentEventCopy.session.booking.bookings, $scope.currentEvent.session.booking.bookings);
                     _.assign($scope.currentEvent, currentEventCopy);
                     $('#session-calendar').fullCalendar('updateEvent', $scope.currentEvent);            
                 }
