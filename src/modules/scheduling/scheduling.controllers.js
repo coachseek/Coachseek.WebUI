@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults',
-        function($scope, $q, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults){
+    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults',
+        function($scope, $q, $timeout, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults){
 
             //TODO - add ability to edit time range in modal?
 
