@@ -100,6 +100,9 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
+                        if($currentEvent) $currentEvent.removeClass('current-event');
+                        $currentEvent = $(jsEvent.currentTarget);
+                        $currentEvent.addClass('current-event');
                         if(!$scope.showModal) $scope.currentTab = 'attendance';
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
