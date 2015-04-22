@@ -212,6 +212,7 @@ angular.module('scheduling.controllers', [])
                 _.times(serviceData.repetition.sessionCount, function(index){
                     var newEvent = buildCalendarEvent(moment(date).add(index, repeatFrequency), session);
                     $scope.events.push(newEvent);
+                    $('#session-calendar').fullCalendar('renderEvent', newEvent);
                     if(index === 0){
                         $scope.currentEvent = newEvent;
                     }
