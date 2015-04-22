@@ -142,9 +142,11 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     viewRender: function(view){
-                        var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
-                        $('#session-calendar').fullCalendar('option', 'height', heightToSet);
-                        handleWindowResize(view);
+                        $timeout(function(){
+                            var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
+                            $('#session-calendar').fullCalendar('option', 'height', heightToSet);
+                            handleWindowResize(view);
+                        });
                     },
                     dayClick: function(date, jsEvent, view) {
                         if(!$scope.isBigScreen && view.type === 'month'){
