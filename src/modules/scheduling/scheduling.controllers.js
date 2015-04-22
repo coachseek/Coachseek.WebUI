@@ -127,11 +127,9 @@ angular.module('scheduling.controllers', [])
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
 
-                            if(!Modernizr.touch){
-                                if($currentEvent) $currentEvent.removeClass('current-event');
-                                $currentEvent = $(jsEvent.currentTarget);
-                                $currentEvent.addClass('current-event');
-                            }
+                            if($currentEvent) $currentEvent.removeClass('current-event');
+                            $currentEvent = $(jsEvent.currentTarget);
+                            $currentEvent.addClass('current-event');
                         }
 
                         $scope.currentEvent = event;
