@@ -4,13 +4,14 @@ angular.module('scheduling.controllers', [])
 
             //TODO - add ability to edit time range in modal?
 
+            $scope.events = [];
             $scope.eventSources = [];
             $scope.currentRanges = [];
 
             var rangesLoaded = [],
-                events = [],
                 tempEventId,
-                currentEventCopy;
+                currentEventCopy,
+                $currentEvent;
 
             $scope.draggableOptions = {
                 helper: function(event) {
@@ -64,11 +65,26 @@ angular.module('scheduling.controllers', [])
                     //         }
                     //     }
                     // },
-                    eventRender: function(event, element) {
-                        $('<div></div>', {
-                            class: 'fc-location',
-                            text: event.session.location.name
-                        }).appendTo(element.find('.fc-content'));
+                    events: function(start, end, timezone, renderEvents){
+                        var getSessionsParams = {
+                            startDate: start.format('YYYY-MM-DD'),
+                            endDate: end.format('YYYY-MM-DD'),
+                            locationId: $scope.currentLocationId,
+                            coachId: $scope.currentCoachId,
+                            useNewSearch: true,
+                            section: 'Sessions'
+                        };
+                        startCalendarLoading();
+                        coachSeekAPIService.getOne(getSessionsParams)
+                            .$promise.then(function(sessionObject){
+                                $scope.events = [];
+                                addSessionsWithinInterval(sessionObject.sessions);
+                                addCoursesWithinInterval(sessionObject.courses);
+                                renderEvents($scope.events);
+                            }, $scope.handleErrors).finally(function(){
+                                stopCalendarLoading();
+                            });
+                    },
                     },
                     windowResize: function(view){
                         handleWindowResize(view.name);
@@ -116,13 +132,6 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     viewRender: function(view){
-                        // load one month at a time and keep track of what months
-                        // have been loaded and don't load those. must use month because it
-                        // is the biggest denomination allowed by calendar. if using week/day 
-                        // we load days/weeks twice when switching to month.
-                        determineCurrentRange(view.intervalStart, view.intervalEnd);
-                        loadCurrentRanges();
-
                         var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
                         $('#session-calendar').fullCalendar('option', 'height', heightToSet);
                         handleWindowResize(view);
@@ -148,7 +157,7 @@ angular.module('scheduling.controllers', [])
                 $activityIndicator.startAnimating();
                 updateSession(session).then(function(session){
                     $scope.removeAlerts();
-                    if(reloadRanges) loadCurrentRanges(true);
+                    if(reloadRanges) $('#session-calendar').fullCalendar('refetchEvents');
                 }, function(error){
                     revertDate();
                     handleClashingError(error);
@@ -167,20 +176,11 @@ angular.module('scheduling.controllers', [])
                         $sessionCalendar.fullCalendar('changeView', 'agendaDay');
                     }
                 }
-
                 $sessionCalendar.fullCalendar('option', 'height', ($('.calendar-container').height() - 10));
-            };
-            var determineCurrentRange = function(intervalStart, intervalEnd){
-                $scope.currentRanges = [];
-                $scope.currentRanges.push(moment().range(intervalStart.clone().startOf('month'), intervalStart.clone().endOf('month')));
-                if (intervalStart.format('MM') !== intervalEnd.format('MM')){
-                    $scope.currentRanges.push(moment().range(intervalEnd.clone().startOf('month'), intervalEnd.clone().endOf('month')));
-                }
             };
 
             var handleClashingError = function(error){
                 var clashingMessage = error.data[0].data || error.data;
-
                 clashingMessage = clashingMessage.substring(clashingMessage.indexOf(":") + 2, clashingMessage.indexOf(";"));
 
                 $scope.addAlert({
@@ -188,16 +188,6 @@ angular.module('scheduling.controllers', [])
                     message: 'scheduling:clashing-error',
                     clashingMessage: clashingMessage
                 });
-            };
-
-            var isNewRange = function(newRange){
-                var isNewRange = true;
-                _.forEach(rangesLoaded, function(loadedRange){
-                    if( loadedRange.contains(newRange) ){
-                        isNewRange = false;
-                    }
-                });
-                return isNewRange;
             };
 
             var handleServiceDrop = function(date, serviceData){
@@ -209,62 +199,24 @@ angular.module('scheduling.controllers', [])
 
                 _.times(serviceData.repetition.sessionCount, function(index){
                     var newEvent = buildCalendarEvent(moment(date).add(index, repeatFrequency), session);
-                    events.push(newEvent);
+                    $scope.events.push(newEvent);
                     if(index === 0){
                         $scope.currentEvent = newEvent;
                     }
                 });
             };
 
-            var loadCurrentRanges = function(removeEvents){
-                startCalendarLoading();
-                var sessionPromises = [];
-                _.forEach($scope.currentRanges, function(range){
-                    if(removeEvents || isNewRange(range)){
-                        var getSessionsParams = {
-                            startDate: range.start.format('YYYY-MM-DD'),
-                            endDate: range.end.format('YYYY-MM-DD'),
-                            locationId: $scope.currentLocationId,
-                            coachId: $scope.currentCoachId,
-                            useNewSearch: true,
-                            section: 'Sessions'
-                        };
-                        sessionPromises.push(coachSeekAPIService.getOne(getSessionsParams).$promise)
-                    }
-                });
-                $q.all(sessionPromises)
-                    .then(function(sessionObjects) {
-                        if(removeEvents){
-                            // TODO - figure out how to get calendar element from Dependency Injection?
-                            rangesLoaded = [];
-                            $('#session-calendar').fullCalendar('removeEvents');
-                            events = [];
-                        }
-                        _.forEach(sessionObjects, function(sessionObject){
-                            addSessionsWithinInterval(sessionObject.sessions);
-                            addCoursesWithinInterval(sessionObject.courses);
-                        });
-                        $scope.eventSources[0] = events;
-                        _.forEach($scope.currentRanges, function(range){
-                            rangesLoaded.push(range);
-                        });
-                    }, $scope.handleErrors).finally(function(){
-                        stopCalendarLoading();
-                    });
-            };
-
             var addCoursesWithinInterval = function(courses){
                 _.forEach(courses, function(course){
-                    addSessionsWithinInterval(course.sessions, course)
+                    addSessionsWithinInterval(course.sessions, course);
                 });
             };
 
             var addSessionsWithinInterval = function(sessions, course){
                 _.forEach(sessions, function(session){
                     var newDate = getNewDate(session.timing);
-                    events.push(buildCalendarEvent(newDate, session, course));
+                    $scope.events.push(buildCalendarEvent(newDate, session, course));
                 });
-                $scope.eventSources[0] = events;
             };
 
             var buildCalendarEvent = function(date, session, course){
@@ -281,7 +233,6 @@ angular.module('scheduling.controllers', [])
                     end: moment(dateClone.add(duration, 'minutes')),
                     allDay: false,
                     className: session.presentation.colour,
-                    // calendar events need to know about sessions. adding as extra attribute.
                     session: session,
                     course: course
                 };
@@ -319,7 +270,7 @@ angular.module('scheduling.controllers', [])
                 $scope.currentLocation = _.find($scope.locationList, {id: $scope.currentLocationId});
                 $scope.currentCoach = _.find($scope.coachList, {id: $scope.currentCoachId});
                 $scope.removeAlerts();
-                loadCurrentRanges(true);
+                $('#session-calendar').fullCalendar('refetchEvents');
                 // SET BIZ HOURS
                 // $('#session-calendar').fullCalendar({businessHours: {}});
                 // $('#session-calendar').fullCalendar('render');
@@ -398,12 +349,12 @@ angular.module('scheduling.controllers', [])
                         closeModal();
                     }
                     $scope.removeAlerts();
-                    loadCurrentRanges(true);
+                    $('#session-calendar').fullCalendar('refetchEvents');
                 }, handleCalendarErrors);
             };
 
             var setCurrentCourseEvents = function(event){
-                $scope.currentCourseEvents = _.filter($scope.eventSources[0], function(event){
+                $scope.currentCourseEvents = _.filter($scope.events, function(event){
                     return event.course && event.course.id === $scope.currentEvent.course.id;
                 });
             };
@@ -429,7 +380,7 @@ angular.module('scheduling.controllers', [])
                         });
 
                         closeModal();
-                        loadCurrentRanges(true);
+                        $('#session-calendar').fullCalendar('refetchEvents');
                     },  function(error){
                         $scope.handleErrors(error);
                         stopCalendarLoading();
