@@ -85,6 +85,13 @@ angular.module('scheduling.controllers', [])
                                 stopCalendarLoading();
                             });
                     },
+                    eventRender: function(event, element, view) {
+                        if(view.type !== 'month'){
+                            $('<div></div>', {
+                                class: 'fc-location',
+                                text: event.session.location.name
+                            }).appendTo(element.find('.fc-content'));
+                        }
                     },
                     windowResize: function(view){
                         handleWindowResize(view.name);
