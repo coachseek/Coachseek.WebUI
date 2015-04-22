@@ -1,19 +1,20 @@
 <div class="form-input">
     <label name="repeatable" class="repeat-label">
         {{'businessSetup:repeat-selector.is-repeatable' | i18next}}
-            <select ng-model="isSelected"
-                ng-options="opt as ('businessSetup:repeat-selector.'+opt.text |i18next) for opt in options">
+            <select ng-model="isRepeatable"
+                ng-options="opt as ('businessSetup:repeat-selector.'+opt.text |i18next) for opt in options"
+                ng-change="toggleRepeatable()">
             </select>
     </label>
 </div>
 
-<div class="form-input frequency-selector" ng-show="isSelected.value == 2">
+<div class="form-input frequency-selector" ng-show="isRepeatable.value === true">
     <span>{{'businessSetup:repeat-selector.repeat-session' | i18next}}</span>
+    <span class="total-of">{{'businessSetup:repeat-selector.total-of' | i18next}}</span>
     <select class="repeat-frequency" name="frequency" ng-model="repeatFrequency">
         <option ng-repeat="item in frequencies" value="{{item.value}}" ng-i18next>businessSetup:repeat-selector.{{item.text}}</option>
     </select>
-    {{'businessSetup:repeat-selector.total-of' | i18next}}
     <input class="session-count" name="sessionCount" ng-blur="setValues()" ng-focus="isFocused = true" type="number" ng-model="sessionCount" placeholder="{{'businessSetup:repeat-selector.placeholder.session-count' | i18next}}"  min="1" max="30" step="1"/>
-    <span ng-i18next="{{ showStatus() }}"></span>
+    <span class="days-or-weeks" ng-i18next="{{ showStatus() }}"></span>
     <!-- forever checkbox -->
 </div>

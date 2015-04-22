@@ -97,6 +97,7 @@
                     input{
                         border: 1px solid $light-grey;
                         background: $white;
+                        height: 40px;
 
                         &.time-picker-time{
                             background: $white;
@@ -133,7 +134,43 @@
                         display: block;
                     }
                     select{
+                        height: 40px;
+                        text-indent: 140px;
                         margin: 0;
+                        border: 1px solid $light-grey;
+                        width: 100%;
+                    }
+                    .frequency-selector{
+                        span{
+                            width: 46%;
+                            float: left;
+                        }
+
+                        select.repeat-frequency{
+                            width: 46%;
+                            float: left;
+                            text-indent: 50px;
+                            clear: left;
+                        }
+
+                        .total-of{
+                            width: 46%;
+                            float: right;
+                        }
+
+                        .session-count{
+                            width: 46%;
+                            float: right;
+                            height: 40px;
+                            text-align: left;
+                            padding-left: 40px;
+                        }
+
+                        .days-or-weeks{
+                            position: absolute;
+                            top: 30px;
+                            right: -88px;
+                        }
                     }
                 }
                 label {
@@ -148,7 +185,7 @@
                 }
 
                 .money-sign{
-                    top: 30px;
+                    top: 35px;
                 }
 
                 .error-messages{

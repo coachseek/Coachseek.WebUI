@@ -13,7 +13,7 @@
 		"sunday": "Sunday"
 	},
 	"repeat-selector": {
-		"is-repeatable": "This session is repeatable.",
+		"is-repeatable": "This session is repeatable",
 		"repeat-session": "Repeat this session",
 		"total-of": "for a total of",
 		"weekly": "weekly",
