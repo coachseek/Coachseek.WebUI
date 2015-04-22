@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal',
-        function($scope, $q, coachSeekAPIService, $activityIndicator, sessionOrCourseModal){
+    .controller('schedulingCtrl', ['$scope', '$q', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults',
+        function($scope, $q, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults){
 
             //TODO - add ability to edit time range in modal?
 
@@ -143,10 +143,12 @@ angular.module('scheduling.controllers', [])
                         $('#session-calendar').fullCalendar('option', 'height', heightToSet);
                         handleWindowResize(view);
                     },
-                    dayClick: function(date) {
-                        if(!$scope.isBigScreen){
+                    dayClick: function(date, jsEvent, view) {
+                        if(!$scope.isBigScreen && view.type === 'month'){
                             $('#session-calendar').fullCalendar('changeView', 'agendaDay'); 
                             $('#session-calendar').fullCalendar('gotoDate', date);
+                        } else if (Modernizr.touch) {
+                            handleServiceDrop(date, angular.copy(serviceDefaults))
                         }
                     }
                 }

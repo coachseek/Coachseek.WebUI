@@ -20,6 +20,9 @@
 
 var fc = $.fullCalendar = { version: "2.3.1" };
 var fcViews = fc.views = {};
+var MOUSEDOWN_EVENT = Modernizr.touch ? 'touchstart' : 'mousedown';
+var MOUSEUP_EVENT = Modernizr.touch ? 'touchend' : 'mouseup';
+var MOUSEMOVE_EVENT = Modernizr.touch ? 'touchmove' : 'mousemove';
 
 
 $.fn.fullCalendar = function(options) {
@@ -1647,7 +1650,7 @@ var Popover = Class.extend({
         });
 
         if (options.autoHide) {
-            $(document).on('mousedown', this.documentMousedownProxy = proxy(this, 'documentMousedown'));
+            $(document).on(MOUSEDOWN_EVENT, this.documentMousedownProxy = proxy(this, 'documentMousedown'));
         }
     },
 
@@ -1670,7 +1673,7 @@ var Popover = Class.extend({
             this.el = null;
         }
 
-        $(document).off('mousedown', this.documentMousedownProxy);
+        $(document).off(MOUSEDOWN_EVENT, this.documentMousedownProxy);
     },
 
 
@@ -1949,14 +1952,14 @@ var DragListener = fc.DragListener = Class.extend({
 
     // Call this when the user does a mousedown. Will probably lead to startListening
     mousedown: function(ev) {
-        if (isPrimaryMouseButton(ev)) {
+        if (isPrimaryMouseButton(ev) || ev.type === 'press') {
 
             ev.preventDefault(); // prevents native selection in most browsers
 
             this.startListening(ev);
 
             // start the drag immediately if there is no minimum distance for a drag start
-            if (!this.options.distance) {
+            if (!this.options.distance || ev.type === 'press') {
                 this.startDrag(ev);
             }
         }
@@ -1982,8 +1985,8 @@ var DragListener = fc.DragListener = Class.extend({
             }
 
             $(document)
-                .on('mousemove', this.mousemoveProxy = proxy(this, 'mousemove'))
-                .on('mouseup', this.mouseupProxy = proxy(this, 'mouseup'))
+                .on(MOUSEMOVE_EVENT, this.mousemoveProxy = proxy(this, 'mousemove'))
+                .on(MOUSEUP_EVENT, this.mouseupProxy = proxy(this, 'mouseup'))
                 .on('selectstart', this.preventDefault); // prevents native selection in IE<=8
 
             if (ev) {
@@ -2011,8 +2014,8 @@ var DragListener = fc.DragListener = Class.extend({
 
     // Called when the user moves the mouse
     mousemove: function(ev) {
-        var dx = ev.pageX - this.originX;
-        var dy = ev.pageY - this.originY;
+        var dx = ev.pageX - this.originX || ev.originalEvent.pageX;
+        var dy = ev.pageY - this.originY || ev.originalEvent.pageY;
         var minDistance;
         var distanceSq; // current distance from the origin, squared
 
@@ -2034,7 +2037,6 @@ var DragListener = fc.DragListener = Class.extend({
     // Call this to initiate a legitimate drag.
     // This function is called internally from this class, but can also be called explicitly from outside
     startDrag: function(ev) {
-
         if (!this.isListening) { // startDrag must have manually initiated
             this.startListening();
         }
@@ -2111,8 +2113,8 @@ var DragListener = fc.DragListener = Class.extend({
             }
 
             $(document)
-                .off('mousemove', this.mousemoveProxy)
-                .off('mouseup', this.mouseupProxy)
+                .off(MOUSEMOVE_EVENT, this.mousemoveProxy)
+                .off(MOUSEUP_EVENT, this.mouseupProxy)
                 .off('selectstart', this.preventDefault);
 
             this.mousemoveProxy = null;
@@ -2338,7 +2340,26 @@ var CellDragListener = DragListener.extend({
                 point = constrainPoint(point, subjectRect);
             }
 
-            this.origCell = this.getCell(point.left, point.top);
+            var position = {};
+
+            if(point.left && point.top){
+                position = {
+                    x: point.left,
+                    y: point.top
+                };
+            } else if (ev.pointers){
+                position = {
+                    x: ev.pointers[0].pageX,
+                    y: ev.pointers[0].pageY
+                };
+            } else if (ev.originalEvent.gesture){
+                position = {
+                    x: ev.originalEvent.gesture.center.x,
+                    y: ev.originalEvent.gesture.center.y
+                };
+            }
+
+            this.origCell = this.getCell(position.x, position.y);
 
             // treat the center of the subject as the collision point?
             if (subjectEl && this.options.subjectCenter) {
@@ -2374,7 +2395,26 @@ var CellDragListener = DragListener.extend({
 
         DragListener.prototype.dragStart.apply(this, arguments); // call the super-method
 
-        cell = this.getCell(ev.pageX, ev.pageY); // might be different from this.origCell if the min-distance is large
+        var position = {};
+
+        if(ev.pageX && ev.pageY){
+            position = {
+                x: ev.pageX,
+                y: ev.pageY
+            };
+        } else if (ev.pointers){
+            position = {
+                x: ev.pointers[0].pageX,
+                y: ev.pointers[0].pageY
+            };
+        } else if (ev.originalEvent.gesture){
+            position = {
+                x: ev.originalEvent.gesture.center.x,
+                y: ev.originalEvent.gesture.center.y
+            };
+        }
+
+        cell = this.getCell(position.x, position.y);
 
         // report the initial cell the mouse is over
         // especially important if no min-distance and drag starts immediately
@@ -2390,7 +2430,7 @@ var CellDragListener = DragListener.extend({
 
         DragListener.prototype.drag.apply(this, arguments); // call the super-method
 
-        cell = this.getCell(ev.pageX, ev.pageY);
+        cell = this.getCell(ev.pageX || ev.originalEvent.pageX, ev.pageY || ev.originalEvent.pageY);
 
         if (!isCellsEqual(cell, this.cell)) { // a different cell than before?
             if (this.cell) {
@@ -2455,7 +2495,7 @@ var CellDragListener = DragListener.extend({
     // Gets the cell underneath the coordinates for the given mouse event
     getCell: function(left, top) {
 
-        if (this.coordAdjust) {
+        if (this.coordAdjust && this.coordAdjust.left && this.coordAdjust.top) {
             left += this.coordAdjust.left;
             top += this.coordAdjust.top;
         }
@@ -2536,7 +2576,7 @@ var MouseFollower = Class.extend({
                 this.updatePosition();
             }
 
-            $(document).on('mousemove', this.mousemoveProxy = proxy(this, 'mousemove'));
+            $(document).on(MOUSEMOVE_EVENT, this.mousemoveProxy = proxy(this, 'mousemove'));
         }
     },
 
@@ -2561,7 +2601,7 @@ var MouseFollower = Class.extend({
         if (this.isFollowing && !this.isAnimating) { // disallow more than one stop animation at a time
             this.isFollowing = false;
 
-            $(document).off('mousemove', this.mousemoveProxy);
+            $(document).off(MOUSEMOVE_EVENT, this.mousemoveProxy);
 
             if (shouldRevert && revertDuration && !this.isHidden) { // do a revert animation?
                 this.isAnimating = true;
@@ -3049,7 +3089,13 @@ var Grid = fc.Grid = RowRenderer.extend({
 
         // attach a handler to the grid's root element.
         // jQuery will take care of unregistering them when removeElement gets called.
-        el.on('mousedown', function(ev) {
+        if(Modernizr.touch){
+            el = new Hammer(el.get(0));
+            mousedownEvent = 'press';
+        } else {
+            mousedownEvent = 'mousedown';
+        }
+        el.on(mousedownEvent, function(ev) {
             if (
                 !$(ev.target).is('.fc-event-container *, .fc-more') && // not an an event element, or "more.." link
                 !$(ev.target).closest('.fc-popover').length // not on a popover (like the "more.." events one)
@@ -3132,6 +3178,9 @@ var Grid = fc.Grid = RowRenderer.extend({
             cellOver: function(cell, isOrig, origCell) {
                 if (origCell) { // click needs to have started on a cell
                     dayClickCell = isOrig ? cell : null; // single-cell selection is a day click
+                    if (dayClickCell && Modernizr.touch) {
+                        view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev);
+                    }
                     if (isSelectable) {
                         selectionRange = _this.computeSelection(origCell, cell);
                         if (selectionRange) {
@@ -3150,7 +3199,7 @@ var Grid = fc.Grid = RowRenderer.extend({
                 enableCursor();
             },
             listenStop: function(ev) {
-                if (dayClickCell) {
+                if (dayClickCell && !Modernizr.touch) {
                     view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev);
                 }
                 if (selectionRange) {
@@ -3648,15 +3697,28 @@ Grid.mixin({
                 }
             },
             function(name, func) {
-                // attach the handler to the container element and only listen for real event elements via bubbling
-                _this.el.on(name, '.fc-event-container > *', function(ev) {
-                    var seg = $(this).data('fc-seg'); // grab segment data. put there by View::renderEvents
+                if(Modernizr.touch && name === "mousedown"){
+                    _this.el.hammer({domEvents:true})
+                        // attach the handler to the container element and only listen for real event elements via bubbling
+                        .on('press', '.fc-event-container > *', function(ev) {
+                        var seg = $(this).data('fc-seg'); // grab segment data. put there by View::renderEvents
 
-                    // only call the handlers if there is not a drag/resize in progress
-                    if (seg && !_this.isDraggingSeg && !_this.isResizingSeg) {
-                        return func.call(this, seg, ev); // `this` will be the event element
-                    }
-                });
+                        // only call the handlers if there is not a drag/resize in progress
+                        if (seg && !_this.isDraggingSeg && !_this.isResizingSeg) {
+                            return func.call(this, seg, ev); // `this` will be the event element
+                        }
+                    });
+                } else {
+                    // attach the handler to the container element and only listen for real event elements via bubbling
+                    _this.el.on(name, '.fc-event-container > *', function(ev) {
+                        var seg = $(this).data('fc-seg'); // grab segment data. put there by View::renderEvents
+
+                        // only call the handlers if there is not a drag/resize in progress
+                        if (seg && !_this.isDraggingSeg && !_this.isResizingSeg) {
+                            return func.call(this, seg, ev); // `this` will be the event element
+                        }
+                    });
+                }
             }
         );
     },
@@ -6909,13 +6971,13 @@ var View = fc.View = Class.extend({
 
     // Binds DOM handlers to elements that reside outside the view container, such as the document
     bindGlobalHandlers: function() {
-        $(document).on('mousedown', this.documentMousedownProxy);
+        $(document).on(MOUSEDOWN_EVENT, this.documentMousedownProxy);
     },
 
 
     // Unbinds DOM handlers from elements that reside outside the view container
     unbindGlobalHandlers: function() {
-        $(document).off('mousedown', this.documentMousedownProxy);
+        $(document).off(MOUSEDOWN_EVENT, this.documentMousedownProxy);
     },
 
 
