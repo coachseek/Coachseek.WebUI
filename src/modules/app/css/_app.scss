@@ -160,18 +160,14 @@ button:disabled{
   opacity: 0.5;
 }
 
+
+.logout{
+  cursor: pointer;
+}
+
 .container{
   width: 100% !important;
   max-width: none !important;
-
-  li.logout{
-    height: 55px;
-    line-height: 55px;
-    font-size: 12px;
-    color: white;
-    cursor: pointer;
-    text-align: center;
-  }
 }
 
 hr{
@@ -245,8 +241,6 @@ select-arrows{
       ul{
 
         li{
-
-          // padding:20px 0px 20px 0px;
            &.active{
             background-color: $light-green;
            }
@@ -257,16 +251,6 @@ select-arrows{
             color: $white;
             
           }
-          // &:last-child{
-          //     position: absolute;
-          //     bottom: 0px;
-          //     right: 0px;
-          //     width: 100%;
-             
-          //     background-color: $mobile-background-dark;
-          //     padding:15px 15px 15px 0px;
-
-          // }
         }
       }
 
