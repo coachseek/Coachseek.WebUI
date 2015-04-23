@@ -160,9 +160,22 @@ button:disabled{
   opacity: 0.5;
 }
 
+.fa.kb-link{
+  color: $white;
+  position: absolute;
+  left: 0;
+  font-size: 18px;
+  line-height: 55px;
+  padding: 0;
+
+  &:hover, &:focus{
+    background-color: transparent !important;
+  }
+}
 
 .logout{
   cursor: pointer;
+  float: right;
 }
 
 .container{
