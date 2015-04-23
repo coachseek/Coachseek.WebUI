@@ -7,7 +7,7 @@ angular.module('app',
     'ngSanitize',
     'ngResource',
     'ngTouch',
-  	'ui.bootstrap',
+    'ui.bootstrap',
     'ui.router',
     'jm.i18next',
 

@@ -1,9 +1,9 @@
 angular.module('businessSetup',
-	[
-		'businessSetup.controllers',
+    [
+        'businessSetup.controllers',
         'businessSetup.directives'
-	])
-	.config(['$stateProvider', function ($stateProvider) {
+    ])
+    .config(['$stateProvider', function ($stateProvider) {
         $stateProvider
             .state('businessSetup', {
                 url: "/business-setup",

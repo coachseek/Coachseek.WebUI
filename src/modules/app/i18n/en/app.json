@@ -12,10 +12,10 @@
     "person-details": {
       "name": "Name",
       "remember": "Remember me",
-    	"first-name": "First Name",
-    	"last-name": "Last Name",
-    	"email": "Email address",
-    	"phone": "Phone Number",
+        "first-name": "First Name",
+        "last-name": "Last Name",
+        "email": "Email address",
+        "phone": "Phone Number",
         "password": "Password (at least 6 characters)",
         "availability": "Availability",
         "placeholder": {

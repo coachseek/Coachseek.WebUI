@@ -10,21 +10,21 @@ describe('customerBooking directive', function(){
         };
     });
 
-	let('booking', function(){
-		return {
-			id: '69',
+    let('booking', function(){
+        return {
+            id: '69',
             customer: {
                 firstName: 'User',
                 lastName: 'Guy'
             },
             paymentStatus: 'paid',
             hasAttended: true
-		}
-	});
+        }
+    });
 
-	let('deletePromise', function(){
-	    return $q.defer().promise;
-	});
+    let('deletePromise', function(){
+        return $q.defer().promise;
+    });
 
     let('updatePromise', function(){
         var deferred = $q.defer();
@@ -80,7 +80,7 @@ describe('customerBooking directive', function(){
             $deleteStudent.trigger('click');
         });
         it('should call delete method', function(){
-        	expect(deleteStub).to.be.calledWith({section: 'Bookings', id: this.booking.id});
+            expect(deleteStub).to.be.calledWith({section: 'Bookings', id: this.booking.id});
         });
         describe('while loading', function(){
             it('should set bookingLoading to true', function(){
@@ -103,7 +103,7 @@ describe('customerBooking directive', function(){
                 expect(scope.bookingLoading).to.be.false;
             });
             it('should to remove customer from UI', function(){
-            	expect(_.size(scope.currentEvent.session.booking.bookings)).to.be.equal(0);
+                expect(_.size(scope.currentEvent.session.booking.bookings)).to.be.equal(0);
             });
         });
         describe('when delete fails', function(){

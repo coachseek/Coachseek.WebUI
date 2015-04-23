@@ -1,9 +1,9 @@
 {
     "services-title": "Services",
     "no-services": {
-    	"start": "Oh no!",
-    	"middle": "It looks like you don't have any services set up. Click the button below to add one.",
-    	"end": "e.g. Junior rowing training or advanced tennis serves, either oar..."
+        "start": "Oh no!",
+        "middle": "It looks like you don't have any services set up. Click the button below to add one.",
+        "end": "e.g. Junior rowing training or advanced tennis serves, either oar..."
     },
     "no-students-found": "Add some students to this course.",
     "all-coaches": "All Coaches",
@@ -12,20 +12,20 @@
     "location": "Location:",
     "service-name": "Service name:",
     "service-details": {
-    	"duration": "Session duration:",
-    	"name": "Session name:",
+        "duration": "Session duration:",
+        "name": "Session name:",
         "general": "General",
         "register": "Register",
         "start-time": "Start Time"
-	},
-	"error": {
-		"coach-required": "Coach required.",
-		"location-required": "Location required."
-	},
-	"prompt": {
-		"coach": "Please specify a coach.",
-		"location": "Please specify a location."
-	},
+    },
+    "error": {
+        "coach-required": "Coach required.",
+        "location-required": "Location required."
+    },
+    "prompt": {
+        "coach": "Please specify a coach.",
+        "location": "Please specify a location."
+    },
     "payment-status": {
         "awaiting-invoice": "Awaiting Invoice",
         "awaiting-payment": "Awaiting Payment",

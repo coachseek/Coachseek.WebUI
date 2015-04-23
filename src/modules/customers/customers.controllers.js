@@ -1,31 +1,31 @@
 angular.module('customers.controllers', [])
     .controller('customersCtrl', ['$scope', 'CRUDService',
-    	function($scope, CRUDService){
+        function($scope, CRUDService){
 
-    	$scope.createItem = function(){
+        $scope.createItem = function(){
             if(!$scope.item){
                 $scope.newItem = true;
                 $scope.item = {};
             }
-    	};
+        };
 
-    	$scope.editItem = function(customer){
-    	    _.pull($scope.itemList, customer);
-    	    $scope.itemCopy = angular.copy(customer);
+        $scope.editItem = function(customer){
+            _.pull($scope.itemList, customer);
+            $scope.itemCopy = angular.copy(customer);
 
-    	    $scope.item = customer;
-    	};
+            $scope.item = customer;
+        };
 
-    	$scope.saveItem = function(customer){
-    	    var formValid = CRUDService.validateForm($scope);
-    	    if(formValid){
-    	        CRUDService.update('Customers', $scope, customer);
-    	    }
-    	};
+        $scope.saveItem = function(customer){
+            var formValid = CRUDService.validateForm($scope);
+            if(formValid){
+                CRUDService.update('Customers', $scope, customer);
+            }
+        };
 
-    	$scope.cancelEdit = function(){
-    	    CRUDService.cancelEdit($scope);
-    	};
+        $scope.cancelEdit = function(){
+            CRUDService.cancelEdit($scope);
+        };
 
         $scope.$watchCollection('item', function(newVals){
             if(newVals){
@@ -37,7 +37,7 @@ angular.module('customers.controllers', [])
             }
         });
 
-    	CRUDService.get('Customers', $scope);
+        CRUDService.get('Customers', $scope);
     }])
     .controller('customerSearchCtrl', ['$scope', '$filter', function($scope, $filter){
         var peopleList;

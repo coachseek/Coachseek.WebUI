@@ -1,81 +1,81 @@
 .modal-backdrop{
-	background: $background-beige;
-	opacity: 1 !important;
+    background: $background-beige;
+    opacity: 1 !important;
 }
 .modal-dialog{
-	margin-top: 140px;
-	.modal-content{
-		box-shadow: none;
-		border: none;
-		background: transparent;
+    margin-top: 140px;
+    .modal-content{
+        box-shadow: none;
+        border: none;
+        background: transparent;
 
-		.login-modal-container{
-			height: 340px;
+        .login-modal-container{
+            height: 340px;
           min-width: 250px;
           max-width: 340px;
-			margin: 0 auto;
+            margin: 0 auto;
 
-			.coachseek-logo{
-				background: url("../assets/pics/logo-wordless.png") no-repeat center;
-				height: 75px;
-				width: 75px;
-				margin: 0 auto 30px auto;
-			}
+            .coachseek-logo{
+                background: url("../assets/pics/logo-wordless.png") no-repeat center;
+                height: 75px;
+                width: 75px;
+                margin: 0 auto 30px auto;
+            }
 
-			form{
-				padding: 0;
+            form{
+                padding: 0;
 
-				input{
-					width: 100%;
-					height: 42.5px;
-					$border-radii: 3px;
-					border-radius: 0;
+                input{
+                    width: 100%;
+                    height: 42.5px;
+                    $border-radii: 3px;
+                    border-radius: 0;
 
-					&.login-email{
-						border-top-left-radius: $border-radii;
-						border-top-right-radius: $border-radii;
-					}
+                    &.login-email{
+                        border-top-left-radius: $border-radii;
+                        border-top-right-radius: $border-radii;
+                    }
 
-					&.login-password{
-						border-top: 1px solid #CBCBCB;
-						border-bottom-left-radius: $border-radii;
-						border-bottom-right-radius: $border-radii;
-					}
-				}
+                    &.login-password{
+                        border-top: 1px solid #CBCBCB;
+                        border-bottom-left-radius: $border-radii;
+                        border-bottom-right-radius: $border-radii;
+                    }
+                }
 
-				label{
-				    padding: 2.5px 0px;
-					color: $text-grey;
-					width: 100%;
-					text-align: center;
-					font-size: 14px;
-				}
-			}
+                label{
+                    padding: 2.5px 0px;
+                    color: $text-grey;
+                    width: 100%;
+                    text-align: center;
+                    font-size: 14px;
+                }
+            }
 
-			button.save-button{
-				margin: 25px 0 40px 0;
-				width: 100%;
-				background: $green;
-				color: $white;
-				border: none;
-				border-radius: 5px;
-				padding: 7.5px 25px;
-			}
+            button.save-button{
+                margin: 25px 0 40px 0;
+                width: 100%;
+                background: $green;
+                color: $white;
+                border: none;
+                border-radius: 5px;
+                padding: 7.5px 25px;
+            }
 
-			.new-user{
-				text-align: center;
+            .new-user{
+                text-align: center;
 
-				a{
-					color: $green;
-					margin-left: 5px;
-				}
-			}
-		}
-	}
+                a{
+                    color: $green;
+                    margin-left: 5px;
+                }
+            }
+        }
+    }
 }
 
 @media (max-width: 768px){
-	.modal-dialog{
-		margin-top: 90px;
-	}
+    .modal-dialog{
+        margin-top: 90px;
+    }
 }

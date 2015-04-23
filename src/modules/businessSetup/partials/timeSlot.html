@@ -1,19 +1,19 @@
 <div ng-repeat="weekday in weekdays" ng-class="item.workingHours[weekday].isAvailable ? 'open' : 'closed'" class="weekday">
-	<div class="weekday-text" ng-i18next>businessSetup:weekdays.{{weekday}}</div>
-	<time-range-picker
-		class="slide-closed"
-		ng-model="item.workingHours[weekday]"
-		working-hours="item.workingHours[weekday]"
-		ng-show='item.workingHours[weekday].isAvailable'>
-	</time-range-picker>
-	<button
-		type="button"
-		class="toggle-time-slot"
-		ng-model="item.workingHours[weekday].isAvailable"
-		ng-click="item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable">
-		<i
-			class="fa fa-2x"
-			ng-class="item.workingHours[weekday].isAvailable ? 'fa-angle-left' : 'fa-angle-right' "
-		></i>
-	</button>
+    <div class="weekday-text" ng-i18next>businessSetup:weekdays.{{weekday}}</div>
+    <time-range-picker
+        class="slide-closed"
+        ng-model="item.workingHours[weekday]"
+        working-hours="item.workingHours[weekday]"
+        ng-show='item.workingHours[weekday].isAvailable'>
+    </time-range-picker>
+    <button
+        type="button"
+        class="toggle-time-slot"
+        ng-model="item.workingHours[weekday].isAvailable"
+        ng-click="item.workingHours[weekday].isAvailable = !item.workingHours[weekday].isAvailable">
+        <i
+            class="fa fa-2x"
+            ng-class="item.workingHours[weekday].isAvailable ? 'fa-angle-left' : 'fa-angle-right' "
+        ></i>
+    </button>
 </div>

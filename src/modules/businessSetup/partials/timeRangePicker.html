@@ -3,6 +3,6 @@
 <input type="text" ng-click="editTime('finishTime')" ng-model='workingHours.finishTime' class="time-picker-time finish" ng-readonly="true">
 
 <div class="time-picker-container" ng-show="editingTime">
-	<time-picker ng-if="currentTime === 'startTime'" time="workingHours.startTime"></time-picker>
-	<time-picker ng-if="currentTime === 'finishTime'" time="workingHours.finishTime"></time-picker>
+    <time-picker ng-if="currentTime === 'startTime'" time="workingHours.startTime"></time-picker>
+    <time-picker ng-if="currentTime === 'finishTime'" time="workingHours.finishTime"></time-picker>
 </div>

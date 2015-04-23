@@ -1,67 +1,67 @@
 .session-or-course-modal-backdrop{
-	opacity: 0.3 !important;
-	background: $dark-grey;
+    opacity: 0.3 !important;
+    background: $dark-grey;
 }
 
 .session-or-course-modal-window{
-	.modal-dialog{
-		position: fixed;
-		bottom: 0;
-		left: 0; 
-		width: 300px;
-		z-index: 50000;
-		margin: 0;
+    .modal-dialog{
+        position: fixed;
+        bottom: 0;
+        left: 0; 
+        width: 300px;
+        z-index: 50000;
+        margin: 0;
 
 
-		.modal-content{
-			.alert-container{
-				overflow: hidden;
-				background: $orange;
-				padding: 15px;
-				color: white;
-				margin-bottom: 10px;
+        .modal-content{
+            .alert-container{
+                overflow: hidden;
+                background: $orange;
+                padding: 15px;
+                color: white;
+                margin-bottom: 10px;
 
-				span.fa-close{
-					position: absolute;
-					top: 8px;
-					right: 8px;
-					cursor: pointer;
-				}
+                span.fa-close{
+                    position: absolute;
+                    top: 8px;
+                    right: 8px;
+                    cursor: pointer;
+                }
 
-				.button-container{
-					width: 100%;
+                .button-container{
+                    width: 100%;
 
-					button{
-						width: 40%;
-						height: 30px;
-						border: none;
-						border-radius: 5px;
-						color: $text-dark-grey;
-						background: $white;
+                    button{
+                        width: 40%;
+                        height: 30px;
+                        border: none;
+                        border-radius: 5px;
+                        color: $text-dark-grey;
+                        background: $white;
 
-						&.session-button{
-							float: left;
-							margin-left: 5px;
-						}
+                        &.session-button{
+                            float: left;
+                            margin-left: 5px;
+                        }
 
-						&.course-button{
-							float: right;
-							margin-right: 5px;
-						}
-					}
-				}
-			}
-		}
-	}
+                        &.course-button{
+                            float: right;
+                            margin-right: 5px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 @media (max-width: 767px){
-	.session-or-course-modal-window{
-		.modal-dialog{
-			.modal-content{
-				.alert-container{
-					margin-bottom: 0px;
-				}
-			}
-		}
-	}
+    .session-or-course-modal-window{
+        .modal-dialog{
+            .modal-content{
+                .alert-container{
+                    margin-bottom: 0px;
+                }
+            }
+        }
+    }
 }

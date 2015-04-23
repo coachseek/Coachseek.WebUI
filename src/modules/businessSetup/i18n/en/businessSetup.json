@@ -1,102 +1,102 @@
 {
-	"title": "Setup:",
-	"coach-list-title": "Coach List",
-	"coach-services-title": "Services",
+    "title": "Setup:",
+    "coach-list-title": "Coach List",
+    "coach-services-title": "Services",
 
-	"weekdays": {
-		"monday": "Monday",
-		"tuesday": "Tuesday",
-		"wednesday": "Wednesday",
-		"thursday": "Thursday",
-		"friday": "Friday",
-		"saturday": "Saturday",
-		"sunday": "Sunday"
-	},
-	"repeat-selector": {
-		"is-repeatable": "This session is repeatable",
-		"repeat-session": "Repeat this session",
-		"total-of": "for a total of",
-		"weekly": "weekly",
-		"weekly-plural": "weeks",
-		"daily": "daily",
-		"daily-plural": "days",
-		"placeholder": {
-			"session-count": "1"
-		},
-		"yes":"Yes",
-		"no":"No"
-	},
-	"business-details": {
-		"name": "Business Name",
-		"placeholder": {
-			"name": "e.g. Ball So Hard University"
-		}
-	},
-	"service-details": {
-		"name": "Name",
-		"description": "Service Description",
-		"student-capacity": "Maximum Number of Students",
-		"service-colour": "Service Colour (green will become default color)",
-		"course-price": "Entire course price",
-		"session-price": "Per session price",
-		"duration": "Service duration (in minutes)",
-		"repeat-frequency": "Repeat course",
-		"placeholder": {
-			"name": "How to Ball Hard",
-			"description": "We show you how to...",
-			"student-capacity": "Min. 1",
-			"course-price": "0.00",
-			"session-price": "0.00",
-			"duration": "30min"
-		}
-	},
-	"location-details": {
-		"name": "Name of location",
-		"address": "Address",
-		"city": "City",
-		"post-code": "Post Code",
-		"country": "Country",
-		"placeholder": {
-			"name": "e.g. Bushwood Country Club or Online",
-			"address": "123 Weball Street",
-			"city": "Auckland",
-			"post-code": "Winning",
-			"country": "New Zealand"
+    "weekdays": {
+        "monday": "Monday",
+        "tuesday": "Tuesday",
+        "wednesday": "Wednesday",
+        "thursday": "Thursday",
+        "friday": "Friday",
+        "saturday": "Saturday",
+        "sunday": "Sunday"
+    },
+    "repeat-selector": {
+        "is-repeatable": "This session is repeatable",
+        "repeat-session": "Repeat this session",
+        "total-of": "for a total of",
+        "weekly": "weekly",
+        "weekly-plural": "weeks",
+        "daily": "daily",
+        "daily-plural": "days",
+        "placeholder": {
+            "session-count": "1"
+        },
+        "yes":"Yes",
+        "no":"No"
+    },
+    "business-details": {
+        "name": "Business Name",
+        "placeholder": {
+            "name": "e.g. Ball So Hard University"
+        }
+    },
+    "service-details": {
+        "name": "Name",
+        "description": "Service Description",
+        "student-capacity": "Maximum Number of Students",
+        "service-colour": "Service Colour (green will become default color)",
+        "course-price": "Entire course price",
+        "session-price": "Per session price",
+        "duration": "Service duration (in minutes)",
+        "repeat-frequency": "Repeat course",
+        "placeholder": {
+            "name": "How to Ball Hard",
+            "description": "We show you how to...",
+            "student-capacity": "Min. 1",
+            "course-price": "0.00",
+            "session-price": "0.00",
+            "duration": "30min"
+        }
+    },
+    "location-details": {
+        "name": "Name of location",
+        "address": "Address",
+        "city": "City",
+        "post-code": "Post Code",
+        "country": "Country",
+        "placeholder": {
+            "name": "e.g. Bushwood Country Club or Online",
+            "address": "123 Weball Street",
+            "city": "Auckland",
+            "post-code": "Winning",
+            "country": "New Zealand"
 
-		}
-	},
-	"add-coach": "Add Coach",
-	"add-service": "Add Service",
-	"add-location": "Add Location",
+        }
+    },
+    "add-coach": "Add Coach",
+    "add-service": "Add Service",
+    "add-location": "Add Location",
 
-	"nav-to-locations": "Locations",
-	"nav-to-services": "Services",
-	"nav-to-coaches": "Coaches",
-	"nav-to-business": "Business",
+    "nav-to-locations": "Locations",
+    "nav-to-services": "Services",
+    "nav-to-coaches": "Coaches",
+    "nav-to-business": "Business",
 
-	"firstName-invalid": "Oops! First Name is invalid. Try again.",
-	"lastName-invalid": "Oops! Last Name is invalid. Try again.",
-	"name-invalid": "Oops! Name is invalid. Try again.",
-	"email-invalid": "Oops! Email is invalid. Try again.",
-	"phone-invalid": "Oops! Phone number is invalid. Try again.",
-	"timeRange-invalid": "Oops! Looks like one of your time ranges is wrong. Fix that up or cancel.",
-	"studentCapacity-invalid": "Oops! Looks like you need to add some digits to your Student Capacity. Try again.",
-	"sessionPrice-invalid": "Oops! Looks like your Session Price isn't a price. Try again.",
-	"coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
-	"password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
-	"postCode-invalid": "Oops! Looks like your Post Code isn't quite right. Try again.",
+    "firstName-invalid": "Oops! First Name is invalid. Try again.",
+    "lastName-invalid": "Oops! Last Name is invalid. Try again.",
+    "name-invalid": "Oops! Name is invalid. Try again.",
+    "email-invalid": "Oops! Email is invalid. Try again.",
+    "phone-invalid": "Oops! Phone number is invalid. Try again.",
+    "timeRange-invalid": "Oops! Looks like one of your time ranges is wrong. Fix that up or cancel.",
+    "studentCapacity-invalid": "Oops! Looks like you need to add some digits to your Student Capacity. Try again.",
+    "sessionPrice-invalid": "Oops! Looks like your Session Price isn't a price. Try again.",
+    "coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
+    "password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
+    "postCode-invalid": "Oops! Looks like your Post Code isn't quite right. Try again.",
 
-	"error": {
-		"maxlength": "This is too long.",
-		"minlength": "Oops! Too short.",
-		"duplicatename": "Oops! This name is a duplicate.",
-		"email": "Email is not valid.",
-		"required": "This field is required"
-	},
-	
-	"name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
-	"service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",
-	"location-already-exists": "Oops! It looks like one of your locations already has that name. Try again.",
+    "error": {
+        "maxlength": "This is too long.",
+        "minlength": "Oops! Too short.",
+        "duplicatename": "Oops! This name is a duplicate.",
+        "email": "Email is not valid.",
+        "required": "This field is required"
+    },
+    
+    "name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
+    "service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",
+    "location-already-exists": "Oops! It looks like one of your locations already has that name. Try again.",
 
-	"save-success": "You have successfully saved __alert.name__"
+    "save-success": "You have successfully saved __alert.name__"
 }

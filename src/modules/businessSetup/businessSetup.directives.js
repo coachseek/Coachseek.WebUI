@@ -84,10 +84,10 @@ angular.module('businessSetup.directives', [])
             }
         };
     })
-	.directive('timeSlot', function(){
-		return {
-			replace: false,
-			templateUrl: 'businessSetup/partials/timeSlot.html',
+    .directive('timeSlot', function(){
+        return {
+            replace: false,
+            templateUrl: 'businessSetup/partials/timeSlot.html',
             link: function(scope){
                 scope.weekdays = [
                     'monday', 
@@ -99,8 +99,8 @@ angular.module('businessSetup.directives', [])
                     'sunday'
                 ];
             }
-		};
-	})
+        };
+    })
     .directive('timePicker', function(){
         return {
             replace: true,

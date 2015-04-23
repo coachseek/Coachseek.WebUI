@@ -1,12 +1,12 @@
 angular.module('app.services', [])
-	.factory('coachSeekAPIService', ['$resource', function($resource) {
-	    return $resource('http://api.coachseek.com/:section/:id', {}, {
+    .factory('coachSeekAPIService', ['$resource', function($resource) {
+        return $resource('http://api.coachseek.com/:section/:id', {}, {
             get:    { method: 'GET', isArray: true},
-	        getOne: { method: 'GET'},
-	        update: { method: 'POST'},
-	        delete: { method: 'DELETE'}
-	    });
-	}])
+            getOne: { method: 'GET'},
+            update: { method: 'POST'},
+            delete: { method: 'DELETE'}
+        });
+    }])
     .service('CRUDService', ['coachSeekAPIService', '$activityIndicator',
         function(coachSeekAPIService, $activityIndicator){
 
@@ -90,23 +90,23 @@ angular.module('app.services', [])
             }
         };
     }])
-	.service('loginModal', ['$modal', '$rootScope',
-		function ($modal, $rootScope) {
-			function assignCurrentUser (user) {
+    .service('loginModal', ['$modal', '$rootScope',
+        function ($modal, $rootScope) {
+            function assignCurrentUser (user) {
                 $rootScope.setupCurrentUser(user);
-				return user;
-			}
+                return user;
+            }
 
-			return function() {
-				var instance = $modal.open({
-					templateUrl: 'app/partials/loginModal.html',
-					controller: 'loginModalCtrl',
-					backdropClass: 'modal-backdrop',
+            return function() {
+                var instance = $modal.open({
+                    templateUrl: 'app/partials/loginModal.html',
+                    controller: 'loginModalCtrl',
+                    backdropClass: 'modal-backdrop',
                     backdrop: 'static',
                     keyboard: false
-				});
+                });
 
-				return instance.result.then(assignCurrentUser);
-			};
-		}
-	]);
+                return instance.result.then(assignCurrentUser);
+            };
+        }
+    ]);
