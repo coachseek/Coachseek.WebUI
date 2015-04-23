@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults',
-        function($scope, $q, $timeout, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults){
+    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig',
+        function($scope, $q, $timeout, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig){
 
             //TODO - add ability to edit time range in modal?
 
@@ -142,14 +142,14 @@ angular.module('scheduling.controllers', [])
                     viewRender: function(view){
                         $timeout(function(){
                             var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
-                            $('#session-calendar').fullCalendar('option', 'height', heightToSet);
+                            uiCalendarConfig.calendars.sessionCalendar.fullCalendar('option', 'height', heightToSet);
                             handleWindowResize(view);
                         });
                     },
                     dayClick: function(date, jsEvent, view) {
                         if(!$scope.isBigScreen && view.type === 'month'){
-                            $('#session-calendar').fullCalendar('changeView', 'agendaDay'); 
-                            $('#session-calendar').fullCalendar('gotoDate', date);
+                            uiCalendarConfig.calendars.sessionCalendar.fullCalendar('changeView', 'agendaDay');
+                            uiCalendarConfig.calendars.sessionCalendar.fullCalendar('gotoDate', date);
                         } else if (Modernizr.touch) {
                             handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
@@ -169,7 +169,7 @@ angular.module('scheduling.controllers', [])
                 $activityIndicator.startAnimating();
                 updateSession(session).then(function(session){
                     $scope.removeAlerts();
-                    if(reloadRanges) $('#session-calendar').fullCalendar('refetchEvents');
+                    if(reloadRanges) uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 }, function(error){
                     revertDate();
                     handleClashingError(error);
@@ -178,7 +178,7 @@ angular.module('scheduling.controllers', [])
                 });
             };
             var handleWindowResize = function(viewName){
-                var $sessionCalendar = $('#session-calendar');
+                var $sessionCalendar = uiCalendarConfig.calendars.sessionCalendar;
                 if($scope.isBigScreen){
                     $sessionCalendar.find('.fc-agendaWeek-button').show();
                 } else {
@@ -212,7 +212,7 @@ angular.module('scheduling.controllers', [])
                 _.times(serviceData.repetition.sessionCount, function(index){
                     var newEvent = buildCalendarEvent(moment(date).add(index, repeatFrequency), session);
                     $scope.events.push(newEvent);
-                    $('#session-calendar').fullCalendar('renderEvent', newEvent);
+                    uiCalendarConfig.calendars.sessionCalendar.fullCalendar('renderEvent', newEvent);
                     if(index === 0){
                         $scope.currentEvent = newEvent;
                     }
@@ -283,10 +283,10 @@ angular.module('scheduling.controllers', [])
                 $scope.currentLocation = _.find($scope.locationList, {id: $scope.currentLocationId});
                 $scope.currentCoach = _.find($scope.coachList, {id: $scope.currentCoachId});
                 $scope.removeAlerts();
-                $('#session-calendar').fullCalendar('refetchEvents');
+                uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 // SET BIZ HOURS
-                // $('#session-calendar').fullCalendar({businessHours: {}});
-                // $('#session-calendar').fullCalendar('render');
+                // uiCalendarConfig.calendars.sessionCalendar.fullCalendar({businessHours: {}});
+                // uiCalendarConfig.calendars.sessionCalendar.fullCalendar('render');
             };
 
             // var buildAvailableHours = function(coachAvailibility){}
@@ -310,7 +310,7 @@ angular.module('scheduling.controllers', [])
                     // must keep autosaved edits even if canceled
                     _.assign(currentEventCopy.session.booking.bookings, $scope.currentEvent.session.booking.bookings);
                     _.assign($scope.currentEvent, currentEventCopy);
-                    $('#session-calendar').fullCalendar('updateEvent', $scope.currentEvent);            
+                    uiCalendarConfig.calendars.sessionCalendar.fullCalendar('updateEvent', $scope.currentEvent);
                 }
                 closeModal(true);
             };
@@ -362,7 +362,7 @@ angular.module('scheduling.controllers', [])
                         closeModal();
                     }
                     $scope.removeAlerts();
-                    $('#session-calendar').fullCalendar('refetchEvents');
+                    uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 }, handleCalendarErrors);
             };
 
@@ -393,7 +393,7 @@ angular.module('scheduling.controllers', [])
                         });
 
                         closeModal();
-                        $('#session-calendar').fullCalendar('refetchEvents');
+                        uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                     },  function(error){
                         $scope.handleErrors(error);
                         stopCalendarLoading();
@@ -429,7 +429,7 @@ angular.module('scheduling.controllers', [])
 
             var removeTempEvents = function(){
                 if(tempEventId){
-                    $('#session-calendar').fullCalendar('removeEvents', tempEventId);
+                    uiCalendarConfig.calendars.sessionCalendar.fullCalendar('removeEvents', tempEventId);
                     tempEventId = null;
                 }
             };

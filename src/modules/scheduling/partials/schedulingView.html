@@ -27,7 +27,7 @@
             </select>
         </div>
         <div class="coach-title" ng-show="isBigScreen">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div>
-        <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+        <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="sessionCalendar"></div>
     </div>
 
     <div class="session-modal session-modal-responsive" ng-show="showModal">

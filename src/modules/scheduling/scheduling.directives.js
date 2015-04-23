@@ -6,7 +6,7 @@ angular.module('scheduling.directives', [])
             templateUrl:'scheduling/partials/schedulingServicesList.html'
         };
     })
-    .directive('modalSessionForm', function(){
+    .directive('modalSessionForm', ['uiCalendarConfig', function(uiCalendarConfig){
         return {
             restrict: "E",
             replace: false,
@@ -31,12 +31,12 @@ angular.module('scheduling.directives', [])
                 var updateCurrentEvent = function(){
                     //TODO - why does this freak out when currentEvent is a new event?
                     if(!scope.currentEvent.tempEventId){
-                        $('#session-calendar').fullCalendar('updateEvent', scope.currentEvent);
+                        uiCalendarConfig.calendar.sessionCalendar.fullCalendar('updateEvent', scope.currentEvent);
                     }
                 };
             }
         };
-    })
+    }])
     .directive('startTimePicker', function(){
         return {
             scope: {
