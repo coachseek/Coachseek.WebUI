@@ -35,7 +35,7 @@ angular.module('businessSetup.controllers', [])
                 admin:{
                     email: $scope.currentUser
                 }
-            }]
+            }];
         }
         // CRUDService.get('BusinessRegistration', $scope);
     }])

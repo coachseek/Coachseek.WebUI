@@ -67,7 +67,7 @@ angular.module('scheduling.directives', [])
 					});
 				});
 			}
-		}
+		};
 	})
 	.directive('modalSessionAttendanceList', ['coachSeekAPIService', function(coachSeekAPIService){
 		return {
@@ -101,7 +101,7 @@ angular.module('scheduling.directives', [])
 				scope.addStudent = function(addToCourse){
 					if(scope.isCourseStudent && !addToCourse){
 						var courseBooking = _.find(scope.currentEvent.course.booking.bookings, function(booking){
-							return booking.customer.id === scope.item.id
+							return booking.customer.id === scope.item.id;
 						});
 
 						scope.bookingLoading = true;
@@ -149,7 +149,7 @@ angular.module('scheduling.directives', [])
 						});
 						if(booking) _.pull(event.session.booking.bookings, booking);
 					});
-				};
+				}
 
 				function saveBooking(addToCourse){
 					var bookingObject = buildBooking(addToCourse);
@@ -173,7 +173,7 @@ angular.module('scheduling.directives', [])
 						}, scope.handleErrors).finally(function(){
 							scope.bookingLoading = false;
 						});
-				};
+				}
 
 				function addBookingsToCourseSessions(courseBooking){
 					_.each(scope.currentCourseEvents, function(event){
@@ -208,7 +208,7 @@ angular.module('scheduling.directives', [])
 					return _.filter(bookings, function(booking){
 						return booking.customer.id === scope.item.id;
 					});
-				};
+				}
 
 				function buildBooking(addToCourse){
 					return {
@@ -224,7 +224,7 @@ angular.module('scheduling.directives', [])
 						paymentStatus: "awaiting-invoice",
 						hasAttended: false
 					};
-				};
+				}
 			}
 		};
 	}])
@@ -271,7 +271,7 @@ angular.module('scheduling.directives', [])
 						},scope.handleErrors).finally(function(){
 							scope.bookingLoading = false;
 						});
-				};
+				}
 
 				function removeBookingsFromCourseSessions(){
 					_.each(scope.currentCourseEvents, function(event){
@@ -280,7 +280,7 @@ angular.module('scheduling.directives', [])
 						});
 						if(booking) _.pull(event.session.booking.bookings, booking);
 					});
-				};
+				}
 
 				var paymentStatusOptions = [
 					'awaiting-invoice',
@@ -320,5 +320,5 @@ angular.module('scheduling.directives', [])
 					return coachSeekAPIService.update({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
 				}
 			}
-		}
+		};
 	}]);

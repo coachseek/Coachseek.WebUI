@@ -94,9 +94,9 @@ angular.module('app.controllers', [])
             });
 
             $rootScope.isCollapsed = true;
-            $rootScope.isBigScreen = $(window).width() > 767 
+            $rootScope.isBigScreen = $(window).width() > 767;
             $(window).on('resize', function () {
-                $rootScope.isBigScreen = $(this).width() > 767 ;
+                $rootScope.isBigScreen = $(this).width() > 767;
             });
            
 
@@ -115,7 +115,7 @@ angular.module('app.controllers', [])
                             var user = {
                                 email: email,
                                 password: password
-                            }
+                            };
                             $scope.$close(user);
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;

@@ -151,7 +151,7 @@ angular.module('scheduling.controllers', [])
                             $('#session-calendar').fullCalendar('changeView', 'agendaDay'); 
                             $('#session-calendar').fullCalendar('gotoDate', date);
                         } else if (Modernizr.touch) {
-                            handleServiceDrop(date, angular.copy(serviceDefaults))
+                            handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
                     }
                 }
@@ -376,7 +376,7 @@ angular.module('scheduling.controllers', [])
                 if($scope.currentEvent.course){
                     sessionOrCourseModal($scope).then(deleteSessions);
                 } else {
-                    deleteSessions($scope.currentEvent.session.id)
+                    deleteSessions($scope.currentEvent.session.id);
                 }
             };
 

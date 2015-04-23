@@ -61,8 +61,8 @@ angular.module('customers.controllers', [])
             peopleList = $filter('orderBy')(peopleList, ['lastName', 'firstName']);
             peopleList = _.chunk(peopleList, 20);
             $scope.customerList = [];
-            $scope.loadMore();    
-        }
+            $scope.loadMore(); 
+        };
 
         $scope.$on('updateSuccess', function(){
             filterText();
@@ -111,15 +111,15 @@ angular.module('customers.controllers', [])
                     return '<span class="highlighted">' + matched + '</span>';
                 });
             }
-            return $sce.trustAsHtml(text)
-        }
+            return $sce.trustAsHtml(text);
+        };
      }])
     .filter('byLastName', function() {
         return function(items, letter){
             return _.filter(items, function (item) {
                 return new RegExp(letter, "i").test(item.lastName.substring(0, 1));
             });
-        }
+        };
      })
     .filter('searchBox', function(){
         return function(items, value){
@@ -137,9 +137,9 @@ angular.module('customers.controllers', [])
                             if(_.includes(firstName, value) || _.includes(lastName, value) || _.includes(item.phone, value) ){
                                 matches.push(true);
                             }
-                        })
+                        });
                         return matches.length === values.length;
                 });
             }
-        }
+        };
     });
