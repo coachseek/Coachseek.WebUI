@@ -59,6 +59,8 @@ angular.module('app',
     }])
     .run(['$rootScope', '$state', '$stateParams',
         function($rootScope, $state, $stateParams){
+            FastClick.attach(document.body);
+
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
 
