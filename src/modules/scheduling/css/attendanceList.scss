@@ -127,6 +127,10 @@
                 float: left;
             }
             .item-title{
+                max-width: 110px;
+                overflow:hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
                 padding-left: 15px;
                 line-height: 45px;
                 font-size: 14px;
@@ -209,21 +213,20 @@
         padding: 5px 35px 10px 35px;
     }
     .attendance-list div.customer-list ul{
-        height: calc(100vh - 260px);
+        height: calc(100vh - 320px);
             &.short-list{
-                height: calc(100vh - 295px);
+                height: calc(100vh - 355px);
             }
     }
     .attendance-list {
         padding: 0px 10px;
-        .student-list .student-details{
-            .item-title{
-                max-width: 110px;
-                overflow:hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                line-height: 21px;
-                padding-left: 10px;
+        .student-list {
+              height: calc(100vh - 320px);
+            .student-details{
+                .item-title{
+                    line-height: 21px;
+                    padding-left: 10px;
+                }
             }
         }
     }   
