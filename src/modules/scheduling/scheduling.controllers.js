@@ -255,12 +255,10 @@ angular.module('scheduling.controllers', [])
                 return {
                     service: serviceData,
                     location: {
-                        id: $scope.currentLocation ? $scope.currentLocation.id : null,
-                        name: $scope.currentLocation? $scope.currentLocation.name : null
+                        id: $scope.currentLocationId
                     },
                     coach: {
-                        id: $scope.currentCoach ? $scope.currentCoach.id : null,
-                        name: $scope.currentCoach ? $scope.currentCoach.name  : null
+                        id: $scope.currentCoachId
                     },
                     timing: {
                         startDate: date.format('YYYY-MM-DD'),
@@ -280,8 +278,6 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.filterSessions = function(){
-                $scope.currentLocation = _.find($scope.locationList, {id: $scope.currentLocationId});
-                $scope.currentCoach = _.find($scope.coachList, {id: $scope.currentCoachId});
                 $scope.removeAlerts();
                 uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 // SET BIZ HOURS

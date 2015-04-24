@@ -20,7 +20,7 @@ describe('App Module', function() {
 
         let('alertThree', function(){
             return {
-                type: 'error',
+                type: 'danger',
                 message: 'alert three'
             }
         })
@@ -59,9 +59,13 @@ describe('App Module', function() {
         });
         describe('when adding a success alert', function(){
             it('should disappear after 3 seconds', function(){
-                $timeout.flush();
-
-                expect(_.contains($rootScope.alerts, this.alertOne)).to.be.false;
+                expect(this.alertOne.dismissTimeout).to.be.equal(3000);
+            });
+        });
+        describe('when adding any other alert', function(){
+            it('should disappear after 5 seconds', function(){
+                expect(this.alertTwo.dismissTimeout).to.be.equal(5000);
+                expect(this.alertThree.dismissTimeout).to.be.equal(5000);
             });
         });
     });
