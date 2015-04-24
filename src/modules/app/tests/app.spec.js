@@ -162,7 +162,7 @@ describe('App Module', function() {
                     self = this;
                     var coachSeekAPIService = $injector.get('coachSeekAPIService');
 
-                    loginStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+                    loginStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
                         return self.loginPromise
                     });
                     $rootScope.password = "password"

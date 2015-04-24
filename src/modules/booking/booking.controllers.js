@@ -86,8 +86,8 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
   };
 
   $q.all({
-    locations: coachSeekAPIService.get({section: 'Locations'}).$promise,
-    services: coachSeekAPIService.get({section: 'Services'}).$promise
+    locations: coachSeekAPIService.query({section: 'Locations'}).$promise,
+    services: coachSeekAPIService.query({section: 'Services'}).$promise
   })
   .then(function (response) {
     $scope.locations = response.locations;
@@ -105,7 +105,7 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
       section: 'Sessions'
     };
 
-    return coachSeekAPIService.get(params).$promise;
+    return coachSeekAPIService.query(params).$promise;
   };
 
   $scope.filterSessions = function () {
@@ -160,7 +160,7 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
               session: session
             };
 
-            return coachSeekAPIService.update({ section: 'Bookings' }, data).$promise;
+            return coachSeekAPIService.save({ section: 'Bookings' }, data).$promise;
           });
 
         $q.all(bookingList).then(function (booking) {

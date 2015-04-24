@@ -41,7 +41,7 @@ describe('Customers CRUD Control', function(){
             coachSeekAPIService = $injector.get('coachSeekAPIService');
             scope = $rootScope.$new();
 
-            getStub = this.sinon.stub(coachSeekAPIService, 'get', function(param){
+            getStub = this.sinon.stub(coachSeekAPIService, 'query', function(param){
                 return {$promise: self.customersPromise};
             });
             createViewWithController(scope, 'customers/partials/customersView.html', 'customersCtrl');
@@ -127,7 +127,7 @@ describe('Customers CRUD Control', function(){
                     beforeEach(function(){
                         self.savepromise = this.savepromise;
 
-                        saveCustomerStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                        saveCustomerStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                             return {$promise: self.savepromise};
                         });
                     });

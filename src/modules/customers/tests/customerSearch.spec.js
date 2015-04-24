@@ -48,7 +48,7 @@ describe('Customers Search Control', function(){
            self = this;
            scope = $rootScope.$new();
 
-           this.sinon.stub($injector.get('coachSeekAPIService'), 'get', function(param){
+           this.sinon.stub($injector.get('coachSeekAPIService'), 'query', function(param){
                return {$promise: self.customersPromise};
            });
 

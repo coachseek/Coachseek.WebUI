@@ -46,7 +46,7 @@ describe('bussinessSetup Locations', function(){
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
 
-        getLocationsStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+        getLocationsStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
             return {$promise: self.promise};
         });
 
@@ -119,7 +119,7 @@ describe('bussinessSetup Locations', function(){
                 beforeEach(function(){
                     self.savepromise = this.savepromise;
 
-                    saveLocationStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                    saveLocationStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                         return {$promise: self.savepromise};
                     });
                 });

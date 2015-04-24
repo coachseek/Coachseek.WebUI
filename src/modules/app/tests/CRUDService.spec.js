@@ -43,10 +43,10 @@ describe('CRUDService', function(){
         AIStopStub = this.sinon.stub($activityIndicator, 'stopAnimating');
         setPristineStub = this.sinon.stub(scope.itemForm, '$setPristine')
 
-        this.sinon.stub(coachSeekAPIService, 'get', function(){
+        this.sinon.stub(coachSeekAPIService, 'query', function(){
             return {$promise: self.promise};
         });
-        this.sinon.stub(coachSeekAPIService, 'update', function(){
+        this.sinon.stub(coachSeekAPIService, 'save', function(){
             return {$promise: self.promise};
         });
     });

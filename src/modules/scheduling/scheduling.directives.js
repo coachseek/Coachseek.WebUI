@@ -85,7 +85,7 @@ angular.module('scheduling.directives', [])
                     scope.showCustomers = false;
                 };
 
-                coachSeekAPIService.get({section: 'Customers'})
+                coachSeekAPIService.query({section: 'Customers'})
                     .$promise.then(function(customerList){
                         scope.itemList  =  customerList;
                     }, scope.handleErrors);
@@ -154,7 +154,7 @@ angular.module('scheduling.directives', [])
                 function saveBooking(addToCourse){
                     var bookingObject = buildBooking(addToCourse);
                     scope.bookingLoading = true;
-                    coachSeekAPIService.update({section: 'Bookings'}, bookingObject)
+                    coachSeekAPIService.save({section: 'Bookings'}, bookingObject)
                         .$promise.then(function(booking){
                             _.assign(booking.customer, {
                                 firstName: scope.item.firstName,
@@ -317,7 +317,7 @@ angular.module('scheduling.directives', [])
 
                 function updateBooking(updateCommand){
                     scope.bookingLoading = true;
-                    return coachSeekAPIService.update({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
+                    return coachSeekAPIService.save({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
                 }
             }
         };

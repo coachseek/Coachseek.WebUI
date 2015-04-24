@@ -65,7 +65,7 @@ describe('modalCustomerDetails directive', function(){
             var self, updateStub, $addStudent;
             beforeEach(function(){
                 self = this;
-                updateStub = this.sinon.stub($injector.get('coachSeekAPIService'), 'update', function(){
+                updateStub = this.sinon.stub($injector.get('coachSeekAPIService'), 'save', function(){
                     return {$promise: self.updatePromise};
                 });
                 $addStudent = $modalCustomerDetails.find('.add-student');

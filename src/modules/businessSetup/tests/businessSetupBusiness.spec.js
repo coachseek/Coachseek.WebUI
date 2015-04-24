@@ -43,7 +43,7 @@ describe('BusinessSetup Business', function(){
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
 
-        getBusinessStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+        getBusinessStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
             return {$promise: self.promise};
         });
 
@@ -100,7 +100,7 @@ describe('BusinessSetup Business', function(){
                 beforeEach(function(){
                     self.savepromise = this.savepromise;
 
-                    saveBusinessStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                    saveBusinessStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                         return {$promise: self.savepromise};
                     });
                 });

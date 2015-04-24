@@ -278,7 +278,11 @@ describe('Scheduling Module', function() {
             coachSeekAPIService = $injector.get('coachSeekAPIService');
             scope = $rootScope.$new();
 
-            getStub = this.sinon.stub(coachSeekAPIService, 'get', function(param){
+            this.sinon.stub(coachSeekAPIService, 'get', function(){
+                return {$promise: self.servicesPromise};
+            });
+
+            getStub = this.sinon.stub(coachSeekAPIService, 'query', function(param){
                 switch (param.section) {
                     case 'Coaches':
                         return {$promise: self.coachesPromise};
@@ -288,9 +292,6 @@ describe('Scheduling Module', function() {
                         break;
                     case 'Services':
                         return {$promise: self.servicesPromise};
-                        break;
-                    case 'Sessions':
-                        return {$promise: self.sessionsPromise};
                         break;
                     case 'Customers':
                         return {$promise: self.customersPromise};
@@ -452,7 +453,7 @@ describe('Scheduling Module', function() {
                     var updateStub;
                     beforeEach(function(){
                         self.updatePromise = this.updatePromise;
-                        updateStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                        updateStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                             return {$promise: self.updatePromise}
                         });
                     });
@@ -460,7 +461,7 @@ describe('Scheduling Module', function() {
                         describe('while saving', function(){
                             beforeEach(function(){
                                 updateStub.restore();
-                                updateStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                                updateStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                                     return {$promise: $q.defer().promise}
                                 });
                                 $sessionModal.find('.save-button').trigger('click');
@@ -734,7 +735,7 @@ describe('Scheduling Module', function() {
                 describe('and then to a new month', function(){
                     beforeEach(function(){
                         getStub.restore();
-                        getStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+                        getStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
                             return {$promise: self.nextMonthSessionsPromise}
                         });
 
@@ -760,7 +761,7 @@ describe('Scheduling Module', function() {
                     describe('and then switching to `today`', function(){
                         beforeEach(function(){
                             getStub.restore();
-                            getStub = this.sinon.stub(coachSeekAPIService, 'get');
+                            getStub = this.sinon.stub(coachSeekAPIService, 'query');
 
                             $calendar.find('.fc-today-button').trigger('click');
                             $timeout.flush();
@@ -772,7 +773,7 @@ describe('Scheduling Module', function() {
                     describe('and then switching to `week`', function(){
                         beforeEach(function(){
                             getStub.restore();
-                            getStub = this.sinon.stub(coachSeekAPIService, 'get');
+                            getStub = this.sinon.stub(coachSeekAPIService, 'query');
 
                             $calendar.find('.fc-agendaWeek-button').trigger('click');
                             $timeout.flush();
@@ -786,7 +787,7 @@ describe('Scheduling Module', function() {
             describe('to day view', function(){
                 beforeEach(function(){
                     getStub.restore();
-                    getStub = this.sinon.stub(coachSeekAPIService, 'get');
+                    getStub = this.sinon.stub(coachSeekAPIService, 'query');
 
                     $calendar.find('.fc-agendaDay-button').trigger('click');
                     $timeout.flush();
@@ -820,7 +821,7 @@ describe('Scheduling Module', function() {
                 describe('and then switching it to month view', function(){
                     beforeEach(function(){
                         getStub.restore();
-                        getStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+                        getStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
                             return {$promise: self.nextMonthSessionsPromise}
                         });
 

@@ -110,7 +110,7 @@ angular.module('app.controllers', [])
                     $scope.setUserAuth(email, password);
 
                     $activityIndicator.startAnimating();
-                    coachSeekAPIService.get({section: 'Locations'})
+                    coachSeekAPIService.query({section: 'Locations'})
                         .$promise.then(function(){
                             var user = {
                                 email: email,

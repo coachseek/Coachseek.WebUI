@@ -130,7 +130,7 @@ describe('customerBooking directive', function(){
             self = this;
             coachSeekAPIService = $injector.get('coachSeekAPIService');
 
-            updateStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+            updateStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                 return {$promise: self.updatePromise};
             });
             $customerBooking.find('.payment-status').trigger('click');
@@ -188,7 +188,7 @@ describe('customerBooking directive', function(){
             self = this;
             coachSeekAPIService = $injector.get('coachSeekAPIService');
 
-            updateStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+            updateStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                 return {$promise: self.updatePromise};
             });
             $customerBooking.find('.attending-checkbox').trigger('click');

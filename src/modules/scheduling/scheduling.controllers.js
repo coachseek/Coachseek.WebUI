@@ -75,7 +75,7 @@ angular.module('scheduling.controllers', [])
                             section: 'Sessions'
                         };
                         startCalendarLoading();
-                        coachSeekAPIService.getOne(getSessionsParams)
+                        coachSeekAPIService.get(getSessionsParams)
                             .$promise.then(function(sessionObject){
                                 $scope.events = [];
                                 addSessionsWithinInterval(sessionObject.sessions);
@@ -439,7 +439,7 @@ angular.module('scheduling.controllers', [])
             };
 
             var updateSession = function(sessionObject){
-                return coachSeekAPIService.update({section: 'Sessions'}, sessionObject).$promise;
+                return coachSeekAPIService.save({section: 'Sessions'}, sessionObject).$promise;
             };
 
             var startCalendarLoading = function(){
@@ -462,9 +462,9 @@ angular.module('scheduling.controllers', [])
             // INITIAL LOAD
             startCalendarLoading();
             $q.all({
-                    coaches: coachSeekAPIService.get({section: 'Coaches'}).$promise,
-                    locations: coachSeekAPIService.get({section: 'Locations'}).$promise,
-                    services: coachSeekAPIService.get({section: 'Services'}).$promise
+                    coaches: coachSeekAPIService.query({section: 'Coaches'}).$promise,
+                    locations: coachSeekAPIService.query({section: 'Locations'}).$promise,
+                    services: coachSeekAPIService.query({section: 'Services'}).$promise
                 })
                 .then(function(response) {
                     $scope.coachList    = response.coaches;

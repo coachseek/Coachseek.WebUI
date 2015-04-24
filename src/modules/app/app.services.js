@@ -1,18 +1,19 @@
 angular.module('app.services', [])
     .factory('coachSeekAPIService', ['$resource', function($resource) {
-        return $resource('http://api.coachseek.com/:section/:id', {}, {
-            get:    { method: 'GET', isArray: true},
-            getOne: { method: 'GET'},
-            update: { method: 'POST'},
-            delete: { method: 'DELETE'}
-        });
+        return $resource('http://api.coachseek.com/:section/:id');
+            //   DEFAULT RESOURCE FUNTIONS
+            //   'get':    {method:'GET'},
+            //   'save':   {method:'POST'},
+            //   'query':  {method:'GET', isArray:true},
+            //   'remove': {method:'DELETE'},
+            //   'delete': {method:'DELETE'}
     }])
     .service('CRUDService', ['coachSeekAPIService', '$activityIndicator',
         function(coachSeekAPIService, $activityIndicator){
 
         this.get = function(functionName, $scope){
             $activityIndicator.startAnimating();
-            coachSeekAPIService.get({section: functionName})
+            coachSeekAPIService.query({section: functionName})
                 .$promise.then(function(itemList){
                     //set list data or create first item
                     if(_.size(itemList)){
@@ -29,7 +30,7 @@ angular.module('app.services', [])
 
         this.update = function(functionName, $scope, item){
             $activityIndicator.startAnimating();
-            coachSeekAPIService.update({section: functionName}, item)
+            coachSeekAPIService.save({section: functionName}, item)
                 .$promise.then(function(item){
                     $scope.itemList.push(item);
                     if($scope.newItem){

@@ -55,7 +55,7 @@ describe('bussinessSetup Services', function(){
 
         $state.current.data = this.isNewService;
 
-        getServicesStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
+        getServicesStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
             return {$promise: self.promise};
         });
 
@@ -167,7 +167,7 @@ describe('bussinessSetup Services', function(){
                 beforeEach(function(){
                     self.savepromise = this.savepromise;
 
-                    saveServiceStub = this.sinon.stub(coachSeekAPIService, 'update', function(){
+                    saveServiceStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                         return {$promise: self.savepromise};
                     });
                 });
