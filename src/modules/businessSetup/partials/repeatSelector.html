@@ -1,14 +1,13 @@
 <div class="form-input">
-    <label name="repeatable" class="repeat-label">
-        {{'businessSetup:repeat-selector.is-repeatable' | i18next}}
-            <select ng-model="isRepeatable"
-                ng-options="opt as ('businessSetup:repeat-selector.'+opt.text |i18next) for opt in options"
-                ng-change="toggleRepeatable()">
-            </select>
-    </label>
+    <label name="repeatable" class="repeat-label">{{'businessSetup:repeat-selector.is-repeatable' | i18next}}</label>
+    <select class="repeatable-dropdown"
+        ng-model="isRepeatable"
+        ng-options="opt.value as ('businessSetup:repeat-selector.'+opt.text |i18next) for opt in repeatableOptions"
+        ng-change="toggleRepeatable()">
+    </select>
 </div>
 
-<div class="form-input frequency-selector" ng-show="isRepeatable.value === true">
+<div class="form-input frequency-selector" ng-show="isRepeatable">
     <span>{{'businessSetup:repeat-selector.repeat-session' | i18next}}</span>
     <select class="repeat-frequency" name="frequency" ng-model="repeatFrequency">
         <option ng-repeat="item in frequencies" value="{{item.value}}" ng-i18next>businessSetup:repeat-selector.{{item.text}}</option>

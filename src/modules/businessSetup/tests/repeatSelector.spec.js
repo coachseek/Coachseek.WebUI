@@ -1,4 +1,4 @@
-describe('repeatSelector directive', function(){
+describe.only('repeatSelector directive', function(){
     var scope;
     
     let('sessionCount', function(){
@@ -9,6 +9,9 @@ describe('repeatSelector directive', function(){
         return 'w';
     });
 
+    var $repeatDropdown,
+        $frequencySelector,
+        $repeatFrequency;
     beforeEach(function(){
         scope = $rootScope.$new();
         scope.sessionCount = this.sessionCount;
@@ -16,6 +19,10 @@ describe('repeatSelector directive', function(){
         // must wrap here in because if the directives replace
         // is set to true we just get a commented out element
         createDirective(scope, '<div><repeat-selector repeat-frequency="repeatFrequency" session-count="sessionCount"></repeat-selector></div>');
+
+        $repeatDropdown = $testRegion.find('.repeatable-dropdown');
+        $frequencySelector = $testRegion.find('.frequency-selector');
+        $repeatFrequency = $testRegion.find('.repeat-frequency');
     });
     describe('when loading the repeatSelector', function(){
         it('should set the session count in the template', function(){
@@ -23,16 +30,9 @@ describe('repeatSelector directive', function(){
             expect(parseFloat($sessionCount.val())).to.equal(this.sessionCount)
         });
 
-        var $repeatCheckbox,
-            $repeatFrequency;
-        beforeEach(function(){
-            $repeatCheckbox = $testRegion.find('.repeat-checkbox');
-            $repeatFrequency = $testRegion.find('.repeat-frequency');
-        });
-
         describe('when repeatFrequency is set to `w`', function(){
-            it('should check the checkbox', function(){
-                expect($repeatCheckbox.attr('checked')).to.equal('checked');
+            it('should set the dropdown value to `yes`', function(){
+                expect($repeatDropdown.val()).to.equal('1');
             });
             it('should set the repeat frequency to `w`', function(){
                 expect($repeatFrequency.val()).to.equal('w');
@@ -46,8 +46,8 @@ describe('repeatSelector directive', function(){
 
             describe('and the sessionCount is greater than 1', function(){
 
-                it('should check the checkbox', function(){
-                    expect($repeatCheckbox.attr('checked')).to.equal('checked');
+                it('should set the dropdown value to `yes`', function(){
+                    expect($repeatDropdown.val()).to.equal('1');
                 });
                 it('should set the repeat frequency to `d`', function(){
                     expect($repeatFrequency.val()).to.equal('d');
@@ -59,8 +59,8 @@ describe('repeatSelector directive', function(){
                     return 1;
                 });
 
-                it('should NOT check the checkbox', function(){
-                    expect($repeatCheckbox.attr('checked')).to.equal(undefined);
+                it('should set the dropdown value to `no`', function(){
+                    expect($repeatDropdown.val()).to.equal('0');
                 });
                 it('should set the repeat frequency to null', function(){
                     //TODO – is this correct? Angular puts ? undefined:undefined ? if it
@@ -70,18 +70,15 @@ describe('repeatSelector directive', function(){
             });
         });
     });
-    describe('when checking the checkbox', function(){
+    describe('when changing the value to `Yes`', function(){
 
         let('sessionCount', function(){
             return 1;
         });
 
-        var $repeatCheckbox,
-            $frequencySelector;
         beforeEach(function(){
-            $repeatCheckbox = $testRegion.find('.repeat-checkbox');
-            $frequencySelector = $testRegion.find('.frequency-selector');
-            $repeatCheckbox.get(0).click();
+            $repeatDropdown.val(1);
+            angular.element($repeatDropdown).triggerHandler('change');
         });
         it('should set the sessionCount to 2', function(){
             expect(scope.sessionCount).to.equal(2);
@@ -92,10 +89,11 @@ describe('repeatSelector directive', function(){
         it('should show the frequency selector', function(){
             expect($frequencySelector.hasClass('ng-hide')).to.be.false;
         });
-        describe('when unchecking the checkbox', function(){
+        describe('when setting the dropdown value to `no`', function(){
 
             beforeEach(function(){
-                $repeatCheckbox.get(0).click();
+                $repeatDropdown.val(0);
+                angular.element($repeatDropdown).triggerHandler('change');
             });
             it('should set the sessionCount to 1', function(){
                 expect(scope.sessionCount).to.equal(1);
@@ -109,11 +107,9 @@ describe('repeatSelector directive', function(){
         });
     });
     describe('when changing the sessionCount', function(){
-        var $sessionCount,
-            $frequencySelector;
+        var $sessionCount;
         beforeEach(function(){
             $sessionCount = $testRegion.find('.session-count');
-            $frequencySelector = $testRegion.find('.frequency-selector');
             $sessionCount.val(22);
             angular.element($sessionCount).triggerHandler('change');
         });
@@ -160,10 +156,6 @@ describe('repeatSelector directive', function(){
         });
     });
     describe('when changing the repeat frequency', function(){
-        var $repeatFrequency;
-        beforeEach(function(){
-            $repeatFrequency = $testRegion.find('.repeat-frequency');
-        });
         describe('when changing it to days', function(){
             beforeEach(function(){
                 $repeatFrequency.val('d');

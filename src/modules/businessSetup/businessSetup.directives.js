@@ -1,13 +1,5 @@
 angular.module('businessSetup.directives', [])
     .directive('repeatSelector', function(){
-        var frequencies = [
-            {value: 'w', text: 'weekly'},
-            {value: 'd', text: 'daily'}
-        ];
-        var options = [
-            {value: 1, text:'no' },
-            {value: 2, text:'yes' }
-        ];
         return {
             scope: {
                 repeatFrequency: '=',
@@ -15,12 +7,19 @@ angular.module('businessSetup.directives', [])
             },
             templateUrl: 'businessSetup/partials/repeatSelector.html',
             link: function(scope, elem, attr){
-                scope.frequencies = frequencies;
-                scope.options = options;
+                scope.frequencies = [
+                    {value: 'w', text: 'weekly'},
+                    {value: 'd', text: 'daily'}
+                ];
+                scope.repeatableOptions = [
+                    {value: false, text:'no' },
+                    {value: true, text:'yes' }
+                ];
+
 
                 scope.$watch('sessionCount', function(newVal){
                     if(!scope.isFocused){
-                        scope.isChecked = newVal > 1;
+                        scope.isRepeatable = newVal > 1;
 
                         if(newVal < 2){
                             delete scope.repeatFrequency;
@@ -33,7 +32,7 @@ angular.module('businessSetup.directives', [])
                 scope.setValues = function(){
                     if(scope.sessionCount === 1){
                         // Takes care of case where $watcher does not get triggered
-                        scope.isChecked = false;
+                        scope.isRepeatable = false;
                     } else if(scope.sessionCount < 2){
                         scope.sessionCount = 1;
                     }
@@ -48,8 +47,6 @@ angular.module('businessSetup.directives', [])
                     }
                     scope.setValues();
                 };
-            
-                scope.isSelected = scope.options[0];
 
                 scope.showStatus = function() {
                     var selected = _.filter(scope.frequencies, {value: scope.repeatFrequency});
