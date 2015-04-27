@@ -30,28 +30,29 @@
             .actions {
                 position: fixed;
                 bottom: 0;
-                right: 100px;
-                text-align: right;
+                right: 0;
+                text-align: center;
+                background-color: $background-beige;
+            }
 
-                .back-link {
-                    font-decoration: none;
-                    color: #00A478;
-                    margin-right: 20px;
-                }
+            .back-link {
+                font-decoration: none;
+                color: #00A478;
+                margin-right: 20px;
+            }
 
-                .btn-save {
-                    border: none;
-                    margin: 20px auto;
-                    text-align: center;
-                    width: 200px;
-                    color: #FFFFFF;
-                    background: #00A478;
-                    border-radius: 4px;
-                    padding: 10px 25px;
+            .btn-save {
+                border: none;
+                margin: 20px auto;
+                text-align: center;
+                width: 200px;
+                color: #FFFFFF;
+                background: #00A478;
+                border-radius: 4px;
+                padding: 10px 25px;
 
-                    &[disabled] {
-                        opacity: 50px;
-                    }
+                &[disabled] {
+                    opacity: 50px;
                 }
             }
 
@@ -102,48 +103,12 @@
         margin: 0 auto;
     }
 
-    .session-row {
-      height: 30px;
-      line-height: 30px;
-        label {
-            width: 100%;
-            input[type=checkbox] {
-                float: right;
-                width: 10px;
-                vertical-align: middle;
-                line-height: 30px;
-                height: 30px;
-                margin: 0;
-            }
-        }
-    }
-
-    .session {
-        text-align: center;
-        display: inline-block;
-        cursor: pointer;
-        width: 45%;
-        margin: 10px;
-        padding: 10px 12.5px;
-        background: $white;
-        overflow: hidden;
-        border-radius: 5px;
-        -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
-        -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
-        box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
-        border: 1px solid transparent;
-        &.selected {
-            border: 1px solid $green;
-        }
+    .course, .session {
+        border: 3px solid transparent;
         &.full-course {
-            width: 100% !important;
-            margin: 0;
+          width: 94% !important;
         }
-    }
-
-    .course {
-        border: 1px solid transparent;
-        &.course-details {
+        &.course-details, &.session-details {
             text-align: center;
             display: inline-block;
             cursor: pointer;
@@ -156,10 +121,13 @@
             -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
             -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
             box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
+            input[type=checkbox] {
+              display: none;
+            }
         }
 
         &.selected {
-            border: 1px solid $green;
+            border: 3px solid $green;
         }
 
         .name {
@@ -207,6 +175,11 @@
 
     .separator {
         margin: 15px 0;
+    }
+
+    .content-center {
+      max-width: 450px;
+      margin: auto;
     }
 
     .bottom-margin {

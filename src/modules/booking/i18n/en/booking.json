@@ -6,7 +6,7 @@
     "confirmation-tab": "Confirm"
   },
   "common": {
-    "next": "Next",
+    "next": "Continue Booking",
     "back": "Back",
     "duration": "min"
   },
@@ -27,13 +27,24 @@
     "multi-session": "COURSE"
   },
   "details": {
-    "title": "Personal details:"
+    "title": "Enter customer details:",
+    "first-name": "First name:",
+    "first-name-placeholder": "(Enter name of person attending)",
+    "last-name": "Last name:",
+    "phone": "Phone number:",
+    "phone-placeholder": "(If under 18, contact details of parent/carer)",
+    "email": "Email:",
+    "email-placeholder": "(If under 18, contact details of parent/carer)",
+    "comments": "Additional comments:"
   },
   "confirmation": {
-    "title": "Final booking:",
+    "title": "Booking overview:",
     "location": "Location:",
     "session": "Session:",
     "price": "Price:",
-    "finish": "Finish"
+    "finish": "Finish",
+    "text-confirm": "A confirmation email has been sent to your email address and your booking is now complete.",
+    "text-book-another": "To make another booking, just click the button below.",
+    "restart": "New booking"
   }
 }

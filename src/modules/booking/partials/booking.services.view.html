@@ -21,19 +21,10 @@
       <div class="col-sm-5 col-xs-12 right-border">
         <div class="courses-container" ng-show="courses">
           <div ng-repeat="course in courses" ng-click="selectCourse(course)" class="course course-details" ng-class="{selected: course.id === filters.course.id}">
-            <p class="name">
-              {{course.type | i18next}}
-            </p>
-            <p class="days">
-              {{course.name}}
-            </p>
-            <p class="hours">
-              {{course.duration}}
-            </p>
-            <p class="date">
-              {{course.location}}
-            </p>
-            <p class="price">
+              {{course.type | i18next}}<br/>
+              {{course.name}}<br/>
+              {{course.duration}}<br/>
+              {{course.location}}<br/>
               {{'denomination' | i18next}}{{course.price || 300}}
             </p>
           </div>
@@ -43,15 +34,17 @@
       <!-- Sessions-->
       <div class="col-sm-5 col-xs-12">
         <div class="sessions-container" ng-show="filters.course.sessions && filters.course.type === 'multi-session'">
-          <div class="session-row full-course">
+          <div class="session session-details full-course" ng-class="{selected: filters.course.selected}">
             <label for="{{filters.course.id}}-full-course">
               {{'booking:services-section.whole-course' | i18next}} {{'denomination' | i18next}}{{course.pricing.coursePrice || 300}}
               <input type="checkbox" id="{{filters.course.id}}-full-course" ng-model="filters.course.selected" ng-change="selectFullCourse(filters.course)">
             </label>
           </div>
-          <div ng-repeat="session in filters.course.sessions" class="session-row">
+          <div ng-repeat="session in filters.course.sessions" class="session session-details" ng-class="{selected: session.selected}">
             <label for="{{session.id}}-selected">
-              {{session.timing.date}}, {{session.timing.hour.start}} - {{session.timing.hour.end}}, {{'denomination' | i18next}}{{session.pricing.sessionPrice}}
+              {{session.timing.date}}<br/>
+              {{session.timing.hour.start}} - {{session.timing.hour.end}}<br/>
+              {{'denomination' | i18next}}{{session.pricing.sessionPrice}}
               <input type="checkbox" id="{{session.id}}-selected" ng-model="session.selected" ng-click="selectSession(session)">
           </label>
           </div>

@@ -8,7 +8,7 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
   // Redirect to the location page when you try to load any page from booking
   $state.go('booking.location');
 
-
+  $scope.confirmed = false;
   $scope.booking = {
     customer: savedCustomer ? JSON.parse(savedCustomer) : null,
     sessions: []
@@ -146,9 +146,10 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
 
   $scope.confirmBooking = function (booking) {
     coachSeekAPIService
-      .update({ section: 'Customers' }, booking.customer).$promise
+      .save({ section: 'Customers' }, booking.customer).$promise
       .then(function (customer) {
         if (booking.customer.remember === true) {
+          customer.remember = true;
           localStorage.setItem('customer', JSON.stringify(customer));
         }
 
@@ -164,14 +165,24 @@ function ($scope, $location, $q, $state, coachSeekAPIService) {
           });
 
         $q.all(bookingList).then(function (booking) {
-          console.log('your booking has been taken into consideration...');
-          console.log(booking);
+          $scope.confirmed = true;
         });
       });
   };
 
-  $scope.register = function (customer) {
+  $scope.restart = function () {
+    $scope.confirmed = false;
+    $scope.booking = {
+      customer: savedCustomer ? JSON.parse(savedCustomer) : null,
+      sessions: []
+    };
 
-    $state.go('booking.confirm');
+    $scope.filters = {
+      location: null,
+      service: null,
+      course: null
+    };
+
+    $state.go('booking.location');
   };
 }]);
