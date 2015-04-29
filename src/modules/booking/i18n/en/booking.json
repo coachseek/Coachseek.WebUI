@@ -3,6 +3,7 @@
     "location-tab": "Location",
     "services-tab": "Services",
     "details-tab": "Details",
+    "payment-tab": "Payment",
     "confirmation-tab": "Confirm"
   },
   "common": {
@@ -13,12 +14,12 @@
   "location-section": {
     "title": "Select location:",
     "label": "Location:",
-    "error": "Please select a local homie."
+    "error": "Please select a location."
   },
   "services-section": {
     "title": "Select service:",
     "label": "Service:",
-    "error": "Please select a service homie.",
+    "error": "Please select a service.",
     "whole-course": "Whole course",
     "description": "Description:"
   },

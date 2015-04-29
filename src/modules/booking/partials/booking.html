@@ -1,38 +1,24 @@
+<div class="list-item-container-wrapper">  
+    <div ui-view="list-item-view"></div>
+</div>
 <div class="page-header text-center">
     <div class="tabs">
         <ul>
-            <li>
-                <a ui-sref-active="active" ui-sref=".location">
-                    {{'booking:tabs.location-tab' | i18next}}
-                </a>
+            <li ui-sref-active="active" ui-sref=".location">
+                {{'booking:tabs.location-tab' | i18next}}
             </li>
-            <li>
-                <a class="section-disabled" ng-show="!filters.location">
-                    {{'booking:tabs.services-tab' | i18next}}
-                </a>
-                <a ui-sref-active="active" ui-sref=".services" ng-show="filters.location">
-                    {{'booking:tabs.services-tab' | i18next}}
-                </a>
+            <li ui-sref-active="active" ui-sref=".services" ng-disabled="!filters.location">
+                {{'booking:tabs.services-tab' | i18next}}
             </li>
-            <li>
-                <a class="section-disabled" ng-show="booking.sessions.length === 0">
-                    {{'booking:tabs.details-tab' | i18next}}
-                </a>
-                <a ui-sref-active="active" ui-sref=".details" ng-show="booking.sessions.length > 0">
-                    {{'booking:tabs.details-tab' | i18next}}
-                </a>
+            <li ui-sref-active="active" ui-sref=".details" ng-disabled="!booking.sessions.length">
+                {{'booking:tabs.details-tab' | i18next}}
             </li>
-            <li>
-                <a class="section-disabled" ng-show="booking.sessions.length === 0 || !booking.customer">
-                    {{'booking:tabs.confirmation-tab' | i18next}}
-                </a>
-                <a ui-sref-active="active" ui-sref=".confirmation" ng-show="booking.sessions.length > 0 && booking.customer">
-                    {{'booking:tabs.confirmation-tab' | i18next}}
-                </a>
+            <li ui-sref-active="active" ui-sref=".payment" ng-disabled="!booking.sessions.length  || !booking.customer">
+                {{'booking:tabs.payment-tab' | i18next}}
+            </li>
+            <li ui-sref-active="active" ui-sref=".confirmation" ng-disabled="!booking.sessions.length || !booking.customer">
+                {{'booking:tabs.confirmation-tab' | i18next}}
             </li>
         </ul>
     </div>
-</div>
-<div class="content" ui-view>
-
 </div>

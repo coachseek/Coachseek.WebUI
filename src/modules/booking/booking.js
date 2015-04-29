@@ -1,43 +1,69 @@
-angular
-.module('booking', [ 'booking.controllers' ])
-.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-    $stateProvider
-    .state('booking', {
-        url: "/booking",
-        templateUrl: "booking/partials/booking.html",
-        controller: 'bookingCtrl',
-        data: {
-            requireLogin: true
-        }
-    })
-    .state('booking.location', {
-        url: "/location",
-        templateUrl: "booking/partials/bookingLocationView.html",
-        data: {
-            requireLogin: true
-        }
-    })
-    .state('booking.services', {
-        url: "/services",
-        templateUrl: "booking/partials/bookingServicesView.html",
-        data: {
-            requireLogin: true
-        }
-    })
-    .state('booking.details', {
-        url: "/details",
-        templateUrl: "booking/partials/bookingDetailsView.html",
-        data: {
-            requireLogin: true
-        }
-    })
-    .state('booking.confirmation', {
-        url: "/confirmation",
-        templateUrl: "booking/partials/bookingConfirmationView.html",
-        data: {
-            requireLogin: true
-        }
-    });
-
-    $urlRouterProvider.otherwise('/booking/session');
-}]);
+angular.module('booking', [ 'booking.controllers' ])
+    .config(['$stateProvider', function($stateProvider) {
+        $stateProvider
+            .state('booking', {
+                url: "/booking",
+                templateUrl: "booking/partials/booking.html",
+                controller: 'bookingCtrl'
+            })
+            .state('booking.location', {
+                url: "/location",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "booking/partials/bookingLocationView.html",
+                        controller: 'bookingLocationCtrl'
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+            })
+            .state('booking.services', {
+                url: "/services",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "booking/partials/bookingServicesView.html",
+                        controller: 'bookingServicesCtrl'
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+            })
+            .state('booking.details', {
+                url: "/details",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "booking/partials/bookingDetailsView.html",
+                        controller: 'bookingDetailsCtrl'
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+            })
+            .state('booking.payment', {
+                url: "/payment",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "booking/partials/bookingPaymentView.html",
+                        controller: 'bookingPaymentCtrl'
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+            })
+            .state('booking.confirmation', {
+                url: "/confirmation",
+                views: {
+                    "list-item-view": { 
+                        templateUrl: "booking/partials/bookingConfirmationView.html",
+                        controller: 'bookingConfirmationCtrl'
+                    }
+                },
+                data: {
+                    requireLogin: true
+                }
+            });
+    }]);
