@@ -39,7 +39,7 @@
                     <li>
                     </li>
                     <li class="login-right">
-                        <a class="kb-link fa fa-question-circle" href="http://support.coachseek.com/" target="_blank"></a>
+                        <a class="kb-link fa fa-question-circle" ng-hide="!isBigScreen" href="http://support.coachseek.com/" target="_blank"></a>
                         <a class="logout" ng-click="currentUser ? logout() : login()" ng-i18next>{{currentUser ? 'logout-text' : 'login-text'}}</a>
                     </li>
                  </ul>
