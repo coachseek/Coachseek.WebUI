@@ -326,6 +326,7 @@ select-arrows{
       padding: 0;
       background: $green;
       list-style: none;
+      overflow: hidden;
   }
   li.login-right{
     position: absolute;
