@@ -1,1 +1,25 @@
-<div></div>
+<div class="content-container">
+  <div class="content container">
+    <div class="content-center">
+      <h3>Booking with {{"coach name"}}</h3>
+      <input type="input" ng-model="bookingEmail">
+      {{ bookingEmail }}
+      <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+        <input type="hidden" name="cmd" value="_xclick">
+        <input type="hidden" name="business" ng-value="bookingEmail">
+        <input type="hidden" name="item_name" value="Item Name">
+        <input type="hidden" name="currency_code" value="USD">
+        <input type="hidden" name="amount" value="0.00">
+        <input type="image" src="http://www.paypal.com/en_US/i/btn/x-click-but01.gif" name="submit" alt="Make payments with PayPal - it's fast, free and secure!" style="border: 0px none ; padding: 0px; width: 62px; height: 31px;">
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="actions col-xs-12 col-sm-5">
+      <a class="back-link" ui-sref="booking.details">{{'booking:common.back' | i18next}}</a>
+      <button class="btn-save btn-large" ng-disabled="true" ng-click="initPaypalPayment()"><span ng-i18next>{{AILoading ? 'waiting...' : 'Continue'}}</span>
+      </button>
+
+    </div>
+  </div>
+</div>

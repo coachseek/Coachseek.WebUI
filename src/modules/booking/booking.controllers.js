@@ -142,7 +142,26 @@ angular.module('booking.controllers', [])
     }])
     .controller('bookingDetailsCtrl', ['$scope', function($scope){}])
     .controller('bookingPaymentCtrl', ['$scope', function($scope){
-        // GARRETT PLAYS HERE
+      // GARRET PLAYS HERE
+      //TODO: Grab booking detail data
+      //and attach to the hidden forms as ng-values..
+      
+      //inititate paypal processing
+      //I don't think we'll need a post here...
+      $scope.initPaypalPayment = function () {
+        if ($scope.coursePaymentPrice === null) {
+          return;
+        } else {
+          //TODO: Post to paypal return callback to confirmation page
+        }
+            
+      };
+      
+      //Post booking as unpayed
+      $scope.payLaterCall = function () {
+        
+      };
+        
     }])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', 'coachSeekAPIService',
       function($scope, $q, coachSeekAPIService){
