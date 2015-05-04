@@ -97,6 +97,7 @@ angular.module('app.controllers', [])
             $rootScope.isBigScreen = $(window).width() > 767;
             $(window).on('resize', function () {
                 $rootScope.isBigScreen = $(this).width() > 767;
+                $rootScope.$apply();
             });
            
 
