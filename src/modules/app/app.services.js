@@ -22,7 +22,6 @@ angular.module('app.services', [])
                         $scope.itemList = [];
                         $scope.createItem();
                     }
-                    $scope.$broadcast('getSuccess');
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });

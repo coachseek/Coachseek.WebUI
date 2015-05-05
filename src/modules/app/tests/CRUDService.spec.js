@@ -52,14 +52,11 @@ describe('CRUDService', function(){
     });
     describe('when calling get()', function(){
 
-        var createItemStub, getSuccess;
+        var createItemStub;
 
         beforeEach(function(){
             scope.createItem = function(){};
             createItemStub = this.sinon.stub(scope, 'createItem');
-            scope.$on('getSuccess', function(){
-                getSuccess = true;
-            });
             CRUDService.get(APIFunctionName, scope);
             // Must call digest here because we are not using a template
             // and $q promise resolution is not propogated automatically
@@ -85,9 +82,6 @@ describe('CRUDService', function(){
                 });
                 it('should stop the activity indicator', function(){
                     expect(AIStopStub).to.be.calledOnce;
-                });
-                it('should broadcast a getSuccess event', function(){
-                    expect(getSuccess).to.be.true;
                 });
             });
             describe('and there is existing data', function(){
