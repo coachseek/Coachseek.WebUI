@@ -292,15 +292,6 @@ angular.module('scheduling.controllers', [])
                 return Math.floor(duration / 60) + ":" + duration % 60;
             };
 
-            $scope.getSessionTimeRange = function(){
-                if($scope.currentEvent && $scope.currentEvent.session){
-                    var sessionTiming = $scope.currentEvent.session.timing;
-                    var startTime = sessionTiming.startTime;
-                    var endTime = moment(startTime, "HH:mm").add(sessionTiming.duration, 'minutes').format('HH:mm');
-                    return startTime + " – " + endTime;
-                }
-            };
-
             $scope.cancelModalEdit = function(){
                 if(currentEventCopy){
                     // must keep autosaved edits even if canceled
