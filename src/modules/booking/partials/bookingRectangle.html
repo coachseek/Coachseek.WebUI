@@ -1,0 +1,12 @@
+<div ng-click="toggleEventSelect()" class="event" ng-class="{'selected': selectedEvent && selectedEvent.id === event.id, 'faded': selectedEvent && selectedEvent.id !== event.id}">
+    <p class="session-type" ng-i18next>{{event.sessions ? 'booking:course' : 'booking:single-session'}}</p>
+    <p>{{getEventDateRange()}}</p>
+    <p>{{getEventTimeRange()}}</p>
+    <p>
+    	{{'denomination' | i18next}}{{event.pricing.sessionPrice || 0}} {{'booking:per-session' | i18next}}
+    	<span ng-if="event.sessions">, {{'denomination' | i18next}}{{event.pricing.coursePrice || 0}} {{'booking:full-course' | i18next}}<span>
+    </p>
+
+	<booking-course-sessions ng-show="selectedEvent.sessions && selectedEvent.id === event.id"></booking-course-sessions >
+    
+</div>

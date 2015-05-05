@@ -1,68 +1,20 @@
-<div class="crud-item content-container">
-  <div class="content container" ng-show="!confirmed">
-    <div class="content-center">
-      <h2>{{'booking:confirmation.title' | i18next}}</h2>
-      <div class="row">
-        <div class="col-xs-12 col-sm-6 border-right">
-          <div class="location">
-            <label class="block bold">{{'booking:confirmation.location' | i18next}}</label>
-            <p class="secondary-text">
-              {{booking.sessions[0].location.name}}
-            </p>
-          </div>
-          <div class="sessions">
-            <label class="block bold">{{'booking:confirmation.session' | i18next}}</label>
-            <div ng-repeat="session in booking.sessions" class="bottom-margin">
-              <div class="customer-email secondary-text">{{session.service.name}}</div>
-              <div class="customer-email secondary-text">{{session.timing.date}}</div>
-              <div class="customer-email secondary-text">{{session.timing.hour.start}} - {{session.timing.hour.end}}</div>
-            </div>
-          </div>
-          <div class="price">
-            <label class="block bold">{{'booking:confirmation.price' | i18next}}</label>
-            <p class="secondary-text">
-              {{'denomination' | i18next}}{{booking.sessions[0].pricing.sessionPrice}}
-            </p>
-          </div>
-        </div>
-        <div class="col-xs-12 col-sm-6">
-          <div class="customer-recap">
-            <div class="customer-details">
-              <div class="customer-name primary-text">
-                <span>{{booking.customer.firstName}} {{booking.customer.lastName}}</span>
-              </div>
-              <div class="customer-email secondary-text">
-                <span>{{booking.customer.email}}</span>
-              </div>
-              <div class="customer-phone secondary-text">
-                <span>{{booking.customer.phone}}</span>
-              </div>
-              <div class="customer-comments secondary-text">
-                <span>{{booking.customer.comments}}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="actions col-xs-12 col-sm-5">
-          <a class="back-link" ui-sref="booking.details">{{'booking:common.back' | i18next}}</a>
-          <button class="btn-save btn-large" ng-click="confirmBooking(booking)" ng-disabled="AILoading"><span ng-i18next>{{'booking:confirmation.finish'}}</span><ellipsis-animated ng-show="AILoading"/></button>
-        </div>
-      </div>
+<hr/>
+<div class="booking-details-container">
+    <div class="booking-details">
+        <h4>{{'booking:booking-for' | i18next}} {{booking.customer.firstName}} {{booking.customer.lastName}}</h4>
+        <p>{{filters.location.name}}</p>
+        <p>{{filters.service.name}}</p>
+        <p>{{calculateBookingDateRange()}}</p>
+        <h2>{{'booking:confirmation.total' | i18next}} {{'denomination' | i18next}}{{calculateTotalPrice()}}</h2>
     </div>
-  </div>
-  <div class="content container" ng-show="confirmed">
-    <div class="content-center">
-      <div class="row">
-          <div class="col-xs-12 text-center">
-            <p class="bold">{{'booking:confirmation.text-confirm'|i18next}}</p>
-            <p class="bold">{{'booking:confirmation.text-book-another'|i18next}}</p>
-          </div>
-          <div class="col-xs-12 text-center">
-            <button class="btn-save btn-large" type="button" ng-click="restart()">{{'booking:confirmation.restart'|i18next}}</button>
-          </div>
-      </div>
+    <loading-animation ng-show="processingBooking"></loading-animation>
+    <div ng-hide="processingBooking || bookingConfirmed">
+        <button class="back-button" ui-sref="booking.details">{{'booking:confirmation.change-booking' | i18next}}</button>
+        <button class="continue-button" ng-click="processBooking()">{{'booking:confirmation.process-booking' | i18next}}</button>
     </div>
-  </div>
+    <div ng-show="bookingConfirmed" class="booking-confirmed">
+        <h4>{{'booking:confirmation.booking-confirmed' | i18next}}</h4>
+        <button class="continue-button" ng-click="resetBookings()">{{'booking:confirmation.reset-bookings' | i18next}}</button>
+    </div>
 </div>
+<hr/>

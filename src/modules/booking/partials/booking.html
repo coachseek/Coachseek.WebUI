@@ -1,24 +1,13 @@
-<div class="list-item-container-wrapper">  
-    <div ui-view="list-item-view"></div>
+<div class="booking-with-title">{{'booking:booking-with' | i18next}} {{currentUser.businessName.toUpperCase()}}</div>
+<div class="booking-container">  
+    <div ui-view="booking-view" class="booking-content-container"></div>
 </div>
-<div class="page-header text-center">
-    <div class="tabs">
-        <ul>
-            <li ui-sref-active="active" ui-sref=".location">
-                {{'booking:tabs.location-tab' | i18next}}
-            </li>
-            <li ui-sref-active="active" ui-sref=".services" ng-disabled="!filters.location">
-                {{'booking:tabs.services-tab' | i18next}}
-            </li>
-            <li ui-sref-active="active" ui-sref=".details" ng-disabled="!booking.sessions.length">
-                {{'booking:tabs.details-tab' | i18next}}
-            </li>
-            <li ui-sref-active="active" ui-sref=".payment" ng-disabled="!booking.sessions.length  || !booking.customer">
-                {{'booking:tabs.payment-tab' | i18next}}
-            </li>
-            <li ui-sref-active="active" ui-sref=".confirmation" ng-disabled="!booking.sessions.length || !booking.customer">
-                {{'booking:tabs.confirmation-tab' | i18next}}
-            </li>
-        </ul>
-    </div>
+<div class="fade-block bottom"></div>
+<div class="current-booking-status">
+	<div><h4>{{'booking:current-booking' | i18next}}</h4></div>
+	<div class="border-right"><p>{{filters.location.name}}</p></div>
+	<div class="border-right"><p>{{filters.service.name}}</p></div>
+	<div class="border-right"><p>{{calculateBookingDateRange()}}</p></div>
+	<div><h4>{{'denomination' | i18next}}{{calculateTotalPrice()}}</h4></div>
 </div>
+<div class="powered-by"></div>

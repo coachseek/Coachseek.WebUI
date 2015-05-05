@@ -47,6 +47,22 @@ $nav-bar-height: 55px;
     padding: 7.5px 25px;
 }
 
+%orange-button{
+    color: $white;
+    background: $orange;
+    border: none;
+    border-radius: 5px;
+    padding: 7.5px 25px;
+}
+
+%grey-button{
+    color: $white;
+    background: $dark-grey;
+    border: none;
+    border-radius: 5px;
+    padding: 7.5px 25px;
+}
+
 %delete-button{
     color: $text-grey;
     background: transparent;

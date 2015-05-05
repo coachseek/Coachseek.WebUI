@@ -1,51 +1,38 @@
 {
-  "tabs": {
-    "location-tab": "Location",
-    "services-tab": "Services",
-    "details-tab": "Details",
-    "payment-tab": "Payment",
-    "confirmation-tab": "Confirm"
-  },
-  "common": {
-    "next": "Continue Booking",
-    "back": "Back",
-    "duration": "min"
-  },
-  "location-section": {
-    "title": "Select location:",
-    "label": "Location:",
-    "error": "Please select a location."
-  },
-  "services-section": {
-    "title": "Select service:",
-    "label": "Service:",
-    "error": "Please select a service.",
-    "whole-course": "Whole course",
-    "description": "Description:"
-  },
-  "courses": {
-    "single-session": "SINGLE SESSION",
-    "multi-session": "COURSE"
-  },
-  "details": {
-    "title": "Enter customer details:",
-    "first-name": "First name:",
-    "first-name-placeholder": "(Enter name of person attending)",
-    "last-name": "Last name:",
-    "phone": "Phone number:",
-    "phone-placeholder": "(If under 18, contact details of parent/carer)",
-    "email": "Email:",
-    "email-placeholder": "(If under 18, contact details of parent/carer)",
-    "comments": "Additional comments:"
-  },
-  "confirmation": {
-    "title": "Booking overview:",
-    "location": "Location:",
-    "session": "Session:",
-    "price": "Price:",
-    "finish": "Finish",
-    "text-confirm": "A confirmation email has been sent to your email address and your booking is now complete.",
-    "text-book-another": "To make another booking, just click the button below.",
-    "restart": "New booking"
-  }
+    "booking-with": "BOOKING WITH",
+    "booking-for": "Booking for",
+    "current-booking": "Current Booking",
+    "common": {
+        "next": "Continue Booking",
+        "back": "Back",
+        "duration": "min"
+    },
+    "location-section": {
+        "label": "Please select a location"
+    },
+    "services-section": {
+        "label": "Please select a service",
+        "description": "Description:"
+    },
+    "full-course": "Full course",
+    "course": "COURSE",
+    "single-session" : "SINGLE SESSION",
+    "per-session": "Per session",
+    "details": {
+        "first-name": "First name",
+        "first-name-placeholder": "(Enter name of person attending)",
+        "last-name": "Last name",
+        "phone": "Phone number",
+        "phone-placeholder": "(If under 18, contact details of parent/carer)",
+        "email": "Email",
+        "email-placeholder": "(If under 18, contact details of parent/carer)"
+    },
+    "confirmation": {
+        "text-confirm": "A confirmation email has been sent to your email address and your booking is now complete.",
+        "process-booking": "Process booking",
+        "change-booking": "Change booking",
+        "booking-confirmed": "Booking confirmed! Have fun out there.",
+        "reset-bookings": "New booking",
+        "total": "Total:"
+    }
 }

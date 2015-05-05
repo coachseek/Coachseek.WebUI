@@ -1,15 +1,20 @@
-angular.module('booking', [ 'booking.controllers' ])
+angular.module('booking', [
+        'booking.controllers',
+        'booking.directives',
+        'booking.services'
+    ])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
             .state('booking', {
                 url: "/booking",
+                abstract: true,
                 templateUrl: "booking/partials/booking.html",
                 controller: 'bookingCtrl'
             })
             .state('booking.location', {
                 url: "/location",
                 views: {
-                    "list-item-view": { 
+                    "booking-view": { 
                         templateUrl: "booking/partials/bookingLocationView.html",
                         controller: 'bookingLocationCtrl'
                     }
@@ -21,7 +26,7 @@ angular.module('booking', [ 'booking.controllers' ])
             .state('booking.services', {
                 url: "/services",
                 views: {
-                    "list-item-view": { 
+                    "booking-view": { 
                         templateUrl: "booking/partials/bookingServicesView.html",
                         controller: 'bookingServicesCtrl'
                     }
@@ -33,9 +38,9 @@ angular.module('booking', [ 'booking.controllers' ])
             .state('booking.details', {
                 url: "/details",
                 views: {
-                    "list-item-view": { 
-                        templateUrl: "booking/partials/bookingDetailsView.html",
-                        controller: 'bookingDetailsCtrl'
+                    "booking-view": { 
+                        templateUrl: "booking/partials/bookingCustomerDetailsView.html",
+                        controller: 'bookingCustomerDetailsCtrl'
                     }
                 },
                 data: {
@@ -45,7 +50,7 @@ angular.module('booking', [ 'booking.controllers' ])
             .state('booking.payment', {
                 url: "/payment",
                 views: {
-                    "list-item-view": { 
+                    "booking-view": { 
                         templateUrl: "booking/partials/bookingPaymentView.html",
                         controller: 'bookingPaymentCtrl'
                     }
@@ -57,7 +62,7 @@ angular.module('booking', [ 'booking.controllers' ])
             .state('booking.confirmation', {
                 url: "/confirmation",
                 views: {
-                    "list-item-view": { 
+                    "booking-view": { 
                         templateUrl: "booking/partials/bookingConfirmationView.html",
                         controller: 'bookingConfirmationCtrl'
                     }

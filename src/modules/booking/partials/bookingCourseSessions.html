@@ -1,0 +1,8 @@
+<div class="full-course" ng-click="toggleEntireCourse()" ng-class="{'selected': booking.course && booking.course.id === event.id}">
+	{{'booking:full-course' | i18next}} {{'denomination' | i18next}}{{event.pricing.coursePrice || 0}}
+</div>
+<div class="course-session" ng-repeat="session in selectedEvent.sessions" ng-click="toggleSessionSelect(session)" ng-class="{selected: isSelected(session)}">
+	<p>{{getSessionDate(session)}}</p>
+	<p>{{getEventTimeRange(session)}}</p>
+	<p>{{'denomination' | i18next}}{{session.pricing.sessionPrice || 0}} {{'booking:per-session' | i18next}}</p>
+</div>

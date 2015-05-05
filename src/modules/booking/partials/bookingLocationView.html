@@ -1,28 +1,7 @@
-<div class="content-container">
-
-  <form name="form" class="content container">
-    <div class="row">
-      <div class="col-sm-2 col-xs-12">
-        <h2>{{'booking:location-section.title' | i18next}}</h2>
-        <div class="form-input section">
-          <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
-          <select name="location" ng-options="location.name for location in locations" ng-model="filters.location" id="location" class="full-width" required ng-change="selectLocation()">
-          </select>
-            <div class="form-error" ng-show="form.location.$error.required">{{'booking:location-section.error' | i18next}}</div>
-        </div>
-      </div>
-
-      <div class="col-sm-10 col-xs-12">
-        <!-- Future Map -->
-      </div>
-
-    </div>
-    <div class="row">
-      <div class="col-xs-12 col-sm-5 actions">
-        <button type="submit" class="btn-save" ui-sref="booking.services" ng-disabled="form.$invalid">{{'booking:common.next'|i18next}}</button>
-      </div>
-    </div>
-  </form>
-
-
+<div class="form-input section">
+    <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
+    <select name="location" ng-disabled="loadingSessions" ng-options="location.name for location in locations" ng-model="filters.location" id="location" required ng-change="filterAllSessions()">
+    </select>
 </div>
+<loading-animation ng-show="loadingSessions"></loading-animation>
+<button type="submit" class="continue-button" ui-sref="booking.services" ng-disabled="!filters.location">{{'booking:common.next'|i18next}}</button>
