@@ -71,7 +71,7 @@ angular.module('app.controllers', [])
             $rootScope.setupCurrentUser = function(user){
                 $rootScope.setUserAuth(user.email, user.password)
                 startIntercom(user, _.now());
-                $rootScope.currentUser = user.email;
+                $rootScope.currentUser = user;
             };
 
             $rootScope.setUserAuth = function(email, password){
@@ -111,11 +111,13 @@ angular.module('app.controllers', [])
                     $scope.setUserAuth(email, password);
 
                     $activityIndicator.startAnimating();
-                    coachSeekAPIService.query({section: 'Locations'})
-                        .$promise.then(function(){
+                    coachSeekAPIService.get({section: 'Business'})
+                        .$promise.then(function(business){
                             var user = {
                                 email: email,
-                                password: password
+                                password: password,
+                                businessDomain: business.domain,
+                                businessName: business.name
                             };
                             $scope.$close(user);
                         }, function(error){

@@ -33,11 +33,11 @@ angular.module('businessSetup.controllers', [])
         } else {
             $scope.itemList = [{
                 admin:{
-                    email: $scope.currentUser
+                    email: $scope.currentUser.email
                 }
             }];
         }
-        // CRUDService.get('BusinessRegistration', $scope);
+        // CRUDService.get('Business', $scope);
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService',
         function($scope, CRUDService){

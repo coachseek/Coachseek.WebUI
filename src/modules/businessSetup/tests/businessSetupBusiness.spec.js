@@ -204,7 +204,7 @@ describe('BusinessSetup Business', function(){
                         expect($http.defaults.headers.common['Authorization']).to.equal(authHeader)
                     });
                     it('should set the currentUser on $rootScope', function(){
-                        expect(scope.currentUser).to.equal(admin.email);
+                        expect(scope.currentUser.email).to.equal(admin.email);
                     });
                 });
             });
