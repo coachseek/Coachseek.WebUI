@@ -426,7 +426,7 @@ function createInputInstance(manager) {
     } else if (!SUPPORT_TOUCH) {
         Type = MouseInput;
     } else {
-        Type = TouchMouseInput;
+        Type = TouchInput;
     }
     return new (Type)(manager, inputHandler);
 }

@@ -20,9 +20,9 @@
 
 var fc = $.fullCalendar = { version: "2.3.1" };
 var fcViews = fc.views = {};
-var MOUSEDOWN_EVENT = Modernizr.touch ? 'touchstart' : 'mousedown';
-var MOUSEUP_EVENT = Modernizr.touch ? 'touchend' : 'mouseup';
-var MOUSEMOVE_EVENT = Modernizr.touch ? 'touchmove' : 'mousemove';
+var MOUSEDOWN_EVENT = 'touchstart mousedown';
+var MOUSEUP_EVENT = 'touchend mouseup';
+var MOUSEMOVE_EVENT = 'touchmove mousemove';
 
 
 $.fn.fullCalendar = function(options) {
@@ -3708,7 +3708,7 @@ Grid.mixin({
                             return func.call(this, seg, ev); // `this` will be the event element
                         }
                     });
-                } else {
+                }
                     // attach the handler to the container element and only listen for real event elements via bubbling
                     _this.el.on(name, '.fc-event-container > *', function(ev) {
                         var seg = $(this).data('fc-seg'); // grab segment data. put there by View::renderEvents
@@ -3718,7 +3718,7 @@ Grid.mixin({
                             return func.call(this, seg, ev); // `this` will be the event element
                         }
                     });
-                }
+                // }
             }
         );
     },
