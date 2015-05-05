@@ -106,4 +106,10 @@ angular.module('app.directives', [])
             restrict: "EAC",
             templateUrl:'app/partials/ellipsisAnimated.html'
         };
+    })
+    .directive('loadingAnimation', function () {
+        return {
+            restrict: "E",
+            templateUrl:'app/partials/loadingAnimation.html'
+        };
     });
