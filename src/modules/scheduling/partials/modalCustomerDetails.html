@@ -1,7 +1,7 @@
 <li class="customer-details">
     <span class="item-title first-name" ng-bind-html="item.firstName | highlight:this">{{item.firstName}}</span>
     <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
-    <button class="add-student fa" ng-if="currentEvent.course" ng-disabled="isCourseStudent" ng-class="isCourseStudent ? 'fa-check' : 'fa-plus'" ng-click="addStudent(true)" ng-hide="bookingLoading"></button>
-    <button class="add-student fa" ng-disabled="isSessionStudent" ng-class="isSessionStudent ? 'fa-check' : 'fa-plus'" ng-click="addStudent(false)" ng-hide="bookingLoading"></button>
+    <button class="add-student to-course fa" ng-if="currentEvent.course" ng-disabled="isCourseStudent" ng-class="isCourseStudent ? 'fa-check' : 'fa-plus'" ng-click="addStudent(true)" ng-hide="bookingLoading"></button>
+    <button class="add-student to-session fa" ng-disabled="isSessionStudent" ng-class="isSessionStudent ? 'fa-check' : 'fa-plus'" ng-click="addStudent(false)" ng-hide="bookingLoading"></button>
     <ellipsis-animated ng-show="bookingLoading"></ellipsis-animated>
 </li>
