@@ -1,6 +1,7 @@
 angular.module('app.services', [])
+    // TODO change name to coachseekAPIFactory
     .factory('coachSeekAPIService', ['$resource', function($resource) {
-        return $resource('http://api.coachseek.com/:section/:id');
+        return $resource('https://api.coachseek.com/:section/:id');
             //   DEFAULT RESOURCE FUNTIONS
             //   'get':    {method:'GET'},
             //   'save':   {method:'POST'},
