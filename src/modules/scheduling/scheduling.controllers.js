@@ -266,8 +266,8 @@ angular.module('scheduling.controllers', [])
                         duration: serviceData.timing.duration
                     },
                     booking: {
-                        isOnlineBookable: true,
                         studentCapacity: 1,
+                        isOnlineBookable: serviceData.booking ? serviceData.booking.isOnlineBookable : true,
                         bookings: []
                     },
                     pricing: serviceData.pricing,

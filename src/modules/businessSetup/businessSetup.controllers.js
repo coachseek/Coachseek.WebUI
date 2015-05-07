@@ -216,6 +216,9 @@ angular.module('businessSetup.controllers', [])
         }
     }])
     .value('serviceDefaults', {
+            booking: {
+                isOnlineBookable: true
+            },
             timing: {
                 duration: 60
             },

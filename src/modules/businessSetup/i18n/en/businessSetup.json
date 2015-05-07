@@ -41,6 +41,7 @@
         "session-price": "Per session price",
         "duration": "Service duration (in minutes)",
         "repeat-frequency": "Repeat course",
+        "is-online-bookable": "Available to book online",
         "placeholder": {
             "name": "How to Ball Hard",
             "description": "We show you how to...",

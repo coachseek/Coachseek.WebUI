@@ -119,7 +119,7 @@
                     }
                 }
 
-                select.coaches, select.locations, select.services{
+                select.coaches, select.locations, select.services, select.online-bookable{
                     width: 100%;
                     height: 40px;
                     border: 1px solid $light-grey;
@@ -135,7 +135,6 @@
                     }
                     select{
                         height: 40px;
-                        text-indent: 140px;
                         margin: 0;
                         border: 1px solid $light-grey;
                         width: 100%;

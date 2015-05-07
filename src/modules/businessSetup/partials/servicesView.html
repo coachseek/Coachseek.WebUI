@@ -46,6 +46,15 @@
             <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  min="1"  />
         </div>
 
+        <div class="form-input right-col">
+            <label name="isOnlineBookable">{{'businessSetup:service-details.is-online-bookable' | i18next}}</label>
+            <select name="isOnlineBookable"
+                ng-model="item.booking.isOnlineBookable"
+                ng-options="opt.value as (opt.text |i18next) for opt in [{text:'yes', value: true},{text:'no', value: false}]">
+            </select>
+        </div>
+
+
         <div class="form-input">
             <label>{{'businessSetup:service-details.service-colour' | i18next}}</label>
             <color-picker

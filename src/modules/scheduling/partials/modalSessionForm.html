@@ -51,6 +51,15 @@
             </div>
         </div>
 
+        <div class="form-input">
+            <label name="isOnlineBookable">{{'businessSetup:service-details.is-online-bookable' | i18next}}</label>
+            <select-arrows></select-arrows>
+            <select class="online-bookable" name="isOnlineBookable"
+                ng-model="currentEvent.session.booking.isOnlineBookable"
+                ng-options="opt.value as (opt.text |i18next) for opt in [{text:'yes', value: true},{text:'no', value: false}]">
+            </select>
+        </div>
+
         <repeat-selector
             ng-show="currentEvent.tempEventId"
             repeat-frequency="currentEvent.session.repetition.repeatFrequency"
