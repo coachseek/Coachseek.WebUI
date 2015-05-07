@@ -306,14 +306,18 @@ angular.module('scheduling.controllers', [])
                 forceFormTouched();
                 if($scope.currentSessionForm.$valid){
                     var course = $scope.currentEvent.course;
-                    if(course){
+                    if($scope.currentEvent.tempEventId && course){
+                        var session = $scope.currentEvent.session;
+                        session.pricing.coursePrice = $scope.currentEvent.course.pricing.coursePrice;
+                        saveSession(session);
+                    } else if(course){
                         sessionOrCourseModal($scope).then(function(id){
                             if(id === course.id){
                                 saveSession(assignCourseAttributes(course));
                             } else {
                                 saveSession($scope.currentEvent.session);
                             }
-                        });
+                        }); 
                     } else {
                         saveSession($scope.currentEvent.session);
                     }
@@ -328,6 +332,10 @@ angular.module('scheduling.controllers', [])
                         duration: $scope.currentEvent.session.timing.duration,
                         startDate: course.timing.startDate,
                         startTime: $scope.currentEvent.session.timing.startTime
+                    },
+                    pricing: {
+                        sessionPrice: $scope.currentEvent.session.pricing.sessionPrice,
+                        coursePrice: course.pricing.coursePrice
                     }
                 });
             };

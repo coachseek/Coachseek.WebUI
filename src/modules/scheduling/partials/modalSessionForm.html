@@ -77,10 +77,10 @@
             <input name="sessionPrice" type="number" ng-model="currentEvent.session.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
         </div>
 
-        <div class="course-price form-input" ng-hide="currentEvent.session.repetition.sessionCount < 2" >
+        <div class="course-price form-input" ng-show="currentEvent.session.repetition.sessionCount > 1 || currentEvent.course" >
             <label name="coursePrice">{{'scheduling:service-details.course-price' | i18next}}</label>
             <span class="money-sign">{{'denomination' | i18next}}</span>
-            <input name="coursePrice" type="number" ng-model="currentEvent.session.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
+            <input name="coursePrice" type="number" ng-model="currentEvent.course.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
         </div>
     </form>
 </div>
