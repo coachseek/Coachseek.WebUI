@@ -2,7 +2,7 @@
     <label name="repeatable" class="repeat-label">{{'businessSetup:repeat-selector.is-repeatable' | i18next}}</label>
     <select class="repeatable-dropdown"
         ng-model="isRepeatable"
-        ng-options="opt.value as ('businessSetup:repeat-selector.'+opt.text |i18next) for opt in repeatableOptions"
+        ng-options="opt.value as (opt.text |i18next) for opt in repeatableOptions"
         ng-change="toggleRepeatable()">
     </select>
 </div>
