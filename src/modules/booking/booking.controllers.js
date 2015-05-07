@@ -2,6 +2,7 @@ angular.module('booking.controllers', [])
     .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 
       function($scope, $state, onlineBookingAPIFactory){
         $scope.booking = {};
+        $scope.customerDetails = {};
         $scope.filters = {};
         $scope.locations = [];
         $scope.services = [];
@@ -200,16 +201,14 @@ angular.module('booking.controllers', [])
 
         $scope.processBooking = function () {
             $scope.processingBooking = true;
-            coachSeekAPIService.save({ section: 'Customers' }, $scope.booking.customer).$promise
+            coachSeekAPIService.save({ section: 'Customers' }, $scope.customerDetails).$promise
                     .then(function (customer) {
                         $q.all(getSessionsToBook(customer)).then(function () {
                             $scope.bookingConfirmed = true;
                         }, $scope.handleErrors).finally(function(){
                             $scope.processingBooking = false;
                         });
-                }, $scope.handleErrors).finally(function(){
-                    $scope.processingBooking = false;
-                });
+                }, $scope.handleErrors);
         };
 
         function getSessionsToBook(customer){
