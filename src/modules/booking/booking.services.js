@@ -10,3 +10,6 @@ angular.module('booking.services', [])
             }
         };
     }])
+    .factory('businessDomain', ['$location', '$rootScope', function ($location, $rootScope) {
+        return $rootScope.currentUser.businessDomain || _.words($location.host())[0];
+    }]);

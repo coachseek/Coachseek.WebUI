@@ -2,8 +2,8 @@ angular.module('booking.controllers', [])
     .controller('bookingAdminCtrl', ['$scope', function($scope){
         //SAM ADDS BUTTON STUFF HERE
     }])
-    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 
-      function($scope, $state, onlineBookingAPIFactory){
+    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'businessDomain',
+      function($scope, $state, onlineBookingAPIFactory, businessDomain){
         $scope.booking = {};
         $scope.customerDetails = {};
         $scope.filters = {};
@@ -23,9 +23,8 @@ angular.module('booking.controllers', [])
             };
 
             $scope.loadingSessions = true;
-            return onlineBookingAPIFactory.anon($scope.currentUser.businessDomain)
+            return onlineBookingAPIFactory.anon(businessDomain)
                     .get(params).$promise.then(function(events){
-                        console.log(events);
                         $scope.events = events;
                     }, $scope.handleErrors).finally(function(){
                         $scope.loadingSessions = false;
@@ -118,7 +117,6 @@ angular.module('booking.controllers', [])
             var endDate = startDate.clone().add(repetition.sessionCount - 1, repetition.repeatFrequency);
             return moment.range(startDate, endDate);
         };
-
     }])
     .controller('bookingLocationCtrl', ['$scope', function($scope){
         function locationAlreadyAdded(locationId){
@@ -194,8 +192,8 @@ angular.module('booking.controllers', [])
       };
         
     }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'coachSeekAPIService',
-      function($scope, $q, $state, onlineBookingAPIFactory, coachSeekAPIService){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'businessDomain',
+      function($scope, $q, $state, onlineBookingAPIFactory, businessDomain){
         $scope.bookingConfirmed = false;
 
         if(!$scope.filters.location){
@@ -204,7 +202,8 @@ angular.module('booking.controllers', [])
 
         $scope.processBooking = function () {
             $scope.processingBooking = true;
-            coachSeekAPIService.save({ section: 'Customers' }, $scope.customerDetails).$promise
+            onlineBookingAPIFactory.anon(businessDomain)
+                .save({ section: 'Customers' }, $scope.customerDetails).$promise
                     .then(function (customer) {
                         $q.all(getSessionsToBook(customer)).then(function () {
                             $scope.bookingConfirmed = true;
@@ -233,6 +232,6 @@ angular.module('booking.controllers', [])
                 paymentStatus: "awaiting-invoice",
                 hasAttended: false
             }
-            return onlineBookingAPIFactory.anon($scope.currentUser.businessDomain).save({ section: 'Bookings' }, bookingData).$promise;  
+            return onlineBookingAPIFactory.anon(businessDomain).save({ section: 'Bookings' }, bookingData).$promise;
         };
     }]);
