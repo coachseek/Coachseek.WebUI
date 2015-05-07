@@ -20,6 +20,16 @@ angular.module('booking.directives', [])
                     return startDate.format('h:mm A') + " – " + startDate.clone().add(scope.event.timing.duration, 'minutes').format('h:mm A');
                 };
 
+                scope.getSpacesAvailable = function(){
+                    var booking = scope.event.booking;
+                    if(scope.event.sessions){
+                        var maxBookingsSession = _.max(scope.event.sessions, "booking.bookingCount");
+                        return booking.studentCapacity - maxBookingsSession.booking.bookingCount;
+                    } else {
+                        return booking.studentCapacity - booking.bookingCount;
+                    }
+                };
+
                 scope.toggleEventSelect = function(){
                     scope.selected = !scope.selected;
                     scope.selectEvent(scope.event)
@@ -47,6 +57,10 @@ angular.module('booking.directives', [])
 
                 scope.isSelected = function(session){
                     return _.includes(scope.booking.sessions, session);
+                };
+
+                scope.getSessionSpacesAvailable = function(session){
+                    return session.booking.studentCapacity - session.booking.bookingCount;
                 };
             }
         };

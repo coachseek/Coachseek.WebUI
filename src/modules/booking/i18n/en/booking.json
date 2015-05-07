@@ -2,6 +2,8 @@
     "booking-with": "BOOKING WITH",
     "booking-for": "Booking for",
     "current-booking": "Current Booking",
+    "spaces-available": "__count__ Space available",
+    "spaces-available_plural": "__count__ Spaces available",
     "common": {
         "next": "Continue Booking",
         "back": "Back",

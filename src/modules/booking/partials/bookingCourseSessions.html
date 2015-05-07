@@ -5,4 +5,5 @@
 	<p>{{getSessionDate(session)}}</p>
 	<p>{{getEventTimeRange(session)}}</p>
 	<p>{{'denomination' | i18next}}{{session.pricing.sessionPrice || 0}} {{'booking:per-session' | i18next}}</p>
+	<p ng-i18next="[i18next]({count:getSessionSpacesAvailable(session)})booking:spaces-available" class="spaces-available"></p>
 </div>

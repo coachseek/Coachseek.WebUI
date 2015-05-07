@@ -96,13 +96,13 @@
                         overflow: hidden;
                         border-radius: 5px;
 
-                        input[type=checkbox] {
-                          display: none;
+                        .spaces-available, .session-type{
+                            font-family: lato-bold;
                         }
 
                         &.selected {
-/*                            border: 3px solid $orange;
-                            color: $orange;*/
+                            border: 3px solid $orange;
+                            color: $orange;
                         }
 
                         &.faded{

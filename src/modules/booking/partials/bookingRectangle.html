@@ -6,6 +6,7 @@
     	{{'denomination' | i18next}}{{event.pricing.sessionPrice || 0}} {{'booking:per-session' | i18next}}
     	<span ng-if="event.sessions">, {{'denomination' | i18next}}{{event.pricing.coursePrice || 0}} {{'booking:full-course' | i18next}}<span>
     </p>
+    <p ng-i18next="[i18next]({count:getSpacesAvailable()})booking:spaces-available" class="spaces-available"></p>
 
 	<booking-course-sessions ng-show="selectedEvent.sessions && selectedEvent.id === event.id"></booking-course-sessions >
     
