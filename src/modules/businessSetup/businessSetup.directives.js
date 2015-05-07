@@ -1,6 +1,7 @@
 angular.module('businessSetup.directives', [])
     .directive('repeatSelector', function(){
         return {
+            restrict: "E",
             scope: {
                 repeatFrequency: '=',
                 sessionCount: '='
