@@ -52,6 +52,11 @@
         </div>
 
         <div class="form-input">
+            <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
+            <input name="studentCapacity" type="number" ng-model="currentEvent.session.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  min="1"  />
+        </div>
+
+        <div class="form-input">
             <label name="isOnlineBookable">{{'businessSetup:service-details.is-online-bookable' | i18next}}</label>
             <select-arrows></select-arrows>
             <select class="online-bookable" name="isOnlineBookable"
