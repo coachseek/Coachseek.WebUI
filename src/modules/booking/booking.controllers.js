@@ -89,9 +89,8 @@ angular.module('booking.controllers', [])
                 _.each($scope.booking.sessions, function(session){
                     dates.push(getNewDate(session.timing));
                 });
-                dates = _.sortBy(dates, function(date){
-                    return date.valueOf();
-                });
+
+                dates = _.sortBy(dates, function(date){return date.valueOf();});
                 if(_.size(dates) === 1 ){
                     return _.first(dates).format('dddd Do MMM');
                 } else if (_.size(dates)){
@@ -109,7 +108,7 @@ angular.module('booking.controllers', [])
         };
 
         function getNewDate(timing){
-            return moment(timing.startDate + " " + timing.startTime, "YYYY-MM-DD HH:mm");
+            return moment(timing.startDate, "YYYY-MM-DD");
         };
 
         function getNewDateRange(timing, repetition){
