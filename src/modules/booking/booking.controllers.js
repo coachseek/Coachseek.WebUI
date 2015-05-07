@@ -1,4 +1,7 @@
 angular.module('booking.controllers', [])
+    .controller('bookingAdminCtrl', ['$scope', function($scope){
+        //SAM ADDS BUTTON STUFF HERE
+    }])
     .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 
       function($scope, $state, onlineBookingAPIFactory){
         $scope.booking = {};

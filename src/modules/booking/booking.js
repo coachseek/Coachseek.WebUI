@@ -5,6 +5,14 @@ angular.module('booking', [
     ])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
+            .state('bookingAdmin', {
+                url: "/booking-admin",
+                templateUrl: "booking/partials/bookingAdminView.html",
+                controller: 'bookingAdminCtrl',
+                data: {
+                    requireLogin: true
+                }
+            })
             .state('booking', {
                 url: "/booking",
                 abstract: true,
