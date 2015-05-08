@@ -36,5 +36,18 @@
         "booking-confirmed": "Booking confirmed! Have fun out there.",
         "reset-bookings": "New booking",
         "total": "Total:"
+    },
+    "booking-admin":{
+        "onlinebooking":"Online booking",
+        "payments": "Payments",
+        "address":"Here’s your Online Booking website address",
+        "code":"Want a cool ‘Book Now’ button for your own website? Just copy and paste this into your website on any pages you want a Book Now button!",
+        "address-btn":"View preview site",
+        "code-btn":"Copy code",
+        "accept-payments":"Do you want to accept online payments?",
+        "paypal":"PayPal",
+        "activate":"Activate your PayPal account to accept online payments! - You must have a PayPal business or premier account.",
+        "email":"Enter your PayPal email address",
+        "save":"Save"
     }
 }
