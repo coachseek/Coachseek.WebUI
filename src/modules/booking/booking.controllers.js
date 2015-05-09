@@ -2,8 +2,8 @@ angular.module('booking.controllers', [])
     .controller('bookingAdminCtrl', ['$scope', function($scope){
         //SAM ADDS BUTTON STUFF HERE
     }])
-    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'businessDomain',
-      function($scope, $state, onlineBookingAPIFactory, businessDomain){
+    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory',
+      function($scope, $state, onlineBookingAPIFactory){
         $scope.booking = {};
         $scope.customerDetails = {};
         $scope.filters = {};
@@ -23,7 +23,7 @@ angular.module('booking.controllers', [])
             };
 
             $scope.loadingSessions = true;
-            return onlineBookingAPIFactory.anon(businessDomain)
+            return onlineBookingAPIFactory.anon($scope.businessDomain)
                     .get(params).$promise.then(function(events){
                         $scope.events = events;
                     }, $scope.handleErrors).finally(function(){
@@ -191,8 +191,8 @@ angular.module('booking.controllers', [])
       };
         
     }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'businessDomain',
-      function($scope, $q, $state, onlineBookingAPIFactory, businessDomain){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory',
+      function($scope, $q, $state, onlineBookingAPIFactory){
         $scope.bookingConfirmed = false;
 
         if(!$scope.filters.location){
@@ -201,7 +201,7 @@ angular.module('booking.controllers', [])
 
         $scope.processBooking = function () {
             $scope.processingBooking = true;
-            onlineBookingAPIFactory.anon(businessDomain)
+            onlineBookingAPIFactory.anon($scope.businessDomain)
                 .save({ section: 'Customers' }, $scope.customerDetails).$promise
                     .then(function (customer) {
                         $q.all(getSessionsToBook(customer)).then(function () {
@@ -231,6 +231,6 @@ angular.module('booking.controllers', [])
                 paymentStatus: "awaiting-invoice",
                 hasAttended: false
             }
-            return onlineBookingAPIFactory.anon(businessDomain).save({ section: 'Bookings' }, bookingData).$promise;
+            return onlineBookingAPIFactory.anon($scope.businessDomain).save({ section: 'Bookings' }, bookingData).$promise;
         };
     }]);

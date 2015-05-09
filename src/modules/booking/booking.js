@@ -28,7 +28,8 @@ angular.module('booking', [
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: false,
+                    requireBusinessDomain: true
                 }
             })
             .state('booking.services', {
@@ -40,7 +41,8 @@ angular.module('booking', [
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: false,
+                    requireBusinessDomain: true
                 }
             })
             .state('booking.details', {
@@ -52,7 +54,8 @@ angular.module('booking', [
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: false,
+                    requireBusinessDomain: true
                 }
             })
             .state('booking.payment', {
@@ -64,7 +67,8 @@ angular.module('booking', [
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: false,
+                    requireBusinessDomain: true
                 }
             })
             .state('booking.confirmation', {
@@ -76,7 +80,8 @@ angular.module('booking', [
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: false,
+                    requireBusinessDomain: true
                 }
             });
     }]);

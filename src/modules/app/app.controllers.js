@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$state', '$http', '$timeout', 'loginModal',
-        function ($rootScope, $state, $http, $timeout, loginModal, $window) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'anonCoachseekAPIFactory',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, anonCoachseekAPIFactory) {
             // TODO - add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
 
@@ -81,7 +81,35 @@ angular.module('app.controllers', [])
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                if (requireLogin && !$rootScope.currentUser) {
+                var requireBusinessDomain = toState.data.requireBusinessDomain;
+                var businessDomain = _.first($location.host().split("."));
+                if(businessDomain !== 'app' && !$rootScope.businessDomain){
+                    event.preventDefault();
+
+                    anonCoachseekAPIFactory.anon(businessDomain).query({section:'Locations'}).$promise
+                        .then(function(){
+                            $rootScope.businessDomain = businessDomain;
+                            $state.go('booking.location');
+                        }, function(){
+                            $rootScope.addAlert({
+                                type: 'warning',
+                                message: 'businessDomain-invalid'
+                            });
+
+                            $timeout(function(){
+                                window.location = 'https://app.coachseek.com';
+                            }, 5000)
+                        });
+                } else if (requireBusinessDomain && businessDomain === 'app') {
+                    event.preventDefault();
+                    $state.go('scheduling');
+                } else if (requireLogin && !$rootScope.currentUser) {
+                    // $rootScope.setupCurrentUser({
+                    //     email: 're@d.e',
+                    //     password: 'password',
+                    //     businessDomain: 'ballsohard1',
+                    //     businessName: 'BROS ON BROS ON BROS'
+                    // });
                     event.preventDefault();
 
                     loginModal().then(function () {
@@ -98,9 +126,7 @@ angular.module('app.controllers', [])
             $(window).on('resize', function () {
                 $rootScope.isBigScreen = $(this).width() > 767;
                 $rootScope.$apply();
-            });
-           
-
+            }); 
         }])
         .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',
             function ($scope, coachSeekAPIService, $http, $activityIndicator, $window) {

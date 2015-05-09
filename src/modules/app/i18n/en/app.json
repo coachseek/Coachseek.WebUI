@@ -53,5 +53,6 @@
     "feedback-thanks": "Thanks! We'll throw that in our oven and see what comes out.",
     "feedback-thanks-submessage": "(Now go find something else to do you beautiful being.)",
     "single-session": "Single Session",
-    "multi-session": "Course"
+    "multi-session": "Course",
+    "businessDomain-invalid": "Oops! Looks like that business domain doesn't exist. Make sure it's spelled correctly and try again, eh?"
 }

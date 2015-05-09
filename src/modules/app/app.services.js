@@ -9,6 +9,15 @@ angular.module('app.services', [])
             //   'remove': {method:'DELETE'},
             //   'delete': {method:'DELETE'}
     }])
+    .factory('anonCoachseekAPIFactory', ['$resource', function($resource) {
+        return {
+            anon: function (subdomain) {
+                return $resource('https://api.coachseek.com/:section', {}, {
+                    query: {method: 'GET', isArray:true, headers: {'Business-Domain': subdomain}},
+                })
+            }
+        };
+    }])
     .service('CRUDService', ['coachSeekAPIService', '$activityIndicator',
         function(coachSeekAPIService, $activityIndicator){
 
