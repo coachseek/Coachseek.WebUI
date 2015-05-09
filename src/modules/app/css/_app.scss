@@ -111,7 +111,10 @@ $nav-bar-height: 55px;
 body {
   font-family: lato-regular;
   background: $background-beige;
-  padding-top: 55px;
+
+  &.with-navbar{
+    padding-top: 55px;    
+  }
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
