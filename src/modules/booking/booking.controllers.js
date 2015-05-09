@@ -1,6 +1,12 @@
 angular.module('booking.controllers', [])
-    .controller('bookingAdminCtrl', ['$scope', function($scope){
-        //SAM ADDS BUTTON STUFF HERE
+    .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', function($scope, $templateCache, $compile){
+        var markup = $templateCache.get('booking/partials/bookNowButton.html');
+        var view = $compile(markup)($scope);
+        _.defer(function(){
+            $scope.buttonHTML = view.get(0).outerHTML;
+            $scope.$apply();
+        })
+
     }])
     .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory',
       function($scope, $state, onlineBookingAPIFactory){

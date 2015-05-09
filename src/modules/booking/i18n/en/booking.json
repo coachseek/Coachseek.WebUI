@@ -1,4 +1,6 @@
 {
+    "book-now": "Book now!",
+    "preview-button": "View preview site",
     "booking-with": "BOOKING WITH",
     "booking-for": "Booking for",
     "current-booking": "Current Booking",
@@ -44,6 +46,7 @@
         "code":"Want a cool ‘Book Now’ button for your own website? Just copy and paste this into your website on any pages you want a Book Now button!",
         "address-btn":"View preview site",
         "code-btn":"Copy code",
+        "copied":"Copied!",
         "accept-payments":"Do you want to accept online payments?",
         "paypal":"PayPal",
         "activate":"Activate your PayPal account to accept online payments! - You must have a PayPal business or premier account.",

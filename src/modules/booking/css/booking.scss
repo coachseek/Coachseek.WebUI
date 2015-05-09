@@ -5,18 +5,19 @@
         font-size: 30px;
         padding: 30px 60px 0px 60px;
         color: white;
+        text-transform: uppercase;
     }
 
     .fade-block{
         height: 30px;
         width: 100%;
         position: absolute;
-        background: linear-gradient(rgba(255, 255, 255, 0), $dark-blue);
+        background: linear-gradient(transparent, $dark-blue);
         bottom: 125px;
     }
 
     .booking-container {
-        height: calc(100vh - 252px);
+        height: calc(100vh - 197px);
         padding: 30px 60px 60px 60px;
         color: $white;
         position: relative;
