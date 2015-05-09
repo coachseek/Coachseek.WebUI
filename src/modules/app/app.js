@@ -58,6 +58,9 @@ angular.module('app',
                 url: "/financials/coming-soon"
             });
     }])
+    .config(['$compileProvider', function ($compileProvider) {
+        $compileProvider.debugInfoEnabled(false);
+    }])
     .run(['$rootScope', '$state', '$stateParams',
         function($rootScope, $state, $stateParams){
             FastClick.attach(document.body);
