@@ -104,12 +104,6 @@ angular.module('app.controllers', [])
                     event.preventDefault();
                     $state.go('scheduling');
                 } else if (requireLogin && !$rootScope.currentUser) {
-                    // $rootScope.setupCurrentUser({
-                    //     email: 're@d.e',
-                    //     password: 'password',
-                    //     businessDomain: 'ballsohard1',
-                    //     businessName: 'BROS ON BROS ON BROS'
-                    // });
                     event.preventDefault();
 
                     loginModal().then(function () {
