@@ -4,4 +4,4 @@
     </select>
 </div>
 <loading-animation ng-show="loadingSessions"></loading-animation>
-<button type="submit" class="continue-button" ui-sref="booking.services" ng-disabled="!filters.location">{{'booking:common.next'|i18next}}</button>
+<button type="submit" class="continue-button" ui-sref="booking.services" ng-disabled="!filters.location || loadingSessions">{{'booking:common.next'|i18next}}</button>
