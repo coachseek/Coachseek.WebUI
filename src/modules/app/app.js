@@ -23,7 +23,8 @@ angular.module('app',
     'booking',
 
     // UTILITIES
-    'ngActivityIndicator'
+    'ngActivityIndicator',
+    'ngClipboard'
 
     ]).config(['$i18nextProvider', function( $i18nextProvider ){
         $i18nextProvider.options = {
