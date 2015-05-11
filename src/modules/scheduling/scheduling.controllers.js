@@ -35,7 +35,7 @@ angular.module('scheduling.controllers', [])
                     allDaySlot: false,
                     slotEventOverlap: false,
                     firstDay: 1,
-                    titleFormat: 'DD MMM YYYY',
+                    titleFormat: {month:'MMM YYYY', week:'MMM YYYY', day:'D MMM YYYY'},
                     snapDuration: '00:15:00',
                     defaultView: $scope.isBigScreen ? 'agendaWeek' : 'agendaDay',
                     eventDurationEditable: false,
