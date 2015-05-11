@@ -223,8 +223,13 @@
 
 @media (max-width: 767px){
     [state^="scheduling"] {
-        .session-modal.session-modal-responsive{
-            width: 100%;
-        }
+        .session-modal{
+            .session-form{
+                height: calc(100vh - 240px);
+            }
+            &.session-modal-responsive{
+                width: 100%;
+            }
+        }    
     }
 }
