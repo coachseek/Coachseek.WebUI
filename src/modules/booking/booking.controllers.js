@@ -31,7 +31,7 @@ angular.module('booking.controllers', [])
             $scope.loadingSessions = true;
             return onlineBookingAPIFactory.anon($scope.businessDomain)
                     .get(params).$promise.then(function(events){
-                        $scope.events = events;
+                        $scope.allEvents = _.union(events.courses, events.sessions);
                     }, $scope.handleErrors).finally(function(){
                         $scope.loadingSessions = false;
                     });
@@ -113,6 +113,19 @@ angular.module('booking.controllers', [])
             $state.go('booking.location');
         };
 
+        $scope.filterByLocation = function () {
+            $scope.locationEvents = _.filter($scope.allEvents, function(event){
+                return event.location.id === $scope.filters.location.id;
+            });
+        };
+
+        $scope.filterByService = function () {
+            delete $scope.selectedEvent;
+            $scope.events = _.filter($scope.locationEvents, function(event){
+                return event.service.id === $scope.filters.service.id;
+            });
+        };
+
         function getNewDate(timing){
             return moment(timing.startDate, "YYYY-MM-DD");
         };
@@ -130,14 +143,15 @@ angular.module('booking.controllers', [])
             });
         };
 
-        $scope.filterAllSessions().then(function(events){
-            var events = _.union($scope.events.courses, $scope.events.sessions);
-            _.each(events, function(event){
-                if(!locationAlreadyAdded(event.location.id)) {
-                    $scope.locations.push(event.location);
-                }
+        if(!$scope.allEvents){
+            $scope.filterAllSessions().then(function(){
+                _.each($scope.allEvents, function(event){
+                    if(!locationAlreadyAdded(event.location.id)) {
+                        $scope.locations.push(event.location);
+                    }
+                });
             });
-        });
+        }
     }])
     .controller('bookingServicesCtrl', ['$scope', '$state', function($scope, $state){
         $scope.backToLocation = function ($event) {
@@ -145,6 +159,7 @@ angular.module('booking.controllers', [])
             $scope.filters.course = null;
             $scope.$parent.booking = {};
             $scope.$parent.services = [];
+            $scope.$parent.events = [];
 
             $state.go('booking.location');
         };
@@ -159,11 +174,10 @@ angular.module('booking.controllers', [])
             });
         };
 
-        if(!$scope.filters.location){
+        if(!$scope.filters.location || !$scope.locationEvents){
             $state.go('booking.location');
         } else if(!_.size($scope.services)) {
-            var events = _.union($scope.events.courses, $scope.events.sessions);
-            _.each(events, function(event){
+            _.each($scope.locationEvents, function(event){
                 if($scope.filters.location.id === event.location.id && !serviceAlreadyAdded(event.service.id)) {
                     $scope.services.push(event.service);
                 }

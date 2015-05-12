@@ -1,7 +1,8 @@
 <!-- Service selection -->
 <div class="form-input">
     <label  name="service">{{'booking:services-section.label' | i18next}}</label>
-    <select name="service" ng-disabled="loadingSessions" ng-model="filters.service" ng-options="service.name for service in services" ng-change="filterAllSessions()" required></select>
+    <select-arrows></select-arrows>
+    <select name="service" ng-disabled="loadingSessions" ng-model="filters.service" ng-options="service.name for service in services" ng-change="filterByService()" required></select>
 </div>
 <div ng-show="filters.service && !loadingSessions" class="service-description">{{filters.service.description}}</div>
 <button class="back-button" ng-click="backToLocation()">{{'booking:common.back' | i18next}}</button>
@@ -9,6 +10,5 @@
 <loading-animation ng-show="loadingSessions"></loading-animation>
 <div class="events-container" ng-if="filters.service && !loadingSessions">
     <hr/>
-    <booking-rectangle ng-repeat="event in events.courses"></booking-rectangle>
-    <booking-rectangle ng-repeat="event in events.sessions"></booking-rectangle>
+    <booking-rectangle ng-repeat="event in events" ng-class="{'selected': selectedEvent && selectedEvent.id === event.id, 'faded': selectedEvent && selectedEvent.id !== event.id}"></booking-rectangle>
 </div>
