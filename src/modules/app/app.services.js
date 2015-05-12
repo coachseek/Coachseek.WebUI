@@ -39,7 +39,7 @@ angular.module('app.services', [])
 
         this.update = function(functionName, $scope, item){
             $activityIndicator.startAnimating();
-            coachSeekAPIService.save({section: functionName}, item)
+            return coachSeekAPIService.save({section: functionName}, item)
                 .$promise.then(function(item){
                     $scope.itemList.push(item);
                     if($scope.newItem){
@@ -54,6 +54,7 @@ angular.module('app.services', [])
                         name: item.name ? item.name: findName(item)
                     });
                     $scope.$broadcast('updateSuccess');
+                    return item;
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });

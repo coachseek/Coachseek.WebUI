@@ -1,6 +1,7 @@
 angular.module('businessSetup.controllers', [])
     .controller('businessCtrl', ['$rootScope', '$scope', 'CRUDService', '$http',
         function($rootScope, $scope, CRUDService, $http){
+        $scope.itemList = [];
 
         $scope.createItem = function(){
             $scope.newItem = true;
@@ -18,8 +19,15 @@ angular.module('businessSetup.controllers', [])
             var formValid = CRUDService.validateForm($scope);
 
             if(formValid){
-                $rootScope.setupCurrentUser(business.admin);
-                CRUDService.update('BusinessRegistration', $scope, business);
+                CRUDService.update('BusinessRegistration', $scope, business)
+                    .then(function(newBusiness){
+                        $rootScope.setupCurrentUser({
+                            email: business.admin.email,
+                            password: business.admin.password,
+                            businessDomain: newBusiness.business.domain,
+                            businessName: newBusiness.business.name
+                        });
+                    });
             }
         };
 
@@ -28,14 +36,9 @@ angular.module('businessSetup.controllers', [])
         };
 
         if(!$scope.currentUser){
-            $scope.itemList = [];
             $scope.createItem();
         } else {
-            $scope.itemList = [{
-                admin:{
-                    email: $scope.currentUser.email
-                }
-            }];
+            $scope.itemList.push($scope.currentUser);
         }
         // CRUDService.get('Business', $scope);
     }])

@@ -3,7 +3,8 @@ describe('BusinessSetup Business', function(){
     let('business', function(){
         return {
             business: {
-                name: "West Coast Toast"
+                name: "West Coast Toast",
+                domain: "westcoasttoast"
             },
             admin: {
                 firstName: "Toast",
@@ -204,7 +205,13 @@ describe('BusinessSetup Business', function(){
                         expect($http.defaults.headers.common['Authorization']).to.equal(authHeader)
                     });
                     it('should set the currentUser on $rootScope', function(){
-                        expect(scope.currentUser.email).to.equal(admin.email);
+                        expect(scope.currentUser).to.eql({
+                            email:admin.email,
+                            password: admin.password,
+                            businessDomain: this.business.business.domain,
+                            businessName: this.business.business.name
+
+                        });
                     });
                 });
             });
