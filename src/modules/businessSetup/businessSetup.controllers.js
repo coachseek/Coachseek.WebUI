@@ -38,7 +38,9 @@ angular.module('businessSetup.controllers', [])
         if(!$scope.currentUser){
             $scope.createItem();
         } else {
-            $scope.itemList.push($scope.currentUser);
+            $scope.itemList.push({
+                admin: $scope.currentUser
+            });
         }
         // CRUDService.get('Business', $scope);
     }])
