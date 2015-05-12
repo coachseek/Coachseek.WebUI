@@ -10,7 +10,7 @@ angular.module('booking.directives', [])
                 scope.getEventDateRange = function(){
                     if(scope.event.sessions){
                         var repetition = scope.event.repetition;
-                        return startDate.format('dd Do MMM') +  " – " + startDate.clone().add(repetition.sessionCount - 1, repetition.repeatFrequency).format('dd Do MMM');
+                        return startDate.format('dddd Do MMM') +  " – " + startDate.clone().add(repetition.sessionCount - 1, repetition.repeatFrequency).format('dddd Do MMM');
                     } else {
                         return startDate.format('dddd Do MMM');
                     }
