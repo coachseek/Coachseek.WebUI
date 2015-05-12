@@ -33,7 +33,7 @@
     },
     "confirmation": {
         "text-confirm": "A confirmation email has been sent to your email address and your booking is now complete.",
-        "process-booking": "Process booking",
+        "process-booking": "Confirm booking",
         "change-booking": "Change booking",
         "booking-confirmed": "Booking confirmed! Have fun out there.",
         "reset-bookings": "New booking",
