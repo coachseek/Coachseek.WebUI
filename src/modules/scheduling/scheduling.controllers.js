@@ -420,6 +420,8 @@ angular.module('scheduling.controllers', [])
             var forceFormTouched = function(){
                 $scope.currentSessionForm.coaches.$setTouched();
                 $scope.currentSessionForm.locations.$setTouched();
+                $scope.currentSessionForm.sessionPrice.$setTouched();
+                $scope.currentSessionForm.coursePrice.$setTouched();
             };
 
             var removeTempEvents = function(){
@@ -449,8 +451,9 @@ angular.module('scheduling.controllers', [])
 
             // TODO - do this in repeat selector
             $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
-                if($scope.currentEvent && newVal < 2 && $scope.currentEvent.session.pricing){
-                    delete $scope.currentEvent.session.pricing.coursePrice;
+                if($scope.currentEvent && newVal < 2 && $scope.currentEvent.course){
+                    console.log('here')
+                    delete $scope.currentEvent.course.pricing.coursePrice;
                 }
             });
 

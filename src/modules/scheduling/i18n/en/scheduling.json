@@ -20,7 +20,9 @@
     },
     "error": {
         "coach-required": "Coach required.",
-        "location-required": "Location required."
+        "location-required": "Location required.",
+        "price-required": "Session and/or course price requried.",
+        "session-price-required": "Session price requried."
     },
     "prompt": {
         "coach": "Please specify a coach.",

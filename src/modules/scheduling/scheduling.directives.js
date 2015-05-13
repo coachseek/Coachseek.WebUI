@@ -34,6 +34,28 @@ angular.module('scheduling.directives', [])
                         uiCalendarConfig.calendars.sessionCalendar.fullCalendar('updateEvent', scope.currentEvent);
                     }
                 };
+
+                scope.requireSessionPrice = function(){
+                    if(scope.currentEvent && scope.currentEvent.course && scope.currentEvent.course.pricing){
+                        return priceRequired(scope.currentEvent.course.pricing.coursePrice);
+                    } else if(scope.currentEvent && scope.currentEvent.session.repetition.sessionCount === 1 ){
+                        return true;
+                    }
+                };
+
+                scope.requireCoursePrice = function(){
+                    if(scope.currentEvent && scope.currentEvent.session.pricing){
+                        return priceRequired(scope.currentEvent.session.pricing.sessionPrice);
+                    }
+                };
+
+                function priceRequired(price){
+                    if(price === 0){
+                        return false;
+                    } else {
+                        return !price;
+                    }
+                }
             }
         };
     }])

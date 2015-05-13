@@ -74,13 +74,21 @@
         <div class="session-price form-input">
             <label name="sessionPrice">{{'scheduling:service-details.session-price' | i18next}}</label>
             <span class="money-sign">{{'denomination' | i18next}}</span>
-            <input name="sessionPrice" type="number" ng-model="currentEvent.session.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
+            <input name="sessionPrice" type="number" ng-model="currentEvent.session.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  ng-required="requireSessionPrice()"/>
+
+            <div class="error-messages price" ng-messages="currentSessionForm.sessionPrice.$error" ng-show="currentSessionForm.sessionPrice.$touched">
+                <div class="required" ng-message="required"><span ng-i18next="[html]{{currentEvent.course.sessions || currentEvent.session.repetition.sessionCount > 1 ? 'scheduling:error.price-required' : 'scheduling:error.session-price-required'}}"></span></div>
+            </div>
         </div>
 
-        <div class="course-price form-input" ng-show="currentEvent.session.repetition.sessionCount > 1 || currentEvent.course" >
+        <div class="course-price form-input" ng-show="currentEvent.session.repetition.sessionCount > 1 || currentEvent.course.sessions" >
             <label name="coursePrice">{{'scheduling:service-details.course-price' | i18next}}</label>
             <span class="money-sign">{{'denomination' | i18next}}</span>
-            <input name="coursePrice" type="number" ng-model="currentEvent.course.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
+            <input name="coursePrice" type="number" ng-model="currentEvent.course.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" ng-required="requireCoursePrice()"/>
+
+            <div class="error-messages price" ng-messages="currentSessionForm.coursePrice.$error" ng-show="currentSessionForm.coursePrice.$touched">
+                <div class="required" ng-message="required">{{'scheduling:error.price-required' | i18next}}</div>
+            </div>
         </div>
     </form>
 </div>

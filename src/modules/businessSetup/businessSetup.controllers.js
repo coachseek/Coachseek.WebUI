@@ -232,9 +232,6 @@ angular.module('businessSetup.controllers', [])
             },
             presentation: {
                 colour: 'green'
-            },
-            pricing: {
-                sessionPrice: 0
             }
         }
     );
