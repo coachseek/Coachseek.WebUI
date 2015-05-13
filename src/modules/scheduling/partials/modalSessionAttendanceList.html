@@ -3,7 +3,7 @@
         <span ng-i18next>{{showCustomers ? 'scheduling:add-student' : 'scheduling:service-details.register'}}</span>
         <i class="fa fa-times" ng-click="cancelModalEdit()"></i>        
     </div>
-    <button class="create-item" ng-click="showCustomerList()" ng-hide="showCustomers">
+    <button class="create-item" ng-click="showCustomerList()" ng-hide="showCustomers" ng-disabled="blockAddBookings()">
         <i class="fa fa-plus"></i>
         {{'scheduling:add-student' | i18next}}
     </button>

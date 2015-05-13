@@ -107,6 +107,13 @@ angular.module('scheduling.directives', [])
                     scope.showCustomers = false;
                 };
 
+                scope.blockAddBookings = function(){
+                    if(scope.currentEvent){
+                        var session = scope.currentEvent.session;
+                        return session.booking.studentCapacity - _.size(session.booking.bookings) <= 0
+                    }
+                };
+
                 coachSeekAPIService.query({section: 'Customers'})
                     .$promise.then(function(customerList){
                         scope.itemList  =  customerList;
