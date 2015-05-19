@@ -235,6 +235,26 @@
         background: $green;
         position: fixed;
         bottom: 0;
+        color: $white;
+
+        div{
+            font-size: 14px;
+            line-height: 45px;
+            margin: 0 auto;
+            width: 225px;
+
+            span{
+                display: inline-block;
+                height: 45px;
+                float: left;
+            }
+
+            .logo{
+                width: 150px;
+                background: url("../assets/pics/logo-white.png") center no-repeat;   
+                background-size: 85%;
+            }
+        }
     }
 
     @media (max-width: 768px){
