@@ -29,7 +29,7 @@ angular.module('booking.controllers', [])
             };
 
             $scope.loadingSessions = true;
-            return onlineBookingAPIFactory.anon($scope.businessDomain)
+            return onlineBookingAPIFactory.anon($scope.business.domain)
                     .get(params).$promise.then(function(events){
                         $scope.allEvents = _.union(events.courses, events.sessions);
                     }, $scope.handleErrors).finally(function(){
@@ -221,7 +221,7 @@ angular.module('booking.controllers', [])
 
         $scope.processBooking = function () {
             $scope.processingBooking = true;
-            onlineBookingAPIFactory.anon($scope.businessDomain)
+            onlineBookingAPIFactory.anon($scope.business.domain)
                 .save({ section: 'Customers' }, $scope.customerDetails).$promise
                     .then(function (customer) {
                         $q.all(getSessionsToBook(customer)).then(function () {
@@ -251,6 +251,6 @@ angular.module('booking.controllers', [])
                 paymentStatus: "awaiting-invoice",
                 hasAttended: false
             }
-            return onlineBookingAPIFactory.anon($scope.businessDomain).save({ section: 'Bookings' }, bookingData).$promise;
+            return onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Bookings' }, bookingData).$promise;
         };
     }]);

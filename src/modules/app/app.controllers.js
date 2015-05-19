@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'anonCoachseekAPIFactory',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, anonCoachseekAPIFactory) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory) {
             // TODO - add ability to remove alerts by view
             $rootScope.addAlert = function(alert){
 
@@ -83,12 +83,12 @@ angular.module('app.controllers', [])
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
-                if(businessDomain !== 'app' && !$rootScope.businessDomain){
+                if(businessDomain !== 'app' && !$rootScope.business){
                     event.preventDefault();
 
-                    anonCoachseekAPIFactory.anon(businessDomain).query({section:'Locations'}).$promise
-                        .then(function(){
-                            $rootScope.businessDomain = businessDomain;
+                    onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
+                        .then(function(business){
+                            $rootScope.business = business;
                             $state.go('booking.location');
                         }, function(){
                             $rootScope.addAlert({
