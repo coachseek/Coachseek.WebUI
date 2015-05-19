@@ -5,7 +5,35 @@ angular.module('booking.directives', [])
             templateUrl:'booking/partials/bookingRectangle.html',
             link: function(scope){
                 scope.selected = false;
-                var startDate = moment(scope.event.timing.startDate + " " + scope.event.timing.startTime, "YYYY-MM-DD HH:mm")
+                var startDate = moment(scope.event.timing.startDate + " " + scope.event.timing.startTime, "YYYY-MM-DD HH:mm");
+                scope.spacesAvailable = getSpacesAvailable();
+                scope.fullCoursePrice = getFullCoursePricePrice();
+
+                function getFullCoursePricePrice(){
+                    var event = scope.event;
+                    if(scope.isBefore(event)){
+                        // SUM SESSION PRICES
+                        if(event.pricing.sessionPrice >= 0){
+                            return sumSessionCosts(event.sessions);
+                        // PRO RATE
+                        } else {
+                            var numSessionsInFuture = _.size(_.filter(event.sessions, function(session){return !scope.isBefore(session)}));
+                            return (event.pricing.coursePrice / event.repetition.sessionCount * numSessionsInFuture).toFixed(0);
+                        }
+                    } else {
+                        return event.pricing.coursePrice;
+                    }
+                };
+
+                function sumSessionCosts(sessions){
+                    return _.sum(sessions, function(session){
+                        if(scope.isBefore(session) || scope.getSessionSpacesAvailable(session) <= 0){
+                            return 0;
+                        }else{
+                            return session.pricing.sessionPrice;
+                        }
+                    });
+                };
 
                 scope.getEventDateRange = function(){
                     if(scope.event.sessions){
@@ -20,15 +48,27 @@ angular.module('booking.directives', [])
                     return startDate.format('h:mm A') + " – " + startDate.clone().add(scope.event.timing.duration, 'minutes').format('h:mm A');
                 };
 
-                scope.getSpacesAvailable = function(){
+                function getSpacesAvailable(){
                     var booking = scope.event.booking;
+                    var spacesAvailable;
                     if(scope.event.sessions){
-                        var maxBookingsSession = _.max(scope.event.sessions, "booking.bookingCount");
-                        return booking.studentCapacity - maxBookingsSession.booking.bookingCount;
+                        spacesAvailable = booking.studentCapacity - getMaxBookingSessionCount();
                     } else {
-                        return booking.studentCapacity - booking.bookingCount;
+                        spacesAvailable = booking.studentCapacity - booking.bookingCount;
                     }
+                    return spacesAvailable > 0 ? spacesAvailable : 0;
                 };
+
+                function getMaxBookingSessionCount(){
+                    var sessions = _.filter(scope.event.sessions, function(session){
+                        return getNewDate(session.timing).isAfter();
+                    });
+                    return _.max(sessions, "booking.bookingCount").booking.bookingCount;
+                };
+
+                function getNewDate(timing){
+                    return moment(timing.startDate + " " + timing.startTime, "YYYY-MM-DD HH:mm")
+                }
 
                 scope.toggleEventSelect = function(){
                     scope.selected = !scope.selected;
@@ -42,6 +82,7 @@ angular.module('booking.directives', [])
             restrict: "E",
             templateUrl:'booking/partials/bookingCourseSessions.html',
             link: function(scope){
+
                 scope.getSessionDate = function(session){
                     return getNewDate(session.timing).format('dddd Do MMM');
                 };
@@ -57,10 +98,6 @@ angular.module('booking.directives', [])
 
                 scope.isSelected = function(session){
                     return _.includes(scope.booking.sessions, session);
-                };
-
-                scope.getSessionSpacesAvailable = function(session){
-                    return session.booking.studentCapacity - session.booking.bookingCount;
                 };
             }
         };

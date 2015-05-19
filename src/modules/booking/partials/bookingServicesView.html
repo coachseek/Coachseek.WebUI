@@ -10,5 +10,5 @@
 <loading-animation ng-show="loadingSessions"></loading-animation>
 <div class="events-container" ng-if="filters.service && !loadingSessions">
     <hr/>
-    <booking-rectangle ng-repeat="event in events" ng-class="{'selected': selectedEvent && selectedEvent.id === event.id, 'faded': selectedEvent && selectedEvent.id !== event.id}"></booking-rectangle>
+    <booking-rectangle ng-repeat="event in events" ng-class="{'selected': selectedEvent && selectedEvent.id === event.id}"></booking-rectangle>
 </div>

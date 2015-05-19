@@ -1,13 +1,26 @@
-<div ng-click="toggleEventSelect()" class="event" ng-class="{'selected': selectedEvent && selectedEvent.id === event.id, 'faded': selectedEvent && selectedEvent.id !== event.id}">
-    <p class="session-type" ng-i18next>{{event.sessions ? 'booking:course' : 'booking:single-session'}}</p>
-    <p>{{getEventDateRange()}}</p>
-    <p>{{getEventTimeRange()}}</p>
-    <p>
-    	{{'denomination' | i18next}}{{event.pricing.sessionPrice || 0}} {{'booking:per-session' | i18next}}
-    	<span ng-if="event.sessions">, {{'denomination' | i18next}}{{event.pricing.coursePrice || 0}} {{'booking:full-course' | i18next}}<span>
-    </p>
-    <p ng-i18next="[i18next]({count:getSpacesAvailable()})booking:spaces-available" class="spaces-available"></p>
-
-	<booking-course-sessions ng-show="selectedEvent.sessions && selectedEvent.id === event.id"></booking-course-sessions >
-    
+<div ng-click="toggleEventSelect()" class="event">
+    <div class="event-info-container">
+        <p class="date-range">{{getEventDateRange()}}</p>
+        <p class="session-type" ng-if="event.sessions" ng-i18next="[i18next]({count:event.repetition.sessionCount})booking:{{event.repetition.repeatFrequency}}"></p>
+        <hr/>
+        <div class="booking-rectangle-info">
+            <i class="fa fa-clock-o"></i>
+            <p>{{getEventTimeRange()}}</p>    
+        </div>
+        <div class="booking-rectangle-info">
+            <i class="fa fa-usd"></i>
+            <p ng-if="event.pricing.sessionPrice >=0">{{'denomination' | i18next}}{{event.pricing.sessionPrice}} {{'booking:per-session' | i18next}}</p>  
+            <p ng-if="event.sessions && event.pricing.coursePrice >=0">{{'denomination' | i18next}}{{fullCoursePrice}} {{'booking:full-course' | i18next}}</p>
+        </div>
+        <div class="booking-rectangle-info">
+            <i class="fa fa-user"></i>
+            <p ng-i18next="[i18next]({count:spacesAvailable})booking:spaces-available" class="spaces-available"></p>
+        </div>
+    </div>
+    <div class="course-sessions-container" ng-show="event.sessions && selectedEvent.id === event.id && event.pricing.sessionPrice >=0">
+        <div class="close-event" ng-click="closeEvent()">{{'booking:close' | i18next}} <i class="fa fa-close"></i></div>
+        <hr/>
+        <div class="event-begun" ng-show="isBefore(event)"><i class="fa fa-exclamation-circle"> {{'booking:event-begun' | i18next}}</i></div>
+        <booking-course-sessions></booking-course-sessions>
+    </div>
 </div>

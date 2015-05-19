@@ -40,9 +40,26 @@ angular.module('booking.controllers', [])
 
         $scope.selectEvent = function (event) {
             if($scope.selectedEvent !== event){
+                $scope.booking.course = null;
+                $scope.booking.sessions = [];
                 $scope.selectedEvent = event;
-                $scope.toggleEntireCourse();
+                $scope.availableSessions = _.filter(event.sessions, function(session){
+                    return !$scope.isBefore(session) && $scope.getSessionSpacesAvailable(session) > 0
+                });
+                if(!event.sessions || (event.pricing.coursePrice && !event.pricing.sessionPrice)) $scope.toggleEntireCourse();
             }
+        };
+
+        $scope.getSessionSpacesAvailable = function(session){
+            var spacesAvailable = session.booking.studentCapacity - session.booking.bookingCount;
+            return spacesAvailable > 0 ? spacesAvailable : 0;
+        };
+
+        $scope.closeEvent = function(){
+            event.stopPropagation();
+            $scope.booking.course = null;
+            $scope.booking.sessions = [];
+            $scope.selectedEvent = null;
         };
 
         $scope.toggleSessionSelect = function(session){
@@ -52,7 +69,7 @@ angular.module('booking.controllers', [])
                 $scope.booking.sessions.push(session);
             }
 
-            if(_.size($scope.booking.sessions) === _.size($scope.selectedEvent.sessions) ){
+            if(_.size($scope.booking.sessions) === _.size($scope.availableSessions) ){
                 $scope.booking.course = $scope.selectedEvent;   
             } else {
                 $scope.booking.course = null;   
@@ -65,7 +82,7 @@ angular.module('booking.controllers', [])
                 $scope.booking.sessions = [];
             } else {
                 $scope.booking.course = $scope.selectedEvent;
-                $scope.booking.sessions = $scope.selectedEvent.sessions;
+                $scope.booking.sessions = $scope.availableSessions;
             }
         };
 
@@ -81,12 +98,20 @@ angular.module('booking.controllers', [])
             }
         };
 
+        $scope.isBefore = function(session){
+            return getNewDate(session.timing).isBefore(moment());
+        };
+
+        function getNewDate(timing){
+            return moment(timing.startDate + " " + timing.startTime, "YYYY-MM-DD HH:mm")
+        };
+
         // TODO this is nasty. pare this down.
         $scope.calculateBookingDateRange = function(){
             if($scope.booking.course){
                 var course = $scope.booking.course;
                 var dateRange = getNewDateRange(course.timing, course.repetition);
-                if($scope.booking.sessions){
+                if(_.size($scope.booking.sessions)){
                     return dateRange.start.format('dddd Do MMM') + " – " + dateRange.end.format('dddd Do MMM');                
                 } else {
                     return dateRange.start.format('dddd Do MMM');
@@ -121,7 +146,9 @@ angular.module('booking.controllers', [])
         };
 
         $scope.filterByService = function () {
-            delete $scope.selectedEvent;
+            $scope.booking.course = null;
+            $scope.booking.sessions = [];
+            $scope.selectedEvent = null;
             $scope.events = _.filter($scope.locationEvents, function(event){
                 return event.service.id === $scope.filters.service.id;
             });
@@ -234,7 +261,7 @@ angular.module('booking.controllers', [])
         };
 
         function getSessionsToBook(customer){
-            if($scope.booking.course){
+            if($scope.booking.course && _.size($scope.availableSessions) === _.size($scope.booking.course.sessions)){
                 return getBookingCall($scope.booking.course, customer)
             } else if ($scope.booking.sessions){
                 var bookingPromises = [];
