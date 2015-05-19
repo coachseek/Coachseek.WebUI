@@ -1,9 +1,10 @@
-<div class="full-course" ng-click="toggleEntireCourse()" ng-class="{'selected': booking.course && booking.course.id === event.id}">
-	{{'booking:full-course' | i18next}} {{'denomination' | i18next}}{{event.pricing.coursePrice || 0}}
+<div class="full-course" ng-click="toggleEntireCourse()" ng-disabled="availableSessions.length === 0" ng-class="{'selected': booking.course && booking.course.id === event.id}">
+	<span ng-i18next="[html]booking:{{isBefore(event) ? 'rest-of-course' : 'full-course'}}"></span> {{'denomination' | i18next}}{{fullCoursePrice}}
 </div>
-<div class="course-session" ng-repeat="session in selectedEvent.sessions" ng-click="toggleSessionSelect(session)" ng-class="{selected: isSelected(session)}">
+<div class="course-session" ng-init="availableSessionSpaces = getSessionSpacesAvailable(session); isBefore=isBefore(session)"  ng-repeat="session in selectedEvent.sessions" ng-click="toggleSessionSelect(session)" ng-class="{selected: isSelected(session), 'is-before': isBefore, 'sold-out': availableSessionSpaces <= 0}">
+	<div class="full-session-banner" ng-show="availableSessionSpaces <= 0">{{'booking:full-session' | i18next}}</div>
 	<p>{{getSessionDate(session)}}</p>
 	<p>{{getEventTimeRange(session)}}</p>
-	<p>{{'denomination' | i18next}}{{session.pricing.sessionPrice || 0}} {{'booking:per-session' | i18next}}</p>
-	<p ng-i18next="[i18next]({count:getSessionSpacesAvailable(session)})booking:spaces-available" class="spaces-available"></p>
+	<p ng-if="event.pricing.sessionPrice >=0">{{'denomination' | i18next}}{{session.pricing.sessionPrice}} {{'booking:per-session' | i18next}}</p>
+	<p ng-i18next="[i18next]({count:availableSessionSpaces})booking:spaces-available" class="spaces-available"></p>
 </div>
