@@ -1,8 +1,14 @@
-<div class="form-input section">
-    <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
-    <select-arrows></select-arrows>
-    <select name="location" ng-disabled="loadingSessions" ng-options="location.name for location in locations" ng-model="filters.location" id="location" required ng-change="filterByLocation()">
-    </select>
+<div ng-if="eventsExist">
+	<div class="form-input section">
+	    <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
+	    <select-arrows></select-arrows>
+	    <select name="location" ng-disabled="loadingSessions" ng-options="location.name for location in locations" ng-model="filters.location" id="location" required ng-change="filterByLocation()">
+	    </select>
+	</div>
+	<button type="submit" class="continue-button" ui-sref="booking.services" ng-disabled="!filters.location || loadingSessions">{{'booking:common.next'|i18next}}</button>
 </div>
 <loading-animation ng-show="loadingSessions"></loading-animation>
-<button type="submit" class="continue-button" ui-sref="booking.services" ng-disabled="!filters.location || loadingSessions">{{'booking:common.next'|i18next}}</button>
+<div class="no-events-message" ng-if="!eventsExist && !loadingSessions">
+	<h1>{{'booking:hey-there' | i18next}}</h1>
+	<h3>{{'booking:no-events' | i18next}}</h3>
+</div>
