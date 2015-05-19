@@ -1,34 +1,34 @@
 <!-- <div class="booking-admin-nav-container">
-    <a class="booking-nav active" >{{'booking:booking-admin.onlinebooking' | i18next}}</a>
-    <a class="booking-nav">{{'booking:booking-admin.payments' | i18next}}</a>  
+        <a class="booking-nav active" >{{'booking:booking-admin.onlinebooking' | i18next}}</a>
+        <a class="booking-nav">{{'booking:booking-admin.payments' | i18next}}</a>    
 </div> -->
-<div class="booking-admin-container">  
-  	<!-- <hr class="double-wide"> -->
-  	<div class="booking-admin-onlinebooking">
-  		<label>{{'booking:booking-admin.address' | i18next}}</label>
-	    <input type="text" ng-readonly="true" value="{{currentUser.businessDomain}}.coachseek.com">
-	    <a  class="booking-preview-button"
-	    	ng-href="https://{{currentUser.businessDomain}}.coachseek.com"
-	    	target="_blank">
-	    	{{'booking:preview-button' | i18next}}
-	    </a>
-	    <label class="clearfix">{{'booking:booking-admin.code' | i18next}}</label>
-	    <input  ng-readonly="true" ng-model="buttonHTML"/>
-	    <button class="booking-admin-copy-btn clearfix" clip-copy="buttonHTML" clip-click="copied = true" ng-i18next>{{copied ? 'booking:booking-admin.copied' : 'booking:booking-admin.code-btn'}}</button>
-  	</div>
-<!--   	<div class="booking-admin-payments">
-  		<label>{{'booking:booking-admin.accept-payments' | i18next}}</label>
-  		<select name="" id="">
-  			<option value="">Yes</option>
-  			<option value="">No</option>
-  		</select>
-  		<hr>
-  		<p class="paypal">{{'booking:booking-admin.paypal' | i18next}}</p>	
-  		<p>{{'booking:booking-admin.activate' | i18next}}</p>
+<div class="booking-admin-container">    
+    <!-- <hr class="double-wide"> -->
+    <div class="booking-admin-onlinebooking">
+        <label>{{'booking:booking-admin.address' | i18next}}</label>
+        <input type="text" ng-readonly="true" value="{{currentUser.businessDomain}}.coachseek.com">
+        <a  class="booking-preview-button"
+            ng-href="https://{{currentUser.businessDomain}}.coachseek.com"
+            target="_blank">
+            {{'booking:preview-button' | i18next}}
+        </a>
+        <label class="clearfix">{{'booking:booking-admin.code' | i18next}}</label>
+        <input    ng-readonly="true" ng-model="buttonHTML"/>
+        <button class="booking-admin-copy-btn clearfix" clip-copy="buttonHTML" clip-click="copied = true" ng-i18next>{{copied ? 'booking:booking-admin.copied' : 'booking:booking-admin.code-btn'}}</button>
+    </div>
+<!--         <div class="booking-admin-payments">
+        <label>{{'booking:booking-admin.accept-payments' | i18next}}</label>
+        <select name="" id="">
+            <option value="">Yes</option>
+            <option value="">No</option>
+        </select>
+        <hr>
+        <p class="paypal">{{'booking:booking-admin.paypal' | i18next}}</p>    
+        <p>{{'booking:booking-admin.activate' | i18next}}</p>
 
-  		<label for="">{{'booking:booking-admin.email' | i18next}}</label>
-  		<input type="text">
-  		<button class="booking-admin-save-btn">{{'booking:booking-admin.save' | i18next}}</button>
-  	</div> -->
-  
+        <label for="">{{'booking:booking-admin.email' | i18next}}</label>
+        <input type="text">
+        <button class="booking-admin-save-btn">{{'booking:booking-admin.save' | i18next}}</button>
+        </div> -->
+    
 </div>
