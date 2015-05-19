@@ -87,12 +87,32 @@ angular.module('booking.controllers', [])
         };
 
         $scope.calculateTotalPrice = function(){
-            if($scope.booking.course){
-                var pricing = $scope.booking.course.pricing;
-                var price = pricing.coursePrice || 0;
-                return price.toFixed(2);
+            var course = $scope.booking.course;
+            if(course){
+                // STANDALONE SESSION
+                if(!course.sessions) {
+                    return course.pricing.sessionPrice                    
+                // COURSE IN PAST
+                } else if($scope.isBefore(course)){
+                    if(course.pricing.coursePrice && !course.pricing.sessionPrice){
+                        //PRO RATE
+                        var numSessionsInFuture = _.size(_.filter(course.sessions, function(session){return !$scope.isBefore(session)}));
+                        return (course.pricing.coursePrice / course.repetition.sessionCount * numSessionsInFuture).toFixed(2);
+                    } else {
+                        return (_.size($scope.availableSessions) * course.pricing.sessionPrice).toFixed(2);
+                    }
+                // COURSE IN FUTURE
+                } else {
+                    if(course.pricing.coursePrice){
+                        return course.pricing.coursePrice.toFixed(2);
+                    } else {
+                        return (_.size($scope.availableSessions) * course.pricing.sessionPrice).toFixed(2);   
+                    }
+                }
+            // ONLY COURSE SESSIONS SELECTED
             } else if ($scope.booking.sessions){
-                return _.sum($scope.booking.sessions, 'pricing.sessionPrice').toFixed(2);
+                return _.sum($scope.booking.sessions, 'pricing.sessionPrice').toFixed(2);   
+            //NOTHING SELECTED
             } else {
                 return "0.00"
             }
