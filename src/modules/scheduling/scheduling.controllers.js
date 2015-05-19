@@ -215,6 +215,7 @@ angular.module('scheduling.controllers', [])
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('renderEvent', newEvent);
                     if(index === 0){
                         $scope.currentEvent = newEvent;
+                        $scope.currentEvent.course = {pricing:{}};
                     }
                 });
             };
@@ -273,7 +274,6 @@ angular.module('scheduling.controllers', [])
                     pricing: serviceData.pricing,
                     presentation: serviceData.presentation,
                     repetition: serviceData.repetition
-
                 };
             };
 
@@ -451,8 +451,7 @@ angular.module('scheduling.controllers', [])
 
             // TODO - do this in repeat selector
             $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
-                if($scope.currentEvent && newVal < 2 && $scope.currentEvent.course){
-                    console.log('here')
+                if($scope.currentEvent && newVal < 2 && $scope.currentEvent.course && $scope.currentEvent.tempEventId){
                     delete $scope.currentEvent.course.pricing.coursePrice;
                 }
             });
