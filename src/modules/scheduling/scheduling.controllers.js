@@ -81,6 +81,7 @@ angular.module('scheduling.controllers', [])
                                 addSessionsWithinInterval(sessionObject.sessions);
                                 addCoursesWithinInterval(sessionObject.courses);
                                 renderEvents($scope.events);
+                                $scope.$broadcast('fetchSuccesful');
                             }, $scope.handleErrors).finally(function(){
                                 stopCalendarLoading();
                             });
@@ -136,7 +137,7 @@ angular.module('scheduling.controllers', [])
                         currentEventCopy = angular.copy(event);
 
                         if(event.course){
-                            setCurrentCourseEvents(event);
+                            setCurrentCourseEvents();
                         }
                     },
                     viewRender: function(view){
@@ -177,6 +178,7 @@ angular.module('scheduling.controllers', [])
                     $activityIndicator.stopAnimating();
                 });
             };
+
             var handleWindowResize = function(viewName){
                 var $sessionCalendar = uiCalendarConfig.calendars.sessionCalendar;
                 if($scope.isBigScreen){
@@ -349,7 +351,6 @@ angular.module('scheduling.controllers', [])
                         if(session.sessions){
                             $scope.currentEvent.session = session.sessions[0];
                             $scope.currentEvent.course = session;
-                            setCurrentCourseEvents($scope.currentEvent);
                         } else {
                             $scope.currentEvent.session = session;
                         }
@@ -361,7 +362,16 @@ angular.module('scheduling.controllers', [])
                 }, handleCalendarErrors);
             };
 
-            var setCurrentCourseEvents = function(event){
+            $scope.$on('fetchSuccesful', function(){
+                if($scope.currentEvent) {
+                    $scope.currentEvent = _.find($scope.events, function(event){
+                        return event.session.id === $scope.currentEvent.session.id;
+                    });
+                    setCurrentCourseEvents();
+                }
+            });
+
+            var setCurrentCourseEvents = function(){
                 $scope.currentCourseEvents = _.filter($scope.events, function(event){
                     return event.course && event.course.id === $scope.currentEvent.course.id;
                 });
