@@ -217,7 +217,7 @@ angular.module('scheduling.controllers', [])
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('renderEvent', newEvent);
                     if(index === 0){
                         $scope.currentEvent = newEvent;
-                        $scope.currentEvent.course = {pricing:{}};
+                        $scope.currentEvent.course = {pricing:newEvent.session.pricing};
                     }
                 });
             };
