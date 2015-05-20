@@ -31,7 +31,9 @@ angular.module('booking.controllers', [])
             $scope.loadingSessions = true;
             return onlineBookingAPIFactory.anon($scope.business.domain)
                     .get(params).$promise.then(function(events){
-                        $scope.allEvents = _.union(events.courses, events.sessions);
+                        $scope.allEvents = _.sortBy(_.union(events.courses, events.sessions),function(event){
+                            return getNewDate(event.timing).valueOf();
+                        });
                         $scope.eventsExist = _.size($scope.allEvents);
                     }, $scope.handleErrors).finally(function(){
                         $scope.loadingSessions = false;
