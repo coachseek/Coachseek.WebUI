@@ -218,12 +218,20 @@
 @media (max-width: 767px){
     [state^="scheduling"] {
         .session-modal{
-            .session-form{
-                height: calc(100vh - 240px);
-            }
             &.session-modal-responsive{
                 width: 100%;
             }
         }    
+    }
+}
+
+/*Ipad Landscape*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+    [state^="scheduling"] {
+        .session-modal{
+            .session-form{
+                height: calc(100vh - 250px);
+            }
+        }
     }
 }

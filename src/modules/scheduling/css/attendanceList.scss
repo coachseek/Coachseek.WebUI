@@ -111,7 +111,7 @@
     }
 
     .student-list{
-        height: calc(100vh - 255px);
+        height: calc(100vh - 265px);
         overflow-y: scroll;
         &::-webkit-scrollbar { 
             display: none; 
@@ -230,4 +230,15 @@
             }
         }
     }   
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
+    .attendance-list {
+        .customer-list ul{   
+            height: calc(100vh - 315px);
+        }
+        .student-list {
+            height: calc(100vh - 315px);
+        }
+    }  
 }
