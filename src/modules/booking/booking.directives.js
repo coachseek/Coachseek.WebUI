@@ -21,7 +21,7 @@ angular.module('booking.directives', [])
                             return (event.pricing.coursePrice / event.repetition.sessionCount * numSessionsInFuture).toFixed(0);
                         }
                     } else {
-                        return event.pricing.coursePrice;
+                        return event.pricing.coursePrice || sumSessionCosts(event.sessions);
                     }
                 };
 
