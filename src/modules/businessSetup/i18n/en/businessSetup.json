@@ -92,7 +92,9 @@
         "minlength": "Oops! Too short.",
         "duplicatename": "Oops! This name is a duplicate.",
         "email": "Email is not valid.",
-        "required": "This field is required"
+        "required": "This field is required",
+        "max-capacity": "The max student capacity is 100.",
+        "min-capacity": "You must allow at least 1 student."
     },
     
     "name-already-exists": "Oops! It looks like somebody already has that name. Try again.",

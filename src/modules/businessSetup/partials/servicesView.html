@@ -43,7 +43,12 @@
 
         <div class="form-input left-col">
             <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
-            <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  min="1"  />
+            <input name="studentCapacity" type="number" ng-model="item.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  min="1" ng-max="100" />
+
+            <div class="error-messages" ng-messages="itemForm.studentCapacity.$error" ng-if="itemForm.studentCapacity.$touched">
+                <div ng-message="max">{{'businessSetup:error.max-capacity' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="min">{{'businessSetup:error.min-capacity' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
         </div>
 
         <div class="form-input right-col">
