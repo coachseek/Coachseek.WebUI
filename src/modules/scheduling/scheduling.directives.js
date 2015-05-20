@@ -114,6 +114,10 @@ angular.module('scheduling.directives', [])
                     }
                 };
 
+                scope.$watch('currentEvent', function(){
+                    scope.showCustomers = false;
+                });
+
                 coachSeekAPIService.query({section: 'Customers'})
                     .$promise.then(function(customerList){
                         scope.itemList  =  customerList;
