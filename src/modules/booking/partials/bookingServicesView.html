@@ -14,5 +14,5 @@
 </div>
 <div class="events-container" ng-if="filters.service && !loadingSessions">
     <hr/>
-    <booking-rectangle ng-repeat="event in events" ng-class="{'selected': event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id === event.id}"></booking-rectangle>
+    <booking-rectangle ng-repeat="event in events" ng-class="{'expanded': event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id === event.id, 'selected': selectedEvent && selectedEvent.id === event.id}"></booking-rectangle>
 </div>

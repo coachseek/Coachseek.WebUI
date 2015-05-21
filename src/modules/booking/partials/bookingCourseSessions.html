@@ -1,7 +1,9 @@
-<div class="full-course" ng-click="toggleEntireCourse()" ng-disabled="availableSessions.length === 0" ng-class="{'selected': booking.course && booking.course.id === event.id}">
+<div class="full-course session-box" ng-click="toggleEntireCourse()" ng-disabled="availableSessions.length === 0" ng-class="{'selected': booking.course && booking.course.id === event.id}">
+	<div class="selected-checkbox"><i ng-class="booking.course && booking.course.id === event.id ? 'fa-check-circle' : 'fa-circle-o' " class="fa"></i></div>
 	<span ng-i18next="[html]booking:{{isBefore(event) ? 'rest-of-course' : 'full-course'}}"></span> {{'denomination' | i18next}}{{fullCoursePrice}}
 </div>
-<div class="course-session" ng-init="availableSessionSpaces = getSessionSpacesAvailable(session); isBefore=isBefore(session)"  ng-repeat="session in selectedEvent.sessions" ng-click="toggleSessionSelect(session)" ng-class="{selected: isSelected(session), 'is-before': isBefore, 'sold-out': availableSessionSpaces <= 0}">
+<div class="course-session session-box" ng-init="availableSessionSpaces = getSessionSpacesAvailable(session); isBefore=isBefore(session)"  ng-repeat="session in selectedEvent.sessions" ng-click="toggleSessionSelect(session)" ng-class="{selected: isSelected(session), 'is-before': isBefore, 'sold-out': availableSessionSpaces <= 0}">
+	<div class="selected-checkbox"><i ng-class="isSelected(session) ? 'fa-check-circle' : 'fa-circle-o' " class="fa"></i></i></div>
 	<div class="full-session-banner" ng-show="availableSessionSpaces <= 0">{{'booking:full-session' | i18next}}</div>
 	<p>{{getSessionDate(session)}}</p>
 	<p>{{getEventTimeRange(session)}}</p>
