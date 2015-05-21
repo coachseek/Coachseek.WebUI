@@ -8,7 +8,11 @@
 <button class="back-button" ng-click="backToLocation()">{{'booking:common.back' | i18next}}</button>
 <button class="continue-button" ng-disabled="disableContinue()" ui-sref="booking.details">{{'booking:common.next' | i18next}}</button>
 <loading-animation ng-show="loadingSessions"></loading-animation>
+<div class="service-description" ng-if="!loadingSessions && serviceDescription">
+	<hr/>
+	<div>{{serviceDescription}}</div>
+</div>
 <div class="events-container" ng-if="filters.service && !loadingSessions">
     <hr/>
-    <booking-rectangle ng-repeat="event in events" ng-class="{'selected': selectedEvent && selectedEvent.id === event.id}"></booking-rectangle>
+    <booking-rectangle ng-repeat="event in events" ng-class="{'selected': event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id === event.id}"></booking-rectangle>
 </div>

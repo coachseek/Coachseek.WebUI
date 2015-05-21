@@ -203,16 +203,29 @@ angular.module('booking.controllers', [])
             });
         }
     }])
-    .controller('bookingServicesCtrl', ['$scope', '$state', function($scope, $state){
+    .controller('bookingServicesCtrl', ['$scope', '$state', 'anonCoachseekAPIFactory',
+        function($scope, $state, anonCoachseekAPIFactory){
         $scope.backToLocation = function ($event) {
             $scope.filters.service = null;
             $scope.filters.course = null;
             $scope.$parent.booking = {};
             $scope.$parent.services = [];
             $scope.$parent.events = [];
-
+            $scope.serviceDescription = null;
             $state.go('booking.location');
         };
+
+        $scope.$watch('filters.service', function(newService){
+            if(newService){
+                $scope.loadingSessions = true;
+                anonCoachseekAPIFactory.anon($scope.business.domain)
+                    .get({section: 'Services', id: newService.id}).$promise.then(function(service){
+                        $scope.serviceDescription = service.description;
+                    }, $scope.handleErrors).finally(function(){
+                        $scope.loadingSessions = false;
+                    });
+            }
+        });
 
         $scope.disableContinue = function(){
             return _.isEmpty($scope.booking.sessions) && _.isEmpty($scope.booking.course);
