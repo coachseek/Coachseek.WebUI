@@ -157,6 +157,7 @@ angular.module('booking.controllers', [])
         $scope.resetBookings = function () {
             $scope.booking = {};
             $scope.filters = {};
+            $scope.filterAllSessions();
 
             $state.go('booking.location');
         };
