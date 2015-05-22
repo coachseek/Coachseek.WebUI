@@ -161,6 +161,10 @@ describe('Scheduling Module', function() {
                 },
                 booking: {
                     bookings: [{customer: this.customerOne}, {customer: this.customerTwo}]
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 250.0
                 }
             }
         });
@@ -182,6 +186,10 @@ describe('Scheduling Module', function() {
                 },
                 booking: {
                     bookings: [{customer: this.customerOne}, {customer: this.customerTwo}]
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 250.0
                 }
             }
         });
@@ -203,6 +211,10 @@ describe('Scheduling Module', function() {
                 },
                 booking: {
                     bookings: []
+                },
+                pricing: {
+                    sessionPrice: 15.00,
+                    coursePrice: 250.0
                 }
             }
         });

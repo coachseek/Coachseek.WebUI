@@ -157,7 +157,10 @@ describe('App Module', function() {
             describe('when attempting to login and form is valid', function(){
                 let('loginPromise', function(){
                     var deferred = $q.defer();
-                    deferred.resolve();
+                    deferred.resolve({
+                        domain: 'testDomain',
+                        name: 'test name'
+                    });
                     return {$promise: deferred.promise};
                 });
 
@@ -166,7 +169,7 @@ describe('App Module', function() {
                     self = this;
                     var coachSeekAPIService = $injector.get('coachSeekAPIService');
 
-                    loginStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
+                    loginStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
                         return self.loginPromise
                     });
                     $rootScope.password = "password"
@@ -177,7 +180,7 @@ describe('App Module', function() {
                     $timeout.flush();
                 });
                 it('should make a call to the API', function(){
-                    expect(loginStub).to.be.calledWith({section: 'Locations'});
+                    expect(loginStub).to.be.calledWith({section: 'Business'});
                 });
                 describe('when the login is successful', function(){
                     it('should set the auth header', function(){

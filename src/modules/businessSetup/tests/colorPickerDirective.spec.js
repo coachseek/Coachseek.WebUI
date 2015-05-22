@@ -15,7 +15,7 @@ describe('colorPicker directive', function(){
     });
     it('should set the selected color to the current color on scope', function(){
         $currentColor = angular.element($testRegion.find('.selected'));
-        expect($currentColor.scope().color).to.equal(this.currentColor)
+        expect($currentColor.hasClass(this.currentColor)).to.be.true;
     });
     describe('when clicking on another color', function(){
         var $secondColor;
@@ -24,7 +24,7 @@ describe('colorPicker directive', function(){
             $secondColor.triggerHandler('click');
         });
         it('should set the currentColor to the new color', function(){
-            expect(scope.currentColor).to.equal($secondColor.scope().color);
+            expect($secondColor.hasClass(scope.currentColor)).to.be.true;
         });
     });
 });

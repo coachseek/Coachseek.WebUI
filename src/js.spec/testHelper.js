@@ -74,6 +74,10 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
         return {result: deferred.promise};
     });
 
+    this.sinon.stub($injector.get('$location'), 'host', function(){
+        return 'app';
+    });
+
     $testRegion = $('<div></div>');
     $rootScope.$digest();    
 }));
