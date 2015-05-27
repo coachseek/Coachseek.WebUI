@@ -23,7 +23,7 @@
                 <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
             </select>
         </div>
-        <div class="coach-title" ng-show="isBigScreen">{{currentCoach ? currentCoach.name: 'All Coaches'}}</div>
+        <div class="coach-title" ng-show="isBigScreen">{{getCurrentCoach() || 'All Coaches'}}</div>
         <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="sessionCalendar"></div>
     </div>
 

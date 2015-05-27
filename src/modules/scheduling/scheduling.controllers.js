@@ -294,6 +294,12 @@ angular.module('scheduling.controllers', [])
                 return Math.floor(duration / 60) + ":" + duration % 60;
             };
 
+            $scope.getCurrentCoach = function(){
+                if($scope.coachList){
+                    return _.result(_.find($scope.coachList, {id: $scope.currentCoachId}), 'name');
+                }
+            };
+
             $scope.cancelModalEdit = function(){
                 if(currentEventCopy){
                     // must keep autosaved edits even if canceled
