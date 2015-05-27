@@ -1,48 +1,58 @@
 angular.module('businessSetup.controllers', [])
-    .controller('businessCtrl', ['$rootScope', '$scope', 'CRUDService', '$http',
-        function($rootScope, $scope, CRUDService, $http){
-        $scope.itemList = [];
+    .controller('businessRegistrationCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$activityIndicator', '$state',
+        function($scope, coachSeekAPIService, CRUDService, $activityIndicator, $state){
+        $scope.business = {};
+        $scope.admin = {};
 
-        $scope.createItem = function(){
-            $scope.newItem = true;
-            $scope.item = {};
+        $scope.saveItem = function(){
+            var formValid = CRUDService.validateForm($scope);
+
+            if(formValid){
+                $activityIndicator.startAnimating()
+                coachSeekAPIService.save({section: 'businessRegistration'}, {admin: $scope.admin, business: $scope.business})
+                    .$promise.then(function(newBusiness){
+                        $scope.setupCurrentUser({
+                            email: $scope.admin.email,
+                            password: $scope.admin.password,
+                            business: newBusiness.business
+                        });
+                        $state.go('businessSetup.locations');
+                    }, $scope.handleErrors).finally(function(){
+                    $activityIndicator.stopAnimating();
+                });
+            }
         };
+    }])
+    .controller('businessCtrl', ['$scope', 'CRUDService', 'coachSeekAPIService',
+        function($scope, CRUDService, coachSeekAPIService){
+        $scope.editItem = function(){
+            $scope.itemCopy = angular.copy($scope.business);
 
-        $scope.editItem = function(business){
-            _.pull($scope.itemList, business);
-            $scope.itemCopy = angular.copy(business);
-
-            $scope.item = business;
+            $scope.item = $scope.business;
         };
 
         $scope.saveItem = function(business){
             var formValid = CRUDService.validateForm($scope);
 
             if(formValid){
-                CRUDService.update('BusinessRegistration', $scope, business)
-                    .then(function(newBusiness){
-                        $rootScope.setupCurrentUser({
-                            email: business.admin.email,
-                            password: business.admin.password,
-                            businessDomain: newBusiness.business.domain,
-                            businessName: newBusiness.business.name
-                        });
+                CRUDService.update('Business', $scope, business)
+                    .then(function(business){
+                        $scope.currentUser.business = business;
                     });
             }
         };
 
         $scope.cancelEdit = function(){
-            CRUDService.cancelEdit($scope);
+            $scope.business = $scope.itemCopy
+            $scope.item = null;
+            $scope.itemForm.$setPristine();
+            $scope.itemForm.$setUntouched();
+            $scope.removeAlerts();
+            $scope.itemCopy = null;
         };
 
-        if(!$scope.currentUser){
-            $scope.createItem();
-        } else {
-            $scope.itemList.push({
-                admin: $scope.currentUser
-            });
-        }
-        // CRUDService.get('Business', $scope);
+        $scope.business = $scope.currentUser.business;
+
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService',
         function($scope, CRUDService){

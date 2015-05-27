@@ -44,6 +44,14 @@
       float: left;
       margin-bottom: 15px;
       position: relative;
+
+      select{
+        border: none;
+      }
+
+      .currency-picker, .online-bookable{
+        width: 100%;
+      }
       
       &.left-col{
         width: 48%;
@@ -80,6 +88,8 @@
       margin-top: 20px;
       margin-bottom: 10px;
       padding-bottom: 10px;
+      clear: both;
+      overflow: hidden;
 
       label{
         color: $text-grey;

@@ -11,8 +11,8 @@
         </div>
         <div class="booking-rectangle-info">
             <i class="fa fa-usd"></i>
-            <p ng-if="event.pricing.sessionPrice >=0">{{'denomination' | i18next}}{{event.pricing.sessionPrice}} {{'booking:per-session' | i18next}}</p>  
-            <p ng-if="event.sessions && event.pricing.coursePrice >=0">{{'denomination' | i18next}}{{fullCoursePrice}} {{'booking:full-course' | i18next}}</p>
+            <p ng-if="event.pricing.sessionPrice >=0"><span ng-i18next="denominations.{{business.currency}}"></span>{{event.pricing.sessionPrice}} {{'booking:per-session' | i18next}}</p>  
+            <p ng-if="event.sessions && event.pricing.coursePrice >=0"><span ng-i18next="denominations.{{business.currency}}"></span>{{fullCoursePrice}} {{'booking:full-course' | i18next}}</p>
         </div>
         <div class="booking-rectangle-info">
             <i class="fa fa-user"></i>

@@ -82,6 +82,22 @@ angular.module('businessSetup.directives', [])
             }
         };
     })
+    .directive('currencyPicker', function(){
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: 'businessSetup/partials/currencyPicker.html',
+            link: function(scope){
+                scope.currencies = [
+                    'NZD',
+                    'USD',
+                    'AUD',
+                    'EUR',
+                    'GBP'
+                ];
+            }
+        };
+    })
     .directive('timeSlot', function(){
         return {
             replace: false,

@@ -1,0 +1,8 @@
+<div class="form-input left-col">
+    <label name="currency">{{'operating-currency' | i18next}}</label>
+    <select name="currency" class="currency-picker" ng-model="business.currency" ng-options="currency as currency for currency in currencies" required></select>
+
+    <div class="error-messages" ng-messages="itemForm.currency.$error" ng-if="itemForm.currency.$touched">
+        <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+    </div>
+</div>

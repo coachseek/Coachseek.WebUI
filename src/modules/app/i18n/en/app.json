@@ -11,6 +11,7 @@
     "logout-text": "LOG OUT",
     "login-text": "LOG IN",
     "logged-out": "You have logged out.",
+    "operating-currency": "Operating currency",
     "person-details": {
       "name": "Name",
       "remember": "Remember me",
@@ -43,7 +44,6 @@
     "save": "Save",
     "cancel": "Cancel",
     "to": "to",
-    "denomination": "$",
     "month": "Month",
     "week": "Week",
     "day": "Day",
@@ -54,5 +54,12 @@
     "feedback-thanks-submessage": "(Now go find something else to do you beautiful being.)",
     "single-session": "Single Session",
     "multi-session": "Course",
-    "businessDomain-invalid": "Oops! Looks like that business domain doesn't exist. Make sure it's spelled correctly and try again, eh?"
+    "businessDomain-invalid": "Oops! Looks like that business domain doesn't exist. Make sure it's spelled correctly and try again, eh?",
+    "denominations" : {
+        "NZD": "$",
+        "USD": "$",
+        "AUD": "$",
+        "EUR": "€",
+        "GBP": "£"
+    }
 }

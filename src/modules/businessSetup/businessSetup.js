@@ -5,6 +5,14 @@ angular.module('businessSetup',
     ])
     .config(['$stateProvider', function ($stateProvider) {
         $stateProvider
+            .state('newUserSetup', {
+                url: "/new-user-setup",
+                templateUrl: "businessSetup/partials/businessRegistrationView.html",
+                controller: 'businessRegistrationCtrl',
+                data: {
+                    requireLogin: false
+                }
+            })
             .state('businessSetup', {
                 url: "/business-setup",
                 templateUrl: "businessSetup/partials/businessSetup.html"
@@ -19,18 +27,6 @@ angular.module('businessSetup',
                 },
                 data: {
                     requireLogin: true
-                }
-            })
-            .state('businessSetup.business.newUser', {
-                url: "/new-user",
-                views: {
-                    "list-item-view": { 
-                        templateUrl: "businessSetup/partials/businessView.html",
-                        controller: 'businessCtrl'
-                    }
-                },
-                data: {
-                    requireLogin: false
                 }
             })
             .state('businessSetup.locations', {
