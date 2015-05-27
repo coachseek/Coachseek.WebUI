@@ -1,8 +1,3 @@
-<div class="booking-with-title">{{'booking:booking-with' | i18next}} {{business.name}}</div>
-<div class="booking-container">  
-    <div ui-view="booking-view" class="booking-content-container"></div>
-</div>
-<div class="fade-block bottom"></div>
 <div class="current-booking-status">
 	<div><h4>{{'booking:current-booking' | i18next}}</h4></div>
 	<div class="border-right"><p>{{filters.location.name}}</p></div>
@@ -10,6 +5,11 @@
 	<div class="border-right"><p>{{calculateBookingDateRange()}}</p></div>
 	<div><h4><span ng-i18next="denominations.{{business.currency}}"></span>{{calculateTotalPrice()}} {{business.currency}}</h4></div>
 </div>
+<div class="booking-with-title">{{'booking:booking-with' | i18next}} {{business.name}}</div>
+<div class="booking-container">  
+    <div ui-view="booking-view" class="booking-content-container"></div>
+</div>
+<div class="fade-block bottom"></div>
 <a class="powered-by" href="http://www.coachseek.com/" target="_blank">
 	<div><span>{{'booking:powered-by' | i18next}}</span><span class="logo"></span></div>
 </a>
