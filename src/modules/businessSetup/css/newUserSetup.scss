@@ -2,7 +2,21 @@
 	max-width: 445px;
 	margin: 45px auto;
 
-	h2{
-		color: $green;
+	h4, p{
+		color: $text-dark-grey;
+		text-align: center;
+
+		span{
+			color: $green;
+			cursor: pointer;
+		}
+	}
+
+	h4{
+		margin-bottom: 20px;
+	}
+
+	hr{
+		margin-top: 20px;
 	}
 }

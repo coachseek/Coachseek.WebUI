@@ -2,7 +2,12 @@
     "title": "Setup:",
     "coach-list-title": "Coach List",
     "coach-services-title": "Services",
-    "new-user-title": "New Business Setup",
+    "onboarding": {
+        "welcome": "Welcome! Get started with you free account.",
+        "no-card-required": "No Credit Card required.",
+        "existing-member": "Already have an account?",
+        "login": "Log in here."
+    },
     "weekdays": {
         "monday": "Monday",
         "tuesday": "Tuesday",
@@ -86,6 +91,7 @@
     "coursePrice-invalid": "Oops! Looks like your Course Price isn't quite right. Try again.",
     "password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
     "postCode-invalid": "Oops! Looks like your Post Code isn't quite right. Try again.",
+    "currency-invalid": "Oops! Looks like you need to pick a currency.",
 
     "error": {
         "maxlength": "This is too long.",

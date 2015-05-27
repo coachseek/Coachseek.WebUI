@@ -1,5 +1,6 @@
-<div class="form-input left-col">
+<div class="form-input">
     <label name="currency">{{'operating-currency' | i18next}}</label>
+    <select-arrows></select-arrows>
     <select name="currency" class="currency-picker" ng-model="business.currency" ng-options="currency as currency for currency in currencies" required></select>
 
     <div class="error-messages" ng-messages="itemForm.currency.$error" ng-if="itemForm.currency.$touched">
