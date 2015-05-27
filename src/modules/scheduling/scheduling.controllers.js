@@ -367,7 +367,7 @@ angular.module('scheduling.controllers', [])
                     $scope.currentEvent = _.find($scope.events, function(event){
                         return event.session.id === $scope.currentEvent.session.id;
                     });
-                    setCurrentCourseEvents();
+                    if($scope.currentEvent) setCurrentCourseEvents();
                 }
             });
 
