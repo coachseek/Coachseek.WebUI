@@ -208,9 +208,7 @@ describe('BusinessSetup Business', function(){
                         expect(scope.currentUser).to.eql({
                             email:admin.email,
                             password: admin.password,
-                            businessDomain: this.business.business.domain,
-                            businessName: this.business.business.name
-
+                            business: this.business.business
                         });
                     });
                 });

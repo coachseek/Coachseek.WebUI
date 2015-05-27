@@ -136,8 +136,7 @@ angular.module('app.controllers', [])
                             var user = {
                                 email: email,
                                 password: password,
-                                businessDomain: business.domain,
-                                businessName: business.name
+                                business: business
                             };
                             $scope.$close(user);
                         }, function(error){

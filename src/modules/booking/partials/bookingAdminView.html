@@ -6,9 +6,9 @@
     <!-- <hr class="double-wide"> -->
     <div class="booking-admin-onlinebooking">
         <label>{{'booking:booking-admin.address' | i18next}}</label>
-        <input type="text" ng-readonly="true" value="{{currentUser.businessDomain}}.coachseek.com">
+        <input type="text" ng-readonly="true" value="{{currentUser.business.domain}}.coachseek.com">
         <a  class="booking-preview-button"
-            ng-href="https://{{currentUser.businessDomain}}.coachseek.com"
+            ng-href="https://{{currentUser.business.domain}}.coachseek.com"
             target="_blank">
             {{'booking:preview-button' | i18next}}
         </a>
