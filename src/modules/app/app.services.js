@@ -43,7 +43,7 @@ angular.module('app.services', [])
             $activityIndicator.startAnimating();
             return coachSeekAPIService.save({section: functionName}, item)
                 .$promise.then(function(item){
-                    $scope.itemList.push(item);
+                    if($scope.itemList) $scope.itemList.push(item);
                     if($scope.newItem){
                         var updateObject = {};
                         updateObject[functionName] = $scope.itemList.length;

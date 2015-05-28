@@ -23,8 +23,8 @@ angular.module('businessSetup.controllers', [])
             }
         };
     }])
-    .controller('businessCtrl', ['$scope', 'CRUDService', 'coachSeekAPIService',
-        function($scope, CRUDService, coachSeekAPIService){
+    .controller('businessCtrl', ['$scope', 'CRUDService',
+        function($scope, CRUDService){
         $scope.editItem = function(){
             $scope.itemCopy = angular.copy($scope.business);
 
@@ -52,7 +52,6 @@ angular.module('businessSetup.controllers', [])
         };
 
         $scope.business = $scope.currentUser.business;
-
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService',
         function($scope, CRUDService){
