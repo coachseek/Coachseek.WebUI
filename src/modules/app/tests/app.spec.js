@@ -310,6 +310,95 @@ describe('App Module', function() {
         });
     });
 
+    describe.only('when navigating to an online booking page', function(){
+        let('business', function(){
+            return {
+                name: "BIZ NAME",
+                domain: "bizname",
+                currency: "USD"
+            }
+        });
+
+        let('anonGetPromise', function(){
+            var defer = $.Deferred();
+            return defer.resolve(this.business)
+        });
+
+        let('subdomain', function(){
+            return 'testsubdomain';
+        });
+
+        var anonStub, anonGetStub, redirectStub, stateGoSpy;
+        beforeEach(function(){
+            var self = this;
+            locationStub.restore();
+            this.sinon.stub($injector.get('$location'), 'host', function(){
+                return self.subdomain;
+            });
+
+            stateGoSpy = this.sinon.spy($state, 'go');
+            redirectStub = this.sinon.stub($rootScope, 'redirectToApp');
+
+            onlineBookingAPIFactory = $injector.get('onlineBookingAPIFactory');
+            anonGetStub = this.sinon.stub(onlineBookingAPIFactory.anon(), 'get', function(){
+                return {$promise: self.anonGetPromise};
+            });
+
+            anonStub = this.sinon.stub(onlineBookingAPIFactory, 'anon', function(){
+                return {
+                    get: anonGetStub
+                }
+            });
+
+            $state.go('booking.services')
+        });
+        describe('when subdomain is a businessDomain', function(){
+            describe('and a business is not set on the scope', function(){
+                it('should attempt to get the business', function(){
+                    expect(anonStub).to.be.calledOnce;
+                    expect(anonStub).to.be.calledWith('testsubdomain');
+                    expect(anonGetStub).to.be.calledOnce;
+                    expect(anonGetStub).to.be.calledWith({section: 'Business'});
+                });
+
+                describe('when subdomain exists', function(){
+                    it('should set business on the scope', function(){
+                        expect($rootScope.business).to.eql(this.business)
+                    });
+                    it('should navigate to booking.location', function(){
+                        expect(stateGoSpy).to.be.calledWith('booking.location');
+                    });
+                });
+                describe('when subdomain doesnt exist', function(){
+                    let('anonGetPromise', function(){
+                        var defer = $.Deferred();
+                        return defer.reject()
+                    });
+
+                    it('should show an error message', function(){
+                        expect($rootScope.alerts[0].type).to.equal('warning');
+                        expect($rootScope.alerts[0].message).to.equal('businessDomain-invalid');
+                    });
+
+                    it('should attempt to redirect to app.coachseek', function(){
+                        expect(redirectStub).to.be.calledOnce;
+                    });
+                })
+            });
+        });
+
+        describe('when subdomain is aapp', function(){
+            let('subdomain', function(){
+                return 'app';
+            });
+
+            it('should direct to scheduling', function(){
+                expect(stateGoSpy).to.be.calledWith('scheduling');
+            });
+        })
+
+    });
+
     // describe('when navigating to an unavailable URL', function(){
     //     beforeEach(function(){
     //         $state.go('/url/not/known');

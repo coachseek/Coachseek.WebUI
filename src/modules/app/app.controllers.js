@@ -79,13 +79,18 @@ angular.module('app.controllers', [])
                 $http.defaults.headers.common.Authorization = authHeader;
             };
 
+            $rootScope.redirectToApp = function(){
+                $timeout(function(){
+                    window.location = 'https://app.coachseek.com';
+                }, 5000)
+            };
+
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
                 if(businessDomain !== 'app' && !$rootScope.business){
                     event.preventDefault();
-
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             $rootScope.business = business;
@@ -95,10 +100,7 @@ angular.module('app.controllers', [])
                                 type: 'warning',
                                 message: 'businessDomain-invalid'
                             });
-
-                            $timeout(function(){
-                                window.location = 'https://app.coachseek.com';
-                            }, 5000)
+                            $rootScope.redirectToApp()
                         });
                 } else if (requireBusinessDomain && businessDomain === 'app') {
                     event.preventDefault();
