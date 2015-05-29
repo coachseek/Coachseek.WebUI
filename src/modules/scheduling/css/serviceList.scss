@@ -12,20 +12,27 @@
 
             .toggle-service-drawer{
                 right: -99px;
-                background: #F5F5F5;
-                border: 1px solid $border-light-grey;
+                background: $dark-grey;
+                // border: 1px solid $border-light-grey;
+               
                 width: 100px;
                 padding-right: 5px;
                 cursor: pointer;
+                border-radius: 4px;
+                i{
+                    color: white;
+                }
             }
 
             h4{
+                color: white;
                 font-family: lato-regular;
                 font-size: 14px;
                 top: 27px;
                 right: -65px;
                 pointer-events: none;
             }
+
         }
 
         .services-list{
@@ -107,8 +114,8 @@
         }
 
         button.create-item{
-            height: 30px;
-            width: 145px;
+            height: 40px;
+            width: 146px;
             display: block;
             font-size: 14px;
             border: none;
@@ -116,6 +123,10 @@
             color: $white;
             background: $green;
             border-radius: 5px;
+            transition: background-color 0.5s ease;
+            &:hover{
+                background: $hover-green;
+            }
 
             i{
                 margin-right: 10px;
