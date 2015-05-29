@@ -16,27 +16,34 @@
     .setup-nav-container{
       float: right;
       width: 100%;
+      height: 30px;
+      background: white;
+      border-radius: 5px;
 
       .setup-nav{
         &.active{
-          background: $background-grey;
+          background: $dark-grey;
           color: $white;
         }
 
         &:last-of-type{
           margin-right: 0;
         }
+        &.nav-to-business{
+
+        }
+        border-radius: 4px;
 
         display: inline-block;
         text-decoration: none;
-        width: 22%;
-        margin-right: 4%;
+        width: 25%;
+        // margin-right: 4%;
         background: $white;
         font-size: 14px;
         color: $dark-grey;
         padding: 5px;
         text-align: center;
-        border: 1px solid #B0B0B0;
+        // border: 1px solid #B0B0B0;
         float: left;
       }
     }
@@ -45,10 +52,15 @@
       display: block;
       border: none;
       margin: 20px auto;
+      width: 146px;
       color: $white;
       background: $green;
       border-radius: 5px;
-      padding: 7.5px 25px;
+      padding: 10px 25.5px;
+      transition: background-color 0.5s ease;
+        &:hover{
+                background: $hover-green;
+        }
     }
 
     .edit-item{
@@ -151,7 +163,7 @@
       color: $white;
       background: $green;
       border-radius: 5px;
-      padding: 7.5px 25px;
+      padding: 10px 25.5px;
     }
 
     .edit-item{
