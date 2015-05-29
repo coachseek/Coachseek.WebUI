@@ -310,7 +310,7 @@ describe('App Module', function() {
         });
     });
 
-    describe.only('when navigating to an online booking page', function(){
+    describe('when navigating to an online booking page', function(){
         let('business', function(){
             return {
                 name: "BIZ NAME",
