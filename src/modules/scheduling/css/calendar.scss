@@ -18,13 +18,13 @@
         }
 
         .dropdown-container{
-            width: 120px;
+            width: 109px;
             height: 30px;
             top: 20px;
             position: absolute;
             background: #F5F5F5;
             color: $grey;
-            border: 1px solid $border-light-grey;
+            // border: 1px solid $border-light-grey;
             -webkit-transition:left linear 0.3s;
             transition:left linear 0.3s;
             overflow: hidden;
@@ -39,14 +39,14 @@
                 left: 20px;
             }
             &.location-list{
-                left: 125px;
+                left: 135px;
             }
 
             select{
-                color: $grey;
+                color: white;
                 border: none;
                 box-shadow: none;
-                background: $another-white;
+                background: $dark-grey;
                 background-image: none;
                 -webkit-appearance: none;
                 cursor: pointer;
@@ -55,9 +55,12 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-indent: 7px;
-
+                transition: background-color 0.5s ease;
                 &:focus{
                     outline: none;
+                }
+                &:hover{
+                    background: $hover-dark-grey;
                 }
             }
         }
@@ -119,23 +122,34 @@
 
                 .fc-button{
                     padding: 0 10px;
-                    border: 1px solid $border-light-grey;
-                    width: 60px;
-                    background: $another-white;
-
+                    // border: 1px solid $border-light-grey;
+                    width: 69px;
+                    background: $background-beige;
+                    border: none;
+                    color: $dark-grey;
+                   
 
                     &.fc-state-active{
                         color: $white;
-                        background: $background-navy;
+                        background: $dark-grey;
+                        border-radius: 5px;
                     }
 
                     &.fc-agendaWeek-button{
                         border-left: none;
                         border-right: none;
                     }
+                    &.fc-month-button{
+                        border-top-left-radius: 5px;
+                        border-bottom-left-radius: 5px;
+                    }
+                    &.fc-today-button{
+                        border-top-right-radius: 5px;
+                        border-bottom-right-radius: 5px;
+                    }
                 }
                 .fc-today-button{
-                    margin-left: 7.5px;
+                    // margin-left: 7.5px;
                 }
             }
 
@@ -195,41 +209,50 @@
             text-align: center;
             font-size: 18px;
         }
-        .calendar-container .calendar {
-            div.fc-view-container{
-                padding: 0px;
-            }
-            .fc-agendaDay-view{
-                .fc-title,.fc-location{
-                    display: block !important;
-                }
-                a.fc-event{
-                    top: 0px;
-                    left: 0px;
-                    margin:1px 0px;
-                }
-            }
-            th.fc-day-header{
-                color: $green;
-                font-size: 16px;
-                padding: 5px 0px 10px 0px;
-            }
 
-            .fc-month-view{
-                td,th{
-                    border-width: 0px;
+        .calendar-container {
+            .dropdown-container{
+                select{
+
                 }
-                .fc-title,.fc-location{
-                    display: none !important;
+               
+            }
+            .calendar {
+                div.fc-view-container{
+                    padding: 0px;
                 }
-                .fc-row{
-                    cursor: pointer;
+                .fc-agendaDay-view{
+                    .fc-title,.fc-location{
+                        display: block !important;
+                    }
+                    a.fc-event{
+                        top: 0px;
+                        left: 0px;
+                        margin:1px 0px;
+                    }
                 }
-                a.fc-event{
-                    position: relative;
-                    top: 0px;
-                    left: 0px;
-                    margin:1px 45%;
+                th.fc-day-header{
+                    color: $green;
+                    font-size: 16px;
+                    padding: 5px 0px 10px 0px;
+                }
+
+                .fc-month-view{
+                    td,th{
+                        border-width: 0px;
+                    }
+                    .fc-title,.fc-location{
+                        display: none !important;
+                    }
+                    .fc-row{
+                        cursor: pointer;
+                    }
+                    a.fc-event{
+                        position: relative;
+                        top: 0px;
+                        left: 0px;
+                        margin:1px 45%;
+                    }
                 }
             }
         }
