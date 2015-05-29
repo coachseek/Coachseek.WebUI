@@ -112,16 +112,16 @@ selectNodeVersion
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD install --production
+  eval $NPM_CMD install
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
 fi
 
 # 4. Run grunt  
-if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then  
-  eval $NPM_CMD install grunt-cli  
-  exitWithMessageOnError "installing grunt failed"  
-  ./node_modules/.bin/grunt --no-color default
+if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
+  eval $NPM_CMD install grunt-cli -g
+  exitWithMessageOnError "installing grunt failed"
+  ./node_modules/.bin/grunt > output.txt
   exitWithMessageOnError "grunt failed"  
 fi 
 
