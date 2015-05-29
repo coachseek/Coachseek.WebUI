@@ -49,6 +49,13 @@
                 margin: 25px 0 40px 0;
                 width: 100%;
                 background: $green;
+                transition: background-color 0.5s ease;
+                &:hover{
+                    background: $hover-green;
+                }
+                &:target{
+                    background: $clicked-green;
+                }
                 color: $white;
                 border: none;
                 border-radius: 5px;
