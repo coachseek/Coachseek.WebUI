@@ -1,4 +1,9 @@
 $green: #00A478;
+$hover-green: #008561;
+$clicked-green: #007354;
+
+$hover-dark-grey: #3A3A3A;
+
 $mid-green: #00774F;
 $dark-green: #004734;
 $red: #E64C3C;
@@ -45,6 +50,13 @@ $nav-bar-height: 55px;
     border: none;
     border-radius: 5px;
     padding: 7.5px 25px;
+    width: 170px;
+    height: 40px;
+    transition: background-color 0.5s ease;
+    &:hover{
+      background: $hover-green;
+    }
+
 }
 
 %orange-button{
@@ -419,7 +431,8 @@ select-arrows{
   .main-container{
     .list-item-container-wrapper{
       position: relative;
-      top:28px
+      top:28px;
+      margin-bottom: 80px;
     }
   }
   .mobi-nav{
