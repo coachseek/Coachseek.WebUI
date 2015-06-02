@@ -1,0 +1,6 @@
+<div class="form-input section">
+    <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
+    <select-arrows></select-arrows>
+    <select name="location" ng-disabled="loadingSessions" ng-options="location.name for location in locations" ng-model="filters.location" id="location" required ng-change="filterByLocation()">
+    </select>
+</div>

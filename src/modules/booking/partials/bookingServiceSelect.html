@@ -1,0 +1,5 @@
+<div class="form-input">
+    <label  name="service">{{'booking:services-section.label' | i18next}}</label>
+    <select-arrows></select-arrows>
+    <select name="service" ng-disabled="loadingSessions" ng-model="filters.service" ng-options="service.name for service in services" ng-change="filterByService()" required></select>
+</div>
