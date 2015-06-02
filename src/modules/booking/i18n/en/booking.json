@@ -25,6 +25,7 @@
         "label": "Please select a service",
         "description": "Description:"
     },
+    "event-select": "Please select an event",
     "full-course": "Full course",
     "rest-of-course": "Rest of course",
     "course": "COURSE",
