@@ -1,7 +1,7 @@
 <hr/>
 <div class="booking-details-container">
     <div class="booking-details">
-        <h4>{{'booking:booking-for' | i18next}} {{booking.customer.firstName}} {{booking.customer.lastName}}</h4>
+        <h4>{{'booking:booking-for' | i18next}} {{customerDetails.firstName}} {{customerDetails.lastName}}</h4>
         <p>{{filters.location.name}}</p>
         <p>{{filters.service.name}}</p>
         <p>{{calculateBookingDateRange()}}</p>
