@@ -6,11 +6,11 @@
     background-size: cover;
 
     .current-booking-status{
-        height: 80px;
+        height: 65px;
         width: 100%;
         bottom: 45px;
         background: $white;
-        padding: 15px 20px;
+        padding: 7.5px 20px;
 
         div{
             height: 50px;
@@ -41,7 +41,7 @@
     }
 
     .booking-container {
-        height: calc(100vh - 125px);
+        height: calc(100vh - 110px);
         padding: 30px 60px 60px 60px;
         color: $white;
         position: relative;
