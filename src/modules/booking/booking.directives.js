@@ -101,20 +101,6 @@ angular.module('booking.directives', [])
                 };
             }
         };
-    })
-    .directive('bookingLocationSelect', function(){
-        return {
-            restrict: "E",
-            templateUrl:'booking/partials/bookingLocationSelect.html'
-        };
-    })
-    .directive('bookingServiceSelect', function(){
-        return {
-            restrict: "E",
-            templateUrl:'booking/partials/bookingServiceSelect.html'
-        };
-    })
-    .directive('bookingDateRange', function(){
         return {
             restrict: "E",
             templateUrl:'booking/partials/bookingDateRange.html',
