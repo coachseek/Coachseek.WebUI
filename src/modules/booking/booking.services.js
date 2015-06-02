@@ -9,4 +9,27 @@ angular.module('booking.services', [])
                 })
             }
         };
+    }])
+    .service('currentBooking', ['onlineBookingAPIFactory', function(onlineBookingAPIFactory){
+        this.customer = {};
+        this.booking = {
+            sessions: []
+        };
+        this.filters = {};
+
+        this.resetBooking = function(){
+            this.booking = {
+                sessions: []
+            };
+        }
+
+        this.getAllEvents = function(businessDomain){
+            var params = {
+                endDate: moment().add(12, 'week').format('YYYY-MM-DD'),
+                startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
+                section: 'Sessions'
+            };
+
+            return onlineBookingAPIFactory.anon(businessDomain).get(params).$promise;
+        };
     }]);

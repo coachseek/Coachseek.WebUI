@@ -77,7 +77,7 @@ angular.module('booking.directives', [])
             }
         };
     })
-    .directive('bookingCourseSessions', function(){
+    .directive('bookingCourseSessions', ['currentBooking', function(currentBooking){
         return {
             restrict: "E",
             templateUrl:'booking/partials/bookingCourseSessions.html',
@@ -97,27 +97,29 @@ angular.module('booking.directives', [])
                 }
 
                 scope.isSelected = function(session){
-                    return _.includes(scope.booking.sessions, session);
+                    return _.includes(currentBooking.booking.sessions, session);
                 };
             }
         };
+    }])
+    .directive('bookingDateRange', ['currentBooking', function(currentBooking){
         return {
             restrict: "E",
             templateUrl:'booking/partials/bookingDateRange.html',
             link: function(scope){
                 // TODO this is nasty. pare this down.
                 scope.calculateBookingDateRange = function(){
-                    if(scope.booking.course){
-                        var course = scope.booking.course;
+                    if(currentBooking.booking.course){
+                        var course = currentBooking.booking.course;
                         var dateRange = getNewDateRange(course.timing, course.repetition);
-                        if(_.size(scope.booking.sessions)){
+                        if(_.size(currentBooking.booking.sessions)){
                             return dateRange.start.format('dddd Do MMM') + " – " + dateRange.end.format('dddd Do MMM');
                         } else {
                             return dateRange.start.format('dddd Do MMM');
                         }
-                    } else if (scope.booking.sessions) {
+                    } else if (currentBooking.booking.sessions) {
                         var dates = [];
-                        _.each(scope.booking.sessions, function(session){
+                        _.each(currentBooking.booking.sessions, function(session){
                             dates.push(getNewDate(session.timing));
                         });
 
@@ -142,23 +144,23 @@ angular.module('booking.directives', [])
                 };
             }
         };
-    })
-    .directive('bookingPrice', function(){
+    }])
+    .directive('bookingPrice', ['currentBooking', function(currentBooking){
         return {
             restrict: "E",
             templateUrl:'booking/partials/bookingPrice.html',
             link: function(scope){
                 scope.calculateTotalPrice = function(){
-                    var course = scope.booking.course;
+                    var course = currentBooking.booking.course;
                     if(course){
                         // STANDALONE SESSION
                         if(!course.sessions) {
                             return course.pricing.sessionPrice.toFixed(2);
                         // COURSE IN PAST
-                        } else if(isBefore(course)){
+                        } else if(scope.isBefore(course)){
                             if(course.pricing.coursePrice && !course.pricing.sessionPrice){
                                 //PRO RATE
-                                var numSessionsInFuture = _.size(_.filter(course.sessions, function(session){return !isBefore(session)}));
+                                var numSessionsInFuture = _.size(_.filter(course.sessions, function(session){return !scope.isBefore(session)}));
                                 return (course.pricing.coursePrice / course.repetition.sessionCount * numSessionsInFuture).toFixed(2);
                             } else {
                                 return (_.size(scope.availableSessions) * course.pricing.sessionPrice).toFixed(2);
@@ -172,21 +174,13 @@ angular.module('booking.directives', [])
                             }
                         }
                     // ONLY COURSE SESSIONS SELECTED
-                    } else if (scope.booking.sessions){
-                        return _.sum(scope.booking.sessions, 'pricing.sessionPrice').toFixed(2);
+                    } else if (currentBooking.booking.sessions){
+                        return _.sum(currentBooking.booking.sessions, 'pricing.sessionPrice').toFixed(2);
                     //NOTHING SELECTED
                     } else {
                         return "0.00"
                     }
                 };
-
-                function isBefore(session){
-                    return getNewDate(session.timing).isBefore(moment());
-                };
-
-                function getNewDate(timing){
-                    return moment(timing.startDate, "YYYY-MM-DD");
-                };
             }
         };
-    });
+    }]);

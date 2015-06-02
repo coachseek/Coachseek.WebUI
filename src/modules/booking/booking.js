@@ -23,7 +23,8 @@ angular.module('booking', [
                 url: "/selection",
                 views: {
                     "booking-view": { 
-                        templateUrl: "booking/partials/bookingSelectionView.html"
+                        templateUrl: "booking/partials/bookingSelectionView.html",
+                        controller: 'bookingSelectionCtrl'
                     }
                 },
                 data: {

@@ -95,6 +95,10 @@
                     height: 40px;
                     float: left;
                     padding-left: 30px;
+
+                    &[disabled]{
+                        opacity: 0.5;
+                    }
                 }
             }
 
@@ -118,6 +122,7 @@
 
             .service-description{
                 div{
+                    overflow: hidden;
                     width: 50%;
                     margin: 0 auto;
                     text-align: center;
@@ -128,10 +133,17 @@
                 width: 100%;
                 overflow: hidden;
 
+
                 hr{
-                    margin-bottom: 20px;
                     border-color: $white;
                     opacity: 0.1;
+                }
+
+                label{
+                    font-size: 16px;
+                    padding-left: 30px;
+                    width: 100%;
+                    margin-bottom: 20px;
                 }
 
                 booking-rectangle {

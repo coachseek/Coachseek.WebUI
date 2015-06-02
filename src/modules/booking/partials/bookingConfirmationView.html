@@ -1,9 +1,9 @@
 <hr/>
 <div class="booking-details-container">
     <div class="booking-details">
-        <h4>{{'booking:booking-for' | i18next}} {{customerDetails.firstName}} {{customerDetails.lastName}}</h4>
-        <p>{{filters.location.name}}</p>
-        <p>{{filters.service.name}}</p>
+        <h4>{{'booking:booking-for' | i18next}} {{currentBooking.customer.firstName}} {{currentBooking.customer.lastName}}</h4>
+        <p>{{currentBooking.filters.location.name}}</p>
+        <p>{{currentBooking.filters.service.name}}</p>
         <p>{{calculateBookingDateRange()}}</p>
         <h2>{{'booking:confirmation.total' | i18next}} <span ng-i18next="denominations.{{business.currency}}"></span>{{calculateTotalPrice()}} {{business.currency}}</h2>
     </div>

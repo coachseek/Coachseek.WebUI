@@ -1,40 +1,11 @@
 angular.module('booking.controllers', [])
-    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'anonCoachseekAPIFactory',
-      function($scope, $state, onlineBookingAPIFactory, anonCoachseekAPIFactory){
-        $scope.booking = {};
-        $scope.customerDetails = {};
-        $scope.filters = {};
-        $scope.locations = [];
-        $scope.services = [];
-
-        $scope.filterAllSessions = function () {
-            $scope.selectedEvent = null;
-            $scope.booking = {};
-            $scope.events = [];
-            var params = {
-                endDate: moment().add(12, 'week').format('YYYY-MM-DD'),
-                startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
-                locationId: $scope.filters.location ? $scope.filters.location.id : undefined,
-                serviceId: $scope.filters.service ? $scope.filters.service.id : undefined,
-                section: 'Sessions'
-            };
-
-            $scope.loadingSessions = true;
-            return onlineBookingAPIFactory.anon($scope.business.domain)
-                    .get(params).$promise.then(function(events){
-                        $scope.allEvents = _.sortBy(_.union(events.courses, events.sessions),function(event){
-                            return getNewDate(event.timing).valueOf();
-                        });
-                        $scope.eventsExist = _.size($scope.allEvents);
-                    }, $scope.handleErrors).finally(function(){
-                        $scope.loadingSessions = false;
-                    });
-        };
+    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'currentBooking',
+      function($scope, $state, onlineBookingAPIFactory, currentBooking){
+        $scope.currentBooking = currentBooking;
 
         $scope.selectEvent = function (event) {
             if($scope.selectedEvent !== event){
-                $scope.booking.course = null;
-                $scope.booking.sessions = [];
+                currentBooking.resetBooking()
                 $scope.selectedEvent = event;
                 $scope.availableSessions = _.filter(event.sessions, function(session){
                     return !$scope.isBefore(session) && $scope.getSessionSpacesAvailable(session) > 0
@@ -43,103 +14,109 @@ angular.module('booking.controllers', [])
             }
         };
 
-        $scope.getSessionSpacesAvailable = function(session){
-            var spacesAvailable = session.booking.studentCapacity - session.booking.bookingCount;
-            return spacesAvailable > 0 ? spacesAvailable : 0;
-        };
-
         $scope.closeEvent = function(){
             event.stopPropagation();
-            $scope.booking.course = null;
-            $scope.booking.sessions = [];
-            $scope.selectedEvent = null;
+            currentBooking.resetBooking();
+            delete $scope.selectedEvent;
         };
 
         $scope.toggleSessionSelect = function(session){
-            if(_.includes($scope.booking.sessions, session)){
-                $scope.booking.sessions = _.without($scope.booking.sessions, session);
+            if(_.includes(currentBooking.booking.sessions, session)){
+                currentBooking.booking.sessions = _.without(currentBooking.booking.sessions, session);
             } else {
-                $scope.booking.sessions.push(session);
+                currentBooking.booking.sessions.push(session);
             }
 
-            if(_.size($scope.booking.sessions) === _.size($scope.availableSessions) ){
-                $scope.booking.course = $scope.selectedEvent;   
+            if(_.size(currentBooking.booking.sessions) === _.size($scope.availableSessions) ){
+                currentBooking.booking.course = $scope.selectedEvent;   
             } else {
-                $scope.booking.course = null;   
+                currentBooking.booking.course = null;   
             }
         };
 
         //TODO don't set course if all arent available?
         $scope.toggleEntireCourse = function(){
-            if($scope.booking.course === $scope.selectedEvent){
-                $scope.booking.course = null;
-                $scope.booking.sessions = [];
+            if(currentBooking.booking.course === $scope.selectedEvent){
+                currentBooking.resetBooking();
             } else {
-                $scope.booking.course = $scope.selectedEvent;
-                $scope.booking.sessions = $scope.availableSessions;
+                currentBooking.booking = {
+                    course: $scope.selectedEvent,
+                    sessions: $scope.availableSessions
+                }
             }
+        };
+
+        $scope.getSessionSpacesAvailable = function(session){
+            var spacesAvailable = session.booking.studentCapacity - session.booking.bookingCount;
+            return spacesAvailable > 0 ? spacesAvailable : 0;
         };
 
         $scope.isBefore = function(session){
-            return getNewDate(session.timing).isBefore(moment());
+            return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
         };
 
-        function getNewDate(timing){
-            return moment(timing.startDate, "YYYY-MM-DD");
-        };
+    }])
+    .controller('bookingSelectionCtrl', ['$scope', 'anonCoachseekAPIFactory', 'currentBooking',
+      function($scope, anonCoachseekAPIFactory, currentBooking){
+        var locationEvents,
+            serviceEvents,
+            allEvents;
 
-        $scope.resetBookings = function () {
-            $scope.booking = {};
-            $scope.filters = {};
-            delete $scope.serviceDescription;
-            $scope.filterAllSessions();
+        $scope.locations = [];
+        $scope.services = [];
+        $scope.filters = currentBooking.filters;
 
-            $state.go('booking.selection');
-        };
-
-        $scope.$watch('filters.service', function(newService){
-            if(newService){
+        $scope.$watch('currentBooking.filters.service', function(newService){
+            if(_.size(newService)){
                 $scope.loadingSessions = true;
-                anonCoachseekAPIFactory.anon($scope.business.domain)
-                    .get({section: 'Services', id: newService.id}).$promise.then(function(service){
+                anonCoachseekAPIFactory.anon($scope.business.domain).get({section: 'Services', id: newService.id})
+                    .$promise.then(function(service){
                         $scope.serviceDescription = service.description;
                     }, $scope.handleErrors).finally(function(){
                         $scope.loadingSessions = false;
-                    });
+                });
             }
         });
 
-        $scope.filterByLocation = function () {
-            $scope.booking.sessions = [];
-            delete $scope.booking.course;
+        $scope.filterByLocation = function (resetBooking) {
+            if(resetBooking){
+                currentBooking.resetBooking();
+                delete currentBooking.filters.service;
+            }
+
             delete $scope.selectedEvent;
             delete $scope.serviceDescription;
 
-            $scope.locationEvents = _.filter($scope.allEvents, function(event){
+            locationEvents = _.filter(currentBooking.allEvents, function(event){
                 return event.location.id === $scope.filters.location.id;
             });
             $scope.services = [];
-            _.each($scope.locationEvents, function(event){
+            _.each(locationEvents, function(event){
                 if(!serviceAlreadyAdded(event.service.id)) {
                     $scope.services.push(event.service);
                 }
             });
-            $scope.filterEvents();
+            filterEvents();
         };
 
-        $scope.filterByService = function () {
-            $scope.booking.sessions = [];
-            delete $scope.booking.course;
+        $scope.filterByService = function (resetBooking) {
+            if(resetBooking) currentBooking.resetBooking();
             delete $scope.selectedEvent;
+            delete $scope.serviceDescription;
 
-            $scope.serviceEvents = _.filter($scope.allEvents, function(event){
+            serviceEvents = _.filter(currentBooking.allEvents, function(event){
                 return event.service.id === $scope.filters.service.id;
             });
-            $scope.filterEvents();
+            filterEvents();
+        };
+
+
+        function filterEvents(){
+            $scope.events = _.intersection(locationEvents, serviceEvents)
         };
 
         $scope.disableContinue = function(){
-            return _.isEmpty($scope.booking.sessions) && _.isEmpty($scope.booking.course);
+            return _.isEmpty(currentBooking.booking.sessions) && _.isEmpty(currentBooking.booking.course);
         }
 
         function serviceAlreadyAdded(serviceId){
@@ -154,12 +131,12 @@ angular.module('booking.controllers', [])
             });
         };
 
-        $scope.filterEvents = function(){
-            $scope.events = _.intersection($scope.locationEvents, $scope.serviceEvents)
+        function getNewDate(timing){
+            return moment(timing.startDate, "YYYY-MM-DD");
         };
 
-        $scope.filterAllSessions().then(function(){
-            _.each($scope.allEvents, function(event){
+        function buildLocationsAndServices(){
+            _.each(currentBooking.allEvents, function(event){
                 if(!locationAlreadyAdded(event.location.id)) {
                     $scope.locations.push(event.location);
                 }
@@ -168,10 +145,32 @@ angular.module('booking.controllers', [])
                     $scope.services.push(event.service);
                 }
             });
-        });
+        }
+
+        if(!currentBooking.allEvents){
+            delete $scope.serviceDescription;
+
+            $scope.loadingSessions = true;            
+            currentBooking.getAllEvents($scope.business.domain).then(function(events){
+                currentBooking.allEvents = _.sortBy(_.union(events.courses, events.sessions),function(event){
+                    return getNewDate(event.timing).valueOf();
+                });
+                $scope.eventsExist = _.size(currentBooking.allEvents);
+                buildLocationsAndServices();
+            }, $scope.handleErrors).finally(function(){
+                $scope.loadingSessions = false;
+            });
+        } else {
+            $scope.eventsExist = _.size(currentBooking.allEvents);
+            buildLocationsAndServices();
+            $scope.filterByLocation();
+            $scope.filterByService();
+        }
     }])
-    .controller('bookingCustomerDetailsCtrl', ['$scope', '$state', function($scope, $state){
-        if(!$scope.disableContinue()){
+    .controller('bookingCustomerDetailsCtrl', ['$scope', '$state', 'currentBooking', function($scope, $state, currentBooking){
+        $scope.customer = currentBooking.customer;
+
+        if(!currentBooking.filters.location){
             $state.go('booking.selection');
         }
     }])
@@ -196,18 +195,19 @@ angular.module('booking.controllers', [])
         
       };
     }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory',
-      function($scope, $q, $state, onlineBookingAPIFactory){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'currentBooking',
+      function($scope, $q, $state, onlineBookingAPIFactory, currentBooking){
         $scope.bookingConfirmed = false;
+        $scope.currentBooking = currentBooking;
 
-        if(!$scope.disableContinue()){
+        if(!currentBooking.filters.location){
             $state.go('booking.selection');
         }
 
         $scope.processBooking = function () {
             $scope.processingBooking = true;
             onlineBookingAPIFactory.anon($scope.business.domain)
-                .save({ section: 'Customers' }, $scope.customerDetails).$promise
+                .save({ section: 'Customers' }, currentBooking.customer).$promise
                     .then(function (customer) {
                         $q.all(getSessionsToBook(customer)).then(function () {
                             $scope.bookingConfirmed = true;
@@ -218,11 +218,11 @@ angular.module('booking.controllers', [])
         };
 
         function getSessionsToBook(customer){
-            if($scope.booking.course && _.size($scope.availableSessions) === _.size($scope.booking.course.sessions)){
-                return getBookingCall($scope.booking.course, customer)
-            } else if ($scope.booking.sessions){
+            if(currentBooking.booking.course && _.size($scope.availableSessions) === _.size(currentBooking.booking.course.sessions)){
+                return getBookingCall(currentBooking.booking.course, customer)
+            } else if (currentBooking.booking.sessions){
                 var bookingPromises = [];
-                _.each($scope.booking.sessions, function(session){
+                _.each(currentBooking.booking.sessions, function(session){
                     bookingPromises.push(getBookingCall(session, customer));
                 });
                 return bookingPromises;
@@ -237,6 +237,14 @@ angular.module('booking.controllers', [])
                 hasAttended: false
             }
             return onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Bookings' }, bookingData).$promise;
+        };
+
+
+        $scope.resetBookings = function () {
+            currentBooking.resetBooking();
+            currentBooking.filters = {};
+            delete currentBooking.allEvents;
+            $state.go('booking.selection');
         };
     }])
     .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', function($scope, $templateCache, $compile){
