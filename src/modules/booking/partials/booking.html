@@ -2,8 +2,8 @@
 	<div class="border-right">{{'booking:current-booking' | i18next}}  {{business.name}}</div>
 	<div class="border-right"><p>{{filters.location.name}}</p></div>
 	<div class="border-right"><p>{{filters.service.name}}</p></div>
-	<div class="border-right"><p>{{calculateBookingDateRange()}}</p></div>
-	<div><h4><span ng-i18next="denominations.{{business.currency}}"></span>{{calculateTotalPrice()}} {{business.currency}}</h4></div>
+	<booking-date-range></booking-date-range>
+	<booking-price></booking-price>
 </div>
 <div class="booking-container">  
     <div ui-view="booking-view" class="booking-content-container"></div>
