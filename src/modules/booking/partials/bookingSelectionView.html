@@ -1,0 +1,19 @@
+<div ng-if="eventsExist">
+	<booking-location-select></booking-location-select>
+	<booking-service-select></booking-service-select>
+	<button type="submit" class="continue-button" ui-sref="booking.details" ng-disabled="disableContinue()">{{'booking:common.next'|i18next}}</button>
+
+	<div ng-show="filters.service && !loadingSessions" class="service-description">{{filters.service.description}}</div>
+	<div class="service-description" ng-if="!loadingSessions && serviceDescription">
+		<div>{{serviceDescription}}</div>
+	</div>
+	<div class="events-container" ng-if="filters.service && !loadingSessions">
+	    <hr/>
+	    <booking-rectangle ng-repeat="event in events" ng-class="{'expanded': event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id === event.id, 'selected': selectedEvent && selectedEvent.id === event.id}"></booking-rectangle>
+	</div>
+</div>
+<loading-animation ng-show="loadingSessions"></loading-animation>
+<div class="no-events-message" ng-if="!eventsExist && !loadingSessions">
+	<h1>{{'booking:hey-there' | i18next}}</h1>
+	<h3>{{'booking:no-events' | i18next}}</h3>
+</div>

@@ -1,15 +1,6 @@
 angular.module('booking.controllers', [])
-    .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', function($scope, $templateCache, $compile){
-        var markup = $templateCache.get('booking/partials/bookNowButton.html');
-        var view = $compile(markup)($scope);
-        _.defer(function(){
-            $scope.buttonHTML = view.get(0).outerHTML;
-            $scope.$apply();
-        })
-
-    }])
-    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory',
-      function($scope, $state, onlineBookingAPIFactory){
+    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'anonCoachseekAPIFactory',
+      function($scope, $state, onlineBookingAPIFactory, anonCoachseekAPIFactory){
         $scope.booking = {};
         $scope.customerDetails = {};
         $scope.filters = {};
@@ -22,7 +13,7 @@ angular.module('booking.controllers', [])
             $scope.events = [];
             var params = {
                 endDate: moment().add(12, 'week').format('YYYY-MM-DD'),
-                startDate: moment().format('YYYY-MM-DD'),
+                startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
                 locationId: $scope.filters.location ? $scope.filters.location.id : undefined,
                 serviceId: $scope.filters.service ? $scope.filters.service.id : undefined,
                 section: 'Sessions'
@@ -78,6 +69,7 @@ angular.module('booking.controllers', [])
             }
         };
 
+        //TODO don't set course if all arent available?
         $scope.toggleEntireCourse = function(){
             if($scope.booking.course === $scope.selectedEvent){
                 $scope.booking.course = null;
@@ -99,62 +91,10 @@ angular.module('booking.controllers', [])
         $scope.resetBookings = function () {
             $scope.booking = {};
             $scope.filters = {};
+            delete $scope.serviceDescription;
             $scope.filterAllSessions();
 
-            $state.go('booking.location');
-        };
-
-        $scope.filterByLocation = function () {
-            $scope.locationEvents = _.filter($scope.allEvents, function(event){
-                return event.location.id === $scope.filters.location.id;
-            });
-        };
-
-        $scope.filterByService = function () {
-            $scope.booking.course = null;
-            $scope.booking.sessions = [];
-            $scope.selectedEvent = null;
-            $scope.events = _.filter($scope.locationEvents, function(event){
-                return event.service.id === $scope.filters.service.id;
-            });
-        };
-
-        function getNewDate(timing){
-        };
-
-        function getNewDateRange(timing, repetition){
-            var startDate = moment(timing.startDate + " " + timing.startTime, "YYYY-MM-DD HH:mm");
-            var endDate = startDate.clone().add(repetition.sessionCount - 1, repetition.repeatFrequency);
-            return moment.range(startDate, endDate);
-        };
-    }])
-    .controller('bookingLocationCtrl', ['$scope', function($scope){
-        function locationAlreadyAdded(locationId){
-            return _.find($scope.locations, function(location){
-                return location.id === locationId
-            });
-        };
-
-        if(!$scope.allEvents){
-            $scope.filterAllSessions().then(function(){
-                _.each($scope.allEvents, function(event){
-                    if(!locationAlreadyAdded(event.location.id)) {
-                        $scope.locations.push(event.location);
-                    }
-                });
-            });
-        }
-    }])
-    .controller('bookingServicesCtrl', ['$scope', '$state', 'anonCoachseekAPIFactory',
-        function($scope, $state, anonCoachseekAPIFactory){
-        $scope.backToLocation = function ($event) {
-            $scope.filters.service = null;
-            $scope.filters.course = null;
-            $scope.$parent.booking = {};
-            $scope.$parent.services = [];
-            $scope.$parent.events = [];
-            $scope.serviceDescription = null;
-            $state.go('booking.location');
+            $state.go('booking.selection');
         };
 
         $scope.$watch('filters.service', function(newService){
@@ -169,6 +109,35 @@ angular.module('booking.controllers', [])
             }
         });
 
+        $scope.filterByLocation = function () {
+            $scope.booking.sessions = [];
+            delete $scope.booking.course;
+            delete $scope.selectedEvent;
+            delete $scope.serviceDescription;
+
+            $scope.locationEvents = _.filter($scope.allEvents, function(event){
+                return event.location.id === $scope.filters.location.id;
+            });
+            $scope.services = [];
+            _.each($scope.locationEvents, function(event){
+                if(!serviceAlreadyAdded(event.service.id)) {
+                    $scope.services.push(event.service);
+                }
+            });
+            $scope.filterEvents();
+        };
+
+        $scope.filterByService = function () {
+            $scope.booking.sessions = [];
+            delete $scope.booking.course;
+            delete $scope.selectedEvent;
+
+            $scope.serviceEvents = _.filter($scope.allEvents, function(event){
+                return event.service.id === $scope.filters.service.id;
+            });
+            $scope.filterEvents();
+        };
+
         $scope.disableContinue = function(){
             return _.isEmpty($scope.booking.sessions) && _.isEmpty($scope.booking.course);
         }
@@ -179,19 +148,31 @@ angular.module('booking.controllers', [])
             });
         };
 
-        if(!$scope.filters.location || !$scope.locationEvents){
-            $state.go('booking.location');
-        } else if(!_.size($scope.services)) {
-            _.each($scope.locationEvents, function(event){
-                if($scope.filters.location.id === event.location.id && !serviceAlreadyAdded(event.service.id)) {
+        function locationAlreadyAdded(locationId){
+            return _.find($scope.locations, function(location){
+                return location.id === locationId
+            });
+        };
+
+        $scope.filterEvents = function(){
+            $scope.events = _.intersection($scope.locationEvents, $scope.serviceEvents)
+        };
+
+        $scope.filterAllSessions().then(function(){
+            _.each($scope.allEvents, function(event){
+                if(!locationAlreadyAdded(event.location.id)) {
+                    $scope.locations.push(event.location);
+                }
+
+                if(!serviceAlreadyAdded(event.service.id)) {
                     $scope.services.push(event.service);
                 }
             });
-        }
+        });
     }])
     .controller('bookingCustomerDetailsCtrl', ['$scope', '$state', function($scope, $state){
-        if(!$scope.filters.location){
-            $state.go('booking.location');
+        if(!$scope.disableContinue()){
+            $state.go('booking.selection');
         }
     }])
     .controller('bookingPaymentCtrl', ['$scope', function($scope){
@@ -214,14 +195,13 @@ angular.module('booking.controllers', [])
       $scope.payLaterCall = function () {
         
       };
-        
     }])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory',
       function($scope, $q, $state, onlineBookingAPIFactory){
         $scope.bookingConfirmed = false;
 
-        if(!$scope.filters.location){
-            $state.go('booking.location');
+        if(!$scope.disableContinue()){
+            $state.go('booking.selection');
         }
 
         $scope.processBooking = function () {
@@ -258,4 +238,12 @@ angular.module('booking.controllers', [])
             }
             return onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Bookings' }, bookingData).$promise;
         };
+    }])
+    .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', function($scope, $templateCache, $compile){
+        var markup = $templateCache.get('booking/partials/bookNowButton.html');
+        var view = $compile(markup)($scope);
+        _.defer(function(){
+            $scope.buttonHTML = view.get(0).outerHTML;
+            $scope.$apply();
+        })
     }]);

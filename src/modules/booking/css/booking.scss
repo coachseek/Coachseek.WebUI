@@ -26,21 +26,10 @@
                 @extend %vertical-align; 
             }
 
-            h4{
-                font-size: 20px;
-            }
-
             p{
                 font-size: 14px;
             }
         }
-    }
-
-    .booking-with-title{
-        font-size: 30px;
-        padding: 30px 60px 0px 60px;
-        color: white;
-        text-transform: uppercase;
     }
 
     .fade-block{
@@ -52,7 +41,7 @@
     }
 
     .booking-container {
-        height: calc(100vh - 197px);
+        height: calc(100vh - 125px);
         padding: 30px 60px 60px 60px;
         color: $white;
         position: relative;
@@ -76,7 +65,7 @@
             .form-input{
                 display: inline-block;
                 position: relative;
-                width: 58%;
+                width: 35%;
                 margin-right: 2%;
                 float: left;
                 margin-bottom: 20px;
@@ -84,8 +73,8 @@
                 select-arrows{
                     color: black;
                     font-size: 20px;
-                    right: 30px;
-                    bottom: 10px;
+                    right: 23px;
+                    bottom: 0px;
 
                     .fa-caret-up{
                         top: -5px;
@@ -102,8 +91,8 @@
                 select{
                     color: $text-dark-grey;
                     width: 100%;
-                    font-size: 18px;
-                    height: 60px;
+                    font-size: 14px;
+                    height: 40px;
                     float: left;
                     padding-left: 30px;
                 }
@@ -111,13 +100,13 @@
 
             button{
                 margin-top: 31px;
-                font-size: 16px;
-                height: 60px;
+                font-size: 14px;
+                height: 40px;
                 float: right;
 
                 &.back-button {
                     @extend %grey-button;
-                    width: 15%;
+                    width: 20%;
                 }
 
                 &.continue-button{
@@ -142,7 +131,7 @@
                 hr{
                     margin-bottom: 20px;
                     border-color: $white;
-                    opacity: 0.8;
+                    opacity: 0.1;
                 }
 
                 booking-rectangle {

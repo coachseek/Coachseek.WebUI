@@ -19,25 +19,11 @@ angular.module('booking', [
                 templateUrl: "booking/partials/booking.html",
                 controller: 'bookingCtrl'
             })
-            .state('booking.location', {
-                url: "/location",
+            .state('booking.selection', {
+                url: "/selection",
                 views: {
                     "booking-view": { 
-                        templateUrl: "booking/partials/bookingLocationView.html",
-                        controller: 'bookingLocationCtrl'
-                    }
-                },
-                data: {
-                    requireLogin: false,
-                    requireBusinessDomain: true
-                }
-            })
-            .state('booking.services', {
-                url: "/services",
-                views: {
-                    "booking-view": { 
-                        templateUrl: "booking/partials/bookingServicesView.html",
-                        controller: 'bookingServicesCtrl'
+                        templateUrl: "booking/partials/bookingSelectionView.html"
                     }
                 },
                 data: {

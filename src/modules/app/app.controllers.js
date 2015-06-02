@@ -94,7 +94,7 @@ angular.module('app.controllers', [])
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             $rootScope.business = business;
-                            $state.go('booking.location');
+                            $state.go('booking.selection');
                         }, function(){
                             $rootScope.addAlert({
                                 type: 'warning',

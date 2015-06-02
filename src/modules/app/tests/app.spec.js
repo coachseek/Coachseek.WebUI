@@ -350,7 +350,7 @@ describe('App Module', function() {
                 }
             });
 
-            $state.go('booking.services')
+            $state.go('booking.selection')
         });
         describe('when subdomain is a businessDomain', function(){
             describe('and a business is not set on the scope', function(){
@@ -365,8 +365,8 @@ describe('App Module', function() {
                     it('should set business on the scope', function(){
                         expect($rootScope.business).to.eql(this.business)
                     });
-                    it('should navigate to booking.location', function(){
-                        expect(stateGoSpy).to.be.calledWith('booking.location');
+                    it('should navigate to booking.selection', function(){
+                        expect(stateGoSpy).to.be.calledWith('booking.selection');
                     });
                 });
                 describe('when subdomain doesnt exist', function(){
