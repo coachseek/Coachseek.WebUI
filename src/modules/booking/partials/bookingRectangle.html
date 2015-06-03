@@ -1,6 +1,6 @@
 <div ng-click="toggleEventSelect()" class="event">
     <div class="selected-checkbox" ng-hide="event.sessions && event.pricing.sessionPrice >= 0"><i ng-class="selectedEvent && selectedEvent.id === event.id ? 'fa-check-circle' : 'fa-circle-o' " class="fa"></i></div>
-    <i class="expand fa fa-expand" ng-if="event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id !== event.id"></i>
+    <i ng-show="isBigScreen" class="expand fa fa-expand" ng-if="event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id !== event.id"></i>
     <div class="event-info-container">
         <p class="date-range">{{getEventDateRange()}}</p>
         <p class="session-type" ng-if="event.sessions" ng-i18next="[i18next]({count:event.repetition.sessionCount})booking:{{event.repetition.repeatFrequency}}"></p>
@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="course-sessions-container" ng-show="event.sessions && selectedEvent.id === event.id && event.pricing.sessionPrice >=0">
-        <div class="close-event" ng-click="closeEvent()">{{'booking:close' | i18next}} <i class="fa fa-close"></i></div>
+        <div class="close-event" ng-click="closeEvent()">{{isBigScreen ? "'booking:close' | i18next" : ''}}<i class="fa fa-close"></i></div>
         <hr/>
         <div class="event-begun" ng-show="isBefore(event)"><i class="fa fa-exclamation-circle"> {{'booking:event-begun' | i18next}}</i></div>
         <booking-course-sessions></booking-course-sessions>
