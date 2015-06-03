@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="course-sessions-container" ng-show="event.sessions && selectedEvent.id === event.id && event.pricing.sessionPrice >=0">
-        <div class="close-event" ng-click="closeEvent()">{{isBigScreen ? "'booking:close' | i18next" : ''}}<i class="fa fa-close"></i></div>
+        <div class="close-event" ng-click="closeEvent()"><span ng-if="isBigScreen">{{'booking:close' | i18next}}</span><i class="fa fa-close"></i></div>
         <hr/>
         <div class="event-begun" ng-show="isBefore(event)"><i class="fa fa-exclamation-circle"> {{'booking:event-begun' | i18next}}</i></div>
         <booking-course-sessions></booking-course-sessions>
