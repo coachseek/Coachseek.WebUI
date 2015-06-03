@@ -411,6 +411,191 @@
     }
 
     @media (max-width: 768px){
+        .fade-block{
+            display:none !important;
+        }
 
+        .current-booking-status{
+            height: 60px;
+            padding:5px;
+            border-bottom:1px solid #ccc;
+            booking-date-range{
+                display: none !important;
+            }
+            booking-price{
+                div{
+                    width:40%;
+                    text-align: center;
+                }
+            }
+            .border-right{
+                &:nth-child(1){
+                    width:60%;;
+                }
+                &:nth-child(2){
+                    display:none !important;
+                } 
+                &:nth-child(3){
+                    display:none !important;
+                }
+            }
+
+        }
+
+        .booking-container{
+            height: calc(100vh - 105px);
+            padding: 30px 17px 60px 17px;
+            .booking-content-container{
+                .booking-details-container{
+                    .booking-details{
+                        width: 100%;  
+                        padding-left: 0px;
+                    }
+
+                } 
+                .booking-customer-form{
+                    .form-input{
+                        width:100%;
+                        margin-bottom: 20px;
+                        &:last-child{
+                            margin-bottom:45px;
+                        }
+                        .error-messages{
+                            i{
+                                top:-35px;
+                            }
+                            div{
+                                padding-top: 3px;
+                            }
+                        }
+                        label{
+                            padding: 0 0 0px 20px;
+                        }
+                        input{
+                            height:40px;
+                            padding: 10px;
+                            font-size: 12px;
+                        }
+                    }
+                }
+                .form-input{
+                    width:100%;
+                }
+                button{
+                    -webkit-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
+                    box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
+                    &.continue-button{
+                        width: 46%;
+                        padding: 7.5px 10px;
+                        position: fixed;
+                        right: 0px;
+                        z-index: 2;
+                        bottom: 60px;
+                    }
+                    &.back-button{
+                        width: 46%;
+                        padding: 7.5px 10px;
+                        position: fixed;
+                        z-index: 1;
+                        bottom: 60px;
+                        left: 10px;
+                    }
+                }
+                .service-description{
+                    div{
+                        width:100%;
+                    }
+                }
+                .events-container{
+                    label{
+                        display:none !important;
+                    }
+                    booking-rectangle{
+                        width: 100%;
+                        margin-right: 0%; 
+                        margin-left: 0%;
+                        margin-bottom:10px;
+                        &.selected{
+                            .event{
+                                -webkit-box-shadow: inset 0px 0px 2px 2px rgba(242,120,75,0.56);
+                                -moz-box-shadow: inset 0px 0px 2px 2px rgba(242,120,75,0.56);
+                                box-shadow: inset 0px 0px 2px 2px rgba(242,120,75,0.56);
+                            }
+                        }
+                        booking-course-sessions{
+                            .session-box{
+                                    
+                                &.selected{
+                                    box-shadow:none;
+                                    border: 2px solid #F2784B;
+                                   
+                                }
+                                &.course-session{
+                                    width:100%;
+                                    &:nth-child(3n){
+                                        margin-right: 0%;
+                                        margin-left: 0%;
+                                    }
+                                }
+                            }
+
+                        }
+                        &.expanded{
+                            width: 100%;
+                            .event-info-container{
+                                width:100%;
+                                p.session-type{
+                                    text-align:left;
+                                }
+                                .date-range{
+                                    margin-right: 15px;
+                                    text-align:left;
+                                }
+                            }
+
+                        }
+                        .event {
+                            padding: 10px 20px;
+                            .event-info-container{
+                                  margin-left: 10px;
+                            
+                                .booking-rectangle-info{
+                                    text-align:left;
+                                    width:100%;
+                                    margin-right:0;
+                                    padding-bottom:15px;
+                                    &:last-child{
+                                        padding-bottom:0px;
+                                    }
+                                    .fa.fa-usd{
+                                        position: relative;
+                                        // top:11px;
+                                        padding-right:4px;
+                                    }
+                                    &:nth-child(2){
+                                        p{
+                                            
+                                        }
+                                    }
+                          
+                                    p{
+                                        display:inline-block;
+                                        padding-left:20px;
+                                        &:nth-child(3){
+                                            display:block;
+                                            padding-left:35px;
+                                        }
+                                     
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+               
+            }
+        }
+        
     }
 }
