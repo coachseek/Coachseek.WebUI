@@ -10,6 +10,7 @@ angular.module('app',
     'ui.bootstrap',
     'ui.router',
     'jm.i18next',
+    'angularMoment',
 
     // coachSeekApp
     'app.controllers',
