@@ -38,9 +38,6 @@
         color: $white;
         position: relative;
         overflow-y: scroll;
-        &::-webkit-scrollbar { 
-            display: none; 
-        }
 
         .booking-content-container{
 
