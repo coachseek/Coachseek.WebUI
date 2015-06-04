@@ -32,14 +32,6 @@
         }
     }
 
-    .fade-block{
-        height: 30px;
-        width: 100%;
-        position: absolute;
-        background: linear-gradient(transparent, black);
-        bottom: 45px;
-    }
-
     .booking-container {
         height: calc(100vh - 110px);
         padding: 30px 60px 60px 60px;
@@ -411,10 +403,6 @@
     }
 
     @media (max-width: 768px){
-        .fade-block{
-            display:none !important;
-        }
-
         .current-booking-status{
             height: 60px;
             padding:5px;
