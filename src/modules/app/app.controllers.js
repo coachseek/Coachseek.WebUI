@@ -118,9 +118,9 @@ angular.module('app.controllers', [])
             });
 
             $rootScope.isCollapsed = true;
-            $rootScope.isBigScreen = $(window).width() > 767;
+            $rootScope.isBigScreen = $(window).width() > 768;
             $(window).on('resize', function () {
-                $rootScope.isBigScreen = $(this).width() > 767;
+                $rootScope.isBigScreen = $(this).width() > 768;
                 $rootScope.$apply();
             }); 
         }])
