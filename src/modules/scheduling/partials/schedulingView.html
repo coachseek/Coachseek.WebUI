@@ -28,7 +28,10 @@
     </div>
 
     <div class="session-modal session-modal-responsive" ng-show="showModal">
-        <div class="session-header" ng-class='currentEvent.session.presentation.colour'></div>
+        <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
+            <p class="date">{{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}}</p>
+            <p class="time">{{currentEvent._start | amDateFormat:'h:mm a'}}</p>
+        </div>
         <div class="session-modal-nav" ng-init="currentTab = 'general'">
             <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>
             <div class="attendance" ng-disabled="currentEvent.tempEventId" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>

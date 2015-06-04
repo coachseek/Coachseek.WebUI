@@ -19,9 +19,20 @@
         }
 
         .session-header{
-            height: 15px;
+            padding: 10px;
+            overflow: hidden;
             width: 100%;
+            text-align: center;
             @extend %service-background-colors-60;
+
+            p{
+                color: $white;
+                font-size: 16px;
+
+                &.time{
+                    font-size: 14px;
+                }
+            }
         }
 
         .session-modal-nav{
@@ -92,6 +103,7 @@
                         border: 1px solid $light-grey;
                         background: $white;
                         height: 40px;
+                        font-size: 15px;
 
                         &.time-picker-time{
                             background: $white;
