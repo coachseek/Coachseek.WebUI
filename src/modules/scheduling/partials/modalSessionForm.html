@@ -1,8 +1,9 @@
+<div class="session-modal-title">
+    {{'scheduling:service-details.general' | i18next}}
+    <i class="fa fa-times" ng-click="cancelModalEdit()"></i>
+</div>
+
 <div class="session-form crud-item">
-    <div class="session-modal-title">
-        {{'scheduling:service-details.general' | i18next}}
-        <i class="fa fa-times" ng-click="cancelModalEdit()"></i>        
-    </div>
     <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
         <div class="form-input">
             <label name="duration">{{'scheduling:service-details.start-time' | i18next}}</label>

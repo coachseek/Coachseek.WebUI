@@ -67,24 +67,23 @@
         }
 
         .session-modal-title{
-            width: 100%;
+            width: 330px;
             text-align: center;
             border-bottom: 1px solid $light-grey;
             padding: 5px 0px 10px 0px;
-            margin-bottom: 15px;
+            margin: 0 auto 15px auto;
             color: $text-dark-grey;
             font-size: 18px;
 
             i{
                 float: right;
                 font-size: 21px;
-                margin-right: -17px;
                 cursor: pointer;
             }
         }
 
         .session-form{
-            height: calc(100vh - 195px);
+            height: calc(100vh - 285px);
             overflow-y: scroll;
             padding: 0 35px;
 
