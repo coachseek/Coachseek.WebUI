@@ -100,7 +100,7 @@ angular.module('app.controllers', [])
                                 type: 'warning',
                                 message: 'businessDomain-invalid'
                             });
-                            $rootScope.redirectToApp()
+                            $rootScope.redirectToApp();
                         });
                 } else if (requireBusinessDomain && businessDomain === 'app') {
                     event.preventDefault();
