@@ -1,23 +1,23 @@
 [state^="newUserSetup"] {
-	max-width: 445px;
-	margin: 45px auto;
-	padding: 0px 15px 20px 15px;
+    max-width: 445px;
+    margin: 45px auto;
+    padding: 0px 15px 20px 15px;
 
-	h4, p{
-		color: $text-dark-grey;
-		text-align: center;
+    h4, p{
+        color: $text-dark-grey;
+        text-align: center;
 
-		span{
-			color: $green;
-			cursor: pointer;
-		}
-	}
+        span{
+            color: $green;
+            cursor: pointer;
+        }
+    }
 
-	h4{
-		margin-bottom: 20px;
-	}
+    h4{
+        margin-bottom: 20px;
+    }
 
-	hr{
-		margin-top: 20px;
-	}
+    hr{
+        margin-top: 20px;
+    }
 }

@@ -1,28 +1,28 @@
 <div ng-if="eventsExist">
-	<div class="form-input section">
-	    <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
-	    <select-arrows></select-arrows>
-	    <select name="location" ng-disabled="loadingSessions" ng-options="location.name for location in locations" ng-model="filters.location" id="location" required ng-change="filterByLocation(true)">
-	    </select>
-	</div>
-	<div class="form-input">
-	    <label  name="service">{{'booking:services-section.label' | i18next}}</label>
-	    <select-arrows></select-arrows>
-	    <select name="service" ng-disabled="loadingSessions || !filters.location" ng-model="filters.service" ng-options="service.name for service in services" ng-change="filterByService(true)" required></select>
-	</div>
-	<button class="continue-button" ui-sref="booking.details" ng-disabled="disableContinue()">{{'booking:common.next'|i18next}}</button>
-	<div ng-show="filters.service && !loadingSessions" class="service-description">{{filters.service.description}}</div>
-	<div class="service-description" ng-if="!loadingSessions && serviceDescription">
-		<div>{{serviceDescription}}</div>
-	</div>
-	<div class="events-container" ng-if="filters.service && !loadingSessions">
-	    <hr/>
-	    <label class="block bold">{{'booking:event-select' | i18next}}</label>
-	    <booking-rectangle ng-repeat="event in events" ng-class="{'expanded': event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id === event.id, 'selected': selectedEvent && selectedEvent.id === event.id}"></booking-rectangle>
-	</div>
+    <div class="form-input section">
+        <label for="location" class="block bold">{{'booking:location-section.label' | i18next}}</label>
+        <select-arrows></select-arrows>
+        <select name="location" ng-disabled="loadingSessions" ng-options="location.name for location in locations" ng-model="filters.location" id="location" required ng-change="filterByLocation(true)">
+        </select>
+    </div>
+    <div class="form-input">
+        <label  name="service">{{'booking:services-section.label' | i18next}}</label>
+        <select-arrows></select-arrows>
+        <select name="service" ng-disabled="loadingSessions || !filters.location" ng-model="filters.service" ng-options="service.name for service in services" ng-change="filterByService(true)" required></select>
+    </div>
+    <button class="continue-button" ui-sref="booking.details" ng-disabled="disableContinue()">{{'booking:common.next'|i18next}}</button>
+    <div ng-show="filters.service && !loadingSessions" class="service-description">{{filters.service.description}}</div>
+    <div class="service-description" ng-if="!loadingSessions && serviceDescription">
+        <div>{{serviceDescription}}</div>
+    </div>
+    <div class="events-container" ng-if="filters.service && !loadingSessions">
+        <hr/>
+        <label class="block bold">{{'booking:event-select' | i18next}}</label>
+        <booking-rectangle ng-repeat="event in events" ng-class="{'expanded': event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id === event.id, 'selected': selectedEvent && selectedEvent.id === event.id}"></booking-rectangle>
+    </div>
 </div>
 <loading-animation ng-show="loadingSessions"></loading-animation>
 <div class="no-events-message" ng-if="!eventsExist && !loadingSessions">
-	<h1>{{'booking:hey-there' | i18next}}</h1>
-	<h3>{{'booking:no-events' | i18next}}</h3>
+    <h1>{{'booking:hey-there' | i18next}}</h1>
+    <h3>{{'booking:no-events' | i18next}}</h3>
 </div>

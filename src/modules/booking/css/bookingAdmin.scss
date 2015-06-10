@@ -1,9 +1,9 @@
 [state^="bookingAdmin"] {
-	background: transparent;
-	.booking-admin-nav-container{
-      	width:280px;
-      	margin:0 auto;
-      	padding-top: 55px;
+    background: transparent;
+    .booking-admin-nav-container{
+          width:280px;
+          margin:0 auto;
+          padding-top: 55px;
         .booking-nav{
             &.active{
               background: $dark-grey;;
@@ -27,8 +27,8 @@
     }
 
     .booking-admin-container{
-    	width:448px;
-      	margin:50px auto 0 auto;
+        width:448px;
+          margin:50px auto 0 auto;
 
         .booking-preview-button{
             float: right;
@@ -48,17 +48,17 @@
             }
         }
 
-    	.booking-admin-copy-btn{
-			@extend .booking-preview-button;
-			background: $green;
-			padding: 10px 50px;
+        .booking-admin-copy-btn{
+            @extend .booking-preview-button;
+            background: $green;
+            padding: 10px 50px;
             transition: background ease .5s;
             &:hover{
                 background: $hover-green;
            
             }
-    	}
-    	.booking-admin-save-btn{
+        }
+        .booking-admin-save-btn{
             float: right;
             border: none;
             margin: 20px auto;
@@ -74,34 +74,34 @@
                 background: $hover-green;
            
             }
-    	}
-    	select{
-    		margin:20px 0;
-    		width: 100%;
-    	}
-    	p{
-    		&.paypal{
-    			margin:30px 0; 
-    		}
-    	}
-    	label{
-    		position: relative;
-    		padding-top: 10px;
-    		padding-left: 15px;
-    		padding-bottom: 5px;
+        }
+        select{
+            margin:20px 0;
+            width: 100%;
+        }
+        p{
+            &.paypal{
+                margin:30px 0; 
+            }
+        }
+        label{
+            position: relative;
+            padding-top: 10px;
+            padding-left: 15px;
+            padding-bottom: 5px;
             font-family: lato-regular;
-    	}
-    	hr{
-    		margin-bottom: 10px;
-    	}
-		input{
+        }
+        hr{
+            margin-bottom: 10px;
+        }
+        input{
             text-align: center;
-			padding: 5px 10px;
-			border: 1px;
-		}
-    	.clearfix{
-    		clear: both;
-    	}
+            padding: 5px 10px;
+            border: 1px;
+        }
+        .clearfix{
+            clear: both;
+        }
     }
     @media (max-width: 768px){
         .booking-admin-container {
