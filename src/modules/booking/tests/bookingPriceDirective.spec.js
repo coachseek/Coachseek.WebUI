@@ -19,9 +19,9 @@ describe('Booking Price Directive', function(){
         scope.business = {
             currency: "USD"
         }
-        scope.booking = this.booking;
         scope.availableSessions = this.booking.sessions;
 
+        $injector.get("currentBooking").booking = this.booking;
         createDirective(scope, '<booking-price></booking-price>');
         $bookingPrice = $testRegion.find('booking-price h4');
     });

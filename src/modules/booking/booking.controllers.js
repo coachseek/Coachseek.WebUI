@@ -64,7 +64,6 @@ angular.module('booking.controllers', [])
 
         $scope.locations = [];
         $scope.services = [];
-        $scope.filters = currentBooking.filters;
 
         $scope.$watch('currentBooking.filters.service', function(newService){
             if(_.size(newService)){
@@ -88,7 +87,7 @@ angular.module('booking.controllers', [])
             delete $scope.serviceDescription;
 
             locationEvents = _.filter(currentBooking.allEvents, function(event){
-                return event.location.id === $scope.filters.location.id;
+                return event.location.id === $scope.currentBooking.filters.location.id;
             });
             $scope.services = [];
             _.each(locationEvents, function(event){
@@ -105,7 +104,7 @@ angular.module('booking.controllers', [])
             delete $scope.serviceDescription;
 
             serviceEvents = _.filter(currentBooking.allEvents, function(event){
-                return event.service.id === $scope.filters.service.id;
+                return event.service.id === $scope.currentBooking.filters.service.id;
             });
             filterEvents();
         };
@@ -168,8 +167,6 @@ angular.module('booking.controllers', [])
         }
     }])
     .controller('bookingCustomerDetailsCtrl', ['$scope', '$state', 'currentBooking', function($scope, $state, currentBooking){
-        $scope.customer = currentBooking.customer;
-
         if(!currentBooking.filters.location){
             $state.go('booking.selection');
         }
@@ -198,7 +195,6 @@ angular.module('booking.controllers', [])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'currentBooking',
       function($scope, $q, $state, onlineBookingAPIFactory, currentBooking){
         $scope.bookingConfirmed = false;
-        $scope.currentBooking = currentBooking;
 
         if(!currentBooking.filters.location){
             $state.go('booking.selection');

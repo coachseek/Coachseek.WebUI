@@ -157,10 +157,10 @@ angular.module('booking.directives', [])
                         if(!course.sessions) {
                             return course.pricing.sessionPrice.toFixed(2);
                         // COURSE IN PAST
-                        } else if(scope.isBefore(course)){
+                        } else if(isBefore(course)){
                             if(course.pricing.coursePrice && !course.pricing.sessionPrice){
                                 //PRO RATE
-                                var numSessionsInFuture = _.size(_.filter(course.sessions, function(session){return !scope.isBefore(session)}));
+                                var numSessionsInFuture = _.size(_.filter(course.sessions, function(session){return !isBefore(session)}));
                                 return (course.pricing.coursePrice / course.repetition.sessionCount * numSessionsInFuture).toFixed(2);
                             } else {
                                 return (_.size(scope.availableSessions) * course.pricing.sessionPrice).toFixed(2);
@@ -180,6 +180,10 @@ angular.module('booking.directives', [])
                     } else {
                         return "0.00"
                     }
+                };
+
+                function isBefore(session){
+                    return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
                 };
             }
         };

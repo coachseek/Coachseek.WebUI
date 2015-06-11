@@ -50,7 +50,7 @@ describe('Booking Module', function() {
                 expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingSelectionView.html');
             });
             it('should map to the correct controller', function(){
-                expect(viewAttrs.controller).to.equal(undefined);
+                expect(viewAttrs.controller).to.equal('bookingSelectionCtrl');
             });
         });
         describe('when navigating to booking.details', function(){

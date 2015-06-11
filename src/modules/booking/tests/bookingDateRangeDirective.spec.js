@@ -17,11 +17,9 @@ describe('Booking Date Range Directive', function(){
     let('startDate', function(){
         return moment();
     });
-
     beforeEach(function(){
         scope = $rootScope.$new();
-        scope.booking = this.booking;
-
+        $injector.get("currentBooking").booking = this.booking;
         createDirective(scope, '<booking-date-range></booking-date-range>');
         $bookingDateRange = $testRegion.find('p');
     });
