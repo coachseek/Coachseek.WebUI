@@ -7,6 +7,7 @@ angular.module('scheduling.controllers', [])
             $scope.events = [];
             $scope.eventSources = [];
             $scope.currentRanges = [];
+            $scope.saved = false;
 
             var rangesLoaded = [],
                 tempEventId,
@@ -316,8 +317,11 @@ angular.module('scheduling.controllers', [])
                     var course = $scope.currentEvent.course;
                     if($scope.currentEvent.tempEventId && course){
                         var session = $scope.currentEvent.session;
-                        session.pricing.coursePrice = $scope.currentEvent.course.pricing.coursePrice;
-                        saveSession(session);
+                        if ($scope.currentEvent.course.pricing && $scope.currentEvent.course.pricing.coursePrice){
+                            session.pricing.coursePrice = $scope.currentEvent.course.pricing.coursePrice;     
+                        }
+                         saveSession(session);
+                         $scope.saved = true;
                     } else if(course){
                         sessionOrCourseModal($scope).then(function(id){
                             if(id === course.id){
@@ -402,7 +406,6 @@ angular.module('scheduling.controllers', [])
                             name: $scope.currentEvent.session.service.name,
                             startDate: $scope.currentEvent.start.format("MMMM Do YYYY, h:mm a")
                         });
-
                         closeModal();
                         uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                     },  function(error){
@@ -431,6 +434,7 @@ angular.module('scheduling.controllers', [])
                 $scope.currentSessionForm.$setUntouched();
                 $scope.currentSessionForm.$setPristine();
                 $scope.showModal = false;
+                $scope.saved = false;
             };
 
             var forceFormTouched = function(){
@@ -467,7 +471,7 @@ angular.module('scheduling.controllers', [])
 
             // TODO - do this in repeat selector
             $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
-                if($scope.currentEvent && newVal < 2 && $scope.currentEvent.course && $scope.currentEvent.tempEventId){
+                if($scope.currentEvent && $scope.currentEvent.tempEventId && newVal < 2 && $scope.currentEvent.course.pricing && $scope.currentEvent.course.pricing.coursePrice){
                     delete $scope.currentEvent.course.pricing.coursePrice;
                 }
             });
