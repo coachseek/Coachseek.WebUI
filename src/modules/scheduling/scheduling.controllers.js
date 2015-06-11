@@ -7,7 +7,6 @@ angular.module('scheduling.controllers', [])
             $scope.events = [];
             $scope.eventSources = [];
             $scope.currentRanges = [];
-            $scope.saved = false;
 
             var rangesLoaded = [],
                 tempEventId,
@@ -321,7 +320,6 @@ angular.module('scheduling.controllers', [])
                             session.pricing.coursePrice = $scope.currentEvent.course.pricing.coursePrice;     
                         }
                          saveSession(session);
-                         $scope.saved = true;
                     } else if(course){
                         sessionOrCourseModal($scope).then(function(id){
                             if(id === course.id){
@@ -434,7 +432,6 @@ angular.module('scheduling.controllers', [])
                 $scope.currentSessionForm.$setUntouched();
                 $scope.currentSessionForm.$setPristine();
                 $scope.showModal = false;
-                $scope.saved = false;
             };
 
             var forceFormTouched = function(){

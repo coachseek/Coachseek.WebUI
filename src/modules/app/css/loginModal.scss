@@ -77,5 +77,11 @@
 @media (max-width: 768px){
     .modal-dialog{
         margin-top: 90px;
+        .modal-content .login-modal-container button.save-button{
+            transition:none;
+            &:hover{
+                 background: $green;
+            }
+        }
     }
 }
