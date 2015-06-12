@@ -1,7 +1,7 @@
 <span
     class="toggle-service-drawer"
-    ng-click="toggleOpen = !toggleOpen" ng-show="isBigScreen">
-        <i class="fa" ng-show="isBigScreen" ng-class="toggleOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
+    ng-click="calendarView.serviceDrawerOpen = !calendarView.serviceDrawerOpen" ng-if="isBigScreen">
+        <i class="fa" ng-show="isBigScreen" ng-class="calendarView.serviceDrawerOpen ? 'fa-left-single-arrow' : 'fa-right-single-arrow' "></i>
  </span>
 
 <h4 ui-sref="businessSetup.services">{{'scheduling:services-title' | i18next}}</h4>
@@ -16,7 +16,7 @@
         {{'businessSetup:add-service' | i18next}}
     </button>
 
-    <ul ng-class="toggleOpen ? 'services-list-show' : 'services-list-hide' ">
+    <ul ng-class="calendarView.serviceDrawerOpen ? 'services-list-show' : 'services-list-hide' ">
         <li 
             data-drag="true"
             data-service="{{item}}" 

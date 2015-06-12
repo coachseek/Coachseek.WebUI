@@ -122,4 +122,13 @@ angular.module('app.services', [])
                 return instance.result.then(assignCurrentUser);
             };
         }
-    ]);
+    ])
+    .service('sessionService', ['$rootScope', function($rootScope){
+        return {
+            calendarView: {
+                coachId: "",
+                locationId: "",
+                serviceDrawerOpen: $rootScope.isBigScreen
+            }
+        };
+    }]);

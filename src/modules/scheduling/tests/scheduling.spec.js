@@ -17,7 +17,7 @@ describe('Scheduling Module', function() {
         });
     });
 
-    describe('when loading the calendar initially', function(){
+    describe('when loading the calendar', function(){
 
         let('coach', function(){
             return {
@@ -301,6 +301,14 @@ describe('Scheduling Module', function() {
             return deferred.promise;
         });
 
+        let('calendarView', function(){
+            return {
+                coachId: "",
+                locationId: "",
+                serviceDrawerOpen: $rootScope.isBigScreen
+            };
+        });
+
         var getStub,
             self,
             $servicesList,
@@ -315,6 +323,7 @@ describe('Scheduling Module', function() {
             self = this;
 
             coachSeekAPIService = $injector.get('coachSeekAPIService');
+            $injector.get("sessionService").calendarView = this.calendarView;
             scope = $rootScope.$new();
 
             getSessionsStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
@@ -371,6 +380,31 @@ describe('Scheduling Module', function() {
         it('should show the service list', function(){
             expect($servicesList.hasClass('closed')).to.be.false;
         });
+        describe('when the view has been changed before loading the calendar', function(){
+            let('calendarView', function(){
+                return {
+                    coachId: 'coach_1',
+                    locationId: 'location_1',
+                    serviceDrawerOpen: false,
+                    view: 'month',
+                    start: this.dateOne
+                }
+            });
+            it('should make a call to get with the saved parameters', function(){
+                var getSessionsParams = {
+                    startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                    locationId: this.calendarView.locationId,
+                    coachId: this.calendarView.coachId,
+                    section: 'Sessions',
+                    useNewSearch: true
+                };
+                expect(getSessionsStub).to.be.calledWith(getSessionsParams);
+            });
+            it('should hide the service list', function(){
+                expect($servicesList.hasClass('closed')).to.equal(!this.calendarView.serviceDrawerOpen);
+            });
+        });
         describe('when sessions are loading', function(){
             let('sessionsPromise', function(){
                 return $q.defer().promise;
@@ -389,7 +423,6 @@ describe('Scheduling Module', function() {
                     expect($coachOption.text()).to.equal("");
                 // COACH NAMES
                 } else {
-                    expect($coachOption.val()).to.equal(self.coaches[index - 1].id);
                     expect($coachOption.text()).to.equal(self.coaches[index - 1].name);
                 }
             });
@@ -404,7 +437,6 @@ describe('Scheduling Module', function() {
                     expect($locationOption.text()).to.equal("");
                 // LOCATION NAMES
                 } else {
-                    expect($locationOption.val()).to.equal(self.locations[index - 1].id);
                     expect($locationOption.text()).to.equal(self.locations[index - 1].name);
                 }
             });
@@ -795,7 +827,7 @@ describe('Scheduling Module', function() {
             beforeEach(function(){
                 fullCalendarSpy = this.sinon.spy($.fn, 'fullCalendar');
 
-                $coachSelector = $testRegion.find('.coach-list select').val(this.coachTwo.id);
+                $coachSelector = $testRegion.find('.coach-list select').val(1);
                 angular.element($coachSelector).triggerHandler('change');
                 $timeout.flush();
             });
@@ -819,7 +851,7 @@ describe('Scheduling Module', function() {
             beforeEach(function(){
                 fullCalendarSpy = this.sinon.spy($.fn, 'fullCalendar');
 
-                $locationSelector = $testRegion.find('.location-list select').val(this.locationTwo.id);
+                $locationSelector = $testRegion.find('.location-list select').val(1);
                 angular.element($locationSelector).triggerHandler('change');
                 $timeout.flush();
             });

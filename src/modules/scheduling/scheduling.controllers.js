@@ -1,15 +1,10 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig',
-        function($scope, $q, $timeout, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig){
-
-            //TODO - add ability to edit time range in modal?
-
+    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig',
+        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig){
             $scope.events = [];
-            $scope.eventSources = [];
-            $scope.currentRanges = [];
+            $scope.calendarView = sessionService.calendarView;
 
-            var rangesLoaded = [],
-                tempEventId,
+            var tempEventId,
                 currentEventCopy,
                 $currentEvent;
 
@@ -37,9 +32,10 @@ angular.module('scheduling.controllers', [])
                     firstDay: 1,
                     titleFormat: {month:'MMM YYYY', week:'MMM YYYY', day:'D MMM YYYY'},
                     snapDuration: '00:15:00',
-                    defaultView: $scope.isBigScreen ? 'agendaWeek' : 'agendaDay',
+                    defaultView: sessionService.calendarView.view || ($scope.isBigScreen ? 'agendaWeek' : 'agendaDay'),
                     eventDurationEditable: false,
                     scrollTime:  "06:00:00",
+                    defaultDate: sessionService.calendarView.start || null,
                     header:{
                         left: '',
                         center: 'prev title next',
@@ -69,8 +65,8 @@ angular.module('scheduling.controllers', [])
                         var getSessionsParams = {
                             startDate: start.format('YYYY-MM-DD'),
                             endDate: end.format('YYYY-MM-DD'),
-                            locationId: $scope.currentLocationId,
-                            coachId: $scope.currentCoachId,
+                            locationId: sessionService.calendarView.locationId,
+                            coachId: sessionService.calendarView.coachId,
                             useNewSearch: true,
                             section: 'Sessions'
                         };
@@ -141,6 +137,11 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     viewRender: function(view){
+                        _.assign(sessionService.calendarView, {
+                            view: view.type,
+                            start: view.intervalStart
+                        });
+
                         $timeout(function(){
                             var heightToSet = $scope.isBigScreen ? ($('.calendar-container').height() - 10 ) : $(window).height();
                             uiCalendarConfig.calendars.sessionCalendar.fullCalendar('option', 'height', heightToSet);
@@ -269,8 +270,8 @@ angular.module('scheduling.controllers', [])
                         duration: serviceData.timing.duration
                     },
                     booking: {
-                        isOnlineBookable: serviceData.booking ? serviceData.booking.isOnlineBookable : true,
-                        studentCapacity: serviceData.booking ? serviceData.booking.studentCapacity : 1,
+                        isOnlineBookable: _.get(serviceData, 'booking.isOnlineBookable', true),
+                        studentCapacity: _.get(serviceData, 'booking.studentCapacity', 1),
                         bookings: []
                     },
                     pricing: serviceData.pricing,
@@ -381,7 +382,7 @@ angular.module('scheduling.controllers', [])
 
             var setCurrentCourseEvents = function(){
                 $scope.currentCourseEvents = _.filter($scope.events, function(event){
-                    return event.course && event.course.id === $scope.currentEvent.course.id;
+                    return _.get(event, 'course.id', 1) === _.get($scope, 'currentEvent.course.id', 1);
                 });
             };
 
@@ -468,7 +469,7 @@ angular.module('scheduling.controllers', [])
 
             // TODO - do this in repeat selector
             $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
-                if($scope.currentEvent && $scope.currentEvent.tempEventId && newVal < 2 && $scope.currentEvent.course.pricing && $scope.currentEvent.course.pricing.coursePrice){
+                if(_.has($scope, 'currentEvent.tempEventId') && newVal < 2 && _.has($scope, 'currentEvent.course.pricing.coursePrice')){
                     delete $scope.currentEvent.course.pricing.coursePrice;
                 }
             });

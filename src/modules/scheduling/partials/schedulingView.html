@@ -1,5 +1,5 @@
 <div ng-class="{'calendar-fix': showModal}">
-    <div class="services-list-container" ng-init="toggleOpen = isBigScreen" ng-class="{closed: !toggleOpen}">
+    <div class="services-list-container" ng-class="{closed: !isBigScreen || !calendarView.serviceDrawerOpen}">
         <scheduling-services-list></scheduling-services-list>
     </div>
 
@@ -10,21 +10,19 @@
         </div>
     </div>
 
-    <div class="calendar-container calendar-container-desktop" ng-class="{'toggle-closed': !toggleOpen }">
-        <div class="dropdown-container" ng-class="isBigScreen? 'coach-list' : 'coach-list-responsive' " ng-disabled="showModal">
-            <select ng-init="currentCoachId=''" ng-change="filterSessions()" name="coaches" ng-model="currentCoachId">
+    <div class="calendar-container calendar-container-desktop" ng-class="{'toggle-closed': !calendarView.serviceDrawerOpen }">
+        <div class="dropdown-container" ng-class="isBigScreen ? 'coach-list' : 'coach-list-responsive' " ng-disabled="showModal">
+            <select ng-change="filterSessions()" name="coaches" ng-model="calendarView.coachId" ng-options="coach.id as coach.name for coach in coachList">
                 <option value="">{{'scheduling:all-coaches' | i18next}}</option>
-                <option ng-repeat="coach in coachList" value="{{coach.id}}">{{coach.name}}</option>
             </select>
         </div>
         <div class="dropdown-container" ng-class="isBigScreen? 'location-list' :'location-list-responsive' " ng-disabled="showModal">
-            <select ng-init="currentLocationId=''" ng-change="filterSessions()" name="locations" ng-model="currentLocationId">
+            <select ng-change="filterSessions()" name="locations" ng-model="calendarView.locationId" ng-options="location.id as location.name for location in locationList">
                 <option value="">{{'scheduling:all-locations' | i18next}}</option>
-                <option ng-repeat="location in locationList" value="{{location.id}}">{{location.name}}</option>
             </select>
         </div>
         <div class="coach-title" ng-show="isBigScreen">{{getCurrentCoach() || 'All Coaches'}}</div>
-        <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="sessionCalendar"></div>
+        <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="events" calendar="sessionCalendar"></div>
     </div>
 
     <div class="session-modal session-modal-responsive" ng-show="showModal">
