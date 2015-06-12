@@ -8,6 +8,13 @@ angular.module('booking.directives', [])
                 var startDate = moment(scope.event.timing.startDate + " " + scope.event.timing.startTime, "YYYY-MM-DD HH:mm");
                 scope.spacesAvailable = getSpacesAvailable();
                 scope.fullCoursePrice = getFullCoursePricePrice();
+                scope.isSoldOut = function(){
+                    if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
+                        return scope.spacesAvailable <= 0;
+                    } else {
+                        return !scope.event.sessions && scope.spacesAvailable <= 0;
+                    }
+                }
 
                 function getFullCoursePricePrice(){
                     var event = scope.event;

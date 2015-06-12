@@ -1,6 +1,7 @@
-<div ng-click="toggleEventSelect()" class="event">
+<div ng-click="toggleEventSelect()" class="event" ng-disabled="isSoldOut()">
     <div class="selected-checkbox" ng-hide="event.sessions && event.pricing.sessionPrice >= 0"><i ng-class="selectedEvent && selectedEvent.id === event.id ? 'fa-check-circle' : 'fa-circle-o' " class="fa"></i></div>
     <i ng-show="isBigScreen" class="expand fa fa-expand" ng-if="event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id !== event.id"></i>
+    <div class="full-session-banner" ng-show="isSoldOut()">{{'booking:full-session' | i18next}}</div>
     <div class="event-info-container">
         <p class="date-range">{{getEventDateRange()}}</p>
         <p class="session-type" ng-if="event.sessions" ng-i18next="[i18next]({count:event.repetition.sessionCount})booking:{{event.repetition.repeatFrequency}}"></p>

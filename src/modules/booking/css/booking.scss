@@ -209,6 +209,30 @@
                         border-radius: 5px;
                         min-height: 145px;
 
+                        &[disabled]{
+                            pointer-events: none;
+
+                            .selected-checkbox{
+                                display: none;
+                            }
+
+                            .event-info-container{
+                                opacity: 0.2;
+                            }
+
+                            .full-session-banner{
+                                bottom: 35px;
+                            };
+                        }
+
+                        .full-session-banner{
+                            position: absolute;
+                            left: 0px;
+                            color: $red;
+                            width: 100%;
+                            border: none;
+                        }
+
                         .date-range{
                             font-family: lato-bold;
                         }
@@ -276,6 +300,10 @@
                                 opacity: 0.2;
                             }
 
+                            .full-session-banner{
+                                top: 35px;
+                            }
+
                             &.course-session{
                                 float: left;
                                 width: 32%;
@@ -284,14 +312,6 @@
                                     margin-right: 2%;
                                     margin-left: 2%;
                                 }
-                            }
-
-                            .full-session-banner{
-                                position: absolute;
-                                top: 35px;
-                                color: $red;
-                                width: 100%;
-                                border: none;
                             }
 
                             &.sold-out, &.is-before{
