@@ -259,10 +259,10 @@ angular.module('scheduling.controllers', [])
                 return {
                     service: serviceData,
                     location: {
-                        id: $scope.currentLocationId
+                        id: $scope.calendarView.locationId
                     },
                     coach: {
-                        id: $scope.currentCoachId
+                        id: $scope.calendarView.coachId
                     },
                     timing: {
                         startDate: date.format('YYYY-MM-DD'),
