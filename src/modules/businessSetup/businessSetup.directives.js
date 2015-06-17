@@ -19,7 +19,7 @@ angular.module('businessSetup.directives', [])
 
 
                 scope.$watch('sessionCount', function(newVal){
-                    if(!scope.isFocused){
+                    if(!scope.isFocused && newVal){
                         scope.isRepeatable = newVal > 1;
 
                         if(newVal < 2){

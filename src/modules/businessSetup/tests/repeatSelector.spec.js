@@ -155,7 +155,7 @@ describe('repeatSelector directive', function(){
             })
         });
     });
-    describe('when changing the repeat frequency', function(){
+    describe.only('when changing the repeat frequency', function(){
         describe('when changing it to days', function(){
             beforeEach(function(){
                 $repeatFrequency.val('d');
@@ -167,6 +167,9 @@ describe('repeatSelector directive', function(){
             it('should set the repeatFrequency to "d"', function(){
                 expect(scope.repeatFrequency).to.equal("d")
             });
+            it('should change the max to 30', function(){
+                expect($frequencySelector.find('input').attr('max')).to.equal('30');
+            });
             describe('and then changing it back to weeks', function(){
                 beforeEach(function(){
                     $repeatFrequency.val('w');
@@ -177,6 +180,9 @@ describe('repeatSelector directive', function(){
                 });
                 it('should set the repeatFrequency to "w"', function(){
                     expect(scope.repeatFrequency).to.equal("w")
+                });
+                it('should change the max to 26', function(){
+                    expect($frequencySelector.find('input').attr('max')).to.equal('26');
                 });
             });
         });
