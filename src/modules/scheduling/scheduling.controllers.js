@@ -297,7 +297,7 @@ angular.module('scheduling.controllers', [])
 
             $scope.getCurrentCoach = function(){
                 if($scope.coachList){
-                    return _.result(_.find($scope.coachList, {id: $scope.currentCoachId}), 'name');
+                    return _.result(_.find($scope.coachList, {id: $scope.calendarView.coachId}), 'name');
                 }
             };
 
