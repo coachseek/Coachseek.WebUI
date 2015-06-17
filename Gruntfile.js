@@ -5,7 +5,7 @@ module.exports = function(grunt) {
         ngconstant: {
             // Options for all targets
             options: {
-                name: 'config',
+                name: 'envConfig',
             },
             // Environment targets
             src: {
