@@ -1,8 +1,34 @@
 module.exports = function(grunt) {
-
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+        ngconstant: {
+            // Options for all targets
+            options: {
+                name: 'config',
+            },
+            // Environment targets
+            src: {
+                options: {
+                    dest: 'src/js/config.js'
+                },
+                constants: {
+                    ENV: {
+                        name: 'dev'
+                    }
+                }
+            },
+            build: {
+                options: {
+                    dest: 'build/js/config.js'
+                },
+                constants: {
+                    ENV: {
+                        name: 'prod'
+                    }
+                }
+            }
+        },
         jshint: {
             ignore_warning: {
                 src: [
@@ -198,6 +224,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-merge-json');
     grunt.loadNpmTasks('grunt-plato');
     grunt.loadNpmTasks('grunt-contrib-connect');
+    grunt.loadNpmTasks('grunt-ng-constant');
 
     // Default task(s).
     grunt.registerTask('default', [
@@ -207,7 +234,8 @@ module.exports = function(grunt) {
             'ngtemplates',
             'uglify',
             'sass',
-            'merge-json'
+            'merge-json',
+            'ngconstant'
         ]
     );
 

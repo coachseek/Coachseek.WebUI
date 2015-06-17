@@ -1,6 +1,8 @@
 /* App Module */
 angular.module('app',
   [
+    'envConfig',
+
     // LIBRARIES
     'ngAnimate',
     'ngMessages',
