@@ -14,12 +14,12 @@
               margin-right: 0;
             }
             display: inline-block;
-            text-decoration: none;
             width: 137px;
             background: $white;
             font-size: 14px;
             color: $dark-grey;
             padding: 5px;
+            cursor: pointer;
             text-align: center;
             border-radius: 5px;
             margin-bottom: 30px;
@@ -28,74 +28,121 @@
 
     .booking-admin-container{
         width:448px;
-          margin:50px auto 0 auto;
+          margin:0 auto;
 
-        .booking-preview-button{
-            float: right;
-            border: none;
-            margin: 20px auto;
-            color: #FFFFFF;
-            border-radius: 3px;
-            text-decoration: none;
-            padding: 10px 27px;
-            width: 170px;
-            height: 40px;
-            background: $dark-grey;
-            transition: background ease .5s;
-            &:hover{
-                background: $hover-dark-grey;
-           
+        .booking-admin-onlinebooking{
+                    .booking-preview-button{
+                        float: right;
+                        border: none;
+                        margin: 20px auto;
+                        color: #FFFFFF;
+                        border-radius: 3px;
+                        text-decoration: none;
+                        padding: 10px 27px;
+                        width: 170px;
+                        height: 40px;
+                        background: $dark-grey;
+                        transition: background ease .5s;
+                        &:hover{
+                            background: $hover-dark-grey;
+                       
+                        }
+                    }
+
+                    .booking-admin-copy-btn{
+                        @extend .booking-preview-button;
+                        background: $green;
+                        padding: 10px 50px;
+                        transition: background ease .5s;
+                        &:hover{
+                            background: $hover-green;
+                       
+                        }
+                    }
+                    .booking-admin-save-btn{
+                        float: right;
+                        border: none;
+                        margin: 20px auto;
+                        color: #FFFFFF;
+                        border-radius: 3px;
+                        text-decoration: none;
+                        padding: 10px 27px;
+                        width: 170px;
+                        height: 40px;
+                        background: $green;
+                        transition: background ease .5s;
+                        &:hover{
+                            background: $hover-green;
+                       
+                        }
+                    }
+
+            input{
+                text-align: center;
             }
         }
 
-        .booking-admin-copy-btn{
-            @extend .booking-preview-button;
-            background: $green;
-            padding: 10px 50px;
-            transition: background ease .5s;
-            &:hover{
-                background: $hover-green;
-           
+        .booking-admin-payments{
+
+            toggle-switch{
+                float: right;
+
+                &[disabled]{
+                    pointer-events: none;
+                }
+            }
+
+            .toggle-switch-container{
+                font-size: 18px;
+                font-weight: bold;
+                float: left;
+                width: 100%;
+                margin-bottom: 20px;
+                line-height: 40px;
+            }
+
+            .paypal-payment{
+                clear: both;
+
+                .edit-button, .cancel-button{
+                    color: $green;
+                    float: right;
+                    cursor: pointer;
+                }
+
+                .merchant-identifier{
+                    float: left;
+                    clear: both;
+                    margin-top: 10px;
+                }
+
+                .edit-paypal{
+                    float: left;
+                    margin-top: 20px;
+
+                    label{
+                        font-weight: bold;
+                    }
+                }
             }
         }
-        .booking-admin-save-btn{
-            float: right;
-            border: none;
-            margin: 20px auto;
-            color: #FFFFFF;
-            border-radius: 3px;
-            text-decoration: none;
-            padding: 10px 27px;
-            width: 170px;
-            height: 40px;
-            background: $green;
-            transition: background ease .5s;
-            &:hover{
-                background: $hover-green;
-           
-            }
-        }
+
         select{
             margin:20px 0;
             width: 100%;
         }
-        p{
-            &.paypal{
-                margin:30px 0; 
-            }
-        }
+
         label{
-            position: relative;
+/*            position: relative;
             padding-top: 10px;
             padding-left: 15px;
             padding-bottom: 5px;
-            font-family: lato-regular;
+            font-family: lato-regular;*/
         }
         hr{
             margin-bottom: 10px;
         }
         input{
-            text-align: center;
             padding: 5px 10px;
             border: 1px;
         }

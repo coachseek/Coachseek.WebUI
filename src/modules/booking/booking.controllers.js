@@ -235,7 +235,6 @@ angular.module('booking.controllers', [])
             return onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Bookings' }, bookingData).$promise;
         };
 
-
         $scope.resetBookings = function () {
             currentBooking.resetBooking();
             currentBooking.filters = {};
@@ -243,11 +242,55 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         };
     }])
-    .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', function($scope, $templateCache, $compile){
-        var markup = $templateCache.get('booking/partials/bookNowButton.html');
-        var view = $compile(markup)($scope);
-        _.defer(function(){
+    .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', '$timeout', 'coachSeekAPIService', '$activityIndicator',
+      function($scope, $templateCache, $compile, $timeout, coachSeekAPIService, $activityIndicator){
+        var markup = $templateCache.get('booking/partials/bookNowButton.html'),
+            view = $compile(markup)($scope),
+            businessCopy = angular.copy($scope.currentUser.business);
+
+        $scope.saved = true;
+        $scope.currentUser.business.paymentProvider = "PayPal"
+
+        $scope.getSaveButtonState = function(){
+            if($scope.AILoading){
+                return 'saving'
+            } else if ($scope.saved) {
+                return 'saved'
+            } else {
+                return 'save-details'
+            }
+        };
+
+        $scope.cancelEdit = function(){
+            $scope.currentUser.business = angular.copy(businessCopy);
+            _.defer(function(){
+                $scope.saved = true;
+                $scope.$apply()
+            });
+        };
+
+        $scope.$watch('currentUser.business', function(newVal, oldVal){
+            if(newVal !== oldVal){
+                $scope.saved = false;
+                if(newVal.isOnlinePaymentEnabled === false && businessCopy.isOnlinePaymentEnabled !== false) {
+                    $scope.save();
+                }
+            }
+        }, true);
+
+        $scope.save = function(){
+            $activityIndicator.startAnimating();
+            coachSeekAPIService.save({section: "Business"}, $scope.currentUser.business).$promise
+                .then(function(){
+                    businessCopy = angular.copy($scope.currentUser.business);
+                    $scope.saved = true;
+                }, $scope.handleErrors).finally(function(){
+                    $activityIndicator.stopAnimating();
+                });
+        };
+
+        $timeout(function(){
             $scope.buttonHTML = view.get(0).outerHTML;
             $scope.$apply();
-        })
+        });
     }]);

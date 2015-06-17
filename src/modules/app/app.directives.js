@@ -112,4 +112,15 @@ angular.module('app.directives', [])
             restrict: "E",
             templateUrl:'app/partials/loadingAnimation.html'
         };
+    })
+    .directive('toggleSwitch', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'app/partials/toggleSwitch.html',
+            scope: {
+                property: "=",
+                positive: "=",
+                negative: "="
+            }
+        }
     });

@@ -2,9 +2,13 @@ describe('Booking Module', function() {
     let('business', function(){
         return {
             name: "BIZ NAME",
-            domain: "bizname",
+            domain: this.domain,
             currency: "USD"
         }
+    });
+
+    let('domain', function(){
+        return 'bizname';
     });
 
     let('anonGetPromise', function(){
@@ -17,9 +21,10 @@ describe('Booking Module', function() {
         scope = $rootScope.$new();
 
         var self = this;
+        self.business = this.business;
         locationStub.restore();
         this.sinon.stub($injector.get('$location'), 'host', function(){
-            return 'testsubdomain';
+            return self.business.domain;
         });
 
         onlineBookingAPIFactory = $injector.get('onlineBookingAPIFactory');
@@ -35,6 +40,26 @@ describe('Booking Module', function() {
     });
 
     describe('booking states', function() {
+        describe('when navigating to bookingAdmin', function(){
+            let('domain', function(){
+                return 'app';
+            });
+
+            var viewAttrs;
+            beforeEach(function(){
+                $state.go('bookingAdmin');
+                $rootScope.$digest();
+            });
+            it('should attempt to bring up the login modal', function(){
+                expect(loginModalStub).to.be.calledOnce;
+            });
+            it('should map to correct template', function(){
+                expect($state.current.templateUrl).to.equal('booking/partials/bookingAdminView.html');
+            });
+            it('should map to the correct controller', function(){
+                expect($state.current.controller).to.equal('bookingAdminCtrl');
+            });
+        });
         describe('when navigating to booking.selection', function(){
             var viewAttrs;
             beforeEach(function(){
