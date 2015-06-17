@@ -155,7 +155,7 @@ describe('repeatSelector directive', function(){
             })
         });
     });
-    describe.only('when changing the repeat frequency', function(){
+    describe('when changing the repeat frequency', function(){
         describe('when changing it to days', function(){
             beforeEach(function(){
                 $repeatFrequency.val('d');
