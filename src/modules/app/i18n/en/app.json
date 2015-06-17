@@ -1,6 +1,8 @@
 {
     "yes": "Yes",
     "no": "No",
+    "on": "On",
+    "off": "Off",
     "settings": "SETTINGS",
     "dashboard": "DASHBOARD",
     "scheduling": "CALENDAR",
