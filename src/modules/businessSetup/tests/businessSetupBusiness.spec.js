@@ -140,7 +140,7 @@ describe('BusinessSetup Business', function(){
 
                 expect(unsavedBusiness.name).to.equal(this.business.name);
                 expect(unsavedBusiness.domain).to.equal(this.business.domain);
-                expect(unsavedBusiness.currency).to.equal(this.business.currency);
+                expect(unsavedBusiness.payment.currency).to.equal(this.business.payment.currency);
             });
             it('should remove alert if present', function(){
                 expect($rootScope.alerts.length).to.equal(0);

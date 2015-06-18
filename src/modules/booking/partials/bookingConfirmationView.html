@@ -5,7 +5,7 @@
         <p>{{currentBooking.filters.location.name}}</p>
         <p>{{currentBooking.filters.service.name}}</p>
         <p>{{calculateBookingDateRange()}}</p>
-        <h2>{{'booking:confirmation.total' | i18next}} <span ng-i18next="denominations.{{business.currency}}"></span>{{calculateTotalPrice()}} {{business.currency}}</h2>
+        <h2>{{'booking:confirmation.total' | i18next}} <span ng-i18next="denominations.{{business.payment.currency}}"></span>{{calculateTotalPrice()}} {{business.payment.currency}}</h2>
     </div>
     <loading-animation ng-show="processingBooking"></loading-animation>
     <div ng-hide="processingBooking || bookingConfirmed">
