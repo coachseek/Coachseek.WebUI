@@ -75,13 +75,13 @@
 
         <div class="session-price form-input left-col">
             <label name="sessionPrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
-            <span class="money-sign" ng-i18next="denominations.{{currentUser.business.currency}}"></span>
+            <span class="money-sign" ng-i18next="denominations.{{business.payment.currency}}"></span>
             <input name="sessionPrice" type="number" ng-model="item.pricing.sessionPrice" placeholder="{{'businessSetup:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
         </div>
 
         <div class="course-price form-input right-col" ng-hide="item.repetition.sessionCount < 2" >
             <label name="coursePrice">{{'businessSetup:service-details.course-price' | i18next}}</label>
-            <span class="money-sign" ng-i18next="denominations.{{currentUser.business.currency}}"></span>
+            <span class="money-sign" ng-i18next="denominations.{{business.payment.currency}}"></span>
             <input name="coursePrice" type="number" ng-model="item.pricing.coursePrice" placeholder="{{'businessSetup:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
         </div>
     </form>

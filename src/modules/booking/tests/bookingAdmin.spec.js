@@ -2,7 +2,9 @@ describe('Booking Admin Page', function(){
     let('business', function(){
         return {
             domain: 'bizdomain',
-            isOnlinePaymentEnabled: false
+            payment: {
+                isOnlinePaymentEnabled: false
+            }
         }
     });
 
@@ -15,8 +17,7 @@ describe('Booking Admin Page', function(){
     var scope;
     beforeEach(function(){
         scope = $rootScope.$new();
-        scope.currentUser = {};
-        scope.currentUser.business = this.business;
+        $injector.get('sessionService').business = this.business;
         createViewWithController(scope, 'booking/partials/bookingAdminView.html', 'bookingAdminCtrl');
     });
     it('should set the default view to `Online Booking` tab', function(){
@@ -68,8 +69,10 @@ describe('Booking Admin Page', function(){
                     let('business', function(){
                         return {
                             domain: 'bizdomain',
-                            merchantAccountIdentifier: 'dude@duder.com',
-                            isOnlinePaymentEnabled: false
+                            payment: {
+                                merchantAccountIdentifier: 'dude@duder.com',
+                                isOnlinePaymentEnabled: false
+                            }
                         }
                     });
                     it('should show the saved button in a `Save details` state', function(){
@@ -101,8 +104,10 @@ describe('Booking Admin Page', function(){
         describe('when online payments are ON', function(){
             let('business', function(){
                 return {
-                   domain: 'bizdomain',
-                   isOnlinePaymentEnabled: true
+                    domain: 'bizdomain',
+                    payment:{
+                        isOnlinePaymentEnabled: true
+                    }
                 }
             }); 
             it('should SHOW the force payment toggle switch and merchant form', function(){
@@ -118,8 +123,10 @@ describe('Booking Admin Page', function(){
                 let('business', function(){
                     return {
                         domain: 'bizdomain',
-                        merchantAccountIdentifier: 'dude@duder.com',
-                        isOnlinePaymentEnabled: true
+                        payment:{
+                            merchantAccountIdentifier: 'dude@duder.com',
+                            isOnlinePaymentEnabled: true
+                        }
                     }
                 });
                 it('should show the saved button in a `Saved` state', function(){
@@ -152,9 +159,11 @@ describe('Booking Admin Page', function(){
             describe('and the merchant identifier is set to false', function(){
                let('business', function(){
                    return {
-                       domain: 'bizdomain',
-                       merchantAccountIdentifier: 'dude@duder.com',
-                       isOnlinePaymentEnabled: false
+                        domain: 'bizdomain',
+                        payment: {
+                            merchantAccountIdentifier: 'dude@duder.com',
+                            isOnlinePaymentEnabled: false
+                        }
                    }
                });
                describe('and then turning online payments ON and back to OFF', function(){

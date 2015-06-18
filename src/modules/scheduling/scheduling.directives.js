@@ -6,12 +6,13 @@ angular.module('scheduling.directives', [])
             templateUrl:'scheduling/partials/schedulingServicesList.html'
         };
     })
-    .directive('modalSessionForm', ['uiCalendarConfig', function(uiCalendarConfig){
+    .directive('modalSessionForm', ['uiCalendarConfig', 'sessionService', function(uiCalendarConfig, sessionService){
         return {
             restrict: "E",
             replace: false,
             templateUrl:'scheduling/partials/modalSessionForm.html',
             link: function(scope){
+                scope.business = sessionService.business;
                 scope.changeServiceName = function(){
                     var newService = _.find(scope.serviceList, {id: scope.currentSessionForm.services.$viewValue});
                     scope.currentEvent.session.presentation.colour = newService.presentation.colour;
