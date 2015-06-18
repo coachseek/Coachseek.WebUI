@@ -217,15 +217,18 @@
         padding: 5px 35px 10px 35px;
     }
     .attendance-list div.customer-list ul{
-        height: calc(100vh - 330px);
+        // height: calc(100vh - 330px);
+            height: 100vh;
             &.short-list{
-                height: calc(100vh - 365px);
+                // height: calc(100vh - 365px);
+                height: 100vh;
             }
     }
     .attendance-list {
         padding: 0px 10px;
         .student-list {
-              height: calc(100vh - 330px);
+              // height: calc(100vh - 330px);
+            height: 100vh;
             .student-details{
                 .item-title{
                     line-height: 21px;
@@ -239,7 +242,8 @@
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
     .attendance-list {
         .student-list, .customer-list ul{
-            height: calc(100vh - 315px);
+            // height: calc(100vh - 315px);
+            height: 100vh;
         }
     }  
 }

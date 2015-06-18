@@ -83,7 +83,7 @@
         }
 
         .session-form{
-            height: calc(100vh - 285px);
+            // height: calc(100vh - 285px);
             overflow-y: scroll;
             padding: 0 35px;
 
@@ -251,64 +251,14 @@
     }
 }
 
-// iPhone 6 in portrait & landscape
-@media only screen 
-and (min-device-width : 375px) 
-and (max-device-width : 667px) { 
-    [state^="scheduling"] {
-        .session-modal{     
-             .session-form{
-                height: calc(100vh - 350px);            
-            }
-        }    
-    }
-}
 
-//iPhone 6 plus in portrait & landscape
-@media only screen 
-and (min-device-width : 414px) 
-and (max-device-width : 736px) { 
-    [state^="scheduling"] {
-        .session-modal{     
-             .session-form{
-                height: calc(100vh - 350px);            
-            }
-        }    
-    }
-}
-
-//iPhone 5&5s in portrait & landscape
-@media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 568px) {
-    [state^="scheduling"] {
-        .session-modal{     
-             .session-form{
-                height: calc(100vh - 350px);            
-            }
-        }    
-    }
-}
-
-//iPhone 4s and below in portrait & landscape
-@media only screen 
-and (min-device-width : 320px) 
-and (max-device-width : 480px) { 
-    [state^="scheduling"] {
-        .session-modal{     
-             .session-form{
-                height: calc(100vh - 350px);            
-            }
-        }    
-    }
-}
 
 /*Ipad Landscape*/
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
     [state^="scheduling"] {
         .session-modal{
             .session-form{
-                height: calc(100vh - 250px);
+                // height: calc(100vh - 250px);
             }
         }
     }
