@@ -86,27 +86,9 @@ angular.module('app.controllers', [])
                 }, 5000)
             };
 
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+           $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                var requireBusinessDomain = toState.data.requireBusinessDomain;
-                var businessDomain = _.first($location.host().split("."));
-                if(businessDomain !== 'app' && !$rootScope.business){
-                    event.preventDefault();
-                    onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
-                        .then(function(business){
-                            $rootScope.business = business;
-                            $state.go('booking.selection');
-                        }, function(){
-                            $rootScope.addAlert({
-                                type: 'warning',
-                                message: 'businessDomain-invalid'
-                            });
-                            $rootScope.redirectToApp();
-                        });
-                } else if (requireBusinessDomain && businessDomain === 'app') {
-                    event.preventDefault();
-                    $state.go('scheduling');
-                } else if (requireLogin && !$rootScope.currentUser) {
+                if (requireLogin && !$rootScope.currentUser) {
                     event.preventDefault();
 
                     loginModal().then(function () {
