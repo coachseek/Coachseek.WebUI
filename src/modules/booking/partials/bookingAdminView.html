@@ -6,9 +6,9 @@
     <hr class="double-wide">
     <div class="booking-admin-onlinebooking" ng-switch-when="onlineBooking">
         <label>{{'booking:booking-admin.address' | i18next}}</label>
-        <input type="text" ng-readonly="true" class="booking-url" value="{{currentUser.business.domain}}.coachseek.com">
+        <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain}}.coachseek.com">
         <a  class="booking-preview-button"
-            ng-href="https://{{currentUser.business.domain}}.coachseek.com"
+            ng-href="https://{{business.domain}}.coachseek.com"
             target="_blank">
             {{'booking:preview-button' | i18next}}
         </a>
@@ -20,16 +20,16 @@
         <div class="toggle-switch-container enable-payment">
             {{'booking:toggle-online-payment' | i18next}}
             <toggle-switch ng-disabled="AILoading"
-                property="currentUser.business.isOnlinePaymentEnabled"
+                property="business.payment.isOnlinePaymentEnabled"
                 positive="'on'"
                 negative="'off'"
             ></toggle-switch>
         </div>
-        <div class="force-payment-merchant-form-container" ng-show="currentUser.business.isOnlinePaymentEnabled">
+        <div class="force-payment-merchant-form-container" ng-show="business.payment.isOnlinePaymentEnabled">
             <div class="toggle-switch-container force-payment">
                 {{'booking:force-payment' | i18next}}
                 <toggle-switch ng-disabled="AILoading"
-                    property="currentUser.business.forceOnlinePayment" 
+                    property="business.payment.forceOnlinePayment" 
                     positive="'yes'"
                     negative="'no'"
                 ></toggle-switch>
@@ -39,7 +39,7 @@
                 <form class="edit-paypal" name="form" novalidate>
                     <p>{{'booking:booking-admin.activate' | i18next}}</p>
                     <div class="form-input">
-                        <input type="email" name="email" ng-model="currentUser.business.merchantAccountIdentifier" placeholder="{{'booking:booking-admin.email' | i18next}}" ng-maxlength="100" required/>
+                        <input type="email" name="email" ng-model="business.payment.merchantAccountIdentifier" placeholder="{{'booking:booking-admin.email' | i18next}}" ng-maxlength="100" required/>
 
                         <div class="error-messages" ng-messages="form.email.$error" ng-if="form.email.$touched">
                             <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>

@@ -281,6 +281,15 @@ select-arrows{
   }
 }
 
+.colour-circle{
+    @extend %vertical-align;
+    @extend %service-background-colors;
+    float: left;
+    width: 15px;
+    height: 15px;
+    border-radius: 10px;
+}
+
 @media (max-width: 768px) {
   input,textarea{
     padding: 10px 10px;

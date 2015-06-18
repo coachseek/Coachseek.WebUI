@@ -105,8 +105,8 @@ angular.module('app.services', [])
     }])
     .service('loginModal', ['$modal', '$rootScope',
         function ($modal, $rootScope) {
-            function assignCurrentUser (user) {
-                $rootScope.setupCurrentUser(user);
+            function assignCurrentUser (user, business) {
+                $rootScope.setupCurrentUser(user, business);
                 return user;
             }
 
@@ -123,12 +123,14 @@ angular.module('app.services', [])
             };
         }
     ])
-    .service('sessionService', ['$rootScope', function($rootScope){
+    .service('sessionService', function(){
+        var isBigScreen = $(window).width() > 768;
         return {
+            isBigScreen: isBigScreen,
             calendarView: {
                 coachId: "",
                 locationId: "",
-                serviceDrawerOpen: $rootScope.isBigScreen
+                serviceDrawerOpen: isBigScreen
             }
         };
-    }]);
+    });

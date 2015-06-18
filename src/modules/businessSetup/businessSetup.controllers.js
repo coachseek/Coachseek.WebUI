@@ -13,9 +13,8 @@ angular.module('businessSetup.controllers', [])
                     .$promise.then(function(newBusiness){
                         $scope.setupCurrentUser({
                             email: $scope.admin.email,
-                            password: $scope.admin.password,
-                            business: newBusiness.business
-                        });
+                            password: $scope.admin.password
+                        }, newBusiness.business);
                         $state.go('businessSetup.locations');
                     }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
@@ -23,8 +22,8 @@ angular.module('businessSetup.controllers', [])
             }
         };
     }])
-    .controller('businessCtrl', ['$scope', 'CRUDService',
-        function($scope, CRUDService){
+    .controller('businessCtrl', ['$scope', 'CRUDService', 'sessionService',
+        function($scope, CRUDService, sessionService){
         $scope.editItem = function(){
             $scope.itemCopy = angular.copy($scope.business);
 
@@ -37,7 +36,7 @@ angular.module('businessSetup.controllers', [])
             if(formValid){
                 CRUDService.update('Business', $scope, business)
                     .then(function(business){
-                        $scope.currentUser.business = business;
+                        sessionService.business = business;
                     });
             }
         };
@@ -51,7 +50,7 @@ angular.module('businessSetup.controllers', [])
             $scope.itemCopy = null;
         };
 
-        $scope.business = $scope.currentUser.business;
+        $scope.business = sessionService.business;
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService',
         function($scope, CRUDService){
@@ -180,8 +179,9 @@ angular.module('businessSetup.controllers', [])
             }
         }
     )
-    .controller('servicesCtrl', ['$scope', '$state', 'CRUDService', 'serviceDefaults',
-        function($scope, $state, CRUDService, serviceDefaults){
+    .controller('servicesCtrl', ['$scope', '$state', 'CRUDService', 'serviceDefaults', 'sessionService',
+        function($scope, $state, CRUDService, serviceDefaults, sessionService){
+        $scope.business = sessionService.business;
 
         $scope.createItem = function(){
             if(!$scope.item){

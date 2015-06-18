@@ -4,7 +4,9 @@ describe('BusinessSetup Business', function(){
         return {
             name: "West Coast Toast",
             domain: "westcoasttoast",
-            currency: "USD"
+            payment: {
+                currency: "USD"
+            }
         };
     });
 
@@ -31,9 +33,7 @@ describe('BusinessSetup Business', function(){
         self = this;
         coachSeekAPIService = $injector.get('coachSeekAPIService');
         scope = $rootScope.$new();
-        scope.currentUser = {
-            business: this.business
-        };
+        $injector.get('sessionService').business = this.business
 
         getBusinessStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
             return {$promise: self.promise};
@@ -118,8 +118,8 @@ describe('BusinessSetup Business', function(){
                 it('should not show the business edit view', function(){
                     expect($businessItemView.hasClass('ng-hide')).to.be.true;
                 });
-                it('should set the business on $rootScope', function(){
-                    expect(scope.currentUser.business).to.eql(this.business);
+                it('should set the business on sessionService', function(){
+                    expect($injector.get('sessionService').business).to.eql(this.business);
                 });
             });
         });
@@ -140,7 +140,7 @@ describe('BusinessSetup Business', function(){
 
                 expect(unsavedBusiness.name).to.equal(this.business.name);
                 expect(unsavedBusiness.domain).to.equal(this.business.domain);
-                expect(unsavedBusiness.currency).to.equal(this.business.currency);
+                expect(unsavedBusiness.payment.currency).to.equal(this.business.payment.currency);
             });
             it('should remove alert if present', function(){
                 expect($rootScope.alerts.length).to.equal(0);
