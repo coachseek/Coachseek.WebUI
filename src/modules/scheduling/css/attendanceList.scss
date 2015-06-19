@@ -236,6 +236,64 @@
     }   
 }
 
+// iPhone 6 in portrait & landscape
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 667px) { 
+    .attendance-list {
+        .student-list {
+              height: calc(100vh - 380px);      
+        }
+    }    
+}
+
+//iPhone 6 plus in portrait & landscape
+@media only screen 
+and (min-device-width : 414px) 
+and (max-device-width : 736px) { 
+    .attendance-list {
+        .student-list {
+            height: calc(100vh - 380px);      
+        }
+    }  
+}
+
+//iPhone 5&5s in portrait & landscape
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) {
+    .attendance-list {
+        .student-list {
+            height: calc(100vh - 380px);      
+        }
+    }  
+}
+
+//iPhone 4s and below in portrait & landscape
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) { 
+    .attendance-list {
+        .student-list {
+            height: calc(100vh - 380px);      
+        }
+    }  
+}
+
+// iPad in portrait
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) { 
+ .attendance-list {
+        .student-list, .customer-list ul{
+            height: calc(100vh - 380px);
+        }
+    }  
+
+
+}
+
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
     .attendance-list {
         .student-list, .customer-list ul{
