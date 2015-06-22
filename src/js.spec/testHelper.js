@@ -70,7 +70,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
 
     loginModalStub = this.sinon.stub($injector.get('$modal'), 'open', function(){
         var deferred = $q.defer();
-        deferred.resolve({email: 'user@test.com'});
+        deferred.resolve({user: {}, business: {}});
         return {result: deferred.promise};
     });
 

@@ -146,7 +146,7 @@ angular.module('app.controllers', [])
                                 email: email,
                                 password: password
                             };
-                            $scope.$close(user, business);
+                            $scope.$close({user:user, business:business});
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({
