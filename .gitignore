@@ -11,3 +11,5 @@ src/js/libs.js
 src/js/scripts.js
 src/js/templates.js
 reports
+platforms
+plugins
