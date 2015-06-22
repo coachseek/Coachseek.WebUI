@@ -148,11 +148,11 @@ angular.module('scheduling.controllers', [])
                             handleWindowResize(view);
                         });
                     },
-                    dayClick: function(date, jsEvent, ev, view) {
-                        if(view.type === 'month'){
+                    dayClick: function(date, jsEvent, view) {
+                        if(!$scope.isBigScreen && view.type === 'month'){
                             uiCalendarConfig.calendars.sessionCalendar.fullCalendar('changeView', 'agendaDay');
                             uiCalendarConfig.calendars.sessionCalendar.fullCalendar('gotoDate', date);
-                        } else if (Modernizr.touch && ev.type !== "tap") {
+                        } else if (Modernizr.touch) {
                             handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
                     }

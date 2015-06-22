@@ -1952,14 +1952,14 @@ var DragListener = fc.DragListener = Class.extend({
 
     // Call this when the user does a mousedown. Will probably lead to startListening
     mousedown: function(ev) {
-        if (isPrimaryMouseButton(ev) || ev.type === 'press' || ev.type === 'tap') {
+        if (isPrimaryMouseButton(ev) || ev.type === 'press') {
 
             ev.preventDefault(); // prevents native selection in most browsers
 
             this.startListening(ev);
 
             // start the drag immediately if there is no minimum distance for a drag start
-            if (!this.options.distance || ev.type === 'press' || ev.type === 'tap') {
+            if (!this.options.distance || ev.type === 'press') {
                 this.startDrag(ev);
             }
         }
@@ -3089,21 +3089,20 @@ var Grid = fc.Grid = RowRenderer.extend({
 
         // attach a handler to the grid's root element.
         // jQuery will take care of unregistering them when removeElement gets called.
-        var onMousedown = function(ev) {
+        if(Modernizr.touch){
+            el = new Hammer(el.get(0));
+            mousedownEvent = 'press';
+        } else {
+            mousedownEvent = 'mousedown';
+        }
+        el.on(mousedownEvent, function(ev) {
             if (
                 !$(ev.target).is('.fc-event-container *, .fc-more') && // not an an event element, or "more.." link
                 !$(ev.target).closest('.fc-popover').length // not on a popover (like the "more.." events one)
             ) {
                 _this.dayMousedown(ev);
             }
-        };
-
-        if(Modernizr.touch){
-            el = new Hammer(el.get(0));
-            el.on('press tap', onMousedown);
-        } else {
-            el.on('mousedown', onMousedown);
-        }
+        });
 
         // attach event-element-related handlers. in Grid.events
         // same garbage collection note as above.
@@ -3180,7 +3179,7 @@ var Grid = fc.Grid = RowRenderer.extend({
                 if (origCell) { // click needs to have started on a cell
                     dayClickCell = isOrig ? cell : null; // single-cell selection is a day click
                     if (dayClickCell && Modernizr.touch) {
-                        view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev, ev);
+                        view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev);
                     }
                     if (isSelectable) {
                         selectionRange = _this.computeSelection(origCell, cell);
@@ -3201,7 +3200,7 @@ var Grid = fc.Grid = RowRenderer.extend({
             },
             listenStop: function(ev) {
                 if (dayClickCell && !Modernizr.touch) {
-                    view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev, ev);
+                    view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev);
                 }
                 if (selectionRange) {
                     // the selection will already have been rendered. just report it
