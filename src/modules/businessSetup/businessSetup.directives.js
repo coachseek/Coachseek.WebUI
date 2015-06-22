@@ -4,7 +4,8 @@ angular.module('businessSetup.directives', [])
             restrict: "E",
             scope: {
                 repeatFrequency: '=',
-                sessionCount: '='
+                sessionCount: '=',
+                form: '='
             },
             templateUrl: 'businessSetup/partials/repeatSelector.html',
             link: function(scope, elem, attr){
@@ -86,6 +87,9 @@ angular.module('businessSetup.directives', [])
         return {
             restrict: 'E',
             replace: true,
+            scope: {
+                currentCurrency: "=currentCurrency"
+            },
             templateUrl: 'businessSetup/partials/currencyPicker.html',
             link: function(scope){
                 scope.currencies = [

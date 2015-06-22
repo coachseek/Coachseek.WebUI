@@ -1,9 +1,8 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService) {
             // TODO - add ability to remove alerts by view
-            $rootScope.ENV = ENV;
             $rootScope.addAlert = function(alert){
 
                 _.forEach($rootScope.alerts, function(existingAlert, index){
@@ -38,6 +37,10 @@ angular.module('app.controllers', [])
 
             $rootScope.logout = function(){
                 $http.defaults.headers.common.Authorization = null;
+                _.assign(sessionService, {
+                    user: {},
+                    business: {}
+                });
                 delete $rootScope.currentUser;
                 Intercom('shutdown');
                 $rootScope.addAlert({
@@ -69,10 +72,12 @@ angular.module('app.controllers', [])
                 }
             };
 
-            $rootScope.setupCurrentUser = function(user){
+            $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
                 startIntercom(user, _.now());
-                $rootScope.currentUser = user;
+                sessionService.user = user;
+                sessionService.business = business;
+                $rootScope.currentUser = sessionService.user;
             };
 
             $rootScope.setUserAuth = function(email, password){
@@ -100,8 +105,9 @@ angular.module('app.controllers', [])
                 }
             });
 
+            $rootScope.ENV = ENV;
             $rootScope.isCollapsed = true;
-            $rootScope.isBigScreen = $(window).width() > 768;
+            $rootScope.isBigScreen = sessionService.isBigScreen;
             $(window).on('resize', function () {
                 $rootScope.isBigScreen = $(this).width() > 768;
                 $rootScope.$apply();
@@ -120,10 +126,9 @@ angular.module('app.controllers', [])
                         .$promise.then(function(business){
                             var user = {
                                 email: email,
-                                password: password,
-                                business: business
+                                password: password
                             };
-                            $scope.$close(user);
+                            $scope.$close({user:user, business:business});
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({

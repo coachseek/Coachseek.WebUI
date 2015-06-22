@@ -18,7 +18,16 @@
 
     ul{
         li{
+            position: relative;
             padding-top: 10px;
+            &.service-details{
+              padding-left: 15px;
+              .colour-circle{
+                position: absolute;
+                left: -12px;
+              }
+            }
+
             .item-title, .item-subtitle{
                 width: 50%;
                 float: left;

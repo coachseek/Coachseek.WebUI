@@ -105,11 +105,6 @@ angular.module('app.services', [])
     }])
     .service('loginModal', ['$modal', '$rootScope',
         function ($modal, $rootScope) {
-            function assignCurrentUser (user) {
-                $rootScope.setupCurrentUser(user);
-                return user;
-            }
-
             return function() {
                 var instance = $modal.open({
                     templateUrl: 'app/partials/loginModal.html',
@@ -119,16 +114,21 @@ angular.module('app.services', [])
                     keyboard: false
                 });
 
-                return instance.result.then(assignCurrentUser);
+                return instance.result.then(function(userDetails) {
+                    $rootScope.setupCurrentUser(userDetails.user, userDetails.business);
+                    return userDetails;
+                });
             };
         }
     ])
-    .service('sessionService', ['$rootScope', function($rootScope){
+    .service('sessionService', function(){
+        var isBigScreen = $(window).width() > 768;
         return {
+            isBigScreen: isBigScreen,
             calendarView: {
                 coachId: "",
                 locationId: "",
-                serviceDrawerOpen: $rootScope.isBigScreen
+                serviceDrawerOpen: isBigScreen
             }
         };
-    }]);
+    });

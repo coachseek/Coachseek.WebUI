@@ -1,7 +1,8 @@
 angular.module('booking.controllers', [])
-    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'currentBooking',
-      function($scope, $state, onlineBookingAPIFactory, currentBooking){
+    .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService',
+      function($scope, $state, onlineBookingAPIFactory, currentBooking, sessionService){
         $scope.currentBooking = currentBooking;
+        $scope.business = sessionService.business;
 
         $scope.selectEvent = function (event) {
             if($scope.selectedEvent !== event){
@@ -171,27 +172,6 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         }
     }])
-    .controller('bookingPaymentCtrl', ['$scope', function($scope){
-      // GARRET PLAYS HERE
-      //TODO: Grab booking detail data
-      //and attach to the hidden forms as ng-values..
-      
-      //inititate paypal processing
-      //I don't think we'll need a post here...
-      $scope.initPaypalPayment = function () {
-        if ($scope.coursePaymentPrice === null) {
-          return;
-        } else {
-          //TODO: Post to paypal return callback to confirmation page
-        }
-            
-      };
-      
-      //Post booking as unpayed
-      $scope.payLaterCall = function () {
-        
-      };
-    }])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'currentBooking',
       function($scope, $q, $state, onlineBookingAPIFactory, currentBooking){
         $scope.bookingConfirmed = false;
@@ -242,14 +222,15 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         };
     }])
-    .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', '$timeout', 'coachSeekAPIService', '$activityIndicator',
-      function($scope, $templateCache, $compile, $timeout, coachSeekAPIService, $activityIndicator){
+    .controller('bookingAdminCtrl', ['$scope', '$templateCache', '$compile', '$timeout', 'coachSeekAPIService', '$activityIndicator', 'sessionService',
+      function($scope, $templateCache, $compile, $timeout, coachSeekAPIService, $activityIndicator, sessionService){
         var markup = $templateCache.get('booking/partials/bookNowButton.html'),
             view = $compile(markup)($scope),
-            businessCopy = angular.copy($scope.currentUser.business);
+            businessCopy = angular.copy(sessionService.business);
 
         $scope.saved = true;
-        $scope.currentUser.business.paymentProvider = "PayPal"
+        sessionService.business.payment.paymentProvider = "PayPal"
+        $scope.business = sessionService.business;
 
         $scope.getSaveButtonState = function(){
             if($scope.AILoading){
@@ -262,17 +243,17 @@ angular.module('booking.controllers', [])
         };
 
         $scope.cancelEdit = function(){
-            $scope.currentUser.business = angular.copy(businessCopy);
+            $scope.business = angular.copy(businessCopy);
             _.defer(function(){
                 $scope.saved = true;
                 $scope.$apply()
             });
         };
 
-        $scope.$watch('currentUser.business', function(newVal, oldVal){
+        $scope.$watch('business.payment', function(newVal, oldVal){
             if(newVal !== oldVal){
                 $scope.saved = false;
-                if(newVal.isOnlinePaymentEnabled === false && businessCopy.isOnlinePaymentEnabled !== false) {
+                if(newVal.isOnlinePaymentEnabled === false && businessCopy.payment.isOnlinePaymentEnabled !== false) {
                     $scope.save();
                 }
             }
@@ -280,9 +261,9 @@ angular.module('booking.controllers', [])
 
         $scope.save = function(){
             $activityIndicator.startAnimating();
-            coachSeekAPIService.save({section: "Business"}, $scope.currentUser.business).$promise
+            coachSeekAPIService.save({section: "Business"}, $scope.business).$promise
                 .then(function(){
-                    businessCopy = angular.copy($scope.currentUser.business);
+                    businessCopy = angular.copy($scope.business);
                     $scope.saved = true;
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();

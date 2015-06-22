@@ -92,6 +92,7 @@
     "password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
     "postCode-invalid": "Oops! Looks like your Post Code isn't quite right. Try again.",
     "currency-invalid": "Oops! Looks like you need to pick a currency.",
+    "sessionCount-invalid": "Repetition count is too high for us to handle! Try a lower number.",
 
     "error": {
         "maxlength": "This is too long.",
@@ -100,7 +101,11 @@
         "email": "Email is not valid.",
         "required": "This field is required",
         "max-capacity": "The max student capacity is 100.",
-        "min-capacity": "You must allow at least 1 student."
+        "min-capacity": "You must allow at least 1 student.",
+        "repeat-selector-max": {
+            "w": "__count__ weeks max",
+            "d": "__count__ days max"
+        }
     },
     
     "name-already-exists": "Oops! It looks like somebody already has that name. Try again.",

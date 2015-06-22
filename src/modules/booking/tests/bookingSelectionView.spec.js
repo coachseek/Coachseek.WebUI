@@ -72,7 +72,7 @@ describe('Booking Selection View', function(){
     var anonStub, anonGetStub, bookingScope, scope;
     beforeEach(function(){
         var self = this;
-        $rootScope.business = this.business;
+        $injector.get('sessionService').business = this.business;
         locationStub.restore();
         this.sinon.stub($injector.get('$location'), 'host', function(){
             return self.subdomain;

@@ -81,7 +81,7 @@ describe('Booking Module', function() {
         describe('when navigating to booking.details', function(){
             var viewAttrs;
             beforeEach(function(){
-                $rootScope.business = {};
+                $injector.get('sessionService').business = {};
                 $state.go('booking.details');
                 $rootScope.$digest();
 
@@ -100,7 +100,7 @@ describe('Booking Module', function() {
         describe('when navigating to booking.confirmation', function(){
             var viewAttrs;
             beforeEach(function(){
-                $rootScope.business = {};
+                $injector.get('sessionService').business = {};
                 $state.go('booking.confirmation');
                 $rootScope.$digest();
 

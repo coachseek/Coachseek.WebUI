@@ -363,7 +363,7 @@ describe('App Module', function() {
 
                 describe('when subdomain exists', function(){
                     it('should set business on the scope', function(){
-                        expect($rootScope.business).to.eql(this.business)
+                        expect($injector.get('sessionService').business).to.eql(this.business)
                     });
                     it('should navigate to booking.selection', function(){
                         expect(stateGoSpy).to.be.calledWith('booking.selection');
