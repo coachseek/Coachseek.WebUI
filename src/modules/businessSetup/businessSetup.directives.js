@@ -4,7 +4,8 @@ angular.module('businessSetup.directives', [])
             restrict: "E",
             scope: {
                 repeatFrequency: '=',
-                sessionCount: '='
+                sessionCount: '=',
+                form: '='
             },
             templateUrl: 'businessSetup/partials/repeatSelector.html',
             link: function(scope, elem, attr){
