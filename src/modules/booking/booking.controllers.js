@@ -209,7 +209,6 @@ angular.module('booking.controllers', [])
             var bookingData = {
                 customer: customer,
                 session: session,
-                paymentStatus: "awaiting-invoice",
                 hasAttended: false
             }
             return onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Bookings' }, bookingData).$promise;

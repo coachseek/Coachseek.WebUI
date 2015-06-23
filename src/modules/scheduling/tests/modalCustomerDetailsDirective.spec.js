@@ -122,7 +122,7 @@ describe('modalCustomerDetails directive', function(){
                             lastName: this.item.lastName
                         },
                         hasAttended: false,
-                        paymentStatus: "awaiting-invoice"
+                        paymentStatus: "pending-invoice"
                     }
                     expect(updateStub).to.be.calledWith({section: 'Bookings'}, bookingObject);
                 });

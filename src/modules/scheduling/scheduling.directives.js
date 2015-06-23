@@ -255,7 +255,7 @@ angular.module('scheduling.directives', [])
                             firstName: scope.item.firstName,
                             lastName: scope.item.lastName
                         },
-                        paymentStatus: "awaiting-invoice",
+                        paymentStatus: "pending-invoice",
                         hasAttended: false
                     };
                 }
@@ -317,10 +317,9 @@ angular.module('scheduling.directives', [])
                 }
 
                 var paymentStatusOptions = [
-                    'awaiting-invoice',
-                    'awaiting-payment',
-                    'paid',
-                    'overdue'
+                    'pending-invoice',
+                    'pending-payment',
+                    'paid'
                 ];
 
                 var paymentStatusIndex = _.indexOf(paymentStatusOptions, scope.booking.paymentStatus);
