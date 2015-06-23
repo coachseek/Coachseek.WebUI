@@ -254,9 +254,7 @@ angular.module('scheduling.directives', [])
                             id: scope.item.id,
                             firstName: scope.item.firstName,
                             lastName: scope.item.lastName
-                        },
-                        paymentStatus: "pending-invoice",
-                        hasAttended: false
+                        }
                     };
                 }
             }

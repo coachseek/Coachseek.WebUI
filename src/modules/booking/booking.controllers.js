@@ -206,12 +206,8 @@ angular.module('booking.controllers', [])
         };
 
         function getBookingCall(session, customer){
-            var bookingData = {
-                customer: customer,
-                session: session,
-                hasAttended: false
-            }
-            return onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Bookings' }, bookingData).$promise;
+            return onlineBookingAPIFactory.anon($scope.business.domain)
+                    .save({ section: 'Bookings' }, {customer: customer, session: session}).$promise;
         };
 
         $scope.resetBookings = function () {
