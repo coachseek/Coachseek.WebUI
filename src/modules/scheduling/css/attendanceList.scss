@@ -58,7 +58,7 @@
             }
 
             &.short-list{
-                height: calc(100vh - 285px);
+                height: calc(100vh - 335px);
                 .customer-details {
                     ellipsis-animated{
                         margin-right: 45px;
@@ -111,7 +111,7 @@
     }
 
     .student-list{
-        height: calc(100vh - 265px);
+        height: calc(100vh - 315px);
         overflow-y: scroll;
         &::-webkit-scrollbar { 
             display: none; 
