@@ -242,7 +242,7 @@ and (min-device-width : 375px)
 and (max-device-width : 667px) { 
     .attendance-list {
         .student-list {
-              height: calc(100vh - 380px);      
+              height: calc(100vh - 320px);      
         }
     }    
 }
@@ -253,7 +253,7 @@ and (min-device-width : 414px)
 and (max-device-width : 736px) { 
     .attendance-list {
         .student-list {
-            height: calc(100vh - 380px);      
+            height: calc(100vh - 320px);      
         }
     }  
 }
@@ -264,7 +264,7 @@ and (min-device-width : 320px)
 and (max-device-width : 568px) {
     .attendance-list {
         .student-list {
-            height: calc(100vh - 380px);      
+            height: calc(100vh - 320px);      
         }
     }  
 }
@@ -275,7 +275,7 @@ and (min-device-width : 320px)
 and (max-device-width : 480px) { 
     .attendance-list {
         .student-list {
-            height: calc(100vh - 380px);      
+            height: calc(100vh - 320px);      
         }
     }  
 }
