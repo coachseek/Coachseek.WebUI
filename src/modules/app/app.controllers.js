@@ -50,7 +50,7 @@ angular.module('app.controllers', [])
 
                 loginModal().then(function () {
                     $rootScope.removeAlerts();
-                    return $state.go($state.current, {}, {reload: true});
+                    //return $state.go($state.current, {}, {reload: true});
                 });
             };
 
