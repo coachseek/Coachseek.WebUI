@@ -13,7 +13,7 @@
     "service-name": "Service name:",
     "service-details": {
         "duration": "Session duration:",
-        "name": "Session name:",
+        "name": "Service name:",
         "general": "General",
         "register": "Register",
         "start-time": "Start Time"
