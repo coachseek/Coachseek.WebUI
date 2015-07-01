@@ -67,7 +67,8 @@ describe('customerBooking directive', function(){
             });
     });
     it('should set the customer name', function(){
-        expect($customerBooking.find('.item-title').text()).to.equal(this.booking.customer.firstName + " " + this.booking.customer.lastName);
+        expect($customerBooking.find('.item-title').text()).to.contain(this.booking.customer.firstName);
+        expect($customerBooking.find('.item-title').text()).to.contain(this.booking.customer.lastName);
     });
     describe('when clicking deleteStudent', function(){
         var self, deleteStub, $deleteStudent;
