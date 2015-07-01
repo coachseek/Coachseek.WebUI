@@ -521,7 +521,7 @@
                     -webkit-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
                     -moz-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
                     box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
-                    &.continue-button{
+                    &.continue-button, &.pay-later{
                         width: 46%;
                         padding: 7.5px 10px;
                         position: fixed;
