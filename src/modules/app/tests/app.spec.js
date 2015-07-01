@@ -370,7 +370,7 @@ describe('App Module', function() {
                     expect(anonGetStub).to.be.calledWith({section: 'Business'});
                 });
 
-                describe.only('when subdomain exists', function(){
+                describe('when subdomain exists', function(){
                     it('should set business on the sessionService', function(){
                         expect($injector.get('sessionService').business).to.eql(this.business)
                     });
