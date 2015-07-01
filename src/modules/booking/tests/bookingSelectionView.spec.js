@@ -98,7 +98,7 @@ describe('Booking Selection View', function(){
     describe("when the events have not yet been retrieved", function(){
         it('should attempt to get the events', function(){
             var params = {
-                endDate: moment().add(12, 'week').format('YYYY-MM-DD'),
+                endDate: moment().add(5, 'y').format('YYYY-MM-DD'),
                 startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
                 section: 'Sessions'
             };
