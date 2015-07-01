@@ -100,7 +100,12 @@ angular.module('app.controllers', [])
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             sessionService.business = business;
-                            $state.go('booking.selection');
+                            if($location.search().currentBooking){
+                                sessionService.currentBooking = JSON.parse($location.search().currentBooking);
+                                $state.go('booking.confirmation');
+                            } else {
+                                $state.go('booking.selection');
+                            }
                         }, function(){
                             $rootScope.addAlert({
                                 type: 'warning',

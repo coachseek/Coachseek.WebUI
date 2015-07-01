@@ -194,4 +194,35 @@ angular.module('booking.directives', [])
                 };
             }
         };
+    }])
+    .directive('paypalPaymentButton', ['$timeout', 'currentBooking', function($timeout, currentBooking){
+        return {
+            restrict: "E",
+            templateUrl:'booking/partials/paypalPaymentButton.html',
+            link: function(scope, elem){
+                scope.getServiceName = function(){
+                    return _.get(currentBooking.booking, 'course.service.name') || _.get(currentBooking.booking, 'sessions[0].service.name');
+                };
+
+                scope.getQueryString = function(){
+                    return JSON.stringify({
+                        customer: currentBooking.customer,
+                        booking: {
+                            course: _.get(currentBooking.booking, 'course.sessions[0]') || _.get(currentBooking.booking, 'sessions[0]')
+                        },
+                        filters: currentBooking.filters
+                    });
+                };
+
+                scope.paypalSubmit = function(){
+                    scope.processBooking().then(function(){
+                        // must use timeout so scope.$digest finishes and adds
+                        // values to hidden paypal form
+                        $timeout(function(){
+                            elem.find('.paypal-form').submit();
+                        });
+                    });
+                };
+            }
+        }
     }]);

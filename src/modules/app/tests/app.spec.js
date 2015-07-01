@@ -328,12 +328,21 @@ describe('App Module', function() {
             return 'testsubdomain';
         });
 
+        let('currentBooking', function(){
+            return {};
+        });
+
         var anonStub, anonGetStub, redirectStub, stateGoSpy;
         beforeEach(function(){
             var self = this;
             locationStub.restore();
-            this.sinon.stub($injector.get('$location'), 'host', function(){
+            var $location = $injector.get('$location');
+            this.sinon.stub($location, 'host', function(){
                 return self.subdomain;
+            });
+
+            this.sinon.stub($location, 'search', function(){
+                return self.currentBooking;
             });
 
             stateGoSpy = this.sinon.spy($state, 'go');
@@ -353,7 +362,7 @@ describe('App Module', function() {
             $state.go('booking.selection')
         });
         describe('when subdomain is a businessDomain', function(){
-            describe('and a business is not set on the scope', function(){
+            describe('and a business is not set on the sessionService', function(){
                 it('should attempt to get the business', function(){
                     expect(anonStub).to.be.calledOnce;
                     expect(anonStub).to.be.calledWith('testsubdomain');
@@ -361,12 +370,22 @@ describe('App Module', function() {
                     expect(anonGetStub).to.be.calledWith({section: 'Business'});
                 });
 
-                describe('when subdomain exists', function(){
-                    it('should set business on the scope', function(){
+                describe.only('when subdomain exists', function(){
+                    it('should set business on the sessionService', function(){
                         expect($injector.get('sessionService').business).to.eql(this.business)
                     });
-                    it('should navigate to booking.selection', function(){
-                        expect(stateGoSpy).to.be.calledWith('booking.selection');
+                    describe('when not coming back from a successful payment', function(){
+                        it('should navigate to booking.selection', function(){
+                            expect(stateGoSpy).to.be.calledWith('booking.selection');
+                        });
+                    });
+                    describe('when currentBooking is passed through from successful payment', function(){
+                        let('currentBooking', function(){
+                            return {currentBooking: '{"customer":{"firstName":"D","lastName":"D","phone":"f","email":"d@f"}}'};
+                        });
+                        it('should navigate to booking.confirmation', function(){
+                            expect(stateGoSpy).to.be.calledWith('booking.confirmation');
+                        });
                     });
                 });
                 describe('when subdomain doesnt exist', function(){
@@ -387,7 +406,7 @@ describe('App Module', function() {
             });
         });
 
-        describe('when subdomain is aapp', function(){
+        describe('when subdomain is app', function(){
             let('subdomain', function(){
                 return 'app';
             });

@@ -55,7 +55,6 @@ angular.module('booking.controllers', [])
         $scope.isBefore = function(session){
             return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
         };
-
     }])
     .controller('bookingSelectionCtrl', ['$scope', 'anonCoachseekAPIFactory', 'currentBooking',
       function($scope, anonCoachseekAPIFactory, currentBooking){
@@ -172,25 +171,44 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         }
     }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'currentBooking',
-      function($scope, $q, $state, onlineBookingAPIFactory, currentBooking){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService',
+      function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService){
         $scope.bookingConfirmed = false;
 
-        if(!currentBooking.filters.location){
+        if( sessionService.currentBooking ){
+        	_.assign(currentBooking, {
+        		customer: sessionService.currentBooking.customer,
+        		booking: sessionService.currentBooking.booking,
+        		filters: sessionService.currentBooking.filters
+        	});
+	        delete sessionService.currentBooking;
+	        $scope.bookingConfirmed = true;
+        } else if( !currentBooking.filters.location ){
             $state.go('booking.selection');
         }
 
-        $scope.processBooking = function () {
+        $scope.processBooking = function (payLater) {
             $scope.processingBooking = true;
-            onlineBookingAPIFactory.anon($scope.business.domain)
+            return onlineBookingAPIFactory.anon($scope.business.domain)
                 .save({ section: 'Customers' }, currentBooking.customer).$promise
                     .then(function (customer) {
-                        $q.all(getSessionsToBook(customer)).then(function () {
-                            $scope.bookingConfirmed = true;
-                        }, $scope.handleErrors).finally(function(){
+                        return $q.all(getSessionsToBook(customer)).then(function (bookings) {
+                            currentBooking.booking.id = bookings[0].id;
+                            $scope.bookingConfirmed = payLater;
+                            $scope.redirectingToPaypal = !payLater;
+                        }, function(error){
+                            $scope.handleErrors(error);
+                            // make sure paypal form doesn't submit if error;
+                            return $q.reject();
+                        }).finally(function(){
                             $scope.processingBooking = false;
                         });
-                }, $scope.handleErrors);
+                }, function(error){
+                    $scope.processingBooking = false;
+                    $scope.handleErrors(error);
+                    // make sure paypal form doesn't submit if error;
+                    return $q.reject();
+                });
         };
 
         function getSessionsToBook(customer){
@@ -207,7 +225,7 @@ angular.module('booking.controllers', [])
 
         function getBookingCall(session, customer){
             return onlineBookingAPIFactory.anon($scope.business.domain)
-                    .save({ section: 'Bookings' }, {customer: customer, session: session}).$promise;
+                    .save({ section: 'Bookings' }, {session: session, customer: customer}).$promise;
         };
 
         $scope.resetBookings = function () {

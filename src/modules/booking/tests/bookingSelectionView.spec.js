@@ -7,17 +7,6 @@ describe('Booking Selection View', function(){
         }
     });
 
-    let('dateOne', function(){
-        return moment()
-    });
-    let('dateTwo', function(){
-        return moment().add(1, 'days').add(1, 'hours');
-    });
-
-    let('dateThree', function(){
-        return moment().add(1, 'months');
-    });
-
     let('locationOne', function(){
         return {
             name: "One",
