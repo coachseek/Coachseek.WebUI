@@ -7,7 +7,7 @@
         <i class="fa fa-plus"></i>
         {{'scheduling:add-student' | i18next}}
     </button>
-    <div class="customer-list" ng-show="showCustomers" ng-controller="customerSearchCtrl">
+    <div class="customer-list" ng-show="showCustomers" ng-controller="customerSearchCtrl" ng-class="{'short-list': currentEvent.course}">
         <span class="back-arrow" ng-click="hideCustomerList()">
             <i class="fa fa-left-single-arrow"></i>
             <span>{{'scheduling:back' | i18next}}</span>
@@ -20,7 +20,7 @@
                 <div>{{'customers:single-session' | i18next}}</div>
             </div>
         </div>
-        <ul infinite-scroll='loadMore()' ng-class="{'short-list': currentEvent.course}">
+        <ul infinite-scroll='loadMore()' infinite-scroll-parent="true">
             <modal-customer-details ng-repeat="item in customerList"></modal-customer-details>
             <div class="no-customers" ng-if="!customerList.length">{{'customers:no-customers-found' | i18next}}</div>
         </ul>

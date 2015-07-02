@@ -14,6 +14,24 @@
     }
 
     .customer-list{
+        height: calc(100vh - 245px);
+        overflow-y: scroll;
+
+        &::-webkit-scrollbar { 
+            display: none; 
+        }
+
+        &.short-list{
+            ul{
+                margin-top: 90px;
+                .customer-details {
+                    ellipsis-animated{
+                        margin-right: 45px;
+                    }
+                }
+            }
+        }
+
         .back-arrow{
             height: 35px;
             cursor: pointer;
@@ -29,8 +47,11 @@
         }
 
         .search-container{
-            margin-bottom: 10px;
             overflow: hidden;
+            z-index: 1;
+            background: $background-beige;
+            position: absolute;
+            width: 330px;
 
             input{
                 margin-bottom: 10px;
@@ -50,21 +71,7 @@
         }
 
         ul{
-            height: calc(100vh - 250px);
-            overflow-y: scroll;
-
-            &::-webkit-scrollbar { 
-                display: none; 
-            }
-
-            &.short-list{
-                height: calc(100vh - 335px);
-                .customer-details {
-                    ellipsis-animated{
-                        margin-right: 45px;
-                    }
-                }
-            }
+            margin-top: 45px;
 
             .customer-details{
                 width: 95%;
@@ -212,11 +219,19 @@
     [state^="scheduling"] .session-modal div.session-modal-title{
         padding: 5px 35px 10px 35px;
     }
-    .attendance-list div.customer-list ul{
-        height: calc(100vh - 330px);
-            &.short-list{
-                height: calc(100vh - 365px);
+    .attendance-list div.customer-list {
+        .search-container{
+            width: 95%;
+            i{
+                top: 14px;
             }
+        }
+        ul{
+            height: calc(100vh - 330px);
+                &.short-list{
+                    height: calc(100vh - 365px);
+                }
+        }
     }
     .attendance-list {
         padding: 0px 10px;
