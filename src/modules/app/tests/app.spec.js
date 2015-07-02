@@ -109,13 +109,17 @@ describe('App Module', function() {
                 });
             });
         });
-        describe('when clicking the logout button', function(){
-            var $http, $stateStub;
+        describe.only('when clicking the logout button', function(){
+            var $http, $stateStub, sessionService;
             beforeEach(function(){
                 $stateStub = this.sinon.stub($state, 'go');
                 $http = $injector.get('$http');
                 $http.defaults.headers.common['Authorization'] = 'TEST AUTH';
                 $rootScope.currentUser = "TESTUSER";
+                sessionService = $injector.get('sessionService');
+                sessionService.user = {};
+                sessionService.business = {};
+
 
                 createViewWithController($rootScope, 'index.html', 'appCtrl')
                 $testRegion.find('.logout').trigger('click');
@@ -128,6 +132,10 @@ describe('App Module', function() {
             });
             it('should unset the currentUser', function(){
                 expect($rootScope.currentUser).to.be.undefined;
+            });
+            it('should unset the business and user from sessionService', function(){
+                expect(sessionService.user).to.be.undefined;
+                expect(sessionService.business).to.be.undefined;
             });
             it('should unset the auth', function(){
                 expect($http.defaults.headers.common['Authorization']).to.equal(null);
