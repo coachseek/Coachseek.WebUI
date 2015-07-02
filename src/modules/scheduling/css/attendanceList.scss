@@ -17,10 +17,6 @@
         height: calc(100vh - 245px);
         overflow-y: scroll;
 
-        &::-webkit-scrollbar { 
-            display: none; 
-        }
-
         &.short-list{
             ul{
                 margin-top: 90px;
@@ -120,9 +116,6 @@
     .student-list{
         height: calc(100vh - 315px);
         overflow-y: scroll;
-        &::-webkit-scrollbar { 
-            display: none; 
-        }    
 
         .student-details{
             width: 95%;
