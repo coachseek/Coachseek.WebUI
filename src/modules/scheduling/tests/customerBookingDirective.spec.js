@@ -62,12 +62,13 @@ describe('customerBooking directive', function(){
                     hasAttended: true
                 }
             });
-            it('should set paymentStatus to `awaiting-invoice`', function(){
-               expect($customerBooking.find('.payment-status').hasClass('awaiting-invoice')).to.be.true;
+            it('should set paymentStatus to `pending-invoice`', function(){
+               expect($customerBooking.find('.payment-status').hasClass('pending-invoice')).to.be.true;
             });
     });
     it('should set the customer name', function(){
-        expect($customerBooking.find('.item-title').text()).to.equal(this.booking.customer.firstName + " " + this.booking.customer.lastName);
+        expect($customerBooking.find('.item-title').text()).to.contain(this.booking.customer.firstName);
+        expect($customerBooking.find('.item-title').text()).to.contain(this.booking.customer.lastName);
     });
     describe('when clicking deleteStudent', function(){
         var self, deleteStub, $deleteStudent;
@@ -135,8 +136,8 @@ describe('customerBooking directive', function(){
             });
             $customerBooking.find('.payment-status').trigger('click');
         });
-        it('should change the payment status to `overdue`', function(){
-           expect($customerBooking.find('.payment-status').hasClass('overdue')).to.be.true;
+        it('should change the payment status to `pending-invoice`', function(){
+           expect($customerBooking.find('.payment-status').hasClass('pending-invoice')).to.be.true;
         });
         it('should not attempt to save', function(){
             expect(updateStub).to.not.be.called;
@@ -145,8 +146,8 @@ describe('customerBooking directive', function(){
             beforeEach(function(){
                 $customerBooking.find('.payment-status').trigger('click');
             });
-            it('should set paymentStatus to `awaiting-invoice`', function(){
-               expect($customerBooking.find('.payment-status').hasClass('awaiting-invoice')).to.be.true;
+            it('should set paymentStatus to `pending-payment`', function(){
+               expect($customerBooking.find('.payment-status').hasClass('pending-payment')).to.be.true;
             });
             it('should not attempt to save', function(){
                 expect(updateStub).to.not.be.called;
@@ -173,7 +174,7 @@ describe('customerBooking directive', function(){
                 });
                 describe('after successful save', function(){
                     it('should set the paymentStatus on the booking', function(){
-                        expect(scope.booking.paymentStatus).to.equal('awaiting-invoice');
+                        expect(scope.booking.paymentStatus).to.equal('pending-payment');
                     });
                     it('should set bookingLoading to false', function(){
                         expect(scope.bookingLoading).to.be.false;

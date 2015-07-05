@@ -7,17 +7,6 @@ describe('Booking Selection View', function(){
         }
     });
 
-    let('dateOne', function(){
-        return moment()
-    });
-    let('dateTwo', function(){
-        return moment().add(1, 'days').add(1, 'hours');
-    });
-
-    let('dateThree', function(){
-        return moment().add(1, 'months');
-    });
-
     let('locationOne', function(){
         return {
             name: "One",
@@ -98,7 +87,7 @@ describe('Booking Selection View', function(){
     describe("when the events have not yet been retrieved", function(){
         it('should attempt to get the events', function(){
             var params = {
-                endDate: moment().add(12, 'week').format('YYYY-MM-DD'),
+                endDate: moment().add(1, 'y').format('YYYY-MM-DD'),
                 startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
                 section: 'Sessions'
             };

@@ -37,10 +37,8 @@ angular.module('app.controllers', [])
 
             $rootScope.logout = function(){
                 $http.defaults.headers.common.Authorization = null;
-                _.assign(sessionService, {
-                    user: {},
-                    business: {}
-                });
+                delete sessionService.user;
+                delete sessionService.business;
                 delete $rootScope.currentUser;
                 Intercom('shutdown');
                 $rootScope.addAlert({

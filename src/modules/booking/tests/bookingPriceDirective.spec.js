@@ -29,7 +29,7 @@ describe('Booking Price Directive', function(){
     });
     describe('when nothing is selected', function(){
         it('should return $0.00 USD', function(){
-            expect($bookingPrice.text()).to.contain('0.00 ' + scope.business.payment.currency);
+            expect($bookingPrice.html()).to.contain('0.00&nbsp;' + scope.business.payment.currency);
         });
     });
     describe('when a course is selected', function(){
@@ -51,7 +51,7 @@ describe('Booking Price Directive', function(){
                 }
             });
             it('should show a the session price', function(){
-                expect($bookingPrice.text()).to.contain('10.00 ' + scope.business.payment.currency);
+                expect($bookingPrice.html()).to.contain('10.00&nbsp;' + scope.business.payment.currency);
             });
         });
         describe('and the course has already started', function(){
@@ -87,7 +87,7 @@ describe('Booking Price Directive', function(){
 
                 describe('and some sessions are in the past', function(){
                     it('should show the prorated course price', function(){
-                        expect($bookingPrice.text()).to.contain('6.67 ' + scope.business.payment.currency);
+                        expect($bookingPrice.html()).to.contain('6.67&nbsp;' + scope.business.payment.currency);
                     });
                 });
             });
@@ -105,7 +105,7 @@ describe('Booking Price Directive', function(){
                     }
                 });
                 it('should add together the sessions prices', function(){
-                    expect($bookingPrice.text()).to.contain('15.00 ' + scope.business.payment.currency);
+                    expect($bookingPrice.html()).to.contain('15.00&nbsp;' + scope.business.payment.currency);
                 });
             });
         });
@@ -128,7 +128,7 @@ describe('Booking Price Directive', function(){
                 });
 
                 it('should return the coursePrice', function(){
-                    expect($bookingPrice.text()).to.contain('10.00 ' + scope.business.payment.currency);
+                    expect($bookingPrice.html()).to.contain('10.00&nbsp;' + scope.business.payment.currency);
                 });
             });
             describe('and there is no coursePrice', function(){
@@ -152,7 +152,7 @@ describe('Booking Price Directive', function(){
                 });
 
                 it('should return the accumulated session prices', function(){
-                    expect($bookingPrice.text()).to.contain('30.00 ' + scope.business.payment.currency);
+                    expect($bookingPrice.html()).to.contain('30.00&nbsp;' + scope.business.payment.currency);
                 });
             });
         });
@@ -178,7 +178,7 @@ describe('Booking Price Directive', function(){
             return null;
         });
         it('should add up session prices', function(){
-            expect($bookingPrice.text()).to.contain('30.00 ' + scope.business.payment.currency);
+            expect($bookingPrice.html()).to.contain('30.00&nbsp;' + scope.business.payment.currency);
         });
     });
 });
