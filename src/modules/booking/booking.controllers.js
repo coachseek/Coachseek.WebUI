@@ -212,15 +212,15 @@ angular.module('booking.controllers', [])
         };
 
         function getSessionsToBook(customer){
+            var bookingPromises = [];
             if(currentBooking.booking.course && _.size($scope.availableSessions) === _.size(currentBooking.booking.course.sessions)){
-                return getBookingCall(currentBooking.booking.course, customer)
+                bookingPromises.push(getBookingCall(currentBooking.booking.course, customer));
             } else if (currentBooking.booking.sessions){
-                var bookingPromises = [];
                 _.each(currentBooking.booking.sessions, function(session){
                     bookingPromises.push(getBookingCall(session, customer));
                 });
-                return bookingPromises;
             }
+            return bookingPromises;
         };
 
         function getBookingCall(session, customer){
