@@ -361,6 +361,8 @@
 
             .booking-details-container{
                 overflow: hidden;
+                width: 50%;
+                margin: 0 auto;
 
                 .button-container{
                     text-align: center;
@@ -371,6 +373,7 @@
 
                     button{
                         margin-right: 2%;
+                        width: auto;
                     }
 
                     .pay-later{
@@ -393,7 +396,7 @@
 
                 .booking-details{
                     width: 100%;
-                    text-align: center;
+                    text-align: left;
 
                     h4{
                         font-family: lato-bold;
@@ -405,6 +408,10 @@
                         font-size: 16px;
                         margin-bottom: 20px;                        
                     }
+                }
+
+                h2{
+                    text-align: center;
                 }
 
                 .booking-confirmed{
