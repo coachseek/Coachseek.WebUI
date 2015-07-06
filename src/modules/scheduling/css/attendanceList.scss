@@ -246,7 +246,7 @@ and (min-device-width : 320px)
 and (max-device-width : 480px) { 
     .attendance-list {
         .student-list {
-            height: calc(100vh - 380px);      
+            height: calc(100vh - 320px);      
         }
         div.customer-list ul {
             height: calc(100vh - 380px);
@@ -281,7 +281,7 @@ and (min-device-width : 375px)
 and (max-device-width : 667px) { 
     .attendance-list {
         .student-list {
-              height: calc(100vh - 380px);      
+              height: calc(100vh - 320px);      
         }
         div.customer-list ul {
             height: calc(100vh - 380px);
