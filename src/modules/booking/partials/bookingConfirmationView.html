@@ -23,7 +23,7 @@
         <button class="back-button" ui-sref="booking.details">{{'booking:confirmation.change-booking' | i18next}}</button>
     </div>
     <div class="loading-messages" ng-show="processingBooking || redirectingToPaypal">
-        <!-- <loading-animation></loading-animation> -->
+        <loading-animation></loading-animation>
         <h4 class="processing" ng-hide="redirectingToPaypal">{{'booking:confirmation.processing-booking' | i18next}}</h4>
         <h4 class="to-paypal" ng-show="redirectingToPaypal">{{'booking:confirmation.paypal-redirect' | i18next}}</h4>
     </div>
