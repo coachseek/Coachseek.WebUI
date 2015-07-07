@@ -126,13 +126,13 @@ angular.module('app.directives', [])
     })
     .directive('sliderNav', ['$timeout', function($timeout){
         return {
-            restrict: 'A',
+            restrict: 'C',
             replace: false,
             link: function(scope, element){
                 //need $timeout to wait for widths to be set
                 $timeout(function(){
-                    var $navTabs = element.find('.slider-nav');
-                    var initLeft = element.find('.slider-nav.active').position().left;
+                    var $navTabs = element.find('.slider-nav-option');
+                    var initLeft = element.find('.slider-nav-option.active').position().left;
                     var $slider = $('<span></span>', {
                         class: "slider-nav-slider",
                         style: "width:" + $navTabs.first().outerWidth() + "px; left:" + initLeft + "px;"
@@ -141,7 +141,7 @@ angular.module('app.directives', [])
                     $navTabs.on('click', function(){
                         $slider.animate({left: $(this).position().left})
                     });
-                })
+                });
             }
         }
     }]);
