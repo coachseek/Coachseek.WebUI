@@ -15,7 +15,19 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'dev'
-                    }
+                    },
+                    allFeaturesWhitelist: [
+                        're@d.e',
+                        'ian@coachseek.com',
+                        'denym@coachseek.com',
+                        'demo@coachseek.com',
+                        'sam@som2y.com',
+                        'olaf@coachseek.com',
+                        'hannah@coachseek.com',
+                        'matt@coachseek.com',
+                        'mattwilliamson94@hotmail.com',
+                        'samyin1990@gmail.com'
+                    ]
                 }
             },
             build: {
@@ -25,7 +37,19 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'prod'
-                    }
+                    },
+                    allFeaturesWhitelist: [
+                        're@d.e',
+                        'ian@coachseek.com',
+                        'denym@coachseek.com',
+                        'demo@coachseek.com',
+                        'sam@som2y.com',
+                        'olaf@coachseek.com',
+                        'hannah@coachseek.com',
+                        'matt@coachseek.com',
+                        'mattwilliamson94@hotmail.com',
+                        'samyin1990@gmail.com'
+                    ]
                 }
             }
         },

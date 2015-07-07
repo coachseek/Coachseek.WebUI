@@ -14,11 +14,19 @@ describe('Booking Admin Page', function(){
         return {$promise: deferred.promise};
     });
 
+    let('currentUserEmail', function(){
+        return 're@d.e';
+    });
+
     var scope;
     beforeEach(function(){
         scope = $rootScope.$new();
+        _.set(scope, 'currentUser.email', this.currentUserEmail)
         $injector.get('sessionService').business = this.business;
         createViewWithController(scope, 'booking/partials/bookingAdminView.html', 'bookingAdminCtrl');
+    });
+    it('should show the `Online booking` and `Payment` tabs', function(){
+        expect($testRegion.find('.booking-admin-nav-container').hasClass('ng-hide')).to.be.false;
     });
     it('should set the default view to `Online Booking` tab', function(){
         expect(scope.activeTab).to.equal('onlineBooking');
@@ -29,6 +37,15 @@ describe('Booking Admin Page', function(){
     it('should show the online booking button with the correct subdomain', function(){
         $timeout.flush();
         expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain);
+    });
+    describe('when the user is not on the feature whitelist', function(){
+        let('currentUserEmail', function(){
+            return 'fake@user.com';
+        });
+
+        it('should NOT show the `Online booking` and `Payment` tabs', function(){
+            expect($testRegion.find('.booking-admin-nav-container').hasClass('ng-hide')).to.be.true;
+        });
     });
     describe('when clicking on the payments tab', function(){
         var saveStub;
