@@ -21,8 +21,8 @@
             {{'booking:toggle-online-payment' | i18next}}
             <toggle-switch ng-disabled="AILoading"
                 property="business.payment.isOnlinePaymentEnabled"
-                positive="'on'"
-                negative="'off'"
+                positive="'yes'"
+                negative="'no'"
             ></toggle-switch>
         </div>
         <div class="force-payment-merchant-form-container" ng-show="business.payment.isOnlinePaymentEnabled">
