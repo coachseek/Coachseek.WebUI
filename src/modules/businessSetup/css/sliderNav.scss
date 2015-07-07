@@ -1,0 +1,23 @@
+.slider-nav-container{
+    position: relative;
+    z-index: 1;
+
+    .slider-nav{
+        position: relative;
+        z-index: 3;
+
+        -webkit-transition: color 400ms linear;
+        -moz-transition: color 400ms linear;
+        -o-transition: color 400ms linear;
+        -ms-transition: color 400ms linear;
+        transition: color 400ms linear;
+    }
+
+    .slider-nav-slider{
+        height: 100%;
+        background: $dark-grey;
+        position: absolute;
+        border-radius: 5px;
+        z-index: 2;
+    }
+}
