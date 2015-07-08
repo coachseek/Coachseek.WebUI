@@ -309,6 +309,12 @@ describe('Scheduling Module', function() {
             };
         });
 
+        let('deletePromise', function(){
+            var deferred = $q.defer();
+            deferred.resolve();
+            return deferred.promise;
+        });
+
         var getStub,
             self,
             $servicesList,
@@ -321,7 +327,7 @@ describe('Scheduling Module', function() {
 
         beforeEach(function(){
             self = this;
-
+            self.deletePromise = this.deletePromise;
             coachSeekAPIService = $injector.get('coachSeekAPIService');
             $injector.get("sessionService").calendarView = this.calendarView;
             scope = $rootScope.$new();
@@ -634,17 +640,8 @@ describe('Scheduling Module', function() {
                     });
                 });
                 describe('when deleting the session', function(){
-
-                    let('deletePromise', function(){
-                        var deferred = $q.defer();
-                        deferred.resolve();
-                        return deferred.promise;
-                    });
-
-                    var self, deleteStub, sessionOrCourseModalSpy;
+                    var deleteStub, sessionOrCourseModalSpy;
                     beforeEach(function(){
-                        self = this;
-                        self.deletePromise = this.deletePromise;
                         loginModalStub.restore();
                         sessionOrCourseModal = $injector.get('$modal');
                         sessionOrCourseModalSpy = this.sinon.spy(sessionOrCourseModal, 'open');

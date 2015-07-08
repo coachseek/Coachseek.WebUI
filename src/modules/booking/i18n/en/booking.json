@@ -13,8 +13,8 @@
     "d": "__count__ Day Course",
     "close": "Close",
     "event-begun": "This course is currently being run and some previously run sessions are understandably unavailable. ",
-    "toggle-online-payment": "Online booking",
-    "force-payment": "Require online payment?",
+    "toggle-online-payment": "Receive online payments?",
+    "force-payment": "Only accept online payment?",
     "common": {
         "next": "Continue Booking",
         "back": "Back",
@@ -44,11 +44,20 @@
     },
     "confirmation": {
         "text-confirm": "A confirmation email has been sent to your email address and your booking is now complete.",
-        "process-booking": "Confirm booking",
+        "confirm-pay-later": "Confirm & pay later",
+        "confirm-paypal": "Confirm & pay now",
         "change-booking": "Change booking",
-        "booking-confirmed": "Booking confirmed! Have fun out there.",
+        "booking-confirmed": "Thanks for your booking! You will receive an email shortly confirming all the details. Have fun out there!",
+        "paypal-paid": "Paid via PayPal.",
+        "pay-later": "Please bring payment along with you, or look out for payment instructions from your coach.",
         "reset-bookings": "New booking",
-        "total": "Total:"
+        "total": "Total:",
+        "processing-booking": "Processing booking",
+        "paypal-redirect": "Redirecting to PayPal",
+        "who": "Who:",
+        "what": "What:",
+        "where": "Where:",
+        "when": "When:"
     },
     "booking-admin":{
         "onlinebooking":"Online booking",

@@ -1,8 +1,11 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'allFeaturesWhitelist', 'sessionService',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, allFeaturesWhitelist, sessionService) {
             // TODO - add ability to remove alerts by view
+            $rootScope._ = _;
+            $rootScope.allFeaturesWhitelist = allFeaturesWhitelist;
+
             $rootScope.addAlert = function(alert){
 
                 _.forEach($rootScope.alerts, function(existingAlert, index){
@@ -37,10 +40,8 @@ angular.module('app.controllers', [])
 
             $rootScope.logout = function(){
                 $http.defaults.headers.common.Authorization = null;
-                _.assign(sessionService, {
-                    user: {},
-                    business: {}
-                });
+                delete sessionService.user;
+                delete sessionService.business;
                 delete $rootScope.currentUser;
                 Intercom('shutdown');
                 $rootScope.addAlert({
@@ -100,7 +101,12 @@ angular.module('app.controllers', [])
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             sessionService.business = business;
-                            $state.go('booking.selection');
+                            if($location.search().currentBooking){
+                                sessionService.currentBooking = JSON.parse($location.search().currentBooking);
+                                $state.go('booking.confirmation');
+                            } else {
+                                $state.go('booking.selection');
+                            }
                         }, function(){
                             $rootScope.addAlert({
                                 type: 'warning',
@@ -146,7 +152,7 @@ angular.module('app.controllers', [])
                                 email: email,
                                 password: password
                             };
-                            $scope.$close(user, business);
+                            $scope.$close({user:user, business:business});
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({

@@ -14,6 +14,20 @@
     }
 
     .customer-list{
+        height: calc(100vh - 245px);
+        overflow-y: scroll;
+
+        &.short-list{
+            ul{
+                margin-top: 90px;
+                .customer-details {
+                    ellipsis-animated{
+                        margin-right: 45px;
+                    }
+                }
+            }
+        }
+
         .back-arrow{
             height: 35px;
             cursor: pointer;
@@ -29,8 +43,11 @@
         }
 
         .search-container{
-            margin-bottom: 10px;
             overflow: hidden;
+            z-index: 1;
+            background: $background-beige;
+            position: absolute;
+            width: 330px;
 
             input{
                 margin-bottom: 10px;
@@ -50,21 +67,7 @@
         }
 
         ul{
-            height: calc(100vh - 250px);
-            overflow-y: scroll;
-
-            &::-webkit-scrollbar { 
-                display: none; 
-            }
-
-            &.short-list{
-                height: calc(100vh - 285px);
-                .customer-details {
-                    ellipsis-animated{
-                        margin-right: 45px;
-                    }
-                }
-            }
+            margin-top: 45px;
 
             .customer-details{
                 width: 95%;
@@ -111,11 +114,8 @@
     }
 
     .student-list{
-        height: calc(100vh - 265px);
+        height: calc(100vh - 315px);
         overflow-y: scroll;
-        &::-webkit-scrollbar { 
-            display: none; 
-        }    
 
         .student-details{
             width: 95%;
@@ -180,7 +180,7 @@
                     pointer-events: none;
                 }
 
-                &.awaiting-invoice, &.awaiting-payment{
+                &.pending-invoice, &.pending-payment{
                     background: $dark-grey;
                     padding-top: 6.5px;
                     line-height: 15px;
@@ -188,10 +188,6 @@
 
                 &.paid{
                     background: $green;
-                }
-
-                &.overdue{
-                    background: $red;
                 }
             }
 
@@ -216,13 +212,20 @@
     [state^="scheduling"] .session-modal div.session-modal-title{
         padding: 5px 35px 10px 35px;
     }
+    .attendance-list div.customer-list {
+        .search-container{
+            width: 95%;
+            i{
+                top: 14px;
+            }
     .attendance-list div.customer-list ul{
         // height: calc(100vh - 330px);
             height: 100vh;
             &.short-list{
                 // height: calc(100vh - 365px);
                 height: 100vh;
-            }
+                }
+        }
     }
     .attendance-list {
         padding: 0px 10px;
@@ -239,11 +242,96 @@
     }   
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
+//iPhone 4s and below in portrait & landscape
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px) { 
+    .attendance-list {
+        .student-list {
+            height: calc(100vh - 380px);      
+        }
+        div.customer-list ul {
+            height: calc(100vh - 380px);
+            &.short-list  {
+                height: calc(100vh - 420px);
+            }
+        }
+    }  
+}
+
+
+//iPhone 5&5s in portrait & landscape
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px) {
+    .attendance-list {
+        .student-list {
+            height: calc(100vh - 380px);      
+        }
+        div.customer-list ul {
+            height: calc(100vh - 380px);
+            &.short-list  {
+                height: calc(100vh - 420px);
+            }
+        }
+    }  
+}
+
+// iPhone 6 in portrait & landscape
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 667px) { 
+    .attendance-list {
+        .student-list {
+              height: calc(100vh - 380px);      
+        }
+        div.customer-list ul {
+            height: calc(100vh - 380px);
+            &.short-list  {
+                height: calc(100vh - 420px);
+            }
+        }
+    }    
+}
+
+//iPhone 6 plus in portrait & landscape
+@media only screen 
+and (min-device-width : 414px) 
+and (max-device-width : 736px) { 
     .attendance-list {
         .student-list, .customer-list ul{
             // height: calc(100vh - 315px);
-            height: 100vh;
+        }
+        div.customer-list ul {
+            height: calc(100vh - 380px);
+            &.short-list  {
+                height: calc(100vh - 420px);
+            }
         }
     }  
+}
+
+// iPad in portrait
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) { 
+    .attendance-list {
+        .student-list, div.customer-list ul {
+            height: calc(100vh - 380px);
+            &.short-list  {
+                height: calc(100vh - 420px);
+            }
+        }
+    }
+
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
+    .attendance-list {
+        .student-list, div.customer-list ul{
+            height: calc(100vh - 370px);
+        }
+        .customer-list ul.short-list  {
+            height: calc(100vh - 390px);
+        }
+    }
+
 }

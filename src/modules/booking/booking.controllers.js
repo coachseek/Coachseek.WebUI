@@ -55,7 +55,6 @@ angular.module('booking.controllers', [])
         $scope.isBefore = function(session){
             return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
         };
-
     }])
     .controller('bookingSelectionCtrl', ['$scope', 'anonCoachseekAPIFactory', 'currentBooking',
       function($scope, anonCoachseekAPIFactory, currentBooking){
@@ -172,68 +171,63 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         }
     }])
-    .controller('bookingPaymentCtrl', ['$scope', function($scope){
-      // GARRET PLAYS HERE
-      //TODO: Grab booking detail data
-      //and attach to the hidden forms as ng-values..
-      
-      //inititate paypal processing
-      //I don't think we'll need a post here...
-      $scope.initPaypalPayment = function () {
-        if ($scope.coursePaymentPrice === null) {
-          return;
-        } else {
-          //TODO: Post to paypal return callback to confirmation page
-        }
-            
-      };
-      
-      //Post booking as unpayed
-      $scope.payLaterCall = function () {
-        
-      };
-    }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', 'onlineBookingAPIFactory', 'currentBooking',
-      function($scope, $q, $state, onlineBookingAPIFactory, currentBooking){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService',
+      function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService){
         $scope.bookingConfirmed = false;
+        $scope.paidWithPaypal = false;
 
-        if(!currentBooking.filters.location){
+        if( sessionService.currentBooking ){
+            _.assign(currentBooking, {
+                customer: sessionService.currentBooking.customer,
+                booking: sessionService.currentBooking.booking,
+                filters: sessionService.currentBooking.filters
+            });
+            delete sessionService.currentBooking;
+            $scope.bookingConfirmed = true;
+            $scope.paidWithPaypal = true;
+        } else if( !currentBooking.filters.location ){
             $state.go('booking.selection');
         }
 
-        $scope.processBooking = function () {
+        $scope.processBooking = function (payLater) {
             $scope.processingBooking = true;
-            onlineBookingAPIFactory.anon($scope.business.domain)
+            return onlineBookingAPIFactory.anon($scope.business.domain)
                 .save({ section: 'Customers' }, currentBooking.customer).$promise
                     .then(function (customer) {
-                        $q.all(getSessionsToBook(customer)).then(function () {
-                            $scope.bookingConfirmed = true;
-                        }, $scope.handleErrors).finally(function(){
+                        return $q.all(getSessionsToBook(customer)).then(function (bookings) {
+                            currentBooking.booking.id = bookings[0].id;
+                            $scope.bookingConfirmed = payLater;
+                            $scope.redirectingToPaypal = !payLater;
+                        }, function(error){
+                            $scope.handleErrors(error);
+                            // make sure paypal form doesn't submit if error;
+                            return $q.reject();
+                        }).finally(function(){
                             $scope.processingBooking = false;
                         });
-                }, $scope.handleErrors);
+                }, function(error){
+                    $scope.processingBooking = false;
+                    $scope.handleErrors(error);
+                    // make sure paypal form doesn't submit if error;
+                    return $q.reject();
+                });
         };
 
         function getSessionsToBook(customer){
+            var bookingPromises = [];
             if(currentBooking.booking.course && _.size($scope.availableSessions) === _.size(currentBooking.booking.course.sessions)){
-                return getBookingCall(currentBooking.booking.course, customer)
+                bookingPromises.push(getBookingCall(currentBooking.booking.course, customer));
             } else if (currentBooking.booking.sessions){
-                var bookingPromises = [];
                 _.each(currentBooking.booking.sessions, function(session){
                     bookingPromises.push(getBookingCall(session, customer));
                 });
-                return bookingPromises;
             }
+            return bookingPromises;
         };
 
         function getBookingCall(session, customer){
-            var bookingData = {
-                customer: customer,
-                session: session,
-                paymentStatus: "awaiting-invoice",
-                hasAttended: false
-            }
-            return onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Bookings' }, bookingData).$promise;
+            return onlineBookingAPIFactory.anon($scope.business.domain)
+                    .save({ section: 'Bookings' }, {session: session, customer: customer}).$promise;
         };
 
         $scope.resetBookings = function () {

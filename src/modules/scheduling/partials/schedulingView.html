@@ -10,7 +10,7 @@
         </div>
     </div>
 
-    <div class="calendar-container calendar-container-desktop" ng-class="{'toggle-closed': !calendarView.serviceDrawerOpen }">
+    <div class="calendar-container calendar-container-desktop" ng-class="calendarView.serviceDrawerOpen ? 'toggle-open':'toggle-closed'">
         <div class="dropdown-container" ng-class="isBigScreen ? 'coach-list' : 'coach-list-responsive' " ng-disabled="showModal">
             <select ng-change="filterSessions()" name="coaches" ng-model="calendarView.coachId" ng-options="coach.id as coach.name for coach in coachList">
                 <option value="">{{'scheduling:all-coaches' | i18next}}</option>

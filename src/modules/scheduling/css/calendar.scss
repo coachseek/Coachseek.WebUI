@@ -257,3 +257,25 @@
         }
     }
 }
+
+@media (min-width : 769px) and (max-width : 1022px){
+    [state^="scheduling"] .calendar-container.toggle-open .calendar .fc-center {
+        top: 30px;
+        left: -150px;
+        .fc-prev-button{
+            left:35px;
+        }
+        .fc-next-button{
+            right:35px;
+        }
+    }
+    [state^="scheduling"] .calendar-container.toggle-closed .calendar .fc-center {
+        left: 40px;
+        .fc-prev-button{
+            left:40px;
+        }
+        .fc-next-button{
+            right:40px;
+        }
+    }
+}

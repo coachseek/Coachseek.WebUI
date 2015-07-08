@@ -145,7 +145,7 @@
                         width: 100%;
                     }
                     .frequency-selector{
-                        span{
+                        .title{
                             width: 46%;
                             float: left;
                         }
@@ -171,7 +171,12 @@
                             padding-left: 40px;
                         }
 
+                        .error-messages .fa-times{
+                            top: -35px;
+                        }
+
                         .days-or-weeks{
+                            width: 46%;
                             position: absolute;
                             top: 30px;
                             right: -88px;

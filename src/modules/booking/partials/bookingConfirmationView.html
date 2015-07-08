@@ -1,20 +1,30 @@
-<hr/>
 <div class="booking-details-container">
-    <div class="booking-details">
-        <h4>{{'booking:booking-for' | i18next}} {{currentBooking.customer.firstName}} {{currentBooking.customer.lastName}}</h4>
-        <p>{{currentBooking.filters.location.name}}</p>
+    <div class="booking-details" ng-hide="bookingConfirmed">
+        <h4>{{'booking:confirmation.who' | i18next}}</h4>
+        <p>{{currentBooking.customer.firstName}}&nbsp;{{currentBooking.customer.lastName}}</p>
+        <h4>{{'booking:confirmation.what' | i18next}}</h4>
         <p>{{currentBooking.filters.service.name}}</p>
+        <h4>{{'booking:confirmation.where' | i18next}}</h4>
+        <p>{{currentBooking.filters.location.name}}</p>
+        <h4>{{'booking:confirmation.when' | i18next}}</h4>
         <p>{{calculateBookingDateRange()}}</p>
-        <h2>{{'booking:confirmation.total' | i18next}} <span ng-i18next="denominations.{{business.payment.currency}}"></span>{{calculateTotalPrice()}} {{business.payment.currency}}</h2>
-    </div>
-    <loading-animation ng-show="processingBooking"></loading-animation>
-    <div ng-hide="processingBooking || bookingConfirmed">
-        <button class="back-button" ui-sref="booking.details">{{'booking:confirmation.change-booking' | i18next}}</button>
-        <button class="continue-button" ng-click="processBooking()">{{'booking:confirmation.process-booking' | i18next}}</button>
     </div>
     <div ng-show="bookingConfirmed" class="booking-confirmed">
         <h4>{{'booking:confirmation.booking-confirmed' | i18next}}</h4>
+    </div>
+    <h2>{{'booking:confirmation.total' | i18next}}&nbsp;<span ng-i18next="denominations.{{business.payment.currency}}"></span>{{calculateTotalPrice()}}&nbsp;{{business.payment.currency}}</h2>
+    <div ng-show="bookingConfirmed" class="booking-confirmed">
+        <p ng-i18next="booking:confirmation.{{paidWithPaypal ? 'paypal-paid' : 'pay-later'}}"></p>
         <button class="continue-button" ng-click="resetBookings()">{{'booking:confirmation.reset-bookings' | i18next}}</button>
     </div>
+    <div class="button-container" ng-hide="processingBooking || redirectingToPaypal || bookingConfirmed">
+        <paypal-payment-button ng-show="business.payment.isOnlinePaymentEnabled"></paypal-payment-button>
+        <button class="pay-later" ng-class="{'pay-later-only': !business.payment.isOnlinePaymentEnabled}" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.confirm-pay-later' | i18next}}</button>
+        <button class="back-button" ui-sref="booking.details">{{'booking:confirmation.change-booking' | i18next}}</button>
+    </div>
+    <div class="loading-messages" ng-show="processingBooking || redirectingToPaypal">
+        <loading-animation></loading-animation>
+        <h4 class="processing" ng-hide="redirectingToPaypal">{{'booking:confirmation.processing-booking' | i18next}}</h4>
+        <h4 class="to-paypal" ng-show="redirectingToPaypal">{{'booking:confirmation.paypal-redirect' | i18next}}</h4>
+    </div>
 </div>
-<hr/>

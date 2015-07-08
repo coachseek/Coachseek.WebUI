@@ -120,9 +120,7 @@ describe('modalCustomerDetails directive', function(){
                             id: this.item.id,
                             firstName: this.item.firstName,
                             lastName: this.item.lastName
-                        },
-                        hasAttended: false,
-                        paymentStatus: "awaiting-invoice"
+                        }
                     }
                     expect(updateStub).to.be.calledWith({section: 'Bookings'}, bookingObject);
                 });

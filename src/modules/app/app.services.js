@@ -105,11 +105,6 @@ angular.module('app.services', [])
     }])
     .service('loginModal', ['$modal', '$rootScope',
         function ($modal, $rootScope) {
-            function assignCurrentUser (user, business) {
-                $rootScope.setupCurrentUser(user, business);
-                return user;
-            }
-
             return function() {
                 var instance = $modal.open({
                     templateUrl: 'app/partials/loginModal.html',
@@ -119,7 +114,10 @@ angular.module('app.services', [])
                     keyboard: false
                 });
 
-                return instance.result.then(assignCurrentUser);
+                return instance.result.then(function(userDetails) {
+                    $rootScope.setupCurrentUser(userDetails.user, userDetails.business);
+                    return userDetails;
+                });
             };
         }
     ])
