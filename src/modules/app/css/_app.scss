@@ -190,9 +190,16 @@ textarea:focus::-webkit-input-placeholder {
     color: transparent;
 }
 
-::-webkit-input-placeholder,
-::-webkit-input-placeholder {
+::-webkit-input-placeholder{
     font-family:  lato-300;
+}
+/* firefox 19+ */
+::-moz-placeholder{
+    font-family:  lato-300;
+}
+/* IE */
+:-ms-input-placeholder{
+  font-family:  lato-300;
 }
 
 button{
