@@ -43,7 +43,7 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
-                Intercom('shutdown');
+                // Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -62,20 +62,20 @@ angular.module('app.controllers', [])
                 });
             };
 
-            var startIntercom = function(user, date){
-                if(window.Intercom){
-                    Intercom('boot', {
-                        app_id: "udg0papy",
-                        name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
-                        email: user.email,
-                        created_at: date
-                    });
-                }
-            };
+            // var startIntercom = function(user, date){
+            //     if(window.Intercom){
+            //         Intercom('boot', {
+            //             app_id: "udg0papy",
+            //             name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
+            //             email: user.email,
+            //             created_at: date
+            //         });
+            //     }
+            // };
 
             $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
-                startIntercom(user, _.now());
+                // startIntercom(user, _.now());
                 sessionService.user = user;
                 sessionService.business = business;
                 $rootScope.currentUser = sessionService.user;
@@ -94,30 +94,7 @@ angular.module('app.controllers', [])
 
            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                var requireBusinessDomain = toState.data.requireBusinessDomain;
-                var businessDomain = _.first($location.host().split("."));
-                if(businessDomain !== 'app' && !sessionService.business){
-                    event.preventDefault();
-                    onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
-                        .then(function(business){
-                            sessionService.business = business;
-                            if($location.search().currentBooking){
-                                sessionService.currentBooking = JSON.parse($location.search().currentBooking);
-                                $state.go('booking.confirmation');
-                            } else {
-                                $state.go('booking.selection');
-                            }
-                        }, function(){
-                            $rootScope.addAlert({
-                                type: 'warning',
-                                message: 'businessDomain-invalid'
-                            });
-                            $rootScope.redirectToApp();
-                        });
-                } else if (requireBusinessDomain && businessDomain === 'app') {
-                    event.preventDefault();
-                    $state.go('scheduling');
-                } else if (requireLogin && !sessionService.user) {
+                if (requireLogin && !$rootScope.currentUser) {
                     event.preventDefault();
 
                     loginModal().then(function () {
@@ -181,7 +158,7 @@ angular.module('app.controllers', [])
         .controller('comingSoonCtrl', ['$scope', 
             function ($scope) {
                 $scope.saveFeedback = function(){
-                    Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
+                    // Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
                     $scope.feedbackSent = true;
                 };
         }]);
