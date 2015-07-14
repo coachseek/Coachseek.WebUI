@@ -123,4 +123,25 @@ angular.module('app.directives', [])
                 negative: "="
             }
         }
-    });
+    })
+    .directive('sliderNav', ['$timeout', function($timeout){
+        return {
+            restrict: 'C',
+            replace: false,
+            link: function(scope, element){
+                //need $timeout to wait for widths to be set
+                $timeout(function(){
+                    var $navTabs = element.find('.slider-nav-option');
+                    var initLeft = element.find('.slider-nav-option.active').position().left;
+                    var $slider = $('<span></span>', {
+                        class: "slider-nav-slider",
+                        style: "width:" + $navTabs.first().outerWidth() + "px; left:" + initLeft + "px;"
+                    }).appendTo(element);
+
+                    $navTabs.on('click', function(){
+                        $slider.animate({left: $(this).position().left})
+                    });
+                });
+            }
+        }
+    }]);

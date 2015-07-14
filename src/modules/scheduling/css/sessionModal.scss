@@ -24,11 +24,19 @@
             width: 100%;
             text-align: center;
             @extend %service-background-colors-60;
+            
+            .inline-on-mobile{
+                display: inline-block;
+                &.time{
+                    font-size: 16px;
+                }
+            }
 
             p{
                 color: $white;
                 font-size: 16px;
-
+                
+                
                 &.time{
                     font-size: 14px;
                 }

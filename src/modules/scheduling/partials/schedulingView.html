@@ -27,8 +27,9 @@
 
     <div class="session-modal session-modal-responsive" ng-show="showModal">
         <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
-            <p class="date">{{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}}</p>
-            <p class="time">{{currentEvent._start | amDateFormat:'h:mm a'}}</p>
+            <p class="date" ng-class="{'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}}</p>
+            <p ng-show="!isBigScreen" class="inline-on-mobile">-</p>
+            <p class="time" ng-class=" {'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'h:mm a'}}</p>
         </div>
         <div class="session-modal-nav" ng-init="currentTab = 'general'">
             <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>

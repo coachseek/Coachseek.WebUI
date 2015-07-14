@@ -1,81 +1,79 @@
 [state^="bookingAdmin"] {
     background: transparent;
+    margin-top: 55px;
+
     .booking-admin-nav-container{
-          width:280px;
-          margin:0 auto;
-          padding-top: 55px;
+        width:280px;
+        margin:0 auto 30px auto;
+        background: $white;
+        border-radius: 5px;
+        overflow: hidden;
+
         .booking-nav{
             &.active{
-              background: $dark-grey;;
               color: $white;
             }
 
             &:last-of-type{
               margin-right: 0;
             }
-            display: inline-block;
-            width: 137px;
-            background: $white;
+            width: 140px;
             font-size: 14px;
             color: $dark-grey;
             padding: 5px;
             cursor: pointer;
             text-align: center;
-            border-radius: 5px;
-            margin-bottom: 30px;
+            float: left;
         }
     }
 
     .booking-admin-container{
         width:448px;
-          margin:0 auto;
+        margin:0 auto;
 
         .booking-admin-onlinebooking{
-                    .booking-preview-button{
-                        float: right;
-                        border: none;
-                        margin: 20px auto;
-                        color: #FFFFFF;
-                        border-radius: 3px;
-                        text-decoration: none;
-                        padding: 10px 27px;
-                        width: 170px;
-                        height: 40px;
-                        background: $dark-grey;
-                        transition: background ease .5s;
-                        &:hover{
-                            background: $hover-dark-grey;
-                       
-                        }
-                    }
+            .booking-preview-button{
+                float: right;
+                border: none;
+                margin: 20px auto;
+                color: #FFFFFF;
+                border-radius: 3px;
+                text-decoration: none;
+                padding: 10px 27px;
+                width: 170px;
+                height: 40px;
+                background: $dark-grey;
+                transition: background ease .5s;
+                &:hover{
+                    background: $hover-dark-grey;
+                }
+            }
 
-                    .booking-admin-copy-btn{
-                        @extend .booking-preview-button;
-                        background: $green;
-                        padding: 10px 50px;
-                        transition: background ease .5s;
-                        &:hover{
-                            background: $hover-green;
-                       
-                        }
-                    }
-                    .booking-admin-save-btn{
-                        float: right;
-                        border: none;
-                        margin: 20px auto;
-                        color: #FFFFFF;
-                        border-radius: 3px;
-                        text-decoration: none;
-                        padding: 10px 27px;
-                        width: 170px;
-                        height: 40px;
-                        background: $green;
-                        transition: background ease .5s;
-                        &:hover{
-                            background: $hover-green;
-                       
-                        }
-                    }
+            .booking-admin-copy-btn{
+                @extend .booking-preview-button;
+                background: $green;
+                padding: 10px 50px;
+                transition: background ease .5s;
+                &:hover{
+                    background: $hover-green;
+                }
+            }
+            .booking-admin-save-btn{
+                float: right;
+                border: none;
+                margin: 20px auto;
+                color: #FFFFFF;
+                border-radius: 3px;
+                text-decoration: none;
+                padding: 10px 27px;
+                width: 170px;
+                height: 40px;
+                background: $green;
+                transition: background ease .5s;
+                &:hover{
+                    background: $hover-green;
+                }
+            }
 
             input{
                 text-align: center;

@@ -174,15 +174,17 @@ angular.module('booking.controllers', [])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService',
       function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService){
         $scope.bookingConfirmed = false;
+        $scope.paidWithPaypal = false;
 
         if( sessionService.currentBooking ){
-        	_.assign(currentBooking, {
-        		customer: sessionService.currentBooking.customer,
-        		booking: sessionService.currentBooking.booking,
-        		filters: sessionService.currentBooking.filters
-        	});
-	        delete sessionService.currentBooking;
-	        $scope.bookingConfirmed = true;
+            _.assign(currentBooking, {
+                customer: sessionService.currentBooking.customer,
+                booking: sessionService.currentBooking.booking,
+                filters: sessionService.currentBooking.filters
+            });
+            delete sessionService.currentBooking;
+            $scope.bookingConfirmed = true;
+            $scope.paidWithPaypal = true;
         } else if( !currentBooking.filters.location ){
             $state.go('booking.selection');
         }
@@ -212,15 +214,15 @@ angular.module('booking.controllers', [])
         };
 
         function getSessionsToBook(customer){
+            var bookingPromises = [];
             if(currentBooking.booking.course && _.size($scope.availableSessions) === _.size(currentBooking.booking.course.sessions)){
-                return getBookingCall(currentBooking.booking.course, customer)
+                bookingPromises.push(getBookingCall(currentBooking.booking.course, customer));
             } else if (currentBooking.booking.sessions){
-                var bookingPromises = [];
                 _.each(currentBooking.booking.sessions, function(session){
                     bookingPromises.push(getBookingCall(session, customer));
                 });
-                return bookingPromises;
             }
+            return bookingPromises;
         };
 
         function getBookingCall(session, customer){

@@ -15,7 +15,19 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'dev'
-                    }
+                    },
+                    allFeaturesWhitelist: [
+                        're@d.e',
+                        'ian@coachseek.com',
+                        'denym@coachseek.com',
+                        'demo@coachseek.com',
+                        'sam@som2y.com',
+                        'olaf@coachseek.com',
+                        'hannah@coachseek.com',
+                        'matt@coachseek.com',
+                        'mattwilliamson94@hotmail.com',
+                        'samyin1990@gmail.com'
+                    ]
                 }
             },
             build: {
@@ -25,7 +37,19 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'prod'
-                    }
+                    },
+                    allFeaturesWhitelist: [
+                        're@d.e',
+                        'ian@coachseek.com',
+                        'denym@coachseek.com',
+                        'demo@coachseek.com',
+                        'sam@som2y.com',
+                        'olaf@coachseek.com',
+                        'hannah@coachseek.com',
+                        'matt@coachseek.com',
+                        'mattwilliamson94@hotmail.com',
+                        'samyin1990@gmail.com'
+                    ]
                 }
             }
         },
@@ -36,27 +60,6 @@ module.exports = function(grunt) {
                     '!src/modules/**/*.spec.js'
                 ],
             },
-        },
-        concat: {
-            buildCss: {
-                src: ['src/modules/**/css/*.scss'],
-                dest: 'build/css/style.css'
-            },
-            srcCss: {
-                src: ['src/modules/**/css/*.scss'],
-                dest: 'src/css/style.css'
-            },
-            srcApp: {
-                src: [
-                    'src/modules/**/*.js',
-                    '!src/modules/**/*.spec.js'
-                ],
-                dest: 'src/js/scripts.js'
-            },
-            srcLibs: {
-                src: ['src/libs/*.js'],
-                dest: 'src/js/libs.js'
-            }
         },
         wrap:{
             scripts: {
@@ -84,13 +87,19 @@ module.exports = function(grunt) {
                 options:{
                     module:'app',         // (Optional) The module the templates will be added to
                     htmlmin: {
-                        collapseWhitespace: true,
-                        collapseBooleanAttributes: true
+                        collapseBooleanAttributes:      true,
+                        collapseWhitespace:             true,
+                        removeAttributeQuotes:          true,
+                        removeComments:                 true, // Only if you don't use comment directives! 
+                        removeEmptyAttributes:          true,
+                        removeRedundantAttributes:      true,
+                        removeScriptTypeAttributes:     true,
+                        removeStyleLinkTypeAttributes:  true
                     }
                 },
                 cwd: 'src/modules',
                 src:'**/partials/*.html',
-                dest:'build/js/templates.js'
+                dest:'build/js/scripts.js'
             },
             src:{
                 options:{
@@ -99,7 +108,7 @@ module.exports = function(grunt) {
                 },
                 cwd: 'src/modules',
                 src: '**/partials/*.html',
-                dest: 'src/js/templates.js'
+                dest: 'src/js/scripts.js'
             },
             test: {
                 options:{
@@ -110,11 +119,34 @@ module.exports = function(grunt) {
                 dest: 'src/js.spec/testTemplates.js'
             }
         },
+        concat: {
+            buildCss: {
+                src: ['src/modules/**/css/*.scss'],
+                dest: 'build/css/style.css'
+            },
+            srcCss: {
+                src: ['src/modules/**/css/*.scss'],
+                dest: 'src/css/style.css'
+            },
+            srcApp: {
+                src: [
+                    'src/modules/**/*.js',
+                    'src/js/scripts.js', // templates living here temporarily
+                    '!src/modules/**/*.spec.js'
+                ],
+                dest: 'src/js/scripts.js'
+            },
+            srcLibs: {
+                src: ['src/libs/*.js'],
+                dest: 'src/js/libs.js'
+            }
+        },
         //TODO - switch to ng-annotate?
         uglify: {
             buildApp: {
                 src: [
                     'src/modules/**/*.js',
+                    'build/js/scripts.js', // templates living here temporarily
                     '!src/modules/**/*.spec.js'
                 ],
                 dest: 'build/js/scripts.js'
@@ -228,10 +260,10 @@ module.exports = function(grunt) {
 
     // Default task(s).
     grunt.registerTask('default', [
-            'concat',
             'wrap',
             'htmlmin',
             'ngtemplates',
+            'concat',
             'uglify',
             'sass',
             'merge-json',

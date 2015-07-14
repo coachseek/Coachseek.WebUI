@@ -1,8 +1,11 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'allFeaturesWhitelist', 'sessionService',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, allFeaturesWhitelist, sessionService) {
             // TODO - add ability to remove alerts by view
+            $rootScope._ = _;
+            $rootScope.allFeaturesWhitelist = allFeaturesWhitelist;
+
             $rootScope.addAlert = function(alert){
 
                 _.forEach($rootScope.alerts, function(existingAlert, index){

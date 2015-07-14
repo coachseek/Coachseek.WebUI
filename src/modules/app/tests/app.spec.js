@@ -109,7 +109,7 @@ describe('App Module', function() {
                 });
             });
         });
-        describe.only('when clicking the logout button', function(){
+        describe('when clicking the logout button', function(){
             var $http, $stateStub, sessionService;
             beforeEach(function(){
                 $stateStub = this.sinon.stub($state, 'go');
