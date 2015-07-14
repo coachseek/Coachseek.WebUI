@@ -68,7 +68,6 @@ angular.module('scheduling.controllers', [])
                             endDate: end.format('YYYY-MM-DD'),
                             locationId: sessionService.calendarView.locationId,
                             coachId: sessionService.calendarView.coachId,
-                            useNewSearch: true,
                             section: 'Sessions'
                         };
                         startCalendarLoading();
@@ -167,7 +166,6 @@ angular.module('scheduling.controllers', [])
                    endDate: date.clone().add(5, 'y').format('YYYY-MM-DD'),
                    locationId: sessionService.calendarView.locationId,
                    coachId: sessionService.calendarView.coachId,
-                   useNewSearch: true,
                    section: 'Sessions'
                };
                coachSeekAPIService.get(getSessionsParams)
