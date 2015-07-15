@@ -190,17 +190,30 @@ textarea:focus::-webkit-input-placeholder {
     color: transparent;
 }
 
+input[type=password]::-webkit-input-placeholder{
+  font-family: FontAwesome;
+}
+input[type=password]::-moz-placeholder{
+  font-family: FontAwesome;
+}
+input[type=password]:-ms-input-placeholder{
+  font-family: FontAwesome;
+}
+
+
 ::-webkit-input-placeholder{
-    font-family:  lato-300;
+    font-family:lato-light;
 }
 /* firefox 19+ */
-::-moz-placeholder{
-    font-family:  lato-300;
+input[type=all]::-moz-placeholder{
+    font-family:lato-light;
 }
 /* IE */
 :-ms-input-placeholder{
-  font-family:  lato-300;
+  font-family: lato-light;
 }
+
+
 
 button{
   outline: none;
