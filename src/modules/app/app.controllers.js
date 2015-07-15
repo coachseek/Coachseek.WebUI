@@ -43,7 +43,7 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
-                Intercom('shutdown');
+                // Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -51,7 +51,7 @@ angular.module('app.controllers', [])
 
                 loginModal().then(function () {
                     $rootScope.removeAlerts();
-                    //return $state.go($state.current, {}, {reload: true});
+                    return $state.go($state.current, {}, {reload: true});
                 });
             };
 
@@ -62,20 +62,20 @@ angular.module('app.controllers', [])
                 });
             };
 
-            var startIntercom = function(user, date){
-                if(window.Intercom){
-                    Intercom('boot', {
-                        app_id: "udg0papy",
-                        name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
-                        email: user.email,
-                        created_at: date
-                    });
-                }
-            };
+            // var startIntercom = function(user, date){
+            //     if(window.Intercom){
+            //         Intercom('boot', {
+            //             app_id: "udg0papy",
+            //             name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
+            //             email: user.email,
+            //             created_at: date
+            //         });
+            //     }
+            // };
 
             $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
-                startIntercom(user, _.now());
+                // startIntercom(user, _.now());
                 sessionService.user = user;
                 sessionService.business = business;
                 $rootScope.currentUser = sessionService.user;
@@ -158,7 +158,7 @@ angular.module('app.controllers', [])
         .controller('comingSoonCtrl', ['$scope', 
             function ($scope) {
                 $scope.saveFeedback = function(){
-                    Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
+                    // Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
                     $scope.feedbackSent = true;
                 };
         }]);

@@ -176,7 +176,7 @@ angular.module('scheduling.controllers', [])
                             _.size(sessionObject.sessions),
                             _.sum(sessionObject.courses, function(course){return _.size(course.sessions);})
                         );
-                        Intercom('update', {TotalSessions: totalNumSessions})
+                        // Intercom('update', {TotalSessions: totalNumSessions})
                    });
             };
 
