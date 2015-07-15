@@ -42,7 +42,7 @@ describe('Booking Module', function() {
     describe('booking states', function() {
         describe('when navigating to bookingAdmin', function(){
             let('domain', function(){
-                return 'app';
+                return 'app-testing';
             });
 
             var viewAttrs;

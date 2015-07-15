@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'allFeaturesWhitelist', 'sessionService',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, allFeaturesWhitelist, sessionService) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'allFeaturesWhitelist', 'sessionService', 'defaultSubdomain',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, allFeaturesWhitelist, sessionService, defaultSubdomain) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
             $rootScope.allFeaturesWhitelist = allFeaturesWhitelist;
@@ -96,7 +96,7 @@ angular.module('app.controllers', [])
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
-                if(businessDomain !== 'app' && !sessionService.business){
+                if(businessDomain !== defaultSubdomain && !sessionService.business){
                     event.preventDefault();
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){

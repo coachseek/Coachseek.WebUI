@@ -27,7 +27,9 @@ module.exports = function(grunt) {
                         'matt@coachseek.com',
                         'mattwilliamson94@hotmail.com',
                         'samyin1990@gmail.com'
-                    ]
+                    ],
+                    apiURL: 'https://api-testing.coachseek.com',
+                    defaultSubdomain: 'app-testing'
                 }
             },
             build: {
@@ -49,7 +51,9 @@ module.exports = function(grunt) {
                         'matt@coachseek.com',
                         'mattwilliamson94@hotmail.com',
                         'samyin1990@gmail.com'
-                    ]
+                    ],
+                    apiURL: 'https://api.coachseek.com',
+                    defaultSubdomain: 'app'
                 }
             }
         },

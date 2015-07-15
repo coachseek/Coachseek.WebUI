@@ -75,7 +75,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
     });
 
     locationStub = this.sinon.stub($injector.get('$location'), 'host', function(){
-        return 'app';
+        return 'app-testing';
     });
 
     $testRegion = $('<div></div>');
