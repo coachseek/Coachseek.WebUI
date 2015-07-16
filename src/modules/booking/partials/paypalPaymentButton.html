@@ -12,8 +12,8 @@
     <input type="hidden" name="item_name" value="{{getServiceName()}}">
     <input type="hidden" name="currency_code" value="{{business.payment.currency}}">
     <input type="hidden" name="amount" value="{{calculateTotalPrice()}}">
-    <input type="hidden" name="notify_url" value="https://api.coachseek.com/Paypal">
-    <input type="hidden" name="return" value="https://{{business.domain}}.coachseek.com/#/booking/confirmation/?currentBooking={{getQueryString()}}">
+    <input type="hidden" name="notify_url" value="{{apiURL}}/Paypal">
+    <input type="hidden" name="return" value="https://{{business.domain + (ENV.name === 'dev' ? '.testing' : '')}}.coachseek.com/#/booking/confirmation/?currentBooking={{getQueryString()}}">
     <input type="hidden" name="rm" value="1">
     <input type="hidden" name="no_shipping" value="0">
     <input type="hidden" name="custom" value="{{business.id}}">

@@ -18,11 +18,16 @@ describe('Booking Admin Page', function(){
         return 're@d.e';
     });
 
+    let('environment', function(){
+        return 'prod';
+    });
+
     var scope;
     beforeEach(function(){
         scope = $rootScope.$new();
         _.set(scope, 'currentUser.email', this.currentUserEmail)
         $injector.get('sessionService').business = this.business;
+        $injector.get('ENV').name = this.environment;
         createViewWithController(scope, 'booking/partials/bookingAdminView.html', 'bookingAdminCtrl');
     });
     it('should show the `Online booking` and `Payment` tabs', function(){
@@ -37,6 +42,18 @@ describe('Booking Admin Page', function(){
     it('should show the online booking button with the correct subdomain', function(){
         $timeout.flush();
         expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain);
+    });
+    describe('when then environment is testing', function(){
+        let('environment', function(){
+            return 'dev';
+        })
+        it('should show the online booking with the correct subdomain', function(){
+            expect($testRegion.find('.booking-url').val()).to.equal(this.business.domain + '.testing.coachseek.com');
+        });
+        it('should show the online booking button with the correct subdomain', function(){
+            $timeout.flush();
+            expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain + '.testing');
+        });
     });
     describe('when the user is not on the feature whitelist', function(){
         let('currentUserEmail', function(){
