@@ -88,7 +88,7 @@ angular.module('app.controllers', [])
 
             $rootScope.redirectToApp = function(){
                 $timeout(function(){
-                    window.location = 'https://app.coachseek.com';
+                    window.location = 'https://' + defaultSubdomain + '.coachseek.com';
                 }, 5000)
             };
 
