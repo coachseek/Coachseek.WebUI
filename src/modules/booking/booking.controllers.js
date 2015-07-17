@@ -31,6 +31,12 @@ angular.module('booking.controllers', [])
             } else {
                 currentBooking.booking.sessions.push(session);
             }
+
+            if($scope.entireCourseSelected()){
+                currentBooking.booking.course = $scope.selectedEvent;
+            } else {
+                currentBooking.booking.course = null;
+            }
         };
 
         $scope.entireCourseSelected = function(){
@@ -43,6 +49,7 @@ angular.module('booking.controllers', [])
                 currentBooking.resetBooking();
             } else {
                 currentBooking.booking.sessions = $scope.availableSessions;
+                currentBooking.booking.course = $scope.selectedEvent;
             }
         };
 
