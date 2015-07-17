@@ -60,6 +60,7 @@
         "when": "When:"
     },
     "booking-admin":{
+        "notavailable":"This feature only available on mobile optimised/desktop",
         "onlinebooking":"Online booking",
         "payments": "Payments",
         "address":"Here’s your Online Booking website address",
