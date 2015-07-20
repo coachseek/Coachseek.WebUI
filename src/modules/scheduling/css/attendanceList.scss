@@ -54,7 +54,7 @@
             }
 
             .add-to-titles{
-                width: 95%;
+                width: 85%;
                 margin: 0 auto;
 
                 div{
@@ -74,6 +74,17 @@
                 margin: 0 auto;
                 height: 40px;
 
+                &[disabled]{
+                    pointer-events: none;
+
+                    button{
+                        pointer-events: none;
+                        &.fa-plus{
+                            color: transparent;
+                        }
+                    }
+                }
+
                 .item-title{
                     line-height: 35px;
                 }
@@ -90,10 +101,7 @@
                         color: $green;                    
                     }
                     &.fa-check{
-                        color: $grey;
-                    }
-                    &[disabled]{
-                        pointer-events: none;
+                        color: $text-dark-grey;
                     }
                 }
                 ellipsis-animated{

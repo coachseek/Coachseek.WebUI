@@ -134,7 +134,9 @@ angular.module('scheduling.controllers', [])
                         currentEventCopy = angular.copy(event);
 
                         if(event.course){
-                            setCurrentCourseEvents();
+                            $scope.setCurrentCourseEvents();
+                        } else {
+                            delete $scope.currentCourseEvents;
                         }
                     },
                     viewRender: function(view){
@@ -174,7 +176,7 @@ angular.module('scheduling.controllers', [])
                             _.size(sessionObject.sessions),
                             _.sum(sessionObject.courses, function(course){return _.size(course.sessions);})
                         );
-                        Intercom('update', {TotalSessions: totalNumSessions})
+                        if(window.Intercom) Intercom('update', {TotalSessions: totalNumSessions})
                    });
             };
 
@@ -262,7 +264,7 @@ angular.module('scheduling.controllers', [])
                 duration =  duration < 30 ? 30 : duration;
 
                 return {
-                    _id: tempEventId,
+                    _id: tempEventId || _.uniqueId('session_'),
                     tempEventId: tempEventId,
                     title: session.service.name,
                     start: moment(dateClone),
@@ -396,12 +398,12 @@ angular.module('scheduling.controllers', [])
                     $scope.currentEvent = _.find($scope.events, function(event){
                         return event.session.id === $scope.currentEvent.session.id;
                     });
-                    if($scope.currentEvent) setCurrentCourseEvents();
+                    if($scope.currentEvent) $scope.setCurrentCourseEvents();
                 }
             });
 
-            var setCurrentCourseEvents = function(){
-                $scope.currentCourseEvents = _.filter($scope.events, function(event){
+            $scope.setCurrentCourseEvents = function(){
+                $scope.currentCourseEvents = _.filter(uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents'), function(event){
                     return _.get(event, 'course.id', 1) === _.get($scope, 'currentEvent.course.id', 1);
                 });
             };
