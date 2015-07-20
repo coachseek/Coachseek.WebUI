@@ -317,7 +317,8 @@ angular.module('scheduling.directives', [])
                 var paymentStatusOptions = [
                     'pending-invoice',
                     'pending-payment',
-                    'paid'
+                    'paid',
+                    'overdue-payment'
                 ];
 
                 var paymentStatusIndex = _.indexOf(paymentStatusOptions, scope.booking.paymentStatus);

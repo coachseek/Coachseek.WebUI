@@ -189,6 +189,10 @@
                 &.paid{
                     background: $green;
                 }
+
+                &.overdue-payment{
+                    background: $red;
+                }
             }
 
             .delete-booking{

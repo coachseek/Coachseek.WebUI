@@ -31,7 +31,8 @@
     "payment-status": {
         "pending-invoice": "Awaiting Invoice",
         "pending-payment": "Awaiting Payment",
-        "paid": "Paid"
+        "paid": "Paid",
+        "overdue-payment": "Overdue"
     },
     "general": "General",
     "add-student": "Add Student",
