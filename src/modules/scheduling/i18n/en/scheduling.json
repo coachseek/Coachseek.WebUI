@@ -1,4 +1,9 @@
 {
+    "calendar":{
+        "fullyBookedMonth":"\uF071",
+        "fullyBookedWeek":"\uF071 Full",
+        "fullyBookedDay":"\uF071  Session is fully booked"
+    },
     "services-title": "Services",
     "no-services": {
         "start": "Oh no!",
