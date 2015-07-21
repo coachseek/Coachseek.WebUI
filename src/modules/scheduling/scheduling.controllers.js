@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig',
-        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig){
+    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile',
+        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 
@@ -90,6 +90,7 @@ angular.module('scheduling.controllers', [])
                                 text: event.session.location.name
                             }).appendTo(element.find('.fc-content'));
                         }
+                        handleFullyBooked(event,element,view);
                     },
                     windowResize: function(view){
                         handleWindowResize(view.name);
@@ -199,6 +200,37 @@ angular.module('scheduling.controllers', [])
                 }).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
+            };
+
+            var handleFullyBooked = function(event,element,view){
+                if(event.session.booking.studentCapacity - _.size(event.session.booking.bookings) <= 0){
+                    if(view.type === 'month'){
+                    $('<div></div>', {
+                            class: 'fc-fullybooked-month '+event.session.presentation.colour,
+                            html: $compile(
+                                "<p ng-i18next>{{'scheduling:calendar.fullyBookedMonth'}}</p>"
+                            )($scope)
+                        })
+                        .appendTo(element.find('.fc-content'));
+                    }else if(view.type === 'agendaWeek'){
+                        $('<div></div>', {
+                            class: 'fc-fullybooked-week '+event.session.presentation.colour,
+                            html: $compile(
+                                "<p ng-i18next>{{'scheduling:calendar.fullyBookedWeek'}}</p>"
+                            )($scope)
+                        })
+                        .appendTo(element.find('.fc-content'));
+                    }else if(view.type === 'agendaDay'){
+                        $('<div></div>', {
+                            class: 'fc-fullybooked-day '+event.session.presentation.colour,
+                             html: $compile(
+                                "<p ng-i18next>{{'scheduling:calendar.fullyBookedDay'}}</p>"
+                            )($scope)
+                        })
+                        .appendTo(element.find('.fc-content'));
+                    }
+                }
+                
             };
 
             var handleWindowResize = function(viewName){
