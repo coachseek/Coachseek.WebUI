@@ -153,6 +153,7 @@
             }
 
             .fc-event {
+                font-family: FontAwesome;
                 @extend %service-background-colors-60;
                 @extend %service-border-colors;
                 border-width: 1.5px;
@@ -176,8 +177,32 @@
                 margin: 20px 0 35px 0;
             }
 
-            .fc-content .fc-time{
-               display : none;
+            .fc-content {
+                height: 100%;
+                .fc-fullybooked-day{
+                    @extend %service-background-colors-60;           
+                    @extend %service-border-colors;
+                    border: 2px solid;
+                    position: absolute;
+                    z-index: 3;
+                    bottom: 0px;
+                    width: 100%;
+                    text-align: center;
+                  
+                }
+                .fc-fullybooked-week{
+                    @extend .fc-fullybooked-day;
+                }
+                .fc-fullybooked-month{
+                    @extend %service-background-colors-60;           
+                    @extend %service-border-colors;                
+                    border: 1px solid;
+                    float:right;
+
+                }
+                .fc-time{
+                    display : none;
+                }
             }
 
             .fc-unthemed{
