@@ -14,22 +14,8 @@ module.exports = function(grunt) {
                 },
                 constants: {
                     ENV: {
-                        name: 'dev'
+                        name: 'dev',
                     },
-                    allFeaturesWhitelist: [
-                        're@d.e',
-                        'reade+soft@coachseek.com',
-                        'ian@coachseek.com',
-                        'denym@coachseek.com',
-                        'demo@coachseek.com',
-                        'sam@som2y.com',
-                        'olaf@coachseek.com',
-                        'olaf+1@coachseek.com',
-                        'hannah@coachseek.com',
-                        'matt@coachseek.com',
-                        'mattwilliamson94@hotmail.com',
-                        'samyin1990@gmail.com'
-                    ],
                     apiURL: 'https://api-testing.coachseek.com',
                     defaultSubdomain: 'app-testing'
                 }
@@ -40,22 +26,21 @@ module.exports = function(grunt) {
                 },
                 constants: {
                     ENV: {
-                        name: 'prod'
+                        name: 'prod',
+                        allFeaturesWhitelist: [
+                            're@d.e',
+                            'ian@coachseek.com',
+                            'denym@coachseek.com',
+                            'demo@coachseek.com',
+                            'sam@som2y.com',
+                            'olaf@coachseek.com',
+                            'olaf+1@coachseek.com',
+                            'hannah@coachseek.com',
+                            'matt@coachseek.com',
+                            'mattwilliamson94@hotmail.com',
+                            'samyin1990@gmail.com'
+                        ]
                     },
-                    allFeaturesWhitelist: [
-                        're@d.e',
-                        'reade+soft@coachseek.com',
-                        'ian@coachseek.com',
-                        'denym@coachseek.com',
-                        'demo@coachseek.com',
-                        'sam@som2y.com',
-                        'olaf@coachseek.com',
-                        'olaf+1@coachseek.com',
-                        'hannah@coachseek.com',
-                        'matt@coachseek.com',
-                        'mattwilliamson94@hotmail.com',
-                        'samyin1990@gmail.com'
-                    ],
                     apiURL: 'https://api.coachseek.com',
                     defaultSubdomain: 'app'
                 }

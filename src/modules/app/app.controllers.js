@@ -1,10 +1,9 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'allFeaturesWhitelist', 'sessionService', 'defaultSubdomain',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, allFeaturesWhitelist, sessionService, defaultSubdomain) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'defaultSubdomain',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, defaultSubdomain) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
-            $rootScope.allFeaturesWhitelist = allFeaturesWhitelist;
 
             $rootScope.addAlert = function(alert){
 
@@ -128,6 +127,10 @@ angular.module('app.controllers', [])
                     $rootScope.removeAlerts();
                 }
             });
+
+            $rootScope.showFeature = function(){
+                return ENV.name === 'dev' || _.includes(_.get(ENV, 'allFeaturesWhitelist'), _.get(sessionService, 'user.email'))
+            };
 
             $rootScope.ENV = ENV;
             $rootScope.isCollapsed = true;
