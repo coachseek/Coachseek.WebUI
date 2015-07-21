@@ -187,7 +187,9 @@ angular.module('booking.controllers', [])
             _.assign(currentBooking, {
                 customer: sessionService.currentBooking.customer,
                 booking: sessionService.currentBooking.booking,
-                filters: sessionService.currentBooking.filters
+                filters: sessionService.currentBooking.filters,
+                totalPrice: sessionService.currentBooking.totalPrice,
+                dateRange: sessionService.currentBooking.dateRange
             });
             delete sessionService.currentBooking;
             $scope.bookingConfirmed = true;
@@ -228,6 +230,8 @@ angular.module('booking.controllers', [])
         $scope.resetBookings = function () {
             currentBooking.resetBooking();
             currentBooking.filters = {};
+            delete currentBooking.totalPrice;
+            delete currentBooking.dateRange;
             delete currentBooking.allEvents;
             $state.go('booking.selection');
         };
