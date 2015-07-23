@@ -1,8 +1,10 @@
 {
     "calendar":{
-        "fullyBookedMonth":"\uF071",
-        "fullyBookedWeek":"\uF071 Full",
-        "fullyBookedDay":"\uF071  Session is fully booked"
+        "fully-booked":{
+            "agendaDay":"Session is fully booked",
+            "agendaWeek":"Full",
+            "month":""
+        }
     },
     "services-title": "Services",
     "no-services": {
