@@ -192,7 +192,7 @@ describe('Booking Confirmation View', function(){
                 });
 
                 it('should then make a call to `Bookings`', function(){
-                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions, paymentStatus: 'pending-payment'});
+                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
                 });
                 it('should show the booking confirmation', function(){
                     expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;                
@@ -267,7 +267,7 @@ describe('Booking Confirmation View', function(){
                 });
 
                 it('should then make a call to `Bookings`', function(){
-                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions, paymentStatus: 'pending-payment'});
+                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
                 });
                 it('should hide the pay now/pay later/change booking buttons', function(){
                     expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;                

@@ -224,7 +224,7 @@ angular.module('booking.controllers', [])
 
         function saveBooking(customer){
             return onlineBookingAPIFactory.anon($scope.business.domain)
-                    .save({ section: 'Bookings' }, {sessions: currentBooking.booking.sessions, customer: customer, paymentStatus: 'pending-payment'}).$promise;
+                    .save({ section: 'Bookings' }, {sessions: currentBooking.booking.sessions, customer: customer}).$promise;
         };
 
         $scope.resetBookings = function () {
