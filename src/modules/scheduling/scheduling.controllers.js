@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile',
-        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile){
+    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache',
+        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 
@@ -204,31 +204,12 @@ angular.module('scheduling.controllers', [])
 
             var handleFullyBooked = function(event,element,view){
                 if(event.session.booking.studentCapacity - _.size(event.session.booking.bookings) <= 0){
-                    if(view.type === 'month'){
+                    $scope.viewType = view.type;
                     $('<div></div>', {
-                            class: 'fc-fullybooked-month '+event.session.presentation.colour,
-                            html: $compile(
-                                "<p ng-i18next>{{'scheduling:calendar.fullyBookedMonth'}}</p>"
-                            )($scope)
-                        })
-                        .appendTo(element.find('.fc-content'));
-                    }else if(view.type === 'agendaWeek'){
-                        $('<div></div>', {
-                            class: 'fc-fullybooked-week '+event.session.presentation.colour,
-                            html: $compile(
-                                "<p ng-i18next>{{'scheduling:calendar.fullyBookedWeek'}}</p>"
-                            )($scope)
-                        })
-                        .appendTo(element.find('.fc-content'));
-                    }else if(view.type === 'agendaDay'){
-                        $('<div></div>', {
-                            class: 'fc-fullybooked-day '+event.session.presentation.colour,
-                             html: $compile(
-                                "<p ng-i18next>{{'scheduling:calendar.fullyBookedDay'}}</p>"
-                            )($scope)
-                        })
-                        .appendTo(element.find('.fc-content'));
-                    }
+                        class: 'fc-fullybooked-'+view.type+' '+event.session.presentation.colour,
+                        html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
+                    })
+                    .appendTo(element.find('.fc-content'));             
                 }
                 
             };
