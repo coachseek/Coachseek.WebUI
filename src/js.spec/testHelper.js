@@ -16,8 +16,9 @@ var $testRegion,
 beforeEach(module('app'));
 
 //stop $urlRouterProvider from running otherwise()/loading default views
-beforeEach(module(function($urlRouterProvider) {
+beforeEach(module(function($urlRouterProvider, $compileProvider) {
   $urlRouterProvider.deferIntercept();
+  $compileProvider.debugInfoEnabled(true);
 }));
 
 beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_, _$q_, _$state_, _$timeout_) { 

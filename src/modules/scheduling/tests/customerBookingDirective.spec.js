@@ -78,12 +78,15 @@ describe('customerBooking directive', function(){
                 return {$promise: self.deletePromise};
             });
             $deleteStudent = $customerBooking.find('.delete-booking');
-            $deleteStudent.trigger('click');
         });
         it('should call delete method', function(){
+            $deleteStudent.trigger('click');
             expect(deleteStub).to.be.calledWith({section: 'Bookings', id: this.booking.id});
         });
         describe('while loading', function(){
+            beforeEach(function(){
+                $deleteStudent.trigger('click');
+            })
             it('should set bookingLoading to true', function(){
                 expect(scope.bookingLoading).to.be.true;
             });
@@ -97,14 +100,19 @@ describe('customerBooking directive', function(){
                 deferred.resolve();
                 return deferred.promise;
             });
+            beforeEach(function(done){
+                
+                scope.updateStandaloneSession = function(){
+                    scope.$broadcast('stopBookingLoading');
+                    done()
+                }
+                $deleteStudent.trigger('click');
+            })
             it('should hide the loading ellipsis', function(){
                 expect($customerBooking.find('ellipsis-animated').hasClass('ng-hide')).to.be.true;
             });
             it('should set bookingLoading to false', function(){
                 expect(scope.bookingLoading).to.be.false;
-            });
-            it('should to remove customer from UI', function(){
-                expect(_.size(scope.currentEvent.session.booking.bookings)).to.be.equal(0);
             });
         });
         describe('when delete fails', function(){
@@ -113,6 +121,9 @@ describe('customerBooking directive', function(){
                 deferred.reject({data: {message:"error-message"}});
                 return deferred.promise;
             });
+            beforeEach(function(){
+                $deleteStudent.trigger('click');
+            })
             it('should hide the loading ellipsis', function(){
                 expect($customerBooking.find('ellipsis-animated').hasClass('ng-hide')).to.be.true;
             });
@@ -136,8 +147,8 @@ describe('customerBooking directive', function(){
             });
             $customerBooking.find('.payment-status').trigger('click');
         });
-        it('should change the payment status to `pending-invoice`', function(){
-           expect($customerBooking.find('.payment-status').hasClass('pending-invoice')).to.be.true;
+        it('should change the payment status to `overdue-payment`', function(){
+           expect($customerBooking.find('.payment-status').hasClass('overdue-payment')).to.be.true;
         });
         it('should not attempt to save', function(){
             expect(updateStub).to.not.be.called;
@@ -146,8 +157,8 @@ describe('customerBooking directive', function(){
             beforeEach(function(){
                 $customerBooking.find('.payment-status').trigger('click');
             });
-            it('should set paymentStatus to `pending-payment`', function(){
-               expect($customerBooking.find('.payment-status').hasClass('pending-payment')).to.be.true;
+            it('should set paymentStatus to `pending-invoice`', function(){
+               expect($customerBooking.find('.payment-status').hasClass('pending-invoice')).to.be.true;
             });
             it('should not attempt to save', function(){
                 expect(updateStub).to.not.be.called;
@@ -174,7 +185,7 @@ describe('customerBooking directive', function(){
                 });
                 describe('after successful save', function(){
                     it('should set the paymentStatus on the booking', function(){
-                        expect(scope.booking.paymentStatus).to.equal('pending-payment');
+                        expect(scope.booking.paymentStatus).to.equal('pending-invoice');
                     });
                     it('should set bookingLoading to false', function(){
                         expect(scope.bookingLoading).to.be.false;

@@ -19,7 +19,7 @@ describe('Booking Admin Page', function(){
     });
 
     let('environment', function(){
-        return 'prod';
+        return 'dev';
     });
 
     var scope;
@@ -37,25 +37,31 @@ describe('Booking Admin Page', function(){
         expect(scope.activeTab).to.equal('onlineBooking');
     });
     it('should show the online booking with the correct subdomain', function(){
-        expect($testRegion.find('.booking-url').val()).to.equal(this.business.domain + '.coachseek.com');
+        expect($testRegion.find('.booking-url').val()).to.equal(this.business.domain + '.testing.coachseek.com');
     });
     it('should show the online booking button with the correct subdomain', function(){
         $timeout.flush();
-        expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain);
+        expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain + '.testing');
     });
-    describe('when then environment is testing', function(){
+    describe('when then environment is production', function(){
         let('environment', function(){
-            return 'dev';
+            return 'prod';
         })
+        it('should NOT show the `Online booking` and `Payment` tabs', function(){
+            expect($testRegion.find('.booking-admin-nav-container').hasClass('ng-hide')).to.be.true;
+        });
         it('should show the online booking with the correct subdomain', function(){
-            expect($testRegion.find('.booking-url').val()).to.equal(this.business.domain + '.testing.coachseek.com');
+            expect($testRegion.find('.booking-url').val()).to.equal(this.business.domain + '.coachseek.com');
         });
         it('should show the online booking button with the correct subdomain', function(){
             $timeout.flush();
-            expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain + '.testing');
+            expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain);
         });
     });
     describe('when the user is not on the feature whitelist', function(){
+        let('environment', function(){
+            return 'prod';
+        });
         let('currentUserEmail', function(){
             return 'fake@user.com';
         });
