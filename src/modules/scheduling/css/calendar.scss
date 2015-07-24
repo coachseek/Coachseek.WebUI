@@ -152,8 +152,7 @@
                 }
             }
 
-            .fc-event {
-                font-family: FontAwesome;
+            .fc-event {           
                 @extend %service-background-colors-60;
                 @extend %service-border-colors;
                 border-width: 1.5px;
