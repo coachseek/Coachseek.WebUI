@@ -230,6 +230,17 @@
             i{
                 top: 14px;
             }
+             .add-to-titles{
+                width: 100%;
+                div{
+                    &:first-child{
+                        margin-right:5px;
+                    }
+                    &:last-child{
+                        margin-right:5px;
+                    }
+                }
+            }
         }
         ul{
             height: calc(100vh - 330px);
@@ -389,10 +400,21 @@ and (-webkit-min-device-pixel-ratio: 3) {
 // iPad in portrait
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) { 
     .attendance-list {
-        .student-list, div.customer-list ul {
-            height: calc(100vh - 380px);
-            &.short-list  {
-                height: calc(100vh - 420px);
+        div.customer-list .search-container .add-to-titles div{
+            &:first-child{
+                margin-right:0px;
+            }
+            &:last-child{
+                margin-right:0px;
+            }
+            
+        }
+        .student-list, div.customer-list{
+            ul {
+                height: calc(100vh - 380px);
+                &.short-list  {
+                    height: calc(100vh - 420px);
+                }
             }
         }
     }
