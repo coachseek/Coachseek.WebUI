@@ -7,7 +7,7 @@ angular.module('booking.directives', [])
                 scope.selected = false;
                 var startDate = moment(scope.event.timing.startDate + " " + scope.event.timing.startTime, "YYYY-MM-DD HH:mm");
                 scope.spacesAvailable = getSpacesAvailable();
-                scope.fullCoursePrice = getFullCoursePricePrice();
+                scope.fullCoursePrice = getFullCoursePrice();
                 scope.isSoldOut = function(){
                     if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
                         return scope.spacesAvailable <= 0;
@@ -16,7 +16,7 @@ angular.module('booking.directives', [])
                     }
                 }
 
-                function getFullCoursePricePrice(){
+                function getFullCoursePrice(){
                     var event = scope.event;
                     if(scope.isBefore(event)){
                         // SUM SESSION PRICES
