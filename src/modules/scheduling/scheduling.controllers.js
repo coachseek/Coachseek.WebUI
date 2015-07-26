@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig',
-        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig){
+    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache',
+        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 
@@ -68,7 +68,6 @@ angular.module('scheduling.controllers', [])
                             endDate: end.format('YYYY-MM-DD'),
                             locationId: sessionService.calendarView.locationId,
                             coachId: sessionService.calendarView.coachId,
-                            useNewSearch: true,
                             section: 'Sessions'
                         };
                         startCalendarLoading();
@@ -91,6 +90,7 @@ angular.module('scheduling.controllers', [])
                                 text: event.session.location.name
                             }).appendTo(element.find('.fc-content'));
                         }
+                        handleFullyBooked(event,element,view);
                     },
                     windowResize: function(view){
                         handleWindowResize(view.name);
@@ -135,7 +135,9 @@ angular.module('scheduling.controllers', [])
                         currentEventCopy = angular.copy(event);
 
                         if(event.course){
-                            setCurrentCourseEvents();
+                            $scope.setCurrentCourseEvents();
+                        } else {
+                            delete $scope.currentCourseEvents;
                         }
                     },
                     viewRender: function(view){
@@ -167,7 +169,6 @@ angular.module('scheduling.controllers', [])
                    endDate: date.clone().add(5, 'y').format('YYYY-MM-DD'),
                    locationId: sessionService.calendarView.locationId,
                    coachId: sessionService.calendarView.coachId,
-                   useNewSearch: true,
                    section: 'Sessions'
                };
                coachSeekAPIService.get(getSessionsParams)
@@ -199,6 +200,18 @@ angular.module('scheduling.controllers', [])
                 }).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
+            };
+
+            var handleFullyBooked = function(event,element,view){
+                if(event.session.booking.studentCapacity - _.size(event.session.booking.bookings) <= 0){
+                    $scope.viewType = view.type;
+                    $('<div></div>', {
+                        class: 'fc-fullybooked-'+view.type+' '+event.session.presentation.colour,
+                        html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
+                    })
+                    .appendTo(element.find('.fc-content'));             
+                }
+                
             };
 
             var handleWindowResize = function(viewName){
@@ -264,7 +277,7 @@ angular.module('scheduling.controllers', [])
                 duration =  duration < 30 ? 30 : duration;
 
                 return {
-                    _id: tempEventId,
+                    _id: tempEventId || _.uniqueId('session_'),
                     tempEventId: tempEventId,
                     title: session.service.name,
                     start: moment(dateClone),
@@ -398,12 +411,12 @@ angular.module('scheduling.controllers', [])
                     $scope.currentEvent = _.find($scope.events, function(event){
                         return event.session.id === $scope.currentEvent.session.id;
                     });
-                    if($scope.currentEvent) setCurrentCourseEvents();
+                    if($scope.currentEvent) $scope.setCurrentCourseEvents();
                 }
             });
 
-            var setCurrentCourseEvents = function(){
-                $scope.currentCourseEvents = _.filter($scope.events, function(event){
+            $scope.setCurrentCourseEvents = function(){
+                $scope.currentCourseEvents = _.filter(uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents'), function(event){
                     return _.get(event, 'course.id', 1) === _.get($scope, 'currentEvent.course.id', 1);
                 });
             };

@@ -74,6 +74,17 @@
                 margin: 0 auto;
                 height: 40px;
 
+                &[disabled]{
+                    pointer-events: none;
+
+                    button{
+                        pointer-events: none;
+                        &.fa-plus{
+                            color: transparent;
+                        }
+                    }
+                }
+
                 .item-title{
                     line-height: 35px;
                 }
@@ -90,10 +101,7 @@
                         color: $green;                    
                     }
                     &.fa-check{
-                        color: $grey;
-                    }
-                    &[disabled]{
-                        pointer-events: none;
+                        color: $text-grey;
                     }
                 }
                 ellipsis-animated{
@@ -189,6 +197,10 @@
                 &.paid{
                     background: $green;
                 }
+
+                &.overdue-payment{
+                    background: $red;
+                }
             }
 
             .delete-booking{
@@ -218,6 +230,17 @@
             i{
                 top: 14px;
             }
+             .add-to-titles{
+                width: 100%;
+                div{
+                    &:first-child{
+                        margin-right:5px;
+                    }
+                    &:last-child{
+                        margin-right:5px;
+                    }
+                }
+            }
         }
         ul{
             height: calc(100vh - 330px);
@@ -243,7 +266,8 @@
 //iPhone 4s and below in portrait & landscape
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-width : 480px) { 
+and (max-device-width : 480px) 
+and (-webkit-min-device-pixel-ratio: 2) { 
     .attendance-list {
         .student-list {
             height: calc(100vh - 320px);      
@@ -261,7 +285,8 @@ and (max-device-width : 480px) {
 //iPhone 5&5s in portrait & landscape
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-width : 568px) {
+and (max-device-width : 568px)
+and (-webkit-min-device-pixel-ratio: 2)  {
     .attendance-list {
         .student-list {
             height: calc(100vh - 320px);      
@@ -274,11 +299,73 @@ and (max-device-width : 568px) {
         }
     }  
 }
+/* ----------- Galaxy S3 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 320px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 2) {
+      .attendance-list {
+        .student-list {
+            height: calc(100vh - 310px);      
+        }
+        div.customer-list ul {
+            height: calc(100vh - 310px);
+            &.short-list  {
+                height: calc(100vh - 350px);
+            }
+        }
+    }  
+
+}
+
+/* ----------- Galaxy S4 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 320px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3){
+     .attendance-list {
+        .student-list {
+            height: calc(100vh - 310px);      
+        }
+        div.customer-list ul {
+            height: calc(100vh - 310px);
+            &.short-list  {
+                height: calc(100vh - 350px);
+            }
+        }
+    }  
+}
+
+/* ----------- Galaxy S5 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3) {
+     .attendance-list {
+        .student-list {
+            height: calc(100vh - 310px);      
+        }
+        div.customer-list ul {
+            height: calc(100vh - 310px);
+            &.short-list  {
+                height: calc(100vh - 350px);
+            }
+        }
+    }  
+
+}
 
 // iPhone 6 in portrait & landscape
 @media only screen 
 and (min-device-width : 375px) 
-and (max-device-width : 667px) { 
+and (max-device-width : 667px) 
+and (-webkit-min-device-pixel-ratio: 2) { 
     .attendance-list {
         .student-list {
               height: calc(100vh - 320px);      
@@ -295,7 +382,8 @@ and (max-device-width : 667px) {
 //iPhone 6 plus in portrait & landscape
 @media only screen 
 and (min-device-width : 414px) 
-and (max-device-width : 736px) { 
+and (max-device-width : 736px) 
+and (-webkit-min-device-pixel-ratio: 3) { 
     .attendance-list {
         .student-list {
             height: calc(100vh - 320px);      

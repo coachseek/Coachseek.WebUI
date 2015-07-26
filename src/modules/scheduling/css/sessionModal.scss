@@ -263,7 +263,8 @@
 //iPhone 4s and below in portrait & landscape
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-width : 480px) { 
+and (max-device-width : 480px)
+and (-webkit-min-device-pixel-ratio: 2) { 
     [state^="scheduling"] {
         .session-modal{     
              .session-form{
@@ -276,7 +277,8 @@ and (max-device-width : 480px) {
 //iPhone 5&5s in portrait & landscape
 @media only screen 
 and (min-device-width : 320px) 
-and (max-device-width : 568px) {
+and (max-device-width : 568px)
+and (-webkit-min-device-pixel-ratio: 2) {
     [state^="scheduling"] {
         .session-modal{     
              .session-form{
@@ -285,12 +287,64 @@ and (max-device-width : 568px) {
         }    
     }
 }
+/* ----------- Galaxy S3 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 320px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 2) {
+     [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 300px);            
+            }
+        }    
+    }
+
+}
+
+/* ----------- Galaxy S4 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 320px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3){
+     [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 300px);            
+            }
+        }    
+    }
+
+}
+
+/* ----------- Galaxy S5 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3) {
+     [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 300px);            
+            }
+        }    
+    }
+
+}
+
 
 
 // iPhone 6 in portrait & landscape
 @media only screen 
 and (min-device-width : 375px) 
-and (max-device-width : 667px) { 
+and (max-device-width : 667px) 
+and (-webkit-min-device-pixel-ratio: 2){ 
     [state^="scheduling"] {
         .session-modal{     
              .session-form{
@@ -303,7 +357,8 @@ and (max-device-width : 667px) {
 //iPhone 6 plus in portrait & landscape
 @media only screen 
 and (min-device-width : 414px) 
-and (max-device-width : 736px) { 
+and (max-device-width : 736px)
+and (-webkit-min-device-pixel-ratio: 3) { 
     [state^="scheduling"] {
         .session-modal{     
              .session-form{

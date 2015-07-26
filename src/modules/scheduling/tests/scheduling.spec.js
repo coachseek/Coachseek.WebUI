@@ -402,8 +402,7 @@ describe('Scheduling Module', function() {
                     endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                     locationId: this.calendarView.locationId,
                     coachId: this.calendarView.coachId,
-                    section: 'Sessions',
-                    useNewSearch: true
+                    section: 'Sessions'
                 };
                 expect(getSessionsStub).to.be.calledWith(getSessionsParams);
             });
@@ -467,8 +466,7 @@ describe('Scheduling Module', function() {
                     endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: '',
-                    section: 'Sessions',
-                    useNewSearch: true
+                    section: 'Sessions'
                 };
                 expect(getSessionsStub).to.be.calledWith(getSessionsParams);
             });
@@ -837,8 +835,7 @@ describe('Scheduling Module', function() {
                     endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: this.coachTwo.id,
-                    section: 'Sessions',
-                    useNewSearch: true
+                    section: 'Sessions'
                 };
                 expect(getSessionsStub).to.be.calledWith(getSessionsParams);
             });
@@ -861,8 +858,7 @@ describe('Scheduling Module', function() {
                     endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                     locationId: this.locationTwo.id,
                     coachId: '',
-                    section: 'Sessions',
-                    useNewSearch: true
+                    section: 'Sessions'
                 };
                 expect(getSessionsStub).to.be.calledWith(getSessionsParams);
             });
@@ -888,8 +884,7 @@ describe('Scheduling Module', function() {
                         endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                         locationId: '',
                         coachId: '',
-                        section: 'Sessions',
-                        useNewSearch: true
+                        section: 'Sessions'
                     };
                     expect(getSessionsStub).to.be.calledWith(getSessionsParams);
                 });
@@ -912,8 +907,7 @@ describe('Scheduling Module', function() {
                             endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                             locationId: '',
                             coachId: '',
-                            section: 'Sessions',
-                            useNewSearch: true
+                            section: 'Sessions'
                         };
                         expect(getSessionsStub).to.be.calledWith(getSessionsParams);
                     });
@@ -939,8 +933,7 @@ describe('Scheduling Module', function() {
                                 endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                                 locationId: '',
                                 coachId: '',
-                                section: 'Sessions',
-                                useNewSearch: true
+                                section: 'Sessions'
                             };
                             expect(getSessionsStub).to.be.calledWith(getSessionsParams);
                         });
@@ -1013,8 +1006,7 @@ describe('Scheduling Module', function() {
                             endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                             locationId: '',
                             coachId: '',
-                            section: 'Sessions',
-                            useNewSearch: true
+                            section: 'Sessions'
                         };
                         expect(getSessionsStub).to.be.calledWith(getSessionsParams);
                     });

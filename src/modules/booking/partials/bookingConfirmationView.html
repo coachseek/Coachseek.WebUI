@@ -7,12 +7,12 @@
         <h4>{{'booking:confirmation.where' | i18next}}</h4>
         <p>{{currentBooking.filters.location.name}}</p>
         <h4>{{'booking:confirmation.when' | i18next}}</h4>
-        <p>{{calculateBookingDateRange()}}</p>
+        <p>{{currentBooking.dateRange || calculateBookingDateRange()}}</p>
     </div>
     <div ng-show="bookingConfirmed" class="booking-confirmed">
         <h4>{{'booking:confirmation.booking-confirmed' | i18next}}</h4>
     </div>
-    <h2>{{'booking:confirmation.total' | i18next}}&nbsp;<span ng-i18next="denominations.{{business.payment.currency}}"></span>{{calculateTotalPrice()}}&nbsp;{{business.payment.currency}}</h2>
+    <h2>{{'booking:confirmation.total' | i18next}}&nbsp;<span ng-i18next="denominations.{{business.payment.currency}}"></span>{{currentBooking.totalPrice || calculateTotalPrice()}}&nbsp;{{business.payment.currency}}</h2>
     <div ng-show="bookingConfirmed" class="booking-confirmed">
         <p ng-i18next="booking:confirmation.{{paidWithPaypal ? 'paypal-paid' : 'pay-later'}}"></p>
         <button class="continue-button" ng-click="resetBookings()">{{'booking:confirmation.reset-bookings' | i18next}}</button>
