@@ -8,9 +8,13 @@ angular.module('booking.controllers', [])
             if($scope.selectedEvent !== event){
                 currentBooking.resetBooking()
                 $scope.selectedEvent = event;
-                $scope.availableSessions = _.filter(event.sessions, function(session){
-                    return !$scope.isBefore(session) && $scope.getSessionSpacesAvailable(session) > 0
-                });
+                if(event.sessions){
+                    $scope.availableSessions = _.filter(event.sessions, function(session){
+                        return !$scope.isBefore(session) && $scope.getSessionSpacesAvailable(session) > 0
+                    });
+                } else {
+                    $scope.availableSessions = [event];
+                }
                 if(!event.sessions || (event.pricing.coursePrice && !event.pricing.sessionPrice)) $scope.toggleEntireCourse();
             }
         };
@@ -28,22 +32,24 @@ angular.module('booking.controllers', [])
                 currentBooking.booking.sessions.push(session);
             }
 
-            if(_.size(currentBooking.booking.sessions) === _.size($scope.availableSessions) ){
-                currentBooking.booking.course = $scope.selectedEvent;   
+            if($scope.entireCourseSelected()){
+                currentBooking.booking.course = $scope.selectedEvent;
             } else {
-                currentBooking.booking.course = null;   
+                currentBooking.booking.course = null;
             }
         };
 
+        $scope.entireCourseSelected = function(){
+            return _.size(currentBooking.booking.sessions) === _.size($scope.availableSessions);
+        }
+
         //TODO don't set course if all arent available?
         $scope.toggleEntireCourse = function(){
-            if(currentBooking.booking.course === $scope.selectedEvent){
+            if($scope.entireCourseSelected()){
                 currentBooking.resetBooking();
             } else {
-                currentBooking.booking = {
-                    course: $scope.selectedEvent,
-                    sessions: $scope.availableSessions
-                }
+                currentBooking.booking.sessions = $scope.availableSessions;
+                currentBooking.booking.course = $scope.selectedEvent;
             }
         };
 
@@ -115,7 +121,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.disableContinue = function(){
-            return _.isEmpty(currentBooking.booking.sessions) && _.isEmpty(currentBooking.booking.course);
+            return _.isEmpty(currentBooking.booking.sessions);
         }
 
         function serviceAlreadyAdded(serviceId){
@@ -171,16 +177,19 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         }
     }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService',
-      function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'apiURL',
+      function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService, apiURL){
         $scope.bookingConfirmed = false;
         $scope.paidWithPaypal = false;
+        $scope.apiURL = apiURL;
 
         if( sessionService.currentBooking ){
             _.assign(currentBooking, {
                 customer: sessionService.currentBooking.customer,
                 booking: sessionService.currentBooking.booking,
-                filters: sessionService.currentBooking.filters
+                filters: sessionService.currentBooking.filters,
+                totalPrice: sessionService.currentBooking.totalPrice,
+                dateRange: sessionService.currentBooking.dateRange
             });
             delete sessionService.currentBooking;
             $scope.bookingConfirmed = true;
@@ -194,8 +203,8 @@ angular.module('booking.controllers', [])
             return onlineBookingAPIFactory.anon($scope.business.domain)
                 .save({ section: 'Customers' }, currentBooking.customer).$promise
                     .then(function (customer) {
-                        return $q.all(getSessionsToBook(customer)).then(function (bookings) {
-                            currentBooking.booking.id = bookings[0].id;
+                        return saveBooking(customer).then(function (booking) {
+                            currentBooking.booking.id = booking.id;
                             $scope.bookingConfirmed = payLater;
                             $scope.redirectingToPaypal = !payLater;
                         }, function(error){
@@ -213,26 +222,16 @@ angular.module('booking.controllers', [])
                 });
         };
 
-        function getSessionsToBook(customer){
-            var bookingPromises = [];
-            if(currentBooking.booking.course && _.size($scope.availableSessions) === _.size(currentBooking.booking.course.sessions)){
-                bookingPromises.push(getBookingCall(currentBooking.booking.course, customer));
-            } else if (currentBooking.booking.sessions){
-                _.each(currentBooking.booking.sessions, function(session){
-                    bookingPromises.push(getBookingCall(session, customer));
-                });
-            }
-            return bookingPromises;
-        };
-
-        function getBookingCall(session, customer){
+        function saveBooking(customer){
             return onlineBookingAPIFactory.anon($scope.business.domain)
-                    .save({ section: 'Bookings' }, {session: session, customer: customer}).$promise;
+                    .save({ section: 'Bookings' }, {sessions: currentBooking.booking.sessions, customer: customer}).$promise;
         };
 
         $scope.resetBookings = function () {
             currentBooking.resetBooking();
             currentBooking.filters = {};
+            delete currentBooking.totalPrice;
+            delete currentBooking.dateRange;
             delete currentBooking.allEvents;
             $state.go('booking.selection');
         };

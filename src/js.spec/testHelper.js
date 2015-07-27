@@ -16,8 +16,9 @@ var $testRegion,
 beforeEach(module('app'));
 
 //stop $urlRouterProvider from running otherwise()/loading default views
-beforeEach(module(function($urlRouterProvider) {
+beforeEach(module(function($urlRouterProvider, $compileProvider) {
   $urlRouterProvider.deferIntercept();
+  $compileProvider.debugInfoEnabled(true);
 }));
 
 beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_, _$q_, _$state_, _$timeout_) { 
@@ -75,7 +76,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
     });
 
     locationStub = this.sinon.stub($injector.get('$location'), 'host', function(){
-        return 'app';
+        return 'app-testing';
     });
 
     $testRegion = $('<div></div>');

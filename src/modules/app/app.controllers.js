@@ -1,10 +1,9 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'allFeaturesWhitelist', 'sessionService',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, allFeaturesWhitelist, sessionService) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'defaultSubdomain',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, defaultSubdomain) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
-            $rootScope.allFeaturesWhitelist = allFeaturesWhitelist;
 
             $rootScope.addAlert = function(alert){
 
@@ -88,7 +87,7 @@ angular.module('app.controllers', [])
 
             $rootScope.redirectToApp = function(){
                 $timeout(function(){
-                    window.location = 'https://app.coachseek.com';
+                    window.location = 'https://' + defaultSubdomain + '.coachseek.com';
                 }, 5000)
             };
 
@@ -105,6 +104,10 @@ angular.module('app.controllers', [])
                     $rootScope.removeAlerts();
                 }
             });
+
+            $rootScope.showFeature = function(){
+                return ENV.name === 'dev' || _.includes(_.get(ENV, 'allFeaturesWhitelist'), _.get(sessionService, 'user.email'))
+            };
 
             $rootScope.ENV = ENV;
             $rootScope.isCollapsed = true;

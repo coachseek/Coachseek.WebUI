@@ -7,7 +7,7 @@ angular.module('booking.directives', [])
                 scope.selected = false;
                 var startDate = moment(scope.event.timing.startDate + " " + scope.event.timing.startTime, "YYYY-MM-DD HH:mm");
                 scope.spacesAvailable = getSpacesAvailable();
-                scope.fullCoursePrice = getFullCoursePricePrice();
+                scope.fullCoursePrice = getFullCoursePrice();
                 scope.isSoldOut = function(){
                     if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
                         return scope.spacesAvailable <= 0;
@@ -16,7 +16,7 @@ angular.module('booking.directives', [])
                     }
                 }
 
-                function getFullCoursePricePrice(){
+                function getFullCoursePrice(){
                     var event = scope.event;
                     if(scope.isBefore(event)){
                         // SUM SESSION PRICES
@@ -159,7 +159,8 @@ angular.module('booking.directives', [])
             link: function(scope){
                 scope.calculateTotalPrice = function(){
                     var course = currentBooking.booking.course;
-                    if(course){
+
+                    if(!currentBooking.totalPrice && course){
                         // STANDALONE SESSION
                         if(!course.sessions) {
                             return course.pricing.sessionPrice.toFixed(2);
@@ -181,7 +182,7 @@ angular.module('booking.directives', [])
                             }
                         }
                     // ONLY COURSE SESSIONS SELECTED
-                    } else if (currentBooking.booking.sessions){
+                    } else if (!currentBooking.totalPrice && currentBooking.booking.sessions){
                         return _.sum(currentBooking.booking.sessions, 'pricing.sessionPrice').toFixed(2);
                     //NOTHING SELECTED
                     } else {
@@ -210,7 +211,9 @@ angular.module('booking.directives', [])
                         booking: {
                             course: _.get(currentBooking.booking, 'course.sessions[0]') || _.get(currentBooking.booking, 'sessions[0]')
                         },
-                        filters: currentBooking.filters
+                        filters: currentBooking.filters,
+                        totalPrice: scope.calculateTotalPrice(),
+                        dateRange: scope.calculateBookingDateRange()
                     });
                 };
 

@@ -152,7 +152,7 @@
                 }
             }
 
-            .fc-event {
+            .fc-event {           
                 @extend %service-background-colors-60;
                 @extend %service-border-colors;
                 border-width: 1.5px;
@@ -176,8 +176,45 @@
                 margin: 20px 0 35px 0;
             }
 
-            .fc-content .fc-time{
-               display : none;
+            .fc-content {
+                height: 100%;
+                .fc-fullybooked-agendaDay{
+                    @extend %service-background-colors-lighten;           
+                    @extend %service-border-colors;
+                    border-top: 1px solid;
+                    position: absolute;
+                    z-index: 3;
+                    bottom: 0px;
+                    width: 100%;
+                    text-align: center;
+                    p,i{
+                        display: inline-block;
+                    }
+                  
+                }
+                .fc-fullybooked-agendaWeek{
+                    @extend .fc-fullybooked-agendaDay;
+                }
+                .fc-fullybooked-month{
+                    @extend %service-background-colors;           
+                    @extend %service-border-colors;                
+                    border-top: 1px solid;
+                    position: absolute;
+                    right: 0px;
+                    top: 0;
+                    text-align: center;
+                    width: 16px;
+                    p,i{
+                        display: inline;
+                    }
+                    i{
+                        margin-left: 1px;
+                    }
+
+                }
+                .fc-time{
+                    display : none;
+                }
             }
 
             .fc-unthemed{
@@ -217,6 +254,11 @@
                
             }
             .calendar {
+                .fc-content {
+                    .fc-fullybooked-month{
+                        display: none !important;
+                    }
+                }
                 div.fc-view-container{
                     padding: 0px;
                 }
