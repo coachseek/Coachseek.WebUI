@@ -208,9 +208,6 @@ angular.module('booking.directives', [])
                 scope.getQueryString = function(){
                     return JSON.stringify({
                         customer: currentBooking.customer,
-                        booking: {
-                            course: _.get(currentBooking.booking, 'course.sessions[0]') || _.get(currentBooking.booking, 'sessions[0]')
-                        },
                         filters: currentBooking.filters,
                         totalPrice: scope.calculateTotalPrice(),
                         dateRange: scope.calculateBookingDateRange()

@@ -154,7 +154,6 @@ angular.module('booking.controllers', [])
 
         if(!currentBooking.allEvents){
             delete $scope.serviceDescription;
-
             $scope.loadingSessions = true;            
             currentBooking.getAllEvents($scope.business.domain).then(function(events){
                 currentBooking.allEvents = _.sortBy(_.union(events.courses, events.sessions),function(event){
@@ -186,7 +185,6 @@ angular.module('booking.controllers', [])
         if( sessionService.currentBooking ){
             _.assign(currentBooking, {
                 customer: sessionService.currentBooking.customer,
-                booking: sessionService.currentBooking.booking,
                 filters: sessionService.currentBooking.filters,
                 totalPrice: sessionService.currentBooking.totalPrice,
                 dateRange: sessionService.currentBooking.dateRange
