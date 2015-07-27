@@ -1,0 +1,47 @@
+.popover{
+    max-width: none;
+    width: 350px;
+    .popover-inner .popover-content i.fa.fa-close{
+    	color: $text-grey;
+    	position: absolute;
+    	font-size: 15px;
+    	top: 10px;
+    	right: 5px;
+    	cursor: pointer;
+    }
+
+    h2{
+        color: $green;
+        margin-top: 0;
+        font-size: 24px;
+    }
+
+    p{
+        margin-bottom: 15px;
+        font-size: 13px;
+
+        em{
+            font-style: italic;
+        }
+    }
+}
+
+.service-details{
+    .popover{
+        max-width: none;
+        &.bottom{
+            left: 0px !important;
+        }
+        .arrow{
+            left: 15px;
+        }
+    }
+}
+
+.scheduling-container{
+    .popover{
+        &.left{
+            top: 200px !important;
+        }
+    }
+}

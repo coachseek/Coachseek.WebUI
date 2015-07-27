@@ -1,0 +1,34 @@
+{
+    "default-modal-title": "Hi! Welcome to Coachseek.",
+    "default-modal-subtitle": "Using Coachseek is easy, just complete the fields below to see how to start.",
+    "coach-name": "Enter a coach name",
+    "location-name": "Enter a location",
+    "services-name": "Enter a service",
+    "onboarding-save": "Show me the money",
+    "placeholder": {
+        "coach-first-name": "First name",
+        "coach-last-name": "Last name",
+        "location-name": "(e.g. IMG Bollettieri Tennis Academy)",
+        "services-name": "(e.g. Advanced football skills training or Mini red tennis)"
+    },
+    "popover" : {
+        "see-easy": "See? Easy.",
+        "nice-work": "Nice work!",
+        "drag-service": "Now just drag your new session onto the calendar.",
+        "drag-service-hint": "Hint: Dont worry about dropping it in the wrong place, you can change it anytime, just drag it around!",
+        "session-modal": "This little guy is called a session modal. You can customize the session you just made to your hearts content.",
+        "session-modal-hint": "Hint: If you make the session available to be booked online then you can start recieving clients!"
+    },
+    "review" : {
+        "too-easy" : "Too easy",
+        "first-message": "Now you have a session available to be booked onto in your calendar!",
+        "second-message": "To continue to add or change sessions, head on over to the settings tab. This is where you can also add coaches and locations.",
+        "hint": "Hint: We are on your team and available to help! Want us to import your entire calendar for you? Just flick us an email at team@coachseek.com."
+    },
+    "coachFirstName-invalid": "Oops! Try fixing the coaches first name.",
+    "coachLastName-invalid": "Oops! Try fixing the coaches last name.",
+    "serviceName-invalid": "Oops! Try fixing the service name.",
+    "locationName-invalid": "Oops! Try fixing the location name.",
+    "go-away": "I'll take it from here",
+    "1800coach": "1-800-COACH"
+}

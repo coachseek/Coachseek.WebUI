@@ -1,0 +1,64 @@
+.onboarding-modal-backdrop{
+
+}
+
+.onboarding-default-container, .onboarding-review-container{
+    overflow: hidden;
+    padding: 10px 20px 20px 20px;
+    background: $white;
+    font-family: lato-light;
+    width: 485px;
+    margin: 0 auto;
+
+    h2, .title{
+        font-size: 34px;
+        color: $green;
+        text-align: center;
+    }
+
+    h3{
+        font-size: 24px;
+        color: $green;
+    }
+
+    h4, .subtitle{
+        font-size: 13px;
+        color: $text-dark-grey;
+    }
+
+    .form-input {
+        label{
+            font-size: 13px;
+            color: $text-dark-grey;
+        }
+
+        input {
+            border: 1.5px solid $border-light-grey;
+            border-radius: 5px;
+            padding: 8px;
+        }
+
+        i.fa-times{
+            top: -34px;
+        }
+    }
+
+    p{
+        margin-bottom: 15px;
+        font-size: 13px;
+
+        em{
+            font-style: italic;
+        }
+    }
+
+    .save-button{
+        padding: 0;
+    }
+    button.close{
+        height: 25px;
+        font-size: 12px;
+        margin-right: 50px;
+        color: $text-dark-grey;
+    }
+}
