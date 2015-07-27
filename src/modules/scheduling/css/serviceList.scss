@@ -41,7 +41,6 @@
 
             ul{
                 height: calc(100vh - 190px);
-                overflow-y: scroll;
 
                 &::-webkit-scrollbar { 
                     display: none; 
@@ -143,7 +142,7 @@
                 margin: 0 auto 10px auto;
                 padding: 10px 12.5px;
                 background: $white;
-                overflow: hidden;
+                position: relative;
                 -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
                 -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
                 box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
@@ -187,6 +186,13 @@
                         white-space: nowrap;
                         text-overflow: ellipsis;
                     }
+                }
+
+                onboarding-popover{
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
                 }
             }
         }

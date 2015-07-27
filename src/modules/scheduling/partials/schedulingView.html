@@ -1,4 +1,4 @@
-<div ng-class="{'calendar-fix': showModal}">
+<div class="scheduling-container" ng-class="{'calendar-fix': showModal}">
     <div class="services-list-container" ng-class="{closed: !isBigScreen || !calendarView.serviceDrawerOpen}">
         <scheduling-services-list></scheduling-services-list>
     </div>
@@ -25,7 +25,7 @@
         <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="events" calendar="sessionCalendar"></div>
     </div>
 
-    <div class="session-modal session-modal-responsive" ng-show="showModal">
+    <div class="session-modal session-modal-responsive" onboarding-popover onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" ng-show="showModal" id="session-modal" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="left">
         <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
             <p class="date" ng-class="{'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}}</p>
             <p ng-show="!isBigScreen" class="inline-on-mobile">&nbsp;-&nbsp;</p>

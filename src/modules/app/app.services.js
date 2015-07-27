@@ -105,20 +105,23 @@ angular.module('app.services', [])
     }])
     .service('loginModal', ['$modal', '$rootScope',
         function ($modal, $rootScope) {
-            return function() {
-                var instance = $modal.open({
-                    templateUrl: 'app/partials/loginModal.html',
-                    controller: 'loginModalCtrl',
-                    backdropClass: 'modal-backdrop',
-                    backdrop: 'static',
-                    keyboard: false
-                });
+            return {
+                open: function() {
+                    var instance = $modal.open({
+                        templateUrl: 'app/partials/loginModal.html',
+                        controller: 'loginModalCtrl',
+                        windowClass: 'login-modal-backdrop',
+                        backdrop: 'static',
+                        keyboard: false,
+                        animation: false
+                    });
 
-                return instance.result.then(function(userDetails) {
-                    $rootScope.setupCurrentUser(userDetails.user, userDetails.business);
-                    return userDetails;
-                });
-            };
+                    return instance.result.then(function(userDetails) {
+                        $rootScope.setupCurrentUser(userDetails.user, userDetails.business);
+                        return userDetails;
+                    });
+                }
+            }
         }
     ])
     .service('sessionService', function(){
@@ -129,6 +132,10 @@ angular.module('app.services', [])
                 coachId: "",
                 locationId: "",
                 serviceDrawerOpen: isBigScreen
+            },
+            onboarding: {
+                showOnboarding: false,
+                stepsCompleted: []
             }
         };
     });

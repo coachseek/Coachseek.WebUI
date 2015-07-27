@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache',
-        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache){
+    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal',
+        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 
@@ -42,6 +42,12 @@ angular.module('scheduling.controllers', [])
                         center: 'prev title next',
                         right: 'month agendaWeek agendaDay today' 
                     },
+                    externalDragStart: function(){
+                        $scope.$broadcast('hideDragServicePopover');
+                    },
+                    externalDragFail: function(){
+                        if(showDragServicePopover()) $scope.$broadcast('showDragServicePopover');
+                    },
                     drop: function(date, event) {
                         handleServiceDrop(date, $(this).data('service'));
                     },
@@ -63,25 +69,28 @@ angular.module('scheduling.controllers', [])
                     //     }
                     // },
                     events: function(start, end, timezone, renderEvents){
-                        var getSessionsParams = {
-                            startDate: start.format('YYYY-MM-DD'),
-                            endDate: end.format('YYYY-MM-DD'),
-                            locationId: sessionService.calendarView.locationId,
-                            coachId: sessionService.calendarView.coachId,
-                            section: 'Sessions'
-                        };
-                        startCalendarLoading();
-                        coachSeekAPIService.get(getSessionsParams)
-                            .$promise.then(function(sessionObject){
-                                $scope.events = [];
-                                addSessionsWithinInterval(sessionObject.sessions);
-                                addCoursesWithinInterval(sessionObject.courses);
-                                renderEvents($scope.events);
-                                $scope.$broadcast('fetchSuccesful');
-                            }, $scope.handleErrors).finally(function(){
-                                stopCalendarLoading();
-                            });
-                        if(!totalNumSessions) getTotalNumberOfSessions(start.clone());
+                        if(!showOnboarding()){
+                            var getSessionsParams = {
+                                startDate: start.format('YYYY-MM-DD'),
+                                endDate: end.format('YYYY-MM-DD'),
+                                locationId: sessionService.calendarView.locationId,
+                                coachId: sessionService.calendarView.coachId,
+                                useNewSearch: true,
+                                section: 'Sessions'
+                            };
+                            startCalendarLoading();
+                            coachSeekAPIService.get(getSessionsParams)
+                                .$promise.then(function(sessionObject){
+                                    $scope.events = [];
+                                    addSessionsWithinInterval(sessionObject.sessions);
+                                    addCoursesWithinInterval(sessionObject.courses);
+                                    renderEvents($scope.events);
+                                    $scope.$broadcast('fetchSuccesful');
+                                }, $scope.handleErrors).finally(function(){
+                                    stopCalendarLoading();
+                                });
+                            if(!totalNumSessions) getTotalNumberOfSessions(start.clone());
+                        }
                     },
                     eventRender: function(event, element, view) {
                         if(view.type !== 'month'){
@@ -253,6 +262,7 @@ angular.module('scheduling.controllers', [])
                     if(index === 0){
                         $scope.currentEvent = newEvent;
                         $scope.currentEvent.course = {pricing:newEvent.session.pricing};
+                        if(showSessionModalPopover()) $scope.$broadcast('showSessionModalPopover', 500);
                     }
                 });
             };
@@ -398,9 +408,14 @@ angular.module('scheduling.controllers', [])
                         } else {
                             $scope.currentEvent.session = session;
                         }
+                        // Add drag and session modal onboarding here
+                        $scope.$broadcast('hideSessionModalPopover');
+                        sessionService.onboarding.stepsCompleted.push('dragService', 'sessionModal');
+                        onboardingModal.open('onboardingReviewModal', 'onboardingReviewModalCtrl').then(function(){});
                     } else {
                         closeModal();
                     }
+
                     $scope.removeAlerts();
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 }, handleCalendarErrors);
@@ -427,6 +442,19 @@ angular.module('scheduling.controllers', [])
                 } else {
                     deleteSessions($scope.currentEvent.session.id);
                 }
+            };
+
+            $scope.toggleServiceDrawer = function(){
+                $scope.calendarView.serviceDrawerOpen = !$scope.calendarView.serviceDrawerOpen
+                if($scope.calendarView.serviceDrawerOpen && showDragServicePopover()){
+                    $scope.$broadcast('showDragServicePopover');
+                } else {
+                    $scope.$broadcast('hideDragServicePopover');
+                }
+            };
+
+            $scope.closePopover = function(hidePopoverTrigger){
+                $scope.$broadcast(hidePopoverTrigger);
             };
 
             var deleteSessions = function(id){
@@ -467,6 +495,8 @@ angular.module('scheduling.controllers', [])
                 $scope.$broadcast('closeTimePicker', resetTimePicker);
                 $scope.currentSessionForm.$setUntouched();
                 $scope.currentSessionForm.$setPristine();
+                $scope.$broadcast('hideSessionModalPopover');
+                if(showDragServicePopover()) $scope.$broadcast('showDragServicePopover');
                 $scope.showModal = false;
             };
 
@@ -502,6 +532,18 @@ angular.module('scheduling.controllers', [])
                 $scope.calendarLoading = false;
             };
 
+            function showOnboarding(){
+                return sessionService.onboarding.showOnboarding && !_.includes(sessionService.onboarding.stepsCompleted, 'createDefaults');
+            };
+
+            function showDragServicePopover(){
+                return sessionService.onboarding.showOnboarding && !_.includes(sessionService.onboarding.stepsCompleted, 'dragService');
+            };
+
+            function showSessionModalPopover(){
+                return sessionService.onboarding.showOnboarding && !_.includes(sessionService.onboarding.stepsCompleted, 'sessionModal');
+            };
+
             // TODO - do this in repeat selector
             $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
                 if(_.has($scope, 'currentEvent.tempEventId') && newVal < 2 && _.has($scope, 'currentEvent.course.pricing.coursePrice')){
@@ -509,19 +551,38 @@ angular.module('scheduling.controllers', [])
                 }
             });
 
-            // INITIAL LOAD
-            startCalendarLoading();
-            $q.all({
-                    coaches: coachSeekAPIService.query({section: 'Coaches'}).$promise,
-                    locations: coachSeekAPIService.query({section: 'Locations'}).$promise,
-                    services: coachSeekAPIService.query({section: 'Services'}).$promise
-                })
-                .then(function(response) {
-                    $scope.coachList    = response.coaches;
-                    $scope.locationList = response.locations;
-                    $scope.serviceList  = response.services;
-                },function(error){
-                    $scope.handleErrors(error);
-                    stopCalendarLoading();
+            function initFetch(){
+                // INITIAL LOAD
+                startCalendarLoading();
+                $q.all({
+                        coaches: coachSeekAPIService.query({section: 'Coaches'}).$promise,
+                        locations: coachSeekAPIService.query({section: 'Locations'}).$promise,
+                        services: coachSeekAPIService.query({section: 'Services'}).$promise
+                    })
+                    .then(function(response) {
+                        $scope.coachList    = response.coaches;
+                        $scope.locationList = response.locations;
+                        $scope.serviceList  = response.services;
+                        if(showDragServicePopover()){
+                            $timeout(function(){
+                                $scope.$broadcast('showDragServicePopover', 1000)
+                            });
+                        }
+                    },function(error){
+                        $scope.handleErrors(error);
+                        stopCalendarLoading();
+                    });
+            }
+
+            if(showOnboarding()){
+                onboardingModal.open('onboardingDefaultsModal', 'onboardingDefaultsModalCtrl').then(function(response){
+                    initFetch();
+                    // will be none but need to stop calendar loading somehow.
+                    uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
+                }).finally(function(){
+                    sessionService.onboarding.stepsCompleted.push('createDefaults');
                 });
+            } else {
+                initFetch();
+            }
     }]);

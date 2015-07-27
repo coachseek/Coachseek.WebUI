@@ -42,20 +42,20 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
-                Intercom('shutdown');
+                if(window.Intercom) Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
                 });
 
-                loginModal().then(function () {
+                loginModal.open().then(function () {
                     $rootScope.removeAlerts();
                     return $state.go($state.current, {}, {reload: true});
                 });
             };
 
             $rootScope.login = function(){
-                loginModal().then(function () {
+                loginModal.open().then(function () {
                     $rootScope.removeAlerts();
                     $state.go('scheduling');
                 });
@@ -119,7 +119,7 @@ angular.module('app.controllers', [])
                 } else if (requireLogin && !sessionService.user) {
                     event.preventDefault();
 
-                    loginModal().then(function () {
+                    loginModal.open().then(function () {
                         $rootScope.removeAlerts();
                         return $state.go(toState.name, toParams);
                     });
@@ -138,7 +138,21 @@ angular.module('app.controllers', [])
             $(window).on('resize', function () {
                 $rootScope.isBigScreen = $(this).width() > 768;
                 $rootScope.$apply();
-            }); 
+            });
+
+            var keys = {};
+
+            $(document).keydown(function (e) {
+                keys[e.which] = true;
+                if(keys[16] && keys[32] && keys[79]){
+                    sessionService.onboarding.showOnboarding = true;
+                    $state.reload();
+                }
+            });
+
+            $(document).keyup(function (e) {
+                delete keys[e.which];
+            });
         }])
         .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',
             function ($scope, coachSeekAPIService, $http, $activityIndicator, $window) {

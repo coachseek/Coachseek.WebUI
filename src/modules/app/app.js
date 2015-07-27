@@ -24,6 +24,7 @@ angular.module('app',
     'scheduling',
     'customers',
     'booking',
+    'onboarding',
 
     // UTILITIES
     'ngActivityIndicator',
@@ -34,7 +35,7 @@ angular.module('app',
             lng: 'en',
             fallbackLng: 'en',
             ns : {
-                namespaces : ['app', 'businessSetup', 'scheduling', 'customers', 'booking'],
+                namespaces : ['app', 'businessSetup', 'scheduling', 'customers', 'booking', 'onboarding'],
                 defaultNs: 'app'
             },
             resGetPath: 'i18n/__lng__.json',
