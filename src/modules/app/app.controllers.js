@@ -61,20 +61,29 @@ angular.module('app.controllers', [])
                 });
             };
 
-            var startIntercom = function(user, date){
+            var startIntercom = function(user){
                 if(window.Intercom){
-                    Intercom('boot', {
-                        app_id: "udg0papy",
-                        name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
-                        email: user.email,
-                        created_at: date
-                    });
+                    //init Intercom new user
+                    if(user.firstName && user.lastName){
+                        Intercom('boot', {
+                            app_id: "udg0papy",
+                            name: user.firstName + " " + user.lastName,
+                            email: user.email,
+                            created_at: _.now()
+                        });
+                    //returning user
+                    } else {
+                        Intercom('boot', {
+                            app_id: "udg0papy",
+                            email: user.email
+                        });
+                    }
                 }
             };
 
             $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
-                startIntercom(user, _.now());
+                startIntercom(user);
                 sessionService.user = user;
                 sessionService.business = business;
                 $rootScope.currentUser = sessionService.user;

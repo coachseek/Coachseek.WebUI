@@ -12,8 +12,10 @@ angular.module('businessSetup.controllers', [])
                 coachSeekAPIService.save({section: 'businessRegistration'}, {admin: $scope.admin, business: $scope.business})
                     .$promise.then(function(newBusiness){
                         $scope.setupCurrentUser({
-                            email: $scope.admin.email,
-                            password: $scope.admin.password
+                            email: newBusiness.admin.email,
+                            password: $scope.admin.password,
+                            firstName: newBusiness.admin.firstName,
+                            lastName: newBusiness.admin.lastName
                         }, newBusiness.business);
                         reportConversion();
                         $state.go('scheduling');
