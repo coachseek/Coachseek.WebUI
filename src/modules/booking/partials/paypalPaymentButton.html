@@ -1,6 +1,6 @@
 <button class="paypal-button" ng-click="paypalSubmit()"></button>
 
-<form class="paypal-form" method="post" action="{{ENV.paypalURL}}">
+<form class="paypal-form" method="post" action="{{paypalURL}}">
     <input type="hidden" name="cmd" value="_xclick">
     <input type="hidden" name="first_name" value="{{currentBooking.customer.firstName}}">
     <input type="hidden" name="last_name" value="{{currentBooking.customer.lastName}}">
