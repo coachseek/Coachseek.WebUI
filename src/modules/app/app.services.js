@@ -1,7 +1,7 @@
 angular.module('app.services', [])
     // TODO change name to coachseekAPIFactory
-    .factory('coachSeekAPIService', ['$resource', 'apiURL', function($resource, apiURL) {
-        return $resource(apiURL + '/:section/:id');
+    .factory('coachSeekAPIService', ['$resource', 'ENV', function($resource, ENV) {
+        return $resource(ENV.apiURL + '/:section/:id');
             //   DEFAULT RESOURCE FUNTIONS
             //   'get':    {method:'GET'},
             //   'save':   {method:'POST'},
@@ -9,10 +9,10 @@ angular.module('app.services', [])
             //   'remove': {method:'DELETE'},
             //   'delete': {method:'DELETE'}
     }])
-    .factory('anonCoachseekAPIFactory', ['$resource', 'apiURL', function($resource, apiURL){
+    .factory('anonCoachseekAPIFactory', ['$resource', 'ENV', function($resource, ENV){
         return {
             anon: function (subdomain) {
-                return $resource(apiURL + '/:section/:id', {}, {
+                return $resource(ENV.apiURL + '/:section/:id', {}, {
                     get:   {method: 'GET', headers: {'Business-Domain': subdomain}},
                     // query: {method: 'GET', isArray:true, headers: {'Business-Domain': subdomain}},
                     // save:  {method: 'POST', headers: {'Business-Domain': subdomain}}

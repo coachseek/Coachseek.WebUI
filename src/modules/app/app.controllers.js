@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'defaultSubdomain',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, defaultSubdomain) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
 
@@ -96,7 +96,7 @@ angular.module('app.controllers', [])
 
             $rootScope.redirectToApp = function(){
                 $timeout(function(){
-                    window.location = 'https://' + defaultSubdomain + '.coachseek.com';
+                    window.location = 'https://' + ENV.defaultSubdomain + '.coachseek.com';
                 }, 5000)
             };
 
@@ -104,7 +104,7 @@ angular.module('app.controllers', [])
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
-                if(businessDomain !== defaultSubdomain && !sessionService.business){
+                if(businessDomain !== ENV.defaultSubdomain && !sessionService.business){
                     event.preventDefault();
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){

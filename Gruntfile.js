@@ -15,9 +15,10 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'dev',
-                    },
-                    apiURL: 'https://api-testing.coachseek.com',
-                    defaultSubdomain: 'app-testing'
+                        defaultSubdomain: 'app-testing',
+                        apiURL: 'https://api-testing.coachseek.com',
+                        paypalURL: 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+                    }
                 }
             },
             build: {
@@ -27,6 +28,9 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'prod',
+                        defaultSubdomain: 'app',
+                        apiURL: 'https://api.coachseek.com',
+                        paypalURL: 'https://www.paypal.com/cgi-bin/webscr',
                         allFeaturesWhitelist: [
                             're@d.e',
                             'ian@coachseek.com',
@@ -40,9 +44,7 @@ module.exports = function(grunt) {
                             'mattwilliamson94@hotmail.com',
                             'samyin1990@gmail.com'
                         ]
-                    },
-                    apiURL: 'https://api.coachseek.com',
-                    defaultSubdomain: 'app'
+                    }
                 }
             }
         },

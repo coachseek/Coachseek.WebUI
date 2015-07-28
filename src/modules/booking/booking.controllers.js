@@ -176,11 +176,10 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         }
     }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'apiURL',
-      function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService, apiURL){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'ENV',
+      function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService, ENV){
         $scope.bookingConfirmed = false;
         $scope.paidWithPaypal = false;
-        $scope.apiURL = apiURL;
 
         if( sessionService.currentBooking ){
             _.assign(currentBooking, {
