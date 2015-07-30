@@ -15,12 +15,12 @@
     left: 15px;
   }
   .outer-logo{
-    background: url("../assets/pics/logo-small-outer.png") no-repeat center;
+    background: url(#{$asset-url}/pics/logo-small-outer.png) no-repeat center;
     background-size: 100%;
   }
 
   .inner-logo{
-    background: url("../assets/pics/logo-small-inner.png") no-repeat center;
+    background: url(#{$asset-url}/pics/logo-small-inner.png) no-repeat center;
     background-size: 100%;
 
     &.active {
