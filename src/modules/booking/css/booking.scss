@@ -1,5 +1,6 @@
 [state^="booking"] {
-    background: url("../assets/pics/online-booking-dap.png") center center no-repeat;
+    // background: url("../assets/pics/online-booking-dap.png") center center no-repeat;
+    background-color: #ECECEC;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -75,6 +76,7 @@
                     width: 100%;
                     padding-left: 30px;
                     margin-bottom: 10px;
+                    color: #4d4d4d;
                 }
 
                 select{
@@ -114,6 +116,7 @@
                     width: 50%;
                     margin: 0 auto;
                     text-align: center;
+                    color: #4d4d4d;
                 }
             }
 
@@ -132,6 +135,7 @@
                     padding-left: 30px;
                     width: 100%;
                     margin-bottom: 20px;
+                    color: #4d4d4d;
                 }
 
                 booking-rectangle {
@@ -364,7 +368,7 @@
                 overflow: hidden;
                 width: 50%;
                 margin: 0 auto;
-
+                color: #4d4d4d;
                 .button-container{
                     text-align: center;
 
