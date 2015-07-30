@@ -42,7 +42,8 @@ module.exports = function(grunt) {
                             'hannah@coachseek.com',
                             'matt@coachseek.com',
                             'mattwilliamson94@hotmail.com',
-                            'samyin1990@gmail.com'
+                            'samyin1990@hotmail.com',
+                            'josh+msports@coachseek.com'
                         ]
                     }
                 }
