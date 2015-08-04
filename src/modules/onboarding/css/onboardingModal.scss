@@ -12,6 +12,11 @@
 
     &.onboarding-review-container{
         width: 445px;
+
+        a{
+            color: $green;
+            cursor: pointer;
+        }
     }
 
     &.exit-onboarding-container{

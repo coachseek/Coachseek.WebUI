@@ -1,6 +1,6 @@
 <div class="drag-service-popover">
     <i class="fa fa-close" ng-click="closePopover('hideDragServicePopover')"></i>
     <h2>{{'onboarding:popover.great-job' | i18next}}</h2>
-    <p>{{'onboarding:popover.drag-service' | i18next}}</p>
+    <p ng-i18next="[i18next]({serviceName:item.name}){{'onboarding:popover.drag-service'}}"></p>
     <p><em>{{'onboarding:popover.drag-service-hint' | i18next}}</em></p>
 </div>

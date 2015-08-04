@@ -14,21 +14,22 @@
     "popover" : {
         "great-job": "Great job!",
         "nice-work": "Nice work!",
-        "drag-service": "Now just drag your new session onto the calendar.",
+        "drag-service": "Now just drag \"__serviceName__\" onto the calendar.",
         "drag-service-hint": "Hint: Dont worry about dropping it in the wrong place, you can change it anytime, just drag it around!",
         "session-modal": "You can customize the session ‘til your heart’s content.",
         "session-modal-hint": "Hint: If you make a session ‘available to book online’, then you can start receiving customers right away."
     },
     "review" : {
-        "too-easy" : "Too easy",
-        "first-message": "Now you have a session available to be booked onto in your calendar!",
-        "second-message": "To continue to add or change sessions, head on over to the settings tab. This is where you can also add coaches and locations.",
-        "hint": "Hint: We are on your team and available to help! Want us to import your entire calendar for you? Just flick us an email at team@coachseek.com."
+        "too-easy" : "Sweet, that was too easy!",
+        "first-message": "Now you can build the rest of your schedule into Coachseek - just head to the ‘Settings’ tab and add all the Coaches, Locations and Services your business offers, and you’ll be away in no time!",
+        "second-message": "If you want to see how your beautiful schedule turns into an Online Booking site - just check out our video ",
+        "here": "here!",
+        "hint": "Hint: Click the big questions mark in the top right to get to our Help Desk or to ask any questions!"
     },
     "exit" : {
         "are-you-sure" : "Are you sure?",    
         "gone-forever" : "You won't see our sweet little tour ever again.",
-        "exit": "Go away",
+        "exit": "Yes, go away",
         "continue": "Continue tour"    
     },
     "coachFirstName-invalid": "Oops! Try fixing the coaches first name.",
@@ -36,5 +37,6 @@
     "serviceName-invalid": "Oops! Try fixing the service name.",
     "locationName-invalid": "Oops! Try fixing the location name.",
     "go-away": "Don't show me these again",
+    "i-got-it": "I got it from here",
     "1800coach": "1-800-COACH"
 }
