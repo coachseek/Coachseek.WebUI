@@ -19,7 +19,7 @@ angular.module('businessSetup.controllers', [])
                         }, newBusiness.business);
                         reportConversion();
                         $state.go('scheduling');
-                        if($scope.showFeature()) sessionService.onboarding.showOnboarding = true;
+                        if($scope.showFeature() && $scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
                     }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
