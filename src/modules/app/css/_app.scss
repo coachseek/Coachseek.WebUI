@@ -134,8 +134,35 @@ $nav-bar-height: 55px;
     &.dark-blue    { border-color: $dark-blue; }
 }
 
+/* latin */
+@font-face {
+  font-family: 'Lato Light';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Lato Light'), local('Lato-Light'), url(https://fonts.gstatic.com/s/lato/v11/22JRxvfANxSmnAhzbFH8PgLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Lato Regular';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+/* latin */
+@font-face {
+  font-family: 'Lato Bold';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
 body {
-    font-family: lato-regular;
+    font-family: 'Lato Regular';
     background: $background-beige;
 
     &.with-navbar{
@@ -216,15 +243,15 @@ input[type=password]:-ms-input-placeholder{
 
 
 ::-webkit-input-placeholder{
-    font-family:lato-light;
+    font-family: 'Lato Light';
 }
 /* firefox 19+ */
 input[type=all]::-moz-placeholder{
-    font-family:lato-light;
+    font-family: 'Lato Light';
 }
 /* IE */
 :-ms-input-placeholder{
-  font-family: lato-light;
+    font-family: 'Lato Light';
 }
 
 
@@ -300,24 +327,6 @@ select-arrows{
             top: 3px;
         }
     }
-}
-
-@font-face
-{
-  font-family: lato-light;
-  src: url('../fonts/Lato-Light.ttf');
-}
-
-@font-face
-{
-  font-family: lato-regular;
-  src: url('../fonts/Lato-Regular.ttf');
-}
-
-@font-face
-{
-    font-family: lato-bold;
-    src: url('../fonts/Lato-Bold.ttf');
 }
 
 .main-container{

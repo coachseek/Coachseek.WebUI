@@ -26,7 +26,7 @@
 
             h4{
                 color: white;
-                font-family: lato-regular;
+                font-family: 'Lato Regular';
                 font-size: 14px;
                 top: 27px;
                 right: -65px;
@@ -95,7 +95,7 @@
 
         h4{
             text-align: center;
-            font-family: lato-bold;
+            font-family: 'Lato Bold';
             font-size: 15px;
             color: $grey;
             cursor: pointer;
@@ -171,7 +171,7 @@
                     margin-left: 10px;
 
                     .service-name{
-                        font-family: lato-bold;
+                        font-family: 'Lato Bold';
                         font-size: 14px;
                         color: $text-dark-grey;
                         overflow: hidden;
