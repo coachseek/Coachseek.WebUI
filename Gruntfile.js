@@ -198,7 +198,7 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['src/modules/**/*.scss'],
-                tasks: ['newer:concat:dvCss', 'sass:dev'],
+                tasks: ['newer:concat:devCss', 'sass:dev'],
             },
             templates: {
                 files: ['src/modules/**/partials/*.html', 'src/index.html'],
@@ -385,4 +385,8 @@ module.exports = function(grunt) {
         'azure-blob'
     ]);
 
+    grunt.registerTask('blob-testing', [
+        'env:configCDN',
+        'azure-blob:testing'
+    ]);
 };
