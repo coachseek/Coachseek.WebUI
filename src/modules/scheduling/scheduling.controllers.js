@@ -75,7 +75,6 @@ angular.module('scheduling.controllers', [])
                                 endDate: end.format('YYYY-MM-DD'),
                                 locationId: sessionService.calendarView.locationId,
                                 coachId: sessionService.calendarView.coachId,
-                                useNewSearch: true,
                                 section: 'Sessions'
                             };
                             startCalendarLoading();
