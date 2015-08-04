@@ -17,7 +17,6 @@ angular.module('businessSetup.controllers', [])
                             firstName: newBusiness.admin.firstName,
                             lastName: newBusiness.admin.lastName
                         }, newBusiness.business);
-                        reportConversion();
                         $state.go('scheduling');
                         if($scope.showFeature() && $scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
                     }, $scope.handleErrors).finally(function(){
@@ -25,24 +24,6 @@ angular.module('businessSetup.controllers', [])
                 });
             }
         };
-
-        function reportConversion(){
-            window.google_conversion_id = 963132874;
-            window.google_conversion_label = "cfEmCKfEw14QyvugywM";
-            window.google_remarketing_only = false;
-            window.google_conversion_format = "3";
-            window.google_is_call = true;
-            var opt = new Object();
-            opt.onload_callback = function() {
-                if (typeof(url) != 'undefined') {
-                    window.location = url;
-                }
-            }
-            var conv_handler = window['google_trackConversion'];
-            if (typeof(conv_handler) == 'function') {
-                conv_handler(opt);
-            }
-        }
     }])
     .controller('businessCtrl', ['$scope', 'CRUDService', 'sessionService',
         function($scope, CRUDService, sessionService){
