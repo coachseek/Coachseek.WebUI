@@ -409,12 +409,12 @@ angular.module('scheduling.controllers', [])
                         }
                         // Add drag and session modal onboarding here
                         $scope.$broadcast('hideSessionModalPopover');
-                        sessionService.onboarding.stepsCompleted.push('dragService');
-                        if(showOnboarding()) {
+                        sessionService.onboarding.stepsCompleted.push('dragService', 'sessionModal');
+                        if(sessionService.onboarding.showOnboarding) {
                             onboardingModal.open('onboardingReviewModal')
-                                .then(function(){
-                                    ga('send', 'event', 'onboarding', 'close', 'sessionModal');
-                                    sessionService.onboarding.stepsCompleted.push('sessionModal');
+                                .then().finally(function(){
+                                    ga('send', 'event', 'onboarding', 'close', 'onboardingReview');
+                                    sessionService.onboarding.showOnboarding = false;
                                 });
                         }
                     } else {
