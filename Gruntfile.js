@@ -257,7 +257,12 @@ module.exports = function(grunt) {
         preprocess : {
             dev: {
                 src : './index.html',
-                dest : './src/index.html'
+                dest : './src/index.html',
+                options : {
+                    context : {
+                        gaTracking : 'UA-65899861-1',
+                    }
+                }
             },
             testing: {
                 src : './index.html',
@@ -265,6 +270,7 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
+                        gaTracking : 'UA-65899861-1'
                     }
                 }
             },
@@ -274,6 +280,7 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
+                        gaTracking : 'UA-65922713-1'
                     }
                 }
             }
