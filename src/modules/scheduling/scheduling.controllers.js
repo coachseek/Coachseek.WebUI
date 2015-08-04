@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal',
-        function($scope, $q, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal){
+    .controller('schedulingCtrl', ['$scope', '$q', '$state', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal',
+        function($scope, $q, $state, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 
@@ -410,8 +410,14 @@ angular.module('scheduling.controllers', [])
                         }
                         // Add drag and session modal onboarding here
                         $scope.$broadcast('hideSessionModalPopover');
-                        sessionService.onboarding.stepsCompleted.push('dragService', 'sessionModal');
-                        onboardingModal.open('onboardingReviewModal', 'onboardingReviewModalCtrl').then(function(){});
+                        sessionService.onboarding.stepsCompleted.push('dragService');
+                        if(showOnboarding()) {
+                            onboardingModal.open('onboardingReviewModal')
+                                .then(function(){
+                                    ga('send', 'event', 'onboarding', 'close', 'sessionModal');
+                                    sessionService.onboarding.stepsCompleted.push('sessionModal');
+                                });
+                        }
                     } else {
                         closeModal();
                     }
@@ -454,7 +460,7 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.closePopover = function(hidePopoverTrigger){
-                $scope.$broadcast(hidePopoverTrigger);
+                $scope.$broadcast(hidePopoverTrigger, 0, true);
             };
 
             var deleteSessions = function(id){
@@ -576,11 +582,18 @@ angular.module('scheduling.controllers', [])
 
             if(showOnboarding()){
                 onboardingModal.open('onboardingDefaultsModal', 'onboardingDefaultsModalCtrl').then(function(response){
+                    sessionService.onboarding.stepsCompleted.push('createDefaults');
                     initFetch();
                     // will be none but need to stop calendar loading somehow.
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
-                }).finally(function(){
-                    sessionService.onboarding.stepsCompleted.push('createDefaults');
+                }, function(){
+                    onboardingModal.open('exitOnboardingModal')
+                        .then(function(){
+                            $state.reload();
+                        }, function(){
+                            ga('send', 'event', 'onboarding', 'close', 'createDefaults');
+                            sessionService.onboarding.showOnboarding = false;
+                        });
                 });
             } else {
                 initFetch();

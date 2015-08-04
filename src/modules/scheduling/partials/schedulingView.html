@@ -25,7 +25,7 @@
         <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="events" calendar="sessionCalendar"></div>
     </div>
 
-    <div class="session-modal session-modal-responsive" onboarding-popover onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" ng-show="showModal" id="session-modal" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="left">
+    <div class="session-modal session-modal-responsive" onboarding-popover onboarding-step="'sessionModal'" onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" ng-show="showModal" id="session-modal" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="left">
         <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
             <p class="date" ng-class="{'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}}</p>
             <p ng-show="!isBigScreen" class="inline-on-mobile">&nbsp;-&nbsp;</p>

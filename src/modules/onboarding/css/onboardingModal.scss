@@ -2,13 +2,26 @@
 
 }
 
-.onboarding-default-container, .onboarding-review-container{
+.onboarding-modal-container{
     overflow: hidden;
     padding: 10px 20px 20px 20px;
     background: $white;
-    font-family: lato-light;
+    font-family: 'Lato Light';
     width: 485px;
     margin: 0 auto;
+
+    &.onboarding-review-container{
+        width: 445px;
+    }
+
+    &.exit-onboarding-container{
+        width: 400px;
+        text-align: center;
+
+        button{
+            float: none;
+        }
+    }
 
     h2, .title{
         font-size: 34px;
@@ -24,22 +37,43 @@
     h4, .subtitle{
         font-size: 13px;
         color: $text-dark-grey;
+        text-align: center;
+    }
+
+    form{
+        margin-bottom: 0;
     }
 
     .form-input {
+        margin-bottom: 20px;
+        &.coach-name{
+            input{
+                width: 170px;
+            }
+        }
+
         label{
+            padding: 0;
+            float: right;
             font-size: 13px;
             color: $text-dark-grey;
+            line-height: 38px;
         }
 
         input {
+            margin-left: 10px;
+            float: right;
             border: 1.5px solid $border-light-grey;
             border-radius: 5px;
             padding: 8px;
+            width: 350px;
         }
 
         i.fa-times{
             top: -34px;
+        }
+        .error-messages{
+            text-align: right;
         }
     }
 
@@ -56,8 +90,8 @@
         padding: 0;
     }
     button.close{
-        height: 25px;
-        font-size: 12px;
+        height: 40px;
+        font-size: 14px;
         margin-right: 50px;
         color: $text-dark-grey;
     }

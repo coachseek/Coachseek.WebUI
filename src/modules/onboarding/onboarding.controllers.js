@@ -11,21 +11,11 @@ angular.module('onboarding.controllers', [])
                     $activityIndicator.stopAnimating();
                 });
             } else {
-                var errorTypes = $scope.onboardingDefaultsForm.$error;
-                _.forEach(errorTypes, function(errorType, key){
-                    _.forEach(errorType, function(error){
-                        var errorMessage = error.$name;
-                        $scope.addAlert({
-                            type: 'warning',
-                            message: 'onboarding:' + errorMessage + '-invalid'
-                        });
-                    });
-                });
+                $scope.onboardingDefaultsForm.coachFirstName.$setTouched();
+                $scope.onboardingDefaultsForm.coachLastName.$setTouched();
+                $scope.onboardingDefaultsForm.locationName.$setTouched();
+                $scope.onboardingDefaultsForm.serviceName.$setTouched();
             }
-        };
-
-        $scope.closeModal = function(){
-            $scope.$dismiss();
         };
 
         function getDefaultPromises(){
@@ -43,13 +33,5 @@ angular.module('onboarding.controllers', [])
                 email: $scope.coachFirstName + $scope.coachLastName + "@" + sessionService.business.domain + '.com',
                 phone: i18n.t('onboarding:1800coach') + $scope.coachLastName.toUpperCase()
             });
-        };
-    }])
-    .controller('onboardingReviewModalCtrl', ['$scope', 'sessionService',
-      function($scope, sessionService){
-
-        $scope.closeModal = function(){
-            $scope.$dismiss();
-            // turn onboarding off
         };
     }]);
