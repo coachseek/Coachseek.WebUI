@@ -4,8 +4,8 @@
     <form name="onboardingDefaultsForm" novalidate ng-enter="createDefaults()">
 
         <div class="form-input coach-name">
-            <input name="coachLastName" ng-model="coachLastName" placeholder="{{'onboarding:placeholder.coach-last-name' | i18next}}"  required ng-maxlength=50 />
-            <input name="coachFirstName" ng-model="coachFirstName" placeholder="{{'onboarding:placeholder.coach-first-name' | i18next}}"  required ng-maxlength=50 />
+            <input name="coachLastName" ng-model="coachLastName" tabindex="2" placeholder="{{'onboarding:placeholder.coach-last-name' | i18next}}"  required ng-maxlength=50 />
+            <input name="coachFirstName" ng-model="coachFirstName" tabindex="1" placeholder="{{'onboarding:placeholder.coach-first-name' | i18next}}"  required ng-maxlength=50 />
             <label name="coachFirstName">{{'onboarding:coach-name' | i18next}}</label>
 
             <div class="error-messages" ng-messages="onboardingDefaultsForm.coachFirstName.$error" ng-if="onboardingDefaultsForm.coachFirstName.$touched">
@@ -22,7 +22,7 @@
         </div>
 
         <div class="form-input">
-            <input name="locationName" ng-model="locationName" placeholder="{{'onboarding:placeholder.location-name' | i18next}}"  required ng-maxlength=50 />
+            <input name="locationName" ng-model="locationName" tabindex="3" placeholder="{{'onboarding:placeholder.location-name' | i18next}}"  required ng-maxlength=50 />
             <label name="locationName">{{'onboarding:location-name' | i18next}}</label>
 
             <div class="error-messages" ng-messages="onboardingDefaultsForm.locationName.$error" ng-if="onboardingDefaultsForm.locationName.$touched">
@@ -33,7 +33,7 @@
         </div>
 
         <div class="form-input">
-            <input name="serviceName" ng-model="serviceName" placeholder="{{'onboarding:placeholder.services-name' | i18next}}"  required ng-maxlength=50 />
+            <input name="serviceName" ng-model="serviceName" tabindex="4" placeholder="{{'onboarding:placeholder.services-name' | i18next}}"  required ng-maxlength=50 />
             <label name="serviceName">{{'onboarding:services-name' | i18next}}</label>
 
             <div class="error-messages" ng-messages="onboardingDefaultsForm.serviceName.$error" ng-if="onboardingDefaultsForm.serviceName.$touched">
