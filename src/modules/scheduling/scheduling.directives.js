@@ -1,11 +1,14 @@
 angular.module('scheduling.directives', [])
-    .directive('schedulingServicesList', function(){
+    .directive('schedulingServicesList', ['sessionService', function(sessionService){
         return {
             restrict: "E",
             replace: false,
-            templateUrl:'scheduling/partials/schedulingServicesList.html'
+            templateUrl:'scheduling/partials/schedulingServicesList.html',
+            link: function(scope){
+                scope.showOnboarding = sessionService.onboarding.showOnboarding;
+            }
         };
-    })
+    }])
     .directive('modalSessionForm', ['uiCalendarConfig', 'sessionService', function(uiCalendarConfig, sessionService){
         return {
             restrict: "E",

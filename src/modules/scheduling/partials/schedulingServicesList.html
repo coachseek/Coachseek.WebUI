@@ -16,7 +16,7 @@
         {{'businessSetup:add-service' | i18next}}
     </button>
 
-    <ul ng-class="calendarView.serviceDrawerOpen ? 'services-list-show' : 'services-list-hide' ">
+    <ul class="services-list-show" ng-class="{'services-list-hide':!calendarView.serviceDrawerOpen, 'show-onboarding':showOnboarding }">
         <li 
             data-drag="true"
             data-service="{{item}}" 
