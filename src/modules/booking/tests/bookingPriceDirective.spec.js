@@ -87,7 +87,7 @@ describe('Booking Price Directive', function(){
 
                 describe('and some sessions are in the past', function(){
                     it('should show the prorated course price', function(){
-                        expect($bookingPrice.html()).to.contain('6.67&nbsp;' + scope.business.payment.currency);
+                        expect($bookingPrice.html()).to.contain('6.66&nbsp;' + scope.business.payment.currency);
                     });
                 });
             });
