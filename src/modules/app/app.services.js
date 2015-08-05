@@ -135,7 +135,7 @@ angular.module('app.services', [])
             },
             onboarding: {
                 showOnboarding: false,
-                // ['createDefaults', 'dragService', 'sessionModal', 'calendarReview']
+                // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
                 stepsCompleted: []
             }
         };
