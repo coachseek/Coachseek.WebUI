@@ -82,6 +82,9 @@
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       ga('create', '<!-- @echo gaTracking -->', 'auto');
+      <!-- @if env == 'production' -->
+      ga('create', 'UA-50345817-1', 'auto', {'name': 'marketingTracker'});
+      <!-- @endif -->
       ga('send', 'pageview');
     </script>
 </body>
