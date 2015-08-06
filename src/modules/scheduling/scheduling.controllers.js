@@ -570,6 +570,7 @@ angular.module('scheduling.controllers', [])
                         $scope.serviceList  = response.services;
                         if(showDragServicePopover()){
                             $timeout(function(){
+                                stopCalendarLoading();
                                 $scope.$broadcast('showDragServicePopover', 1000)
                             });
                         }
@@ -583,8 +584,6 @@ angular.module('scheduling.controllers', [])
                 onboardingModal.open('onboardingDefaultsModal', 'onboardingDefaultsModalCtrl').then(function(response){
                     sessionService.onboarding.stepsCompleted.push('createDefaults');
                     initFetch();
-                    // will be none but need to stop calendar loading somehow.
-                    uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 }, function(){
                     onboardingModal.open('exitOnboardingModal')
                         .then(function(){
