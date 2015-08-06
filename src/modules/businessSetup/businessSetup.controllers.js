@@ -19,7 +19,7 @@ angular.module('businessSetup.controllers', [])
                         }, newBusiness.business);
                         ga('marketingTracker.send', 'event', { eventCategory: 'FreeTrialSignup', eventAction: 'click', eventLabel: 'Main'});
                         $state.go('scheduling');
-                        if($scope.showFeature() && $scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
+                        if($scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
                     }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
