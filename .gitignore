@@ -1,5 +1,6 @@
 node_modules
-build
+prod
+testing
 .idea
 .sass-cache
 npm-debug.log
@@ -8,6 +9,7 @@ src/css/style.css.map
 src/i18n/en.json
 src/js.spec/testTemplates.js
 src/js
+src/index.html
 reports
 platforms
 plugins

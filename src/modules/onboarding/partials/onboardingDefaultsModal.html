@@ -1,0 +1,48 @@
+<div class="onboarding-modal-container onboarding-default-container crud-item">
+    <h2 class="title">{{'onboarding:default-modal-title' | i18next}}</h2>    
+    <h4 class="subtitle">{{'onboarding:default-modal-subtitle' | i18next}}</h4>    
+    <form name="onboardingDefaultsForm" novalidate ng-enter="createDefaults()">
+
+        <div class="form-input coach-name">
+            <input name="coachLastName" ng-model="coachLastName" tabindex="2" placeholder="{{'onboarding:placeholder.coach-last-name' | i18next}}"  required ng-maxlength=50 />
+            <input name="coachFirstName" ng-model="coachFirstName" tabindex="1" placeholder="{{'onboarding:placeholder.coach-first-name' | i18next}}"  required ng-maxlength=50 />
+            <label name="coachFirstName">{{'onboarding:coach-name' | i18next}}</label>
+
+            <div class="error-messages" ng-messages="onboardingDefaultsForm.coachFirstName.$error" ng-if="onboardingDefaultsForm.coachFirstName.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
+
+            <div class="error-messages" ng-messages="onboardingDefaultsForm.coachLastName.$error" ng-if="onboardingDefaultsForm.coachLastName.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
+        </div>
+
+        <div class="form-input">
+            <input name="locationName" ng-model="locationName" tabindex="3" placeholder="{{'onboarding:placeholder.location-name' | i18next}}"  required ng-maxlength=50 />
+            <label name="locationName">{{'onboarding:location-name' | i18next}}</label>
+
+            <div class="error-messages" ng-messages="onboardingDefaultsForm.locationName.$error" ng-if="onboardingDefaultsForm.locationName.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
+        </div>
+
+        <div class="form-input">
+            <input name="serviceName" ng-model="serviceName" tabindex="4" placeholder="{{'onboarding:placeholder.services-name' | i18next}}"  required ng-maxlength=50 />
+            <label name="serviceName">{{'onboarding:services-name' | i18next}}</label>
+
+            <div class="error-messages" ng-messages="onboardingDefaultsForm.serviceName.$error" ng-if="onboardingDefaultsForm.serviceName.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicateserviceName">{{'businessSetup:error.duplicateserviceName' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
+        </div>
+    </form>
+    <button class="save-button" ng-click="createDefaults()" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'onboarding-save'}}</span><ellipsis-animated ng-show="AILoading"/></button>
+    <button class="close" ng-click="$dismiss()">{{'onboarding:go-away' | i18next}}</button>
+</div>

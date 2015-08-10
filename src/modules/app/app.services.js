@@ -1,7 +1,7 @@
 angular.module('app.services', [])
     // TODO change name to coachseekAPIFactory
-    .factory('coachSeekAPIService', ['$resource', 'apiURL', function($resource, apiURL) {
-        return $resource(apiURL + '/:section/:id');
+    .factory('coachSeekAPIService', ['$resource', 'ENV', function($resource, ENV) {
+        return $resource(ENV.apiURL + '/:section/:id');
             //   DEFAULT RESOURCE FUNTIONS
             //   'get':    {method:'GET'},
             //   'save':   {method:'POST'},
@@ -9,10 +9,10 @@ angular.module('app.services', [])
             //   'remove': {method:'DELETE'},
             //   'delete': {method:'DELETE'}
     }])
-    .factory('anonCoachseekAPIFactory', ['$resource', 'apiURL', function($resource, apiURL){
+    .factory('anonCoachseekAPIFactory', ['$resource', 'ENV', function($resource, ENV){
         return {
             anon: function (subdomain) {
-                return $resource(apiURL + '/:section/:id', {}, {
+                return $resource(ENV.apiURL + '/:section/:id', {}, {
                     get:   {method: 'GET', headers: {'Business-Domain': subdomain}},
                     // query: {method: 'GET', isArray:true, headers: {'Business-Domain': subdomain}},
                     // save:  {method: 'POST', headers: {'Business-Domain': subdomain}}
@@ -105,20 +105,23 @@ angular.module('app.services', [])
     }])
     .service('loginModal', ['$modal', '$rootScope',
         function ($modal, $rootScope) {
-            return function() {
-                var instance = $modal.open({
-                    templateUrl: 'app/partials/loginModal.html',
-                    controller: 'loginModalCtrl',
-                    backdropClass: 'modal-backdrop',
-                    backdrop: 'static',
-                    keyboard: false
-                });
+            return {
+                open: function() {
+                    var instance = $modal.open({
+                        templateUrl: 'app/partials/loginModal.html',
+                        controller: 'loginModalCtrl',
+                        windowClass: 'login-modal-backdrop',
+                        backdrop: 'static',
+                        keyboard: false,
+                        animation: false
+                    });
 
-                return instance.result.then(function(userDetails) {
-                    $rootScope.setupCurrentUser(userDetails.user, userDetails.business);
-                    return userDetails;
-                });
-            };
+                    return instance.result.then(function(userDetails) {
+                        $rootScope.setupCurrentUser(userDetails.user, userDetails.business);
+                        return userDetails;
+                    });
+                }
+            }
         }
     ])
     .service('sessionService', function(){
@@ -129,6 +132,11 @@ angular.module('app.services', [])
                 coachId: "",
                 locationId: "",
                 serviceDrawerOpen: isBigScreen
+            },
+            onboarding: {
+                showOnboarding: false,
+                // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
+                stepsCompleted: []
             }
         };
     });

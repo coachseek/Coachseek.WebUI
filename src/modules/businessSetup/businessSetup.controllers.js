@@ -1,6 +1,6 @@
 angular.module('businessSetup.controllers', [])
-    .controller('businessRegistrationCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$activityIndicator', '$state',
-        function($scope, coachSeekAPIService, CRUDService, $activityIndicator, $state){
+    .controller('businessRegistrationCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$activityIndicator', '$state', 'sessionService',
+        function($scope, coachSeekAPIService, CRUDService, $activityIndicator, $state, sessionService){
         $scope.business = {};
         $scope.admin = {};
 
@@ -12,34 +12,18 @@ angular.module('businessSetup.controllers', [])
                 coachSeekAPIService.save({section: 'businessRegistration'}, {admin: $scope.admin, business: $scope.business})
                     .$promise.then(function(newBusiness){
                         $scope.setupCurrentUser({
-                            email: $scope.admin.email,
-                            password: $scope.admin.password
+                            email: newBusiness.admin.email,
+                            password: $scope.admin.password,
+                            firstName: newBusiness.admin.firstName,
+                            lastName: newBusiness.admin.lastName
                         }, newBusiness.business);
-                        reportConversion();
-                        $state.go('businessSetup.locations');
+                        $state.go('scheduling');
+                        if($scope.showFeature() && $scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
                     }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
             }
         };
-
-        function reportConversion(){
-            window.google_conversion_id = 963132874;
-            window.google_conversion_label = "cfEmCKfEw14QyvugywM";
-            window.google_remarketing_only = false;
-            window.google_conversion_format = "3";
-            window.google_is_call = true;
-            var opt = new Object();
-            opt.onload_callback = function() {
-                if (typeof(url) != 'undefined') {
-                    window.location = url;
-                }
-            }
-            var conv_handler = window['google_trackConversion'];
-            if (typeof(conv_handler) == 'function') {
-                conv_handler(opt);
-            }
-        }
     }])
     .controller('businessCtrl', ['$scope', 'CRUDService', 'sessionService',
         function($scope, CRUDService, sessionService){
@@ -153,51 +137,50 @@ angular.module('businessSetup.controllers', [])
         CRUDService.get('Coaches', $scope);
     }])
     .value('coachDefaults', {
-            workingHours: {
-                monday: { 
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
-                },
-                tuesday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+        workingHours: {
+            monday: { 
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
+            },
+            tuesday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                }, 
-                wednesday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            }, 
+            wednesday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                },
-                thursday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            },
+            thursday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                },
-                friday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            },
+            friday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                },
-                saturday: {
-                    isAvailable: false,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            },
+            saturday: {
+                isAvailable: false,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                }, 
-                sunday: {
-                    isAvailable: false,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            }, 
+            sunday: {
+                isAvailable: false,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                }
             }
         }
-    )
+    })
     .controller('servicesCtrl', ['$scope', '$state', 'CRUDService', 'serviceDefaults', 'sessionService',
         function($scope, $state, CRUDService, serviceDefaults, sessionService){
         $scope.business = sessionService.business;
@@ -249,17 +232,16 @@ angular.module('businessSetup.controllers', [])
         }
     }])
     .value('serviceDefaults', {
-            booking: {
-                isOnlineBookable: true
-            },
-            timing: {
-                duration: 60
-            },
-            repetition: {
-                sessionCount: 1
-            },
-            presentation: {
-                colour: 'green'
-            }
+        booking: {
+            isOnlineBookable: true
+        },
+        timing: {
+            duration: 60
+        },
+        repetition: {
+            sessionCount: 1
+        },
+        presentation: {
+            colour: 'green'
         }
-    );
+    });

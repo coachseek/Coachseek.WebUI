@@ -51,7 +51,7 @@ describe('Booking Module', function() {
                 $rootScope.$digest();
             });
             it('should attempt to bring up the login modal', function(){
-                expect(loginModalStub).to.be.calledOnce;
+                expect(loginModalSpy).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect($state.current.templateUrl).to.equal('booking/partials/bookingAdminView.html');
@@ -69,7 +69,7 @@ describe('Booking Module', function() {
                 viewAttrs = $state.current.views['booking-view'];
             });
             it('should NOT attempt to bring up the login modal', function(){
-                expect(loginModalStub).to.be.not.be.called;
+                expect(loginModalSpy).to.be.not.be.called;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingSelectionView.html');
@@ -88,7 +88,7 @@ describe('Booking Module', function() {
                 viewAttrs = $state.current.views['booking-view'];
             });
             it('should NOT attempt to bring up the login modal', function(){
-                expect(loginModalStub).to.be.not.be.called;
+                expect(loginModalSpy).to.be.not.be.called;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingCustomerDetailsView.html');
@@ -107,7 +107,7 @@ describe('Booking Module', function() {
                 viewAttrs = $state.current.views['booking-view'];
             });
             it('should NOT attempt to bring up the login modal', function(){
-                expect(loginModalStub).to.be.not.be.called;
+                expect(loginModalSpy).to.be.not.be.called;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingConfirmationView.html');

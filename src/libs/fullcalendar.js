@@ -3935,6 +3935,7 @@ Grid.mixin({
             accept = view.opt('dropAccept');
             if ($.isFunction(accept) ? accept.call(el[0], el) : el.is(accept)) {
                 if (!this.isDraggingExternal) { // prevent double-listening if fired twice
+                    view.trigger('externalDragStart', ev, el);
                     this.listenToExternalDrag(el, ev, ui);
                 }
             }
@@ -3974,6 +3975,8 @@ Grid.mixin({
 
                 if (dropLocation) { // element was dropped on a valid date/time cell
                     _this.view.reportExternalDrop(meta, dropLocation, el, ev, ui);
+                } else {
+                    _this.view.trigger('externalDragFail');
                 }
             },
             listenStop: function() {

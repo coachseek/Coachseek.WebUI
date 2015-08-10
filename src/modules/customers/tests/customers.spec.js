@@ -5,7 +5,7 @@ describe('Customers Module', function() {
             $rootScope.$digest();
         });
         it('should attempt to bring up the login modal if not logged in', function(){
-            expect(loginModalStub).to.be.calledOnce;
+            expect(loginModalSpy).to.be.calledOnce;
         });
         it('should map to correct template', function(){
             expect($state.current.templateUrl).to.equal('customers/partials/customersView.html');

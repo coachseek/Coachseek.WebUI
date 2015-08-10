@@ -7,7 +7,7 @@ describe('Scheduling Module', function() {
             $rootScope.$digest();
         });
         it('should attempt to bring up the login modal if not logged in', function(){
-            expect(loginModalStub).to.be.calledOnce;
+            expect(loginModalSpy).to.be.calledOnce;
         });
         it('should map to correct template', function(){
             expect($state.current.templateUrl).to.equal(templateUrl);
@@ -315,6 +315,13 @@ describe('Scheduling Module', function() {
             return deferred.promise;
         });
 
+        let('onboarding', function(){
+            return {
+                showOnboarding: false,
+                stepsCompleted: []
+            }
+        });
+
         var getStub,
             self,
             $servicesList,
@@ -323,12 +330,14 @@ describe('Scheduling Module', function() {
             scope,
             coachSeekAPIService,
             getSessionsStub,
-            sessionCalendar;
+            sessionCalendar,
+            onboardingModalSpy;
 
         beforeEach(function(){
             self = this;
             self.deletePromise = this.deletePromise;
             coachSeekAPIService = $injector.get('coachSeekAPIService');
+            $injector.get('sessionService').onboarding = this.onboarding;
             $injector.get("sessionService").calendarView = this.calendarView;
             scope = $rootScope.$new();
 
@@ -356,6 +365,15 @@ describe('Scheduling Module', function() {
                 }
             });
 
+            modalStub.restore();
+            modalStub = this.sinon.stub($injector.get('$modal'), 'open', function(){
+                var deferred = $q.defer();
+                deferred.resolve();
+                return {result: deferred.promise};
+            });
+
+            onboardingModalSpy = this.sinon.spy($injector.get('onboardingModal'), 'open');
+
             // must append to body here or calendar does nothing because of elementVisible()
             // function on 7212 of fullcalendar.js
             $testRegion.appendTo('body');
@@ -372,19 +390,61 @@ describe('Scheduling Module', function() {
             // attached to them and the tests do not wait. could possibly use done() instead?
             $timeout.flush();
         });
-        it('should attempt to get existing services, locations, and coaches', function(){
-            expect(getStub).to.be.calledWith({section: 'Coaches'})
-            expect(getStub).to.be.calledWith({section: 'Locations'})
-            expect(getStub).to.be.calledWith({section: 'Services'})
+        describe('when onboarding is turned off', function(){
+            it('should attempt to get existing services, locations, and coaches', function(){
+                expect(getStub).to.be.calledWith({section: 'Coaches'})
+                expect(getStub).to.be.calledWith({section: 'Locations'})
+                expect(getStub).to.be.calledWith({section: 'Services'})
+            });
+            it('should load as many services in the service list', function(){
+                expect(_.size($servicesList.find('.service-details'))).to.equal(_.size(this.services))
+            });
+            it('should load the agendaWeek view', function(){
+                expect($calendar.find('.fc-view').hasClass('fc-agendaWeek-view')).to.be.true;
+            });
+            it('should show the service list', function(){
+                expect($servicesList.hasClass('closed')).to.be.false;
+            });
+            it('should not attempt to call onboarding modal', function(){
+                expect(onboardingModalSpy).to.not.be.called;
+            });
+            it('should NOT show the drag service popover', function(){
+                $timeout.flush();
+                expect(_.size($testRegion.find('.drag-service-popover'))).to.equal(0);
+            });
         });
-        it('should load as many services in the service list', function(){
-            expect(_.size($servicesList.find('.service-details'))).to.equal(_.size(this.services))
-        });
-        it('should load the agendaWeek view', function(){
-            expect($calendar.find('.fc-view').hasClass('fc-agendaWeek-view')).to.be.true;
-        });
-        it('should show the service list', function(){
-            expect($servicesList.hasClass('closed')).to.be.false;
+        describe('when onboarding is turned on', function(){
+            let('onboarding', function(){
+                return {
+                    showOnboarding: true,
+                    stepsCompleted: []
+                }
+            });
+            it('should attempt to show the onboarding modal', function(){
+                expect(onboardingModalSpy).to.be.calledWith('onboardingDefaultsModal', 'onboardingDefaultsModalCtrl');
+            });
+            it('should add `createDefaults` to onboaring steps completed', function(){
+                var stepsCompleted = _.get($injector.get('sessionService'), 'onboarding.stepsCompleted')
+                expect(_.contains(stepsCompleted, 'createDefaults')).to.be.true;
+            })
+            it('should attempt to get existing services, locations, and coaches', function(){
+                expect(getStub).to.be.calledWith({section: 'Coaches'})
+                expect(getStub).to.be.calledWith({section: 'Locations'})
+                expect(getStub).to.be.calledWith({section: 'Services'})
+            });
+            it('should load as many services in the service list', function(){
+                expect(_.size($servicesList.find('.service-details'))).to.equal(_.size(this.services))
+            });
+            it('should load the agendaWeek view', function(){
+                expect($calendar.find('.fc-view').hasClass('fc-agendaWeek-view')).to.be.true;
+            });
+            it('should show the service list', function(){
+                expect($servicesList.hasClass('closed')).to.be.false;
+            });
+            it('should show the drag service popover', function(){
+                $timeout.flush();
+                expect(_.size($testRegion.find('.drag-service-popover'))).to.equal(1);
+            });
         });
         describe('when the view has been changed before loading the calendar', function(){
             let('calendarView', function(){
@@ -640,7 +700,7 @@ describe('Scheduling Module', function() {
                 describe('when deleting the session', function(){
                     var deleteStub, sessionOrCourseModalSpy;
                     beforeEach(function(){
-                        loginModalStub.restore();
+                        modalStub.restore();
                         sessionOrCourseModal = $injector.get('$modal');
                         sessionOrCourseModalSpy = this.sinon.spy(sessionOrCourseModal, 'open');
 
