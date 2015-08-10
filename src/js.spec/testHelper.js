@@ -9,7 +9,8 @@ var $testRegion,
     createViewWithController,
     createDirective,
     Intercom,
-    loginModalStub,
+    modalStub,
+    loginModalSpy,
     locationStub,
     clock;
 
@@ -69,11 +70,13 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
 
     this.sinon = sinon.sandbox.create();
 
-    loginModalStub = this.sinon.stub($injector.get('$modal'), 'open', function(){
+    modalStub = this.sinon.stub($injector.get('$modal'), 'open', function(){
         var deferred = $q.defer();
         deferred.resolve({user: {}, business: {}});
         return {result: deferred.promise};
     });
+
+    loginModalSpy = this.sinon.spy($injector.get('loginModal'), 'open');
 
     locationStub = this.sinon.stub($injector.get('$location'), 'host', function(){
         return 'app-testing';

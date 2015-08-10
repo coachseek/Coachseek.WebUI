@@ -154,7 +154,6 @@ angular.module('booking.controllers', [])
 
         if(!currentBooking.allEvents){
             delete $scope.serviceDescription;
-
             $scope.loadingSessions = true;            
             currentBooking.getAllEvents($scope.business.domain).then(function(events){
                 currentBooking.allEvents = _.sortBy(_.union(events.courses, events.sessions),function(event){
@@ -177,16 +176,15 @@ angular.module('booking.controllers', [])
             $state.go('booking.selection');
         }
     }])
-    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'apiURL',
-      function($scope, $q, $state, $location, onlineBookingAPIFactory, currentBooking, sessionService, apiURL){
+    .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', '$sce', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'ENV',
+      function($scope, $q, $state, $location, $sce, onlineBookingAPIFactory, currentBooking, sessionService, ENV){
         $scope.bookingConfirmed = false;
         $scope.paidWithPaypal = false;
-        $scope.apiURL = apiURL;
+        $scope.paypalURL = $sce.trustAsResourceUrl($scope.ENV.paypalURL);
 
         if( sessionService.currentBooking ){
             _.assign(currentBooking, {
                 customer: sessionService.currentBooking.customer,
-                booking: sessionService.currentBooking.booking,
                 filters: sessionService.currentBooking.filters,
                 totalPrice: sessionService.currentBooking.totalPrice,
                 dateRange: sessionService.currentBooking.dateRange

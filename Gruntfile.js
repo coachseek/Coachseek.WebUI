@@ -8,25 +8,29 @@ module.exports = function(grunt) {
                 name: 'envConfig',
             },
             // Environment targets
-            src: {
+            dev: {
                 options: {
                     dest: 'src/js/config.js'
                 },
                 constants: {
                     ENV: {
                         name: 'dev',
-                    },
-                    apiURL: 'https://api-testing.coachseek.com',
-                    defaultSubdomain: 'app-testing'
+                        defaultSubdomain: 'app-testing',
+                        apiURL: 'https://api-testing.coachseek.com',
+                        paypalURL: 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+                    }
                 }
             },
-            build: {
+            prod: {
                 options: {
-                    dest: 'build/js/config.js'
+                    dest: 'prod/js/config.js'
                 },
                 constants: {
                     ENV: {
                         name: 'prod',
+                        defaultSubdomain: 'app',
+                        apiURL: 'https://api.coachseek.com',
+                        paypalURL: 'https://www.paypal.com/cgi-bin/webscr',
                         allFeaturesWhitelist: [
                             're@d.e',
                             'ian@coachseek.com',
@@ -38,11 +42,14 @@ module.exports = function(grunt) {
                             'hannah@coachseek.com',
                             'matt@coachseek.com',
                             'mattwilliamson94@hotmail.com',
-                            'samyin1990@gmail.com'
+                            'samyin1990@hotmail.com',
+                            'josh+msports@coachseek.com',
+                            'joe@aucklandtenniscoaching.co.nz',
+                            'mat@blitztennis.co.nz',
+                            'alex@shotmakeracademy.com',
+                            'admin@wtc.co.nz'
                         ]
-                    },
-                    apiURL: 'https://api.coachseek.com',
-                    defaultSubdomain: 'app'
+                    }
                 }
             }
         },
@@ -55,49 +62,56 @@ module.exports = function(grunt) {
             },
         },
         concat: {
-            buildCss: {
-                src: ['src/modules/**/css/*.scss'],
-                dest: 'build/css/style.css'
-            },
-            srcCss: {
+            devCss: {
                 src: ['src/modules/**/css/*.scss'],
                 dest: 'src/css/style.css'
             },
-            srcApp: {
+            devApp: {
                 src: [
                     'src/modules/**/*.js',
                     '!src/modules/**/*.spec.js'
                 ],
                 dest: 'src/js/scripts.js'
             },
-            srcLibs: {
+            devLibs: {
                 src: ['src/libs/*.js'],
                 dest: 'src/js/libs.js'
+            },
+            prodCss: {
+                src: ['src/modules/**/css/*.scss'],
+                dest: 'prod/css/style.css'
             }
         },
         wrap:{
-            scripts: {
+            dev: {
                 src: ['src/js/scripts.js'],
                 dest: 'src/js/scripts.js',
+                options: {
+                    wrapper: ["'use strict';\n(function(){", "})();"]
+                }
+            },
+            prod: {
+                src: ['src/js/scripts.js'],
+                dest: 'prod/js/scripts.js',
                 options: {
                     wrapper: ["'use strict';\n(function(){", "})();"]
                 }
             }
         },
         htmlmin: {                                     // Task
-            build: {                                      // Target
+            prod: {                                      // Target
                 options: {                                 // Target options
                     removeComments: true,
                     collapseWhitespace: true
                 },
                 files: {                                   // Dictionary of files
-                    'build/index.html': 'src/index.html'
+                    'prod/index.html': 'prod/index.html'
                 }
             }
         },
         //TODO - concat and use 1 app.js file
         ngtemplates:{
-            build:{
+            prod:{
                 options:{
                     module:'app',         // (Optional) The module the templates will be added to
                     htmlmin: {
@@ -107,9 +121,9 @@ module.exports = function(grunt) {
                 },
                 cwd: 'src/modules',
                 src:'**/partials/*.html',
-                dest:'build/js/templates.js'
+                dest:'prod/js/templates.js'
             },
-            src:{
+            dev:{
                 options:{
                     base:'src/modules',        // $templateCache ID will be relative to this folder
                     module:'app'               // (Optional) The module the templates will be added to
@@ -129,29 +143,29 @@ module.exports = function(grunt) {
         },
         //TODO - switch to ng-annotate?
         uglify: {
-            buildApp: {
+            prodApp: {
                 src: [
                     'src/modules/**/*.js',
                     '!src/modules/**/*.spec.js'
                 ],
-                dest: 'build/js/scripts.js'
+                dest: 'prod/js/scripts.js'
             },
-            buildLibs: {
+            prodLibs: {
                 src: 'src/libs/*.js',
-                dest: 'build/js/libs.js'
+                dest: 'prod/js/libs.js'
             }
         },
         sass: {
-            build: {
+            prod: {
                 options: {
                     style: 'compressed',
                     sourcemap: 'none'
                 },
                 files: {
-                    'build/css/style.css': 'build/css/style.css'
+                    'prod/css/style.css': 'prod/css/style.css'
                 }
             },
-            src: {
+            dev: {
                 options: {
                     style: 'expanded'
                 },
@@ -161,13 +175,17 @@ module.exports = function(grunt) {
             }
         },
         "merge-json": {
-            i18nSrc: {
+            i18nDev: {
                 src: [ "src/modules/**/i18n/en/*.json" ],
                 dest: "src/i18n/en.json"
             },
-            i18nBuild: {
+            i18nTesting: {
                 src: [ "src/modules/**/i18n/en/*.json" ],
-                dest: "build/i18n/en.json"
+                dest: "testing/i18n/en.json"
+            },
+            i18nProd: {
+                src: [ "src/modules/**/i18n/en/*.json" ],
+                dest: "prod/i18n/en.json"
             }
         },
         watch: {
@@ -176,23 +194,23 @@ module.exports = function(grunt) {
                     'src/modules/**/*.js',
                     '!src/modules/**/*.spec.js'
                 ],
-                tasks: ['newer:concat:srcApp', 'wrap']
+                tasks: ['newer:concat:devApp', 'wrap:dev']
             },
             jsLibs: {
                 files: ['src/libs/*.js'],
-                tasks: ['newer:concat:srcLibs']
+                tasks: ['newer:concat:devLibs']
             },
             css: {
                 files: ['src/modules/**/*.scss'],
-                tasks: ['newer:concat:srcCss', 'sass:src'],
+                tasks: ['newer:concat:devCss', 'sass:dev'],
             },
             templates: {
                 files: ['src/modules/**/partials/*.html', 'src/index.html'],
-                tasks: ['ngtemplates:src', 'ngtemplates:test']
+                tasks: ['ngtemplates:dev', 'ngtemplates:test']
             },
             i18n: {
                 files: ['src/modules/**/i18n/en/*.json'],
-                tasks: ['merge-json:i18nSrc']
+                tasks: ['merge-json:i18nDev']
             }
         },
         karma: {
@@ -224,6 +242,85 @@ module.exports = function(grunt) {
                     // base: 'src'
                 }
             }
+        },
+        env : {
+            configCDN : {
+                AZURE_STORAGE_ACCOUNT : 'coachseekassets',
+                AZURE_STORAGE_ACCESS_KEY : 'ojFm6jWTalMxuD6HkWnGrsqoV1dPYVwEptvOIKrBq+19xdtVmKgneK8s9PGFwLRDF+/4ybouo5QqT//WGLhaRg=='
+            },
+            dev: {
+                env: 'development'
+            },
+            testing: {
+                env: 'testing'
+            },
+            prod: {
+                env: 'production'
+            }
+        },
+        preprocess : {
+            dev: {
+                src : './index.html',
+                dest : './src/index.html',
+                options : {
+                    context : {
+                        gaTracking : 'UA-65899861-1',
+                    }
+                }
+            },
+            testing: {
+                src : './index.html',
+                dest : './testing/index.html',
+                options : {
+                    context : {
+                        version : '<%= pkg.version %>',
+                        gaTracking : 'UA-65899861-1'
+                    }
+                }
+            },
+            prod : {
+                src : './index.html',
+                dest : './prod/index.html',
+                options : {
+                    context : {
+                        version : '<%= pkg.version %>',
+                        gaTracking : 'UA-65922713-1'
+                    }
+                }
+            }
+        },
+        'azure-blob': {
+            options: { // global options applied to each task
+                containerName: 'assets',
+                containerDelete: false, //do not apply true here, container would be deleted at each task
+                metadata: {cacheControl: 'public, max-age=31556926'}, // max-age 1 year for all entries
+                gzip: true,
+                copySimulation: false  // set true: only dry-run what copy would look like
+            },
+            testing: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    dest: '<%= pkg.version %>/testing/',
+                    src: ['css/style.css', 'js/*.js']
+                }]
+            },
+            prod: {
+                files: [{
+                    expand: true,
+                    cwd: 'prod/',
+                    dest: '<%= pkg.version %>/prod/',
+                    src: ['css/style.css', 'js/*.js']
+                }]
+            },
+            images: {
+                files: [{
+                    expand: true,
+                    cwd: 'assets/pics/',
+                    dest: '<%= pkg.version %>/pics/',
+                    src: ['**']
+                }]
+            }
         }
     });
 
@@ -242,18 +339,58 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-plato');
     grunt.loadNpmTasks('grunt-contrib-connect');
     grunt.loadNpmTasks('grunt-ng-constant');
+    grunt.loadNpmTasks('grunt-env');
+    grunt.loadNpmTasks('grunt-azure-blob');
+    grunt.loadNpmTasks('grunt-preprocess');
 
     // Default task(s).
     grunt.registerTask('default', [
-            'concat',
-            'wrap',
-            'htmlmin',
-            'ngtemplates',
-            'uglify',
-            'sass',
-            'merge-json',
-            'ngconstant'
+            'dev',
+            'testing',
+            'prod'
         ]
     );
 
+    grunt.registerTask('dev', [
+            'env:dev',
+            'preprocess:dev',
+            'concat:devCss',
+            'concat:devApp',
+            'concat:devLibs',
+            'wrap:dev',
+            'ngtemplates:dev',
+            'sass:dev',
+            'merge-json:i18nDev',
+            'ngconstant:dev'
+        ]
+    );
+    grunt.registerTask('testing', [
+            'env:testing',
+            'preprocess:testing',
+            'merge-json:i18nTesting',
+        ]
+    );
+    grunt.registerTask('prod',[
+            'env:prod',
+            'preprocess:prod',
+            'concat:prodCss',
+            'wrap:prod',
+            'htmlmin',
+            'ngtemplates:prod',
+            'uglify',
+            'sass:prod',
+            'merge-json:i18nProd',
+            'ngconstant:prod'
+        ]
+    );
+
+    grunt.registerTask('blob', [
+        'env:configCDN',
+        'azure-blob'
+    ]);
+
+    grunt.registerTask('blob-testing', [
+        'env:configCDN',
+        'azure-blob:testing'
+    ]);
 };

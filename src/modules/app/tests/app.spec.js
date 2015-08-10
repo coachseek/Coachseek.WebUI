@@ -73,7 +73,7 @@ describe('App Module', function() {
     describe('login modal', function(){
         var intercomStub;
         beforeEach(function(){
-            loginModalStub.restore();
+            modalStub.restore();
             intercomStub = this.sinon.stub(window, 'Intercom');
         });
         describe('when clicking the login button', function(){
@@ -232,7 +232,7 @@ describe('App Module', function() {
             $rootScope.$digest();
         });
         it('should attempt to bring up the login modal if not logged in', function(){
-            expect(loginModalStub).to.be.calledOnce;
+            expect(loginModalSpy).to.be.calledOnce;
         });
         it('should map to correct template', function(){
             expect($state.current.templateUrl).to.equal('app/partials/comingSoon.html');
@@ -432,7 +432,7 @@ describe('App Module', function() {
     //         $rootScope.$digest();
     //     });
     //     it('should attempt to bring up the login modal if not logged in', function(){
-    //         expect(loginModalStub).to.be.calledOnce;
+    //         expect(loginModalSpy).to.be.calledOnce;
     //     });
     //     it('should map to scheduling template', function(){
     //         expect($state.current.templateUrl).to.equal('scheduling/partials/schedulingView.html');

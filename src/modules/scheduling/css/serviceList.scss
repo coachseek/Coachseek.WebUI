@@ -26,7 +26,7 @@
 
             h4{
                 color: white;
-                font-family: lato-regular;
+                font-family: 'Lato Regular';
                 font-size: 14px;
                 top: 27px;
                 right: -65px;
@@ -39,9 +39,20 @@
             width: 270px;
             margin-top: 70px;
 
+            .services-list-show{
+                display: block;
+            }
+            .services-list-hide{
+                display: none;
+            }
+
             ul{
                 height: calc(100vh - 190px);
                 overflow-y: scroll;
+
+                &.show-onboarding{
+                    overflow: visible;
+                }
 
                 &::-webkit-scrollbar { 
                     display: none; 
@@ -96,7 +107,7 @@
 
         h4{
             text-align: center;
-            font-family: lato-bold;
+            font-family: 'Lato Bold';
             font-size: 15px;
             color: $grey;
             cursor: pointer;
@@ -143,7 +154,7 @@
                 margin: 0 auto 10px auto;
                 padding: 10px 12.5px;
                 background: $white;
-                overflow: hidden;
+                position: relative;
                 -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
                 -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
                 box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.25);
@@ -172,7 +183,7 @@
                     margin-left: 10px;
 
                     .service-name{
-                        font-family: lato-bold;
+                        font-family: 'Lato Bold';
                         font-size: 14px;
                         color: $text-dark-grey;
                         overflow: hidden;
@@ -187,6 +198,13 @@
                         white-space: nowrap;
                         text-overflow: ellipsis;
                     }
+                }
+
+                onboarding-popover{
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
                 }
             }
         }

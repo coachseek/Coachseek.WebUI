@@ -15,7 +15,7 @@ describe('BusinessSetup Module', function() {
                 viewAttrs = $state.current.views['list-item-view'];
             });
             it('should attempt to bring up the login modal if not logged in', function(){
-                expect(loginModalStub).to.be.calledOnce;
+                expect(loginModalSpy).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/businessView.html');
@@ -33,7 +33,7 @@ describe('BusinessSetup Module', function() {
                 viewAttrs = $state.current.views['list-item-view'];
             });
             it('should attempt to bring up the login modal if not logged in', function(){
-                expect(loginModalStub).to.be.calledOnce;
+                expect(loginModalSpy).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/servicesView.html');
@@ -51,7 +51,7 @@ describe('BusinessSetup Module', function() {
                 viewAttrs = $state.current.views['list-item-view'];
             });
             it('should attempt to bring up the login modal if not logged in', function(){
-                expect(loginModalStub).to.be.calledOnce;
+                expect(loginModalSpy).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/coachesView.html');
@@ -69,7 +69,7 @@ describe('BusinessSetup Module', function() {
                 viewAttrs = $state.current.views['list-item-view'];
             });
             it('should attempt to bring up the login modal if not logged in', function(){
-                expect(loginModalStub).to.be.calledOnce;
+                expect(loginModalSpy).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/locationsView.html');
@@ -87,7 +87,7 @@ describe('BusinessSetup Module', function() {
                 viewAttrs = $state.current.views['list-item-view'];
             });
             it('should attempt to bring up the login modal if not logged in', function(){
-                expect(loginModalStub).to.be.calledOnce;
+                expect(loginModalSpy).to.be.calledOnce;
             });
             it('should map to correct template', function(){
                 expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/servicesView.html');

@@ -1,6 +1,6 @@
 angular.module('businessSetup.controllers', [])
-    .controller('businessRegistrationCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$activityIndicator', '$state',
-        function($scope, coachSeekAPIService, CRUDService, $activityIndicator, $state){
+    .controller('businessRegistrationCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$activityIndicator', '$state', 'sessionService',
+        function($scope, coachSeekAPIService, CRUDService, $activityIndicator, $state, sessionService){
         $scope.business = {};
         $scope.admin = {};
 
@@ -12,11 +12,13 @@ angular.module('businessSetup.controllers', [])
                 coachSeekAPIService.save({section: 'businessRegistration'}, {admin: $scope.admin, business: $scope.business})
                     .$promise.then(function(newBusiness){
                         $scope.setupCurrentUser({
-                            email: $scope.admin.email,
-                            password: $scope.admin.password
+                            email: newBusiness.admin.email,
+                            password: $scope.admin.password,
+                            firstName: newBusiness.admin.firstName,
+                            lastName: newBusiness.admin.lastName
                         }, newBusiness.business);
-                        reportConversion();
-                        $state.go('businessSetup.locations');
+                        $state.go('scheduling');
+                        if($scope.showFeature() && $scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
                     }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
@@ -153,51 +155,50 @@ angular.module('businessSetup.controllers', [])
         CRUDService.get('Coaches', $scope);
     }])
     .value('coachDefaults', {
-            workingHours: {
-                monday: { 
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
-                },
-                tuesday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+        workingHours: {
+            monday: { 
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
+            },
+            tuesday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                }, 
-                wednesday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            }, 
+            wednesday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                },
-                thursday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            },
+            thursday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                },
-                friday: {
-                    isAvailable: true,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            },
+            friday: {
+                isAvailable: true,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                },
-                saturday: {
-                    isAvailable: false,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            },
+            saturday: {
+                isAvailable: false,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                }, 
-                sunday: {
-                    isAvailable: false,
-                    startTime: "9:00",
-                    finishTime: "17:00"
+            }, 
+            sunday: {
+                isAvailable: false,
+                startTime: "9:00",
+                finishTime: "17:00"
 
-                }
             }
         }
-    )
+    })
     .controller('servicesCtrl', ['$scope', '$state', 'CRUDService', 'serviceDefaults', 'sessionService',
         function($scope, $state, CRUDService, serviceDefaults, sessionService){
         $scope.business = sessionService.business;
@@ -249,17 +250,16 @@ angular.module('businessSetup.controllers', [])
         }
     }])
     .value('serviceDefaults', {
-            booking: {
-                isOnlineBookable: true
-            },
-            timing: {
-                duration: 60
-            },
-            repetition: {
-                sessionCount: 1
-            },
-            presentation: {
-                colour: 'green'
-            }
+        booking: {
+            isOnlineBookable: true
+        },
+        timing: {
+            duration: 60
+        },
+        repetition: {
+            sessionCount: 1
+        },
+        presentation: {
+            colour: 'green'
         }
-    );
+    });

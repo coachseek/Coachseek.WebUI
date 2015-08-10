@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'defaultSubdomain',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, defaultSubdomain) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
 
@@ -48,14 +48,14 @@ angular.module('app.controllers', [])
                     message: 'logged-out'
                 });
 
-                loginModal().then(function () {
+                loginModal.open().then(function () {
                     $rootScope.removeAlerts();
                     return $state.go($state.current, {}, {reload: true});
                 });
             };
 
             $rootScope.login = function(){
-                loginModal().then(function () {
+                loginModal.open().then(function () {
                     $rootScope.removeAlerts();
                     $state.go('scheduling');
                 });
@@ -87,7 +87,7 @@ angular.module('app.controllers', [])
 
             $rootScope.redirectToApp = function(){
                 $timeout(function(){
-                    window.location = 'https://' + defaultSubdomain + '.coachseek.com';
+                    window.location = 'https://' + ENV.defaultSubdomain + '.coachseek.com';
                 }, 5000)
             };
 
@@ -96,7 +96,7 @@ angular.module('app.controllers', [])
                 if (requireLogin && !$rootScope.currentUser) {
                     event.preventDefault();
 
-                    loginModal().then(function () {
+                    loginModal.open().then(function () {
                         $rootScope.removeAlerts();
                         return $state.go(toState.name, toParams);
                     });
@@ -115,7 +115,21 @@ angular.module('app.controllers', [])
             $(window).on('resize', function () {
                 $rootScope.isBigScreen = $(this).width() > 768;
                 $rootScope.$apply();
-            }); 
+            });
+
+            var keys = {};
+
+            $(document).keydown(function (e) {
+                keys[e.which] = true;
+                if(keys[16] && keys[32] && keys[79] && $rootScope.showFeature()){
+                    sessionService.onboarding.showOnboarding = true;
+                    $state.reload();
+                }
+            });
+
+            $(document).keyup(function (e) {
+                delete keys[e.which];
+            });
         }])
         .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',
             function ($scope, coachSeekAPIService, $http, $activityIndicator, $window) {

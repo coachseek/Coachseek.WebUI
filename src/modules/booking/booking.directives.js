@@ -169,7 +169,8 @@ angular.module('booking.directives', [])
                             if(course.pricing.coursePrice && !course.pricing.sessionPrice){
                                 //PRO RATE
                                 var numSessionsInFuture = _.size(_.filter(course.sessions, function(session){return !isBefore(session)}));
-                                return (course.pricing.coursePrice / course.repetition.sessionCount * numSessionsInFuture).toFixed(2);
+                                var perSessionPrice = Math.round((course.pricing.coursePrice / course.repetition.sessionCount) * 100) / 100;
+                                return (perSessionPrice * numSessionsInFuture).toFixed(2);
                             } else {
                                 return (_.size(scope.availableSessions) * course.pricing.sessionPrice).toFixed(2);
                             }
@@ -208,9 +209,6 @@ angular.module('booking.directives', [])
                 scope.getQueryString = function(){
                     return JSON.stringify({
                         customer: currentBooking.customer,
-                        booking: {
-                            course: _.get(currentBooking.booking, 'course.sessions[0]') || _.get(currentBooking.booking, 'sessions[0]')
-                        },
                         filters: currentBooking.filters,
                         totalPrice: scope.calculateTotalPrice(),
                         dateRange: scope.calculateBookingDateRange()
