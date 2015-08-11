@@ -1,9 +1,9 @@
-<div class="booking-admin-nav-container slider-nav" ng-init="activeTab = 'onlineBooking'" ng-show="showFeature()">
+<div class="booking-admin-nav-container slider-nav" ng-init="activeTab = 'onlineBooking'">
     <div class="booking-nav slider-nav-option online-booking" ng-click="activeTab = 'onlineBooking'" ng-class="{'active':activeTab==='onlineBooking'}">{{'booking:booking-admin.onlinebooking' | i18next}}</div>
     <div class="booking-nav slider-nav-option payments" ng-click="activeTab = 'payments'" ng-class="{'active':activeTab==='payments'}">{{'booking:booking-admin.payments' | i18next}}</div>
 </div>
 <div class="booking-admin-container" ng-switch="activeTab">    
-    <hr class="double-wide" ng-show="showFeature()">
+    <hr class="double-wide">
     <div class="booking-admin-onlinebooking" ng-switch-when="onlineBooking">
         <label>{{'booking:booking-admin.address' | i18next}}</label>
         <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain + (ENV.name === 'dev' ? '.testing' : '')}}.coachseek.com">
