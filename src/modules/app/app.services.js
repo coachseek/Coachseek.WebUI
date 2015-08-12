@@ -47,7 +47,7 @@ angular.module('app.services', [])
                     if($scope.newItem){
                         var updateObject = {};
                         updateObject[functionName] = $scope.itemList.length;
-                        Intercom('update', updateObject);
+                        if(window.Intercom) Intercom('update', updateObject);
                     }
                     resetToList($scope);
                     $scope.addAlert({
