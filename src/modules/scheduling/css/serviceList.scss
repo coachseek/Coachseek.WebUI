@@ -74,7 +74,7 @@
             padding-right: 15px;
             text-align: right;
             cursor: pointer;
-            z-index: 500;
+            z-index: 1;
             font-size: 1.5em;
             -webkit-transition:all linear 0.3s;
             transition:all linear 0.3s;
@@ -111,7 +111,7 @@
             font-size: 15px;
             color: $grey;
             cursor: pointer;
-            z-index: 500;
+            z-index: 1;
             width: 50px;
             top: 26px;
             position: absolute;
