@@ -71,10 +71,12 @@ angular.module('app.controllers', [])
             //         });
             //     }
             // };
+   
 
             $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
                 // startIntercom(user, _.now());
+                intercom.registerIdentifiedUser({email: user.email});
                 sessionService.user = user;
                 sessionService.business = business;
                 $rootScope.currentUser = sessionService.user;
