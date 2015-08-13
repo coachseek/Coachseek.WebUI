@@ -260,7 +260,8 @@ module.exports = function(grunt) {
                 dest : './src/index.html',
                 options : {
                     context : {
-                        gaTracking : 'UA-65899861-1',
+                        version : '<%= pkg.version %>',
+                        gaTracking : 'UA-65899861-1'
                     }
                 }
             },
