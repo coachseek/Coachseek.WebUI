@@ -107,7 +107,7 @@
 
         h4{
             text-align: center;
-            font-family: 'Lato Bold';
+            font-weight: $lato-bold;
             font-size: 15px;
             color: $grey;
             cursor: pointer;
@@ -183,7 +183,7 @@
                     margin-left: 10px;
 
                     .service-name{
-                        font-family: 'Lato Bold';
+                        font-weight: $lato-bold;
                         font-size: 14px;
                         color: $text-dark-grey;
                         overflow: hidden;
