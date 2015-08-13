@@ -262,6 +262,10 @@ describe('modalSessionAttendanceList directive', function(){
                         it('should set bookingLoading to false', function(){
                             expect(studentScope.bookingLoading).to.be.false;
                         });
+                        it('should add a success alert', function(){
+                            expect($rootScope.alerts[0].type).to.equal('success');
+                            expect($rootScope.alerts[0].message).to.equal('scheduling:alert.add-session-booking');
+                        });
                     });
                     describe('when update fails', function(){
                         let('updatePromise', function(){
@@ -403,6 +407,10 @@ describe('modalSessionAttendanceList directive', function(){
                         it('should set bookingLoading to false', function(){
                             expect(studentScope.bookingLoading).to.be.false;
                         });
+                        it('should add a success alert', function(){
+                            expect($rootScope.alerts[0].type).to.equal('success');
+                            expect($rootScope.alerts[0].message).to.equal('scheduling:alert.add-session-booking');
+                        });
                     });
                     describe('when update fails', function(){
                         let('updatePromise', function(){
@@ -473,6 +481,10 @@ describe('modalSessionAttendanceList directive', function(){
                         });
                         it('should hide the loading ellipsis', function(){
                             expect($modalCustomerDetails.find('ellipsis-animated').hasClass('ng-hide')).to.be.true;
+                        });
+                        it('should add a success alert', function(){
+                            expect($rootScope.alerts[0].type).to.equal('success');
+                            expect($rootScope.alerts[0].message).to.equal('scheduling:alert.add-course-booking');
                         });
                     });
                     describe('when update fails', function(){

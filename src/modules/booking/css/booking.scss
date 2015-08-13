@@ -234,7 +234,7 @@
                         }
 
                         .date-range{
-                            font-family: 'Lato Bold';
+                            font-weight: $lato-bold;
                         }
 
                         i.fa-exclamation-circle{
@@ -411,7 +411,7 @@
                     text-align: left;
 
                     h4{
-                        font-family: 'Lato Bold';
+                        font-weight: $lato-bold;
                         font-size: 20px;
                         margin-bottom: 5px;
                     }

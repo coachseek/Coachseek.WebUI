@@ -123,7 +123,7 @@ angular.module('app.controllers', [])
 
             $(document).keydown(function (e) {
                 keys[e.which] = true;
-                if(keys[16] && keys[32] && keys[79] && $rootScope.showFeature()){
+                if(keys[16] && keys[32] && keys[79]){
                     sessionService.onboarding.showOnboarding = true;
                     $state.reload();
                 }

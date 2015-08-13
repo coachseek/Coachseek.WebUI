@@ -190,6 +190,10 @@ describe('customerBooking directive', function(){
                     it('should set bookingLoading to false', function(){
                         expect(scope.bookingLoading).to.be.false;
                     });
+                    it('should add a success alert', function(){
+                        expect($rootScope.alerts[0].type).to.equal('success');
+                        expect($rootScope.alerts[0].message).to.equal('scheduling:alert.update-payment-status.pending-invoice');
+                    });
                 });
             });
         });
@@ -229,10 +233,15 @@ describe('customerBooking directive', function(){
                 it('should set bookingLoading to false', function(){
                     expect(scope.bookingLoading).to.be.false;
                 });
+                it('should add a success alert', function(){
+                    expect($rootScope.alerts[0].type).to.equal('success');
+                    expect($rootScope.alerts[0].message).to.equal('scheduling:alert.update-attendance.false');
+                });
             });
 
             describe('and then changing hasAttended to TRUE', function(){
                 beforeEach(function(){
+                    scope.removeAlerts();
                     $customerBooking.find('.attending-checkbox').trigger('click');
                 });
                it('should make a call to the API', function(){
@@ -257,6 +266,10 @@ describe('customerBooking directive', function(){
                    });
                    it('should set bookingLoading to false', function(){
                        expect(scope.bookingLoading).to.be.false;
+                   });
+                   it('should add a success alert', function(){
+                       expect($rootScope.alerts[0].type).to.equal('success');
+                       expect($rootScope.alerts[0].message).to.equal('scheduling:alert.update-attendance.true');
                    });
                }); 
             });
