@@ -7,6 +7,11 @@ angular.module('onboarding.controllers', [])
                 $activityIndicator.startAnimating();
                 $q.all(getDefaultPromises()).then(function(){
                     $scope.$close();
+                    if(window.Intercom) {
+                        Intercom('update', {Locations: 1});
+                        Intercom('update', {Services: 1});
+                        Intercom('update', {Coaches: 1});
+                    }
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
