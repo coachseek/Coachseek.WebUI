@@ -5,8 +5,8 @@
 <div class="booking-admin-container" ng-switch="activeTab">    
     <hr class="double-wide">
     <div class="booking-admin-onlinebooking" ng-switch-when="onlineBooking">
-     <!--    <label>{{'booking:booking-admin.address' | i18next}}</label>
-        <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain}}.coachseek.com">
+        <label>{{'booking:booking-admin.address' | i18next}}</label>
+        <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain + (ENV.name === 'dev' ? '.testing' : '')}}.coachseek.com">
         <a  class="booking-preview-button"
             ng-href="https://{{business.domain + (ENV.name === 'dev' ? '.testing' : '')}}.coachseek.com"
             target="_blank">
