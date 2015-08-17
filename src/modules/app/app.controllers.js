@@ -43,6 +43,9 @@ angular.module('app.controllers', [])
                 delete sessionService.business;
                 delete $rootScope.currentUser;
                 // Intercom('shutdown');
+                document.addEventListener("deviceready", function () {
+                    intercom.reset();
+                }, false);
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -76,7 +79,10 @@ angular.module('app.controllers', [])
             $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
                 // startIntercom(user, _.now());
-                intercom.registerIdentifiedUser({email: user.email});
+                document.addEventListener("deviceready", function () {
+                    intercom.registerIdentifiedUser({email: user.email, name: user.firstName + " " + user.lastName});
+                }, false);
+              
                 sessionService.user = user;
                 sessionService.business = business;
                 $rootScope.currentUser = sessionService.user;
@@ -93,7 +99,7 @@ angular.module('app.controllers', [])
                 }, 5000)
             };
 
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+              $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
                 if (requireLogin && !$rootScope.currentUser) {
                     event.preventDefault();

@@ -186,6 +186,14 @@ angular.module('scheduling.controllers', [])
                             _.sum(sessionObject.courses, function(course){return _.size(course.sessions);})
                         );
                         // Intercom('update', {TotalSessions: totalNumSessions})
+                        document.addEventListener("deviceready", function () {
+                            intercom.updateUser({
+                                custom_attributes:{
+                                    TotalSessions: totalNumSessions
+                                }
+                            });
+                        }, false);
+
                    });
             };
 
