@@ -13,6 +13,7 @@ angular.module('app',
     'ui.router',
     'jm.i18next',
     'angularMoment',
+    'ngCordova',
 
     // coachSeekApp
     'app.controllers',
