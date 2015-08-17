@@ -19,10 +19,10 @@
       "remember": "Remember me",
         "first-name": "First Name",
         "last-name": "Last Name",
-        "email": "Email address",
+        "email": "Email Address",
         "phone": "Phone Number",
         "password": "Password (at least 6 characters)",
-        "availability": "Availability",
+        "availability": "Normal Working Hours",
         "placeholder": {
             "first-name": "Nick",
             "last-name": "Bollettieri",

@@ -48,6 +48,12 @@ angular.module('app.services', [])
                         var updateObject = {};
                         updateObject[functionName] = $scope.itemList.length;
                         // Intercom('update', updateObject);
+
+                          document.addEventListener("deviceready", function () {
+                             intercom.updateUser({  
+                                custom_attributes:updateObject
+                               });
+                        }, false);
                     }
                     resetToList($scope);
                     $scope.addAlert({

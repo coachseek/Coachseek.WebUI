@@ -43,11 +43,7 @@ module.exports = function(grunt) {
                             'matt@coachseek.com',
                             'mattwilliamson94@hotmail.com',
                             'samyin1990@hotmail.com',
-                            'josh+msports@coachseek.com',
-                            'joe@aucklandtenniscoaching.co.nz',
-                            'mat@blitztennis.co.nz',
-                            'alex@shotmakeracademy.com',
-                            'admin@wtc.co.nz'
+                            'josh+msports@coachseek.com'
                         ]
                     }
                 }
@@ -264,7 +260,8 @@ module.exports = function(grunt) {
                 dest : './src/index.html',
                 options : {
                     context : {
-                        gaTracking : 'UA-65899861-1',
+                        version : '<%= pkg.version %>',
+                        gaTracking : 'UA-65899861-1'
                     }
                 }
             },

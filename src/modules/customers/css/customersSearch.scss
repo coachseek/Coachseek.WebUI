@@ -48,7 +48,7 @@
 
             &.active{
                 font-size: 17px;
-                font-family: 'Lato Bold';
+                font-weight: $lato-bold;
             }
 
             &:last-of-type{
@@ -59,7 +59,7 @@
     }
 
     .highlighted{
-        font-family: 'Lato Bold';
+        font-weight: $lato-bold;
         color: black;
     }
 }

@@ -286,6 +286,18 @@
                 &.short-list  {
                     height: calc(100vh - 420px);
                 }
+=======
+    }  
+}
+
+// iPad in portrait
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) { 
+    .attendance-list {
+        .student-list, div.customer-list ul {
+            height: calc(100vh - 320px);
+            &.short-list  {
+                height: calc(100vh - 420px);
+>>>>>>> origin/ios
             }
         }
     }
@@ -295,7 +307,7 @@
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
     .attendance-list {
         .student-list, div.customer-list ul{
-            height: calc(100vh - 370px);
+            height: calc(100vh - 320px);
         }
         .customer-list ul.short-list  {
             height: calc(100vh - 390px);

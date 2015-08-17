@@ -50,5 +50,22 @@
     "delete-course-success": "You have deleted all sessions associated with __alert.name__ which started on __alert.startDate__",
     "session-or-course": "Are you wanting to make these changes for this session only or for all sessions in the entire course?",
     "this-session": "This session",
-    "entire-course": "Entire course"
+    "entire-course": "Entire course",
+    "alert": {
+        "add-course-booking" : "__alert.customerName__ has been added to entirety of __alert.sessionName__.",
+        "add-session-booking" : "__alert.customerName__ has been added to __alert.sessionName__.",
+        "delete-course-booking" : "__alert.customerName__ has been deleted from entirety of __alert.sessionName__.",
+        "delete-session-booking" : "__alert.customerName__ has been deleted from __alert.sessionName__.",
+        "update-payment-status" : {
+            "pending-invoice" : "__alert.customerName__ is awaiting an invoice for this session.",
+            "pending-payment": "__alert.customerName__ has an outstanding payment for this session.",
+            "paid": "__alert.customerName__ has paid all dues for this session.",
+            "overdue-payment": "__alert.customerName__'s payment is overdue for this session."
+        },
+        "update-attendance" : {
+            "true": "__alert.customerName__ has been marked as present for this session.",
+            "false": "__alert.customerName__ has been marked as absent for this session."
+        }
+
+    }
 }

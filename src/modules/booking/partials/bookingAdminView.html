@@ -1,12 +1,12 @@
-<div class="booking-admin-nav-container slider-nav" ng-init="activeTab = 'onlineBooking'" ng-show="showFeature()">
+<div class="booking-admin-nav-container slider-nav" ng-init="activeTab = 'onlineBooking'">
     <div class="booking-nav slider-nav-option online-booking" ng-click="activeTab = 'onlineBooking'" ng-class="{'active':activeTab==='onlineBooking'}">{{'booking:booking-admin.onlinebooking' | i18next}}</div>
     <div class="booking-nav slider-nav-option payments" ng-click="activeTab = 'payments'" ng-class="{'active':activeTab==='payments'}">{{'booking:booking-admin.payments' | i18next}}</div>
 </div>
 <div class="booking-admin-container" ng-switch="activeTab">    
-    <hr class="double-wide" ng-show="showFeature()">
+    <hr class="double-wide">
     <div class="booking-admin-onlinebooking" ng-switch-when="onlineBooking">
-        <label>{{'booking:booking-admin.address' | i18next}}</label>
-        <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain + (ENV.name === 'dev' ? '.testing' : '')}}.coachseek.com">
+     <!--    <label>{{'booking:booking-admin.address' | i18next}}</label>
+        <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain}}.coachseek.com">
         <a  class="booking-preview-button"
             ng-href="https://{{business.domain + (ENV.name === 'dev' ? '.testing' : '')}}.coachseek.com"
             target="_blank">
@@ -14,10 +14,13 @@
         </a>
         <label class="clearfix">{{'booking:booking-admin.code' | i18next}}</label>
         <input ng-readonly="true" ng-model="buttonHTML" class="booking-button-html"/>
-        <button class="booking-admin-copy-btn clearfix" clip-copy="buttonHTML" clip-click="copied = true" ng-i18next>{{copied ? 'booking:booking-admin.copied' : 'booking:booking-admin.code-btn'}}</button>
+        <button class="booking-admin-copy-btn clearfix" clip-copy="buttonHTML" clip-click="copied = true" ng-i18next>{{copied ? 'booking:booking-admin.copied' : 'booking:booking-admin.code-btn'}}</button> -->
+
+       <label for=""> {{'booking:booking-admin.notavailable' | i18next}}</label>
     </div>
     <div class="booking-admin-payments" ng-switch-when="payments">
-        <div class="toggle-switch-container enable-payment">
+      <label for=""> {{'booking:booking-admin.notavailable' | i18next}}</label>
+<!--         <div class="toggle-switch-container enable-payment">
             {{'booking:toggle-online-payment' | i18next}}
             <toggle-switch ng-disabled="AILoading"
                 property="business.payment.isOnlinePaymentEnabled"
@@ -51,6 +54,6 @@
                     <button class="cancel-button" ng-show="!saved" ng-if="!AILoading" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
                 </form>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
