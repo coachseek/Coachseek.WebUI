@@ -60,6 +60,8 @@ angular.module('scheduling.directives', [])
                         return !price;
                     }
                 }
+
+                $(".session-form").css("height", "100%").css("height", "-=285px"); 
             }
         };
     }])
@@ -101,6 +103,11 @@ angular.module('scheduling.directives', [])
             replace: false,
             templateUrl:'scheduling/partials/modalSessionAttendanceList.html',
             link: function(scope){
+                $(".attendance-list .student-list").css("height", "-=330px"); 
+                $(".attendance-list div.customer-list ul.short-list").css("height", "-=365px"); 
+                $(".attendance-list div.customer-list ul").css("height", "-=330px");
+
+
                 scope.showCustomers = false;
 
                 scope.showCustomerList = function(){
@@ -170,6 +177,8 @@ angular.module('scheduling.directives', [])
                     .$promise.then(function(customerList){
                         scope.itemList  =  customerList;
                     }, scope.handleErrors);
+
+              
             }
         };
     }])

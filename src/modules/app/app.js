@@ -29,7 +29,8 @@ angular.module('app',
 
     // UTILITIES
     'ngActivityIndicator',
-    'ngClipboard'
+    'ngClipboard',
+    'ngCordova'
 
     ]).config(['$i18nextProvider', function( $i18nextProvider ){
         $i18nextProvider.options = {
