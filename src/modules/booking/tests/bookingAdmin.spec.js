@@ -18,16 +18,11 @@ describe('Booking Admin Page', function(){
         return 're@d.e';
     });
 
-    let('environment', function(){
-        return 'dev';
-    });
-
     var scope;
     beforeEach(function(){
         scope = $rootScope.$new();
         _.set(scope, 'currentUser.email', this.currentUserEmail)
         $injector.get('sessionService').business = this.business;
-        $injector.get('ENV').name = this.environment;
         createViewWithController(scope, 'booking/partials/bookingAdminView.html', 'bookingAdminCtrl');
     });
     it('should show the `Online booking` and `Payment` tabs', function(){
@@ -42,33 +37,6 @@ describe('Booking Admin Page', function(){
     it('should show the online booking button with the correct subdomain', function(){
         $timeout.flush();
         expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain + '.testing');
-    });
-    describe('when then environment is production', function(){
-        let('environment', function(){
-            return 'prod';
-        })
-        it('should NOT show the `Online booking` and `Payment` tabs', function(){
-            expect($testRegion.find('.booking-admin-nav-container').hasClass('ng-hide')).to.be.true;
-        });
-        it('should show the online booking with the correct subdomain', function(){
-            expect($testRegion.find('.booking-url').val()).to.equal(this.business.domain + '.coachseek.com');
-        });
-        it('should show the online booking button with the correct subdomain', function(){
-            $timeout.flush();
-            expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain);
-        });
-    });
-    describe('when the user is not on the feature whitelist', function(){
-        let('environment', function(){
-            return 'prod';
-        });
-        let('currentUserEmail', function(){
-            return 'fake@user.com';
-        });
-
-        it('should NOT show the `Online booking` and `Payment` tabs', function(){
-            expect($testRegion.find('.booking-admin-nav-container').hasClass('ng-hide')).to.be.true;
-        });
     });
     describe('when clicking on the payments tab', function(){
         var saveStub;
