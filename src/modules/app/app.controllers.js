@@ -80,7 +80,7 @@ angular.module('app.controllers', [])
                 $rootScope.setUserAuth(user.email, user.password)
                 // startIntercom(user, _.now());
                 document.addEventListener("deviceready", function () {
-                    intercom.registerIdentifiedUser({email: user.email, name: user.firstName + " " + user.lastName});
+                    intercom.registerIdentifiedUser({email: user.email});
                 }, false);
               
                 sessionService.user = user;
