@@ -38,7 +38,8 @@
         "logging-in": "Logging in",
         "login-to-coachseek": "Log in to Coachseek",
         "new-here": "New here? ",
-        "create-account": "Create an account."
+        "create-account": "Create an account.",
+        "remember-me": "Remember me"
     },
     "edit-details": "Edit details",
     "save-details": "Save details",

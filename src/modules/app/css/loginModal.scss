@@ -37,6 +37,7 @@
                 }
 
                 label{
+                    margin: 5px 0 20px 0;
                     padding: 2.5px 0px;
                     color: $text-grey;
                     width: 100%;
@@ -46,7 +47,7 @@
             }
 
             button.save-button{
-                margin: 25px 0 40px 0;
+                margin: 5px 0 40px 0;
                 width: 100%;
                 background: $green;
                 transition: background-color 0.5s ease;
@@ -62,9 +63,19 @@
                 padding: 7.5px 25px;
             }
 
+            .remember-me{
+                text-align: center;
+                width: 100%;
+                color: $text-grey;
+                input{
+                    width: 13px;
+                    margin: 0;
+                    vertical-align: middle;
+                }
+            }
+
             .new-user{
                 text-align: center;
-
                 a{
                     color: $green;
                     margin-left: 5px;

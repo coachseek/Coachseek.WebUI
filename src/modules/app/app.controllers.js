@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookieStore',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookieStore) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
 
@@ -42,6 +42,7 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
+                $cookieStore.remove('coachseekLogin')
                 if(window.Intercom) Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
@@ -125,6 +126,26 @@ angular.module('app.controllers', [])
                 } else if (requireBusinessDomain && businessDomain === 'app') {
                     event.preventDefault();
                     $state.go('scheduling');
+                } else if (requireLogin && $cookieStore.get('coachseekLogin') && !sessionService.business) {
+                    event.preventDefault();
+
+                    $http.defaults.headers.common.Authorization = 'Basic ' + $cookieStore.get('coachseekLogin');
+                    coachSeekAPIService.get({section: 'Business'})
+                        .$promise.then(function(business){
+                            var userData = atob($cookieStore.get('coachseekLogin')).split(':');
+                            var user = {
+                                email: userData[0],
+                                password: userData[1]
+                            };
+                            $rootScope.setupCurrentUser(user, business);
+                            $state.go(toState.name, toParams);
+                        }, function(error){
+                            $http.defaults.headers.common.Authorization = null;
+                            $rootScope.addAlert({
+                                type: 'danger',
+                                message: error.statusText
+                            });
+                        });
                 } else if (requireLogin && !sessionService.user) {
                     event.preventDefault();
 
@@ -163,8 +184,8 @@ angular.module('app.controllers', [])
                 delete keys[e.which];
             });
         }])
-        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',
-            function ($scope, coachSeekAPIService, $http, $activityIndicator, $window) {
+        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookieStore',
+            function ($scope, coachSeekAPIService, $http, $activityIndicator, $cookieStore) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
@@ -178,6 +199,8 @@ angular.module('app.controllers', [])
                                 email: email,
                                 password: password
                             };
+
+                            if($scope.rememberMe) $cookieStore.put('coachseekLogin', btoa(email + ':' + password));
                             $scope.$close({user:user, business:business});
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
