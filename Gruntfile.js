@@ -163,7 +163,8 @@ module.exports = function(grunt) {
             },
             dev: {
                 options: {
-                    style: 'expanded'
+                    style: 'expanded',
+                    sourcemap: 'none'
                 },
                 files: {
                     'src/css/style.css': 'src/css/style.css'
@@ -198,7 +199,7 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['src/modules/**/*.scss'],
-                tasks: ['newer:concat:devCss', 'sass:dev'],
+                tasks: ['newer:concat:devCss', 'file_append:dev', 'sass:dev'],
             },
             templates: {
                 files: ['src/modules/**/partials/*.html', 'src/index.html'],
@@ -252,6 +253,22 @@ module.exports = function(grunt) {
             },
             prod: {
                 env: 'production'
+            }
+        },
+        file_append: {
+            dev: {
+                files: [{
+                    prepend: "$asset-url: 'https://az789256.vo.msecnd.net/assets/<%= pkg.version %>';",
+                    input: 'src/css/style.css',
+                    output: 'src/css/style.css'
+                }]
+            },
+            prod: {
+                files: [{
+                    prepend: "$asset-url: 'https://az789256.vo.msecnd.net/assets/<%= pkg.version %>';",
+                    input: 'src/css/style.css',
+                    output: 'prod/css/style.css'
+                }]
             }
         },
         preprocess : {
@@ -339,6 +356,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-env');
     grunt.loadNpmTasks('grunt-azure-blob');
     grunt.loadNpmTasks('grunt-preprocess');
+    grunt.loadNpmTasks('grunt-file-append');
 
     // Default task(s).
     grunt.registerTask('default', [
@@ -354,6 +372,7 @@ module.exports = function(grunt) {
             'concat:devCss',
             'concat:devApp',
             'concat:devLibs',
+            'file_append:dev',
             'wrap:dev',
             'ngtemplates:dev',
             'sass:dev',
@@ -371,6 +390,7 @@ module.exports = function(grunt) {
             'env:prod',
             'preprocess:prod',
             'concat:prodCss',
+            'file_append:prod',
             'wrap:prod',
             'htmlmin',
             'ngtemplates:prod',
