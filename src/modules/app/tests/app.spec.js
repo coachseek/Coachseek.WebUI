@@ -106,10 +106,10 @@ describe('App Module', function() {
             });
         });
         describe('when clicking the logout button', function(){
-            var $http, $stateStub, sessionService, $cookieStore;
+            var $http, $stateStub, sessionService, $cookies;
             beforeEach(function(){
-                $cookieStore = $injector.get('$cookieStore');
-                $cookieStore.put('coachseekLogin', 'testValue')
+                $cookies = $injector.get('$cookies');
+                $cookies.put('coachseekLogin', 'testValue')
                 $stateStub = this.sinon.stub($state, 'go');
                 $http = $injector.get('$http');
                 $http.defaults.headers.common['Authorization'] = 'TEST AUTH';
@@ -145,7 +145,7 @@ describe('App Module', function() {
                 expect(intercomStub).to.be.calledWith('shutdown');
             });
             it('should unset the login cookie', function(){
-                expect($cookieStore.get('coachseekLogin')).to.be.undefined;
+                expect($cookies.get('coachseekLogin')).to.be.undefined;
             });
         });
         describe('when navigating to a page that requires a login', function(){
@@ -159,9 +159,9 @@ describe('App Module', function() {
                 return {$promise: deferred.promise};
             });
 
-            var $loginModal, $stateStub,loginStub, self, $cookieStore;
+            var $loginModal, $stateStub,loginStub, self, $cookies;
             beforeEach(function(){
-                $cookieStore = $injector.get('$cookieStore');
+                $cookies = $injector.get('$cookies');
                 self = this;
                 self.loginPromise = this.loginPromise;
                 var coachSeekAPIService = $injector.get('coachSeekAPIService');
@@ -175,8 +175,10 @@ describe('App Module', function() {
             });
 
             describe('and the login cookie is set', function(){
+                var cookiePutSpy;
                 beforeEach(function(){
-                    $cookieStore.put('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password))
+                    $cookies.put('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password))
+                    cookiePutSpy = this.sinon.spy($cookies, 'put');
                     $state.go('scheduling');
                     $rootScope.$digest();
                     $loginModal = $('.modal');
@@ -202,6 +204,9 @@ describe('App Module', function() {
                     it('should make a call to Intercom', function(){
                         expect(intercomStub).to.be.calledWith('boot');
                     });
+                    it('should set the login cookie', function(){
+                        expect(cookiePutSpy).to.be.calledWith('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password), {'expires': moment().add(14, 'd').toDate()})
+                    });
                 });
                 describe('when the login is unsuccessful', function(){
                     let('loginPromise', function(){
@@ -221,7 +226,9 @@ describe('App Module', function() {
                 });
             });
             describe('and the login cookie is NOT set', function(){
+                var cookiePutSpy;
                 beforeEach(function(){
+                    cookiePutSpy = this.sinon.spy($cookies, 'put');
                     $state.go('scheduling');
                     $rootScope.$digest();
                     $loginModal = $('.modal');
@@ -241,7 +248,7 @@ describe('App Module', function() {
                         $timeout.flush();
                     });
                     it('should set the login cookie', function(){
-                        expect($cookieStore.get('coachseekLogin')).to.equal(btoa($rootScope.email + ':' + $rootScope.password))
+                        expect(cookiePutSpy).to.be.calledWith('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password), {'expires': moment().add(14, 'd').toDate()})
                     });
                 });
                 describe('when the rememberMe checkbox is NOT checked', function(){
@@ -250,7 +257,7 @@ describe('App Module', function() {
                         $timeout.flush();
                     });
                     it('should NOT set the login cookie', function(){
-                        expect($cookieStore.get('coachseekLogin')).to.be.undefined;
+                        expect($cookies.get('coachseekLogin')).to.be.undefined;
                     });
                 });
                 describe('when attempting to login and form is valid', function(){
