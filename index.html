@@ -31,6 +31,13 @@
     <!-- @endif -->
 </head>
 <body ng-app="app" ng-controller="appCtrl" ng-strict-di ng-cloak ng-class="{'with-navbar': currentUser}">
+    <div class="page-loading" ng-show="appLoading">
+        <div class="indicator-container">
+            <div class='outer-logo'></div>
+            <div ng-class="{active: appLoading}" class='inner-logo'></div>
+        </div>
+    </div>
+
     <div id="wrapper" ng-class="!isCollapsed?'toggled': ''">
         <div class="navbar navbar-inverse navbar-fixed-top" ng-show="currentUser">
             <div class="container-fluid">

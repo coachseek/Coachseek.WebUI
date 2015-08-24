@@ -201,9 +201,13 @@ module.exports = function(grunt) {
                 files: ['src/modules/**/*.scss'],
                 tasks: ['newer:concat:devCss', 'file_append:dev', 'sass:dev'],
             },
+            indexHtml : {
+                files: ['src/modules/**/partials/*.html', './index.html'],
+                tasks: ['ngtemplates:test', 'env:dev', 'preprocess:dev']
+            },
             templates: {
-                files: ['src/modules/**/partials/*.html', 'src/index.html'],
-                tasks: ['ngtemplates:dev', 'ngtemplates:test']
+                files: ['src/modules/**/partials/*.html'],
+                tasks: ['ngtemplates:dev']
             },
             i18n: {
                 files: ['src/modules/**/i18n/en/*.json'],

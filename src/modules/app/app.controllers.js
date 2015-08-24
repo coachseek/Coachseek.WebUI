@@ -107,6 +107,7 @@ angular.module('app.controllers', [])
                 var businessDomain = _.first($location.host().split("."));
                 if(businessDomain !== ENV.defaultSubdomain && !sessionService.business){
                     event.preventDefault();
+                    $rootScope.appLoading = true;
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             sessionService.business = business;
@@ -122,6 +123,8 @@ angular.module('app.controllers', [])
                                 message: 'businessDomain-invalid'
                             });
                             $rootScope.redirectToApp();
+                        }).finally(function(){
+                            $rootScope.appLoading = false;
                         });
                 } else if (requireBusinessDomain && businessDomain === 'app') {
                     event.preventDefault();
@@ -131,6 +134,7 @@ angular.module('app.controllers', [])
 
                     var coachseekLogin = $cookies.get('coachseekLogin');
                     $http.defaults.headers.common.Authorization = 'Basic ' + coachseekLogin;
+                    $rootScope.appLoading = true;
                     coachSeekAPIService.get({section: 'Business'})
                         .$promise.then(function(business){
                             var userData = atob(coachseekLogin).split(':');
@@ -147,6 +151,8 @@ angular.module('app.controllers', [])
                                 type: 'danger',
                                 message: error.statusText
                             });
+                        }).finally(function(){
+                            $rootScope.appLoading = false;
                         });
                 } else if (requireLogin && !sessionService.user) {
                     event.preventDefault();
