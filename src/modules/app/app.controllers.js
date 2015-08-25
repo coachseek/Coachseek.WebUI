@@ -82,9 +82,18 @@ angular.module('app.controllers', [])
                 }
             };
 
+            function startHeapAnalytics(user, business){
+                heap.identify({
+                    handle: business.id,
+                    businessName: business.name,
+                    email: user.email
+                });
+            }
+
             $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
                 startIntercom(user);
+                startHeapAnalytics(user, business);
                 sessionService.user = user;
                 sessionService.business = business;
                 $rootScope.currentUser = sessionService.user;
@@ -111,6 +120,7 @@ angular.module('app.controllers', [])
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             sessionService.business = business;
+                            startHeapAnalytics({}, business);
                             if($location.search().currentBooking){
                                 sessionService.currentBooking = JSON.parse($location.search().currentBooking);
                                 $state.go('booking.confirmation');

@@ -282,7 +282,8 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
-                        gaTracking : 'UA-65899861-1'
+                        gaTracking : 'UA-65899861-1',
+                        heapId: '3710647468'
                     }
                 }
             },
@@ -292,7 +293,8 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
-                        gaTracking : 'UA-65899861-1'
+                        gaTracking : 'UA-65899861-1',
+                        heapId: '3710647468'
                     }
                 }
             },
@@ -302,7 +304,8 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
-                        gaTracking : 'UA-65922713-1'
+                        gaTracking : 'UA-65922713-1',
+                        heapId: '202230763'
                     }
                 }
             }

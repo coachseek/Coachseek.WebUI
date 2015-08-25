@@ -413,6 +413,7 @@ angular.module('scheduling.controllers', [])
                         if(sessionService.onboarding.showOnboarding) {
                             onboardingModal.open('onboardingReviewModal')
                                 .then().finally(function(){
+                                    heap.track('Onboarding Close', {step: 'onboardingReview'});
                                     ga('send', 'event', 'onboarding', 'close', 'onboardingReview');
                                     sessionService.onboarding.showOnboarding = false;
                                 });
@@ -589,6 +590,7 @@ angular.module('scheduling.controllers', [])
                         .then(function(){
                             $state.reload();
                         }, function(){
+                            heap.track('Onboarding Close', {step: 'createDefaults'});
                             ga('send', 'event', 'onboarding', 'close', 'createDefaults');
                             sessionService.onboarding.showOnboarding = false;
                         });
