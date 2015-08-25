@@ -1,6 +1,6 @@
 {
   "name": "coachseek",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-jquery": "^2.0.0",
@@ -30,7 +30,7 @@
     "karma-mocha": "^0.1.10",
     "karma-sinon-chai": "^0.3.0",
     "mocha": "^2.1.0",
-    "mocha-lazy-bdd": "0.0.4",
+    "mocha-lazy-bdd": "0.0.5",
     "sinon": "^1.12.2",
     "sinon-chai": "^2.7.0"
   }

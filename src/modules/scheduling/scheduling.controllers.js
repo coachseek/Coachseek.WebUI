@@ -482,13 +482,14 @@ angular.module('scheduling.controllers', [])
                     });
             };
 
-            var handleCalendarErrors = function(error){
-                _.forEach(error.data, function(error){
+            var handleCalendarErrors = function(errors){
+                _.forEach(errors.data, function(error){
                     if(error.code === "clashing-session"){
                         handleClashingError(error);
                     } else {
                         $scope.addAlert({
                             type: 'danger',
+                            code: error.code,
                             message: error.message ? error.message: error
                         });
                     }

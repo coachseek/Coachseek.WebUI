@@ -20,10 +20,11 @@ angular.module('app.controllers', [])
                 $rootScope.alerts.push(alert);
             };
 
-            $rootScope.handleErrors = function(error){
-                _.forEach(error.data, function(error){
+            $rootScope.handleErrors = function(errors){
+                _.forEach(errors.data, function(error){
                     $rootScope.addAlert({
                         type: 'danger',
+                        code: error.code,
                         message: error.message ? error.message: error
                     });
                 });
