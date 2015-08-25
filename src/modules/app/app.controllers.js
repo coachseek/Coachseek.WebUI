@@ -122,6 +122,7 @@ angular.module('app.controllers', [])
                         .then(function(business){
                             sessionService.business = business;
                             startHeapAnalytics({}, business);
+                            heap.track('Online Booking Session');
                             if($location.search().currentBooking){
                                 sessionService.currentBooking = JSON.parse($location.search().currentBooking);
                                 $state.go('booking.confirmation');
