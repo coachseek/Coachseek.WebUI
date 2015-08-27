@@ -94,29 +94,41 @@ $nav-bar-height: 55px;
     &.dark-blue    { background-color: $dark-blue; }
 }
 %service-background-colors-lighten{
-  &.green      { background-color: lighten( $green, 5% ); }
-  &.mid-green  { background-color: lighten( $mid-green, 5% );}
-  &.dark-green { background-color: lighten( $dark-green, 5% );}
-  &.red        { background-color: lighten( $red, 5%);}
-  &.dark-red   { background-color: lighten( $dark-red, 5% );}
-  &.yellow     { background-color: lighten( $yellow, 5% );}
-  &.orange     { background-color: lighten( $orange, 5% );}
-  &.blue       { background-color: lighten( $blue, 5% );}
-  &.mid-blue   { background-color: lighten( $mid-blue, 5% );}
-  &.dark-blue  { background-color: lighten( $dark-blue, 5% );}
+  &.green      { background-color: lighten( $green, 3% ); }
+  &.mid-green  { background-color: lighten( $mid-green, 3% );}
+  &.dark-green { background-color: lighten( $dark-green, 3% );}
+  &.red        { background-color: lighten( $red, 3%);}
+  &.dark-red   { background-color: lighten( $dark-red, 3% );}
+  &.yellow     { background-color: lighten( $yellow, 3% );}
+  &.orange     { background-color: lighten( $orange, 3% );}
+  &.blue       { background-color: lighten( $blue, 3% );}
+  &.mid-blue   { background-color: lighten( $mid-blue, 3% );}
+  &.dark-blue  { background-color: lighten( $dark-blue, 3% );}
 }
 
 %service-background-colors-60{
-    &.green            { background-color: rgba(0,165,120,.6); }
-    &.mid-green    { background-color: rgba(0,119,79,.6) }
-    &.dark-green { background-color: rgba(0,71,52,.6) }
-    &.red                { background-color: rgba(231,76,60,.6); }
-    &.dark-red     { background-color: rgba(204,10,0,.6); }
-    &.yellow         { background-color: rgba(240,195,15,.6); } 
-    &.orange         { background-color: rgba(232,136,1,.6); }
-    &.blue             { background-color: rgba(55,165,226,.6); }
-    &.mid-blue     { background-color: rgba(41,128,184,.6); }
-    &.dark-blue    { background-color: rgba(50,80,104,.6); }
+    &.green            { background-color: rgba(0,165,120,.4); }
+    &.mid-green    { background-color: rgba(0,119,79,.4) }
+    &.dark-green { background-color: rgba(0,71,52,.4) }
+    &.red                { background-color: rgba(231,76,60,.4); }
+    &.dark-red     { background-color: rgba(204,10,0,.4); }
+    &.yellow         { background-color: rgba(240,195,15,.4); } 
+    &.orange         { background-color: rgba(232,136,1,.4); }
+    &.blue             { background-color: rgba(55,165,226,.4); }
+    &.mid-blue     { background-color: rgba(41,128,184,.4); }
+    &.dark-blue    { background-color: rgba(50,80,104,.4); }
+}
+%service-background-colors-select{
+    &.green            { background-color: rgba(0,165,120,.8); }
+    &.mid-green    { background-color: rgba(0,119,79,.8) }
+    &.dark-green { background-color: rgba(0,71,52,.8) }
+    &.red                { background-color: rgba(231,76,60,.8); }
+    &.dark-red     { background-color: rgba(204,10,0,.8); }
+    &.yellow         { background-color: rgba(240,195,15,.8); } 
+    &.orange         { background-color: rgba(232,136,1,.8); }
+    &.blue             { background-color: rgba(55,165,226,.8); }
+    &.mid-blue     { background-color: rgba(41,128,184,.8); }
+    &.dark-blue    { background-color: rgba(50,80,104,.8); }
 }
 
 %service-border-colors{
