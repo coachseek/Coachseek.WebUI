@@ -93,7 +93,7 @@ $nav-bar-height: 55px;
     &.mid-blue     { background-color: $mid-blue; }
     &.dark-blue    { background-color: $dark-blue; }
 }
-%service-background-colors-lighten{
+%service-background-colors-40{
   &.green      { background-color: lighten( $green, 3% ); }
   &.mid-green  { background-color: lighten( $mid-green, 3% );}
   &.dark-green { background-color: lighten( $dark-green, 3% );}
@@ -118,7 +118,7 @@ $nav-bar-height: 55px;
     &.mid-blue     { background-color: rgba(41,128,184,.4); }
     &.dark-blue    { background-color: rgba(50,80,104,.4); }
 }
-%service-background-colors-select{
+%service-background-colors-80{
     &.green            { background-color: rgba(0,165,120,.8); }
     &.mid-green    { background-color: rgba(0,119,79,.8) }
     &.dark-green { background-color: rgba(0,71,52,.8) }
