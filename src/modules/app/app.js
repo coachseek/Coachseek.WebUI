@@ -48,20 +48,6 @@ angular.module('app',
             var $state = $injector.get("$state");
             $state.go("scheduling");
         });
-
-        $stateProvider
-            .state('comingSoon', {
-                templateUrl: "app/partials/comingSoon.html",
-                controller: 'comingSoonCtrl',
-                data: {
-                    requireLogin: true
-                }
-            })
-            .state('comingSoon.dashboard', {
-                url: "/dashboard/coming-soon"
-            }).state('comingSoon.financials', {
-                url: "/financials/coming-soon"
-            });
     }])
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);

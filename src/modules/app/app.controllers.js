@@ -246,11 +246,4 @@ angular.module('app.controllers', [])
             };
 
             $scope.cancel = $scope.$dismiss;
-        }])
-        .controller('comingSoonCtrl', ['$scope', 
-            function ($scope) {
-                $scope.saveFeedback = function(){
-                    Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
-                    $scope.feedbackSent = true;
-                };
         }]);

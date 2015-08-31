@@ -1,8 +1,0 @@
-<div class="coming-soon-container">
-    <div class="coming-soon-message" ng-i18next>{{feedbackSent ? 'feedback-thanks' : 'coming-soon'}}</div>
-    <div class="coming-soon-submessage" ng-i18next>{{feedbackSent ? 'feedback-thanks-submessage' : 'coming-soon-submessage'}}</div>
-    <form ng-hide="feedbackSent" name="feedbackForm" novalidate ng-enter="saveFeedback()">
-        <textarea name="feedback" ng-model="feedback"></textarea>
-        <button class="save-button" ng-click="saveFeedback()">{{'save' | i18next}}</button>
-    </form>
-</div>
