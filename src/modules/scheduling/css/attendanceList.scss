@@ -15,7 +15,7 @@
 
     .customer-list{
         height: calc(100vh - 245px);
-        overflow-y: scroll;
+        overflow-y: auto;
 
         &.short-list{
             ul{
@@ -123,7 +123,7 @@
 
     .student-list{
         height: calc(100vh - 315px);
-        overflow-y: scroll;
+        overflow-y: auto;
 
         .student-details{
             width: 95%;
