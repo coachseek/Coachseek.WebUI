@@ -361,7 +361,7 @@ angular.module('scheduling.controllers', [])
                     if($scope.currentEvent.tempEventId && course){
                         var session = $scope.currentEvent.session;
                         if ($scope.currentEvent.course.pricing && $scope.currentEvent.course.pricing.coursePrice){
-                            session.pricing.coursePrice = $scope.currentEvent.course.pricing.coursePrice;     
+                            _.set(session, 'pricing.coursePrice', $scope.currentEvent.course.pricing.coursePrice);
                         }
                          saveSession(session);
                     } else if(course){
