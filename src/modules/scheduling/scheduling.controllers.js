@@ -414,7 +414,6 @@ angular.module('scheduling.controllers', [])
                             onboardingModal.open('onboardingReviewModal')
                                 .then().finally(function(){
                                     heap.track('Onboarding Close', {step: 'onboardingReview'});
-                                    ga('send', 'event', 'onboarding', 'close', 'onboardingReview');
                                     sessionService.onboarding.showOnboarding = false;
                                 });
                         }
@@ -592,7 +591,6 @@ angular.module('scheduling.controllers', [])
                             $state.reload();
                         }, function(){
                             heap.track('Onboarding Close', {step: 'createDefaults'});
-                            ga('send', 'event', 'onboarding', 'close', 'createDefaults');
                             sessionService.onboarding.showOnboarding = false;
                         });
                 });

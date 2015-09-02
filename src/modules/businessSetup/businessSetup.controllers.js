@@ -18,7 +18,6 @@ angular.module('businessSetup.controllers', [])
                             lastName: newBusiness.admin.lastName
                         }, newBusiness.business);
                         heap.track('New User Sign Up');
-                        ga('marketingTracker.send', 'event', { eventCategory: 'FreeTrialSignup', eventAction: 'click', eventLabel: 'Main'});
                         $state.go('scheduling');
                         if($scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
                     }, $scope.handleErrors).finally(function(){

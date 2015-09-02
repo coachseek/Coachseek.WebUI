@@ -22,7 +22,6 @@ angular.module('onboarding.directives', [])
                             });
                         }, function(){
                             heap.track('Onboarding Close', {step: scope.onboardingStep});
-                            ga('send', 'event', 'onboarding', 'close', scope.onboardingStep);
                             sessionService.onboarding.showOnboarding = false;
                         });
                 }
