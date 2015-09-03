@@ -1,6 +1,7 @@
 {
     "default-modal-title": "Hi __firstName__, welcome to Coachseek!",
     "default-modal-subtitle": "Using Coachseek is easy. Let's create your first coaching session!",
+    "there": "there",
     "coach-name": "Coach name",
     "location-name": "Location",
     "services-name": "Service",
