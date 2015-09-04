@@ -3,6 +3,7 @@
     "no": "No",
     "on": "On",
     "off": "Off",
+    "get-started": "Get Started",
     "settings": "SETTINGS",
     "dashboard": "DASHBOARD",
     "scheduling": "CALENDAR",
@@ -34,12 +35,12 @@
         "placeholder": {
             "email": "Email"
         },
-        "password-min": "Password must contain at least 6 characters",
         "logging-in": "Logging in",
         "login-to-coachseek": "Log in to Coachseek",
-        "new-here": "New here? ",
-        "create-account": "Create an account.",
-        "remember-me": "Remember me"
+        "new-here": "First time here? ",
+        "create-account": "Sign up here.",
+        "remember-me": "Remember me",
+        "returning-welcome": "Hey there, welcome back!"
     },
     "edit-details": "Edit details",
     "save-details": "Save details",

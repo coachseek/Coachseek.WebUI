@@ -98,6 +98,7 @@
     "error": {
         "maxlength": "This is too long.",
         "minlength": "Oops! Too short.",
+        "password-minlength": "Password must be at least 6 characters.",
         "duplicatename": "Oops! This name is a duplicate.",
         "email": "Email is not valid.",
         "required": "This field is required",
