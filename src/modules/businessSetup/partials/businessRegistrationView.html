@@ -5,16 +5,7 @@
 <hr class="double-wide"/>
 <div class="business-item-view crud-item">
     <form name="itemForm" novalidate ng-enter="saveItem(item)">
-        <div class="form-input">
-            <label name="name">{{'businessSetup:business-details.name' | i18next}}</label>
-            <input name="name" ng-model="business.name" placeholder="{{'businessSetup:business-details.placeholder.name' | i18next}}" required ng-maxlength=50 />
 
-            <div class="error-messages" ng-messages="itemForm.name.$error" ng-if="itemForm.name.$touched">
-                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-            </div>
-        </div>
         <div class="form-input left-col">
             <label name="firstName">{{'person-details.first-name' | i18next}}</label>
             <input name="firstName" ng-model="admin.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
@@ -30,6 +21,16 @@
             <input name="lastName" ng-model="admin.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
 
             <div class="error-messages" ng-messages="itemForm.lastName.$error" ng-if="itemForm.lastName.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
+        </div>
+
+        <div class="form-input">
+            <label name="phone">{{'person-details.phone' | i18next}}</label>
+            <input name="phone" ng-model="admin.phone" placeholder="{{'details.phone' | i18next}}" ng-maxlength="50" required/>
+
+            <div class="error-messages" ng-messages="itemForm.phone.$error" ng-if="itemForm.phone.$touched">
                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                 <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
             </div>
@@ -56,6 +57,19 @@
                 <div ng-message="minlength">{{'businessSetup:error.minlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
             </div>
         </div>
+
+        <div class="form-input">
+            <label name="name">{{'businessSetup:business-details.name' | i18next}}</label>
+            <input name="name" ng-model="business.name" placeholder="{{'businessSetup:business-details.placeholder.name' | i18next}}" required ng-maxlength=50 />
+
+            <div class="error-messages" ng-messages="itemForm.name.$error" ng-if="itemForm.name.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
+        </div>
+
+        <sport-picker current-sport="business.sport"></sport-picker>
 
         <currency-picker current-currency="business.currency"></currency-picker>
     </form>

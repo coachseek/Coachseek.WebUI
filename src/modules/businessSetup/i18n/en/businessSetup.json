@@ -92,6 +92,7 @@
     "password-invalid": "Oops! Looks like your Password isn't quite right. Try again.",
     "postCode-invalid": "Oops! Looks like your Post Code isn't quite right. Try again.",
     "currency-invalid": "Oops! Looks like you need to pick a currency.",
+    "sport-invalid": "Oops! Looks like you need to pick a sport.",
     "sessionCount-invalid": "Repetition count is too high for us to handle! Try a lower number.",
 
     "error": {

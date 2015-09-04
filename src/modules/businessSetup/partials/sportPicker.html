@@ -1,0 +1,9 @@
+<div class="form-input">
+    <label name="sport">{{'operating-sport' | i18next}}</label>
+    <select-arrows></select-arrows>
+    <select name="sport" class="sport-picker" ng-model="currentSport" ng-options="sport as ('sports.' + sport | i18next) for sport in sports" required></select>
+
+    <div class="error-messages" ng-messages="itemForm.sport.$error" ng-if="itemForm.sport.$touched">
+        <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+    </div>
+</div>

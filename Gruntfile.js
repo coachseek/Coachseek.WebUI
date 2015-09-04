@@ -220,7 +220,7 @@ module.exports = function(grunt) {
                 client: {
                     mocha: {
                         reporter: 'html', // change Karma's debug.html to the mocha web reporter
-                        ui: 'letbdd'
+                        ui: 'let-bdd'
                     }
                 }
             }

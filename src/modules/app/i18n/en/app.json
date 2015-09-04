@@ -66,5 +66,23 @@
         "GBP": "£",
         "SEK": "kr",
         "ZAR": "R"
+    },
+    "operating-sport": "Operating sport",
+    "sports" : {
+        "tennis": "Tennis",
+        "swimming": "Swimming",
+        "martial Arts": "Martial Arts",
+        "gymnastics": "Gymnastics",
+        "golf": "Golf",
+        "fencing": "Fencing",
+        "equestrian": "Equestrian",
+        "fitness": "Fitness",
+        "basketball": "Basketball",
+        "volleyball": "Volleyball",
+        "football": "Football",
+        "hockey": "Hockey",
+        "squash": "Squash",
+        "yoga-pilates": "Yoga/Pilates",
+        "other": "Other"
     }
 }
