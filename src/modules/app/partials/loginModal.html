@@ -1,6 +1,6 @@
 <div class="login-modal-container">
     <div class="coachseek-logo-white"></div>
-    <h4 class="returning-welcome">{{'login.returning-welcome' | i18next}}</h3>
+    <h4 class="returning-welcome">{{'login.returning-welcome' | i18next}}</h4>
     <div class="new-user">{{'login.new-here' | i18next}}<a ng-click="cancel()" ui-sref="newUserSetup">{{'login.create-account' | i18next}}</a></div>
     <form name="loginForm" novalidate ng-enter="attemptLogin(email, password)">
         <input class="login-email" name="email" type="email" ng-model="email" placeholder="{{'login.placeholder.email' | i18next}}"  required ng-maxlength=100 />
