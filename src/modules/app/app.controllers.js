@@ -110,7 +110,32 @@ angular.module('app.controllers', [])
 
               $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                if (requireLogin && !$rootScope.currentUser) {
+                if (requireLogin  && $cookies.get('coachseekLogin') && !sessionService.business) {
+                    event.preventDefault();
+
+                    var coachseekLogin = $cookies.get('coachseekLogin');
+                    $http.defaults.headers.common.Authorization = 'Basic ' + coachseekLogin;
+                    $rootScope.appLoading = true;
+                    coachSeekAPIService.get({section: 'Business'})
+                        .$promise.then(function(business){
+                            var userData = atob(coachseekLogin).split(':');
+                            $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
+                            var user = {
+                                email: userData[0],
+                                password: userData[1]
+                            };
+                            $rootScope.setupCurrentUser(user, business);
+                            $state.go(toState.name, toParams);
+                        }, function(error){
+                            $http.defaults.headers.common.Authorization = null;
+                            $rootScope.addAlert({
+                                type: 'danger',
+                                message: error.statusText
+                            });
+                        }).finally(function(){
+                            $rootScope.appLoading = false;
+                        });
+                } else if (requireLogin && !sessionService.user) {
                     event.preventDefault();
 
                     loginModal.open().then(function () {
