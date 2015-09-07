@@ -158,9 +158,12 @@
                 border-width: 1.5px;
                 border-radius: 0;
                 margin: 1px 0;
+                color:$text-dark-grey;
 
                 &.current-event{
-                    border-width: 3px;
+                    @extend %service-background-colors-80;
+                    color: $white;
+                    border-width: 2px;
                 }
 
                 .fc-bg{
@@ -179,7 +182,7 @@
             .fc-content {
                 height: 100%;
                 .fc-fullybooked-agendaDay{
-                    @extend %service-background-colors-lighten;           
+                    @extend %service-background-colors-40;           
                     @extend %service-border-colors;
                     border-top: 1px solid;
                     position: absolute;

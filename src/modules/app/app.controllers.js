@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
 
@@ -20,10 +20,11 @@ angular.module('app.controllers', [])
                 $rootScope.alerts.push(alert);
             };
 
-            $rootScope.handleErrors = function(error){
-                _.forEach(error.data, function(error){
+            $rootScope.handleErrors = function(errors){
+                _.forEach(errors.data, function(error){
                     $rootScope.addAlert({
                         type: 'danger',
+                        code: error.code,
                         message: error.message ? error.message: error
                     });
                 });
@@ -42,6 +43,7 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
+                $cookies.remove('coachseekLogin')
                 // Intercom('shutdown');
                 document.addEventListener("deviceready", function () {
                     intercom.reset();
@@ -74,7 +76,14 @@ angular.module('app.controllers', [])
             //         });
             //     }
             // };
-   
+
+            function startHeapAnalytics(user, business){
+                heap.identify({
+                    handle: business.id,
+                    businessName: business.name,
+                    email: user.email
+                });
+            }
 
             $rootScope.setupCurrentUser = function(user, business){
                 $rootScope.setUserAuth(user.email, user.password)
@@ -139,8 +148,8 @@ angular.module('app.controllers', [])
                 delete keys[e.which];
             });
         }])
-        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window',
-            function ($scope, coachSeekAPIService, $http, $activityIndicator, $window) {
+        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies',
+            function ($scope, coachSeekAPIService, $http, $activityIndicator, $cookies) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
@@ -154,6 +163,8 @@ angular.module('app.controllers', [])
                                 email: email,
                                 password: password
                             };
+
+                            if($scope.rememberMe) $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
                             $scope.$close({user:user, business:business});
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;

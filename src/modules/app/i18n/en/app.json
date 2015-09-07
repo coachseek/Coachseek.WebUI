@@ -3,6 +3,7 @@
     "no": "No",
     "on": "On",
     "off": "Off",
+    "get-started": "Get Started",
     "settings": "SETTINGS",
     "dashboard": "DASHBOARD",
     "scheduling": "CALENDAR",
@@ -34,11 +35,12 @@
         "placeholder": {
             "email": "Email"
         },
-        "password-min": "Password must contain at least 6 characters",
         "logging-in": "Logging in",
         "login-to-coachseek": "Log in to Coachseek",
-        "new-here": "New here? ",
-        "create-account": "Create an account."
+        "new-here": "First time here? ",
+        "create-account": "Sign up here.",
+        "remember-me": "Remember me",
+        "returning-welcome": "Hey there, welcome back!"
     },
     "edit-details": "Edit details",
     "save-details": "Save details",
@@ -52,8 +54,6 @@
     "week": "Week",
     "day": "Day",
     "today": "Today",
-    "coming-soon": "Woooaah Nelly! We're not quite done here but let us know what else you'd like to see on Coachseek.",
-    "coming-soon-submessage": "(Also, harsh criticism of things we have forgotten is always appreciated.)",
     "feedback-thanks": "Thanks! We'll throw that in our oven and see what comes out.",
     "feedback-thanks-submessage": "(Now go find something else to do you beautiful being.)",
     "single-session": "Single Session",
@@ -67,5 +67,23 @@
         "GBP": "£",
         "SEK": "kr",
         "ZAR": "R"
+    },
+    "operating-sport": "Operating sport",
+    "sports" : {
+        "tennis": "Tennis",
+        "swimming": "Swimming",
+        "martial Arts": "Martial Arts",
+        "gymnastics": "Gymnastics",
+        "golf": "Golf",
+        "fencing": "Fencing",
+        "equestrian": "Equestrian",
+        "fitness": "Fitness",
+        "basketball": "Basketball",
+        "volleyball": "Volleyball",
+        "football": "Football",
+        "hockey": "Hockey",
+        "squash": "Squash",
+        "yoga-pilates": "Yoga/Pilates",
+        "other": "Other"
     }
 }

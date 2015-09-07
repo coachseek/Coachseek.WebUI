@@ -6,6 +6,24 @@ describe('BusinessSetup Module', function() {
         scope = $rootScope.$new();
     });
     describe('businessSetup states', function() {
+        describe('when navigating to newUserSetup', function(){
+            var viewAttrs;
+            beforeEach(function(){
+                $state.go('newUserSetup');
+                $rootScope.$digest();
+
+                viewAttrs = $state.current;
+            });
+            it('should attempt to bring up the login modal if not logged in', function(){
+                expect(loginModalSpy).to.not.be.called;
+            });
+            it('should map to correct template', function(){
+                expect(viewAttrs.templateUrl).to.equal('businessSetup/partials/businessRegistrationView.html');
+            });
+            it('should map to the correct controller', function(){
+                expect(viewAttrs.controller).to.equal('businessRegistrationCtrl');
+            });
+        });
         describe('when navigating to businessSetup.business', function(){
             var viewAttrs;
             beforeEach(function(){

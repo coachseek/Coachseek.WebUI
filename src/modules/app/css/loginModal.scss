@@ -1,9 +1,13 @@
 .login-modal-backdrop{
-    background: $background-beige;
     opacity: 1 !important;
+    background: url(#{$asset-url}/pics/signup-background.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 .modal-dialog{
-    margin-top: 140px;
+    margin-top: 50px;
     .modal-content{
         box-shadow: none;
         border: none;
@@ -14,40 +18,64 @@
             min-width: 250px;
             max-width: 340px;
             margin: 0 auto;
+            color: $white;
+            font-weight: $lato-light;
+
+            .returning-welcome{
+                text-align: center;
+                margin-bottom:15px;
+                font-size: 24px;
+            }
+
+            .new-user{
+                font-size: 16px;
+                text-align: center;
+                margin-bottom: 30px;   
+                a{
+                    color: $white;
+                    text-decoration: underline;
+                    margin-left: 5px;
+                }
+            }
 
             form{
                 padding: 0;
 
                 input{
+                    padding: 10px 15px;
                     width: 100%;
                     height: 42.5px;
-                    $border-radii: 3px;
-                    border-radius: 0;
-
-                    &.login-email{
-                        border-top-left-radius: $border-radii;
-                        border-top-right-radius: $border-radii;
-                    }
+                    border-radius: 3px;
+                    background: rgba(255,255,255,.1);
+                    color: $white;
+                    margin-bottom: 10px;
 
                     &.login-password{
-                        border-top: 1px solid #CBCBCB;
-                        border-bottom-left-radius: $border-radii;
-                        border-bottom-right-radius: $border-radii;
+                        margin-bottom: 30px;
                     }
                 }
 
                 label{
+                    margin: 5px 0 20px 0;
                     padding: 2.5px 0px;
-                    color: $text-grey;
                     width: 100%;
                     text-align: center;
                     font-size: 14px;
                 }
+
+                ::-webkit-input-placeholder{
+                    color: rgba(255,255,255,.75);
+                }
+                input[type=all]::-moz-placeholder{
+                    color: rgba(255,255,255,.75);
+                }
+                :-ms-input-placeholder{
+                    color: rgba(255,255,255,.75);
+                }
             }
 
             button.save-button{
-                margin: 25px 0 40px 0;
-                width: 100%;
+                width: 60%;
                 background: $green;
                 transition: background-color 0.5s ease;
                 &:hover{
@@ -62,12 +90,16 @@
                 padding: 7.5px 25px;
             }
 
-            .new-user{
-                text-align: center;
-
-                a{
-                    color: $green;
-                    margin-left: 5px;
+            .remember-me{
+                cursor: pointer;
+                text-align: left;
+                width: 40%;
+                line-height: 40px;
+                height: 40px;
+                input{
+                    width: 13px;
+                    margin: 0;
+                    vertical-align: middle;
                 }
             }
         }
