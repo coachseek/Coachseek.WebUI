@@ -199,14 +199,15 @@
                     @extend .fc-fullybooked-agendaDay;
                 }
                 .fc-fullybooked-month{
-                    @extend %service-background-colors;           
+                    @extend %service-background-colors-40;           
                     @extend %service-border-colors;                
-                    border-top: 1px solid;
+                    border-left: 1px solid;
                     position: absolute;
                     right: 0px;
                     top: 0;
                     text-align: center;
                     width: 16px;
+                    height:100%;
                     p,i{
                         display: inline;
                     }
