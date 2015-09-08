@@ -29,18 +29,22 @@
     }
 
     h2, .title{
-        font-size: 34px;
+        font-size: 28px;
         color: $green;
         text-align: center;
+        margin-top: 8px;
+        margin-bottom: 15px;
     }
 
     h3{
         font-size: 24px;
         color: $green;
+        margin-top: 8px;
+        margin-bottom: 15px;
     }
 
     h4, .subtitle{
-        font-size: 13px;
+        font-size: 15px;
         color: $text-dark-grey;
         text-align: center;
     }

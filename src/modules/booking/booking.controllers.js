@@ -202,6 +202,7 @@ angular.module('booking.controllers', [])
                 .save({ section: 'Customers' }, currentBooking.customer).$promise
                     .then(function (customer) {
                         return saveBooking(customer).then(function (booking) {
+                            heap.track('Online Booking Confirmed', {onlinePaymentEnabled: $scope.business.payment.isOnlinePaymentEnabled, payLater: payLater});
                             currentBooking.booking.id = booking.id;
                             $scope.bookingConfirmed = payLater;
                             $scope.redirectingToPaypal = !payLater;

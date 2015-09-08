@@ -163,7 +163,8 @@ module.exports = function(grunt) {
             },
             dev: {
                 options: {
-                    style: 'expanded'
+                    style: 'expanded',
+                    sourcemap: 'none'
                 },
                 files: {
                     'src/css/style.css': 'src/css/style.css'
@@ -198,11 +199,15 @@ module.exports = function(grunt) {
             },
             css: {
                 files: ['src/modules/**/*.scss'],
-                tasks: ['newer:concat:devCss', 'sass:dev'],
+                tasks: ['newer:concat:devCss', 'file_append:dev', 'sass:dev'],
+            },
+            indexHtml : {
+                files: ['src/modules/**/partials/*.html', './index.html'],
+                tasks: ['ngtemplates:test', 'env:dev', 'preprocess:dev']
             },
             templates: {
-                files: ['src/modules/**/partials/*.html', 'src/index.html'],
-                tasks: ['ngtemplates:dev', 'ngtemplates:test']
+                files: ['src/modules/**/partials/*.html'],
+                tasks: ['ngtemplates:dev']
             },
             i18n: {
                 files: ['src/modules/**/i18n/en/*.json'],
@@ -215,7 +220,7 @@ module.exports = function(grunt) {
                 client: {
                     mocha: {
                         reporter: 'html', // change Karma's debug.html to the mocha web reporter
-                        ui: 'letbdd'
+                        ui: 'let-bdd'
                     }
                 }
             }
@@ -254,6 +259,22 @@ module.exports = function(grunt) {
                 env: 'production'
             }
         },
+        file_append: {
+            dev: {
+                files: [{
+                    prepend: "$asset-url: 'https://az789256.vo.msecnd.net/assets/<%= pkg.version %>';",
+                    input: 'src/css/style.css',
+                    output: 'src/css/style.css'
+                }]
+            },
+            prod: {
+                files: [{
+                    prepend: "$asset-url: 'https://az789256.vo.msecnd.net/assets/<%= pkg.version %>';",
+                    input: 'src/css/style.css',
+                    output: 'prod/css/style.css'
+                }]
+            }
+        },
         preprocess : {
             dev: {
                 src : './index.html',
@@ -261,7 +282,7 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
-                        gaTracking : 'UA-65899861-1'
+                        heapId: '3710647468'
                     }
                 }
             },
@@ -271,7 +292,7 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
-                        gaTracking : 'UA-65899861-1'
+                        heapId: '3710647468'
                     }
                 }
             },
@@ -281,7 +302,7 @@ module.exports = function(grunt) {
                 options : {
                     context : {
                         version : '<%= pkg.version %>',
-                        gaTracking : 'UA-65922713-1'
+                        heapId: '2818681617'
                     }
                 }
             }
@@ -339,6 +360,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-env');
     grunt.loadNpmTasks('grunt-azure-blob');
     grunt.loadNpmTasks('grunt-preprocess');
+    grunt.loadNpmTasks('grunt-file-append');
 
     // Default task(s).
     grunt.registerTask('default', [
@@ -354,6 +376,7 @@ module.exports = function(grunt) {
             'concat:devCss',
             'concat:devApp',
             'concat:devLibs',
+            'file_append:dev',
             'wrap:dev',
             'ngtemplates:dev',
             'sass:dev',
@@ -371,6 +394,7 @@ module.exports = function(grunt) {
             'env:prod',
             'preprocess:prod',
             'concat:prodCss',
+            'file_append:prod',
             'wrap:prod',
             'htmlmin',
             'ngtemplates:prod',

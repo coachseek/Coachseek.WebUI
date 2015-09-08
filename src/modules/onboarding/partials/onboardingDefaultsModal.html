@@ -1,5 +1,5 @@
 <div class="onboarding-modal-container onboarding-default-container crud-item">
-    <h2 class="title">{{'onboarding:default-modal-title' | i18next}}</h2>    
+    <h2 class="title" ng-i18next="[i18next]({firstName:currentUser.firstName || ('onboarding:there' | i18next) })onboarding:default-modal-title"></h2>
     <h4 class="subtitle">{{'onboarding:default-modal-subtitle' | i18next}}</h4>    
     <form name="onboardingDefaultsForm" novalidate ng-enter="createDefaults()">
 

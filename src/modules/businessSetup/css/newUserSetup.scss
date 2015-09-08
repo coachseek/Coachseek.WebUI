@@ -1,23 +1,84 @@
 [state^="newUserSetup"] {
-    max-width: 445px;
-    margin: 45px auto;
-    padding: 0px 15px 20px 15px;
+    position: absolute;
+    width: 100%;
+    padding-bottom: 100px;
+    background: url(#{$asset-url}/pics/signup-background.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 
-    h4, p{
-        color: $text-dark-grey;
-        text-align: center;
+    .new-user-container{
+        max-width: 445px;
+        margin: 45px auto;
+        padding: 0px 15px 20px 15px;
+        color: $white;
 
-        span{
-            color: $green;
-            cursor: pointer;
+        h4, p{
+            text-align: center;
         }
-    }
 
-    h4{
-        margin-bottom: 20px;
-    }
+        h4{
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
 
-    hr{
-        margin-top: 20px;
+        p{
+            font-size: 16px;
+            font-weight: $lato-light;
+            span{
+                cursor: pointer;
+                text-decoration: underline;
+            }
+        }
+
+        .business-item-view{
+            form{
+                .form-input{
+                    margin-bottom: 8px;
+                }
+                label {
+                    color: $white
+                }
+                input, select{
+                    border: 1px solid transparent;
+                    padding: 10px 15px;
+                    background: rgba(255,255,255,.1);
+
+                    &.ng-valid{
+                        border: 1px solid transparent;
+                    }
+
+                    &.ng-invalid.ng-touched{
+                        border: 1px solid $white;
+                    }
+                }
+
+                input{
+                    color: $white;
+                }
+                select-arrows{
+                    font-size: 18px;
+                    right: 20px;
+                    bottom: 2px;
+                    .fa-caret-up{
+                        top: -3px;
+                    }
+                }
+                .error-messages{
+                    color: $white;
+                    text-align: right;
+                    i{
+                        color: $white;
+                        top: -30px;
+                        font-size: 18px;
+                    }
+                }
+            }
+
+            .save-button{
+                width: 100%;
+            }
+        }
     }
 }

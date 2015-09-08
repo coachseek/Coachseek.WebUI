@@ -1,6 +1,7 @@
 {
-    "default-modal-title": "Hi! Welcome to Coachseek.",
-    "default-modal-subtitle": "Using Coachseek is easy, just complete the fields below to see how to start.",
+    "default-modal-title": "Hi __firstName__, welcome to Coachseek!",
+    "default-modal-subtitle": "Using Coachseek is easy. Let's create your first coaching session!",
+    "there": "there",
     "coach-name": "Coach name",
     "location-name": "Location",
     "services-name": "Service",
@@ -20,11 +21,12 @@
         "session-modal-hint": "Hint: If you make a session ‘available to book online’, then you can start receiving customers right away."
     },
     "review" : {
-        "too-easy" : "Sweet, that was too easy!",
-        "first-message": "Now you can build the rest of your schedule into Coachseek - just head to the ‘Settings’ tab and add all the Coaches, Locations and Services your business offers, and you’ll be away in no time!",
-        "second-message": "If you want to see how your beautiful schedule turns into an Online Booking site - just check out our video ",
-        "here": "here!",
-        "hint": "Hint: Click the big questions mark in the top right to get to our Help Desk or to ask any questions!"
+        "too-easy" : "Easy! Where Next?",
+        "first-message": "1) Settings - create the rest of your coaching biz",
+        "second-message": "2) Booking - you already have your very own Online Booking site",
+        "third-message": "3) Spreadsheets? Seriously, you won't need them…",
+        "more-help": "Need More Help - Video Tutorial",
+        "hint": "Hint: Click the big question mark in the top right to get to our Help Desk or to ask any questions!"
     },
     "exit" : {
         "are-you-sure" : "Are you sure?",    

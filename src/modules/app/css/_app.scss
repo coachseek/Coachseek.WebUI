@@ -1,5 +1,3 @@
-$asset-url: 'https://az789256.vo.msecnd.net/assets/1.1.8';
-
 $green: #00A478;
 $hover-green: #008561;
 $clicked-green: #007354;
@@ -95,30 +93,42 @@ $nav-bar-height: 55px;
     &.mid-blue     { background-color: $mid-blue; }
     &.dark-blue    { background-color: $dark-blue; }
 }
-%service-background-colors-lighten{
-  &.green      { background-color: lighten( $green, 5% ); }
-  &.mid-green  { background-color: lighten( $mid-green, 5% );}
-  &.dark-green { background-color: lighten( $dark-green, 5% );}
-  &.red        { background-color: lighten( $red, 5%);}
-  &.dark-red   { background-color: lighten( $dark-red, 5% );}
-  &.yellow     { background-color: lighten( $yellow, 5% );}
-  &.orange     { background-color: lighten( $orange, 5% );}
-  &.blue       { background-color: lighten( $blue, 5% );}
-  &.mid-blue   { background-color: lighten( $mid-blue, 5% );}
-  &.dark-blue  { background-color: lighten( $dark-blue, 5% );}
+%service-background-colors-40{
+    &.green         { background-color: rgba(0,165,120,.3); }
+    &.mid-green    { background-color: rgba(0,119,79,.3) }
+    &.dark-green { background-color: rgba(0,71,52,.3) }
+    &.red                { background-color: rgba(231,76,60,.3); }
+    &.dark-red     { background-color: rgba(204,10,0,.3); }
+    &.yellow         { background-color: rgba(240,195,15,.3); } 
+    &.orange         { background-color: rgba(232,136,1,.3); }
+    &.blue             { background-color: rgba(55,165,226,.3); }
+    &.mid-blue     { background-color: rgba(41,128,184,.3); }
+    &.dark-blue    { background-color: rgba(50,80,104,.3); }
 }
 
 %service-background-colors-60{
-    &.green            { background-color: rgba(0,165,120,.6); }
-    &.mid-green    { background-color: rgba(0,119,79,.6) }
-    &.dark-green { background-color: rgba(0,71,52,.6) }
-    &.red                { background-color: rgba(231,76,60,.6); }
-    &.dark-red     { background-color: rgba(204,10,0,.6); }
-    &.yellow         { background-color: rgba(240,195,15,.6); } 
-    &.orange         { background-color: rgba(232,136,1,.6); }
-    &.blue             { background-color: rgba(55,165,226,.6); }
-    &.mid-blue     { background-color: rgba(41,128,184,.6); }
-    &.dark-blue    { background-color: rgba(50,80,104,.6); }
+    &.green            { background-color: rgba(0,165,120,.4); }
+    &.mid-green    { background-color: rgba(0,119,79,.4) }
+    &.dark-green { background-color: rgba(0,71,52,.4) }
+    &.red                { background-color: rgba(231,76,60,.4); }
+    &.dark-red     { background-color: rgba(204,10,0,.4); }
+    &.yellow         { background-color: rgba(240,195,15,.4); } 
+    &.orange         { background-color: rgba(232,136,1,.4); }
+    &.blue             { background-color: rgba(55,165,226,.4); }
+    &.mid-blue     { background-color: rgba(41,128,184,.4); }
+    &.dark-blue    { background-color: rgba(50,80,104,.4); }
+}
+%service-background-colors-80{
+    &.green            { background-color: rgba(0,165,120,.8); }
+    &.mid-green    { background-color: rgba(0,119,79,.8) }
+    &.dark-green { background-color: rgba(0,71,52,.8) }
+    &.red                { background-color: rgba(231,76,60,.8); }
+    &.dark-red     { background-color: rgba(204,10,0,.8); }
+    &.yellow         { background-color: rgba(240,195,15,.8); } 
+    &.orange         { background-color: rgba(232,136,1,.8); }
+    &.blue             { background-color: rgba(55,165,226,.8); }
+    &.mid-blue     { background-color: rgba(41,128,184,.8); }
+    &.dark-blue    { background-color: rgba(50,80,104,.8); }
 }
 
 %service-border-colors{
@@ -175,6 +185,13 @@ select{
 
 .coachseek-logo{
         background: url(#{$asset-url}/pics/logo-wordless.png) no-repeat center;
+        height: 75px;
+        width: 75px;
+        margin: 0 auto 30px auto;
+}
+
+.coachseek-logo-white{
+        background: url(#{$asset-url}/pics/logo-wordless-white.png) no-repeat center;
         height: 75px;
         width: 75px;
         margin: 0 auto 30px auto;

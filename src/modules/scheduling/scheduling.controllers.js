@@ -369,7 +369,7 @@ angular.module('scheduling.controllers', [])
                     if($scope.currentEvent.tempEventId && course){
                         var session = $scope.currentEvent.session;
                         if ($scope.currentEvent.course.pricing && $scope.currentEvent.course.pricing.coursePrice){
-                            session.pricing.coursePrice = $scope.currentEvent.course.pricing.coursePrice;     
+                            _.set(session, 'pricing.coursePrice', $scope.currentEvent.course.pricing.coursePrice);
                         }
                          saveSession(session);
                     } else if(course){
@@ -421,7 +421,7 @@ angular.module('scheduling.controllers', [])
                         if(sessionService.onboarding.showOnboarding) {
                             onboardingModal.open('onboardingReviewModal')
                                 .then().finally(function(){
-                                    ga('send', 'event', 'onboarding', 'close', 'onboardingReview');
+                                    heap.track('Onboarding Close', {step: 'onboardingReview'});
                                     sessionService.onboarding.showOnboarding = false;
                                 });
                         }
@@ -489,13 +489,14 @@ angular.module('scheduling.controllers', [])
                     });
             };
 
-            var handleCalendarErrors = function(error){
-                _.forEach(error.data, function(error){
+            var handleCalendarErrors = function(errors){
+                _.forEach(errors.data, function(error){
                     if(error.code === "clashing-session"){
                         handleClashingError(error);
                     } else {
                         $scope.addAlert({
                             type: 'danger',
+                            code: error.code,
                             message: error.message ? error.message: error
                         });
                     }
@@ -597,7 +598,7 @@ angular.module('scheduling.controllers', [])
                         .then(function(){
                             $state.reload();
                         }, function(){
-                            ga('send', 'event', 'onboarding', 'close', 'createDefaults');
+                            heap.track('Onboarding Close', {step: 'createDefaults'});
                             sessionService.onboarding.showOnboarding = false;
                         });
                 });
