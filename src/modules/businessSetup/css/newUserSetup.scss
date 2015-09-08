@@ -16,15 +16,20 @@
 
         h4, p{
             text-align: center;
+        }
 
+        h4{
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        p{
+            font-size: 16px;
+            font-weight: $lato-light;
             span{
                 cursor: pointer;
                 text-decoration: underline;
             }
-        }
-
-        h4{
-            margin-bottom: 20px;
         }
 
         .business-item-view{
@@ -38,7 +43,6 @@
                 input, select{
                     border: 1px solid transparent;
                     padding: 10px 15px;
-                    color: $white;
                     background: rgba(255,255,255,.1);
 
                     &.ng-valid{
@@ -49,11 +53,16 @@
                         border: 1px solid $white;
                     }
                 }
+
+                input{
+                    color: $white;
+                }
                 select-arrows{
-                    font-size: 20px;
+                    font-size: 18px;
                     right: 20px;
+                    bottom: 2px;
                     .fa-caret-up{
-                        top: -5px;
+                        top: -3px;
                     }
                 }
                 .error-messages{
@@ -61,19 +70,9 @@
                     text-align: right;
                     i{
                         color: $white;
-                        top: -32px;
-                        font-size: 22px;
+                        top: -30px;
+                        font-size: 18px;
                     }
-                }
-
-                ::-webkit-input-placeholder{
-                    color: rgba(255,255,255,.75);
-                }
-                input[type=all]::-moz-placeholder{
-                    color: rgba(255,255,255,.75);
-                }
-                :-ms-input-placeholder{
-                    color: rgba(255,255,255,.75);
                 }
             }
 
