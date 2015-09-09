@@ -266,12 +266,6 @@ angular.module('scheduling.directives', [])
                         hasAttended: !scope.booking.hasAttended
                     }).then(function(){
                         scope.booking.hasAttended = !scope.booking.hasAttended;
-
-                        scope.addAlert({
-                            type: 'success',
-                            message: "scheduling:alert.update-attendance." + scope.booking.hasAttended,
-                            customerName: customerName
-                        });
                     },scope.handleErrors).finally(function(){
                         scope.bookingLoading = false;
                     });

@@ -233,10 +233,6 @@ describe('customerBooking directive', function(){
                 it('should set bookingLoading to false', function(){
                     expect(scope.bookingLoading).to.be.false;
                 });
-                it('should add a success alert', function(){
-                    expect($rootScope.alerts[0].type).to.equal('success');
-                    expect($rootScope.alerts[0].message).to.equal('scheduling:alert.update-attendance.false');
-                });
             });
 
             describe('and then changing hasAttended to TRUE', function(){
@@ -266,10 +262,6 @@ describe('customerBooking directive', function(){
                    });
                    it('should set bookingLoading to false', function(){
                        expect(scope.bookingLoading).to.be.false;
-                   });
-                   it('should add a success alert', function(){
-                       expect($rootScope.alerts[0].type).to.equal('success');
-                       expect($rootScope.alerts[0].message).to.equal('scheduling:alert.update-attendance.true');
                    });
                }); 
             });
