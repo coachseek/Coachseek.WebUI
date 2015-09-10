@@ -23,7 +23,7 @@ angular.module('scheduling.directives', [])
                     scope.currentEvent.session.presentation.colour = newService.presentation.colour;
                     _.assign(scope.currentEvent, {
                         className: newService.presentation.colour,
-                        title: newService.name,
+                        title: newService.name
                     });
                     updateCurrentEvent();
                 };
