@@ -164,6 +164,11 @@
                     @extend %service-background-colors-80;
                     color: $white;
                     border-width: 2px;
+                    .fc-content{
+                         .fc-fullybooked-agendaDay,.fc-fullybooked-agendaWeek,.fc-fullybooked-month{
+                            @extend %service-background-colors-80; 
+                         }
+                    }
                 }
 
                 .fc-bg{
