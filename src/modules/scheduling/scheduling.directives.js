@@ -18,10 +18,12 @@ angular.module('scheduling.directives', [])
                 scope.business = sessionService.business;
                 scope.changeServiceName = function(){
                     var newService = _.find(scope.serviceList, {id: scope.currentSessionForm.services.$viewValue});
+                    if (!scope.isBigScreen) updateMobileCurrentEvent(newService);
+
                     scope.currentEvent.session.presentation.colour = newService.presentation.colour;
                     _.assign(scope.currentEvent, {
                         className: newService.presentation.colour,
-                        title: newService.name
+                        title: newService.name,
                     });
                     updateCurrentEvent();
                 };
@@ -60,6 +62,19 @@ angular.module('scheduling.directives', [])
                         return !price;
                     }
                 }
+                var updateMobileCurrentEvent = function(newService){
+                    scope.currentEvent.session.timing.duration = newService.timing.duration;
+                    scope.currentEvent.session.pricing = { sessionPrice: newService.pricing.sessionPrice };
+                    scope.currentEvent.session.booking = { isOnlineBookable : newService.booking.isOnlineBookable, studentCapacity : newService.booking.studentCapacity };
+                        
+                    if(newService.repetition.sessionCount > 1){
+                        scope.currentEvent.session.repetition = { repeatFrequency: newService.repetition.repeatFrequency , sessionCount: newService.repetition.sessionCount }
+                        scope.currentEvent.course.pricing = {coursePrice: newService.pricing.coursePrice};
+                    }else{
+                        scope.currentEvent.session.repetition = newService.repetition;
+                    }
+                }
+
             }
         };
     }])
