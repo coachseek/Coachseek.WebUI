@@ -1,5 +1,5 @@
 <div class="form-input">
     <label name="currency">{{'operating-currency' | i18next}}</label>
     <select name="currency" class="currency-picker" ng-model="currentCurrency" ng-options="currency as currency for currency in currencies" required></select>
-    <select-overlay selected="currentCurrency"></select-overlay>
+    <select-overlay selected-option="currentCurrency"></select-overlay>
 </div>

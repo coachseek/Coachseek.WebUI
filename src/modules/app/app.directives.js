@@ -131,7 +131,7 @@ angular.module('app.directives', [])
             scope: {
                 i18nPrefix: "=",
                 default: "=",
-                selected: "="
+                selectedOption: "="
             }
         }
     })
