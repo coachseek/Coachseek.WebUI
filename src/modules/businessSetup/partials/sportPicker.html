@@ -1,5 +1,5 @@
 <div class="form-input">
     <label name="sport">{{'operating-sport' | i18next}}</label>
-    <select-arrows></select-arrows>
     <select name="sport" class="sport-picker" ng-model="currentSport" ng-options="sport as ('sports.' + sport | i18next) for sport in sports" required></select>
+    <select-overlay i18n-prefix="'sports.'" selected="currentSport"></select-overlay>
 </div>

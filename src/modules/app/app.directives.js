@@ -124,6 +124,17 @@ angular.module('app.directives', [])
             }
         }
     })
+    .directive('selectOverlay', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'app/partials/selectOverlay.html',
+            scope: {
+                i18nPrefix: "=",
+                default: "=",
+                selected: "="
+            }
+        }
+    })
     .directive('sliderNav', ['$timeout', function($timeout){
         return {
             restrict: 'C',
