@@ -130,7 +130,7 @@ angular.module('app.directives', [])
             templateUrl: 'app/partials/selectOverlay.html',
             scope: {
                 i18nPrefix: "=",
-                default: "=",
+                placeholder: "=",
                 selectedOption: "="
             }
         }
