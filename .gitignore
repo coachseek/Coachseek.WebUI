@@ -11,3 +11,5 @@ src/js.spec/testTemplates.js
 src/js
 src/index.html
 reports
+plugins
+platforms
