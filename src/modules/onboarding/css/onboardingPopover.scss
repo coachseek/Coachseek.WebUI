@@ -31,6 +31,8 @@
         max-width: none;
         &.bottom{
             left: 0px !important;
+            width: 350px !important;
+            height: auto !important;
         }
         .arrow{
             left: 15px;
@@ -42,6 +44,8 @@
     .popover{
         &.left{
             top: 10px !important;
+            width: 350px !important;
+            height: auto !important;
         }
     }
 }

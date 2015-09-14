@@ -74,7 +74,7 @@ angular.module('app.controllers', [])
             //             created_at: date
             //         });
             //     }
-            // };
+                        });
 
             function startHeapAnalytics(user, business){
                 heap.identify({
@@ -89,7 +89,7 @@ angular.module('app.controllers', [])
                 // startIntercom(user, _.now());
                 document.addEventListener("deviceready", function () {
                     intercom.registerIdentifiedUser({email: user.email, name: user.firstName + " " + user.lastName});
-                }, false);
+                startHeapAnalytics(user, business);
               
                 sessionService.user = user;
                 sessionService.business = business;
