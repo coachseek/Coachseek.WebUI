@@ -187,7 +187,7 @@
             .fc-content {
                 height: 100%;
                 .fc-fullybooked-agendaDay{
-                    @extend %service-background-colors-40;           
+                    @extend %service-background-colors-fullybooked;           
                     @extend %service-border-colors;
                     border-top: 1px solid;
                     position: absolute;
@@ -204,7 +204,7 @@
                     @extend .fc-fullybooked-agendaDay;
                 }
                 .fc-fullybooked-month{
-                    @extend %service-background-colors-40;           
+                    @extend %service-background-colors-fullybooked;           
                     @extend %service-border-colors;                
                     border-left: 1px solid;
                     position: absolute;
