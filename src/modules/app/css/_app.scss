@@ -107,7 +107,7 @@ $nav-bar-height: 55px;
     &.dark-blue    { background-color: $dark-blue; }
 }
 %service-background-colors-40{
-      &.green            { background-color: rgba(0,165,120,.4); }
+    &.green            { background-color: rgba(0,165,120,.4); }
     &.mid-green    { background-color: rgba(0,119,79,.4) }
     &.dark-green { background-color: rgba(0,71,52,.4) }
     &.red                { background-color: rgba(231,76,60,.4); }
@@ -262,8 +262,6 @@ input[type=all]::-moz-placeholder{
     font-weight: $lato-regular;
 }
 
-
-
 button{
     outline: none;
 }
@@ -283,6 +281,16 @@ button:disabled{
     &:hover, &:focus{
         background-color: transparent !important;
     }
+}
+
+.trial-status{
+    position: absolute;
+    height: 25px;
+    bottom: -25px;
+    width: 100%;
+    background: purple;
+    text-align: center;
+    line-height: 25px;
 }
 
 .logout{
