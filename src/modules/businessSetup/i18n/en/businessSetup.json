@@ -104,7 +104,7 @@
         "required": "This field is required",
         "max-capacity": "The max student capacity is 100.",
         "min-capacity": "You must allow at least 1 student.",
-        "capacity-required": "Oops! Please enter a maximum number of students.",
+        "capacity-required": "Please enter a maximum number of students.",
         "repeat-selector-max": {
             "w": "__count__ weeks max",
             "d": "__count__ days max"
