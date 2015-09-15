@@ -17,14 +17,29 @@ angular.module('scheduling.directives', [])
             link: function(scope){
                 scope.business = sessionService.business;
                 scope.changeServiceName = function(){
-                    var newService = _.find(scope.serviceList, {id: scope.currentSessionForm.services.$viewValue});
-                    if (!scope.isBigScreen) updateMobileCurrentEvent(newService);
-
+                    var newService = _.find(scope.serviceList, {id: scope.currentEvent.session.service.id});
                     scope.currentEvent.session.presentation.colour = newService.presentation.colour;
                     _.assign(scope.currentEvent, {
                         className: newService.presentation.colour,
                         title: newService.name
                     });
+
+                    // TODO - write tests for this!
+                    if(scope.currentEvent.tempEventId){
+                        _.set(scope.currentEvent, 'session.timing.duration', newService.timing.duration);
+                        _.assign(scope.currentEvent.session, {
+                            pricing: newService.pricing,
+                            booking: {
+                                isOnlineBookable: _.get(newService, 'booking.isOnlineBookable', true),
+                                studentCapacity: _.get(newService, 'booking.studentCapacity', 1),
+                                bookings: []
+                            },
+                            repetition: newService.repetition,
+                            pricing: newService.pricing
+                        });
+                        _.set(scope.currentEvent, 'course.pricing.coursePrice', _.get(newService, 'pricing.coursePrice'));
+                    }
+
                     updateCurrentEvent();
                 };
 
@@ -62,19 +77,6 @@ angular.module('scheduling.directives', [])
                         return !price;
                     }
                 }
-                var updateMobileCurrentEvent = function(newService){
-                    scope.currentEvent.session.timing.duration = newService.timing.duration;
-                    scope.currentEvent.session.pricing = { sessionPrice: newService.pricing.sessionPrice };
-                    scope.currentEvent.session.booking = { isOnlineBookable : newService.booking.isOnlineBookable, studentCapacity : newService.booking.studentCapacity };
-                        
-                    if(newService.repetition.sessionCount > 1){
-                        scope.currentEvent.session.repetition = { repeatFrequency: newService.repetition.repeatFrequency , sessionCount: newService.repetition.sessionCount }
-                        scope.currentEvent.course.pricing = {coursePrice: newService.pricing.coursePrice};
-                    }else{
-                        scope.currentEvent.session.repetition = newService.repetition;
-                    }
-                }
-
             }
         };
     }])
