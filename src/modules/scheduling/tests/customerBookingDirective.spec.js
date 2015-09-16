@@ -210,60 +210,75 @@ describe('customerBooking directive', function(){
             $customerBooking.find('.attending-checkbox').trigger('click');
         });
         describe('when changing hasAttended to FALSE', function(){
-            it('should make a call to the API', function(){
-                expect(updateStub).to.be.calledWith({section: 'Bookings', id: scope.booking.id}, {
-                    commandName: 'BookingSetAttendance',
-                    hasAttended: false
-                });
+            it('should not attempt to save', function(){
+                expect(updateStub).to.not.be.called;
             });
-            describe('while attendance is saving', function(){
-                let('updatePromise', function(){
-                    return $q.defer().promise;
-                });
-
-                it('should show loading', function(){ 
-                    expect(scope.bookingLoading).to.be.true;
-                });
-            });
-            describe('when attendance update is successful', function(){
-
-                it('should hide the checkmark', function(){
-                    expect($customerBooking.find('.attending-checkbox i').hasClass('fa-check')).to.be.false;
-                });
-                it('should set bookingLoading to false', function(){
-                    expect(scope.bookingLoading).to.be.false;
-                });
-            });
-
-            describe('and then changing hasAttended to TRUE', function(){
+            describe('and then waiting 1 second', function(){
                 beforeEach(function(){
-                    scope.removeAlerts();
-                    $customerBooking.find('.attending-checkbox').trigger('click');
+                    clock.tick(1000);
+                    $timeout.flush()
+                })
+                it('should make a call to the API', function(){
+                    expect(updateStub).to.be.calledWith({section: 'Bookings', id: scope.booking.id}, {
+                        commandName: 'BookingSetAttendance',
+                        hasAttended: false
+                    });
                 });
-               it('should make a call to the API', function(){
-                   expect(updateStub).to.be.calledWith({section: 'Bookings', id: scope.booking.id}, {
-                       commandName: 'BookingSetAttendance',
-                       hasAttended: true
-                   });
-               });
-               describe('while attendance is saving', function(){
-                   let('updatePromise', function(){
-                       return $q.defer().promise;
-                   });
+                describe('while attendance is saving', function(){
+                    let('updatePromise', function(){
+                        return $q.defer().promise;
+                    });
 
-                   it('should show loading', function(){ 
-                       expect(scope.bookingLoading).to.be.true;
-                   });
-               });
-               describe('when attendance update is successful', function(){
+                    it('should show loading', function(){ 
+                        expect(scope.bookingLoading).to.be.true;
+                    });
+                });
+                describe('when attendance update is successful', function(){
 
-                   it('should show the checkmark', function(){
-                       expect($customerBooking.find('.attending-checkbox i').hasClass('fa-check')).to.be.true;
-                   });
-                   it('should set bookingLoading to false', function(){
-                       expect(scope.bookingLoading).to.be.false;
-                   });
-               }); 
+                    it('should hide the checkmark', function(){
+                        expect($customerBooking.find('.attending-checkbox i').hasClass('fa-check')).to.be.false;
+                    });
+                    it('should set bookingLoading to false', function(){
+                        expect(scope.bookingLoading).to.be.false;
+                    });
+                });
+
+                describe('and then changing hasAttended to NULL', function(){
+                    beforeEach(function(){
+                        scope.removeAlerts();
+                        $customerBooking.find('.attending-checkbox').trigger('click');
+                    });
+                    it('should not attempt to save', function(){
+                        expect(updateStub).to.be.calledOnce;
+                    });
+                    describe('and then waiting 1 second', function(){
+                        it('should make a call to the API', function(){
+                            clock.tick(1000);
+                            expect(updateStub).to.be.calledWith({section: 'Bookings', id: scope.booking.id}, {
+                                commandName: 'BookingSetAttendance',
+                                hasAttended: null
+                            });
+                        });
+                        describe('while attendance is saving', function(){
+                            let('updatePromise', function(){
+                                return $q.defer().promise;
+                            });
+
+                            it('should show loading', function(){ 
+                                expect(scope.bookingLoading).to.be.true;
+                            });
+                        });
+                        describe('when attendance update is successful', function(){
+                            it('should NOT show the checkmark OR the X', function(){
+                                expect($customerBooking.find('.attending-checkbox i').hasClass('fa-check')).to.be.false;
+                                expect($customerBooking.find('.attending-checkbox i').hasClass('fa-close')).to.be.false;
+                            });
+                            it('should set bookingLoading to false', function(){
+                                expect(scope.bookingLoading).to.be.false;
+                            });
+                        }); 
+                    })
+                });
             });
         });
     });

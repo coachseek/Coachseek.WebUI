@@ -277,16 +277,39 @@ angular.module('scheduling.directives', [])
             templateUrl:'scheduling/partials/customerBooking.html',
             link: function(scope){
                 var customerName = scope.booking.customer.firstName + " " + scope.booking.customer.lastName
-                scope.toggleAttendance = function(){
+
+                var attendanceStatusOptions = [
+                    null, //no value
+                    true, //present
+                    false //absent
+                ];
+
+                var attendanceStatusIndex = _.indexOf(attendanceStatusOptions, scope.booking.hasAttended);
+                // if we havn't set payment status set to default
+                if(attendanceStatusIndex === -1) attendanceStatusIndex = 0;
+                scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
+
+                scope.changeAttendanceStatus = function(){
+                    attendanceStatusIndex++;
+                    if(attendanceStatusIndex === _.size(attendanceStatusOptions)) {
+                        attendanceStatusIndex = 0;
+                    }
+
+                    scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
+                    saveAttendanceStatus();
+                };
+
+                var saveAttendanceStatus = _.debounce(function(){
+                    console.log(scope.attendanceStatus)
                     updateBooking({
                         commandName: 'BookingSetAttendance',
-                        hasAttended: !scope.booking.hasAttended
+                        hasAttended: scope.attendanceStatus
                     }).then(function(){
-                        scope.booking.hasAttended = !scope.booking.hasAttended;
+                        scope.booking.hasAttended = scope.attendanceStatus;
                     },scope.handleErrors).finally(function(){
                         scope.bookingLoading = false;
                     });
-                };
+                }, 1000);
 
                 scope.removeBooking = function(){
                     //must determine if current booking is a course booking
