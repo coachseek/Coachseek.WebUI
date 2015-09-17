@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies','$window',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, $window) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
 
@@ -43,6 +43,8 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
+                // $cookies.remove('coachseekLogin');
+                $window.localStorage.removeItem('coachseekLogin');
                 // Intercom('shutdown');
                 document.addEventListener("deviceready", function () {
                     intercom.reset();
@@ -74,7 +76,7 @@ angular.module('app.controllers', [])
             //             created_at: date
             //         });
             //     }
-                        });
+            // };
 
             function startHeapAnalytics(user, business){
                 heap.identify({
@@ -88,8 +90,8 @@ angular.module('app.controllers', [])
                 $rootScope.setUserAuth(user.email, user.password)
                 // startIntercom(user, _.now());
                 document.addEventListener("deviceready", function () {
-                    intercom.registerIdentifiedUser({email: user.email, name: user.firstName + " " + user.lastName});
-                startHeapAnalytics(user, business);
+                    intercom.registerIdentifiedUser({email: user.email});
+                }, false);
               
                 sessionService.user = user;
                 sessionService.business = business;
@@ -107,19 +109,19 @@ angular.module('app.controllers', [])
                 }, 5000)
             };
 
-            
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+              $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                if (requireLogin  && $cookies.get('coachseekLogin') && !sessionService.business) {
+                if (requireLogin  && $window.localStorage.getItem('coachseekLogin') && !sessionService.business) {
                     event.preventDefault();
 
-                    var coachseekLogin = $cookies.get('coachseekLogin');
+                    var coachseekLogin = $window.localStorage.getItem('coachseekLogin');
                     $http.defaults.headers.common.Authorization = 'Basic ' + coachseekLogin;
                     $rootScope.appLoading = true;
                     coachSeekAPIService.get({section: 'Business'})
                         .$promise.then(function(business){
                             var userData = atob(coachseekLogin).split(':');
-                            $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
+                            // $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
+                             $window.localStorage.setItem('coachseekLogin', coachseekLogin);
                             var user = {
                                 email: userData[0],
                                 password: userData[1]
@@ -173,8 +175,8 @@ angular.module('app.controllers', [])
                 delete keys[e.which];
             });
         }])
-        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies',
-            function ($scope, coachSeekAPIService, $http, $activityIndicator, $cookies) {
+        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies','$window',
+            function ($scope, coachSeekAPIService, $http, $activityIndicator, $cookies, $window) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
@@ -189,7 +191,8 @@ angular.module('app.controllers', [])
                                 password: password
                             };
 
-                            if($scope.rememberMe) $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
+                            if($scope.rememberMe)  $window.localStorage.setItem('coachseekLogin', btoa(email + ':' + password));
+                            // $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
                             $scope.$close({user:user, business:business});
                         }, function(error){
                             $http.defaults.headers.common.Authorization = null;
