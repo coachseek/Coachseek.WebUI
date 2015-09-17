@@ -85,5 +85,7 @@
         "squash": "Squash",
         "yoga-pilates": "Yoga/Pilates",
         "other": "Other"
-    }
+    },
+    "trial-status" : "You have __count__ day left on your trial.",
+    "trial-status_plural" : "You have __count__ days left on your trial."
 }

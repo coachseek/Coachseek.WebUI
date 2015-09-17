@@ -285,12 +285,27 @@ button:disabled{
 
 .trial-status{
     position: absolute;
-    height: 25px;
-    bottom: -25px;
+    height: 20px;
+    bottom: -20px;
     width: 100%;
-    background: purple;
+    color: $white;
     text-align: center;
-    line-height: 25px;
+    line-height: 20px;
+
+    &.trial-live{
+        background: $orange;
+    }
+
+    &.trial-expired{
+        background: $red;
+    }
+
+    .fa-close{
+        cursor: pointer;
+        position: absolute;
+        right: 15px;
+        top: 2.5px;
+    }
 }
 
 .logout{

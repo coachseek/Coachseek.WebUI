@@ -135,6 +135,29 @@ angular.module('app.directives', [])
             }
         }
     })
+    .directive('trialStatus', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'app/partials/trialStatus.html',
+            scope: {
+                trialDaysLeft: "="
+            },
+            link: function(scope, elem){
+
+                scope.determineTrialStatus = function(){
+                    if(scope.trialDaysLeft > 0){
+                        return "trial-live";
+                    } else {
+                        return "trial-expired";
+                    }
+                };
+
+                scope.closeTrialStatus = function(){
+                    elem.remove();
+                };
+            }
+        }
+    })
     .directive('sliderNav', ['$timeout', function($timeout){
         return {
             restrict: 'C',
