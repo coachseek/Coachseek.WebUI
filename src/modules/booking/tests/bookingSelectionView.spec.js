@@ -132,7 +132,7 @@ describe('Booking Selection View', function(){
                         pricing: {
                             coursePrice: 150.0
                         },
-                        sessions: [{}, {}]                    
+                        sessions: this.sessions
                     }]
                 });
                 let('sessions', function(){
@@ -146,6 +146,7 @@ describe('Booking Selection View', function(){
                         },
                         repetition: 1,
                         booking: {
+                            bookingCount: 12,
                             bookings: []
                         },
                         pricing: {
@@ -161,6 +162,7 @@ describe('Booking Selection View', function(){
                         },
                         repetition: 1,
                         booking: {
+                            bookingCount: 12,
                             bookings: []
                         },
                         pricing: {
@@ -189,7 +191,7 @@ describe('Booking Selection View', function(){
                 describe('when choosing a location', function(){
                     beforeEach(function(){
                         var $locationSelect = $testRegion.find('.location-selection select');
-                        $locationSelect.val(1);
+                        $locationSelect.val($($locationSelect.find('option').get(1)).val());
                         angular.element($locationSelect).triggerHandler('change');
                     });
                     it('should enable the service select', function(){
@@ -219,13 +221,13 @@ describe('Booking Selection View', function(){
                             });
 
                             var $serviceSelect = $testRegion.find('.service-selection select');
-                            $serviceSelect.val(0);
+                            $serviceSelect.val($($serviceSelect.find('option').get(1)).val());
                             angular.element($serviceSelect).triggerHandler('change');
                             scope.$apply();
                         });
                         it('should attempt to get the service description', function(){
                             expect(anonCoachseekStub).to.be.calledWith(this.business.domain);
-                            expect(anonCoachseekGetStub).to.be.calledWith({section: 'Services', id: this.serviceTwo.id});
+                            expect(anonCoachseekGetStub).to.be.calledWith({section: 'Services', id: this.serviceOne.id});
                         });
                         it('should set service description', function(){
                             expect($testRegion.find('.service-description div').text()).to.equal(serviceDescription);
