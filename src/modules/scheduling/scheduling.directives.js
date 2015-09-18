@@ -300,7 +300,6 @@ angular.module('scheduling.directives', [])
                 };
 
                 var saveAttendanceStatus = _.debounce(function(){
-                    console.log(scope.attendanceStatus)
                     updateBooking({
                         commandName: 'BookingSetAttendance',
                         hasAttended: scope.attendanceStatus

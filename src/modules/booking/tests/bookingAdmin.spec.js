@@ -84,7 +84,7 @@ describe('Booking Admin Page', function(){
                         }
                     });
                     it('should show the saved button in a `Save details` state', function(){
-                        expect($testRegion.find('.save-button .save-text').text()).to.contain('Save details')
+                        expect($testRegion.find('.save-button .save-text').attr('ng-i18next')).to.equal('save-details')
                     });
                     describe('saving the current details', function(){
                         beforeEach(function(){
@@ -94,7 +94,7 @@ describe('Booking Admin Page', function(){
                             expect(saveStub).to.be.calledWith({section: "Business"}, this.business)
                         });
                         it('should set the saved button to a `Saved` state', function(){
-                            expect($testRegion.find('.save-button .save-text').text()).to.contain('Saved')
+                            expect($testRegion.find('.save-button .save-text').attr('ng-i18next')).to.equal('saved');
                         });
                         describe('while saving', function(){
                             let('savePromise', function(){
@@ -138,7 +138,7 @@ describe('Booking Admin Page', function(){
                     }
                 });
                 it('should show the saved button in a `Saved` state', function(){
-                    expect($testRegion.find('.save-button .save-text').text()).to.contain('Saved')
+                    expect($testRegion.find('.save-button .save-text').attr('ng-i18next')).to.equal('saved')
                 })
             });
             describe('when turning online payments OFF', function(){
