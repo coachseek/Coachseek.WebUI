@@ -160,6 +160,7 @@ describe('Scheduling Module', function() {
                     colour: this.serviceOne.colour
                 },
                 booking: {
+                    studentCapacity: 12,
                     bookings: [{customer: this.customerOne}, {customer: this.customerTwo}]
                 },
                 pricing: {
@@ -185,6 +186,7 @@ describe('Scheduling Module', function() {
                     colour: this.serviceTwo.colour
                 },
                 booking: {
+                    studentCapacity: 12,
                     bookings: [{customer: this.customerOne}, {customer: this.customerTwo}]
                 },
                 pricing: {
@@ -210,6 +212,7 @@ describe('Scheduling Module', function() {
                     colour: this.serviceOne.colour
                 },
                 booking: {
+                    studentCapacity: 12,
                     bookings: []
                 },
                 pricing: {
@@ -882,7 +885,7 @@ describe('Scheduling Module', function() {
             beforeEach(function(){
                 fullCalendarSpy = this.sinon.spy($.fn, 'fullCalendar');
 
-                $coachSelector = $testRegion.find('.coach-list select').val(1);
+                $coachSelector = $testRegion.find('.coach-list select').val('string:coach_2');
                 angular.element($coachSelector).triggerHandler('change');
                 $timeout.flush();
             });
@@ -905,7 +908,7 @@ describe('Scheduling Module', function() {
             beforeEach(function(){
                 fullCalendarSpy = this.sinon.spy($.fn, 'fullCalendar');
 
-                $locationSelector = $testRegion.find('.location-list select').val(1);
+                $locationSelector = $testRegion.find('.location-list select').val('string:location_2');
                 angular.element($locationSelector).triggerHandler('change');
                 $timeout.flush();
             });

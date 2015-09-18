@@ -153,13 +153,18 @@
                 &[disabled]{
                     pointer-events: none;
                 }
-
+                &.absent{
+                    background: $red;
+                }
+                &.present{
+                    background: $green;
+                }
                 -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
                 -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
                 box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
 
                 cursor: pointer;
-                background: $green;
+                background: $dark-grey;
                 width: 45px;
                 height: 45px;
                 color: $white;

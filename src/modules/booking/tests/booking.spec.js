@@ -12,8 +12,9 @@ describe('Booking Module', function() {
     });
 
     let('anonGetPromise', function(){
-        var defer = $.Deferred();
-        return defer.resolve(this.business)
+        var deferred = $q.defer();
+        deferred.resolve(this.business);
+        return deferred.promise;
     });
 
     var anonStub, anonGetStub, scope;
@@ -64,8 +65,8 @@ describe('Booking Module', function() {
             var viewAttrs;
             beforeEach(function(){
                 $state.go('booking.selection');
+                $timeout.flush();
                 $rootScope.$digest();
-
                 viewAttrs = $state.current.views['booking-view'];
             });
             it('should NOT attempt to bring up the login modal', function(){
