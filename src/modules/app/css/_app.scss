@@ -80,81 +80,81 @@ $nav-bar-height: 55px;
         background: transparent;
         border: none;
 }
-%service-background-colors-fullybooked{
-    &.green         { background-color: rgb(153,219,201); }
-    &.mid-green    { background-color: rgb(153,200,184); }
-    &.dark-green { background-color: rgb(153,181,173); }
-    &.red                { background-color: rgb(245,183,177); }
-    &.dark-red     { background-color: rgb(235,157,153); }
-    &.yellow         { background-color: rgb(249,231,159); } 
-    &.orange         { background-color: rgb(246,207,153); }
-    &.blue             { background-color: rgb(179,215,243); }
-    &.mid-blue     { background-color: rgb(169,204,227); }
-    &.dark-blue    { background-color: rgb(173,185,194); }
-}
 
+%service-background-colors-fullybooked{
+    &.green      { background-color: rgb(153,219,201); }
+    &.mid-green  { background-color: rgb(153,200,184); }
+    &.dark-green { background-color: rgb(153,181,173); }
+    &.red        { background-color: rgb(245,183,177); }
+    &.dark-red   { background-color: rgb(235,157,153); }
+    &.yellow     { background-color: rgb(249,231,159); } 
+    &.orange     { background-color: rgb(246,207,153); }
+    &.blue       { background-color: rgb(179,215,243); }
+    &.mid-blue   { background-color: rgb(169,204,227); }
+    &.dark-blue  { background-color: rgb(173,185,194); }
+}
 
 %service-background-colors{
-    &.green            { background-color: $green; }
-    &.mid-green    { background-color: $mid-green; }
-    &.dark-green { background-color: $dark-green; }
-    &.red                { background-color: $red; }
-    &.dark-red     { background-color: $dark-red; }
-    &.yellow         { background-color: $yellow; }
-    &.orange         { background-color: $orange; }
-    &.blue             { background-color: $blue; }
-    &.mid-blue     { background-color: $mid-blue; }
-    &.dark-blue    { background-color: $dark-blue; }
+    &.green      { background-color: $green; }      //rgb(0,165,120)
+    &.mid-green  { background-color: $mid-green; }  //rgb(0,119,79)
+    &.dark-green { background-color: $dark-green; } //rgb(0,71,52)
+    &.red        { background-color: $red; }        //rgb(231,76,60)
+    &.dark-red   { background-color: $dark-red; }   //rgb(204,10,0)
+    &.yellow     { background-color: $yellow; }     //rgb(240,195,15)
+    &.orange     { background-color: $orange; }     //rgb(232,136,1)
+    &.blue       { background-color: $blue; }       //rgb(55,165,226)
+    &.mid-blue   { background-color: $mid-blue; }   //rgb(41,128,184)
+    &.dark-blue  { background-color: $dark-blue; }  //rgb(50,80,104)
 }
 %service-background-colors-40{
-    &.green            { background-color: rgba(0,165,120,.4); }
-    &.mid-green    { background-color: rgba(0,119,79,.4) }
+    &.green      { background-color: rgba(0,165,120,.4); }
+    &.mid-green  { background-color: rgba(0,119,79,.4) }
     &.dark-green { background-color: rgba(0,71,52,.4) }
-    &.red                { background-color: rgba(231,76,60,.4); }
-    &.dark-red     { background-color: rgba(204,10,0,.4); }
-    &.yellow         { background-color: rgba(240,195,15,.4); } 
-    &.orange         { background-color: rgba(232,136,1,.4); }
-    &.blue             { background-color: rgba(55,165,226,.4); }
-    &.mid-blue     { background-color: rgba(41,128,184,.4); }
-    &.dark-blue    { background-color: rgba(50,80,104,.4); }
+    &.red        { background-color: rgba(231,76,60,.4); }
+    &.dark-red   { background-color: rgba(204,10,0,.4); }
+    &.yellow     { background-color: rgba(240,195,15,.4); }
+    &.orange     { background-color: rgba(232,136,1,.4); }
+    &.blue       { background-color: rgba(55,165,226,.4); }
+    &.mid-blue   { background-color: rgba(41,128,184,.4); }
+    &.dark-blue  { background-color: rgba(50,80,104,.4); }
 }
 
 %service-background-colors-60{
-    &.green            { background-color: rgba(0,165,120,.6); }
-    &.mid-green    { background-color: rgba(0,119,79,.6) }
+    &.green      { background-color: rgba(0,165,120,.6); }
+    &.mid-green  { background-color: rgba(0,119,79,.6) }
     &.dark-green { background-color: rgba(0,71,52,.6) }
-    &.red                { background-color: rgba(231,76,60,.6); }
-    &.dark-red     { background-color: rgba(204,10,0,.6); }
-    &.yellow         { background-color: rgba(240,195,15,.6); } 
-    &.orange         { background-color: rgba(232,136,1,.6); }
-    &.blue             { background-color: rgba(55,165,226,.6); }
-    &.mid-blue     { background-color: rgba(41,128,184,.6); }
-    &.dark-blue    { background-color: rgba(50,80,104,.6); }
+    &.red        { background-color: rgba(231,76,60,.6); }
+    &.dark-red   { background-color: rgba(204,10,0,.6); }
+    &.yellow     { background-color: rgba(240,195,15,.6); }
+    &.orange     { background-color: rgba(232,136,1,.6); }
+    &.blue       { background-color: rgba(55,165,226,.6); }
+    &.mid-blue   { background-color: rgba(41,128,184,.6); }
+    &.dark-blue  { background-color: rgba(50,80,104,.6); }
 }
 %service-background-colors-80{
-    &.green            { background-color: rgba(0,165,120,.8); }
-    &.mid-green    { background-color: rgba(0,119,79,.8) }
+    &.green      { background-color: rgba(0,165,120,.8); }
+    &.mid-green  { background-color: rgba(0,119,79,.8) }
     &.dark-green { background-color: rgba(0,71,52,.8) }
-    &.red                { background-color: rgba(231,76,60,.8); }
-    &.dark-red     { background-color: rgba(204,10,0,.8); }
-    &.yellow         { background-color: rgba(240,195,15,.8); } 
-    &.orange         { background-color: rgba(232,136,1,.8); }
-    &.blue             { background-color: rgba(55,165,226,.8); }
-    &.mid-blue     { background-color: rgba(41,128,184,.8); }
-    &.dark-blue    { background-color: rgba(50,80,104,.8); }
+    &.red        { background-color: rgba(231,76,60,.8); }
+    &.dark-red   { background-color: rgba(204,10,0,.8); }
+    &.yellow     { background-color: rgba(240,195,15,.8); }
+    &.orange     { background-color: rgba(232,136,1,.8); }
+    &.blue       { background-color: rgba(55,165,226,.8); }
+    &.mid-blue   { background-color: rgba(41,128,184,.8); }
+    &.dark-blue  { background-color: rgba(50,80,104,.8); }
 }
 
 %service-border-colors{
-    &.green            { border-color: $green; }
-    &.mid-green    { border-color: $mid-green; }
+    &.green      { border-color: $green; }
+    &.mid-green  { border-color: $mid-green; }
     &.dark-green { border-color: $dark-green; }
-    &.red                { border-color: $red; }
-    &.dark-red     { border-color: $dark-red; }
-    &.yellow         { border-color: $yellow; }
-    &.orange         { border-color: $orange; }
-    &.blue             { border-color: $blue; }
-    &.mid-blue     { border-color: $mid-blue; }
-    &.dark-blue    { border-color: $dark-blue; }
+    &.red        { border-color: $red; }
+    &.dark-red   { border-color: $dark-red; }
+    &.yellow     { border-color: $yellow; }
+    &.orange     { border-color: $orange; }
+    &.blue       { border-color: $blue; }
+    &.mid-blue   { border-color: $mid-blue; }
+    &.dark-blue  { border-color: $dark-blue; }
 }
 
 $lato-light: 300;
