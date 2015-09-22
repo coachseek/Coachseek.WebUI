@@ -106,18 +106,6 @@ $nav-bar-height: 55px;
     &.mid-blue   { background-color: $mid-blue; }   //rgb(41,128,184)
     &.dark-blue  { background-color: $dark-blue; }  //rgb(50,80,104)
 }
-%service-background-colors-40{
-    &.green      { background-color: rgba(0,165,120,.4); }
-    &.mid-green  { background-color: rgba(0,119,79,.4) }
-    &.dark-green { background-color: rgba(0,71,52,.4) }
-    &.red        { background-color: rgba(231,76,60,.4); }
-    &.dark-red   { background-color: rgba(204,10,0,.4); }
-    &.yellow     { background-color: rgba(240,195,15,.4); }
-    &.orange     { background-color: rgba(232,136,1,.4); }
-    &.blue       { background-color: rgba(55,165,226,.4); }
-    &.mid-blue   { background-color: rgba(41,128,184,.4); }
-    &.dark-blue  { background-color: rgba(50,80,104,.4); }
-}
 
 %service-background-colors-60{
     &.green      { background-color: rgba(0,165,120,.6); }
