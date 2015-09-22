@@ -165,6 +165,12 @@ angular.module('app.controllers', [])
                                 type: 'danger',
                                 message: error.statusText
                             });
+
+                            $cookies.remove('coachseekLogin');
+                            loginModal.open().then(function () {
+                                $rootScope.removeAlerts();
+                                return $state.go(toState.name, toParams);
+                            });
                         }).finally(function(){
                             $rootScope.appLoading = false;
                         });

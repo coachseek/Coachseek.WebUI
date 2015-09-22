@@ -163,6 +163,10 @@
                 -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
                 box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
 
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+
                 cursor: pointer;
                 background: $dark-grey;
                 width: 45px;
@@ -188,6 +192,7 @@
                 cursor: pointer;
                 -moz-user-select: none; 
                 -webkit-user-select: none; 
+                user-select: none;
 
                 &[disabled]{
                     pointer-events: none;
