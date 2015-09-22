@@ -9,7 +9,7 @@ angular.module('onboarding.directives', [])
             link: function(scope, elem){
                 scope.$on([scope.onboardingShow, scope.onboardingHide], function(ev, delay, exitOnboarding){
                     $timeout(function(){
-                        elem.trigger(ev.name);
+                        elem[0].dispatchEvent(new Event(ev.name))
                         if(exitOnboarding) exitOnboardingModal();
                     }, delay);
                 });
@@ -18,7 +18,7 @@ angular.module('onboarding.directives', [])
                     onboardingModal.open('exitOnboardingModal')
                         .then(function(){
                             $timeout(function(){
-                                elem.trigger(scope.onboardingShow)
+                                elem[0].dispatchEvent(new Event(scope.onboardingShow));
                             });
                         }, function(){
                             heap.track('Onboarding Close', {step: scope.onboardingStep});

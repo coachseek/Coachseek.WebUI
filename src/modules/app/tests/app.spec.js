@@ -263,6 +263,8 @@ describe('App Module', function() {
                 describe('when attempting to login and form is valid', function(){
                     beforeEach(function(){
                         $loginModal.find('.save-button').trigger('click');
+                        //this must be here in order to flush out ngAnimate
+                        $injector.get("$$rAF").flush();
                         $timeout.flush();
                     });
                     it('should make a call to the API', function(){
@@ -368,8 +370,9 @@ describe('App Module', function() {
         });
 
         let('anonGetPromise', function(){
-            var defer = $.Deferred();
-            return defer.resolve(this.business)
+            var deferred = $q.defer();
+            deferred.resolve(this.business);
+            return deferred.promise;
         });
 
         let('subdomain', function(){
@@ -407,7 +410,8 @@ describe('App Module', function() {
                 }
             });
 
-            $state.go('booking.selection')
+            $state.go('booking.selection');
+            $timeout.flush();
         });
         describe('when subdomain is a businessDomain', function(){
             describe('and a business is not set on the sessionService', function(){
@@ -438,8 +442,9 @@ describe('App Module', function() {
                 });
                 describe('when subdomain doesnt exist', function(){
                     let('anonGetPromise', function(){
-                        var defer = $.Deferred();
-                        return defer.reject()
+                        var deferred = $q.defer();
+                        deferred.reject();
+                        return deferred.promise;
                     });
 
                     it('should show an error message', function(){

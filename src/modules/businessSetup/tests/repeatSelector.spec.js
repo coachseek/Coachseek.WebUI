@@ -32,7 +32,7 @@ describe('repeatSelector directive', function(){
 
         describe('when repeatFrequency is set to `w`', function(){
             it('should set the dropdown value to `yes`', function(){
-                expect($repeatDropdown.val()).to.equal('1');
+                expect($repeatDropdown.val()).to.equal('boolean:true');
             });
             it('should set the repeat frequency to `w`', function(){
                 expect($repeatFrequency.val()).to.equal('w');
@@ -47,7 +47,7 @@ describe('repeatSelector directive', function(){
             describe('and the sessionCount is greater than 1', function(){
 
                 it('should set the dropdown value to `yes`', function(){
-                    expect($repeatDropdown.val()).to.equal('1');
+                    expect($repeatDropdown.val()).to.equal('boolean:true');
                 });
                 it('should set the repeat frequency to `d`', function(){
                     expect($repeatFrequency.val()).to.equal('d');
@@ -60,7 +60,7 @@ describe('repeatSelector directive', function(){
                 });
 
                 it('should set the dropdown value to `no`', function(){
-                    expect($repeatDropdown.val()).to.equal('0');
+                    expect($repeatDropdown.val()).to.equal('boolean:false');
                 });
                 it('should set the repeat frequency to null', function(){
                     //TODO – is this correct? Angular puts ? undefined:undefined ? if it

@@ -6,9 +6,21 @@
     <div class="business-item-view crud-item">
         <form name="itemForm" novalidate ng-enter="saveItem(item)">
 
+            <div class="form-input">
+                <label name="name">{{'businessSetup:business-details.name' | i18next}}</label>
+                <input name="name" ng-model="business.name" required ng-maxlength=50 />
+
+                <div class="error-messages" ng-messages="itemForm.name.$error" ng-if="itemForm.name.$touched">
+                    <i class='fa fa-check' ng-show="itemForm.name.$valid"></i>
+                    <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-times'></i></div>
+                    <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-times'></i></div>
+                    <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-times'></i></div>
+                </div>
+            </div>
+
             <div class="form-input left-col">
                 <label name="firstName">{{'person-details.first-name' | i18next}}</label>
-                <input name="firstName" ng-model="admin.firstName" placeholder="{{'person-details.placeholder.first-name' | i18next}}"  required ng-maxlength=50 />
+                <input name="firstName" ng-model="admin.firstName" required ng-maxlength=50 />
                 <div class="error-messages" ng-messages="itemForm.firstName.$error" ng-if="itemForm.firstName.$touched">
                     <i class='fa fa-check' ng-show="itemForm.firstName.$valid"></i>
                     <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-times'></i></div>
@@ -18,7 +30,7 @@
 
             <div class="form-input right-col">
                 <label name="lastName">{{'person-details.last-name' | i18next}}</label>
-                <input name="lastName" ng-model="admin.lastName" placeholder="{{'person-details.placeholder.last-name' | i18next}}"  required ng-maxlength=50 />
+                <input name="lastName" ng-model="admin.lastName" required ng-maxlength=50 />
                 <div class="error-messages" ng-messages="itemForm.lastName.$error" ng-if="itemForm.lastName.$touched">
                     <i class='fa fa-check' ng-show="itemForm.lastName.$valid"></i>
                     <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-times'></i></div>
@@ -27,18 +39,8 @@
             </div>
 
             <div class="form-input">
-                <label name="phone">{{'person-details.phone' | i18next}}</label>
-                <input name="phone" ng-model="admin.phone" placeholder="{{'details.phone' | i18next}}" ng-maxlength="50" required/>
-                <div class="error-messages" ng-messages="itemForm.phone.$error" ng-if="itemForm.phone.$touched">
-                    <i class='fa fa-check' ng-show="itemForm.phone.$valid"></i>
-                    <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-times'></i></div>
-                    <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-times'></i></div>
-                </div>
-            </div>
-
-            <div class="form-input">
                 <label name="email">{{'person-details.email' | i18next}}</label>
-                <input type="email" name="email" ng-model="admin.email" placeholder="{{'person-details.placeholder.email' | i18next}}"  required ng-maxlength=100 />
+                <input type="email" name="email" ng-model="admin.email" required ng-maxlength=100 />
                 <div class="error-messages" ng-messages="itemForm.email.$error" ng-if="itemForm.email.$touched">
                     <i class='fa fa-check' ng-show="itemForm.email.$valid"></i>
                     <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-times'></i></div>
@@ -49,7 +51,7 @@
 
             <div class="form-input">
                 <label name="password">{{'person-details.password' | i18next}}</label>
-                <input name="password" type="password" ng-model="admin.password" placeholder="&#xf1e3;&#xf1e3;&#xf1e3;&#xf1e3;&#xf1e3;&#xf1e3;" required ng-minlength=6 ng-maxlength=50 />
+                <input name="password" type="password" ng-model="admin.password" required ng-minlength=6 ng-maxlength=50 />
 
                 <div class="error-messages" ng-messages="itemForm.password.$error" ng-if="itemForm.password.$touched">
                     <i class='fa fa-check' ng-show="itemForm.password.$valid"></i>
@@ -60,14 +62,12 @@
             </div>
 
             <div class="form-input">
-                <label name="name">{{'businessSetup:business-details.name' | i18next}}</label>
-                <input name="name" ng-model="business.name" placeholder="{{'businessSetup:business-details.placeholder.name' | i18next}}" required ng-maxlength=50 />
-
-                <div class="error-messages" ng-messages="itemForm.name.$error" ng-if="itemForm.name.$touched">
-                    <i class='fa fa-check' ng-show="itemForm.name.$valid"></i>
+                <label name="phone">{{'person-details.phone' | i18next}}</label>
+                <input name="phone" ng-model="admin.phone" ng-maxlength="50" required/>
+                <div class="error-messages" ng-messages="itemForm.phone.$error" ng-if="itemForm.phone.$touched">
+                    <i class='fa fa-check' ng-show="itemForm.phone.$valid"></i>
                     <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-times'></i></div>
                     <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-times'></i></div>
-                    <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-times'></i></div>
                 </div>
             </div>
 

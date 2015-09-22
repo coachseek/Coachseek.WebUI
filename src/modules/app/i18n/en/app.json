@@ -14,7 +14,7 @@
     "logout-text": "LOG OUT",
     "login-text": "LOG IN",
     "logged-out": "You have logged out.",
-    "operating-currency": "Operating currency",
+    "operating-currency": "What's your currency?",
     "person-details": {
       "name": "Name",
       "remember": "Remember me",
@@ -68,11 +68,11 @@
         "SEK": "kr",
         "ZAR": "R"
     },
-    "operating-sport": "Operating sport",
+    "operating-sport": "What's your sport?",
     "sports" : {
         "tennis": "Tennis",
         "swimming": "Swimming",
-        "martial Arts": "Martial Arts",
+        "martial-arts": "Martial Arts",
         "gymnastics": "Gymnastics",
         "golf": "Golf",
         "fencing": "Fencing",
@@ -85,5 +85,7 @@
         "squash": "Squash",
         "yoga-pilates": "Yoga/Pilates",
         "other": "Other"
-    }
+    },
+    "trial-status" : "You have __count__ day left on your trial.",
+    "trial-status_plural" : "You have __count__ days left on your trial."
 }

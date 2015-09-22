@@ -68,7 +68,8 @@ describe('BusinessSetup Register', function(){
                         email: this.admin.email,
                         password: this.admin.password,
                         firstName: this.admin.firstName,
-                        lastName: this.admin.lastName
+                        lastName: this.admin.lastName,
+                        trialDaysLeft: -15
                     }, this.business);
                 });
                 it('should navigate to scheduling page', function(){

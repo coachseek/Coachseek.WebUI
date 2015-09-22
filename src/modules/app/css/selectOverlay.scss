@@ -1,0 +1,11 @@
+select-overlay{
+	width: 100%;
+	display: inline-block;
+	pointer-events: none;
+
+	.select-overlay {
+		display: initial;
+		z-index: 5;
+		pointer-events: none;
+	}
+}

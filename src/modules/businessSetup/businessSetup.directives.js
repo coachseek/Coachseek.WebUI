@@ -116,7 +116,7 @@ angular.module('businessSetup.directives', [])
                 scope.sports = [
                     "tennis",
                     "swimming",
-                    "martial Arts",
+                    "martial-arts",
                     "gymnastics",
                     "golf",
                     "fencing",

@@ -88,7 +88,6 @@ angular.module('scheduling.controllers', [])
                                 }, $scope.handleErrors).finally(function(){
                                     stopCalendarLoading();
                                 });
-                            if(!totalNumSessions) getTotalNumberOfSessions(start.clone());
                         }
                     },
                     eventRender: function(event, element, view) {
@@ -171,32 +170,6 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            var getTotalNumberOfSessions = function(date){
-               var getSessionsParams = {
-                   startDate: date.clone().subtract(5, 'y').format('YYYY-MM-DD'),
-                   endDate: date.clone().add(5, 'y').format('YYYY-MM-DD'),
-                   locationId: sessionService.calendarView.locationId,
-                   coachId: sessionService.calendarView.coachId,
-                   section: 'Sessions'
-               };
-               coachSeekAPIService.get(getSessionsParams)
-                   .$promise.then(function(sessionObject){
-                        totalNumSessions = _.add(
-                            _.size(sessionObject.sessions),
-                            _.sum(sessionObject.courses, function(course){return _.size(course.sessions);})
-                        );
-                        // Intercom('update', {TotalSessions: totalNumSessions})
-                        document.addEventListener("deviceready", function () {
-                            intercom.updateUser({
-                                custom_attributes:{
-                                    TotalSessions: totalNumSessions
-                                }
-                            });
-                        }, false);
-
-                   });
-            };
-
             var updateSessionTiming = function(session, delta, revertDate, reloadRanges){
                 var newDate = getNewDate(session.timing);
                 newDate.add(delta);
@@ -224,8 +197,7 @@ angular.module('scheduling.controllers', [])
                     $('<div></div>', {
                         class: 'fc-fullybooked-'+view.type+' '+event.session.presentation.colour,
                         html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
-                    })
-                    .appendTo(element.find('.fc-content'));             
+                    }).appendTo(element.find('.fc-content'));
                 }
                 
             };
