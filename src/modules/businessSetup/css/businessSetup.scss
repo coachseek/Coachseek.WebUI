@@ -61,6 +61,23 @@
             color: $green;
         }
 
+        .crud-item .form-input{
+            select.currency-picker{
+                opacity: 0;
+            }
+
+            select-overlay{
+                border: 1px solid transparent;
+                padding: 6px 15px;
+                background: $white;
+                position: absolute;
+                bottom: -4px;
+                left: 0px;
+                border-radius: 5px;
+                height: 32px;
+            }
+        }
+
         ul{
             li{
                 padding-top: 10px;
