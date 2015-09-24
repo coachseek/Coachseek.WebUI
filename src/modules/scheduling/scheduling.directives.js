@@ -17,12 +17,29 @@ angular.module('scheduling.directives', [])
             link: function(scope){
                 scope.business = sessionService.business;
                 scope.changeServiceName = function(){
-                    var newService = _.find(scope.serviceList, {id: scope.currentSessionForm.services.$viewValue});
+                    var newService = _.find(scope.serviceList, {id: scope.currentEvent.session.service.id});
                     scope.currentEvent.session.presentation.colour = newService.presentation.colour;
                     _.assign(scope.currentEvent, {
                         className: newService.presentation.colour,
                         title: newService.name
                     });
+
+                    // TODO - write tests for this!
+                    if(scope.currentEvent.tempEventId){
+                        _.set(scope.currentEvent, 'session.timing.duration', newService.timing.duration);
+                        _.assign(scope.currentEvent.session, {
+                            pricing: newService.pricing,
+                            booking: {
+                                isOnlineBookable: _.get(newService, 'booking.isOnlineBookable', true),
+                                studentCapacity: _.get(newService, 'booking.studentCapacity', 1),
+                                bookings: []
+                            },
+                            repetition: newService.repetition,
+                            pricing: newService.pricing
+                        });
+                        _.set(scope.currentEvent, 'course.pricing.coursePrice', _.get(newService, 'pricing.coursePrice'));
+                    }
+
                     updateCurrentEvent();
                 };
 
@@ -269,22 +286,38 @@ angular.module('scheduling.directives', [])
             templateUrl:'scheduling/partials/customerBooking.html',
             link: function(scope){
                 var customerName = scope.booking.customer.firstName + " " + scope.booking.customer.lastName
-                scope.toggleAttendance = function(){
+
+                var attendanceStatusOptions = [
+                    null, //no value
+                    true, //present
+                    false //absent
+                ];
+
+                var attendanceStatusIndex = _.indexOf(attendanceStatusOptions, scope.booking.hasAttended);
+                // if we havn't set payment status set to default
+                if(attendanceStatusIndex === -1) attendanceStatusIndex = 0;
+                scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
+
+                scope.changeAttendanceStatus = function(){
+                    attendanceStatusIndex++;
+                    if(attendanceStatusIndex === _.size(attendanceStatusOptions)) {
+                        attendanceStatusIndex = 0;
+                    }
+
+                    scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
+                    saveAttendanceStatus();
+                };
+
+                var saveAttendanceStatus = _.debounce(function(){
                     updateBooking({
                         commandName: 'BookingSetAttendance',
-                        hasAttended: !scope.booking.hasAttended
+                        hasAttended: scope.attendanceStatus
                     }).then(function(){
-                        scope.booking.hasAttended = !scope.booking.hasAttended;
-
-                        scope.addAlert({
-                            type: 'success',
-                            message: "scheduling:alert.update-attendance." + scope.booking.hasAttended,
-                            customerName: customerName
-                        });
+                        scope.booking.hasAttended = scope.attendanceStatus;
                     },scope.handleErrors).finally(function(){
                         scope.bookingLoading = false;
                     });
-                };
+                }, 1000);
 
                 scope.removeBooking = function(){
                     //must determine if current booking is a course booking

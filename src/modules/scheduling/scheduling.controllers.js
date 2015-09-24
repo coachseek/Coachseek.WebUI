@@ -197,8 +197,7 @@ angular.module('scheduling.controllers', [])
                     $('<div></div>', {
                         class: 'fc-fullybooked-'+view.type+' '+event.session.presentation.colour,
                         html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
-                    })
-                    .appendTo(element.find('.fc-content'));             
+                    }).appendTo(element.find('.fc-content'));
                 }
                 
             };

@@ -87,6 +87,9 @@ angular.module('app.controllers', [])
             }
 
             $rootScope.setupCurrentUser = function(user, business){
+                _.assign(user, {
+                    trialDaysLeft: moment(business.authorisedUntil).diff(moment().add(15, 'd'), 'days')
+                });
                 $rootScope.setUserAuth(user.email, user.password)
                 // startIntercom(user, _.now());
                 document.addEventListener("deviceready", function () {

@@ -57,6 +57,22 @@
                 input{
                     color: $white;
                 }
+
+                select{
+                    opacity: 0;
+                }
+
+                select-overlay{
+                    border: 1px solid transparent;
+                    padding: 10px 15px;
+                    background: rgba(255,255,255,.1);
+                    position: absolute;
+                    bottom: 0px;
+                    left: 0px;
+                    height: 42px;
+                    border-radius: 5px;
+                }
+
                 select-arrows{
                     font-size: 18px;
                     right: 20px;

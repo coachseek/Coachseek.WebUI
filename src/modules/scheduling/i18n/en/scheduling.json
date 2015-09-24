@@ -61,11 +61,6 @@
             "pending-payment": "__alert.customerName__ has an outstanding payment for this session.",
             "paid": "__alert.customerName__ has paid all dues for this session.",
             "overdue-payment": "__alert.customerName__'s payment is overdue for this session."
-        },
-        "update-attendance" : {
-            "true": "__alert.customerName__ has been marked as present for this session.",
-            "false": "__alert.customerName__ has been marked as absent for this session."
         }
-
     }
 }

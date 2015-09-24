@@ -1,6 +1,6 @@
 <li class="student-details">
-    <div class="attending-checkbox" ng-disabled="bookingLoading" ng-click="toggleAttendance()">
-        <i class="fa" ng-class="{'fa-check': booking.hasAttended}" ng-hide="bookingLoading"></i>
+    <div class="attending-checkbox" ng-class="{'absent': attendanceStatus == false, 'present': attendanceStatus == true}" ng-disabled="bookingLoading" ng-click="changeAttendanceStatus()">
+        <i class="fa" ng-class="{'fa-check': attendanceStatus, 'fa-close': attendanceStatus === false}" ng-hide="bookingLoading"></i>
         <ellipsis-animated ng-show="bookingLoading"/>
     </div>
     <div class="item-title">{{booking.customer.firstName}}&nbsp;<br ng-hide="isBigScreen">{{booking.customer.lastName}}</div>

@@ -58,5 +58,6 @@
 	"booking-contains-duplicate-sessions" : "The booking you're trying to save contains duplicate sessions.",
 	"paymentstatus-invalid" : "This payment status is invalid, how did you do that?",
 	"emailtemplate-type-invalid" : "This email template type is invalid.",
-	"pricing-required": "Oops! You have to include a session or course price to save here."
+	"pricing-required": "Oops! You have to include a session or course price to save here.",
+	"studentcapacity-required": "Oops! Please enter a maximum number of students."
 }
