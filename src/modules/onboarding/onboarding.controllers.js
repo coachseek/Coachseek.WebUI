@@ -24,6 +24,7 @@ angular.module('onboarding.controllers', [])
         };
 
         function getDefaultPromises(){
+            var defaultServiceValues = angular.copy(serviceDefaults);
             return [
                 coachSeekAPIService.save({ section: 'Coaches' }, getDefaultCoachValues()).$promise,
                 coachSeekAPIService.save({ section: 'Locations' }, {name: $scope.locationName}).$promise,
@@ -32,7 +33,8 @@ angular.module('onboarding.controllers', [])
         };
 
         function getDefaultCoachValues(){
-            return _.assign(coachDefaults, {
+            var defaultCoachValues = angular.copy(coachDefaults);
+            return _.assign(defaultCoachValues, {
                 firstName: $scope.coachFirstName,
                 lastName: $scope.coachLastName,
                 email: $scope.coachFirstName + $scope.coachLastName + "@" + sessionService.business.domain + '.com',
