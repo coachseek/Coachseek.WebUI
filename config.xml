@@ -29,7 +29,7 @@
     <preference name="StatusBarStyle" value="lightcontent" />
 
     <preference name="deployment-target" value="7.0" />
-    <preference name="intercom-app-id" value="2ac5a0810a1aa76f4a491ac62c23da44aa983f15"/>
+    <!-- <preference name="intercom-app-id" value="2ac5a0810a1aa76f4a491ac62c23da44aa983f15"/> -->
     <preference name="intercom-ios-api-key" value="ios_sdk-a1a793480766104116975ad002f5ddedcf4423b2"/>
     <preference name="intercom-android-api-key" value="android_sdk-e917393bec3a20b72fbbc4315adbb7ac7405a1fd"/>
    
