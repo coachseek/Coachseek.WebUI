@@ -70,8 +70,6 @@
                     <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-times'></i></div>
                 </div>
             </div>
-
-            <sport-picker current-sport="business.sport"></sport-picker>
         </form>
 
         <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'get-started'}}</span><ellipsis-animated ng-show="AILoading"/></button>

@@ -29,8 +29,8 @@ angular.module('businessSetup.controllers', [])
             }
         };
     }])
-    .controller('businessCtrl', ['$scope', 'CRUDService', 'sessionService',
-        function($scope, CRUDService, sessionService){
+    .controller('businessCtrl', ['$rootScope', '$scope', 'CRUDService', 'sessionService',
+        function($rootScope, $scope, CRUDService, sessionService){
         $scope.editItem = function(){
             $scope.itemCopy = angular.copy($scope.business);
 
@@ -43,7 +43,7 @@ angular.module('businessSetup.controllers', [])
             if(formValid){
                 CRUDService.update('Business', $scope, business)
                     .then(function(business){
-                        sessionService.business = business;
+                        $rootScope.business = business;
                     });
             }
         };
