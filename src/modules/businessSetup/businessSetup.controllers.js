@@ -1,6 +1,6 @@
 angular.module('businessSetup.controllers', [])
-    .controller('businessRegistrationCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$activityIndicator', '$state', 'sessionService',
-        function($scope, coachSeekAPIService, CRUDService, $activityIndicator, $state, sessionService){
+    .controller('businessRegistrationCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$activityIndicator', '$state', 'sessionService', 'getLocationBasedCurrency',
+        function($scope, coachSeekAPIService, CRUDService, $activityIndicator, $state, sessionService, getLocationBasedCurrency){
         $scope.business = {};
         $scope.admin = {};
 
@@ -8,6 +8,9 @@ angular.module('businessSetup.controllers', [])
             var formValid = CRUDService.validateForm($scope);
 
             if(formValid){
+                _.assign($scope.business, {
+                    currency: getLocationBasedCurrency.locationCurrency
+                })
                 $activityIndicator.startAnimating()
                 coachSeekAPIService.save({section: 'businessRegistration'}, {admin: $scope.admin, business: $scope.business})
                     .$promise.then(function(newBusiness){
