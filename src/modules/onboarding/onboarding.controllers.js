@@ -1,6 +1,8 @@
 angular.module('onboarding.controllers', [])
     .controller('onboardingDefaultsModalCtrl', ['$scope', '$q', '$timeout', '$activityIndicator', 'coachSeekAPIService', 'sessionService', 'serviceDefaults', 'coachDefaults',
       function($scope, $q, $timeout, $activityIndicator, coachSeekAPIService, sessionService, serviceDefaults, coachDefaults){
+        $scope.coachFirstName = $scope.currentUser.firstName;
+        $scope.coachLastName = $scope.currentUser.lastName;
         $scope.createDefaults = function () {
             $scope.removeAlerts();
             if($scope.onboardingDefaultsForm.$valid){
