@@ -10,7 +10,7 @@ angular.module('businessSetup.controllers', [])
             if(formValid){
                 _.assign($scope.business, {
                     currency: getLocationBasedCurrency.locationCurrency
-                })
+                });
                 $activityIndicator.startAnimating()
                 coachSeekAPIService.save({section: 'businessRegistration'}, {admin: $scope.admin, business: $scope.business})
                     .$promise.then(function(newBusiness){
