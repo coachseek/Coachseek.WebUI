@@ -30,7 +30,7 @@ angular.module('onboarding.controllers', [])
             return [
                 coachSeekAPIService.save({ section: 'Coaches' }, getDefaultCoachValues()).$promise,
                 coachSeekAPIService.save({ section: 'Locations' }, {name: $scope.locationName}).$promise,
-                coachSeekAPIService.save({ section: 'Services' }, _.assign(serviceDefaults, {name: $scope.serviceName})).$promise
+                coachSeekAPIService.save({ section: 'Services' }, _.assign(defaultServiceValues, {name: $scope.serviceName})).$promise
             ];
         };
 
