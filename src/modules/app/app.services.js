@@ -24,7 +24,7 @@ angular.module('app.services', [])
         var self = this;
         this.locationCurrency = 'USD';
 
-        $.getJSON('http://freegeoip.net/json/').done(function(location){
+        $.getJSON('https://freegeoip.net/json/').done(function(location){
             self.locationCurrency = getCurrencyByLocation(location.country_code);
         });
 
