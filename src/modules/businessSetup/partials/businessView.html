@@ -4,7 +4,7 @@
             <button class="edit-item" ng-click="editItem()">{{'edit-details' | i18next}}</button>
             <span class="item-title">{{business.name}}</span>
             <span class="item-subtitle" >{{business.payment.currency}}</span>
-            <span class="item-subtitle" ng-if="business.sport" ng-i18next>{{'sports.' + business.sport}}</span>
+            <span class="item-subtitle" ng-if="business.sport" ng-i18next="[i18next]{{'sports.' + business.sport}}"></span>
             <span class="item-subtitle last">{{business.domain}}.coachseek.com</span>
             <hr/>
         </li>
@@ -19,12 +19,21 @@
             <div class="error-messages" ng-messages="itemForm.name.$error" ng-if="itemForm.name.$touched">
                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                 <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                <div ng-message="duplicatename">{{'businessSetup:error.duplicatename' | i18next}}<i class='fa fa-2x fa-times'></i></div>
             </div>
         </div>
         <sport-picker current-sport="business.sport"></sport-picker>
 
         <currency-picker current-currency="business.payment.currency"></currency-picker>
+
+        <div class="form-input subdomain">
+            <label name="subdomain">{{'businessSetup:business-details.subdomain' | i18next}}</label>
+            <input name="subdomain" ng-model="business.domain" pattern="^[a-zA-Z\d][a-zA-Z\d-]*[a-zA-Z\d]$" placeholder="{{'businessSetup:business-details.placeholder.subdomain' | i18next}}" required ng-maxlength=63 />.coachseek.com
+
+            <div class="error-messages" ng-messages="itemForm.subdomain.$error" ng-if="itemForm.subdomain.$touched">
+                <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+            </div>
+        </div>
     </form>
 
     <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
