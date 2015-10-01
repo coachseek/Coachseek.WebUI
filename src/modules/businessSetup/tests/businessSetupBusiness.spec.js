@@ -6,7 +6,8 @@ describe('BusinessSetup Business', function(){
             domain: "westcoasttoast",
             payment: {
                 currency: "USD"
-            }
+            },
+            sport: 'football'
         };
     });
 

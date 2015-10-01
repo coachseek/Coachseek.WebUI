@@ -33,8 +33,10 @@
     },
     "business-details": {
         "name": "Business Name",
+        "subdomain": "Business Subdomain",
         "placeholder": {
-            "name": "e.g. Ball So Hard University"
+            "name": "e.g. Ball So Hard University",
+            "subdomain": "e.g. ballsohard"
         }
     },
     "service-details": {
@@ -94,6 +96,7 @@
     "currency-invalid": "Oops! Looks like you need to pick a currency.",
     "sport-invalid": "Oops! Looks like you need to pick a sport.",
     "sessionCount-invalid": "Repetition count is too high for us to handle! Try a lower number.",
+    "subdomain-invalid": "Oops! Looks like your subdomain is invalid.",
 
     "error": {
         "maxlength": "This is too long.",

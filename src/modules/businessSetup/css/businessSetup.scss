@@ -76,6 +76,13 @@
                 border-radius: 5px;
                 height: 32px;
             }
+
+            &.subdomain{
+                input{
+                    width: 77%;
+                    text-align: center;
+                }
+            }
         }
 
         ul{
@@ -166,7 +173,33 @@
             }
         }
 
-     
+        .crud-item .form-input{
+            select.currency-picker{
+                opacity: 0;
+            }
+
+            select-overlay{
+                border: 1px solid transparent;
+                padding: 11px 15px;
+                background: $white;
+                position: absolute;
+                bottom: -13px;
+                left: 0px;
+                border-radius: 5px;
+                height: 42px;
+
+                select-arrows{
+                    bottom: 5px;
+                }
+            }
+
+            &.subdomain{
+                input{
+                    width: 71%;
+                    text-align: center;
+                }
+            }
+        }
 
         .create-item{
             display: block;
