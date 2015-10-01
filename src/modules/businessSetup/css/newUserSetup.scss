@@ -1,8 +1,7 @@
 [state^="newUserSetup"] {
     position: absolute;
     width: 100%;
-    height: 100%;
-    padding-bottom: 100px;
+    padding-bottom: 200px;
     background: url(#{$asset-url}/pics/signup-background.png) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -12,7 +11,7 @@
     .new-user-container{
         max-width: 445px;
         margin: 45px auto;
-        padding: 0px 15px 20px 15px;
+        overflow: hidden;
         color: $white;
 
         h4, p{
