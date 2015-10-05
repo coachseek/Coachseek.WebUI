@@ -487,6 +487,34 @@
     }
 
     @media (max-width: 768px){
+        .booking-nav-banner{
+            background: $white;
+            height: 50px;
+            position: fixed;
+            width: 100%;
+            bottom: 20px;
+        }
+        .powered-by{
+            height: 20px;
+            div{
+                text-align: center;
+                line-height: 20px;
+                width: 100%;
+                display: block;
+                font-size: 10px;
+                span{
+                    height: 20px;
+                    float: none;
+                    &:first-child{
+                        top:-5px;
+                        position: relative;
+                    }
+                    &.logo{
+                        width: 100px;
+                    }
+                }
+            }
+        }
         .current-booking-status{
             height: 60px;
             padding:5px;
@@ -515,17 +543,28 @@
         }
 
         .booking-container{
-            height: calc(100vh - 105px);
+            height: calc(100vh - 80px);
             padding: 30px 17px 60px 17px;
             .booking-content-container{
                 .booking-details-container{
+                    width: 100%;
+                    h2{
+                        font-size: 18px;
+                    }
                     .booking-details{
                         width: 100%;  
                         padding-left: 0px;
+                        h4{
+                            font-size: 16px;
+                        }
+                        p{
+                            font-size: 14px;
+                            font-family: lato-light;
+                        }
                     }
 
                 } 
-                .booking-customer-form{
+                .booking-customer-details .booking-customer-form{
                     .form-input{
                         width:100%;
                         margin-bottom: 20px;
@@ -554,24 +593,24 @@
                     width:100%;
                 }
                 button{
-                    -webkit-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
-                    -moz-box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
-                    box-shadow: 0px 4px 11px -1px rgba(0,0,0,0.75);
                     &.continue-button, &.pay-later{
                         width: 46%;
                         padding: 7.5px 10px;
                         position: fixed;
                         right: 0px;
                         z-index: 2;
-                        bottom: 60px;
+                        bottom: 25px;
+                        background: $text-dark-grey;
                     }
                     &.back-button{
                         width: 46%;
                         padding: 7.5px 10px;
                         position: fixed;
                         z-index: 1;
-                        bottom: 60px;
+                        bottom: 25px;
                         left: 10px;
+                        background: none;
+                        color: $text-dark-grey;
                     }
                 }
                 .service-description{
