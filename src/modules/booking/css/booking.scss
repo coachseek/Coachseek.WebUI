@@ -6,20 +6,20 @@
         -o-background-size: cover;
         background-size: cover;
 
-        &.tennis{background: url(#{$asset-url}/pics/online-booking-tennis.jpg) center center no-repeat;}
-        &.swimming{background: url(#{$asset-url}/pics/online-booking-swimming.jpg) center center no-repeat;}
-        &.martial-arts{background: url(#{$asset-url}/pics/online-booking-martial-arts.jpg) center center no-repeat;}
-        &.gymnastics{background: url(#{$asset-url}/pics/online-booking-gymnastics.jpg) center center no-repeat;}
-        &.golf{background: url(#{$asset-url}/pics/online-booking-golf.jpg) center center no-repeat;}
-        &.fencing{background: url(#{$asset-url}/pics/online-booking-fencing.jpg) center center no-repeat;}
-        &.equestrian{background: url(#{$asset-url}/pics/online-booking-equestrian.jpg) center center no-repeat;}
-        &.fitness{background: url(#{$asset-url}/pics/online-booking-fitness.jpg) center center no-repeat;}
-        &.basketball{background: url(#{$asset-url}/pics/online-booking-basketball.jpg) center center no-repeat;}
-        &.volleyball{background: url(#{$asset-url}/pics/online-booking-volleyball.jpg) center center no-repeat;}
-        &.football{background: url(#{$asset-url}/pics/online-booking-football.jpg) center center no-repeat;}
+        &.tennis{background-image: url(#{$asset-url}/pics/online-booking-tennis.jpg);}
+        &.swimming{background-image: url(#{$asset-url}/pics/online-booking-swimming.jpg);}
+        &.martial-arts{background-image: url(#{$asset-url}/pics/online-booking-martial-arts.jpg);}
+        &.gymnastics{background-image: url(#{$asset-url}/pics/online-booking-gymnastics.jpg);}
+        &.golf{background-image: url(#{$asset-url}/pics/online-booking-golf.jpg);}
+        &.fencing{background-image: url(#{$asset-url}/pics/online-booking-fencing.jpg);}
+        &.equestrian{background-image: url(#{$asset-url}/pics/online-booking-equestrian.jpg);}
+        &.fitness{background-image: url(#{$asset-url}/pics/online-booking-fitness.jpg);}
+        &.basketball{background-image: url(#{$asset-url}/pics/online-booking-basketball.jpg);}
+        &.volleyball{background-image: url(#{$asset-url}/pics/online-booking-volleyball.jpg);}
+        &.football{background-image: url(#{$asset-url}/pics/online-booking-football.jpg);}
         /*&.hockey{background: url(#{$asset-url}/pics/online-booking-hockey.jpg) center center no-repeat;}*/
-        &.squash{background: url(#{$asset-url}/pics/online-booking-squash.jpg) center center no-repeat;}
-        &.yoga-pilates{background: url(#{$asset-url}/pics/online-booking-yoga-pilates.jpg) center center no-repeat;}
+        &.squash{background-image: url(#{$asset-url}/pics/online-booking-squash.jpg);}
+        &.yoga-pilates{background-image: url(#{$asset-url}/pics/online-booking-yoga-pilates.jpg) ;}
     }
 
     .current-booking-status{
