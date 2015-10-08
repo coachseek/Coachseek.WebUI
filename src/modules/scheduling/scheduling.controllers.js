@@ -148,58 +148,38 @@ angular.module('scheduling.controllers', [])
                             handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
                     },
-                    waitForFetch: function(fetchNeeded){
-                        //TODO - if waiting get next now
+                    waitForFetch: function(fetchNeeded, intervalStart, reportEvents){
                         startCalendarLoading();
+                        $scope.uiConfig.calendar[fetchNeeded](intervalStart, reportEvents, 2);
                     },
-                    getPreviousMonthEvents: function(start, reportEvents){
-                        var previousDate = start.clone().subtract(1, 'M');
-                        var cachedRange = moment.range(cachedRanges.cachedRangeStart, cachedRanges.cachedRangeEnd);
-                        if(cachedRange.contains(previousDate)) previousDate.subtract(1, 'M');
-
+                    getPreviousMonthEvents: function(start, reportEvents, monthsToSubtract){
+                        var previousDate = start.clone().subtract(monthsToSubtract || 1, 'M');
                         var monthStart = previousDate.clone().startOf('month').format('YYYY-MM-DD');
                         if(!_.includes(cachedRanges.rangesLoading, monthStart)){
-                            var getSessionsParams = buildGetSessionsParams(previousDate);
-                            cachedRanges.rangesLoading.push(monthStart);
-                            getAndRenderSessions(getSessionsParams)
-                                .then(function(){
-                                    reportEvents($scope.events);
-                                    cachedRanges.cachedRangeStart = moment(previousDate.clone().startOf('month').format('YYYY-MM-DD'));
-                                    _.remove(cachedRanges.rangesLoading, function(value){return value === monthStart});
-                                }, $scope.handleErrors).finally(function(){
-                                    if(currentMonthLoaded) stopCalendarLoading();
-                                });
+                            loadNextOrPreviousMonth(monthStart, previousDate, reportEvents).then(function(){
+                                cachedRanges.cachedRangeStart = moment(previousDate.clone().startOf('month').format('YYYY-MM-DD'));
+                            });
                         }
                     },
-                    getNextMonthEvents: function(start, reportEvents){
-                        var nextDate = start.clone().add(1, 'M');
-                        //if month is already loaded load next month
-                        var cachedRange = moment.range(cachedRanges.cachedRangeStart, cachedRanges.cachedRangeEnd);
-                        if(cachedRange.contains(nextDate)) nextDate.add(1, 'M');
-
+                    getNextMonthEvents: function(start, reportEvents, monthsToAdd, a, b, c){
+                        var nextDate = start.clone().add(monthsToAdd || 1, 'M');
                         var monthStart = nextDate.clone().startOf('month').format('YYYY-MM-DD');
                         if(!_.includes(cachedRanges.rangesLoading, monthStart)){
-                            var getSessionsParams = buildGetSessionsParams(nextDate);
-                            cachedRanges.rangesLoading.push(monthStart);
-                            getAndRenderSessions(getSessionsParams)
-                                .then(function(){
-                                    reportEvents($scope.events);
-                                    cachedRanges.cachedRangeEnd = moment(nextDate.clone().endOf('month').format('YYYY-MM-DD'));
-                                    _.remove(cachedRanges.rangesLoading, function(value){return value === monthStart});
-                                }, $scope.handleErrors).finally(function(){
-                                    if(currentMonthLoaded) stopCalendarLoading();
-                                });
+                            loadNextOrPreviousMonth(monthStart, nextDate, reportEvents).then(function(){
+                                cachedRanges.cachedRangeEnd = moment(nextDate.clone().endOf('month').format('YYYY-MM-DD'));
+                            });
                         }
                     },
-                    events: function(start, end, timezone, renderEvents, reportEvents){
+                    events: function(start, end, intervalStart, timezone, renderEvents, reportEvents){
                         if(!cachedRanges) cachedRanges = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('getCachedRanges');
                         cachedRanges.rangesLoading = [];
                         if(!showOnboarding()){
-                            var getSessionsParams = buildGetSessionsParams(start);
+                            var getSessionsParams = buildGetSessionsParams(intervalStart);
                             cachedRanges.cachedRangeStart = moment(getSessionsParams.startDate);
                             cachedRanges.cachedRangeEnd = moment(getSessionsParams.endDate);
                             $scope.events = [];
                             currentMonthLoaded = false;
+
                             startCalendarLoading();
                             getAndRenderSessions(getSessionsParams)
                                 .then(function(){
@@ -209,12 +189,24 @@ angular.module('scheduling.controllers', [])
                                 }, $scope.handleErrors).finally(function(){
                                     stopCalendarLoading();
                                 });
-                            $scope.uiConfig.calendar.getPreviousMonthEvents(start, reportEvents);
-                            $scope.uiConfig.calendar.getNextMonthEvents(start, reportEvents);
+                            $scope.uiConfig.calendar.getPreviousMonthEvents(intervalStart, reportEvents, 1);
+                            $scope.uiConfig.calendar.getNextMonthEvents(intervalStart, reportEvents, 1);
                         }
                     }
                 }
             };
+
+            function loadNextOrPreviousMonth(monthStart, date, reportEvents){
+                var getSessionsParams = buildGetSessionsParams(date);
+                cachedRanges.rangesLoading.push(monthStart);
+                return getAndRenderSessions(getSessionsParams)
+                    .then(function(){
+                        reportEvents($scope.events);
+                        _.remove(cachedRanges.rangesLoading, function(value){return value === monthStart});
+                    }, $scope.handleErrors).finally(function(){
+                        if(currentMonthLoaded) stopCalendarLoading();
+                    });
+            }
 
             function buildGetSessionsParams(date){
                 return {

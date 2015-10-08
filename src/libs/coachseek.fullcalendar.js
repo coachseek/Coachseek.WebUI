@@ -8169,33 +8169,28 @@ function Calendar_constructor(element, overrides) {
 
     function getAndRenderEvents() {
         var fetchNeeded = isFetchNeeded(cachedRanges.cachedRangeStart, cachedRanges.cachedRangeEnd, currentView.start, currentView.end);
-        // console.log('getAndRenderEvents', fetchNeeded)
-        if( fetchNeeded === 'getNextMonth'){
-            currentView.trigger('getNextMonthEvents', null, currentView.start, reportEvents);
-            renderEvents();
-        } else if ( fetchNeeded === 'getPreviousMonth'){
-            currentView.trigger('getPreviousMonthEvents', null, currentView.start, reportEvents);
-            renderEvents();
-        } else if (!options.lazyFetching || fetchNeeded) {
+        if( fetchNeeded === true ){
             fetchAndRenderEvents();
+        } else if ( fetchNeeded ){
+            currentView.trigger(fetchNeeded, null, currentView.intervalStart, reportEvents, 1);
+            renderEvents();
+
+            var currentRange = moment.range(currentView.start.clone(), currentView.end.clone())
+            _.each(cachedRanges.rangesLoading, function(loadingMonthStartDate){
+                if(currentRange.contains(moment(loadingMonthStartDate))
+                    && loadingMonthStartDate !== currentView.intervalEnd.clone().format('YYYY-MM-DD')
+                    && loadingMonthStartDate !== currentView.intervalStart.clone().subtract(1, 'm').format('YYYY-MM-DD') ){
+                    currentView.trigger('waitForFetch', null, fetchNeeded, currentView.intervalStart, reportEvents);
+                }
+            });
         } else {
             renderEvents();
         }
-
-        //have to setTimeout here to wait for the currenView.trigger to set cachedRanges.rangesLoading
-        var currentRange = moment.range(currentView.start.clone(), currentView.end.clone())
-        _.each(cachedRanges.rangesLoading, function(loadingMonthStartDate){
-            if(currentRange.contains(moment(loadingMonthStartDate))
-                && loadingMonthStartDate !== currentView.intervalEnd.clone().format('YYYY-MM-DD')
-                && loadingMonthStartDate !== currentView.intervalStart.clone().subtract(1, 'm').format('YYYY-MM-DD') ){
-                currentView.trigger('waitForFetch', null, fetchNeeded);
-            }
-        });
     }
 
 
     function fetchAndRenderEvents() {
-        fetchEvents(currentView.start, currentView.end);
+        fetchEvents(currentView.start, currentView.end, currentView.intervalStart);
             // ... will call reportEvents
             // ... which will call renderEvents
     }
@@ -8979,7 +8974,7 @@ function EventManager(options) { // assumed to be a calendar
     // locals
     var stickySource = { events: [] };
     var sources = [ stickySource ];
-    var rangeStart, rangeEnd;
+    var rangeStart, rangeEnd, intervalStart;
     var currentFetchID = 0;
     var pendingSourceCnt = 0;
     var loadingLevel = 0;
@@ -9003,25 +8998,22 @@ function EventManager(options) { // assumed to be a calendar
     
     
     function isFetchNeeded(cachedRangeStart, cachedRangeEnd, rangeBegin, rangeTerminate, rangesLoading) {
-        // if(cachedRangeStart && cachedRangeEnd){
-        //     console.log("loadedRange", cachedRangeStart.clone().format('MM-DD'), cachedRangeEnd.clone().format('MM-DD'));
-        //     console.log("currentRange", rangeBegin.clone().format('MM-DD'), rangeTerminate.clone().format('MM-DD'));
-        // }
         if(!rangeStart){
             return true;
         } else if (!moment().range(cachedRangeStart, cachedRangeEnd).contains(rangeBegin.clone().subtract(3, 'w'))){
-            return 'getPreviousMonth'
+            return 'getPreviousMonthEvents'
         } else if (!moment().range(cachedRangeStart, cachedRangeEnd).contains(rangeTerminate.clone().add(3, 'w'))){
-            return 'getNextMonth'
+            return 'getNextMonthEvents'
         } else {
             return false;
         }
     }
     
     
-    function fetchEvents(start, end) {
+    function fetchEvents(start, end, startOfInterval) {
         rangeStart = start;
         rangeEnd = end;
+        intervalStart = startOfInterval;
         cache = [];
         var fetchID = ++currentFetchID;
         var len = sources.length;
@@ -9105,6 +9097,7 @@ function EventManager(options) { // assumed to be a calendar
                     t, // this, the Calendar object
                     rangeStart.clone(),
                     rangeEnd.clone(),
+                    intervalStart.clone(),
                     options.timezone,
                     function(events) {
                         callback(events);
