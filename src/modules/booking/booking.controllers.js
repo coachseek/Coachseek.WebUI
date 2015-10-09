@@ -287,4 +287,18 @@ angular.module('booking.controllers', [])
             $scope.buttonHTML = view.get(0).outerHTML;
             $scope.$apply();
         });
+
+        $scope.share = function(){
+            FB.ui(
+            {
+                method: 'feed',
+                name: 'Book Now on my new Online Booking site!',
+                link: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
+                picture: 'https://az789256.vo.msecnd.net/assets/'+$scope.ENV.version+'/pics/facebook-share.png',
+                caption: 'I’ve just set up my own Online Booking site with Coachseek. All of my lessons & courses are available to book here.',
+                description: 'Powered by Coachseek',
+                message: ''
+            });
+        
+        }
     }]);
