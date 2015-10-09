@@ -48,6 +48,10 @@
                     background: $hover-dark-grey;
                 }
             }
+            .booking-admin-facebook-btn{
+                float: right;
+                margin-top: 20px;
+            }
 
             .booking-admin-copy-btn{
                 @extend .booking-preview-button;
