@@ -15,6 +15,9 @@
         <label class="clearfix">{{'booking:booking-admin.code' | i18next}}</label>
         <input ng-readonly="true" ng-model="buttonHTML" class="booking-button-html"/>
         <button class="booking-admin-copy-btn clearfix" clip-copy="buttonHTML" clip-click="copied = true" ng-i18next>{{copied ? 'booking:booking-admin.copied' : 'booking:booking-admin.code-btn'}}</button>
+
+        <label class="clearfix">{{'booking:booking-admin.facebook' | i18next}}</label>
+        <a class="booking-admin-facebook-btn clearfix" href="" ng-click="share()" ><img ng-src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/facebook-share-button.png" alt=""></a>
     </div>
     <div class="booking-admin-payments" ng-switch-when="payments">
         <div class="toggle-switch-container enable-payment">
