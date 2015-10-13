@@ -52,12 +52,28 @@ angular.module('app',
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }])
-    .run(['$rootScope', '$state', '$stateParams',
-        function($rootScope, $state, $stateParams){
+    .run(['$rootScope', '$state', '$stateParams','$window',
+        function($rootScope, $state, $stateParams,$window){
             FastClick.attach(document.body);
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.alerts = [];
+
+            $window.fbAsyncInit = function() {
+                FB.init({
+                  appId      : '172144976459129',
+                  xfbml      : true,
+                  version    : 'v2.5'
+                });
+            };
+
+            (function(d, s, id){
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) {return;}
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/en_US/sdk.js";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
     }]);
