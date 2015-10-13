@@ -52,12 +52,20 @@ angular.module('app',
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }])
-    .run(['$rootScope', '$state', '$stateParams',
-        function($rootScope, $state, $stateParams){
+    .run(['$rootScope', '$state', '$stateParams','$window',
+        function($rootScope, $state, $stateParams,$window){
             FastClick.attach(document.body);
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.alerts = [];
+
+            $window.fbAsyncInit = function() {
+                FB.init({
+                  appId      : '172144976459129',
+                  xfbml      : true,
+                  version    : 'v2.5'
+                });
+            };
     }]);

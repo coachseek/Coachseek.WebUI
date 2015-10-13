@@ -241,7 +241,7 @@ describe('Scheduling Module', function() {
                     booking: {
                         bookings: []
                     },
-                    sessions: [this.sessionTwo, this.sessionTwo]                     
+                    sessions: [this.sessionTwo, this.sessionThree]
                 }],
                 sessions: [this.sessionOne]
             }
@@ -461,8 +461,8 @@ describe('Scheduling Module', function() {
             });
             it('should make a call to get with the saved parameters', function(){
                 var getSessionsParams = {
-                    startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                    endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
                     locationId: this.calendarView.locationId,
                     coachId: this.calendarView.coachId,
                     section: 'Sessions'
@@ -523,10 +523,30 @@ describe('Scheduling Module', function() {
             });
         });
         describe('when GETting the sessions', function(){
-            it('should make a call to get', function(){
+            it('should make a call to get for this month', function(){
                 var getSessionsParams = {
-                    startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                    endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
+                    locationId: '',
+                    coachId: '',
+                    section: 'Sessions'
+                };
+                expect(getSessionsStub).to.be.calledWith(getSessionsParams);
+            });
+            it('should make a call to get for NEXT month', function(){
+                var getSessionsParams = {
+                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').startOf('month').format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').endOf('month').format('YYYY-MM-DD'),
+                    locationId: '',
+                    coachId: '',
+                    section: 'Sessions'
+                };
+                expect(getSessionsStub).to.be.calledWith(getSessionsParams);
+            });
+            it('should make a call to get for PREVIOUS month', function(){
+                var getSessionsParams = {
+                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().subtract(1, 'M').startOf('month').format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().subtract(1, 'M').endOf('month').format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: '',
                     section: 'Sessions'
@@ -539,7 +559,7 @@ describe('Scheduling Module', function() {
                 // so it has not rendered them
                 // TODO - Check this on scope.events? These are going to fail sometimes based on what
                 //          Day it is in the real world. that aint gonna cut it.
-                expect($testRegion.find('.fc-content').length).to.equal(this.sessionObject.sessions.length + this.sessionObject.courses[0].sessions.length);
+                expect(sessionCalendar.fullCalendar('clientEvents').length).to.equal(this.sessionObject.sessions.length + this.sessionObject.courses[0].sessions.length);
             });
         });
         describe('when clicking on a session in the calendar', function(){
@@ -894,8 +914,8 @@ describe('Scheduling Module', function() {
             });
             it('should make a call to the API with the new coach ID', function(){
                 var getSessionsParams = {
-                    startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                    endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: this.coachTwo.id,
                     section: 'Sessions'
@@ -917,8 +937,8 @@ describe('Scheduling Module', function() {
             });
             it('should make a call to the API with the new location ID', function(){
                 var getSessionsParams = {
-                    startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                    endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().endOf('month').format('YYYY-MM-DD'),
                     locationId: this.locationTwo.id,
                     coachId: '',
                     section: 'Sessions'
@@ -943,8 +963,8 @@ describe('Scheduling Module', function() {
                 });
                 it('should GET a new month', function(){
                     var getSessionsParams = {
-                        startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                        endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                        startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').startOf('month').format('YYYY-MM-DD'),
+                        endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').endOf('month').format('YYYY-MM-DD'),
                         locationId: '',
                         coachId: '',
                         section: 'Sessions'
@@ -966,8 +986,8 @@ describe('Scheduling Module', function() {
                     });
                     it('should GET a new month', function(){
                         var getSessionsParams = {
-                            startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                            endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                            startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').startOf('month').format('YYYY-MM-DD'),
+                            endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').endOf('month').format('YYYY-MM-DD'),
                             locationId: '',
                             coachId: '',
                             section: 'Sessions'
@@ -990,15 +1010,8 @@ describe('Scheduling Module', function() {
                             $calendar.find('.fc-today-button').trigger('click');
                             $timeout.flush();
                         });
-                        it('shouldnt make a call to GET sessions', function(){
-                            var getSessionsParams = {
-                                startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                                endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
-                                locationId: '',
-                                coachId: '',
-                                section: 'Sessions'
-                            };
-                            expect(getSessionsStub).to.be.calledWith(getSessionsParams);
+                        it('should NOT make a call to GET sessions', function(){
+                            expect(getSessionsStub).to.not.be.called;
                         });
                     });
                     describe('and then switching to `week`', function(){
@@ -1009,7 +1022,7 @@ describe('Scheduling Module', function() {
                             $calendar.find('.fc-agendaWeek-button').trigger('click');
                             $timeout.flush();
                         });
-                        it('shouldnt NOT make a call to GET sessions (this month already GOTten)', function(){
+                        it('should NOT make a call to GET sessions (this month already GOTten)', function(){
                             expect(getSessionsStub).to.not.be.called;
                         });
                     });
@@ -1065,8 +1078,8 @@ describe('Scheduling Module', function() {
                     });
                     it('should GET a new month', function(){
                         var getSessionsParams = {
-                            startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
-                            endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                            startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').startOf('month').format('YYYY-MM-DD'),
+                            endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').endOf('month').format('YYYY-MM-DD'),
                             locationId: '',
                             coachId: '',
                             section: 'Sessions'
