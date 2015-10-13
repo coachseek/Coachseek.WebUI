@@ -38,6 +38,24 @@ describe('Booking Admin Page', function(){
         $timeout.flush();
         expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain + '.testing');
     });
+    describe('when clicking on the FB share button', function(){
+        var facebookShareStub;
+        beforeEach(function(){
+            facebookShareStub = this.sinon.stub(FB, 'ui');
+            $testRegion.find('.booking-admin-facebook-btn').trigger('click');
+        });
+        it('should attemp to try to share to facebook through the facebook SDK', function(){
+            expect(facebookShareStub).to.be.calledWith({
+                method: 'feed',
+                name: i18n.t("booking:booking-admin.facebook-share-name"),
+                link: 'https://'+scope.business.domain +(scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
+                picture: 'https://az789256.vo.msecnd.net/assets/'+scope.ENV.version+'/pics/facebook-share.png',
+                caption: i18n.t("booking:booking-admin.facebook-share-caption"),
+                description: i18n.t("booking:booking-admin.facebook-share-description"),
+                message: ''
+            })
+        })
+    });
     describe('when clicking on the payments tab', function(){
         var saveStub;
         beforeEach(function(){

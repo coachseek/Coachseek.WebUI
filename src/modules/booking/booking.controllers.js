@@ -288,9 +288,8 @@ angular.module('booking.controllers', [])
             $scope.$apply();
         });
 
-        $scope.share = function(){
-            FB.ui(
-            {
+        $scope.shareToFacebook = function(){
+            FB.ui({
                 method: 'feed',
                 name: i18n.t("booking:booking-admin.facebook-share-name"),
                 link: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
