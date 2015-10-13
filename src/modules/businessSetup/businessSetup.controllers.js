@@ -44,6 +44,7 @@ angular.module('businessSetup.controllers', [])
                 CRUDService.update('Business', $scope, business)
                     .then(function(business){
                         $rootScope.business = business;
+                        sessionService.business = business;
                     });
             }
         };
@@ -57,7 +58,7 @@ angular.module('businessSetup.controllers', [])
             $scope.itemCopy = null;
         };
 
-        $scope.business = sessionService.business;
+        $scope.business = angular.copy(sessionService.business);
     }])
     .controller('locationsCtrl', ['$scope', 'CRUDService',
         function($scope, CRUDService){

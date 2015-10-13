@@ -109,7 +109,7 @@ describe('Booking Admin Page', function(){
                             $testRegion.find('.save-button').trigger('click');
                         });
                         it('should make a save call to the API', function(){
-                            expect(saveStub).to.be.calledWith({section: "Business"}, this.business)
+                            expect(saveStub).to.be.calledWith({section: "Business"}, $injector.get('sessionService').business)
                         });
                         it('should set the saved button to a `Saved` state', function(){
                             expect($testRegion.find('.save-button .save-text').attr('ng-i18next')).to.equal('saved');
@@ -169,7 +169,7 @@ describe('Booking Admin Page', function(){
                 });
                 describe('autosave behavior', function(){
                     it('should make a save call to the API', function(){
-                        expect(saveStub).to.be.calledWith({section: "Business"}, this.business)
+                        expect(saveStub).to.be.calledWith({section: "Business"}, $injector.get('sessionService').business)
                     });
                     describe('while autosaving', function(){
                         let('savePromise', function(){
