@@ -292,11 +292,11 @@ angular.module('booking.controllers', [])
             FB.ui(
             {
                 method: 'feed',
-                name: 'Book Now on my new Online Booking site!',
+                name: i18n.t("booking:booking-admin.facebook-share-name"),
                 link: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
                 picture: 'https://az789256.vo.msecnd.net/assets/'+$scope.ENV.version+'/pics/facebook-share.png',
-                caption: 'I’ve just set up my own Online Booking site with Coachseek. All of my lessons & courses are available to book here.',
-                description: 'Powered by Coachseek',
+                caption: i18n.t("booking:booking-admin.facebook-share-caption"),
+                description: i18n.t("booking:booking-admin.facebook-share-description"),
                 message: ''
             });
         

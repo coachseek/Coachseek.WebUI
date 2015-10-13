@@ -70,6 +70,9 @@
         "paypal":"PayPal",
         "activate":"Activate your PayPal account to accept online payments! - You must have a PayPal business or premier account.",
         "email":"Enter your PayPal email address",
-        "facebook":"Want to announce your Online Booking to your Facebook friends? Click the Share button to invite your friends and students to sign up!"
+        "facebook":"Want to announce your Online Booking to your Facebook friends? Click the Share button to invite your friends and students to sign up!",
+        "facebook-share-name":"Book Now on my new Online Booking site!",
+        "facebook-share-caption":"I’ve just set up my own Online Booking site with Coachseek. All of my lessons & courses are available to book here.",
+        "facebook-share-description":"Powered by Coachseek"
     }
 }
