@@ -298,6 +298,6 @@ angular.module('booking.controllers', [])
                 description: i18n.t("booking:booking-admin.facebook-share-description"),
                 message: ''
             });
-        
+            heap.track('Facebook Share');
         }
     }]);
