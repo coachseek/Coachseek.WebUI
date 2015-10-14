@@ -87,6 +87,12 @@
 
                 .item-title{
                     line-height: 35px;
+                    &.first-name,&.last-name{
+                        max-width: 90px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        float: left;
+                    }
                 }
                 button{
                     width: 60px;
