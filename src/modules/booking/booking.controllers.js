@@ -297,8 +297,7 @@ angular.module('booking.controllers', [])
                 link: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
                 picture: 'https://az789256.vo.msecnd.net/assets/'+$scope.ENV.version+'/pics/facebook-share.png',
                 caption: i18n.t("booking:booking-admin.facebook-share-caption"),
-                description: i18n.t("booking:booking-admin.facebook-share-description"),
-                message: ''
+                description: i18n.t("booking:booking-admin.facebook-share-description")
             });
             heap.track('Facebook Share');
         }
