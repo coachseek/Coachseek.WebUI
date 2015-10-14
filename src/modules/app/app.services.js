@@ -180,6 +180,19 @@ angular.module('app.services', [])
             }
         }
     ])
+    .service('expiredLicenseModal', ['$modal', function($modal){
+        return {
+            open: function() {
+                $modal.open({
+                    templateUrl: 'app/partials/expiredLicenseModal.html',
+                    windowClass: 'trial-expired-modal-backdrop',
+                    backdrop: 'static',
+                    keyboard: false,
+                    animation: false
+                });
+            }
+        }
+    }])
     .service('sessionService', function(){
         var isBigScreen = $(window).width() > 768;
         return {

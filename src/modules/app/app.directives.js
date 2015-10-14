@@ -178,4 +178,21 @@ angular.module('app.directives', [])
                 });
             }
         }
+    }])
+    .directive('pongGame', ['$timeout', function($timeout){
+       return {
+           restrict: 'A',
+           link: function(scope, element){
+                $timeout(function(){
+                    element.pong({
+                        "pad_height":100
+                    });
+                });
+
+                element.on('pongGameOver', function(event, data){
+                    scope.wonOrLost = data.status
+                    scope.$digest();
+                });
+           }
+       }
     }]);

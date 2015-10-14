@@ -87,5 +87,14 @@
         "other": "Other"
     },
     "trial-status" : "You have __count__ day left on your trial.",
-    "trial-status_plural" : "You have __count__ days left on your trial."
+    "trial-status_plural" : "You have __count__ days left on your trial.",
+    "trial-expired" : {
+        "oh-no": "Oh snap! Looks like your license has expired.",
+        "lost": "And it looks like you lost at pong.",
+        "won": "And it looks like you somehow won at pong.",
+        "subscribe-here": "Subscribe here",
+        "or": "or",
+        "contact-us" : "Contact us",
+        "continue-using": "if you'd like to continue using Coachseek."
+    }
 }
