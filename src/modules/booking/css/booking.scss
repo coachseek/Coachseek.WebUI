@@ -17,7 +17,7 @@
         &.basketball{background-image: url(#{$asset-url}/pics/online-booking-basketball.jpg);}
         &.volleyball{background-image: url(#{$asset-url}/pics/online-booking-volleyball.jpg);}
         &.football{background-image: url(#{$asset-url}/pics/online-booking-football.jpg);}
-        /*&.hockey{background: url(#{$asset-url}/pics/online-booking-hockey.jpg) center center no-repeat;}*/
+        /*&.hockey{background-image: url(#{$asset-url}/pics/online-booking-hockey.jpg)*/
         &.squash{background-image: url(#{$asset-url}/pics/online-booking-squash.jpg);}
         &.yoga-pilates{background-image: url(#{$asset-url}/pics/online-booking-yoga-pilates.jpg) ;}
     }
@@ -356,10 +356,23 @@
                             padding: 0 0 5px 20px; 
                         }
 
-                        input{
+                        input, select-overlay, select{
                             font-size: 16px;
                             height: 60px;
                             padding: 20px;
+                        }
+
+                        select-overlay{
+                            padding: 0;
+                            line-height: 60px;
+
+                            select-arrows{
+                                bottom: 10px;
+                            }
+                        }
+
+                        select.date-picker{
+                            width: 45%;
                         }
 
                         .error-messages {
@@ -374,6 +387,7 @@
                 }
                 button{
                     float: right;
+                    clear: left;
                 }
             }
 

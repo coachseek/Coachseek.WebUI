@@ -39,6 +39,8 @@
                 <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
             </div>
         </div>
+
+        <date-picker date="currentBooking.customer.dateOfBirth" form="form"></date-picker>
     </form>
     <button class="back-button" ui-sref="booking.selection">{{'booking:common.back' | i18next}}</button>
     <button class="continue-button" ng-disabled="form.$invalid" ui-sref="booking.confirmation">{{'booking:common.next' | i18next}}</button>
