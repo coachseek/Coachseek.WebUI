@@ -2,24 +2,28 @@ describe('Customers CRUD Control', function(){
     describe('when loading the customer list', function(){
         let('customerOne', function(){
             return {
+                id: '01',
                 firstName: 'One',
                 lastName: 'Cuss',
                 phone: '8829323',
-                email: 'one@guy.com'
+                email: 'one@guy.com',
+                dateOfBirth: '1959-02-06'
             }
         });
 
         let('customerTwo', function(){
             return {
+                id: '02',
                 firstName: 'Cuss',
                 lastName: 'Two',
                 phone: '4555TY',
-                email: 'two@guy.com'
+                email: 'two@guy.com',
+                dateOfBirth: '1959-02-06'
             }
         });
 
         let('customerList', function(){
-            return [this.customerOne, {}, {},{},{}];
+            return [this.customerOne, {id: '03'}, {id: '04'},{id: '05'},{id: '06'}];
         });
 
         let('customersPromise', function(){
