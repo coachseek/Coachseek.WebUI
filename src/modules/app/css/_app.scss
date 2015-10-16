@@ -430,7 +430,8 @@ select-arrows{
     }
 
     #wrapper.toggled #page-content-wrapper {
-            position: absolute;
+            // position: absolute; //funky in safari
+            position: fixed;
             margin-right: -140px;
     }
 
