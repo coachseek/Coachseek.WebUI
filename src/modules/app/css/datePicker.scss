@@ -28,3 +28,16 @@ date-picker{
 		float: left;
 	}
 }
+@media (max-width: 768px) {
+	date-picker{
+		select-overlay{
+			height: 40px;
+			padding-top: 4px;
+			.select-overlay{
+				select-arrows{
+					bottom: 3px;
+				}
+			}
+		}
+	}
+}
