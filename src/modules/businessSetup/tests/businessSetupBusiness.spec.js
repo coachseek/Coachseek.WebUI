@@ -6,7 +6,8 @@ describe('BusinessSetup Business', function(){
             domain: "westcoasttoast",
             payment: {
                 currency: "USD"
-            }
+            },
+            sport: 'football'
         };
     });
 
@@ -44,7 +45,7 @@ describe('BusinessSetup Business', function(){
         $businessItemView = $testRegion.find('.business-item-view');
     });
     it('should set business on the scope', function(){
-        expect(scope.business).to.equal(this.business);
+        expect(scope.business).to.eql(this.business);
     });
     it('should show the business list view', function(){
         expect($businessListView.hasClass('ng-hide')).to.be.false;

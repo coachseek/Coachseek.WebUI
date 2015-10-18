@@ -965,7 +965,7 @@ newMomentProto.time = function(time) {
 
     // Fallback to the original method (if there is one) if this moment wasn't created via FullCalendar.
     // `time` is a generic enough method name where this precaution is necessary to avoid collisions w/ other plugins.
-    if (!this._fullCalendar) {
+    if (!this._fullCalendar && oldMomentProto.time) {
         return oldMomentProto.time.apply(this, arguments);
     }
 
@@ -7749,6 +7749,7 @@ function Calendar_constructor(element, overrides) {
     t.getDate = getDate;
     t.getCalendar = getCalendar;
     t.getView = getView;
+    t.getCachedRanges = getCachedRanges;
     t.option = option;
     t.trigger = trigger;
 
@@ -7919,6 +7920,7 @@ function Calendar_constructor(element, overrides) {
     var content;
     var tm; // for making theme classes
     var currentView; // NOTE: keep this in sync with this.view
+    var cachedRanges = {};
     var viewsByType = {}; // holds all instantiated view instances, current or not
     var suggestedViewHeight;
     var windowResizeProxy; // wraps the windowResize function
@@ -8042,7 +8044,6 @@ function Calendar_constructor(element, overrides) {
         }
 
         if (currentView) {
-
             // in case the view should render a period of time that is completely hidden
             date = currentView.massageCurrentDate(date);
 
@@ -8167,17 +8168,32 @@ function Calendar_constructor(element, overrides) {
     
 
     function getAndRenderEvents() {
-        if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
+        var fetchNeeded = isFetchNeeded(cachedRanges.cachedRangeStart, cachedRanges.cachedRangeEnd, currentView.start, currentView.end);
+        if( fetchNeeded === true ){
             fetchAndRenderEvents();
-        }
-        else {
+        } else if ( fetchNeeded ){
+            //if still fetching current month will get next month and show loading which will get month after next
+            currentView.trigger(fetchNeeded, null, currentView.intervalStart, reportEvents, 1);
+            renderEvents();
+
+            var currentRange = moment.range(currentView.start.clone(), currentView.end.clone())
+            //If current month is still loading show calendar loading screen
+            //exclude if loading month is previous or next month
+            _.each(cachedRanges.rangesLoading, function(loadingMonthStartDate){
+                if(currentRange.contains(moment(loadingMonthStartDate))
+                    && loadingMonthStartDate !== currentView.intervalEnd.clone().format('YYYY-MM-DD')
+                    && loadingMonthStartDate !== currentView.intervalStart.clone().subtract(1, 'm').startOf('month').format('YYYY-MM-DD') ){
+                    currentView.trigger('waitForFetch', null, fetchNeeded, currentView.intervalStart, reportEvents);
+                }
+            });
+        } else {
             renderEvents();
         }
     }
 
 
     function fetchAndRenderEvents() {
-        fetchEvents(currentView.start, currentView.end);
+        fetchEvents(currentView.start, currentView.end, currentView.intervalStart);
             // ... will call reportEvents
             // ... which will call renderEvents
     }
@@ -8349,6 +8365,9 @@ function Calendar_constructor(element, overrides) {
         return currentView;
     }
     
+    function getCachedRanges(){
+        return cachedRanges;
+    }
     
     function option(name, value) {
         if (value === undefined) {
@@ -8958,7 +8977,7 @@ function EventManager(options) { // assumed to be a calendar
     // locals
     var stickySource = { events: [] };
     var sources = [ stickySource ];
-    var rangeStart, rangeEnd;
+    var rangeStart, rangeEnd, intervalStart;
     var currentFetchID = 0;
     var pendingSourceCnt = 0;
     var loadingLevel = 0;
@@ -8981,17 +9000,23 @@ function EventManager(options) { // assumed to be a calendar
     -----------------------------------------------------------------------------*/
     
     
-    function isFetchNeeded(start, end) {
-        return !rangeStart || // nothing has been fetched yet?
-            // or, a part of the new range is outside of the old range? (after normalizing)
-            start.clone().stripZone() < rangeStart.clone().stripZone() ||
-            end.clone().stripZone() > rangeEnd.clone().stripZone();
+    function isFetchNeeded(cachedRangeStart, cachedRangeEnd, rangeBegin, rangeTerminate, rangesLoading) {
+        if(!rangeStart){
+            return true;
+        } else if (!moment().range(cachedRangeStart, cachedRangeEnd).contains(rangeBegin.clone().subtract(3, 'w'))){
+            return 'getPreviousMonthEvents'
+        } else if (!moment().range(cachedRangeStart, cachedRangeEnd).contains(rangeTerminate.clone().add(3, 'w'))){
+            return 'getNextMonthEvents'
+        } else {
+            return false;
+        }
     }
     
     
-    function fetchEvents(start, end) {
+    function fetchEvents(start, end, startOfInterval) {
         rangeStart = start;
         rangeEnd = end;
+        intervalStart = startOfInterval;
         cache = [];
         var fetchID = ++currentFetchID;
         var len = sources.length;
@@ -9007,13 +9032,15 @@ function EventManager(options) { // assumed to be a calendar
             var isArraySource = $.isArray(source.events);
             var i, eventInput;
             var abstractEvent;
-
             if (fetchID == currentFetchID) {
-
                 if (eventInputs) {
                     for (i = 0; i < eventInputs.length; i++) {
                         eventInput = eventInputs[i];
 
+                        // if we have already added the event, DONT ADD IT AGAIN!
+                        if( _.find(cache, function(event){return event.session.id === eventInput.session.id;})){
+                            return;
+                        }
                         if (isArraySource) { // array sources have already been convert to Event Objects
                             abstractEvent = eventInput;
                         }
@@ -9073,11 +9100,13 @@ function EventManager(options) { // assumed to be a calendar
                     t, // this, the Calendar object
                     rangeStart.clone(),
                     rangeEnd.clone(),
+                    intervalStart.clone(),
                     options.timezone,
                     function(events) {
                         callback(events);
                         popLoading();
-                    }
+                    },
+                    reportEvents
                 );
             }
             else if ($.isArray(events)) {

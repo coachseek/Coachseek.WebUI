@@ -1,6 +1,7 @@
 describe('Customers Search Control', function(){
        let('customerOne', function(){
            return {
+              id: "01",
                firstName: 'One',
                lastName: 'Aussie',
                phone: '8829323',
@@ -10,6 +11,7 @@ describe('Customers Search Control', function(){
 
        let('customerTwo', function(){
            return {
+              id: "02",
                firstName: 'Man',
                lastName: 'Three',
                phone: '4555TY',
@@ -19,6 +21,7 @@ describe('Customers Search Control', function(){
 
        let('customerThree', function(){
            return {
+              id: "03",
                firstName: 'Cuss',
                lastName: 'Two',
                phone: '4555TY',

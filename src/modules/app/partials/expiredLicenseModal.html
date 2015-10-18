@@ -1,0 +1,15 @@
+<div id="trial-expired-container" class="trial-expired-container">
+	<h4 class="oh-no">{{'trial-expired.oh-no' | i18next}}</h4>
+	<div id="pong-container" pong-game>
+		<div class="pay-here" ng-if="wonOrLost">
+			<div class="coachseek-logo-white"></div>
+			<div class="go-pay">
+				<p ng-i18next="trial-expired.{{wonOrLost}}"></p>
+				<p><a href="http://www.coachseek.com/subscribe-paypal/">{{'trial-expired.subscribe-here' | i18next}}</a></p>
+				<p>{{'trial-expired.or' | i18next}}</p>
+				<p><a href="mailto:alex@coachseek.com?subject=Wait! I'm not done using Coachseek!">Contact Us</a></p>
+				<p>{{'trial-expired.continue-using' | i18next}}</p>
+			</div>
+		</div>
+	</div>
+</div>

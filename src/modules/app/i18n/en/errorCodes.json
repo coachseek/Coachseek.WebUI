@@ -59,5 +59,8 @@
 	"paymentstatus-invalid" : "This payment status is invalid, how did you do that?",
 	"emailtemplate-type-invalid" : "This email template type is invalid.",
 	"pricing-required": "Oops! You have to include a session or course price to save here.",
-	"studentcapacity-required": "Oops! Please enter a maximum number of students."
+	"studentcapacity-required": "Oops! Please enter a maximum number of students.",
+	"subdomain-duplicate": "Oops! Looks like someone else already has this subdomain. Please pick another one.",
+	"merchantaccountidentifier-invalid": "Oops! Looks like you need to specify a merchant account.",
+	"license-expired": "Oh no! Your Coachseek license has expired!"
 }

@@ -108,10 +108,23 @@
 @media (max-width: 768px){
     .modal-dialog{
         margin-top: 90px;
-        .modal-content .login-modal-container button.save-button{
-            transition:none;
-            &:hover{
-                 background: $green;
+        .modal-content .login-modal-container{
+            .remember-me{
+                width: 100%;
+                line-height: 20px;
+                text-align: center;
+                position: relative;
+                top: 50px;
+
+            }
+            button.save-button{
+                transition:none;
+                width: 100%;
+                top: -50px;
+                position: relative;
+                &:hover{
+                     background: $green;
+                }
             }
         }
     }

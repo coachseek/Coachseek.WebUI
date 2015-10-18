@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _;
 
@@ -176,8 +176,8 @@ angular.module('app.controllers', [])
                 delete keys[e.which];
             });
         }])
-        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies',
-            function ($scope, coachSeekAPIService, $http, $activityIndicator, $cookies) {
+        .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies', 'expiredLicenseModal',
+            function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $cookies, expiredLicenseModal) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
@@ -195,10 +195,15 @@ angular.module('app.controllers', [])
                             if($scope.rememberMe) $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
                             $scope.$close({user:user, business:business});
                         }, function(error){
+                            if(error.status === 403 && error.code === 'license-expired'){
+                                $scope.$dismiss();
+                                expiredLicenseModal.open();
+                            }
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({
                                 type: 'danger',
-                                message: error.statusText
+                                message: error.statusText,
+                                code: error.code
                             });
                         }).finally(function(){
                             $activityIndicator.stopAnimating();

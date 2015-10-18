@@ -7,7 +7,10 @@ angular.module('scheduling.controllers', [])
             var tempEventId,
                 currentEventCopy,
                 $currentEvent,
-                totalNumSessions;
+                totalNumSessions,
+                cachedRanges,
+                loadingRanges,
+                currentMonthLoaded; //used to not stop calendar loading when initally loading next/previous month
 
             $scope.draggableOptions = {
                 helper: function(event) {
@@ -68,28 +71,6 @@ angular.module('scheduling.controllers', [])
                     //         }
                     //     }
                     // },
-                    events: function(start, end, timezone, renderEvents){
-                        if(!showOnboarding()){
-                            var getSessionsParams = {
-                                startDate: start.format('YYYY-MM-DD'),
-                                endDate: end.format('YYYY-MM-DD'),
-                                locationId: sessionService.calendarView.locationId,
-                                coachId: sessionService.calendarView.coachId,
-                                section: 'Sessions'
-                            };
-                            startCalendarLoading();
-                            coachSeekAPIService.get(getSessionsParams)
-                                .$promise.then(function(sessionObject){
-                                    $scope.events = [];
-                                    addSessionsWithinInterval(sessionObject.sessions);
-                                    addCoursesWithinInterval(sessionObject.courses);
-                                    renderEvents($scope.events);
-                                    $scope.$broadcast('fetchSuccesful');
-                                }, $scope.handleErrors).finally(function(){
-                                    stopCalendarLoading();
-                                });
-                        }
-                    },
                     eventRender: function(event, element, view) {
                         if(view.type !== 'month'){
                             $('<div></div>', {
@@ -166,8 +147,99 @@ angular.module('scheduling.controllers', [])
                         } else if (Modernizr.touch && ev.type !== "tap") {
                             handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
+                    },
+                    waitForFetch: function(fetchNeeded, intervalStart, reportEvents){
+                        startCalendarLoading();
+                        $scope.uiConfig.calendar[fetchNeeded](intervalStart, reportEvents, 2);
+                    },
+                    getPreviousMonthEvents: function(start, reportEvents, monthsToSubtract){
+                        var previousDate = start.clone().subtract(monthsToSubtract || 1, 'M');
+                        var monthStart = previousDate.clone().startOf('month').format('YYYY-MM-DD');
+                        if(!_.includes(cachedRanges.rangesLoading, monthStart)){
+                            loadNextOrPreviousMonth(monthStart, previousDate, reportEvents).then(function(){
+                                cachedRanges.cachedRangeStart = moment(previousDate.clone().startOf('month').format('YYYY-MM-DD'));
+                            });
+                        }
+                    },
+                    getNextMonthEvents: function(start, reportEvents, monthsToAdd, a, b, c){
+                        var nextDate = start.clone().add(monthsToAdd || 1, 'M');
+                        var monthStart = nextDate.clone().startOf('month').format('YYYY-MM-DD');
+                        if(!_.includes(cachedRanges.rangesLoading, monthStart)){
+                            loadNextOrPreviousMonth(monthStart, nextDate, reportEvents).then(function(){
+                                cachedRanges.cachedRangeEnd = moment(nextDate.clone().endOf('month').format('YYYY-MM-DD'));
+                            });
+                        }
+                    },
+                    events: function(start, end, intervalStart, timezone, renderEvents, reportEvents){
+                        if(!cachedRanges) cachedRanges = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('getCachedRanges');
+                        cachedRanges.rangesLoading = [];
+                        if(!showOnboarding()){
+                            var getSessionsParams = buildGetSessionsParams(intervalStart);
+                            cachedRanges.cachedRangeStart = moment(getSessionsParams.startDate);
+                            cachedRanges.cachedRangeEnd = moment(getSessionsParams.endDate);
+                            $scope.events = [];
+                            currentMonthLoaded = false;
+
+                            startCalendarLoading();
+                            getAndRenderSessions(getSessionsParams)
+                                .then(function(){
+                                    renderEvents($scope.events);
+                                    currentMonthLoaded = true;
+                                    $scope.$broadcast('fetchSuccesful');
+                                }, $scope.handleErrors).finally(function(){
+                                    stopCalendarLoading();
+                                });
+                            $scope.uiConfig.calendar.getPreviousMonthEvents(intervalStart, reportEvents, 1);
+                            $scope.uiConfig.calendar.getNextMonthEvents(intervalStart, reportEvents, 1);
+                        }
                     }
                 }
+            };
+
+            function loadNextOrPreviousMonth(monthStart, date, reportEvents){
+                var getSessionsParams = buildGetSessionsParams(date);
+                cachedRanges.rangesLoading.push(monthStart);
+                return getAndRenderSessions(getSessionsParams)
+                    .then(function(){
+                        reportEvents($scope.events);
+                        _.remove(cachedRanges.rangesLoading, function(value){return value === monthStart});
+                    }, $scope.handleErrors).finally(function(){
+                        if(currentMonthLoaded) stopCalendarLoading();
+                    });
+            }
+
+            function buildGetSessionsParams(date){
+                return {
+                    startDate: date.clone().startOf('month').format('YYYY-MM-DD'),
+                    endDate: date.clone().endOf('month').format('YYYY-MM-DD'),
+                    locationId: sessionService.calendarView.locationId,
+                    coachId: sessionService.calendarView.coachId,
+                    section: 'Sessions'
+                };
+            };
+
+            function getAndRenderSessions(getSessionsParams){
+                return coachSeekAPIService.get(getSessionsParams)
+                    .$promise.then(function(sessionObject){
+                        addSessionsWithinInterval(sessionObject.sessions);
+                        addCoursesWithinInterval(sessionObject.courses);
+                    })
+            };
+
+            var addCoursesWithinInterval = function(courses){
+                _.forEach(courses, function(course){
+                    addSessionsWithinInterval(course.sessions, course);
+                });
+            };
+
+            var addSessionsWithinInterval = function(sessions, course){
+                _.forEach(sessions, function(session){
+                    var newDate = getNewDate(session.timing);
+                    var calendarEvent = buildCalendarEvent(newDate, session, course);
+                    if(!_.find($scope.events, function(event){return event.session.id === session.id})){
+                        $scope.events.push(calendarEvent);
+                    }
+                });
             };
 
             var updateSessionTiming = function(session, delta, revertDate, reloadRanges){
@@ -199,7 +271,6 @@ angular.module('scheduling.controllers', [])
                         html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
                     }).appendTo(element.find('.fc-content'));
                 }
-                
             };
 
             var handleWindowResize = function(viewName){
@@ -246,19 +317,6 @@ angular.module('scheduling.controllers', [])
                 });
             };
 
-            var addCoursesWithinInterval = function(courses){
-                _.forEach(courses, function(course){
-                    addSessionsWithinInterval(course.sessions, course);
-                });
-            };
-
-            var addSessionsWithinInterval = function(sessions, course){
-                _.forEach(sessions, function(session){
-                    var newDate = getNewDate(session.timing);
-                    $scope.events.push(buildCalendarEvent(newDate, session, course));
-                });
-            };
-
             var buildCalendarEvent = function(date, session, course){
                 var dateClone = date.clone();
                 var duration = session.timing.duration;
@@ -270,7 +328,9 @@ angular.module('scheduling.controllers', [])
                     tempEventId: tempEventId,
                     title: session.service.name,
                     start: moment(dateClone),
-                    end: moment(dateClone.add(duration, 'minutes')),
+                    _start: moment(dateClone),
+                    _end: moment(dateClone.clone().add(duration, 'minutes')),
+                    end: moment(dateClone.clone().add(duration, 'minutes')),
                     allDay: false,
                     className: session.presentation.colour,
                     session: session,

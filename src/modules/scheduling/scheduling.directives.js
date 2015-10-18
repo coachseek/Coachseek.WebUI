@@ -34,8 +34,7 @@ angular.module('scheduling.directives', [])
                                 studentCapacity: _.get(newService, 'booking.studentCapacity', 1),
                                 bookings: []
                             },
-                            repetition: newService.repetition,
-                            pricing: newService.pricing
+                            repetition: newService.repetition
                         });
                         _.set(scope.currentEvent, 'course.pricing.coursePrice', _.get(newService, 'pricing.coursePrice'));
                     }

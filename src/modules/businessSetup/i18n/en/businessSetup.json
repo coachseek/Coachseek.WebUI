@@ -33,8 +33,10 @@
     },
     "business-details": {
         "name": "Business Name",
+        "subdomain": "Business Subdomain",
         "placeholder": {
-            "name": "e.g. Ball So Hard University"
+            "name": "e.g. Ball So Hard University",
+            "subdomain": "e.g. ballsohard"
         }
     },
     "service-details": {
@@ -94,6 +96,10 @@
     "currency-invalid": "Oops! Looks like you need to pick a currency.",
     "sport-invalid": "Oops! Looks like you need to pick a sport.",
     "sessionCount-invalid": "Repetition count is too high for us to handle! Try a lower number.",
+    "subdomain-invalid": "Oops! Looks like your subdomain is invalid.",
+    "year-invalid": "Oops! Fix your year and try again.",
+    "month-invalid": "Oops! Fix your month and try again.",
+    "day-invalid": "Oops! Fix your day and try again.",
 
     "error": {
         "maxlength": "This is too long.",
@@ -108,7 +114,9 @@
         "repeat-selector-max": {
             "w": "__count__ weeks max",
             "d": "__count__ days max"
-        }
+        },
+        "max-day" : "Oops! Please choose a day within this month.",
+        "max-year" : "Oops! Please choose a year in the past. You can't be born before today."
     },
     
     "name-already-exists": "Oops! It looks like somebody already has that name. Try again.",

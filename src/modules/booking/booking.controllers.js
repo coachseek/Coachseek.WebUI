@@ -242,9 +242,10 @@ angular.module('booking.controllers', [])
             view = $compile(markup)($scope),
             businessCopy = angular.copy(sessionService.business);
 
+        $scope.business = angular.copy(sessionService.business);
+        $scope.business.payment.paymentProvider = "PayPal";
+
         $scope.saved = true;
-        sessionService.business.payment.paymentProvider = "PayPal"
-        $scope.business = sessionService.business;
 
         $scope.getSaveButtonState = function(){
             if($scope.AILoading){
@@ -277,6 +278,7 @@ angular.module('booking.controllers', [])
             $activityIndicator.startAnimating();
             coachSeekAPIService.save({section: "Business"}, $scope.business).$promise
                 .then(function(){
+                    sessionService.business = $scope.business;
                     businessCopy = angular.copy($scope.business);
                     $scope.saved = true;
                 }, $scope.handleErrors).finally(function(){
@@ -288,4 +290,16 @@ angular.module('booking.controllers', [])
             $scope.buttonHTML = view.get(0).outerHTML;
             $scope.$apply();
         });
+
+        $scope.shareToFacebook = function(){
+            FB.ui({
+                method: 'feed',
+                name: i18n.t("booking:booking-admin.facebook-share-name"),
+                link: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
+                picture: 'https://az789256.vo.msecnd.net/assets/'+$scope.ENV.version+'/pics/facebook-share.png',
+                caption: i18n.t("booking:booking-admin.facebook-share-caption"),
+                description: i18n.t("booking:booking-admin.facebook-share-description")
+            });
+            heap.track('Facebook Share');
+        }
     }]);
