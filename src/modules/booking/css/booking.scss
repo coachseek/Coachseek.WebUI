@@ -580,7 +580,7 @@
                         }
                     }
                     .button-container .pay-later{
-                        background: $text-dark-grey;
+                        background: $orange;
                         color: $white;
                         border-radius: 4px;
                     }
@@ -632,11 +632,6 @@
                         right: 0px;
                         z-index: 2;
                         bottom: 25px;
-                        background: $text-dark-grey;
-
-                        &.pay-later-only{
-                           background: $text-dark-grey;
-                        }
                     }
                     &.back-button{
                         width: 46%;
