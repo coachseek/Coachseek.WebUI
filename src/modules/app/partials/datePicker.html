@@ -1,7 +1,7 @@
 <div class="form-input date-picker">
 	<label name="month">{{'birth-date' | i18next}}</label>
 
-    <select class="date-picker" name="month" ng-change="setSelectedDate()" ng-model="month" ng-options="month as ('months.' + month | i18next) for month in months" required></select>
+    <select class="date-picker" name="month" ng-change="setSelectedDate()" ng-model="month" ng-options="month as ('months.' + month | i18next) for month in months"></select>
     <select-overlay i18n-prefix="'months.'" placeholder="'month'" selected-option="month"></select-overlay>
 
     <input name="day" ng-change="setSelectedDate()" type="number" ng-model="day" placeholder="{{'businessSetup:day' | i18next}}" min="1" ng-max="maxMonthDay" />
