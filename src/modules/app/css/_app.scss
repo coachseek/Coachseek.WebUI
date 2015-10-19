@@ -278,6 +278,10 @@ button:disabled{
     color: $white;
     text-align: center;
     line-height: 20px;
+    a{
+        text-decoration: underline;
+        color: $white;
+    }
 
     &.trial-live{
         background: $orange;
