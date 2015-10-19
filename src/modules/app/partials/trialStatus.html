@@ -1,4 +1,4 @@
 <div class="trial-status" ng-class="determineTrialStatus()">
-	<span ng-i18next="[i18next]({count:trialDaysLeft})trial-status"></span> <a ng-i18next="[i18next]upgrade" target="_blank" href="http://www.coachseek.com/subscribe-paypal/"></a>
+	<span ng-i18next="[i18next]({count:trialDaysLeft}){{determineTrialStatus()}}"></span> <a ng-i18next="[i18next]upgrade" target="_blank" href="http://www.coachseek.com/subscribe-paypal/"></a>
 	<i class="fa fa-close" ng-if="trialDaysLeft > 0" ng-click="closeTrialStatus()"></i>	
 </div>

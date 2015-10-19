@@ -11,7 +11,7 @@ describe("trialStatus Directive", function(){
         $trialStatus = $testRegion.find('.trial-status');
     });
     it('should include the amount of days in the message', function(){
-        expect($trialStatus.find('span').attr('ng-i18next')).to.equal("[i18next]({count:trialDaysLeft})trial-status");
+        expect($trialStatus.find('span').attr('ng-i18next')).to.equal("[i18next]({count:trialDaysLeft})trial-live");
     });
     describe('when there are trial days left', function(){
         it('should have the `trial-live` class', function(){
@@ -33,8 +33,8 @@ describe("trialStatus Directive", function(){
         let("trialDaysLeft", function(){
             return 0;
         });
-        it('should have the `trial-expired` class', function(){
-            expect($trialStatus.hasClass('trial-expired')).to.be.true;
+        it('should have the `trial-license-expired` class', function(){
+            expect($trialStatus.hasClass('trial-license-expired')).to.be.true;
         })
         it('should NOT show the close button', function(){
             expect($trialStatus.find('i.fa-close').length).to.equal(0);
