@@ -365,6 +365,7 @@
                         select-overlay{
                             padding: 0;
                             line-height: 60px;
+                            top: 37px;
 
                             select-arrows{
                                 bottom: 10px;
@@ -614,7 +615,7 @@
                         label{
                             padding: 0 0 0px 20px;
                         }
-                        input{
+                        input, select, select-overlay{
                             height:40px;
                             padding: 10px;
                             font-size: 12px;

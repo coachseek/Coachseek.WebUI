@@ -15,5 +15,15 @@
         .create-item{
             margin-bottom: 15px;
         }
+
+        .form-input{
+            select, select-overlay{
+                height: 40px;
+                line-height: 40px;
+                select-arrows{
+                    bottom: 4px;
+                }
+            }
+        }
     }
 }
