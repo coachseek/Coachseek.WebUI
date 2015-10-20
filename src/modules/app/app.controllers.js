@@ -63,7 +63,7 @@ angular.module('app.controllers', [])
                 });
             };
 
-            var startIntercom = function(user){
+            var startIntercom = function(user, business){
                 if(window.Intercom){
                     //init Intercom new user
                     if(user.firstName && user.lastName){
@@ -79,6 +79,7 @@ angular.module('app.controllers', [])
                             app_id: "udg0papy",
                             email: user.email
                         });
+                        Intercom('update', {TotalSessions: _.get(business, 'statistics.totalNumberOfSessions')})
                     }
                 }
             };
@@ -96,7 +97,7 @@ angular.module('app.controllers', [])
                     trialDaysLeft: moment(business.authorisedUntil).diff(moment().add(15, 'd'), 'days')
                 });
                 $rootScope.setUserAuth(user.email, user.password)
-                startIntercom(user);
+                startIntercom(user, business);
                 startHeapAnalytics(user, business);
                 $rootScope.business    = sessionService.business = business;
                 $rootScope.currentUser = sessionService.user     = user;
