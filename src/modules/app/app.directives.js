@@ -148,7 +148,7 @@ angular.module('app.directives', [])
                     if(scope.trialDaysLeft > 0){
                         return "trial-live";
                     } else {
-                        return "trial-expired";
+                        return "trial-license-expired";
                     }
                 };
 

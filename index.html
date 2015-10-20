@@ -68,7 +68,7 @@
                     </li>
                  </ul>
             </div>
-            <trial-status ng-if="ENV.name === 'dev' && business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status>
+            <trial-status ng-if="business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status>
         </div>
 
         <div id="page-content-wrapper" ng-click="isCollapsed = true">
