@@ -164,11 +164,11 @@ angular.module('app.controllers', [])
                             $rootScope.addAlert({
                                 type: 'danger',
                                 message: error.statusText,
-                                code: error.code
+                                code: error.data.code
                             });
                             $cookies.remove('coachseekLogin');
 
-                            if(error.status === 403 && error.code === 'license-expired'){
+                            if(error.status === 403 && error.data.code === 'license-expired'){
                                 expiredLicenseModal.open();
                             } else {
                                 loginModal.open().then(function () {
@@ -236,7 +236,7 @@ angular.module('app.controllers', [])
                             if($scope.rememberMe) $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
                             $scope.$close({user:user, business:business});
                         }, function(error){
-                            if(error.status === 403 && error.code === 'license-expired'){
+                            if(error.status === 403 && error.data.code === 'license-expired'){
                                 $scope.$dismiss();
                                 expiredLicenseModal.open();
                             }
@@ -244,7 +244,7 @@ angular.module('app.controllers', [])
                             $scope.addAlert({
                                 type: 'danger',
                                 message: error.statusText,
-                                code: error.code
+                                code: error.data.code
                             });
                         }).finally(function(){
                             $activityIndicator.stopAnimating();
