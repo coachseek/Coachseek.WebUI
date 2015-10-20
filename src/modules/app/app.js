@@ -14,7 +14,6 @@ angular.module('app',
     'ui.router',
     'jm.i18next',
     'angularMoment',
-    'ngCordova',
 
     // coachSeekApp
     'app.controllers',
@@ -30,7 +29,7 @@ angular.module('app',
 
     // UTILITIES
     'ngActivityIndicator',
-    'ngClipboard',
+    'ngClipboard'
     'ngCordova'
 
     ]).config(['$i18nextProvider', function( $i18nextProvider ){

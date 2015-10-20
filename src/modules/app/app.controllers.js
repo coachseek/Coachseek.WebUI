@@ -95,10 +95,8 @@ angular.module('app.controllers', [])
                 document.addEventListener("deviceready", function () {
                     intercom.registerIdentifiedUser({email: user.email});
                 }, false);
-              
-                sessionService.user = user;
-                sessionService.business = business;
-                $rootScope.currentUser = sessionService.user;
+                $rootScope.business    = sessionService.business = business;
+                $rootScope.currentUser = sessionService.user     = user;
             };
 
             $rootScope.setUserAuth = function(email, password){
@@ -195,7 +193,6 @@ angular.module('app.controllers', [])
                             };
 
                             if($scope.rememberMe)  $window.localStorage.setItem('coachseekLogin', btoa(email + ':' + password));
-                            // $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
                             $scope.$close({user:user, business:business});
                         }, function(error){
                             if(error.status === 403 && error.data.code === 'license-expired'){
