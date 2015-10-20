@@ -601,6 +601,18 @@
                     .form-input{
                         width:100%;
                         margin-bottom: 20px;
+                        select-overlay{
+                            top:32px;
+                            .select-overlay{
+                                select-arrows{
+                                    bottom: 0px;
+                                }
+                                span.select-overlay-text{
+                                    position: relative;
+                                    bottom: 19px;
+                                }
+                            }
+                        }
                         &:last-child{
                             margin-bottom:45px;
                         }
