@@ -1,0 +1,43 @@
+date-picker{
+	box-sizing: border-box;
+	select.date-picker, select-overlay{
+		width: 45%;
+	}
+
+	select{
+		opacity: 0;
+		float: left;
+	}
+
+	select-overlay{
+		position: absolute;
+		left: 0px;
+		height: 32px;
+		line-height: 32px;
+		background: $white;
+		color: $dark-grey;
+		text-align: center;
+		border-radius: 5px;
+	}
+
+	input{
+		width: 25%;
+		margin-left: 2.5%;
+		text-align: center;
+		border: none;
+		float: left;
+	}
+}
+@media (max-width: 768px) {
+	date-picker{
+		select-overlay{
+			height: 40px;
+			padding-top: 4px;
+			.select-overlay{
+				select-arrows{
+					bottom: 3px;
+				}
+			}
+		}
+	}
+}

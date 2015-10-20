@@ -1,0 +1,58 @@
+.trial-expired-modal-backdrop{
+    opacity: 1 !important;
+    background: url(#{$asset-url}/pics/signup-background.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.trial-expired-container{
+	h4.oh-no{
+		color: white;
+		font-size: 24px;
+		text-align: center;
+		margin-top: 25px;
+		margin-bottom: 50px;
+	}
+
+	#pong-container{
+		height: 500px;
+		width: 100%;
+		position: relative;
+
+		#pong-container_score1, #pong-container_score2{
+			display: none;
+		}
+
+		#pong-container_ball{
+	        background: url(#{$asset-url}/pics/logo-wordless-white.png) no-repeat center/20px 20px !important;
+		}
+
+		.pay-here{
+			position: absolute;
+			height: 480px;
+			width: 100%;
+			background: rgba(0,0,0,0.4);
+			z-index: 10;
+
+			.coachseek-logo-white{
+				margin-bottom: 0px;
+				height: 150px;
+				width: 150px;
+			}
+			.go-pay{
+				color: $white;
+				text-align: center;
+				font-size: 18px;
+				p{
+					margin-bottom: 15px;
+				}
+				a{
+					color: $green;
+					font-size: 30px;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
+}

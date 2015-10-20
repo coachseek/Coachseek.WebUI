@@ -22,6 +22,14 @@ describe('selectOverlay directive', function(){
             expect($selectOverlayText).to.equal('[i18next]' + scope.prefix + this.selectedOption);
         });
     });
+    describe('when there is a placeholder and a selected option is 0', function(){
+        let('selectedOption', function(){
+            return 0;
+        });
+        it('should show the selected option', function(){
+            expect($selectOverlayText).to.equal('[i18next]' + scope.prefix + this.selectedOption);
+        });
+    });
     describe('when there is a placeholder and and option has NOT been selected', function(){
         let('selectedOption', function(){
             return undefined;

@@ -20,6 +20,61 @@ angular.module('app.services', [])
             }
         };
     }])
+    .service('getLocationBasedCurrency', function(){
+        var self = this;
+        this.locationCurrency = 'USD';
+
+        $.getJSON('https://freegeoip.net/json/').done(function(location){
+            self.locationCurrency = getCurrencyByLocation(location.country_code);
+        });
+
+        function getCurrencyByLocation(countryCode){
+            switch (countryCode) {
+                case 'NZ': //New Zealand
+                    return 'NZD';
+                    break;
+                case 'AU': //Australia
+                    return 'AUD';
+                    break;
+                case 'AT': //Austria
+                case 'BE': //Belgium
+                case 'CY': //Cyprus
+                case 'EE': //Estonia
+                case 'FI': //Finland
+                case 'FR': //France
+                case 'DE': //Germany
+                case 'GR': //Greece
+                case 'IE': //Ireland
+                case 'IT': //Italy
+                case 'LV': //Latvia
+                case 'LT': //Lithuania
+                case 'LU': //Luxembourg
+                case 'MT': //Malta
+                case 'NL': //Netherlands
+                case 'PT': //Portugal
+                case 'SK': //Slovakia
+                case 'SI': //Slovenia
+                case 'ES': //Spain
+                    return 'EUR';
+                    break;
+                case 'GB': //United Kingdom
+                    return 'GBP';
+                    break;
+                case 'SE': //Sweden
+                    return 'SEK';
+                    break;
+                case 'ZA': //South Africa
+                    return 'ZAR';
+                    break;
+                case 'US': //United States
+                    return 'USD';
+                    break;
+                default:
+                    return 'USD';
+                    break;
+            }
+        }
+    })
     .service('CRUDService', ['coachSeekAPIService', '$activityIndicator',
         function(coachSeekAPIService, $activityIndicator){
 
@@ -125,6 +180,19 @@ angular.module('app.services', [])
             }
         }
     ])
+    .service('expiredLicenseModal', ['$modal', function($modal){
+        return {
+            open: function() {
+                $modal.open({
+                    templateUrl: 'app/partials/expiredLicenseModal.html',
+                    windowClass: 'trial-expired-modal-backdrop',
+                    backdrop: 'static',
+                    keyboard: false,
+                    animation: false
+                });
+            }
+        }
+    }])
     .service('sessionService', function(){
         var isBigScreen = $(window).width() > 768;
         return {

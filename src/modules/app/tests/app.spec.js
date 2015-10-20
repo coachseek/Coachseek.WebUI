@@ -159,12 +159,14 @@ describe('App Module', function() {
                 return {$promise: deferred.promise};
             });
 
-            var $loginModal, $stateStub,loginStub, self, $cookies;
+            var $loginModal, $stateStub,loginStub, self, $cookies, expiredLicenseModalStub;
             beforeEach(function(){
                 $cookies = $injector.get('$cookies');
                 self = this;
                 self.loginPromise = this.loginPromise;
                 var coachSeekAPIService = $injector.get('coachSeekAPIService');
+
+                expiredLicenseModalStub = this.sinon.stub($injector.get('expiredLicenseModal'), 'open');
 
                 loginStub = this.sinon.stub(coachSeekAPIService, 'get', function(){
                     return self.loginPromise
@@ -211,7 +213,7 @@ describe('App Module', function() {
                 describe('when the login is unsuccessful', function(){
                     let('loginPromise', function(){
                         var deferred = $q.defer();
-                        deferred.reject({statusText: "error-message"});
+                        deferred.reject({data: {code: "error-message"}, statusText: "error-message"});
                         return {$promise: deferred.promise};
                     });
 
@@ -222,6 +224,16 @@ describe('App Module', function() {
                     it('should add an alert', function(){
                         expect($rootScope.alerts[0].type).to.equal('danger');
                         expect($rootScope.alerts[0].message).to.equal('error-message');
+                    });
+                });
+                describe('when the users licencse has expired', function(){
+                    let('loginPromise', function(){
+                        var deferred = $q.defer();
+                        deferred.reject({data: {code: 'license-expired'}, status: 403});
+                        return {$promise: deferred.promise};
+                    });
+                    it('should attempt to open expired licencse modal', function(){
+                        expect(expiredLicenseModalStub).to.be.calledOnce;
                     });
                 });
             });
@@ -289,7 +301,7 @@ describe('App Module', function() {
                     describe('when the login is unsuccessful', function(){
                         let('loginPromise', function(){
                             var deferred = $q.defer();
-                            deferred.reject({statusText: "error-message"});
+                            deferred.reject({data: {code: 'license-expired'},statusText: "error-message"});
                             return {$promise: deferred.promise};
                         });
 
@@ -300,6 +312,16 @@ describe('App Module', function() {
                         it('should add an alert', function(){
                             expect($rootScope.alerts[0].type).to.equal('danger');
                             expect($rootScope.alerts[0].message).to.equal('error-message');
+                        });
+                    });
+                    describe('when the users licencse has expired', function(){
+                        let('loginPromise', function(){
+                            var deferred = $q.defer();
+                            deferred.reject({data: {code: 'license-expired'}, status: 403});
+                            return {$promise: deferred.promise};
+                        });
+                        it('should attempt to open expired licencse modal', function(){
+                            expect(expiredLicenseModalStub).to.be.calledOnce;
                         });
                     });
                 });

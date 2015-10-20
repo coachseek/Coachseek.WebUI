@@ -1,0 +1,17 @@
+<div class="form-input date-picker">
+	<label name="month">{{'birth-date' | i18next}}</label>
+
+    <select class="date-picker" name="month" ng-change="setSelectedDate()" ng-model="month" ng-options="month as ('months.' + month | i18next) for month in months"></select>
+    <select-overlay i18n-prefix="'months.'" placeholder="'month'" selected-option="month"></select-overlay>
+
+    <input name="day" ng-change="setSelectedDate()" type="number" ng-model="day" placeholder="{{'businessSetup:day' | i18next}}" min="1" ng-max="maxMonthDay" />
+
+    <input name="year" ng-change="setSelectedDate()" type="number" ng-model="year" placeholder="{{'businessSetup:year' | i18next}}" min="1875" ng-max="getMaxBirthYear()" />
+
+	<div class="error-messages" ng-messages="form.day.$error" ng-if="form.day.$touched">
+	    <div ng-message="max">{{'businessSetup:error.max-day' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+	</div>
+	<div class="error-messages" ng-messages="form.year.$error" ng-if="form.year.$touched">
+	    <div ng-message="max">{{'businessSetup:error.max-year' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+	</div>
+</div>

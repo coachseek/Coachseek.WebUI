@@ -1,9 +1,7 @@
 describe('BusinessSetup Register', function(){
     let('business', function(){
         return {
-            name: "West Coast Toast",
-            sport: "tiddlywinks",
-            currency: "USD"
+            name: "West Coast Toast"
         }
     });
 
@@ -30,6 +28,10 @@ describe('BusinessSetup Register', function(){
         return deferred.promise;
     });
 
+    let('location', function(){
+        return {country_code: null};
+    });
+
     var coachSeekAPIService,
         scope,
         templateUrl = 'businessSetup/partials/businessRegistrationView.html';
@@ -41,6 +43,10 @@ describe('BusinessSetup Register', function(){
         scope = $rootScope.$new();
         saveBusinessStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
             return {$promise: self.savepromise};
+        });
+
+        this.sinon.stub($, 'getJSON', function(){
+            return {done: self.sinon.stub().callsArgWith(0, self.location)};
         });
 
         createViewWithController(scope, templateUrl, 'businessRegistrationCtrl');
@@ -62,6 +68,93 @@ describe('BusinessSetup Register', function(){
             it('should attempt to save the new business', function(){
                 expect(saveBusinessStub).to.be.calledWith({section: 'businessRegistration'}, {admin: this.admin, business: this.business})
             });
+            describe('when the country is not found or null', function(){
+                it('should set the currency to USD', function(){
+                    expect(this.business.currency).to.equal('USD');
+                });
+            });
+            describe('when the country is New Zealand', function(){
+                let('location', function(){
+                    return {country_code: 'NZ'};
+                });
+
+                it('should set the currency to NZD', function(){
+                    expect(this.business.currency).to.equal('NZD');
+                });
+            });
+            describe('when the country is Australia', function(){
+                let('location', function(){
+                    return {country_code: 'AU'};
+                });
+
+                it('should set the currency to AUD', function(){
+                    expect(this.business.currency).to.equal('AUD');
+                });
+            });
+
+            var EUCountries = ['AT','BE','CY','EE','FI','FR','DE','GR','IE','IT','LV','LT','LU','MT','NL','PT','SK','SI', 'ES'];
+            _.each(EUCountries, function(country){
+                describe('when the country is in the EU (' + country + ')', function(){
+                    let('location', function(){
+                        return {country_code: country};
+                    });
+
+                    it('should set the currency to EUR', function(){
+                        expect(this.business.currency).to.equal('EUR');
+                    });
+                });
+            });
+
+            describe('when the country is Great Britain', function(){
+                let('location', function(){
+                    return {country_code: 'GB'};
+                });
+
+                it('should set the currency to GBP', function(){
+                    expect(this.business.currency).to.equal('GBP');
+                });
+            });
+
+            describe('when the country is Sweden', function(){
+                let('location', function(){
+                    return {country_code: 'SE'};
+                });
+
+                it('should set the currency to SEK', function(){
+                    expect(this.business.currency).to.equal('SEK');
+                });
+            });
+
+            describe('when the country is South Africa', function(){
+                let('location', function(){
+                    return {country_code: 'ZA'};
+                });
+
+                it('should set the currency to ZAR', function(){
+                    expect(this.business.currency).to.equal('ZAR');
+                });
+            });
+
+            describe('when the country is United States', function(){
+                let('location', function(){
+                    return {country_code: 'US'};
+                });
+
+                it('should set the currency to USD', function(){
+                    expect(this.business.currency).to.equal('USD');
+                });
+            });
+
+            describe('when the country is not a country', function(){
+                let('location', function(){
+                    return {country_code: 'BOOBS'};
+                });
+
+                it('should set the currency to USD', function(){
+                    expect(this.business.currency).to.equal('USD');
+                });
+            });
+
             describe('and the save is successful', function(){
                 it('attempt to set up current user', function(){
                     expect(setupCurrentUserSpy).to.be.calledWith({

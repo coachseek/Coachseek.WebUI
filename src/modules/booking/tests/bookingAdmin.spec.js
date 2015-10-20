@@ -38,6 +38,23 @@ describe('Booking Admin Page', function(){
         $timeout.flush();
         expect($testRegion.find('.booking-button-html').val()).to.contain(this.business.domain + '.testing');
     });
+    describe('when clicking on the FB share button', function(){
+        var facebookShareStub;
+        beforeEach(function(){
+            facebookShareStub = this.sinon.stub(FB, 'ui');
+            $testRegion.find('.booking-admin-facebook-btn').trigger('click');
+        });
+        it('should attemp to try to share to facebook through the facebook SDK', function(){
+            expect(facebookShareStub).to.be.calledWith({
+                method: 'feed',
+                name: i18n.t("booking:booking-admin.facebook-share-name"),
+                link: 'https://'+scope.business.domain +(scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
+                picture: 'https://az789256.vo.msecnd.net/assets/'+scope.ENV.version+'/pics/facebook-share.png',
+                caption: i18n.t("booking:booking-admin.facebook-share-caption"),
+                description: i18n.t("booking:booking-admin.facebook-share-description")
+            })
+        })
+    });
     describe('when clicking on the payments tab', function(){
         var saveStub;
         beforeEach(function(){
@@ -91,7 +108,7 @@ describe('Booking Admin Page', function(){
                             $testRegion.find('.save-button').trigger('click');
                         });
                         it('should make a save call to the API', function(){
-                            expect(saveStub).to.be.calledWith({section: "Business"}, this.business)
+                            expect(saveStub).to.be.calledWith({section: "Business"}, $injector.get('sessionService').business)
                         });
                         it('should set the saved button to a `Saved` state', function(){
                             expect($testRegion.find('.save-button .save-text').attr('ng-i18next')).to.equal('saved');
@@ -151,7 +168,7 @@ describe('Booking Admin Page', function(){
                 });
                 describe('autosave behavior', function(){
                     it('should make a save call to the API', function(){
-                        expect(saveStub).to.be.calledWith({section: "Business"}, this.business)
+                        expect(saveStub).to.be.calledWith({section: "Business"}, $injector.get('sessionService').business)
                     });
                     describe('while autosaving', function(){
                         let('savePromise', function(){

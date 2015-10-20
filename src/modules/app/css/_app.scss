@@ -217,7 +217,6 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 input[type=password]{
-    font-family: FontAwesome;
     font-size: 12px;
     letter-spacing: 2px;
 }
@@ -281,12 +280,16 @@ button:disabled{
     color: $white;
     text-align: center;
     line-height: 20px;
+    a{
+        text-decoration: underline;
+        color: $white;
+    }
 
     &.trial-live{
         background: $orange;
     }
 
-    &.trial-expired{
+    &.trial-license-expired{
         background: $red;
     }
 
@@ -433,7 +436,8 @@ select-arrows{
     }
 
     #wrapper.toggled #page-content-wrapper {
-            position: absolute;
+            // position: absolute; //funky in safari
+            position: fixed;
             margin-right: -140px;
     }
 

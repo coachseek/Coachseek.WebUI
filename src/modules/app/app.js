@@ -54,8 +54,8 @@ angular.module('app',
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }])
-    .run(['$rootScope', '$state', '$stateParams',
-        function($rootScope, $state, $stateParams){
+    .run(['$rootScope', '$state', '$stateParams','$window',
+        function($rootScope, $state, $stateParams,$window){
             FastClick.attach(document.body);
 
             $rootScope.$state = $state;

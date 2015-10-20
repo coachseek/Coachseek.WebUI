@@ -17,7 +17,8 @@ module.exports = function(grunt) {
                         name: 'dev',
                         defaultSubdomain: 'app-testing',
                         apiURL: 'https://api-testing.coachseek.com',
-                        paypalURL: 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+                        paypalURL: 'https://www.sandbox.paypal.com/cgi-bin/webscr',
+                        version : '<%= pkg.version %>'
                     }
                 }
             },
@@ -44,7 +45,8 @@ module.exports = function(grunt) {
                             'mattwilliamson94@hotmail.com',
                             'samyin1990@hotmail.com',
                             'josh+msports@coachseek.com'
-                        ]
+                        ],
+                        version : '<%= pkg.version %>'
                     }
                 }
             }
@@ -412,6 +414,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('blob-testing', [
         'env:configCDN',
-        'azure-blob:testing'
+        'azure-blob:testing',
+        'azure-blob:images'
     ]);
 };
