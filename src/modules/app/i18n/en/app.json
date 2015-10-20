@@ -86,8 +86,9 @@
         "yoga-pilates": "Yoga/Pilates",
         "other": "Other"
     },
-    "trial-status" : "You have __count__ day left on your trial.",
-    "trial-status_plural" : "You have __count__ days left on your trial.",
+    "trial-live" : "You have __count__ day left on your trial.",
+    "trial-live_plural" : "You have __count__ days left on your trial.",
+    "trial-license-expired": "Oops! Looks like your license has expired.",
     "trial-expired" : {
         "oh-no": "Oh snap! Looks like your license has expired.",
         "lost": "And it looks like you lost at pong.",
@@ -97,7 +98,8 @@
         "contact-us" : "Contact us",
         "continue-using": "if you'd like to continue using Coachseek."
     },
-    "birth-date": "Date of Birth:",
+    "upgrade":"Upgrade your account now.",
+    "birth-date": "Date of Birth (if under 18):",
     "month": "Month",
     "day": "Day",
     "year": "Year",

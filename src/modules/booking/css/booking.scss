@@ -365,6 +365,7 @@
                         select-overlay{
                             padding: 0;
                             line-height: 60px;
+                            top: 37px;
 
                             select-arrows{
                                 bottom: 10px;
@@ -580,7 +581,7 @@
                         }
                     }
                     .button-container .pay-later{
-                        background: $text-dark-grey;
+                        background: $orange;
                         color: $white;
                         border-radius: 4px;
                     }
@@ -614,7 +615,7 @@
                         label{
                             padding: 0 0 0px 20px;
                         }
-                        input{
+                        input, select, select-overlay{
                             height:40px;
                             padding: 10px;
                             font-size: 12px;
@@ -632,11 +633,6 @@
                         right: 0px;
                         z-index: 2;
                         bottom: 25px;
-                        background: $text-dark-grey;
-
-                        &.pay-later-only{
-                           background: $text-dark-grey;
-                        }
                     }
                     &.back-button{
                         width: 46%;

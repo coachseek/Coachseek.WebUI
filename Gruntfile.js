@@ -414,6 +414,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask('blob-testing', [
         'env:configCDN',
-        'azure-blob:testing'
+        'azure-blob:testing',
+        'azure-blob:images'
     ]);
 };

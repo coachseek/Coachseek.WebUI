@@ -213,7 +213,7 @@ describe('App Module', function() {
                 describe('when the login is unsuccessful', function(){
                     let('loginPromise', function(){
                         var deferred = $q.defer();
-                        deferred.reject({statusText: "error-message"});
+                        deferred.reject({data: {code: "error-message"}, statusText: "error-message"});
                         return {$promise: deferred.promise};
                     });
 
@@ -229,7 +229,7 @@ describe('App Module', function() {
                 describe('when the users licencse has expired', function(){
                     let('loginPromise', function(){
                         var deferred = $q.defer();
-                        deferred.reject({data: "", status: 403, code: 'license-expired'});
+                        deferred.reject({data: {code: 'license-expired'}, status: 403});
                         return {$promise: deferred.promise};
                     });
                     it('should attempt to open expired licencse modal', function(){
@@ -301,7 +301,7 @@ describe('App Module', function() {
                     describe('when the login is unsuccessful', function(){
                         let('loginPromise', function(){
                             var deferred = $q.defer();
-                            deferred.reject({statusText: "error-message"});
+                            deferred.reject({data: {code: 'license-expired'},statusText: "error-message"});
                             return {$promise: deferred.promise};
                         });
 
@@ -317,7 +317,7 @@ describe('App Module', function() {
                     describe('when the users licencse has expired', function(){
                         let('loginPromise', function(){
                             var deferred = $q.defer();
-                            deferred.reject({data: "", status: 403, code: 'license-expired'});
+                            deferred.reject({data: {code: 'license-expired'}, status: 403});
                             return {$promise: deferred.promise};
                         });
                         it('should attempt to open expired licencse modal', function(){
