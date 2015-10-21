@@ -14,9 +14,9 @@
     </div>
     <h2>{{'booking:confirmation.total' | i18next}}&nbsp;<span ng-i18next="denominations.{{business.payment.currency}}"></span>{{currentBooking.totalPrice || calculateTotalPrice()}}&nbsp;{{business.payment.currency}}</h2>
     <div ng-show="bookingConfirmed" class="booking-confirmed">
-        <span ng-switch="business.subdomain">
+        <span ng-switch="business.id">
             <p ng-switch-default ng-i18next="booking:confirmation.{{paidWithPaypal ? 'paypal-paid' : 'pay-later'}}"></p>
-            <span ng-switch-when="msports1">
+            <span ng-switch-when="6ed632c5-5ea1-49b5-8702-4ae072f22e0c">
                 <p class="m-sports">{{'booking:msports.cash-or-check' | i18next}}</p>
                 <p class="m-sports">{{'booking:msports.internet-banking' | i18next}}</p>
                 <p class="m-sports indent">{{'booking:msports.north-shore-schools' | i18next}}</p>
@@ -30,9 +30,9 @@
     </div>
     <div class="button-container" ng-hide="processingBooking || redirectingToPaypal || bookingConfirmed">
         <paypal-payment-button ng-show="business.payment.isOnlinePaymentEnabled"></paypal-payment-button>
-        <span ng-switch="business.subdomain">
+        <span ng-switch="business.id">
             <button ng-switch-default class="pay-later" ng-class="{'pay-later-only': !business.payment.isOnlinePaymentEnabled}" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.confirm-pay-later' | i18next}}</button>
-            <button ng-switch-when="msports1" class="pay-later orange" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.further-payment-options' | i18next}}</button>
+            <button ng-switch-when="6ed632c5-5ea1-49b5-8702-4ae072f22e0c" class="pay-later orange" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.further-payment-options' | i18next}}</button>
         </span>
         <button class="back-button" ui-sref="booking.details">{{'booking:confirmation.change-booking' | i18next}}</button>
     </div>
