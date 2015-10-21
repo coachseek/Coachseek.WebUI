@@ -56,3 +56,11 @@
 		}
 	}
 }
+@media(max-width: 768px){
+	.trial-status{
+		height: 40px;
+		span{
+			display: inherit;
+		}
+	}
+}
