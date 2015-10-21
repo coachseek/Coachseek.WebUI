@@ -425,7 +425,7 @@
                         border:none;
                         color: $orange;
 
-                        &.pay-later-only{
+                        &.pay-later-only, &.orange{
                             @extend %orange-button; 
                         }
                     }
@@ -468,6 +468,15 @@
                         width: auto;
                         margin-top: 25px;
                         float: none;
+                    }
+
+                    .m-sports{
+                        text-align: left;
+                        font-size: 16px;
+
+                        &.indent{
+                            padding-left: 30px;
+                        }
                     }
                 }
             }
