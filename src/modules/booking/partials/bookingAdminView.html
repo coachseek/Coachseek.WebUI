@@ -5,8 +5,9 @@
 <div class="booking-admin-container" ng-switch="activeTab">    
     <hr class="double-wide">
     <div class="booking-admin-onlinebooking" ng-switch-when="onlineBooking">
-     <!--    <label>{{'booking:booking-admin.address' | i18next}}</label>
-        <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain}}.coachseek.com">
+    
+       <label>{{'booking:booking-admin.notavailable' | i18next}}</label>
+       <!--   <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain}}.coachseek.com">
         <a  class="booking-preview-button"
             ng-href="https://{{business.domain + (ENV.name === 'dev' ? '.testing' : '')}}.coachseek.com"
             target="_blank">
@@ -21,7 +22,7 @@
     </div>
     <div class="booking-admin-payments" ng-switch-when="payments">
       <label for=""> {{'booking:booking-admin.notavailable' | i18next}}</label>
-<!--         <div class="toggle-switch-container enable-payment">
+       <div class="toggle-switch-container enable-payment">
             {{'booking:toggle-online-payment' | i18next}}
             <toggle-switch ng-disabled="AILoading"
                 property="business.payment.isOnlinePaymentEnabled"
