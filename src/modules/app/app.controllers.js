@@ -176,8 +176,8 @@ angular.module('app.controllers', [])
                 delete keys[e.which];
             });
         }])
-        .controller('loginModalCtrl', ['$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies','$window',
-            function ($scope, coachSeekAPIService, $http, $activityIndicator, $cookies, $window) {
+        .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies', 'expiredLicenseModal','$window',
+            function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $cookies, expiredLicenseModal,$window) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
@@ -198,6 +198,7 @@ angular.module('app.controllers', [])
                             if(error.status === 403 && error.data.code === 'license-expired'){
                                 $scope.$dismiss();
                                 expiredLicenseModal.open();
+                                heap.track('Show Expired License Modal');
                             }
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({
