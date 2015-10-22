@@ -14,12 +14,26 @@
     </div>
     <h2>{{'booking:confirmation.total' | i18next}}&nbsp;<span ng-i18next="denominations.{{business.payment.currency}}"></span>{{currentBooking.totalPrice || calculateTotalPrice()}}&nbsp;{{business.payment.currency}}</h2>
     <div ng-show="bookingConfirmed" class="booking-confirmed">
-        <p ng-i18next="booking:confirmation.{{paidWithPaypal ? 'paypal-paid' : 'pay-later'}}"></p>
+        <span ng-switch="business.id">
+            <p ng-switch-default ng-i18next="booking:confirmation.{{paidWithPaypal ? 'paypal-paid' : 'pay-later'}}"></p>
+            <span ng-switch-when="6ed632c5-5ea1-49b5-8702-4ae072f22e0c">
+                <p class="m-sports">{{'booking:msports.cash-or-check' | i18next}}</p>
+                <p class="m-sports">{{'booking:msports.internet-banking' | i18next}}</p>
+                <p class="m-sports indent">{{'booking:msports.north-shore-schools' | i18next}}</p>
+                <p class="m-sports indent">{{'booking:msports.auckland-schools' | i18next}}</p>
+                <p class="m-sports indent"><em>{{'booking:msports.reference' | i18next}}</em></p>
+                <br/>
+                <p class="m-sports">{{'booking:msports.issues' | i18next}}</p>
+            </span>
+        </span>
         <button class="continue-button" ng-click="resetBookings()">{{'booking:confirmation.reset-bookings' | i18next}}</button>
     </div>
     <div class="button-container" ng-hide="processingBooking || redirectingToPaypal || bookingConfirmed">
         <paypal-payment-button ng-show="business.payment.isOnlinePaymentEnabled"></paypal-payment-button>
-        <button class="pay-later" ng-class="{'pay-later-only': !business.payment.isOnlinePaymentEnabled}" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.confirm-pay-later' | i18next}}</button>
+        <span ng-switch="business.id">
+            <button ng-switch-default class="pay-later" ng-class="{'pay-later-only': !business.payment.isOnlinePaymentEnabled}" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.confirm-pay-later' | i18next}}</button>
+            <button ng-switch-when="6ed632c5-5ea1-49b5-8702-4ae072f22e0c" class="pay-later orange" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.further-payment-options' | i18next}}</button>
+        </span>
         <button class="back-button" ui-sref="booking.details">{{'booking:confirmation.change-booking' | i18next}}</button>
     </div>
     <div class="loading-messages" ng-show="processingBooking || redirectingToPaypal">

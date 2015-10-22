@@ -3,7 +3,7 @@ angular.module('app.controllers', [])
     .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal',
         function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal) {
             // TODO - add ability to remove alerts by view
-            $rootScope._ = _;
+            $rootScope._ = _; //allow lodash.js to be used in angular partials
 
             $rootScope.addAlert = function(alert){
 
@@ -195,15 +195,16 @@ angular.module('app.controllers', [])
                             if($scope.rememberMe) $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
                             $scope.$close({user:user, business:business});
                         }, function(error){
-                            if(error.status === 403 && error.code === 'license-expired'){
+                            if(error.status === 403 && error.data.code === 'license-expired'){
                                 $scope.$dismiss();
                                 expiredLicenseModal.open();
+                                heap.track('Show Expired License Modal');
                             }
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({
                                 type: 'danger',
                                 message: error.statusText,
-                                code: error.code
+                                code: error.data.code
                             });
                         }).finally(function(){
                             $activityIndicator.stopAnimating();
