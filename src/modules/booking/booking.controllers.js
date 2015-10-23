@@ -59,7 +59,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.isBefore = function(session){
-            return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
+            return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(3, 'h'));
         };
     }])
     .controller('bookingSelectionCtrl', ['$scope', 'anonCoachseekAPIFactory', 'currentBooking',
