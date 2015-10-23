@@ -329,7 +329,6 @@ angular.module('scheduling.controllers', [])
                     title: session.service.name,
                     start: moment(dateClone),
                     _start: moment(dateClone),
-                    _end: moment(dateClone.clone().add(duration, 'minutes')),
                     end: moment(dateClone.clone().add(duration, 'minutes')),
                     allDay: false,
                     className: session.presentation.colour,
