@@ -7,10 +7,7 @@ angular.module('scheduling.controllers', [])
             var tempEventId,
                 currentEventCopy,
                 $currentEvent,
-                totalNumSessions,
-                cachedRanges,
-                loadingRanges,
-                currentMonthLoaded; //used to not stop calendar loading when initally loading next/previous month
+                totalNumSessions;
 
             $scope.draggableOptions = {
                 helper: function(event) {
@@ -71,6 +68,28 @@ angular.module('scheduling.controllers', [])
                     //         }
                     //     }
                     // },
+                    events: function(start, end, timezone, renderEvents){
+                        if(!showOnboarding()){
+                            var getSessionsParams = {
+                                startDate: start.format('YYYY-MM-DD'),
+                                endDate: end.format('YYYY-MM-DD'),
+                                locationId: sessionService.calendarView.locationId,
+                                coachId: sessionService.calendarView.coachId,
+                                section: 'Sessions'
+                            };
+                            startCalendarLoading();
+                            coachSeekAPIService.get(getSessionsParams)
+                                .$promise.then(function(sessionObject){
+                                    $scope.events = [];
+                                    addSessionsWithinInterval(sessionObject.sessions);
+                                    addCoursesWithinInterval(sessionObject.courses);
+                                    renderEvents($scope.events);
+                                    $scope.$broadcast('fetchSuccesful');
+                                }, $scope.handleErrors).finally(function(){
+                                    stopCalendarLoading();
+                                });
+                        }
+                    },
                     eventRender: function(event, element, view) {
                         if(view.type !== 'month'){
                             $('<div></div>', {
@@ -147,107 +166,8 @@ angular.module('scheduling.controllers', [])
                         } else if (Modernizr.touch && ev.type !== "tap") {
                             handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
-                    },
-                    waitForFetch: function(fetchNeeded){
-                        //TODO - if waiting get next now
-                        startCalendarLoading();
-                    },
-                    getPreviousMonthEvents: function(start, reportEvents){
-                        var previousDate = start.clone().subtract(1, 'M');
-                        var cachedRange = moment.range(cachedRanges.cachedRangeStart, cachedRanges.cachedRangeEnd);
-                        if(cachedRange.contains(previousDate)) previousDate.subtract(1, 'M');
-
-                        var monthStart = previousDate.clone().startOf('month').format('YYYY-MM-DD');
-                        if(!_.includes(cachedRanges.rangesLoading, monthStart)){
-                            var getSessionsParams = buildGetSessionsParams(previousDate);
-                            cachedRanges.rangesLoading.push(monthStart);
-                            getAndRenderSessions(getSessionsParams)
-                                .then(function(){
-                                    reportEvents($scope.events);
-                                    cachedRanges.cachedRangeStart = moment(previousDate.clone().startOf('month').format('YYYY-MM-DD'));
-                                    _.remove(cachedRanges.rangesLoading, function(value){return value === monthStart});
-                                }, $scope.handleErrors).finally(function(){
-                                    if(currentMonthLoaded) stopCalendarLoading();
-                                });
-                        }
-                    },
-                    getNextMonthEvents: function(start, reportEvents){
-                        var nextDate = start.clone().add(1, 'M');
-                        //if month is already loaded load next month
-                        var cachedRange = moment.range(cachedRanges.cachedRangeStart, cachedRanges.cachedRangeEnd);
-                        if(cachedRange.contains(nextDate)) nextDate.add(1, 'M');
-
-                        var monthStart = nextDate.clone().startOf('month').format('YYYY-MM-DD');
-                        if(!_.includes(cachedRanges.rangesLoading, monthStart)){
-                            var getSessionsParams = buildGetSessionsParams(nextDate);
-                            cachedRanges.rangesLoading.push(monthStart);
-                            getAndRenderSessions(getSessionsParams)
-                                .then(function(){
-                                    reportEvents($scope.events);
-                                    cachedRanges.cachedRangeEnd = moment(nextDate.clone().endOf('month').format('YYYY-MM-DD'));
-                                    _.remove(cachedRanges.rangesLoading, function(value){return value === monthStart});
-                                }, $scope.handleErrors).finally(function(){
-                                    if(currentMonthLoaded) stopCalendarLoading();
-                                });
-                        }
-                    },
-                    events: function(start, end, timezone, renderEvents, reportEvents){
-                        if(!cachedRanges) cachedRanges = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('getCachedRanges');
-                        cachedRanges.rangesLoading = [];
-                        if(!showOnboarding()){
-                            var getSessionsParams = buildGetSessionsParams(start);
-                            cachedRanges.cachedRangeStart = moment(getSessionsParams.startDate);
-                            cachedRanges.cachedRangeEnd = moment(getSessionsParams.endDate);
-                            $scope.events = [];
-                            currentMonthLoaded = false;
-                            startCalendarLoading();
-                            getAndRenderSessions(getSessionsParams)
-                                .then(function(){
-                                    renderEvents($scope.events);
-                                    currentMonthLoaded = true;
-                                    $scope.$broadcast('fetchSuccesful');
-                                }, $scope.handleErrors).finally(function(){
-                                    stopCalendarLoading();
-                                });
-                            $scope.uiConfig.calendar.getPreviousMonthEvents(start, reportEvents);
-                            $scope.uiConfig.calendar.getNextMonthEvents(start, reportEvents);
-                        }
                     }
                 }
-            };
-
-            function buildGetSessionsParams(date){
-                return {
-                    startDate: date.clone().startOf('month').format('YYYY-MM-DD'),
-                    endDate: date.clone().endOf('month').format('YYYY-MM-DD'),
-                    locationId: sessionService.calendarView.locationId,
-                    coachId: sessionService.calendarView.coachId,
-                    section: 'Sessions'
-                };
-            };
-
-            function getAndRenderSessions(getSessionsParams){
-                return coachSeekAPIService.get(getSessionsParams)
-                    .$promise.then(function(sessionObject){
-                        addSessionsWithinInterval(sessionObject.sessions);
-                        addCoursesWithinInterval(sessionObject.courses);
-                    })
-            };
-
-            var addCoursesWithinInterval = function(courses){
-                _.forEach(courses, function(course){
-                    addSessionsWithinInterval(course.sessions, course);
-                });
-            };
-
-            var addSessionsWithinInterval = function(sessions, course){
-                _.forEach(sessions, function(session){
-                    var newDate = getNewDate(session.timing);
-                    var calendarEvent = buildCalendarEvent(newDate, session, course);
-                    if(!_.find($scope.events, function(event){return event.session.id === session.id})){
-                        $scope.events.push(calendarEvent);
-                    }
-                });
             };
 
             var updateSessionTiming = function(session, delta, revertDate, reloadRanges){
@@ -279,6 +199,7 @@ angular.module('scheduling.controllers', [])
                         html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
                     }).appendTo(element.find('.fc-content'));
                 }
+                
             };
 
             var handleWindowResize = function(viewName){
@@ -322,6 +243,19 @@ angular.module('scheduling.controllers', [])
                         $scope.currentEvent.course = {pricing:newEvent.session.pricing};
                         if(showSessionModalPopover()) $scope.$broadcast('showSessionModalPopover', 500);
                     }
+                });
+            };
+
+            var addCoursesWithinInterval = function(courses){
+                _.forEach(courses, function(course){
+                    addSessionsWithinInterval(course.sessions, course);
+                });
+            };
+
+            var addSessionsWithinInterval = function(sessions, course){
+                _.forEach(sessions, function(session){
+                    var newDate = getNewDate(session.timing);
+                    $scope.events.push(buildCalendarEvent(newDate, session, course));
                 });
             };
 
