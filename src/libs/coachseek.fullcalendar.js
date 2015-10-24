@@ -8177,12 +8177,10 @@ function Calendar_constructor(element, overrides) {
             renderEvents();
 
             var currentRange = moment.range(currentView.start.clone(), currentView.end.clone())
-            //If current month is still loading show calendar loading screen
-            //exclude if loading month is previous or next month
             _.each(cachedRanges.rangesLoading, function(loadingMonthStartDate){
                 if(currentRange.contains(moment(loadingMonthStartDate))
                     && loadingMonthStartDate !== currentView.intervalEnd.clone().format('YYYY-MM-DD')
-                    && loadingMonthStartDate !== currentView.intervalStart.clone().subtract(1, 'm').startOf('month').format('YYYY-MM-DD') ){
+                    && loadingMonthStartDate !== currentView.intervalStart.clone().subtract(1, 'm').format('YYYY-MM-DD') ){
                     currentView.trigger('waitForFetch', null, fetchNeeded, currentView.intervalStart, reportEvents);
                 }
             });
