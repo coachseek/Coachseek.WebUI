@@ -8172,7 +8172,6 @@ function Calendar_constructor(element, overrides) {
         if( fetchNeeded === true ){
             fetchAndRenderEvents();
         } else if ( fetchNeeded ){
-            //if still fetching current month will get next month and show loading which will get month after next
             currentView.trigger(fetchNeeded, null, currentView.intervalStart, reportEvents, 1);
             renderEvents();
 
