@@ -26,7 +26,7 @@ angular.module('booking.services', [])
         this.getAllEvents = function(businessDomain){
             var params = {
                 endDate: moment().add(1, 'y').format('YYYY-MM-DD'),
-                startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
+                startDate: moment().format('YYYY-MM-DD'),
                 section: 'Sessions'
             };
 

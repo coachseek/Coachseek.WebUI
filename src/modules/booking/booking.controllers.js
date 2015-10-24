@@ -59,7 +59,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.isBefore = function(session){
-            return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
+            return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(3, 'h'));
         };
     }])
     .controller('bookingSelectionCtrl', ['$scope', 'anonCoachseekAPIFactory', 'currentBooking',
@@ -137,7 +137,7 @@ angular.module('booking.controllers', [])
         };
 
         function getNewDate(timing){
-            return moment(timing.startDate, "YYYY-MM-DD");
+            return moment(timing.startDate + " " + timing.startTime, "YYYY-MM-DD HH:mm");
         };
 
         function buildLocationsAndServices(){
@@ -150,13 +150,27 @@ angular.module('booking.controllers', [])
                     $scope.services.push(event.service);
                 }
             });
-        }
+        };
+
+        function removeSessionsInPast(sessions){
+            return _.filter(sessions, function(session){
+                return getNewDate(session.timing).isAfter(moment().add(3, 'h'));
+            });
+        };
+
+        function removeCoursesInPast(courses){
+            return _.filter(courses, function(course){
+                return !_.every(course.sessions, function(session){
+                    return getNewDate(session.timing).isBefore(moment().add(3, 'h'));
+                })
+            });
+        };
 
         if(!currentBooking.allEvents){
             delete $scope.serviceDescription;
             $scope.loadingSessions = true;            
             currentBooking.getAllEvents($scope.business.domain).then(function(events){
-                currentBooking.allEvents = _.sortBy(_.union(events.courses, events.sessions),function(event){
+                currentBooking.allEvents = _.sortBy(_.union(removeCoursesInPast(events.courses), removeSessionsInPast(events.sessions)),function(event){
                     return getNewDate(event.timing).valueOf();
                 });
                 $scope.eventsExist = _.size(currentBooking.allEvents);
