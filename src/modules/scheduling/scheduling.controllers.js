@@ -270,7 +270,9 @@ angular.module('scheduling.controllers', [])
                     tempEventId: tempEventId,
                     title: session.service.name,
                     start: moment(dateClone),
-                    end: moment(dateClone.add(duration, 'minutes')),
+                    end: moment(dateClone.clone().add(duration, 'minutes')),
+                    _start: moment(dateClone),
+                    _end: moment(dateClone.clone().add(duration, 'minutes')),
                     allDay: false,
                     className: session.presentation.colour,
                     session: session,
@@ -340,9 +342,7 @@ angular.module('scheduling.controllers', [])
                     var course = $scope.currentEvent.course;
                     if($scope.currentEvent.tempEventId && course){
                         var session = $scope.currentEvent.session;
-                        if ($scope.currentEvent.course.pricing && $scope.currentEvent.course.pricing.coursePrice){
-                            _.set(session, 'pricing.coursePrice', $scope.currentEvent.course.pricing.coursePrice);
-                        }
+                        _.set(session, 'pricing.coursePrice', _.get($scope.currentEvent, 'course.pricing.coursePrice'));
                          saveSession(session);
                     } else if(course){
                         sessionOrCourseModal($scope).then(function(id){
@@ -532,8 +532,13 @@ angular.module('scheduling.controllers', [])
 
             // TODO - do this in repeat selector
             $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
-                if(_.has($scope, 'currentEvent.tempEventId') && newVal < 2 && _.has($scope, 'currentEvent.course.pricing.coursePrice')){
-                    delete $scope.currentEvent.course.pricing.coursePrice;
+                if(_.get($scope, 'currentEvent.tempEventId') && newVal < 2){
+                    if(_.get($scope, 'currentEvent.course.pricing.coursePrice')){
+                        delete $scope.currentEvent.course.pricing.coursePrice;
+                    }
+                    if(_.get($scope, 'currentEvent.session.pricing.coursePrice')){
+                        delete $scope.currentEvent.session.pricing.coursePrice;
+                    }
                 }
             });
 

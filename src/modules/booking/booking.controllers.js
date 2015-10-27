@@ -304,6 +304,10 @@ angular.module('booking.controllers', [])
             $scope.$apply();
         });
 
+        $scope.$on('$stateChangeStart', function () {
+            $scope.business = angular.copy(businessCopy);
+        });
+
         $scope.shareToFacebook = function(){
             FB.ui({
                 method: 'feed',

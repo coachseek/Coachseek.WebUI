@@ -965,7 +965,7 @@ newMomentProto.time = function(time) {
 
     // Fallback to the original method (if there is one) if this moment wasn't created via FullCalendar.
     // `time` is a generic enough method name where this precaution is necessary to avoid collisions w/ other plugins.
-    if (!this._fullCalendar) {
+    if (!this._fullCalendar && oldMomentProto.time) {
         return oldMomentProto.time.apply(this, arguments);
     }
 
