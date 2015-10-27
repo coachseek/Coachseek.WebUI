@@ -124,6 +124,15 @@ describe('Booking Admin Page', function(){
                         });
                     });
                 });
+                describe('and then navigating away', function(){
+                    beforeEach(function(){
+                        $state.go('scheduling');
+                    });
+                    it('should reset the business attributes', function(){
+                        expect($injector.get('sessionService').business).to.eql(this.business);
+                        expect(scope.business).to.eql(this.business);
+                    });
+                });
             });
         });
         describe('when online payments are ON', function(){
