@@ -412,11 +412,11 @@
                         display: inherit;
 
                         .paypal-button{
-                            background: url("https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png") center no-repeat;
+                            background: url(#{$asset-url}/pics/paypal-checkout-button.png) center no-repeat;
                             background-size: 100%;
                             border:none;
-                            height: 40px;
-                            width: 165px;
+                            height: 90px;
+                            width: 225px;
                         }
                     }
 
