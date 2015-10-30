@@ -215,18 +215,29 @@ angular.module('booking.controllers', [])
             return onlineBookingAPIFactory.anon($scope.business.domain)
                 .save({ section: 'Customers' }, currentBooking.customer).$promise
                     .then(function (customer) {
-                        return saveBooking(customer).then(function (booking) {
-                            currentBooking.booking.id = booking.id;
-                            $scope.bookingConfirmed = payLater;
-                            $scope.redirectingToPaypal = !payLater;
-                            heap.track('Online Booking Confirmed', {onlinePaymentEnabled: _.get($scope.business, 'payment.isOnlinePaymentEnabled'), payLater: payLater});
-                        }, function(error){
-                            $scope.handleErrors(error);
-                            // make sure paypal form doesn't submit if error;
-                            return $q.reject();
-                        }).finally(function(){
-                            $scope.processingBooking = false;
-                        });
+                        return onlineBookingAPIFactory.anon($scope.business.domain)
+                            .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
+                                .then(function(response){
+                                    currentBooking.totalPrice = parseInt(response.price).toFixed(2);
+                                    return saveBooking(customer).then(function (booking) {
+                                        currentBooking.booking.id = booking.id;
+                                        $scope.bookingConfirmed = payLater;
+                                        $scope.redirectingToPaypal = !payLater;
+                                        heap.track('Online Booking Confirmed', {onlinePaymentEnabled: _.get($scope.business, 'payment.isOnlinePaymentEnabled'), payLater: payLater});
+                                    }, function(error){
+                                        $scope.handleErrors(error);
+                                        // make sure paypal form doesn't submit if error;
+                                        return $q.reject();
+                                    }).finally(function(){
+                                        $scope.processingBooking = false;
+                                    });
+                            }, function(error){
+                                $scope.handleErrors(error);
+                                // make sure paypal form doesn't submit if error;
+                                return $q.reject();
+                            }).finally(function(){
+                                $scope.processingBooking = false;
+                            });
                 }, function(error){
                     $scope.processingBooking = false;
                     $scope.handleErrors(error);
