@@ -88,7 +88,7 @@
                 .item-title{
                     line-height: 35px;
                     &.first-name,&.last-name{
-                        max-width: 90px;
+                        max-width: 80px;
                         overflow: hidden;
                         text-overflow: ellipsis;
                         float: left;
@@ -240,6 +240,16 @@
     [state^="scheduling"] .session-modal div.session-modal-title{
         padding: 5px 35px 10px 35px;
     }
+    .customer-list .customer-details .item-title {
+        &.first-name,&.last-name{
+            max-width: 90px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            float: left;
+
+        }
+    }
+
     .attendance-list div.customer-list {
         .search-container{
             width: 95%;
