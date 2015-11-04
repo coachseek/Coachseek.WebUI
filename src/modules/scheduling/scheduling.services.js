@@ -15,4 +15,76 @@ angular.module('scheduling.services', [])
                 });
             };
         }
-    ]);
+    ])
+    .service('currentEventService', function(){
+        return {};
+    })
+    .service('bookingManager', ['coachSeekAPIService', 'uiCalendarConfig', 'currentEventService', function(coachSeekAPIService, uiCalendarConfig, currentEventService){
+
+        this.addToCourse = function(customer){
+            return coachSeekAPIService.save({section: 'Bookings'}, buildBooking(customer))
+                .$promise.then(function(booking){
+                    return updateCourse();
+                });
+        };
+
+        function updateCourse(){
+            return getUpdatedEvents(currentEventService.event.course.id).then(function(course){
+                _.each(currentEventService.currentCourseEvents , function(event){
+                    //fullcalendar needs original event so we get it from the calendar here
+                    event = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents', event._id)[0];
+                    _.assign(event, {
+                        session: _.find(course.sessions, function(session){return session.id === event.session.id}),
+                        course:  course
+                    });
+                });
+            })
+        }
+
+        this.addToSession = function(customer, sessionId){
+            return coachSeekAPIService.save({section: 'Bookings'}, buildBooking(customer, sessionId))
+                .$promise.then(function(booking){
+                    return updateStandaloneSession();
+                });
+        }
+
+        function updateStandaloneSession(){
+            return getUpdatedEvents(currentEventService.event.session.id).then(function(session){
+                //fullcalendar needs original event so we get it from the calendar here
+                var event = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents', currentEventService.event._id)[0];
+                event.session = session;
+            });
+        }
+
+
+        function getUpdatedEvents(id){
+            return coachSeekAPIService.get({section: 'Sessions', id: id}).$promise;
+        }
+
+        function buildBooking(customer, sessionId){
+            return {
+                sessions: getBookingSessionsArray(sessionId),
+                customer: customer
+            };
+        };
+
+        function getBookingSessionsArray(sessionId){
+            console.log(currentEventService, sessionId)
+            if(sessionId){
+                return [{
+                    id:  sessionId || currentEventService.event.session.id,
+                    name: currentEventService.event.session.service.name
+                }]
+            } else {
+                return currentEventService.event.course.sessions;
+            }
+        };
+
+        this.removeFromSession = function(){
+
+        }
+
+        this.removeFromCourse = function(){
+
+        }
+    }]);

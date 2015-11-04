@@ -1,235 +1,201 @@
 [state^="scheduling"] {
-    .session-modal{
-        position: fixed;
-        height: 100%;
-        width: 400px;
-        z-index: 50;
-        background: $background-beige;
-        top: $nav-bar-height;
-        right: 0px;
-        -webkit-transition:all linear 0.3s;
-        transition:all linear 0.3s;
-
-        -webkit-box-shadow: 0px 0px 2px 2px rgba(77,77,77,0.2);
-        -moz-box-shadow: 0px 0px 2px 2px rgba(77,77,77,0.2);
-        box-shadow: 0px 0px 2px 2px rgba(77,77,77,0.2);
-
-        &.ng-hide {
-            right: -400px;
-        }
-
+    .modal-container{
         .session-header{
-            padding: 10px;
-            overflow: hidden;
+            .fa-square-o{
+                color: $orange;
+            }
+        }
+        session-modal{
             width: 100%;
-            text-align: center;
-            @extend %service-background-colors-80;
-            
-            .inline-on-mobile{
-                display: inline-block;
-                &.time{
-                    font-size: 16px;
-                }
-            }
 
-            p{
-                color: $white;
-                font-size: 16px;
-                
-                
-                &.time{
+            .session-modal-nav{
+                margin: 15px auto;
+                width: 60%;
+                overflow: hidden;
+                div{
+                    cursor: pointer;
                     font-size: 14px;
+                    width: 45%;
+                    height: 30px;
+                    float: left;
+                    line-height: 30px;
+                    border-radius: 5px;
+                    color: $dark-grey;
+                    text-align: center;
+
+                    &.attendance{
+                        float: right;
+
+                        &[disabled]{
+                            pointer-events: none;
+                            opacity: 0.5;
+                        }
+                    }
+
+                    &.active{
+                        color: $white;
+                        background: $dark-grey;
+                    }
                 }
             }
-        }
 
-        .session-modal-nav{
-            margin: 15px auto;
-            width: 60%;
-            overflow: hidden;
-            div{
-                cursor: pointer;
-                font-size: 14px;
-                width: 45%;
-                height: 30px;
-                float: left;
-                line-height: 30px;
-                border-radius: 5px;
-                color: $dark-grey;
+            .session-modal-title{
+                width: 330px;
                 text-align: center;
+                border-bottom: 1px solid $light-grey;
+                padding: 5px 0px 10px 0px;
+                margin: 0 auto 15px auto;
+                color: $text-dark-grey;
+                font-size: 18px;
 
-                &.attendance{
+                i{
                     float: right;
-
-                    &[disabled]{
-                        pointer-events: none;
-                        opacity: 0.5;
-                    }
-                }
-
-                &.active{
-                    color: $white;
-                    background: $dark-grey;
+                    font-size: 21px;
+                    cursor: pointer;
                 }
             }
-        }
 
-        .session-modal-title{
-            width: 330px;
-            text-align: center;
-            border-bottom: 1px solid $light-grey;
-            padding: 5px 0px 10px 0px;
-            margin: 0 auto 15px auto;
-            color: $text-dark-grey;
-            font-size: 18px;
+            .session-form{
+                height: calc(100vh - 285px);
+                overflow-y: scroll;
+                padding: 0 35px;
 
-            i{
-                float: right;
-                font-size: 21px;
-                cursor: pointer;
-            }
-        }
-
-        .session-form{
-            height: calc(100vh - 285px);
-            overflow-y: scroll;
-            padding: 0 35px;
-
-            form{            
-                margin: 0 auto 20px auto;
-                width: 100%;
-
-                .form-input{
-                    margin-bottom: 12px;
-
-                    input{
-                        border: 1px solid $light-grey;
-                        background: $white;
-                        height: 40px;
-                        font-size: 15px;
-
-                        &.time-picker-time{
-                            background: $white;
-                        }
-                    }
-
-                    select-arrows{
-                        height: 40px;
-                        .fa-caret-up{
-                            top: 8px;
-                        }
-                        .fa-caret-down{
-                            bottom: 8px;
-                        }
-                    }
-
-                    .time-picker-container{
-                        width: auto;
-                    }
-                }
-
-                select, input{
+                form{            
+                    margin: 0 auto 20px auto;
                     width: 100%;
-                    height: 40px;
-                    border: 1px solid $light-grey;
 
-                    &.ng-touched.ng-invalid-required{
-                        border-color: $orange;
+                    .form-input{
+                        margin-bottom: 12px;
+
+                        input{
+                            border: 1px solid $light-grey;
+                            background: $white;
+                            height: 40px;
+                            font-size: 15px;
+
+                            &.time-picker-time{
+                                background: $white;
+                            }
+                        }
+
+                        select-arrows{
+                            height: 40px;
+                            .fa-caret-up{
+                                top: 8px;
+                            }
+                            .fa-caret-down{
+                                bottom: 8px;
+                            }
+                        }
+
+                        .time-picker-container{
+                            width: auto;
+                        }
                     }
-                }
-                repeat-selector{
-                    color: $text-dark-grey;
-                    label{
-                        display: block;
-                    }
-                    select{
+
+                    select, input{
+                        width: 100%;
                         height: 40px;
-                        margin: 0;
                         border: 1px solid $light-grey;
+
+                        &.ng-touched.ng-invalid-required{
+                            border-color: $orange;
+                        }
+                    }
+                    repeat-selector{
+                        color: $text-dark-grey;
+                        label{
+                            display: block;
+                        }
+                        select{
+                            height: 40px;
+                            margin: 0;
+                            border: 1px solid $light-grey;
+                            width: 100%;
+                        }
+                        .frequency-selector{
+                            .title{
+                                width: 46%;
+                                float: left;
+                            }
+
+                            select.repeat-frequency{
+                                width: 46%;
+                                float: left;
+                                text-indent: 50px;
+                                clear: left;
+                            }
+
+                            .total-of{
+                                width: 46%;
+                                float: right;
+                                margin-top: -20px; 
+                            }
+
+                            .session-count{
+                                width: 46%;
+                                float: right;
+                                height: 40px;
+                                text-align: left;
+                                padding-left: 40px;
+                            }
+
+                            .error-messages .fa-times{
+                                top: -35px;
+                            }
+
+                            .days-or-weeks{
+                                width: 46%;
+                                position: absolute;
+                                top: 30px;
+                                right: -88px;
+                            }
+                        }
+                    }
+                    label {
+                        color: $text-dark-grey;
+                        font-size: 14px;
+                    }
+
+                    .time-picker-time{
+                        display: block;
+                        margin: 0 auto;
                         width: 100%;
                     }
-                    .frequency-selector{
-                        .title{
-                            width: 46%;
-                            float: left;
-                        }
 
-                        select.repeat-frequency{
-                            width: 46%;
-                            float: left;
-                            text-indent: 50px;
-                            clear: left;
-                        }
+                    .money-sign{
+                        top: 35px;
+                    }
 
-                        .total-of{
-                            width: 46%;
-                            float: right;
-                            margin-top: -20px; 
-                        }
+                    .error-messages{
+                        text-align: right;
 
-                        .session-count{
-                            width: 46%;
-                            float: right;
-                            height: 40px;
-                            text-align: left;
-                            padding-left: 40px;
-                        }
-
-                        .error-messages .fa-times{
-                            top: -35px;
-                        }
-
-                        .days-or-weeks{
-                            width: 46%;
-                            position: absolute;
-                            top: 30px;
-                            right: -88px;
+                        .required{
+                            color: $orange;
                         }
                     }
-                }
-                label {
-                    color: $text-dark-grey;
-                    font-size: 14px;
-                }
 
-                .time-picker-time{
-                    display: block;
-                    margin: 0 auto;
-                    width: 100%;
-                }
-
-                .money-sign{
-                    top: 35px;
-                }
-
-                .error-messages{
-                    text-align: right;
-
-                    .required{
+                    .prompt-messages{
                         color: $orange;
+                        font-size: 12px;
+                        text-align: right;
                     }
-                }
-
-                .prompt-messages{
-                    color: $orange;
-                    font-size: 12px;
-                    text-align: right;
                 }
             }
-        }
 
-        .edit-button-container{
-            position: absolute;
-            bottom: 55px;
-            background: $white;
-            width: 100%;
-            padding: 10px 15px;
+            .edit-button-container{
+                position: absolute;
+                bottom: 55px;
+                background: $white;
+                width: 100%;
+                padding: 10px 15px;
 
-            .delete-button{
-                @extend %delete-button;
-                height: 35px;
-                font-size: 22px;
-                float: left;
+                .delete-button{
+                    @extend %delete-button;
+                    height: 35px;
+                    font-size: 22px;
+                    float: left;
+                }
             }
         }
     }

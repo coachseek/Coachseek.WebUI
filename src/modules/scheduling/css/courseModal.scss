@@ -1,0 +1,19 @@
+[state^="scheduling"] {
+    .modal-container{
+		.course-header{
+			.fa-square-o{
+				&.current{
+					color: $orange;
+				}
+			}
+		}
+
+		course-modal{
+			.course-booking-container{
+				.course-session-attendance{
+					display: inline-block;
+				}
+			}
+		}
+	}
+}

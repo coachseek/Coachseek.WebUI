@@ -24,22 +24,28 @@
         <div class="coach-title" ng-show="isBigScreen">{{getCurrentCoach() || 'All Coaches'}}</div>
         <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="events" calendar="sessionCalendar"></div>
     </div>
-
-    <div class="session-modal session-modal-responsive" onboarding-popover onboarding-step="'sessionModal'" onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" ng-show="showModal" id="session-modal" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="left">
-        <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
-            <p class="date" ng-class="{'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}}</p>
-            <p ng-show="!isBigScreen" class="inline-on-mobile">&nbsp;-&nbsp;</p>
-            <p class="time" ng-class=" {'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'h:mm a'}}</p>
+    <div class="modal-container" ng-show="showModal" ng-init="sessionOrCourseModal = 'sessionModal'">
+        <div class="session-header" ng-class="{'active': sessionOrCourseModal === 'sessionModal'}" ng-click="sessionOrCourseModal = 'sessionModal'" ng-class='currentEvent.session.presentation.colour'>
+            <span class="fa fa-square-o"></span>
         </div>
-        <div class="session-modal-nav" ng-init="currentTab = 'general'">
-            <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>
-            <div class="attendance" ng-disabled="currentEvent.tempEventId" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>
+
+        <div class="course-header" ng-class="{'active': sessionOrCourseModal === 'courseModal'}" ng-click="sessionOrCourseModal = 'courseModal'" ng-class='currentEvent.session.presentation.colour'>
+            <div>
+                <span class="fa fa-square-o" ng-repeat="session in currentEvent.course.sessions" ng-class="{'current': session.id === currentEvent.session.id}"></span>
+            </div>
         </div>
-        <hr class="double-wide"/>
-            
-        <modal-session-form ng-show="currentTab === 'general'"></modal-session-form>
 
-        <modal-session-attendance-list ng-show="currentTab === 'attendance'"></modal-session-attendance-list> 
+        <div ng-switch="sessionOrCourseModal">
+            <course-modal ng-switch-when="courseModal"></course-modal>
 
+            <session-modal ng-switch-when="sessionModal"></session-modal>
+        </div>
+        <div class="edit-button-container">
+            <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
+                <i class="fa fa-trash-o"></i>
+            </button>
+            <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details' }}</span><ellipsis-animated ng-show="calendarLoading"/></button>
+            <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'close' | i18next}}</button>
+        </div>
     </div>
 </div>

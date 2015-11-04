@@ -5,12 +5,12 @@
     <button class="add-student to-course fa"
     	ng-if="currentEvent.course"
     	ng-class="isCourseStudent ? 'fa-check' : 'fa-plus'"
-    	ng-click="addBooking(true)"
+        ng-click="addBooking('addToCourse', item)"
     	ng-hide="bookingLoading"></button>
 
     <button class="add-student to-session fa"
     	ng-class="isSessionStudent ? 'fa-check' : 'fa-plus'"
-    	ng-click="addBooking(false)"
+    	ng-click="addBooking('addToSession', item, currrentEvent.session.id)"
     	ng-hide="bookingLoading"></button>
 
     <ellipsis-animated ng-show="bookingLoading"></ellipsis-animated>

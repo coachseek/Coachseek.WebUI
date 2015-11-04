@@ -2,20 +2,53 @@
     width: 100%;
     padding: 0px 35px;
     position: relative;
+    clear: both;
 
-    .create-item{
-        display: block;
+    .show-customer-list{
+        height: 100%;
+        width: 35px;
+        position: absolute;
+        right: -35px;
+        top: -8px;
+        background: $background-grey;
+        cursor: pointer;
         border: none;
-        margin: 20px auto;
-        color: $white;
-        background: $green;
-        border-radius: 5px;
-        padding: 7.5px 25px;
+        -webkit-transition:right linear 0.3s;
+        transition:right linear 0.3s;
+
+        &.showing{
+            right: -380px;
+        }
+
+        span{
+            -ms-transform: rotate(270deg); /* IE 9 */
+            -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+            transform: rotate(270deg);
+            display: inline-block;
+            position: absolute;
+            left: -32px;
+            top: 50px;
+            width: 100px;
+        }
     }
 
     .customer-list{
-        height: calc(100vh - 245px);
+        height: calc(100vh - 115px);
         overflow-y: auto;
+        position: absolute;
+        top: -69px;
+        left: 0px;
+        width: 345px;
+        padding: 10px;
+        background: $background-beige;
+        z-index: 49;
+
+        -webkit-transition:left linear 0.3s;
+        transition:left linear 0.3s;
+
+        &.showing {
+            left: 400px;
+        }
 
         &.short-list{
             ul{
@@ -28,24 +61,9 @@
             }
         }
 
-        .back-arrow{
-            height: 35px;
-            cursor: pointer;
-            width: 55px;
-            position: absolute;
-            top: 0px;
-            left: 20px;
-            line-height: 35px;
-            font-size: 15px;
-            i{
-                color: $text-dark-grey;            
-            }
-        }
-
         .search-container{
             overflow: hidden;
             z-index: 1;
-            background: $background-beige;
             position: absolute;
             width: 330px;
 
@@ -153,37 +171,6 @@
 
             ellipsis-animated{
                 font-size: 23px;
-            }
-            
-            .attending-checkbox{
-                &[disabled]{
-                    pointer-events: none;
-                }
-                &.absent{
-                    background: $red;
-                }
-                &.present{
-                    background: $green;
-                }
-                -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-                -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-                box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                user-select: none;
-
-                cursor: pointer;
-                background: $dark-grey;
-                width: 45px;
-                height: 45px;
-                color: $white;
-                text-align: center;
-
-                .fa{
-                    line-height: 45px;
-                    font-size: 30px;
-                }
             }
 
             .payment-status{

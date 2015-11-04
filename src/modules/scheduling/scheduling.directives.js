@@ -116,12 +116,8 @@ angular.module('scheduling.directives', [])
             link: function(scope){
                 scope.showCustomers = false;
 
-                scope.showCustomerList = function(){
-                    scope.showCustomers = true;
-                };
-
-                scope.hideCustomerList = function(){
-                    scope.showCustomers = false;
+                scope.toggleCustomerList = function(){
+                    scope.showCustomers = !scope.showCustomers;
                 };
 
                 scope.blockAddBookings = function(){
@@ -131,49 +127,40 @@ angular.module('scheduling.directives', [])
                     }
                 };
 
-                scope.updateCourse = function(actionName, customerName){
-                    return getUpdatedCourse().then(function(course){
-                        _.each(scope.currentCourseEvents, function(event){
-                            //fullcalendar needs original event so we get it from the calendar here
-                            event = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents', event._id)[0];
-                            _.assign(event, {
-                                session: _.find(course.sessions, function(session){return session.id === event.session.id}),
-                                course:  course
-                            });
-                        });
-                        showSuccessAlert(actionName, customerName, course.service.name)
-                    }).finally(function(){
-                        scope.$broadcast('stopBookingLoading');
-                    });
-                }
+                // scope.updateCourse = function(actionName, customerName){
+                //     return getUpdatedCourse().then(function(course){
+                //         _.each(scope.currentCourseEvents, function(event){
+                //             //fullcalendar needs original event so we get it from the calendar here
+                //             event = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents', event._id)[0];
+                //             _.assign(event, {
+                //                 session: _.find(course.sessions, function(session){return session.id === event.session.id}),
+                //                 course:  course
+                //             });
+                //         });
+                //         showSuccessAlert(actionName, customerName, course.service.name)
+                //     }).finally(function(){
+                //         scope.$broadcast('stopBookingLoading');
+                //     });
+                // }
 
-                function getUpdatedCourse(){
-                    return coachSeekAPIService.get({section: 'Sessions', id: scope.currentEvent.course.id}).$promise;
-                }
+                // function getUpdatedCourse(){
+                //     return coachSeekAPIService.get({section: 'Sessions', id: scope.currentEvent.course.id}).$promise;
+                // }
 
-                scope.updateStandaloneSession = function(actionName, customerName){
-                    return getUpdatedSession().then(function(session){
-                        //fullcalendar needs original event so we get it from the calendar here
-                        var event = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents', scope.currentEvent._id)[0];
-                        event.session = session;
-                        showSuccessAlert(actionName, customerName, session.service.name)
-                    }).finally(function(){
-                        scope.$broadcast('stopBookingLoading');
-                    });
-                }
+                // scope.updateStandaloneSession = function(actionName, customerName){
+                //     return getUpdatedSession().then(function(session){
+                //         //fullcalendar needs original event so we get it from the calendar here
+                //         var event = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents', scope.currentEvent._id)[0];
+                //         event.session = session;
+                //         showSuccessAlert(actionName, customerName, session.service.name)
+                //     }).finally(function(){
+                //         scope.$broadcast('stopBookingLoading');
+                //     });
+                // }
 
-                function getUpdatedSession(){
-                    return coachSeekAPIService.get({section: 'Sessions', id: scope.currentEvent.session.id}).$promise;
-                }
-
-                function showSuccessAlert(actionName, customerName, sessionName){
-                    scope.addAlert({
-                        type: 'success',
-                        message: "scheduling:alert." + actionName,
-                        customerName: customerName,
-                        sessionName: sessionName
-                    });
-                }
+                // function getUpdatedSession(){
+                //     return coachSeekAPIService.get({section: 'Sessions', id: scope.currentEvent.session.id}).$promise;
+                // }
 
                 scope.$watch('currentEvent', function(){
                     scope.showCustomers = false;
@@ -186,26 +173,20 @@ angular.module('scheduling.directives', [])
             }
         };
     }])
-    .directive('modalCustomerDetails', ['coachSeekAPIService', function(coachSeekAPIService){
+    .directive('modalCustomerDetails', ['coachSeekAPIService', 'bookingManager', function(coachSeekAPIService, bookingManager){
         return {
             restrict: "E",
             replace: false,
             templateUrl:'scheduling/partials/modalCustomerDetails.html',
             link: function(scope){
-                scope.addBooking = function(addToCourse){
+                scope.addBooking = function(functionName, customer, sessionId){
                     scope.bookingLoading = true;
-                    coachSeekAPIService.save({section: 'Bookings'}, buildBooking(addToCourse))
-                        .$promise.then(function(booking){
-                            var customerName = scope.item.firstName + " " + scope.item.lastName;
-                            if(addToCourse){
-                                scope.updateCourse('add-course-booking', customerName);
-                            } else {
-                                scope.updateStandaloneSession('add-session-booking', customerName)
-                            }
-                        }, function(errors){
-                            scope.bookingLoading = false;
-                            scope.handleErrors(errors);
-                        });
+                    bookingManager[functionName](customer, sessionId).then(function(){
+                        // var customerName = customer.firstName + " " + scope.item.lastName;
+                        // showSuccessAlert(actionName, customerName, course.service.name)
+                    }, scope.handleErrors).finally(function(){
+                        scope.bookingLoading = false;
+                    });
                 }
 
                 scope.$watch('currentEvent.session.booking.bookings', function(newBookings){
@@ -220,6 +201,15 @@ angular.module('scheduling.directives', [])
                         }
                     }
                 });
+
+                function showSuccessAlert(actionName, customerName, sessionName){
+                    scope.addAlert({
+                        type: 'success',
+                        message: "scheduling:alert." + actionName,
+                        customerName: customerName,
+                        sessionName: sessionName
+                    });
+                }
 
                 function isCourseStudent(customerBooking){
                     var sessionBookings = [];
@@ -237,32 +227,6 @@ angular.module('scheduling.directives', [])
                         return booking.customer.id === scope.item.id;
                     });
                 };
-
-                function buildBooking(addToCourse){
-                    return {
-                        sessions: getBookingSessionsArray(addToCourse),
-                        customer: {
-                            id: scope.item.id,
-                            firstName: scope.item.firstName,
-                            lastName: scope.item.lastName
-                        }
-                    };
-                };
-
-                function getBookingSessionsArray(addToCourse){
-                    if(addToCourse){
-                        return scope.currentEvent.course.sessions;
-                    } else {
-                        return [{
-                            id:  scope.currentEvent.session.id,
-                            name: scope.currentEvent.session.service.name
-                        }]
-                    }
-                };
-
-                scope.$on('stopBookingLoading', function(){
-                    scope.bookingLoading = false;
-                });
             }
         };
     }])
@@ -273,38 +237,6 @@ angular.module('scheduling.directives', [])
             templateUrl:'scheduling/partials/customerBooking.html',
             link: function(scope){
                 var customerName = scope.booking.customer.firstName + " " + scope.booking.customer.lastName
-
-                var attendanceStatusOptions = [
-                    null, //no value
-                    true, //present
-                    false //absent
-                ];
-
-                var attendanceStatusIndex = _.indexOf(attendanceStatusOptions, scope.booking.hasAttended);
-                // if we havn't set payment status set to default
-                if(attendanceStatusIndex === -1) attendanceStatusIndex = 0;
-                scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
-
-                scope.changeAttendanceStatus = function(){
-                    attendanceStatusIndex++;
-                    if(attendanceStatusIndex === _.size(attendanceStatusOptions)) {
-                        attendanceStatusIndex = 0;
-                    }
-
-                    scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
-                    saveAttendanceStatus();
-                };
-
-                var saveAttendanceStatus = _.debounce(function(){
-                    updateBooking({
-                        commandName: 'BookingSetAttendance',
-                        hasAttended: scope.attendanceStatus
-                    }).then(function(){
-                        scope.booking.hasAttended = scope.attendanceStatus;
-                    },scope.handleErrors).finally(function(){
-                        scope.bookingLoading = false;
-                    });
-                }, 1000);
 
                 scope.removeBooking = function(){
                     //must determine if current booking is a course booking
@@ -385,4 +317,108 @@ angular.module('scheduling.directives', [])
                 });
             }
         };
-    }]);
+    }])
+    .directive('customerCourseBooking', ['bookingManager', function(bookingManager){
+        return {
+            restrict: "E",
+            replace: false,
+            templateUrl:'scheduling/partials/customerCourseBooking.html',
+            link: function(scope){
+                scope.addToSession = function(customer, sessionId){
+                    scope.bookingLoading = true;
+                    bookingManager.addToSession(customer, sessionId).then(function(){
+                        // var customerName = customer.firstName + " " + scope.item.lastName;
+                        // showSuccessAlert(actionName, customerName, course.service.name)
+                    }, scope.handleErrors).finally(function(){
+                        scope.bookingLoading = false;
+                    });
+                }
+            }
+        }
+    }])
+    .directive('customerAttendanceStatus', ['coachSeekAPIService', function(coachSeekAPIService){
+        return {
+            restrict: "E",
+            replace: false,
+            templateUrl:'scheduling/partials/customerAttendanceStatus.html',
+            link: function(scope){
+                var attendanceStatusOptions = [
+                    null, //no value
+                    true, //present
+                    false //absent
+                ];
+
+                var attendanceStatusIndex = _.indexOf(attendanceStatusOptions, scope.booking.hasAttended);
+                // if we havn't set payment status set to default
+                if(attendanceStatusIndex === -1) attendanceStatusIndex = 0;
+                scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
+
+                scope.changeAttendanceStatus = function(){
+                    attendanceStatusIndex++;
+                    if(attendanceStatusIndex === _.size(attendanceStatusOptions)) {
+                        attendanceStatusIndex = 0;
+                    }
+
+                    scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
+                    saveAttendanceStatus();
+                };
+
+                var saveAttendanceStatus = _.debounce(function(){
+                    updateBooking({
+                        commandName: 'BookingSetAttendance',
+                        hasAttended: scope.attendanceStatus
+                    }).then(function(){
+                        scope.booking.hasAttended = scope.attendanceStatus;
+                    },scope.handleErrors).finally(function(){
+                        scope.bookingLoading = false;
+                    });
+                }, 1000);
+
+                function updateBooking(updateCommand){
+                    scope.bookingLoading = true;
+                    return coachSeekAPIService.save({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
+                }
+
+                scope.$on('stopBookingLoading', function(){
+                    scope.bookingLoading = false;
+                });
+            }
+        }
+    }])
+    .directive('courseModal', function(){
+        return {
+           restrict: "E",
+           replace: false,
+           templateUrl:'scheduling/partials/courseModal.html',
+           link: function(scope){
+                // go through session bookings and pluck out unique customers
+                // [{customer: {}, bookings:[booking, null(enough info to add booking), booking]}, {customer: {}, bookings:[null, null, booking]}]
+                scope.courseBookingData = [];
+                _.each(scope.currentEvent.course.booking.bookings, function(booking){
+                    scope.courseBookingData.push({customer: booking.customer, bookings: []});
+                });
+                scope.courseBookingData = _.uniq(scope.courseBookingData, 'customer.id')
+                _.each(scope.currentEvent.course.sessions, function(session, sessionIndex){
+                    _.each(session.booking.bookings, function(sessionBooking){
+                        _.each(scope.courseBookingData, function(booking, index){
+                            if(sessionBooking.customer.id === booking.customer.id){
+                                booking.bookings[sessionIndex] = sessionBooking;
+                            } else if (!booking.bookings[sessionIndex]){
+                                booking.bookings[sessionIndex] = {sessionId: session.id};
+                            }
+                        });
+                    });
+                });
+                // _.each(scope.courseBookingData, function(data){
+                //     console.log(data);
+                // })
+           }
+        }; 
+    })
+    .directive('sessionModal', function(){
+        return {
+           restrict: "E",
+           replace: false,
+           templateUrl:'scheduling/partials/sessionModal.html'
+        }; 
+    });

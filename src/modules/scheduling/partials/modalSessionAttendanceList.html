@@ -1,23 +1,17 @@
 <div class="attendance-list">
-    <div class="session-modal-title">
-        <span ng-i18next>{{showCustomers ? 'scheduling:add-student' : 'scheduling:service-details.register'}}</span>
-        <i class="fa fa-times" ng-click="cancelModalEdit()"></i>        
-    </div>
-    <button class="show-customer-list create-item" ng-click="showCustomerList()" ng-hide="showCustomers" ng-disabled="blockAddBookings()">
-        <i class="fa fa-plus"></i>
-        {{'scheduling:add-student' | i18next}}
+    <button class="show-customer-list" ng-class="{'showing': showCustomers}" ng-click="toggleCustomerList()" ng-disabled="blockAddBookings()">
+        <span class="add-student-text">
+            <i class="fa fa-plus"></i>
+            {{'scheduling:add-student' | i18next}}
+        </span>
     </button>
-    <div class="student-list" ng-hide="showCustomers">
+    <div class="student-list">
         <ul>
             <customer-booking ng-repeat="booking in currentEvent.session.booking.bookings | orderBy:['customer.lastName', 'customer.firstName']"></customer-booking>
             <div class="no-students" ng-if="!currentEvent.session.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div>
         </ul>
     </div>
-    <div class="customer-list" ng-show="showCustomers" ng-controller="customerSearchCtrl" ng-class="{'short-list': currentEvent.course}">
-        <span class="back-arrow" ng-click="hideCustomerList()">
-            <i class="fa fa-left-single-arrow"></i>
-            <span>{{'scheduling:back' | i18next}}</span>
-        </span>
+    <div class="customer-list" ng-class="{'showing': showCustomers}" ng-controller="customerSearchCtrl" ng-class="{'short-list': currentEvent.course}">
         <div class="search-container">
             <i class="fa fa-lg fa-search"></i>    
             <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>

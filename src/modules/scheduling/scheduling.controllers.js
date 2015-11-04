@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$state', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal',
-        function($scope, $q, $state, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal){
+    .controller('schedulingCtrl', ['$scope', '$q', '$state', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal', 'currentEventService'
+,        function($scope, $q, $state, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal, currentEventService){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 
@@ -129,7 +129,7 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
-                        if(!$scope.showModal) $scope.currentTab = 'attendance';
+                        if(!$scope.showModal) $scope.currentTab = 'general';
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
 
@@ -139,6 +139,7 @@ angular.module('scheduling.controllers', [])
                         }
 
                         $scope.currentEvent = event;
+                        currentEventService.event = $scope.currentEvent;
                         currentEventCopy = angular.copy(event);
 
                         if(event.course){
@@ -416,7 +417,7 @@ angular.module('scheduling.controllers', [])
             });
 
             $scope.setCurrentCourseEvents = function(){
-                $scope.currentCourseEvents = _.filter(uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents'), function(event){
+                $scope.currentCourseEvents = currentEventService.currentCourseEvents = _.filter(uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents'), function(event){
                     return _.get(event, 'course.id', 1) === _.get($scope, 'currentEvent.course.id', 1);
                 });
             };
@@ -479,8 +480,8 @@ angular.module('scheduling.controllers', [])
             var closeModal = function(resetTimePicker){
                 removeTempEvents();
                 $scope.$broadcast('closeTimePicker', resetTimePicker);
-                $scope.currentSessionForm.$setUntouched();
-                $scope.currentSessionForm.$setPristine();
+                // $scope.currentSessionForm.$setUntouched();
+                // $scope.currentSessionForm.$setPristine();
                 $scope.$broadcast('hideSessionModalPopover');
                 if(showDragServicePopover()) $scope.$broadcast('showDragServicePopover');
                 $scope.showModal = false;

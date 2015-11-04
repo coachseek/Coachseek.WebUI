@@ -1,8 +1,3 @@
-<div class="session-modal-title">
-    {{'scheduling:service-details.general' | i18next}}
-    <i class="fa fa-times" ng-click="cancelModalEdit()"></i>
-</div>
-
 <div class="session-form crud-item">
     <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
         <div class="form-input">
@@ -98,11 +93,4 @@
             </div>
         </div>
     </form>
-</div>
-<div class="edit-button-container">
-    <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
-        <i class="fa fa-trash-o"></i>
-    </button>
-    <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details' }}</span><ellipsis-animated ng-show="calendarLoading"/></button>
-    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'close' | i18next}}</button>
 </div>

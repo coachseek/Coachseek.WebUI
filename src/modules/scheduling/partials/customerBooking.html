@@ -1,11 +1,9 @@
 <li class="student-details">
-    <div class="attending-checkbox" ng-class="{'absent': attendanceStatus == false, 'present': attendanceStatus == true}" ng-disabled="bookingLoading" ng-click="changeAttendanceStatus()">
-        <i class="fa" ng-class="{'fa-check': attendanceStatus, 'fa-close': attendanceStatus === false}" ng-hide="bookingLoading"></i>
-        <ellipsis-animated ng-show="bookingLoading"/>
-    </div>
+    <customer-attendance-status></customer-attendance-status>
     <div class="item-title">{{booking.customer.firstName}}&nbsp;<br ng-hide="isBigScreen">{{booking.customer.lastName}}</div>
     <div class="delete-booking delete-button" ng-click="removeBooking()" ng-disabled="bookingLoading">
         <i class="fa fa-trash-o"></i>
     </div>
+    <!-- <customer-payment-status></customer-payment-status> -->
     <div class="payment-status" ng-disabled="bookingLoading" ng-class="paymentStatus" ng-click="changePaymentStatus()" ng-i18next='scheduling:payment-status.{{paymentStatus}}'></div>
 </li>
