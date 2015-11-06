@@ -43,4 +43,33 @@ angular.module('onboarding.controllers', [])
                 phone: i18n.t('onboarding:1800coach') + $scope.coachLastName.toUpperCase()
             });
         };
-    }]);
+    }])
+    .controller('mobileOnboaringSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV',
+        function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV){
+            $('.m-scooch').scooch({
+                  dragRadius: 10
+                , moveRadius: 20
+                , animate: true
+                , autoHideArrows: false
+                , rightToLeft: false
+                , classPrefix: "m-"
+                , classNames: {
+                    outer: "scooch"
+                  , inner: "scooch-inner"
+                  , item: "item"
+                  , center: "center"
+                  , touch: "has-touch"
+                  , dragging: "dragging"
+                  , active: "active"
+                  , inactive: "inactive"
+                  , fluid: "fluid"
+                }
+            });
+            $rootScope.signIn = function(){
+                loginModal.open().then(function () {
+                    $rootScope.removeAlerts();
+                    $state.go('scheduling');
+                });
+
+            }
+        }]);
