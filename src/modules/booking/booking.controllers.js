@@ -218,7 +218,7 @@ angular.module('booking.controllers', [])
                         return onlineBookingAPIFactory.anon($scope.business.domain)
                             .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
                                 .then(function(response){
-                                    currentBooking.totalPrice = parseInt(response.price).toFixed(2);
+                                    currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
                                     return saveBooking(customer).then(function (booking) {
                                         currentBooking.booking.id = booking.id;
                                         $scope.bookingConfirmed = payLater;
