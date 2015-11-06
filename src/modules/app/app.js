@@ -63,10 +63,10 @@ angular.module('app',
             // $window.localStorage.clear();
             var applaunchCount = $window.localStorage.getItem('launchCount');
             if(!applaunchCount){               
-                $state.go("mobileOnboaringSignUp");
+                $state.go("mobileOnboardingSignUp");
                 $window.localStorage.setItem('launchCount',1);
             }
-            
+
             $window.fbAsyncInit = function() {
                 FB.init({
                   appId      : '172144976459129',
