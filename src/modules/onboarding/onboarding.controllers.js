@@ -44,7 +44,7 @@ angular.module('onboarding.controllers', [])
             });
         };
     }])
-    .controller('mobileOnboaringSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV',
+    .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV',
         function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV){
             $('.m-scooch').scooch({
                   dragRadius: 10
