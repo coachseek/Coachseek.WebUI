@@ -1,0 +1,45 @@
+
+<!-- the viewport -->
+<div class="m-scooch m-fluid m-scooch-photos">
+	<!-- the slider -->
+	<div class="m-scooch-inner">
+	<!-- the items -->
+		<div class="m-item m-active welcome">
+		    <p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.welcome-title' | i18next}}</p>
+		    <p>{{'onboarding:mobileOnboardingDefault.welcome-description' | i18next}}</p>
+		    <img ng-src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/m-onboarding-welcome.png">
+		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.welcome-button' | i18next}}</a>
+		</div>
+		<div class="m-item lesson">
+			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
+		    <p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.lesson-title' | i18next}}</p>
+		    <p>{{'onboarding:mobileOnboardingDefault.lesson-description' | i18next}}</p>
+		    <input type="text" placeholder="{{'onboarding:mobileOnboardingDefault.lesson-placeholder' | i18next}}">
+		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.lesson-button' | i18next}}</a>
+		</div>
+		
+		<div class="m-item location">
+			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
+	   		<p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.location-title' | i18next}}</p>
+		    <p>{{'onboarding:mobileOnboardingDefault.location-description' | i18next}}</p>
+		    <input type="text" placeholder="{{'onboarding:mobileOnboardingDefault.location-placeholder' | i18next}}">
+		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.location-button' | i18next}}</a>
+		</div>
+	
+		<div class="m-item price">
+			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
+		    <p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.price-title' | i18next}}</p>
+		    <p>{{'onboarding:mobileOnboardingDefault.price-description' | i18next}}</p>
+		    <input type="text" placeholder="{{'onboarding:mobileOnboardingDefault.price-placeholder' | i18next}}">
+		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.price-button' | i18next}}</a>
+		</div>
+		
+	</div>
+	<!-- the controls -->
+	<div class="m-scooch-controls m-scooch-bulleted">
+		<a href="#" data-m-slide="1" class="m-active">1</a>
+		<a href="#" data-m-slide="2">2</a>
+		<a href="#" data-m-slide="3">3</a>
+		<a href="#" data-m-slide="4">4</a>
+	</div>
+</div>
