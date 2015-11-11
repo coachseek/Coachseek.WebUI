@@ -60,7 +60,7 @@ angular.module('app',
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.alerts = [];
-            // $window.localStorage.clear();
+            $window.localStorage.clear();
             var applaunchCount = $window.localStorage.getItem('launchCount');
             if(!applaunchCount){               
                 $state.go("mobileOnboardingSignUp");

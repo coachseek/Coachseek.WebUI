@@ -13,7 +13,16 @@ angular.module('onboarding',
                 data: {
                     requireLogin: false
                 }
-            });    
+            })
+            .state('mobileOnboardingDefault',{
+                url: "/mobile-onboarding",
+                templateUrl: "onboarding/partials/mobileOnboardingDefault.html",
+                controller: 'mobileOnboardingDefaultsModalCtrl',
+                data: {
+                    requireLogin: false
+                }
+
+            })    
     }])
     .config(['$tooltipProvider', function($tooltipProvider){
         $tooltipProvider.setTriggers({
