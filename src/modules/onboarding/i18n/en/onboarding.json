@@ -52,5 +52,28 @@
         "slide-description-4":"Checking in your students from your iPhone or iPad makes paper registers a thing of the past.",
         "joinUs":"Join us",
         "signIn":"Sign in"
+    },
+    "mobileOnboardingSkipModal":{
+        "title":"Continue on with these tips? ",
+        "yes":"Yes! Let’s continue",
+        "no":"No, I don’t want to see these hints"
+        },
+    "mobileOnboardingDefault":{
+        "skip":"Skip",
+        "welcome-title":"Welcome Coach!",
+        "welcome-description":"We want to show you how easy Coachseek is! Something else here and potentially something else!",
+        "welcome-button":"Let’s start!",
+        "lesson-title":"Lesson",
+        "lesson-description":"My most popular lesson is?",
+        "lesson-button":"Continue",
+        "lesson-placeholder":"e.g. Junior football training",
+        "location-title":"Location",
+        "location-description":"I teach Mini Red Tennis at?",
+        "location-button":"Continue",
+        "location-placeholder":"e.g. Cambridge football club",
+        "price-title":"Price",
+        "price-description":"How much does Mini Red Tennis cost?",
+        "price-button":"Continue",
+        "price-placeholder":"e.g. $30.00"
     }
 }
