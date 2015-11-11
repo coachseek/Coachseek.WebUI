@@ -44,18 +44,35 @@ angular.module('onboarding.controllers', [])
             });
         };
     }])
-    .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV','mobileOnboardingModal',
-        function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV,mobileOnboardingModal){        
+    .controller('mobileOnboardingSkipModalCtrl', ['$scope','loginModal','$modalInstance',function ($scope,loginModal,$modalInstance) {
+        $scope.continueMobileOnboarding = function(){ 
+            $modalInstance.dismiss('cancel');
+        };
+        $scope.skipMobileOnboarding = function(){
+            loginModal.open();
+        };
+    }])
+    .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV','mobileOnboardingSkipModal',
+        function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV,mobileOnboardingSkipModal){        
             $rootScope.signIn = function(){
                 loginModal.open().then(function () {
                     $rootScope.removeAlerts();
                     $state.go('scheduling');
                 });
-            }
+            };
             $rootScope.joinUs = function(){
                 $state.go('mobileOnboardingDefault');
-            }
+            };
     }])
-    .controller('mobileOnboardingDefaultsModalCtrl', ['$scope', function ($scope) {
-        
+    .controller('mobileOnboardingDefaultCtrl', ['$scope','mobileOnboardingSkipModal' ,function ($scope,mobileOnboardingSkipModal) {
+        $scope.slideNext = function(){
+            $('.m-scooch').scooch('next');
+        };
+        $scope.slidePrev = function(){
+            $('.m-scooch').scooch('prev');
+        };
+        $scope.skipModal = function(){
+            mobileOnboardingSkipModal.open('mobileOnboardingSkipModal','mobileOnboardingSkipModalCtrl');
+        }
+
     }]);
