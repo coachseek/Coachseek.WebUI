@@ -15,7 +15,7 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'dev',
-                        defaultSubdomain: 'app-testing',
+                        defaultSubdomain: 'mobile-onboarding',
                         apiURL: 'https://api-testing.coachseek.com',
                         paypalURL: 'https://www.sandbox.paypal.com/cgi-bin/webscr',
                         version : '<%= pkg.version %>'
@@ -321,7 +321,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    dest: '<%= pkg.version %>/testing/',
+                    dest: '<%= pkg.version %>/mobile-onboarding/',
                     src: ['css/style.css', 'js/*.js']
                 }]
             },
