@@ -43,4 +43,36 @@ angular.module('onboarding.controllers', [])
                 phone: i18n.t('onboarding:1800coach') + $scope.coachLastName.toUpperCase()
             });
         };
+    }])
+    .controller('mobileOnboardingSkipModalCtrl', ['$scope','loginModal','$modalInstance',function ($scope,loginModal,$modalInstance) {
+        $scope.continueMobileOnboarding = function(){ 
+            $modalInstance.dismiss('cancel');
+        };
+        $scope.skipMobileOnboarding = function(){
+            loginModal.open();
+        };
+    }])
+    .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV','mobileOnboardingSkipModal',
+        function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV,mobileOnboardingSkipModal){        
+            $rootScope.signIn = function(){
+                loginModal.open().then(function () {
+                    $rootScope.removeAlerts();
+                    $state.go('scheduling');
+                });
+            };
+            $rootScope.joinUs = function(){
+                $state.go('mobileOnboardingDefault');
+            };
+    }])
+    .controller('mobileOnboardingDefaultCtrl', ['$scope','mobileOnboardingSkipModal' ,function ($scope,mobileOnboardingSkipModal) {
+        $scope.slideNext = function(){
+            $('.m-scooch').scooch('next');
+        };
+        $scope.slidePrev = function(){
+            $('.m-scooch').scooch('prev');
+        };
+        $scope.skipModal = function(){
+            mobileOnboardingSkipModal.open('mobileOnboardingSkipModal','mobileOnboardingSkipModalCtrl');
+        }
+
     }]);

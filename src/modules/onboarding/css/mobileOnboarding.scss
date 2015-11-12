@@ -1,0 +1,162 @@
+.group-btn{
+	width: 269px;
+	height: 50px;
+	display: block;
+	text-align: center;
+	margin:0 auto;
+	color: $white;
+	font-size: 14px;
+	font-family: 'lato-regular';
+	padding-top: 15px;
+	text-decoration: none;
+
+	&.green{
+		background-color: $green;
+		-webkit-box-shadow: 0px 1px 3px 0px rgba(66,66,66,1);
+		-moz-box-shadow: 0px 1px 3px 0px rgba(66,66,66,1);
+		box-shadow: 0px 1px 3px 0px rgba(66,66,66,1);
+	}
+	&.dark{
+		background-color: $background-dark;
+		-webkit-box-shadow: 0px 1px 3px 0px rgba(66,66,66,1);
+		-moz-box-shadow: 0px 1px 3px 0px rgba(66,66,66,1);
+		box-shadow: 0px 1px 3px 0px rgba(66,66,66,1);
+	}
+
+}
+.m-onboarding{
+	.m-scooch-bulleted{
+    	a{
+    		padding: 5px;
+    		border: 1px solid $white;
+    		box-shadow: none;
+    		background-color: rgba(255, 255, 255, 0);
+    		&.m-active{
+				background-color: rgba(255, 255, 255, 1);
+    		}
+    	}
+    }
+    .m-scooch-photos .m-item {
+		text-align: center;
+		padding-bottom: 50px;
+		img{
+			box-shadow: none;
+			width: 200px;
+			padding:20px 0 20px 0;
+		}
+		p{
+			font-size: 16px;
+			color: $white;
+			width: 263px;
+			margin: 0 auto;
+			&.strong{
+				font-family: 'lato-bold';
+				padding: 20px 0 20px 0;
+			}
+			
+		}
+	}
+}
+ .m-onboarding.signup{
+	padding: 20px;
+	position: fixed;
+	background: url(#{$asset-url}/pics/signup-background.png) no-repeat center center fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1020!important;
+
+	.m-scooch-controls{
+		top: -33px;
+    	position: relative;
+	}
+	
+}
+.m-onboarding.default{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background:$another-white;
+	z-index: 1020!important;
+	font-family: 'lato-light';
+	.skip{
+		text-align: center;
+		span{
+			font-size: 16px;
+			text-decoration: none;
+			color: $text-dark-grey;
+		}
+	}
+	.back{
+		position: absolute;
+		z-index: 1050;
+		left: 5%;
+    	top: 6%;
+    	width: 30px;
+    	height: 30px;
+	}
+	mobile-onboarding-default-slider{
+		.m-scooch-bulleted{
+	    	a{
+	    		border: 1px solid $text-dark-grey;
+	    		background-color: rgba($text-dark-grey, 0);
+	    		&.m-active{
+					background-color: rgba($text-dark-grey, 1);
+	    		}
+	    	}
+	    }
+
+		.m-scooch-photos .m-item{
+			padding-bottom: 20px;
+			p{
+				color: $text-dark-grey;
+
+			}
+			
+			input{
+				border: 1px solid $background-grey;
+				height: 60px;
+				border-radius: 0;
+			}
+			&.location,&.lesson,&.price{
+				a.group-btn.green{
+					margin-top: 40px;
+				}
+				p{
+					padding-bottom: 20px;
+				}
+			}
+			&.welcome{
+				img{
+					width:76px;
+					padding-bottom: 0px;
+				}
+				p.strong{
+					padding-bottom: 50px;
+				}
+			}
+		}
+	}
+}
+.m-onboarding-skip-modal-backdrop{
+	.modal-dialog{
+		margin-top: 25px;
+	}
+	top:18%;
+	width: 100%;
+    height: 247px;
+    background-color: $white;
+    p.strong{
+		text-align: center;
+		padding-bottom: 30px;
+		font-weight: bold;
+    }
+    .group-btn{
+    	&.green{
+    		margin-bottom: 25px;
+    	}
+    }
+}

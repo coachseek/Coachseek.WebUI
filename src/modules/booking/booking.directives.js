@@ -67,10 +67,11 @@ angular.module('booking.directives', [])
                 };
 
                 function getMaxBookingSessionCount(){
-                    var sessions = _.filter(scope.event.sessions, function(session){
-                        return getNewDate(session.timing).isAfter();
-                    });
-                    return _.max(sessions, "booking.bookingCount").booking.bookingCount;
+                    // why were we filtering here? past bookings count too!
+                    // var sessions = _.filter(, function(session){
+                    //     return getNewDate(session.timing).isAfter();
+                    // });
+                    return _.max(scope.event.sessions, "booking.bookingCount").booking.bookingCount;
                 };
 
                 function getNewDate(timing){
@@ -94,7 +95,7 @@ angular.module('booking.directives', [])
                     return getNewDate(session.timing).format('dddd Do MMM');
                 };
 
-                scope.getEventTimeRange = function(session){
+                scope.getSessionTimeRange = function(session){
                     var startDate = getNewDate(session.timing)
                     return startDate.format('h:mm A') + " – " + startDate.clone().add(session.timing.duration, 'minutes').format('h:mm A');
                 };

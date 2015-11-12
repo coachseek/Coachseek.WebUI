@@ -71,6 +71,28 @@ angular.module('scheduling.controllers', [])
                     //         }
                     //     }
                     // },
+                    events: function(start, end, timezone, renderEvents){
+                        if(!showOnboarding()){
+                            var getSessionsParams = {
+                                startDate: start.format('YYYY-MM-DD'),
+                                endDate: end.format('YYYY-MM-DD'),
+                                locationId: sessionService.calendarView.locationId,
+                                coachId: sessionService.calendarView.coachId,
+                                section: 'Sessions'
+                            };
+                            startCalendarLoading();
+                            coachSeekAPIService.get(getSessionsParams)
+                                .$promise.then(function(sessionObject){
+                                    $scope.events = [];
+                                    addSessionsWithinInterval(sessionObject.sessions);
+                                    addCoursesWithinInterval(sessionObject.courses);
+                                    renderEvents($scope.events);
+                                    $scope.$broadcast('fetchSuccesful');
+                                }, $scope.handleErrors).finally(function(){
+                                    stopCalendarLoading();
+                                });
+                        }
+                    },
                     eventRender: function(event, element, view) {
                         if(view.type !== 'month'){
                             $('<div></div>', {
@@ -196,52 +218,6 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            function loadNextOrPreviousMonth(monthStart, date, reportEvents){
-                var getSessionsParams = buildGetSessionsParams(date);
-                cachedRanges.rangesLoading.push(monthStart);
-                return getAndRenderSessions(getSessionsParams)
-                    .then(function(){
-                        reportEvents($scope.events);
-                        _.remove(cachedRanges.rangesLoading, function(value){return value === monthStart});
-                    }, $scope.handleErrors).finally(function(){
-                        if(currentMonthLoaded) stopCalendarLoading();
-                    });
-            }
-
-            function buildGetSessionsParams(date){
-                return {
-                    startDate: date.clone().startOf('month').format('YYYY-MM-DD'),
-                    endDate: date.clone().endOf('month').format('YYYY-MM-DD'),
-                    locationId: sessionService.calendarView.locationId,
-                    coachId: sessionService.calendarView.coachId,
-                    section: 'Sessions'
-                };
-            };
-
-            function getAndRenderSessions(getSessionsParams){
-                return coachSeekAPIService.get(getSessionsParams)
-                    .$promise.then(function(sessionObject){
-                        addSessionsWithinInterval(sessionObject.sessions);
-                        addCoursesWithinInterval(sessionObject.courses);
-                    })
-            };
-
-            var addCoursesWithinInterval = function(courses){
-                _.forEach(courses, function(course){
-                    addSessionsWithinInterval(course.sessions, course);
-                });
-            };
-
-            var addSessionsWithinInterval = function(sessions, course){
-                _.forEach(sessions, function(session){
-                    var newDate = getNewDate(session.timing);
-                    var calendarEvent = buildCalendarEvent(newDate, session, course);
-                    if(!_.find($scope.events, function(event){return event.session.id === session.id})){
-                        $scope.events.push(calendarEvent);
-                    }
-                });
-            };
-
             var updateSessionTiming = function(session, delta, revertDate, reloadRanges){
                 var newDate = getNewDate(session.timing);
                 newDate.add(delta);
@@ -328,9 +304,9 @@ angular.module('scheduling.controllers', [])
                     tempEventId: tempEventId,
                     title: session.service.name,
                     start: moment(dateClone),
+                    end: moment(dateClone.clone().add(duration, 'minutes')),
                     _start: moment(dateClone),
                     _end: moment(dateClone.clone().add(duration, 'minutes')),
-                    end: moment(dateClone.clone().add(duration, 'minutes')),
                     allDay: false,
                     className: session.presentation.colour,
                     session: session,
@@ -400,9 +376,7 @@ angular.module('scheduling.controllers', [])
                     var course = $scope.currentEvent.course;
                     if($scope.currentEvent.tempEventId && course){
                         var session = $scope.currentEvent.session;
-                        if ($scope.currentEvent.course.pricing && $scope.currentEvent.course.pricing.coursePrice){
-                            _.set(session, 'pricing.coursePrice', $scope.currentEvent.course.pricing.coursePrice);
-                        }
+                        _.set(session, 'pricing.coursePrice', _.get($scope.currentEvent, 'course.pricing.coursePrice'));
                          saveSession(session);
                     } else if(course){
                         sessionOrCourseModal($scope).then(function(id){
@@ -592,8 +566,13 @@ angular.module('scheduling.controllers', [])
 
             // TODO - do this in repeat selector
             $scope.$watch('currentEvent.session.repetition.sessionCount', function(newVal){
-                if(_.has($scope, 'currentEvent.tempEventId') && newVal < 2 && _.has($scope, 'currentEvent.course.pricing.coursePrice')){
-                    delete $scope.currentEvent.course.pricing.coursePrice;
+                if(_.get($scope, 'currentEvent.tempEventId') && newVal < 2){
+                    if(_.get($scope, 'currentEvent.course.pricing.coursePrice')){
+                        delete $scope.currentEvent.course.pricing.coursePrice;
+                    }
+                    if(_.get($scope, 'currentEvent.session.pricing.coursePrice')){
+                        delete $scope.currentEvent.session.pricing.coursePrice;
+                    }
                 }
             });
 

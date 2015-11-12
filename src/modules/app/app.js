@@ -14,7 +14,6 @@ angular.module('app',
     'ui.router',
     'jm.i18next',
     'angularMoment',
-    'ngCordova',
 
     // coachSeekApp
     'app.controllers',
@@ -62,4 +61,18 @@ angular.module('app',
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.alerts = [];
+            $window.localStorage.clear();
+            var applaunchCount = $window.localStorage.getItem('launchCount');
+            if(!applaunchCount){               
+                $state.go("mobileOnboardingSignUp");
+                $window.localStorage.setItem('launchCount',1);
+            }
+
+            $window.fbAsyncInit = function() {
+                FB.init({
+                  appId      : '172144976459129',
+                  xfbml      : true,
+                  version    : 'v2.5'
+                });
+            };
     }]);
