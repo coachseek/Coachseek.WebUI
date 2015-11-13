@@ -1,4 +1,10 @@
 {
+    "export-csv": "export.csv",
+    "download-csv": "Download CSV",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
     "yes": "Yes",
     "no": "No",
     "on": "On",
