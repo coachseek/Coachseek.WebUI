@@ -38,9 +38,14 @@ describe('Customers CRUD Control', function(){
             return deferred.promise;
         });
 
+        let('ModernizrTouch', function(){
+            return Modernizr.touch;
+        })
+
         var self, getStub, coachSeekAPIService, scope, $customerListView, $customerItemView;
         beforeEach(function(){
             self = this;
+            Modernizr.touch = this.ModernizrTouch;
 
             coachSeekAPIService = $injector.get('coachSeekAPIService');
             scope = $rootScope.$new();
@@ -55,6 +60,17 @@ describe('Customers CRUD Control', function(){
         it('should attempt to get existing customers', function(){
             expect(getStub).to.be.calledWith({section: 'Customers'})
         });
+        it('should show the export-to-csv button', function(){
+            expect($testRegion.find('export-to-csv').length).to.equal(1);
+        });
+        describe('and the device is a touch device', function(){
+            let('ModernizrTouch', function(){
+                return true;
+            })
+            it('should NOT show the export-to-csv button', function(){
+                expect($testRegion.find('export-to-csv').length).to.equal(0);
+            });
+        })
         describe('during loading', function(){
             
             let('customersPromise', function(){

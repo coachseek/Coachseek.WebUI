@@ -4,6 +4,7 @@ angular.module('app.controllers', [])
         function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _; //allow lodash.js to be used in angular partials
+            $rootScope.Modernizr = Modernizr; //allow Modernizr.js to be used in angular partials
 
             $rootScope.addAlert = function(alert){
 
