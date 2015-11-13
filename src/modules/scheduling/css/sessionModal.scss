@@ -182,21 +182,20 @@
                     }
                 }
             }
+        }
+    }
+    .edit-button-container{
+        position: absolute;
+        bottom: 55px;
+        background: $white;
+        width: 100%;
+        padding: 10px 15px;
 
-            .edit-button-container{
-                position: absolute;
-                bottom: 55px;
-                background: $white;
-                width: 100%;
-                padding: 10px 15px;
-
-                .delete-button{
-                    @extend %delete-button;
-                    height: 35px;
-                    font-size: 22px;
-                    float: left;
-                }
-            }
+        .delete-button{
+            @extend %delete-button;
+            height: 35px;
+            font-size: 22px;
+            float: left;
         }
     }
 }
@@ -204,14 +203,6 @@
 @media (max-width: 768px){
     [state^="scheduling"] {
         .session-modal{
-            .edit-button-container{
-                .save-button{
-                    width: 130px;
-                }
-                .cancel-button{
-                    margin-right: 20px;
-                }
-            }
             &.session-modal-responsive{
                 width: 100%;
             }
@@ -221,6 +212,14 @@
                         margin-bottom: 10px;
                     }
                 }
+            }
+        }
+        .edit-button-container{
+            .save-button{
+                width: 130px;
+            }
+            .cancel-button{
+                margin-right: 20px;
             }
         }    
     }

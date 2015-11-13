@@ -1,11 +1,10 @@
 <div class="session-modal session-modal-responsive" onboarding-popover onboarding-step="'sessionModal'" onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" id="session-modal" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="left">
-    <div class="session-modal-nav" ng-init="currentTab = 'general'">
-        <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>
-        <div class="attendance" ng-disabled="currentEvent.tempEventId" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>
+    <modal-session-form></modal-session-form>
+    <div class="edit-button-container">
+        <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
+            <i class="fa fa-trash-o"></i>
+        </button>
+        <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details' }}</span><ellipsis-animated ng-show="calendarLoading"/></button>
+        <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'close' | i18next}}</button>
     </div>
-    <hr class="double-wide"/>
-        
-    <modal-session-form ng-show="currentTab === 'general'"></modal-session-form>
-
-    <modal-session-attendance-list ng-show="currentTab === 'attendance'"></modal-session-attendance-list> 
 </div>

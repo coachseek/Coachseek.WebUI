@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$state', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal', 'currentEventService'
-,        function($scope, $q, $state, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal, currentEventService){
+    .controller('schedulingCtrl', ['$scope', '$q', '$state', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal', 'currentEventService',
+        function($scope, $q, $state, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal, currentEventService){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 

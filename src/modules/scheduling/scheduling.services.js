@@ -19,12 +19,15 @@ angular.module('scheduling.services', [])
     .service('currentEventService', function(){
         return {};
     })
-    .service('bookingManager', ['coachSeekAPIService', 'uiCalendarConfig', 'currentEventService', function(coachSeekAPIService, uiCalendarConfig, currentEventService){
+    .service('bookingManager', ['coachSeekAPIService', 'uiCalendarConfig', 'currentEventService',
+        function(coachSeekAPIService, uiCalendarConfig, currentEventService){
 
         this.addToCourse = function(customer){
             return coachSeekAPIService.save({section: 'Bookings'}, buildBooking(customer))
                 .$promise.then(function(booking){
-                    return updateCourse();
+                    return updateCourse().then(function(){
+                        return booking;
+                    });
                 });
         };
 
@@ -44,7 +47,9 @@ angular.module('scheduling.services', [])
         this.addToSession = function(customer, sessionId){
             return coachSeekAPIService.save({section: 'Bookings'}, buildBooking(customer, sessionId))
                 .$promise.then(function(booking){
-                    return updateStandaloneSession();
+                    return updateStandaloneSession().then(function(){
+                        return booking;
+                    });
                 });
         }
 
@@ -69,22 +74,29 @@ angular.module('scheduling.services', [])
         };
 
         function getBookingSessionsArray(sessionId){
-            console.log(currentEventService, sessionId)
             if(sessionId){
                 return [{
-                    id:  sessionId || currentEventService.event.session.id,
+                    id:  sessionId,
                     name: currentEventService.event.session.service.name
-                }]
+                }];
             } else {
                 return currentEventService.event.course.sessions;
             }
         };
 
-        this.removeFromSession = function(){
-
+        this.removeFromSession = function(bookingId){
+            return deleteBooking(bookingId).then(function(){
+                return updateStandaloneSession();
+            });
         }
 
-        this.removeFromCourse = function(){
+        this.removeFromCourse = function(bookingId){
+            return deleteBooking(bookingId).then(function(){
+                return updateCourse();
+            });
+        }
 
+        function deleteBooking(bookingId){
+            return coachSeekAPIService.delete({section: 'Bookings', id: bookingId}).$promise;
         }
     }]);

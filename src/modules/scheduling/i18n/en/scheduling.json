@@ -42,6 +42,7 @@
         "overdue-payment": "Overdue"
     },
     "general": "General",
+    "payment": "Payment",
     "add-student": "Add Student",
     "back": "Back",
     "attendance": "Attendance",

@@ -10,7 +10,7 @@
 
     <button class="add-student to-session fa"
     	ng-class="isSessionStudent ? 'fa-check' : 'fa-plus'"
-    	ng-click="addBooking('addToSession', item, currrentEvent.session.id)"
+    	ng-click="addBooking('addToSession', item, currentEvent.session.id)"
     	ng-hide="bookingLoading"></button>
 
     <ellipsis-animated ng-show="bookingLoading"></ellipsis-animated>

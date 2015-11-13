@@ -21,20 +21,28 @@
             left: -400px;
         }
 
-        .session-header,
-        .course-header{
-            width: 50%;
-            float: left;
+        .modal-nav{
+            width: 300px;
             height: 40px;
-            text-align: center;
-            padding: 10px;
-            border: 1px solid $grey;
-            cursor: pointer;
-            @extend %service-background-colors-60;
+            margin: 15px auto;
+            border-radius: 5px;
+            background: $white;
+            color: $dark-grey;
 
-            &.active{
-                background: $blue;
-                @extend %service-background-colors-80;
+            .general-header,
+            .attendance-header,
+            .payment-header{
+                width: 100px;
+                float: left;
+                display: inline-block;
+                height: 40px;
+                text-align: center;
+                padding: 10px;
+                cursor: pointer;
+
+                &.active{
+                    color: white;
+                }
             }
         }
     }
