@@ -6,7 +6,7 @@
 	margin:0 auto;
 	color: $white;
 	font-size: 14px;
-	font-family: 'lato-regular';
+	font-family: $lato-regular;
 	padding-top: 15px;
 	text-decoration: none;
 
@@ -50,7 +50,7 @@
 			width: 263px;
 			margin: 0 auto;
 			&.strong{
-				font-family: 'lato-bold';
+				font-family:$lato-bold;
 				padding: 20px 0 20px 0;
 			}
 			
@@ -81,7 +81,7 @@
 	height: 100%;
 	background:$another-white;
 	z-index: 1020!important;
-	font-family: 'lato-light';
+	font-family: $lato-light;
 	.skip{
 		text-align: center;
 		span{
@@ -152,7 +152,7 @@
     p.strong{
 		text-align: center;
 		padding-bottom: 30px;
-		font-weight: bold;
+		font-family: $lato-bold;
     }
     .group-btn{
     	&.green{
