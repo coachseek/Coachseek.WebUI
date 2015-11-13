@@ -202,11 +202,11 @@ describe('Booking Confirmation View', function(){
             describe('and the pricing enquiry is successful', function(){
                 let('anonPricingEnquiryStubPromise', function(){
                     var deferred = $q.defer();
-                    deferred.resolve({price: 69.0000});
+                    deferred.resolve({price: 69.34});
                     return deferred.promise;
                 });
                 it('should set the price as the total price', function(){
-                    expect($injector.get('currentBooking').totalPrice).to.equal("69.00")
+                    expect($injector.get('currentBooking').totalPrice).to.equal("69.34")
                 });
                 it('should then make a call to `Bookings`', function(){
                     expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});

@@ -80,7 +80,7 @@ angular.module('app.services', [])
 
         this.get = function(functionName, $scope){
             $activityIndicator.startAnimating();
-            coachSeekAPIService.query({section: functionName})
+            return coachSeekAPIService.query({section: functionName})
                 .$promise.then(function(itemList){
                     //set list data or create first item
                     if(_.size(itemList)){
