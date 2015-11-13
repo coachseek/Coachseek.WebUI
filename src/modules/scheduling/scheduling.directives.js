@@ -314,11 +314,11 @@ angular.module('scheduling.directives', [])
             }
         }
     }])
-    .directive('courseModal', ['coachSeekAPIService', function(coachSeekAPIService){
+    .directive('courseAttendanceModal', ['coachSeekAPIService', function(coachSeekAPIService){
         return {
            restrict: "E",
            replace: false,
-           templateUrl:'scheduling/partials/courseModal.html',
+           templateUrl:'scheduling/partials/courseAttendanceModal.html',
            link: function(scope, elem){
                 $(elem).find('table.session-data').on('scroll', function(event) {
                     $(event.currentTarget).find('thead tr').css("left", -$(event.currentTarget).scrollLeft());
@@ -370,10 +370,10 @@ angular.module('scheduling.directives', [])
            }
         }; 
     }])
-    .directive('sessionModal', function(){
+    .directive('generalSettingsModal', function(){
         return {
            restrict: "E",
            replace: false,
-           templateUrl:'scheduling/partials/sessionModal.html'
+           templateUrl:'scheduling/partials/generalSettingsModal.html'
         }; 
     });
