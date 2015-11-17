@@ -1,5 +1,9 @@
 <div class="attendance-list" ng-init="showCustomers = false">
-    <div class="cover-box"></div>
+    <div class="cover-box">
+        <loading-animation ng-show="courseLoading === true"></loading-animation>
+        <span ng-show="!courseLoading">{{'saved' | i18next}}&nbsp;&nbsp;<i class="fa fa-thumbs-o-up"></i></span>
+    </div>
+    
     <table class="customer-names">
         <tbody>
                 <tr ng-repeat="courseBooking in courseBookingData">
@@ -17,7 +21,7 @@
             <tr>
                 <td ng-repeat="session in currentEvent.course.sessions">
                     <span>{{getSessionDate(session)}}</span>
-                    <span>{{session.booking.bookingCount}}/{{session.booking.studentCapacity}}</span>
+                    <span><i class="fa fa-user"></i>&nbsp;{{session.booking.bookingCount}}/{{session.booking.studentCapacity}}</span>
                 </td>
             </tr>
         </thead>

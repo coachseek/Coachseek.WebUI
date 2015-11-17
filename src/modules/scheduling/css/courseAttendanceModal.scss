@@ -19,9 +19,19 @@
 					position: fixed;
 					left: 0;
 					z-index: 100;
-					height: 70px;
-					width: 195px;
+					height: 59px;
+					width: 175px;
 					background: $background-beige;
+					text-align: center;
+					line-height: 59px;
+					span{
+						color: $green;
+						font-size: 18px;
+						line-height: 59px;
+						i{
+							margin-left: 5px;
+						}
+					}
 				}
 				table{
 					border-collapse: collapse;
@@ -61,18 +71,22 @@
 					}
 					&.session-data{
 						position: absolute;
-						left: 195px;
+						left: 175px;
 						display: block;
 						width: 77%;
+						min-height: 100%;
 						padding-bottom: 75px;
 						overflow-x: scroll;
 						overflow-y: hidden;
 						thead{
 							position: fixed;
-							left: 195px;
+							left: 175px;
 							z-index: 1;
 							tr{
 								position: absolute;
+								td{
+									background: $background-beige;
+								}
 								span{
 									width: 80px;
 									display: block;
@@ -87,6 +101,11 @@
 									width: 80px;
 									height: 45px;
 									display: block;
+								}
+
+								ellipsis-animated{
+									line-height: 30px;
+									font-size: 25px;
 								}
 
 								button.add-student{

@@ -338,24 +338,21 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.saveModalEdit = function(){
-                forceFormTouched();
-                if($scope.currentSessionForm.$valid){
-                    var course = $scope.currentEvent.course;
-                    if($scope.currentEvent.tempEventId && course){
-                        var session = $scope.currentEvent.session;
-                        _.set(session, 'pricing.coursePrice', _.get($scope.currentEvent, 'course.pricing.coursePrice'));
-                         saveSession(session);
-                    } else if(course){
-                        sessionOrCourseModal($scope).then(function(id){
-                            if(id === course.id){
-                                saveSession(assignCourseAttributes(course));
-                            } else {
-                                saveSession($scope.currentEvent.session);
-                            }
-                        }); 
-                    } else {
-                        saveSession($scope.currentEvent.session);
-                    }
+                var course = $scope.currentEvent.course;
+                if($scope.currentEvent.tempEventId && course){
+                    var session = $scope.currentEvent.session;
+                    _.set(session, 'pricing.coursePrice', _.get($scope.currentEvent, 'course.pricing.coursePrice'));
+                     saveSession(session);
+                } else if(course){
+                    sessionOrCourseModal($scope).then(function(id){
+                        if(id === course.id){
+                            saveSession(assignCourseAttributes(course));
+                        } else {
+                            saveSession($scope.currentEvent.session);
+                        }
+                    }); 
+                } else {
+                    saveSession($scope.currentEvent.session);
                 }
             };
 
@@ -480,18 +477,10 @@ angular.module('scheduling.controllers', [])
             var closeModal = function(resetTimePicker){
                 removeTempEvents();
                 $scope.$broadcast('closeTimePicker', resetTimePicker);
-                // $scope.currentSessionForm.$setUntouched();
-                // $scope.currentSessionForm.$setPristine();
+                $scope.$broadcast('resetSessionForm', resetTimePicker);
                 $scope.$broadcast('hideSessionModalPopover');
                 if(showDragServicePopover()) $scope.$broadcast('showDragServicePopover');
                 $scope.showModal = false;
-            };
-
-            var forceFormTouched = function(){
-                $scope.currentSessionForm.coaches.$setTouched();
-                $scope.currentSessionForm.locations.$setTouched();
-                $scope.currentSessionForm.sessionPrice.$setTouched();
-                $scope.currentSessionForm.coursePrice.$setTouched();
             };
 
             var removeTempEvents = function(){

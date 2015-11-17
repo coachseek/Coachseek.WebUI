@@ -1,6 +1,4 @@
 <td class="course-session-attendance" ng-repeat="booking in courseBooking.bookings track by $index">
     <customer-attendance-status ng-if="!booking.sessionId"></customer-attendance-status>	
-    <button class="add-student to-session fa fa-plus"
-	    ng-if="booking.sessionId"
-    	ng-click="addToSession(courseBooking.customer, booking.sessionId, $index)"></button>
+    <add-to-session ng-if="booking.sessionId"></add-to-session>
 </td>
