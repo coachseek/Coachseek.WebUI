@@ -44,12 +44,15 @@ angular.module('onboarding.controllers', [])
             });
         };
     }])
-    .controller('mobileOnboardingSkipModalCtrl', ['$scope','loginModal','$modalInstance',function ($scope,loginModal,$modalInstance) {
+    .controller('mobileOnboardingSkipModalCtrl', ['$scope','loginModal','$modalInstance','$state','$stateParams',function ($scope,loginModal,$modalInstance,$state,$stateParams) {
         $scope.continueMobileOnboarding = function(){ 
             $modalInstance.dismiss('cancel');
         };
         $scope.skipMobileOnboarding = function(){
-            loginModal.open();
+            $state.go('newUserSetup').then(function(){
+                $modalInstance.dismiss('cancel');
+            }, function(error){});
+            
         };
     }])
     .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV','mobileOnboardingSkipModal',

@@ -9,6 +9,10 @@
 	font-family: $lato-regular;
 	padding-top: 15px;
 	text-decoration: none;
+	&:focus{
+		color: $white;
+		text-decoration: none;
+	}
 
 	&.green{
 		background-color: $green;
