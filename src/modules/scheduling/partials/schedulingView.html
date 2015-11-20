@@ -31,9 +31,7 @@
             <div class="slider-nav-option payment-header" ng-click="modalTab = 'payment'" ng-class="{'active': modalTab === 'payment'}">{{'scheduling:payment' | i18next}}</div>
         </div>
 
-        <div ng-switch="modalTab">
-            <general-settings-modal ng-switch-when="general"></general-settings-modal>
-            <course-attendance-modal ng-switch-when="attendance"></course-attendance-modal>
-        </div>
+        <general-settings-modal ng-show="modalTab === 'general'"></general-settings-modal>
+        <course-attendance-modal ng-show="modalTab === 'attendance'"></course-attendance-modal>
     </div>
 </div>

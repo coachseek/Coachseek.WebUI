@@ -47,9 +47,17 @@ angular.module('scheduling.services', [])
         this.addToSession = function(customer, sessionId){
             return coachSeekAPIService.save({section: 'Bookings'}, buildBooking(customer, sessionId))
                 .$promise.then(function(booking){
-                    return updateStandaloneSession().then(function(){
-                        return booking;
-                    });
+                    if(currentEventService.event.course){
+                        //Update session and course
+                        return updateCourse().then(function(){
+                            return booking;
+                        });
+                    } else {
+                        //Update standalone session
+                        return updateStandaloneSession().then(function(){
+                            return booking;
+                        });
+                    }
                 });
         }
 

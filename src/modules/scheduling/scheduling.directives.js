@@ -127,6 +127,7 @@ angular.module('scheduling.directives', [])
             }
         };
     })
+//TODO clean up unused DI
     .directive('modalCustomerDetails', ['bookingManager', function(bookingManager){
         return {
             restrict: "E",
@@ -136,8 +137,9 @@ angular.module('scheduling.directives', [])
                 scope.addBooking = function(functionName, customer, sessionId){
                     scope.bookingLoading = true;
                     bookingManager[functionName](customer, sessionId).then(function(){
-                        // var customerName = customer.firstName + " " + scope.item.lastName;
+                        // var customerName = customer.firstName + " " + customer.lastName;
                         // showSuccessAlert(actionName, customerName, course.service.name)
+                        scope.$emit('addBookingToCourse');
                     }, scope.handleErrors).finally(function(){
                         scope.bookingLoading = false;
                     });
@@ -352,10 +354,11 @@ angular.module('scheduling.directives', [])
            replace: false,
            templateUrl:'scheduling/partials/courseAttendanceModal.html',
            link: function(scope, elem){
-                var itemsLoadingCounter = 0;
+                var itemsLoadingCounter = 0,
+                    courseLoaded;
                 scope.courseLoading = true;
                 $(elem).find('table.session-data').on('scroll', function(event) {
-                    $(event.currentTarget).find('thead tr').css("left", -$(event.currentTarget).scrollLeft());
+                    $('div.session-headers').css("left", 175-$(event.currentTarget).scrollLeft());
                 });
 
                 scope.blockAddBookings = function(){
@@ -366,8 +369,10 @@ angular.module('scheduling.directives', [])
                 };
 
                 scope.getSessionDate = function(session){
-                    var date = moment(session.timing.startDate, "YYYY-MM-DD")
-                    return date.format("MMM Do");
+                    if(session){
+                        var date = moment(session.timing.startDate, "YYYY-MM-DD")
+                        return date.format("MMM Do");
+                    }
                 }
 
                 scope.startCourseLoading = function(addToCounter){
@@ -382,40 +387,58 @@ angular.module('scheduling.directives', [])
                     }
                 };
 
-                // scope.$watch('currentEvent', function(newVal){
-                //     console.log(newVal)
-                // }, true);
-                console.time("courseBookings")
-                scope.showCustomers = false;
-
-                // go through session bookings and pluck out unique customers
-                // [{customer: {}, bookings:[booking, sessionId, booking]}, {customer: {}, bookings:[sessionId, sessionId, booking]}]
-                var courseBookingData = [];
-                var bookings = _.get(scope.currentEvent, 'course.booking.bookings') || _.get(scope.currentEvent, 'session.booking.bookings');
-                _.each(bookings, function(booking){
-                    courseBookingData.push({customer: booking.customer, bookings: []});
+                scope.$watch('currentEvent', function(newVal, oldVal){
+                    if(newVal && (_.get(newVal, 'course.id') !== _.get(oldVal, 'course.id') || !_.has(newVal, 'course.id'))){
+                        console.log('CURRENTEVENT COURSE CHANGE')
+                        console.time("courseBookingsLoaded")
+                        scope.showCustomers = false;
+                        scope.courseLoading = 'idle';
+                        //TODO don't delay if modal open?
+                        $timeout(function(){
+                            courseLoaded = true;
+                            scope.courseBookingData = getCourseBookingData();
+                            $timeout(function(){
+                                $(elem).find('.attendance-list').width(175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125));
+                                console.timeEnd("courseBookingsLoaded")
+                            })
+                        }, 350); // has to be longer than modal slide animation or will freeze mid animation
+                    }
                 });
-                courseBookingData = _.uniq(courseBookingData, 'customer.id')
-                var sessions = _.get(scope.currentEvent, 'course.sessions') || [_.get(scope.currentEvent, 'session')];
-                _.each(sessions, function(session, sessionIndex){
-                    //if there are no bookings at all need to still loop through in order to get add to session button in there
-                    var sessionBookings = _.size(session.booking.bookings) ? session.booking.bookings : [{}];
-                    _.each(sessionBookings, function(sessionBooking){
-                        _.each(courseBookingData, function(booking){
-                            if(_.get(sessionBooking, 'customer.id') === booking.customer.id){
-                                booking.bookings[sessionIndex] = sessionBooking;
-                            } else if (!booking.bookings[sessionIndex]){
-                                booking.bookings[sessionIndex] = {sessionId: session.id};
-                            }
+
+                scope.$on('addBookingToCourse', function(){
+                    console.log('ADD BOOKING')
+                    console.time("addBookingLoaded")
+                    scope.courseBookingData = getCourseBookingData();
+                    $timeout(function(){
+                        console.timeEnd("addBookingLoaded")
+                    })
+                });
+
+                function getCourseBookingData(){
+                    // go through session bookings and pluck out unique customers
+                    // [{customer: {}, bookings:[booking, sessionId, booking]}, {customer: {}, bookings:[sessionId, sessionId, booking]}]
+                    var courseBookingData = [];
+                    var bookings = _.get(scope.currentEvent, 'course.booking.bookings') || _.get(scope.currentEvent, 'session.booking.bookings');
+                    _.each(bookings, function(booking){
+                        courseBookingData.push({customer: booking.customer, bookings: []});
+                    });
+                    courseBookingData = _.uniq(courseBookingData, 'customer.id')
+                    var sessions = _.get(scope.currentEvent, 'course.sessions') || [_.get(scope.currentEvent, 'session')];
+                    _.each(sessions, function(session, sessionIndex){
+                        // if there are no bookings at all need to still loop through in order to get add to session button in there
+                        var sessionBookings = _.size(session.booking.bookings) ? session.booking.bookings : [{}];
+                        _.each(sessionBookings, function(sessionBooking){
+                            _.each(courseBookingData, function(booking){
+                                if(_.get(sessionBooking, 'customer.id') === booking.customer.id){
+                                    booking.bookings[sessionIndex] = sessionBooking;
+                                } else if (!booking.bookings[sessionIndex]){
+                                    booking.bookings[sessionIndex] = {sessionId: session.id};
+                                }
+                            });
                         });
                     });
-                });
-                $timeout(function(){
-                    scope.courseBookingData = courseBookingData;
-                    scope.$digest()
-                    scope.courseLoading = 'idle';
-                    console.timeEnd("courseBookings")
-                }, 1000)
+                    return _.sortByAll(courseBookingData, ['customer.lastName', 'customer.firstName']);
+                }
 
                 coachSeekAPIService.query({section: 'Customers'})
                     .$promise.then(function(customerList){

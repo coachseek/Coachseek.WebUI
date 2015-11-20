@@ -10,20 +10,49 @@
 
 		course-attendance-modal{
 			.attendance-list{
-				width: 100vw;
+				max-width: 100vw;
+				min-width: 400px;
 				height: 90vh;
 				background: $background-beige;
-				overflow-y: scroll;
+				overflow: hidden;
+				div.session-headers{
+					position: absolute;
+					left: 175px;
+					white-space: nowrap;
+					z-index: 1;
+					line-height: 30px;
+					height: 60px;
+					li{
+						background: $background-beige;
+						display: inline-block;
+						text-align: center;
+					}
+					span{
+						width: 125px;
+						display: block;
+					}
+				}
 
 				.cover-box{
 					position: fixed;
 					left: 0;
 					z-index: 100;
-					height: 59px;
+					height: 60px;
 					width: 175px;
 					background: $background-beige;
 					text-align: center;
 					line-height: 59px;
+					loading-animation{
+						height: 60px;
+						width: 175px;
+						position: absolute;
+						top:0px;
+						left: 0px;
+						margin: 0px;
+						span{
+							margin: 0px 3px;
+						}
+					}
 					span{
 						color: $green;
 						font-size: 18px;
@@ -33,97 +62,88 @@
 						}
 					}
 				}
-				table{
-					border-collapse: collapse;
-					tr{
-						td{
-							padding: 0px;
-							vertical-align: top;
-							background: $white;
-							border-top: 15px solid $background-beige;
-							line-height: 22px;
-							text-align: center;
-
-							&.course-session-attendance{
-								.attending-checkbox{
-									margin: 0 auto;
-								}
-							}
-						}
-					}
-					&.customer-names{
-						float: left;
-						margin-top: 55px;
-						td{
-							width: 120px;
-							height:60px;
-							display: block;
-							float: left;
-							line-height: 45px;
-							&.delete-booking{
-								width:40px;
-								font-size: 18px;
-							}
-						}
+				.course-table-container{
+					overflow-y: scroll;
+					overflow-x: hidden;
+					height: 84vh;
+					table{
+						border-collapse: collapse;
 						tr{
-							height: 60px
-						}
-					}
-					&.session-data{
-						position: absolute;
-						left: 175px;
-						display: block;
-						width: 77%;
-						min-height: 100%;
-						padding-bottom: 75px;
-						overflow-x: scroll;
-						overflow-y: hidden;
-						thead{
-							position: fixed;
-							left: 175px;
-							z-index: 1;
-							tr{
-								position: absolute;
-								td{
-									background: $background-beige;
-								}
-								span{
-									width: 80px;
-									display: block;
+							td{
+								padding: 0px;
+								vertical-align: top;
+								background: $white;
+								border-top: 15px solid $background-beige;
+								line-height: 22px;
+								text-align: center;
+
+								&.course-session-attendance{
+									.attending-checkbox{
+										width: 80px;
+										height: 45px;
+										margin: 0 auto;
+										display: block;
+									}
 								}
 							}
 						}
-						tbody{
-							display: block;
+						&.customer-names{
+							float: left;
 							margin-top: 55px;
+							td{
+								width: 120px;
+								height:60px;
+								display: block;
+								float: left;
+								line-height: 45px;
+								&.delete-booking{
+									width:40px;
+									font-size: 18px;
+								}
+							}
 							tr{
-								button.add-student, customer-attendance-status{
-									width: 80px;
-									height: 45px;
-									display: block;
+								height: 60px
+							}
+						}
+						&.session-data{
+							display: block;
+							max-width: 87%;
+							min-height: 100%;
+							padding-bottom: 75px;
+							overflow-x: scroll;
+							overflow-y: hidden; 
+							tbody{
+								display: block;
+								margin-top: 55px;
+								tr{
+									button.add-student, customer-attendance-status{
+										width: 125px;
+										height: 45px;
+										display: block;
+									}
+
+									ellipsis-animated{
+										line-height: 30px;
+										font-size: 25px;
+									}
+
+									button.add-student{
+									    border: none;
+									    background: none;
+
+									    font-size: 23px;
+									    line-height: 44px;
+									    padding: 0;
+
+									    &.fa-plus{
+									        color: $green;                    
+									    }
+									    &.fa-check{
+									        color: $text-grey;
+									    }
+									}
+
 								}
-
-								ellipsis-animated{
-									line-height: 30px;
-									font-size: 25px;
-								}
-
-								button.add-student{
-								    border: none;
-								    background: none;
-
-								    font-size: 23px;
-								    line-height: 44px;
-								    padding: 0;
-
-								    &.fa-plus{
-								        color: $green;                    
-								    }
-								    &.fa-check{
-								        color: $text-grey;
-								    }
-								}
-
 							}
 						}
 					}
@@ -242,7 +262,7 @@
 			    background: $background-grey;
 			    cursor: pointer;
 			    border: none;
-			    z-index: 1;
+			    z-index: 101;
 			    -webkit-transition:right linear 0.3s;
 			    transition:right linear 0.3s;
 

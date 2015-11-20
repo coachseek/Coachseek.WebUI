@@ -3,33 +3,32 @@
         <loading-animation ng-show="courseLoading === true"></loading-animation>
         <span ng-show="!courseLoading">{{'saved' | i18next}}&nbsp;&nbsp;<i class="fa fa-thumbs-o-up"></i></span>
     </div>
-    
-    <table class="customer-names">
-        <tbody>
-                <tr ng-repeat="courseBooking in courseBookingData">
-                    <td class="delete-booking delete-button" ng-click="removeBooking()" ng-disabled="bookingLoading">
-                        <i class="fa fa-trash-o"></i>
-                    </td>
-                    <td class="item-title">{{courseBooking.customer.firstName}}&nbsp;<br ng-hide="isBigScreen">{{courseBooking.customer.lastName}}</td>
-                </tr>
+    <div class="session-headers">
+        <!-- <td><span>{{'whole-course'  | i18next}}</span></td> -->
+        <li ng-repeat="session in currentEvent.course.sessions || [currentEvent.session] track by $index">
+            <span>{{getSessionDate(session)}}</span>
+            <span><i class="fa fa-user"></i>&nbsp;{{session.booking.bookingCount}}/{{session.booking.studentCapacity}}</span>
+        </li>
+    </div>
+    <div class="course-table-container">
+        <table class="customer-names">
+            <tbody>
+                    <tr ng-repeat="courseBooking in courseBookingData track by $index">
+                        <td class="delete-booking delete-button" ng-click="removeBooking()" ng-disabled="bookingLoading">
+                            <i class="fa fa-trash-o"></i>
+                        </td>
+                        <td class="item-title">{{courseBooking.customer.firstName}}&nbsp;<br ng-hide="isBigScreen">{{courseBooking.customer.lastName}}</td>
+                    </tr>
+                    <!-- <div class="no-students" ng-if="!currentEvent.course.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div> -->
+            </tbody>
+        </table>    
+        <table class="session-data">
+            <tbody>
+                <tr customer-course-booking ng-repeat="courseBooking in courseBookingData track by courseBooking.customer.id | orderBy:courseBooking.customer.lastName"></tr>
                 <!-- <div class="no-students" ng-if="!currentEvent.course.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div> -->
-        </tbody>
-    </table>    
-    <table class="session-data">
-        <!-- Display Sessions in course data here -->
-        <thead>
-            <tr>
-                <td ng-repeat="session in currentEvent.course.sessions">
-                    <span>{{getSessionDate(session)}}</span>
-                    <span><i class="fa fa-user"></i>&nbsp;{{session.booking.bookingCount}}/{{session.booking.studentCapacity}}</span>
-                </td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr customer-course-booking ng-repeat="courseBooking in courseBookingData"></tr>
-            <!-- <div class="no-students" ng-if="!currentEvent.course.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div> -->
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
     <button class="show-customer-list-button" ng-click="showCustomers = !showCustomers " ng-class="{'showing': showCustomers}" ng-disabled="blockAddBookings()">
         <span class="add-student-text">
             <i class="fa fa-plus"></i>
@@ -42,7 +41,7 @@
             <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
             <div class="add-to-titles" ng-if="currentEvent.course">
                 <div>{{'customers:entire-course'  | i18next}}</div>
-                <div>{{'customers:single-session' | i18next}}</div>
+                <div>{{getSessionDate(currentEvent.session)}}</div>
             </div>
         </div>
         <ul infinite-scroll='loadMore()' infinite-scroll-parent="true">
