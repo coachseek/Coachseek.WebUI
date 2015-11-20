@@ -5,7 +5,7 @@
     </div>
     <div class="session-headers">
         <!-- <td><span>{{'whole-course'  | i18next}}</span></td> -->
-        <li ng-repeat="session in currentEvent.course.sessions || [currentEvent.session] track by $index">
+        <li ng-repeat="session in currentEvent.course.sessions || [currentEvent.session] track by $index" ng-class="{'current': currentEvent.session.id === session.id}">
             <span>{{getSessionDate(session)}}</span>
             <span><i class="fa fa-user"></i>&nbsp;{{session.booking.bookingCount}}/{{session.booking.studentCapacity}}</span>
         </li>

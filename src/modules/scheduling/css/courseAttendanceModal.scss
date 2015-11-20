@@ -26,6 +26,10 @@
 						background: $background-beige;
 						display: inline-block;
 						text-align: center;
+
+						&.current{
+							background: rgb(179,215,243);
+						}
 					}
 					span{
 						width: 125px;
@@ -36,7 +40,7 @@
 				.cover-box{
 					position: fixed;
 					left: 0;
-					z-index: 100;
+					z-index: 49;
 					height: 60px;
 					width: 175px;
 					background: $background-beige;
@@ -76,6 +80,11 @@
 								border-top: 15px solid $background-beige;
 								line-height: 22px;
 								text-align: center;
+
+								&.current.course-session-attendance{
+									border-top: 15px solid rgb(179,215,243);
+									background: rgb(179,215,243);
+								}
 
 								&.course-session-attendance{
 									.attending-checkbox{
@@ -152,7 +161,8 @@
 			.customer-list{
 			    height: 100%;
 			    overflow-y: auto;
-			    position: fixed;
+			    position: absolute;
+			    top: 0px;
 			    right: -345px;
 			    width: 345px;
 			    padding: 10px;
@@ -257,7 +267,8 @@
 			.show-customer-list-button{
 			    height: 100%;
 			    width: 35px;
-			    position: fixed;
+			    position: absolute;
+			    top: 0;
 			    right: 0;
 			    background: $background-grey;
 			    cursor: pointer;

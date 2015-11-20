@@ -1,3 +1,4 @@
+//TODO clean up unused DI
 angular.module('scheduling.directives', [])
     .directive('schedulingServicesList', ['sessionService', function(sessionService){
         return {
@@ -127,7 +128,6 @@ angular.module('scheduling.directives', [])
             }
         };
     })
-//TODO clean up unused DI
     .directive('modalCustomerDetails', ['bookingManager', function(bookingManager){
         return {
             restrict: "E",
@@ -354,8 +354,7 @@ angular.module('scheduling.directives', [])
            replace: false,
            templateUrl:'scheduling/partials/courseAttendanceModal.html',
            link: function(scope, elem){
-                var itemsLoadingCounter = 0,
-                    courseLoaded;
+                var itemsLoadingCounter = 0;
                 scope.courseLoading = true;
                 $(elem).find('table.session-data').on('scroll', function(event) {
                     $('div.session-headers').css("left", 175-$(event.currentTarget).scrollLeft());
@@ -388,25 +387,39 @@ angular.module('scheduling.directives', [])
                 };
 
                 scope.$watch('currentEvent', function(newVal, oldVal){
-                    if(newVal && (_.get(newVal, 'course.id') !== _.get(oldVal, 'course.id') || !_.has(newVal, 'course.id'))){
-                        console.log('CURRENTEVENT COURSE CHANGE')
-                        console.time("courseBookingsLoaded")
-                        scope.showCustomers = false;
-                        scope.courseLoading = 'idle';
-                        //TODO don't delay if modal open?
-                        $timeout(function(){
-                            courseLoaded = true;
-                            scope.courseBookingData = getCourseBookingData();
-                            $timeout(function(){
-                                $(elem).find('.attendance-list').width(175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125));
-                                console.timeEnd("courseBookingsLoaded")
-                            })
-                        }, 350); // has to be longer than modal slide animation or will freeze mid animation
+                    if(newVal){
+                        //set up scroll to event when opening attendance tab
+                        var deregister = scope.$watch('modalTab', function(newVal){
+                            if(newVal === 'attendance'){
+                                console.log("HERE")
+                                $timeout(function(){
+                                    $(elem).find('table.session-data').animate({scrollLeft: $(elem).find('li.current').position().left}, 800);
+                                });
+                                deregister()
+                            }
+                        });
+
+                        //only run if course changes otherwise would re-render same data
+                        if(_.get(newVal, 'course.id') !== _.get(oldVal, 'course.id') || !_.has(newVal, 'course.id')) {
+                           console.log('CURRENTEVENT COURSE CHANGE')
+                           console.time("courseBookingsLoaded")
+                           scope.showCustomers = false;
+                           scope.courseLoading = 'idle';
+
+                           //TODO don't delay if modal open?
+                           $timeout(function(){
+                               scope.courseBookingData = getCourseBookingData();
+                               $timeout(function(){
+                                   $(elem).find('.attendance-list').width(175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125));
+                                   console.timeEnd("courseBookingsLoaded")
+                               })
+                           }, 350); // has to be longer than modal slide animation or will freeze mid animation
+                       }
                     }
                 });
 
+
                 scope.$on('addBookingToCourse', function(){
-                    console.log('ADD BOOKING')
                     console.time("addBookingLoaded")
                     scope.courseBookingData = getCourseBookingData();
                     $timeout(function(){
@@ -430,9 +443,10 @@ angular.module('scheduling.directives', [])
                         _.each(sessionBookings, function(sessionBooking){
                             _.each(courseBookingData, function(booking){
                                 if(_.get(sessionBooking, 'customer.id') === booking.customer.id){
+                                    sessionBooking.sessionId= session.id;
                                     booking.bookings[sessionIndex] = sessionBooking;
                                 } else if (!booking.bookings[sessionIndex]){
-                                    booking.bookings[sessionIndex] = {sessionId: session.id};
+                                    booking.bookings[sessionIndex] = {sessionId: session.id, showAddToSessionButton: true};
                                 }
                             });
                         });

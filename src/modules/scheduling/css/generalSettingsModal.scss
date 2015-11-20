@@ -56,7 +56,7 @@
             }
 
             .session-form{
-                height: calc(100vh - 285px);
+                height: calc(100vh - 185px);
                 overflow-y: scroll;
                 padding: 0 35px;
 
@@ -187,6 +187,7 @@
     .edit-button-container{
         position: absolute;
         bottom: 55px;
+        left: 0px;
         background: $white;
         width: 100%;
         padding: 10px 15px;
