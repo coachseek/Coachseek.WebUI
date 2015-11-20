@@ -125,12 +125,15 @@
 				height: 60px;
 				border-radius: 0;
 			}
-			&.location,&.lesson,&.price{
+			&.personal,&.business,&.security,&.location,&.lesson,&.price{
 				a.group-btn.green{
 					margin-top: 40px;
 				}
 				p{
 					padding-bottom: 20px;
+				}
+				input:first-child{
+					border-bottom: 0;
 				}
 			}
 			&.welcome{
