@@ -186,11 +186,11 @@ angular.module('scheduling.directives', [])
             }
         };
     }])
-    .directive('customerBooking', ['coachSeekAPIService', 'bookingManager', 'sessionOrCourseModal', function(coachSeekAPIService, bookingManager, sessionOrCourseModal){
+    .directive('customerPaymentStatus', ['coachSeekAPIService', 'bookingManager', 'sessionOrCourseModal', function(coachSeekAPIService, bookingManager, sessionOrCourseModal){
         return {
             restrict: "E",
             replace: false,
-            templateUrl:'scheduling/partials/customerBooking.html',
+            templateUrl:'scheduling/partials/customerPaymentStatus.html',
             link: function(scope){
                 var customerName = scope.booking.customer.firstName + " " + scope.booking.customer.lastName
 
@@ -248,24 +248,20 @@ angular.module('scheduling.directives', [])
                     }).then(function(){
                         scope.booking.paymentStatus = scope.paymentStatus;
 
-                        scope.addAlert({
-                            type: 'success',
-                            message: "scheduling:alert.update-payment-status." + scope.paymentStatus,
-                            customerName: customerName
-                        });
+                        // scope.addAlert({
+                        //     type: 'success',
+                        //     message: "scheduling:alert.update-payment-status." + scope.paymentStatus,
+                        //     customerName: customerName
+                        // });
                     },scope.handleErrors).finally(function(){
-                        scope.bookingLoading = false;
+                        scope.stopCourseLoading();  
                     });
                 }, 1000);
 
                 function updateBooking(updateCommand){
-                    scope.bookingLoading = true;
+                    scope.startCourseLoading(true);
                     return coachSeekAPIService.save({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
                 }
-
-                scope.$on('stopBookingLoading', function(){
-                    scope.bookingLoading = false;
-                });
             }
         };
     }])

@@ -125,10 +125,41 @@
 								display: block;
 								margin-top: 55px;
 								tr{
-									button.add-student, customer-attendance-status{
+									button.add-student, customer-attendance-status, customer-payment-status{
 										width: 125px;
 										height: 45px;
 										display: block;
+									}
+
+									.payment-status{
+									    line-height: 45px;
+									    width: 80px;
+									    margin: 0 auto;
+									    font-size: 14px;
+									    text-align: center;
+									    color: white;
+									    cursor: pointer;
+									    -moz-user-select: none; 
+									    -webkit-user-select: none; 
+									    user-select: none;
+
+									    &[disabled]{
+									        pointer-events: none;
+									    }
+
+									    &.pending-invoice, &.pending-payment{
+									        background: $dark-grey;
+									        padding: 8px 0;
+									        line-height: 15px;
+									    }
+
+									    &.paid{
+									        background: $green;
+									    }
+
+									    &.overdue-payment{
+									        background: $red;
+									    }
 									}
 
 									ellipsis-animated{

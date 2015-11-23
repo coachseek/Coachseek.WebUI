@@ -1,4 +1,5 @@
 <td class="course-session-attendance" ng-class="{'current': currentEvent.session.id === booking.sessionId}" ng-repeat="booking in courseBooking.bookings track by $index">
-    <customer-attendance-status ng-if="!booking.showAddToSessionButton"></customer-attendance-status>	
+    <customer-attendance-status ng-if="!booking.showAddToSessionButton && modalTab === 'attendance'"></customer-attendance-status>	
+    <customer-payment-status ng-if="!booking.showAddToSessionButton && modalTab === 'payment'"></customer-payment-status>	
     <add-to-session ng-if="booking.showAddToSessionButton"></add-to-session>
 </td>
