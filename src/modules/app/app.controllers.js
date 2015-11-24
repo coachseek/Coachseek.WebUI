@@ -93,6 +93,13 @@ angular.module('app.controllers', [])
                 });
             }
 
+            function startFullstory(user, business){
+                FS.identify(business.id, {
+                  displayName: business.name,
+                  email: user.email
+                });
+            }
+
             $rootScope.setupCurrentUser = function(user, business){
                 _.assign(user, {
                     trialDaysLeft: moment(business.authorisedUntil).diff(moment().add(15, 'd'), 'days')
@@ -100,6 +107,7 @@ angular.module('app.controllers', [])
                 $rootScope.setUserAuth(user.email, user.password)
                 startIntercom(user, business);
                 startHeapAnalytics(user, business);
+                startFullstory(user, business);
                 $rootScope.business    = sessionService.business = business;
                 $rootScope.currentUser = sessionService.user     = user;
             };
@@ -126,6 +134,7 @@ angular.module('app.controllers', [])
                         .then(function(business){
                             sessionService.business = business;
                             startHeapAnalytics({}, business);
+                            startFullstory({}, business);
                             heap.track('Online Booking Page View');
                             if($location.search().currentBooking){
                                 sessionService.currentBooking = JSON.parse($location.search().currentBooking);
