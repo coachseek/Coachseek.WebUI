@@ -99,7 +99,8 @@ angular.module('businessSetup.directives', [])
                     'EUR',
                     'GBP',
                     'SEK',
-                    'ZAR'
+                    'ZAR',
+                    'CNY'
                 ];
             }
         };

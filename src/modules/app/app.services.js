@@ -69,6 +69,9 @@ angular.module('app.services', [])
                 case 'US': //United States
                     return 'USD';
                     break;
+                case 'CN': //China
+                    return 'CNY';
+                    break;
                 default:
                     return 'USD';
                     break;

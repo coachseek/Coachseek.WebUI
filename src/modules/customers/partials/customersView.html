@@ -1,5 +1,5 @@
 <div class="customers-list-view crud-list" ng-hide="item" ng-tab-add="createItem()">
-    <export-to-csv ng-if="!Modernizr.touch" export-data="itemList" keys="['firstName', 'lastName', 'email', 'phone']" filename="business.domain + '-customers.csv'"></export-to-csv>
+    <export-to-csv ng-if="!Modernizr.touchevents" export-data="itemList" keys="['firstName', 'lastName', 'email', 'phone']" filename="business.domain + '-customers.csv'"></export-to-csv>
     <button class="create-item" ng-click="createItem()" ng-disabled="AILoading">
         <i class="fa fa-plus"></i>
         {{'customers:add-customer' | i18next}}

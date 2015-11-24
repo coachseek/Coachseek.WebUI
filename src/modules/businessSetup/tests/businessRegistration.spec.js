@@ -145,6 +145,16 @@ describe('BusinessSetup Register', function(){
                 });
             });
 
+            describe('when the country is China', function(){
+                let('location', function(){
+                    return {country_code: 'CN'};
+                });
+
+                it('should set the currency to CNY', function(){
+                    expect(this.business.currency).to.equal('CNY');
+                });
+            });
+
             describe('when the country is not a country', function(){
                 let('location', function(){
                     return {country_code: 'BOOBS'};

@@ -38,14 +38,14 @@ describe('Customers CRUD Control', function(){
             return deferred.promise;
         });
 
-        let('ModernizrTouch', function(){
-            return Modernizr.touch;
+        let('ModernizrTouchevents', function(){
+            return Modernizr.touchevents;
         })
 
         var self, getStub, coachSeekAPIService, scope, $customerListView, $customerItemView;
         beforeEach(function(){
             self = this;
-            Modernizr.touch = this.ModernizrTouch;
+            Modernizr.touchevents = this.ModernizrTouchevents;
 
             coachSeekAPIService = $injector.get('coachSeekAPIService');
             scope = $rootScope.$new();
@@ -64,7 +64,7 @@ describe('Customers CRUD Control', function(){
             expect($testRegion.find('export-to-csv').length).to.equal(1);
         });
         describe('and the device is a touch device', function(){
-            let('ModernizrTouch', function(){
+            let('ModernizrTouchevents', function(){
                 return true;
             })
             it('should NOT show the export-to-csv button', function(){
