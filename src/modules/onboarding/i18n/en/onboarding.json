@@ -82,11 +82,13 @@
         "lesson-button":"Continue",
         "lesson-placeholder":"e.g. Junior football training",
         "location-title":"Location",
-        "location-description":"I teach Mini Red Tennis at?",
+        "location-description-1":"I teach ",
+        "location-description-2":" at?",
         "location-button":"Continue",
         "location-placeholder":"e.g. Cambridge football club",
         "price-title":"Price",
-        "price-description":"How much does Mini Red Tennis cost?",
+        "price-description-1":"How much does ",
+        "price-description-2":" cost?",
         "price-button":"Continue",
         "price-placeholder":"e.g. $30.00"
     }
