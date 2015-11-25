@@ -5,33 +5,59 @@
 	<div class="m-scooch-inner">
 	<!-- the items -->
 		<div class="m-item m-active welcome">
-		    <p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.welcome-title' | i18next}}</p>
+		    <p class="strong">{{'onboarding:mobileOnboardingDefault.welcome-title' | i18next}}</p>
 		    <p>{{'onboarding:mobileOnboardingDefault.welcome-description' | i18next}}</p>
 		    <img ng-src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/m-onboarding-welcome.png">
 		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.welcome-button' | i18next}}</a>
 		</div>
+		<div class="m-item personal">
+			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
+		    <p class="strong">{{'onboarding:mobileOnboardingDefault.personal-title' | i18next}}</p>
+		    <p>{{'onboarding:mobileOnboardingDefault.personal-description' | i18next}}</p>
+		    <input type="text" ng-model="admin.firstName" placeholder="{{'onboarding:mobileOnboardingDefault.personal-placeholder-firstName' | i18next}}">
+		    <input type="text" ng-model="admin.lastName" placeholder="{{'onboarding:mobileOnboardingDefault.personal-placeholder-lastName' | i18next}}">
+		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.personal-button' | i18next}}</a>
+		</div>
+		<div class="m-item business">
+			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
+		    <p class="strong">{{'onboarding:mobileOnboardingDefault.business-title' | i18next}}</p>
+		    <p>{{'onboarding:mobileOnboardingDefault.business-description' | i18next}}</p>
+		    <input type="text" ng-model="business.name" placeholder="{{'onboarding:mobileOnboardingDefault.business-placeholder-name' | i18next}}">
+		    <input type="text" ng-model="admin.email" placeholder="{{'onboarding:mobileOnboardingDefault.business-placeholder-email' | i18next}}">
+		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.business-button' | i18next}}</a>
+		</div>
+		<div class="m-item security">
+			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
+		    <p class="strong">{{'onboarding:mobileOnboardingDefault.security-title' | i18next}}</p>
+		    <p>{{'onboarding:mobileOnboardingDefault.security-description' | i18next}}</p>
+		    <input type="text" ng-model="admin.password" placeholder="{{'onboarding:mobileOnboardingDefault.security-placeholder' | i18next}}">
+		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.security-button' | i18next}}</a>
+		</div>
 		<div class="m-item lesson">
 			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
-		    <p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.lesson-title' | i18next}}</p>
+		    <p class="strong">{{'onboarding:mobileOnboardingDefault.lesson-title' | i18next}}</p>
 		    <p>{{'onboarding:mobileOnboardingDefault.lesson-description' | i18next}}</p>
-		    <input type="text" placeholder="{{'onboarding:mobileOnboardingDefault.lesson-placeholder' | i18next}}">
+		    <input type="text" ng-model="serviceName" placeholder="{{'onboarding:mobileOnboardingDefault.lesson-placeholder' | i18next}}">
 		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.lesson-button' | i18next}}</a>
 		</div>
 		
 		<div class="m-item location">
 			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
-	   		<p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.location-title' | i18next}}</p>
-		    <p>{{'onboarding:mobileOnboardingDefault.location-description' | i18next}}</p>
-		    <input type="text" placeholder="{{'onboarding:mobileOnboardingDefault.location-placeholder' | i18next}}">
+	   		<p class="strong">{{'onboarding:mobileOnboardingDefault.location-title' | i18next}}</p>
+		    <p>{{('onboarding:mobileOnboardingDefault.location-description-1' | i18next)+serviceName+('onboarding:mobileOnboardingDefault.location-description-2' | i18next)}}</p>
+		    <input type="text" ng-model="locationName" placeholder="{{'onboarding:mobileOnboardingDefault.location-placeholder' | i18next}}">
 		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.location-button' | i18next}}</a>
 		</div>
 	
 		<div class="m-item price">
 			<div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
-		    <p class="strong" ng-i18next>{{'onboarding:mobileOnboardingDefault.price-title' | i18next}}</p>
-		    <p>{{'onboarding:mobileOnboardingDefault.price-description' | i18next}}</p>
-		    <input type="text" placeholder="{{'onboarding:mobileOnboardingDefault.price-placeholder' | i18next}}">
-		    <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.price-button' | i18next}}</a>
+		    <p class="strong">{{'onboarding:mobileOnboardingDefault.price-title' | i18next}}</p>
+		    <p>{{('onboarding:mobileOnboardingDefault.price-description-1' | i18next)+serviceName+('onboarding:mobileOnboardingDefault.price-description-2' | i18next)}}</p>
+		    <input type="text" ng-model="sessionPrice" placeholder="{{'onboarding:mobileOnboardingDefault.price-placeholder' | i18next}}">
+		    <!-- <select ng-model="business.payment" ng-options="currency.currency for currency in currencies" ></select>
+		    {{business.payment.currency}} -->
+		    <currency-picker current-currency="business.currency"></currency-picker>
+		    <a href="" ng-click="slideNext();createDefaults()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.price-button' | i18next}}</a>
 		</div>
 		
 	</div>
@@ -41,5 +67,8 @@
 		<a href="#" data-m-slide="2">2</a>
 		<a href="#" data-m-slide="3">3</a>
 		<a href="#" data-m-slide="4">4</a>
+		<a href="#" data-m-slide="5">5</a>
+		<a href="#" data-m-slide="6">6</a>
+		<a href="#" data-m-slide="7">7</a>
 	</div>
 </div>
