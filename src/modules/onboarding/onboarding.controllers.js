@@ -1,4 +1,4 @@
-angular.module('onboarding.controllers', [])
+angular.module('onboarding.controllers', ['businessSetup'])
     .controller('onboardingDefaultsModalCtrl', ['$scope', '$q', '$timeout', '$activityIndicator', 'coachSeekAPIService', 'sessionService', 'serviceDefaults', 'coachDefaults',
       function($scope, $q, $timeout, $activityIndicator, coachSeekAPIService, sessionService, serviceDefaults, coachDefaults){
         $scope.coachFirstName = $scope.currentUser.firstName;
@@ -55,8 +55,8 @@ angular.module('onboarding.controllers', [])
             
         };
     }])
-    .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV','mobileOnboardingSkipModal',
-        function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV,mobileOnboardingSkipModal){        
+    .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV',
+        function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV){        
             $rootScope.signIn = function(){
                 loginModal.open().then(function () {
                     $rootScope.removeAlerts();
@@ -67,7 +67,10 @@ angular.module('onboarding.controllers', [])
                 $state.go('mobileOnboardingDefault');
             };
     }])
-    .controller('mobileOnboardingDefaultCtrl', ['$scope','mobileOnboardingSkipModal' ,function ($scope,mobileOnboardingSkipModal) {
+    .controller('mobileOnboardingDefaultCtrl', ['$q','$stateParams', '$state','$rootScope','$scope','$timeout', '$activityIndicator','coachSeekAPIService','serviceDefaults','coachDefaults','mobileOnboardingSkipModal',function ($q,$stateParams,$state,$rootScope,$scope,$timeout, $activityIndicator,coachSeekAPIService,serviceDefaults,coachDefaults,mobileOnboardingSkipModal) {
+        $scope.business = {};
+        $scope.admin = {};
+
         $scope.slideNext = function(){
             $('.m-scooch').scooch('next');
         };
@@ -77,5 +80,50 @@ angular.module('onboarding.controllers', [])
         $scope.skipModal = function(){
             mobileOnboardingSkipModal.open('mobileOnboardingSkipModal','mobileOnboardingSkipModalCtrl');
         }
+        $scope.createDefaults = function(){
+            $scope.removeAlerts();
+            // if($scope.onboardingDefaultsForm.$valid){
+                $activityIndicator.startAnimating();
+                coachSeekAPIService.save({
+                    section: 'businessRegistration'}, {
+                    admin: $scope.admin, 
+                    business: $scope.business
+                }).$promise.then(function(newUser){
+                    $scope.setupCurrentUser({
+                        email: newUser.admin.email,
+                        password: $scope.admin.password,
+                        firstName: newUser.admin.firstName,
+                        lastName: newUser.admin.lastName
+                    }, newUser.business);
+                    $q.all(getDefaultPromises()).then(function(response){
+                        $state.go('scheduling');
+                    }, $scope.handleErrors)
+                    .finally(function(){
+                        $activityIndicator.stopAnimating();
+                    });
+                    
+                }); 
+            // }
+
+        };
+
+         function getDefaultPromises(){
+            var defaultServiceValues = angular.copy(serviceDefaults);
+            return [
+                coachSeekAPIService.save({ section: 'Coaches' }, getDefaultCoachValues()).$promise,
+                coachSeekAPIService.save({ section: 'Locations' }, {name: $scope.locationName}).$promise,
+                coachSeekAPIService.save({ section: 'Services' }, _.assign(defaultServiceValues, {name: $scope.serviceName,pricing:{sessionPrice:$scope.sessionPrice}})).$promise
+            ];
+        };
+
+        function getDefaultCoachValues(){
+            var defaultCoachValues = angular.copy(coachDefaults);
+            return _.assign(defaultCoachValues, {
+                firstName: $scope.admin.firstName,
+                lastName: $scope.admin.lastName,
+                email: $scope.admin.email,
+                phone: i18n.t('onboarding:1800coach') + $scope.admin.lastName.toUpperCase()
+            });
+        };
 
     }]);
