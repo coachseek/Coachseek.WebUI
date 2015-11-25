@@ -136,6 +136,11 @@
 					border-bottom: 0;
 				}
 			}
+			&.price{
+				select-overlay{
+					display: none !important;
+				}
+			}
 			&.welcome{
 				img{
 					width:76px;
