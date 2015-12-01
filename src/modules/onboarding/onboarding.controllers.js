@@ -44,7 +44,8 @@ angular.module('onboarding.controllers', ['businessSetup'])
             });
         };
     }])
-    .controller('mobileOnboardingSkipModalCtrl', ['$scope','loginModal','$modalInstance','$state','$stateParams',function ($scope,loginModal,$modalInstance,$state,$stateParams) {
+    .controller('mobileOnboardingSkipModalCtrl', ['$scope','loginModal','$modalInstance','$state','$stateParams',
+        function ($scope, loginModal, $modalInstance, $state, $stateParams) {
         $scope.continueMobileOnboarding = function(){ 
             $modalInstance.dismiss('cancel');
         };
@@ -67,12 +68,25 @@ angular.module('onboarding.controllers', ['businessSetup'])
                 $state.go('mobileOnboardingDefault');
             };
     }])
-    .controller('mobileOnboardingDefaultCtrl', ['$q','$stateParams', '$state','$rootScope','$scope','$timeout', '$activityIndicator','coachSeekAPIService','serviceDefaults','coachDefaults','mobileOnboardingSkipModal',function ($q,$stateParams,$state,$rootScope,$scope,$timeout, $activityIndicator,coachSeekAPIService,serviceDefaults,coachDefaults,mobileOnboardingSkipModal) {
+    .controller('mobileOnboardingDefaultCtrl', ['$q','$stateParams', '$state','$rootScope','$scope','$timeout', '$activityIndicator','coachSeekAPIService','serviceDefaults','coachDefaults','mobileOnboardingSkipModal','sessionService',
+        function ($q, $stateParams, $state, $rootScope, $scope, $timeout, $activityIndicator, coachSeekAPIService, serviceDefaults, coachDefaults, mobileOnboardingSkipModal,sessionService) {
         $scope.business = {};
         $scope.admin = {};
-
-        $scope.slideNext = function(){
-            $('.m-scooch').scooch('next');
+        $scope.slideNext = function(formName){
+            if(formName){
+                if(formName.$valid){
+                    $('.m-scooch').scooch('next');
+                } else {
+                    var args = Array.prototype.slice.call(arguments);
+                    args.forEach(function(elem){
+                        if(elem !== args[0])
+                            elem.$setTouched();
+                    });
+                }
+            }else{
+                $('.m-scooch').scooch('next');
+            }
+            
         };
         $scope.slidePrev = function(){
             $('.m-scooch').scooch('prev');
@@ -82,7 +96,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
         }
         $scope.createDefaults = function(){
             $scope.removeAlerts();
-            // if($scope.onboardingDefaultsForm.$valid){
+            if($scope.mobileOnboardingPriceForm.$valid){
                 $activityIndicator.startAnimating();
                 coachSeekAPIService.save({
                     section: 'businessRegistration'}, {
@@ -96,14 +110,15 @@ angular.module('onboarding.controllers', ['businessSetup'])
                         lastName: newUser.admin.lastName
                     }, newUser.business);
                     $q.all(getDefaultPromises()).then(function(response){
-                        $state.go('scheduling');
+                         $('.m-scooch').scooch('next');
+                        //TODO:inject calendar month view
                     }, $scope.handleErrors)
                     .finally(function(){
                         $activityIndicator.stopAnimating();
                     });
                     
                 }); 
-            // }
+            }
 
         };
 
