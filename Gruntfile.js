@@ -341,10 +341,17 @@ module.exports = function(grunt) {
                     src: ['**']
                 }]
             }
+            // terms: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: 'assets/terms/',
+            //         dest: 'terms/',
+            //         src: ['**']
+            //     }]
+            // }
         }
     });
 
-    // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
