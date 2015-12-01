@@ -206,6 +206,11 @@ angular.module('app.services', [])
                 showOnboarding: false,
                 // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
                 stepsCompleted: []
+            },
+            mobileOnboarding:{
+                showMobileOnboarding: false,
+                // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
+                stepsCompleted: []
             }
         };
     });
