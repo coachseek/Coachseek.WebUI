@@ -52,8 +52,8 @@ angular.module('app',
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }])
-    .run(['$rootScope', '$state', '$stateParams','$window',
-        function($rootScope, $state, $stateParams,$window){
+    .run(['$rootScope', '$state', '$stateParams','$window','sessionService',
+        function($rootScope, $state, $stateParams,$window,sessionService){
             FastClick.attach(document.body);
 
             $rootScope.$state = $state;
@@ -62,8 +62,10 @@ angular.module('app',
             $rootScope.alerts = [];
             $window.localStorage.clear();
             var applaunchCount = $window.localStorage.getItem('launchCount');
-            if(!applaunchCount){               
+            if(!applaunchCount){  
+                sessionService.mobileOnboarding.showMobileOnboarding = true;             
                 $state.go("mobileOnboardingSignUp");
+
                 $window.localStorage.setItem('launchCount',1);
             }
 
