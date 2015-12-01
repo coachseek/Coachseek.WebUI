@@ -90,6 +90,7 @@
         "price-description-1":"How much does ",
         "price-description-2":" cost?",
         "price-button":"Continue",
-        "price-placeholder":"e.g. $30.00"
+        "price-placeholder":"e.g. $30.00",
+        "price-select-placeholder":"Choose currency"
     }
 }
