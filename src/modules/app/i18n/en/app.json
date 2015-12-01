@@ -91,6 +91,7 @@
         "hockey": "Hockey",
         "squash": "Squash",
         "yoga-pilates": "Yoga/Pilates",
+        "cricket": "Cricket",
         "other": "Other"
     },
     "trial-live" : "You have __count__ day left on your trial.",

@@ -121,6 +121,7 @@ angular.module('businessSetup.directives', [])
                     "gymnastics",
                     "golf",
                     "fencing",
+                    "cricket",
                     "equestrian",
                     "fitness",
                     "basketball",

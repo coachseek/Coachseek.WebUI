@@ -94,10 +94,12 @@ angular.module('app.controllers', [])
             }
 
             function startFullstory(user, business){
-                FS.identify(business.id, {
-                  displayName: business.name,
-                  email: user.email
-                });
+                if(window.FS){
+                    FS.identify(business.id, {
+                      displayName: business.name,
+                      email: user.email
+                    });
+                }
             }
 
             $rootScope.setupCurrentUser = function(user, business){
