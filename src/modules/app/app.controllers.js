@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal','$window',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal,$window) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _; //allow lodash.js to be used in angular partials
 
@@ -118,7 +118,16 @@ angular.module('app.controllers', [])
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
-                if(businessDomain !== ENV.defaultSubdomain && !sessionService.business){
+
+                $window.localStorage.clear();
+                var applaunchCount = $window.localStorage.getItem('launchCount');
+
+                if(!applaunchCount&&!sessionService.mobileOnboarding.showMobileOnboarding&&!sessionService.isBigScreen){  
+                     event.preventDefault();
+                    sessionService.mobileOnboarding.showMobileOnboarding = true;           
+                    $state.go("mobileOnboardingSignUp");
+                    $window.localStorage.setItem('launchCount',1);
+                }else if(businessDomain !== ENV.defaultSubdomain && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding){
                     event.preventDefault();
                     $rootScope.appLoading = true;
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
@@ -141,10 +150,10 @@ angular.module('app.controllers', [])
                         }).finally(function(){
                             $rootScope.appLoading = false;
                         });
-                } else if (requireBusinessDomain && businessDomain === 'app') {
+                } else if (requireBusinessDomain && businessDomain === 'app'&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
                     $state.go('scheduling');
-                } else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business) {
+                } else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
 
                     var coachseekLogin = $cookies.get('coachseekLogin');
@@ -181,7 +190,7 @@ angular.module('app.controllers', [])
                         }).finally(function(){
                             $rootScope.appLoading = false;
                         });
-                } else if (requireLogin && !sessionService.user) {
+                } else if (requireLogin && !sessionService.user&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
 
                     loginModal.open().then(function () {

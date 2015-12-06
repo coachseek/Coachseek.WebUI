@@ -60,14 +60,7 @@ angular.module('app',
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.alerts = [];
-            $window.localStorage.clear();
-            var applaunchCount = $window.localStorage.getItem('launchCount');
-            if(!applaunchCount){  
-                sessionService.mobileOnboarding.showMobileOnboarding = true;             
-                $state.go("mobileOnboardingSignUp");
 
-                $window.localStorage.setItem('launchCount',1);
-            }
 
             $window.fbAsyncInit = function() {
                 FB.init({

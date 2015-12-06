@@ -133,6 +133,8 @@
               , autoHideArrows: false
               , rightToLeft: false
               , classPrefix: 'm-'
+              , draggable: true
+              , dotNav: true
               , classNames: {
                     outer: 'scooch'
                   , inner: 'scooch-inner'
@@ -294,8 +296,9 @@
 
             function start(e) {
                 if (!has.touch) e.preventDefault();
+                //disable dragging function is here
 
-                dragging = true;
+                dragging = self.options.draggable;
                 canceled = false;
 
                 xy = Utils.getCursorPosition(e);
@@ -379,13 +382,16 @@
 
             $element.on('click', '[data-m-slide]', function(e){
                 e.preventDefault();
-                var action = $(this).attr('data-m-slide')
-                  , index = parseInt(action, 10);
 
-                if (isNaN(index)) {
-                    self[action]();
-                } else {
-                    self.move(index);
+                if(self.options.dotNav){
+                    var action = $(this).attr('data-m-slide')
+                      , index = parseInt(action, 10);
+
+                    if (isNaN(index)) {
+                        self[action]();
+                    } else {
+                        self.move(index);
+                    }
                 }
             });
 

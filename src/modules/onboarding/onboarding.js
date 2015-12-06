@@ -21,7 +21,6 @@ angular.module('onboarding',
                 data: {
                     requireLogin: false
                 }
-
             });    
     }])
     .config(['$tooltipProvider', function($tooltipProvider){

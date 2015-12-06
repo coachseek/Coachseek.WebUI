@@ -179,6 +179,182 @@
 					padding-bottom: 50px;
 				}
 			}
+			&.scheduling{
+				 .calendar-container{
+				        background: $white;
+				        overflow: hidden;
+				        position: relative;
+				        // height: calc(100vh - 55px);
+
+				        .calendar{
+				            .fc-view-container{
+				                padding: 0 20px;
+				            }
+
+				            button, button:active{
+				                outline: none;
+				                color: $grey;
+				                text-shadow: none;
+				            }
+
+				            thead{
+				                border-color: #DFDFDF;
+				            }
+				            .fc-time span, .fc-day-header{
+				                color: $grey;
+				            }
+				            .fc-center{
+				                position: relative;
+				                width: 220px;
+				                margin: 0 auto;
+				                color: $grey;
+				                overflow: hidden;
+
+				                h2{
+				                    font-size: 1.1em;
+				                    line-height: 35px;
+				                    width: 220px;
+				                }
+				                button{
+				                    position: absolute;
+				                    font-size: 1.5em;
+				                    height: auto;
+				                }
+				                .fc-prev-button{
+				                    left: 25px;
+				                }
+				                .fc-next-button{
+				                    right: 25px;
+				                }
+				            }
+
+				            .fc-right{
+				                position: absolute;
+				                right: 20px;
+
+				                .fc-button{
+				                    padding: 0 10px;
+				                    // border: 1px solid $border-light-grey;
+				                    width: 69px;
+				                    background: $background-beige;
+				                    border: none;
+				                    color: $dark-grey;
+				                   
+
+				                    &.fc-state-active{
+				                        color: $white;
+				                        background: $dark-grey;
+				                        border-radius: 5px;
+				                    }
+
+				                    &.fc-agendaWeek-button{
+				                        border-left: none;
+				                        border-right: none;
+				                    }
+				                    &.fc-month-button{
+				                        border-top-left-radius: 5px;
+				                        border-bottom-left-radius: 5px;
+				                    }
+				                    &.fc-today-button{
+				                        border-top-right-radius: 5px;
+				                        border-bottom-right-radius: 5px;
+				                    }
+				                }
+				                .fc-today-button{
+				                    // margin-left: 7.5px;
+				                }
+				            }
+
+				            .fc-event {           
+				                @extend %service-background-colors-60;
+				                @extend %service-border-colors;
+				                border-width: 1.5px;
+				                border-radius: 0;
+				                margin: 1px 0;
+				                color:$text-dark-grey;
+
+				                &.current-event{
+				                    @extend %service-background-colors-80;
+				                    color: $white;
+				                    border-width: 2px;
+				                    .fc-content{
+				                         .fc-fullybooked-agendaDay,.fc-fullybooked-agendaWeek,.fc-fullybooked-month{
+				                            @extend %service-background-colors-80; 
+				                         }
+				                    }
+				                }
+
+				                .fc-bg{
+				                    background: none;
+				                }
+				            }
+
+				            .fc-title{
+				                font-size: 13px;
+				            }
+
+				            .fc-toolbar{
+				                margin: 20px 0 35px 0;
+				            }
+
+				            .fc-content {
+				                height: 100%;
+				                .fc-fullybooked-agendaDay{
+				                    @extend %service-background-colors-fullybooked;
+				                    @extend %service-border-colors;
+				                    border-top: 1px solid;
+				                    position: absolute;
+				                    z-index: 3;
+				                    bottom: 0px;
+				                    width: 100%;
+				                    text-align: center;
+				                    p,i{
+				                        display: inline-block;
+				                    }
+				                  
+				                }
+				                .fc-fullybooked-agendaWeek{
+				                    @extend .fc-fullybooked-agendaDay;
+				                }
+				                .fc-fullybooked-month{
+				                    @extend %service-background-colors-fullybooked;
+				                    @extend %service-border-colors;                
+				                    border-left: 1px solid;
+				                    position: absolute;
+				                    right: 0px;
+				                    top: 0;
+				                    text-align: center;
+				                    width: 16px;
+				                    height:100%;
+				                    p,i{
+				                        display: inline;
+				                    }
+				                    i{
+				                        margin-left: 1px;
+				                    }
+
+				                }
+				                .fc-time{
+				                    display : none;
+				                }
+				            }
+
+				            .fc-unthemed{
+				                td{
+				                    border-color: #DFDFDF
+				                }
+				            }
+
+				            .fc-highlight{
+				                background: $green;
+				            }
+				            .fc-today{
+				                background: rgba(152,152,152, 0.15)
+				            }
+				        }
+				    
+				}
+			}
 		}
 	}
 }
@@ -200,4 +376,140 @@
     		margin-bottom: 25px;
     	}
     }
+}
+
+
+@media (max-width: 768px){
+	.m-onboarding.default{
+		mobile-onboarding-default-slider .m-scooch-photos .m-item.scheduling{
+	        div.calendar-container {
+
+	            .fc-unthemed .fc-today{
+	                color: $green;
+	                background: transparent;
+	            }
+	            .calendar{
+	                .fc-toolbar{
+	                    top: 10px;
+	                    position: relative;
+	                    margin: 0px auto 15px auto;
+	                    z-index: 10;
+
+	                    .fc-left{
+	                        float:none;
+	                    }
+	                    .fc-center{
+	                        top:13px;
+	                        margin-bottom: 35px;
+	                    }
+	                    .fc-right{
+	                        position: relative;
+	                        width: 100%;
+	                        right:0;
+	                        float: none;
+	                        .fc-button{
+	                            width: calc(100%/3);
+	                            height: 45px;
+	                            background: $white;
+	                            border: 0px;
+	                            &.fc-state-active{
+	                                background: $dark-grey;
+	                                border-radius: 0px;
+	                            }
+	                        }
+	                        .fc-today-button{
+	                            margin-left: 0px;
+	                        }
+	                    }
+	                }
+	            }
+
+	            .dropdown-container{
+	                float: left;
+	                position: relative;
+	                width: 50%;
+	                top:0px;
+	                height: 45px;
+	                padding: 7px 0px;
+	                border-right:0px;
+	                text-align: center;
+	                background: $white;
+	                z-index: 11;
+	               
+	                select{
+	                    background: transparent;
+	                     color: $dark-grey;
+	                    text-indent: 30%;
+	                    &:hover{
+	                        background: white;
+	                    }
+	                }
+	             
+	            }
+	        }
+	        .calendar-container .coach-title {
+	            position: relative;
+	            top:105px;
+	        }
+
+
+	    .fc-basic-view tbody div.fc-row{
+	        min-height: 3em;
+	    }
+	    div.fc-row.fc-week.fc-widget-content{
+	        min-height: 3em;
+	    }
+
+	        .fc-ltr .fc-basic-view td.fc-day-number{
+	            text-align: center;
+	            font-size: 18px;
+	        }
+
+	        .calendar-container {
+	            .calendar {
+	                .fc-content {
+	                    .fc-fullybooked-month{
+	                        display: none !important;
+	                    }
+	                }
+	                div.fc-view-container{
+	                    padding: 0px;
+	                }
+	                .fc-agendaDay-view{
+	                    .fc-title,.fc-location{
+	                        display: block !important;
+	                    }
+	                    a.fc-event{
+	                        top: 0px;
+	                        left: 0px;
+	                        margin:1px 0px;
+	                    }
+	                }
+	                th.fc-day-header{
+	                    color: $green;
+	                    font-size: 16px;
+	                    padding: 5px 0px 10px 0px;
+	                }
+
+	                .fc-month-view{
+	                    td,th{
+	                        border-width: 0px;
+	                    }
+	                    .fc-title,.fc-location{
+	                        display: none !important;
+	                    }
+	                    .fc-row{
+	                        cursor: pointer;
+	                    }
+	                    a.fc-event{
+	                        position: relative;
+	                        top: 0px;
+	                        left: 0px;
+	                        margin:1px 45%;
+	                    }
+	                }
+	            }
+	        }
+	    }
+	}
 }
