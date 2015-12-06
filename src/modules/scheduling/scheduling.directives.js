@@ -336,6 +336,7 @@ angular.module('scheduling.directives', [])
                     scope.startCourseLoading(true);
                     bookingManager.addToSession(customer, sessionId).then(function(courseBooking){
                         scope.courseBooking.bookings[index] = courseBooking.sessionBookings[0];
+                        scope.courseBooking.bookings[index].sessionId = sessionId;
                     }, scope.handleErrors).finally(function(){
                         scope.sessionBookingLoading = false;
                         scope.stopCourseLoading();  
@@ -387,7 +388,6 @@ angular.module('scheduling.directives', [])
                         //set up scroll to event when opening attendance tab
                         var deregister = scope.$watch('modalTab', function(newVal){
                             if(newVal === 'attendance'){
-                                console.log("HERE")
                                 $timeout(function(){
                                     $(elem).find('table.session-data').animate({scrollLeft: $(elem).find('li.current').position().left}, 800);
                                 });
@@ -406,10 +406,11 @@ angular.module('scheduling.directives', [])
                            $timeout(function(){
                                scope.courseBookingData = getCourseBookingData();
                                $timeout(function(){
-                                   $(elem).find('.attendance-list').width(175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125));
-                                   console.timeEnd("courseBookingsLoaded")
+                                    $(elem).find('.attendance-list').width(175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125));
+                                    scope.$emit('centerModal'); 
+                                    console.timeEnd("courseBookingsLoaded");
                                })
-                           }, 350); // has to be longer than modal slide animation or will freeze mid animation
+                           });
                        }
                     }
                 });

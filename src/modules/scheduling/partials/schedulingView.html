@@ -1,4 +1,4 @@
-<div class="scheduling-container" ng-class="{'calendar-fix': showModal}">
+<div class="scheduling-container" ng-class="{'calendar-fix': showModal}" ng-init="modalTab = 'general'">
     <div class="services-list-container" ng-class="{closed: !isBigScreen || !calendarView.serviceDrawerOpen}">
         <scheduling-services-list></scheduling-services-list>
     </div>
@@ -24,14 +24,24 @@
         <div class="coach-title" ng-show="isBigScreen">{{getCurrentCoach() || 'All Coaches'}}</div>
         <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="events" calendar="sessionCalendar"></div>
     </div>
-    <div class="modal-container" ng-show="showModal" ng-init="modalTab = 'general'">
-        <div class="slider-nav modal-nav" ng-class='currentEvent.session.presentation.colour'>
-            <div class="slider-nav-option general-header" ng-click="modalTab = 'general'" ng-class="{'active': modalTab === 'general'}">{{'scheduling:general' | i18next}}</div>
-            <div class="slider-nav-option attendance-header" ng-click="modalTab = 'attendance'" ng-class="{'active': modalTab === 'attendance'}">{{'scheduling:attendance' | i18next}}</div>
-            <div class="slider-nav-option payment-header" ng-click="modalTab = 'payment'" ng-class="{'active': modalTab === 'payment'}">{{'scheduling:payment' | i18next}}</div>
-        </div>
+    <div class="modal-backdrop" ng-show="showModal" ng-click="showModal = false">
+        <div class="modal-container" ng-click="$event.stopPropagation();">
+            <button class="close-modal-button fa fa-close" ng-click="cancelModalEdit()"></button>
+            <div class="slider-nav modal-nav" ng-class='currentEvent.session.presentation.colour'>
+                <div class="slider-nav-option general-header" ng-click="modalTab = 'general'" ng-class="{'active': modalTab === 'general'}">{{'scheduling:general' | i18next}}</div>
+                <div class="slider-nav-option attendance-header" ng-click="modalTab = 'attendance'" ng-class="{'active': modalTab === 'attendance'}">{{'scheduling:attendance' | i18next}}</div>
+                <div class="slider-nav-option payment-header" ng-click="modalTab = 'payment'" ng-class="{'active': modalTab === 'payment'}">{{'scheduling:payment' | i18next}}</div>
+            </div>
 
-        <general-settings-modal ng-show="modalTab === 'general'"></general-settings-modal>
-        <course-attendance-modal ng-show="modalTab === 'attendance' || modalTab === 'payment'"></course-attendance-modal>
+            <general-settings-modal ng-show="modalTab === 'general'"></general-settings-modal>
+            <course-attendance-modal ng-show="modalTab === 'attendance' || modalTab === 'payment'"></course-attendance-modal>
+
+            <div class="edit-button-container">
+                <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
+                    <i class="fa fa-trash-o"></i>
+                </button>
+                <button class="save-button" ng-click="checkFormValidThenSave()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details' }}</span><ellipsis-animated ng-show="calendarLoading"/></button>
+            </div>
+        </div>
     </div>
 </div>
