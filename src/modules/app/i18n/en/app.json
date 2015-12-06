@@ -73,7 +73,8 @@
         "GBP": "£",
         "SEK": "kr",
         "ZAR": "R",
-        "CNY": "¥"
+        "CNY": "¥",
+        "SGD": "$"
     },
     "operating-sport": "What's your sport?",
     "sports" : {

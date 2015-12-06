@@ -155,6 +155,16 @@ describe('BusinessSetup Register', function(){
                 });
             });
 
+            describe('when the country is Singapore', function(){
+                let('location', function(){
+                    return {country_code: 'SG'};
+                });
+
+                it('should set the currency to SGD', function(){
+                    expect(this.business.currency).to.equal('SGD');
+                });
+            });
+
             describe('when the country is not a country', function(){
                 let('location', function(){
                     return {country_code: 'BOOBS'};
