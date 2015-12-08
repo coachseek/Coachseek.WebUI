@@ -20,6 +20,7 @@
         /*&.hockey{background-image: url(#{$asset-url}/pics/online-booking-hockey.jpg)*/
         &.squash{background-image: url(#{$asset-url}/pics/online-booking-squash.jpg);}
         &.yoga-pilates{background-image: url(#{$asset-url}/pics/online-booking-yoga-pilates.jpg) ;}
+        &.cricket{background-image: url(#{$asset-url}/pics/online-booking-cricket.jpg) ;}
     }
 
     .current-booking-status{
@@ -396,6 +397,13 @@
                 overflow: hidden;
                 width: 50%;
                 margin: 0 auto;
+                .terms-link{
+                    color: orange;
+                    text-align: center;
+                    width: 100%;
+                    display: block;
+                    text-decoration: underline;
+                }
                 .button-container{
                     text-align: center;
 

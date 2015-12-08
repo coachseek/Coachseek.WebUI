@@ -4,6 +4,7 @@ angular.module('app.controllers', [])
         function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal,$window) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _; //allow lodash.js to be used in angular partials
+            $rootScope.Modernizr = Modernizr; //allow Modernizr.js to be used in angular partials
 
             $rootScope.addAlert = function(alert){
 
@@ -97,6 +98,15 @@ angular.module('app.controllers', [])
                 });
             }
 
+            function startFullstory(user, business){
+                if(window.FS){
+                    FS.identify(business.id, {
+                      displayName: business.name,
+                      email: user.email
+                    });
+                }
+            }
+
             $rootScope.setupCurrentUser = function(user, business){
                 _.assign(user, {
                     trialDaysLeft: moment(business.authorisedUntil).diff(moment().add(15, 'd'), 'days')
@@ -104,6 +114,7 @@ angular.module('app.controllers', [])
                 $rootScope.setUserAuth(user.email, user.password)
                 startIntercom(user, business);
                 startHeapAnalytics(user, business);
+                startFullstory(user, business);
                 $rootScope.business    = sessionService.business = business;
                 $rootScope.currentUser = sessionService.user     = user;
             };
@@ -139,6 +150,7 @@ angular.module('app.controllers', [])
                         .then(function(business){
                             sessionService.business = business;
                             startHeapAnalytics({}, business);
+                            startFullstory({}, business);
                             heap.track('Online Booking Page View');
                             if($location.search().currentBooking){
                                 sessionService.currentBooking = JSON.parse($location.search().currentBooking);
