@@ -25,13 +25,14 @@
 .group-btn{
     width: 269px;
     height: 50px;
+    line-height: 50px;
     display: block;
     text-align: center;
     margin:0 auto;
     color: $white;
     font-size: 14px;
     font-weight: $lato-regular;
-    padding-top: 15px;
+    border: none;
     text-decoration: none;
     &:focus{
         color: $white;
@@ -164,7 +165,7 @@
                 text-align: center;
             }
             &.personal,&.business,&.security,&.location,&.lesson,&.price{
-                a.group-btn.green{
+                .group-btn.green{
                     margin-top: 40px;
                 }
                 p{
@@ -210,11 +211,6 @@
                             top: 0px;
                         }
                     }
-                }
-            }
-            &.welcome{
-                p.strong{
-                    padding-bottom: 50px;
                 }
             }
             &.scheduling{
