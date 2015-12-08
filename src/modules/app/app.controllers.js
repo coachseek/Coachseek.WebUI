@@ -75,7 +75,8 @@ angular.module('app.controllers', [])
                             app_id: "udg0papy",
                             name: user.firstName + " " + user.lastName,
                             email: user.email,
-                            created_at: _.now()
+                            created_at: _.now(),
+                            business_domain: business.domain
                         });
                     //returning user
                     } else {
