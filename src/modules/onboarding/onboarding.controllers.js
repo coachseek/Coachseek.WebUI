@@ -84,7 +84,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
                         if(view.type === 'month'){
                             uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('changeView', 'agendaDay');
                             uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('gotoDate', date);
-                        } else if (Modernizr.touch && ev.type !== "tap") {
+                        } else if (Modernizr.touchevents && ev.type !== "tap") {
                             //add already created event to calendar
                             $scope.hideSkipButton = true;
                             $rootScope.appLoading = true;
