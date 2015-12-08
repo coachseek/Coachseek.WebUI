@@ -39,12 +39,8 @@ angular.module('app.controllers', [])
             };
 
             $rootScope.logout = function(){
-                $http.defaults.headers.common.Authorization = null;
-                delete sessionService.user;
-                delete sessionService.business;
-                delete $rootScope.currentUser;
+                $rootScope.resetSession();
                 $cookies.remove('coachseekLogin')
-                if(window.Intercom) Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -55,6 +51,14 @@ angular.module('app.controllers', [])
                     return $state.go($state.current, {}, {reload: true});
                 });
             };
+
+            $rootScope.resetSession = function(){
+                $http.defaults.headers.common.Authorization = null;
+                delete sessionService.user;
+                delete sessionService.business;
+                delete $rootScope.currentUser;
+                if(window.Intercom) Intercom('shutdown');
+            }
 
             $rootScope.login = function(){
                 loginModal.open().then(function () {
@@ -122,7 +126,7 @@ angular.module('app.controllers', [])
                 $window.localStorage.clear();
                 var applaunchCount = $window.localStorage.getItem('launchCount');
 
-                if(!applaunchCount&&!sessionService.mobileOnboarding.showMobileOnboarding&&!sessionService.isBigScreen){  
+                if(!applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
                      event.preventDefault();
                     sessionService.mobileOnboarding.showMobileOnboarding = true;           
                     $state.go("mobileOnboardingSignUp");

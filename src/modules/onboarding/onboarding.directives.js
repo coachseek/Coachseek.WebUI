@@ -33,25 +33,7 @@ angular.module('onboarding.directives', [])
             restrict: 'E',
             templateUrl:'onboarding/partials/mobileOnboardingSignUpSlider.html',
             link: function (scope, elem) {
-                $('.m-scooch').scooch({
-                    // dragRadius: 10,
-                    // moveRadius: 20,
-                    // animate: true,
-                    // autoHideArrows: false,
-                    // rightToLeft: false,
-                    // classPrefix: "m-",
-                    // classNames: {
-                    //     outer: "scooch",
-                    //     inner: "scooch-inner",
-                    //     item: "item",
-                    //     center: "center",
-                    //     touch: "has-touch",
-                    //     dragging: "dragging",
-                    //     active: "active",
-                    //     inactive: "inactive",
-                    //     fluid: "fluid"
-                    // }
-                });
+                $(elem).find('.m-scooch').scooch();
             }
         };
     }])
@@ -60,26 +42,9 @@ angular.module('onboarding.directives', [])
             restrict: 'E',
             templateUrl:'onboarding/partials/mobileOnboardingDefaultSlider.html',
             link: function (scope, elem) {
-                 $('.m-scooch').scooch({
+                 $(elem).find('.m-scooch').scooch({
                     draggable: false,
-                    dotNav:false
-                    // dragRadius: 10,
-                    // moveRadius: 20,
-                    // animate: true,
-                    // autoHideArrows: false,
-                    // rightToLeft: false,
-                    // classPrefix: "m-",
-                    // classNames: {
-                    //     outer: "scooch",
-                    //     inner: "scooch-inner",
-                    //     item: "item",
-                    //     center: "center",
-                    //     // touch: "has-touch",
-                    //     // dragging: "dragging",
-                    //     active: "active",
-                    //     inactive: "inactive",
-                    //     fluid: "fluid"
-                    // }
+                    // dotNav: false
                 });               
             }
         };
