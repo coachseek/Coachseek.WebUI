@@ -8,7 +8,7 @@
                 <p class="strong">{{'onboarding:mobileOnboardingDefault.welcome-title' | i18next}}</p>
                 <p>{{'onboarding:mobileOnboardingDefault.welcome-description' | i18next}}</p>
                 <img ng-src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/m-onboarding-welcome.png">
-                <a href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.welcome-button' | i18next}}</a>
+                <button href="" ng-click="slideNext()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.welcome-button' | i18next}}</button>
             </div>
             
             <div class="m-item personal">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
             
-                <a href="" ng-click="slideNext(['adminFirstName','adminLastName'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</a>
+                <button ng-click="slideNext(['adminFirstName','adminLastName'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</button>
             </div>
             
             <div class="m-item business">
@@ -53,7 +53,7 @@
                         <div ng-message="email">{{'businessSetup:error.email' | i18next}} <i class='fa fa-times'></i></div>
                     </div>
                 </div>
-                <a href="" ng-click="slideNext(['businessName','adminEmail'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</a>
+                <button ng-click="slideNext(['businessName','adminEmail'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</button>
             </div>
             <div class="m-item security">
                 <div class="back" ng-click="slidePrev()"><i class="fa fa-angle-left fa-lg"></i></div>
@@ -68,7 +68,7 @@
                     </div>
                 </div>
               
-                 <a href="" ng-click="slideNext(['adminPassword'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</a>
+                 <button ng-click="slideNext(['adminPassword'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</button>
             </div>
 
             <div class="m-item lesson">
@@ -83,7 +83,7 @@
                     </div>
                 </div>
                
-                <a href="" ng-click="slideNext(['serviceName'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</a>
+                <button ng-click="slideNext(['serviceName'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</button>
             </div>
             
             <div class="m-item location">
@@ -97,7 +97,7 @@
                         <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-times'></i></div>
                     </div>
                 </div>
-                <a href="" ng-click="slideNext(['locationName'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</a>
+                <button ng-click="slideNext(['locationName'])" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</button>
             </div>
 
             <div class="m-item price">
@@ -114,7 +114,7 @@
                 </div>
 
                 <currency-picker current-currency="business.currency"></currency-picker>
-                <a href="" ng-click="createDefaults()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</a>
+                <button ng-click="createDefaults()" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</button>
             </div>
 
             <div class="m-item scheduling">
@@ -132,17 +132,16 @@
                     <div class="calendar" id="mobile-onboarding-calendar" ui-calendar="uiConfig.onboardingCalendar" ng-model="events" calendar="mobileOnboardingCalendar"></div>
                 </div>
                 <!-- <a href="" ng-click="slideNext()" ng-show="hideSkipButton" class="group-btn green">{{'onboarding:mobileOnboardingDefault.continue-button' | i18next}}</a> -->
-               	<a ui-sref="bookingAdmin" ng-show="hideSkipButton" class="group-btn green">{{'onboarding:mobileOnboardingDefault.wrap-up-continue' | i18next}}</a>
+               	<button ui-sref="bookingAdmin" ng-show="hideSkipButton" class="group-btn green">{{'onboarding:mobileOnboardingDefault.wrap-up-continue' | i18next}}</button>
             </div>
-<!--             <div class="m-item wrap-up">
+			<!--<div class="m-item wrap-up">
                 <p class="strong">{{'onboarding:mobileOnboardingDefault.nice-work' | i18next}}</p>
                 <p>{{'onboarding:mobileOnboardingDefault.wrap-up-1' | i18next}}&nbsp;<span class="strong">{{serviceName}}</span>&nbsp;{{'onboarding:mobileOnboardingDefault.wrap-up-2' | i18next}}</p>
                 <img ng-src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/m-onboarding-thumbs-up.png">
                	<a ui-sref="bookingAdmin" class="group-btn green">{{'onboarding:mobileOnboardingDefault.wrap-up-continue' | i18next}}</a>
             </div> -->
+            <!-- the controls -->
         </div>
-
-        <!-- the controls -->
         <div class="m-scooch-controls m-scooch-bulleted" ng-hide="hideSkipButton">
             <a href="#" data-m-slide="1" class="m-active">1</a>
             <a href="#" data-m-slide="2">2</a>
