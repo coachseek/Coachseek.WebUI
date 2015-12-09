@@ -405,3 +405,31 @@
         }
     }
 }
+/* ----------- iPhone 4 and 4S ----------- */
+/* Portrait and Landscape */
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+    [state^="mobileOnboardingDefault"] .m-onboarding.default .m-scooch-photos .m-item{
+        &.wrap-up{
+            img{
+                width: 55px;
+            }
+        }
+        img{
+            width: 55px;
+        }
+    }
+    
+    [state^="mobileOnboardingSignUp"] {
+        .m-onboarding .m-scooch-photos .m-item img{
+        width: 40%;
+         }
+
+        .m-onboarding.signup .m-scooch{
+        height: 70%;
+    
+        }
+    }
+}
