@@ -1,6 +1,6 @@
 <div class="m-onboarding default">
     <form name="mobileOnboardingDefaultForm" novalidate ng-init="business.currency = 'USD'">
-        <div class="m-scooch m-fluid m-scooch-photos" scooch-slider options="{draggable: false,dotNav: true}">
+        <div class="m-scooch m-fluid m-scooch-photos" scooch-slider options="{draggable: false, dotNav: false}">
             <!-- the slider -->
             <div class="m-scooch-inner">
 
@@ -141,16 +141,6 @@
                     <button ui-sref="bookingAdmin" class="group-btn green">{{'onboarding:mobileOnboardingDefault.wrap-up-continue' | i18next}}</button>
                 </div> 
                 <!-- the controls -->
-            </div>
-            <div class="m-scooch-controls m-scooch-bulleted" ng-hide="hideSkipButton">
-                <a href="#" data-m-slide="1" class="m-active">1</a>
-                <a href="#" data-m-slide="2">2</a>
-                <a href="#" data-m-slide="3">3</a>
-                <a href="#" data-m-slide="4">4</a>
-                <a href="#" data-m-slide="5">5</a>
-                <a href="#" data-m-slide="6">6</a>
-                <a href="#" data-m-slide="7">7</a>
-                <a href="#" data-m-slide="8">8</a>
             </div>
         </div>
 
