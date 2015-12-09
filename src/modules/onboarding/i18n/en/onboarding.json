@@ -43,7 +43,7 @@
     "1800coach": "1-800-COACH",
     "mobileOnboardingSignUp":{
         "slide-title-1":"No more telephone tag",
-        "slide-description-1":"Your clients can book online 24/7 for group or one-to-one lessons. ",
+        "slide-description-1":"Your clients can book online 24/7 for group or one-to-one lessons.",
         "slide-title-2":"Stay organized",
         "slide-description-2":"Our scheduler keeps you and your team at the top of your game, no mater where you are.", 
         "slide-title-3":"Get paid on time",
@@ -62,7 +62,7 @@
         "skip":"Skip",
         "at":"at",
         "welcome-title":"Welcome Coach!",
-        "welcome-description":"Delightfully tacky, yet unrefined.",
+        "welcome-description":"Because, fuck spreadsheets.",
         "welcome-button":"Let’s get started!",
         "personal-title":"Personal",
         "personal-description":"What is your name?",
