@@ -84,7 +84,9 @@ angular.module('app.controllers', [])
                     } else {
                         Intercom('boot', {
                             app_id: "udg0papy",
-                            email: user.email
+                            email: user.email,
+                            business_domain: business.domain,
+                            business_name: business.name
                         });
                         Intercom('update', {TotalSessions: _.get(business, 'statistics.totalNumberOfSessions')})
                     }
