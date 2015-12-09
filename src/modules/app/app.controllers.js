@@ -138,7 +138,7 @@ angular.module('app.controllers', [])
                 if(ENV.name !== 'prod') $window.localStorage.clear();
                 var applaunchCount = $window.localStorage.getItem('launchCount');
 
-                if(!applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
+                if(!$cookies.get('coachseekLogin') && !applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
                     event.preventDefault();
                     sessionService.mobileOnboarding.showMobileOnboarding = true;           
                     $state.go("mobileOnboardingSignUp");
