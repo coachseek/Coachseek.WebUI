@@ -88,8 +88,8 @@ angular.module('onboarding.controllers', ['businessSetup'])
                             //add already created event to calendar
                             $scope.hideSkipButton = true;
                             $rootScope.appLoading = true;
-                            createInitialSession(initialService, initialLocation, initialCoach).then(function(session){
-                                uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('renderEvent', buildCalendarEvent(date, session));
+                            createInitialSession(initialService, initialLocation, initialCoach, date).then(function(session){
+                                uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('renderEvent', buildCalendarEvent(date, session), true);
                                 //show continue button
                             }, $scope.handleErrors).finally(function(){
                                 $rootScope.appLoading = false;
@@ -174,11 +174,11 @@ angular.module('onboarding.controllers', ['businessSetup'])
             );
         };
 
-        function createInitialSession(service, location, coach){
-            return coachSeekAPIService.save({section: 'Sessions'}, getSessionObject(service, location, coach)).$promise;
+        function createInitialSession(service, location, coach, date){
+            return coachSeekAPIService.save({section: 'Sessions'}, getSessionObject(service, location, coach, date)).$promise;
         }
 
-        function getSessionObject(service, location, coach){
+        function getSessionObject(service, location, coach, date){
             return {
                 service: service,
                 location: {
@@ -188,8 +188,8 @@ angular.module('onboarding.controllers', ['businessSetup'])
                     id: coach.id
                 },
                 timing: {
-                    startDate: moment().add(1, 'd').format('YYYY-MM-DD'),
-                    startTime: '09:00',
+                    startDate: date.format('YYYY-MM-DD'),
+                    startTime: date.format('HH:mm'),
                     duration: 60
                 },
                 booking: {
