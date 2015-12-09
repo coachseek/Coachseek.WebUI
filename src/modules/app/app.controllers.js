@@ -77,7 +77,8 @@ angular.module('app.controllers', [])
                             name: user.firstName + " " + user.lastName,
                             email: user.email,
                             created_at: _.now(),
-                            business_domain: business.domain
+                            business_domain: business.domain,
+                            business_name: business.name
                         });
                     //returning user
                     } else {
