@@ -135,11 +135,11 @@ angular.module('app.controllers', [])
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
 
-                $window.localStorage.clear();
+                if(ENV.name !== 'prod') $window.localStorage.clear();
                 var applaunchCount = $window.localStorage.getItem('launchCount');
 
                 if(!applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
-                     event.preventDefault();
+                    event.preventDefault();
                     sessionService.mobileOnboarding.showMobileOnboarding = true;           
                     $state.go("mobileOnboardingSignUp");
                     $window.localStorage.setItem('launchCount',1);
