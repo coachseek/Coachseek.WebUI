@@ -28,57 +28,14 @@ angular.module('onboarding.directives', [])
             }
         };
     }])
-    .directive('mobileOnboardingSignUpSlider', [function () {
+    .directive('scoochSlider', [function () {
         return {
-            restrict: 'E',
-            templateUrl:'onboarding/partials/mobileOnboardingSignUpSlider.html',
+            restrict: 'A',
+            scope: {
+                options: '='
+            },
             link: function (scope, elem) {
-                $('.m-scooch').scooch({
-                    dragRadius: 10,
-                    moveRadius: 20,
-                    animate: true,
-                    autoHideArrows: false,
-                    rightToLeft: false,
-                    classPrefix: "m-",
-                    classNames: {
-                        outer: "scooch",
-                        inner: "scooch-inner",
-                        item: "item",
-                        center: "center",
-                        touch: "has-touch",
-                        dragging: "dragging",
-                        active: "active",
-                        inactive: "inactive",
-                        fluid: "fluid"
-                    }
-                });
-            }
-        };
-    }])
-    .directive('mobileOnboardingDefaultSlider', [function () {
-        return {
-            restrict: 'E',
-            templateUrl:'onboarding/partials/mobileOnboardingDefaultSlider.html',
-            link: function (scope, elem) {
-                 $('.m-scooch').scooch({
-                    dragRadius: 10,
-                    moveRadius: 20,
-                    animate: true,
-                    autoHideArrows: false,
-                    rightToLeft: false,
-                    classPrefix: "m-",
-                    classNames: {
-                        outer: "scooch",
-                        inner: "scooch-inner",
-                        item: "item",
-                        center: "center",
-                        touch: "has-touch",
-                        dragging: "dragging",
-                        active: "active",
-                        inactive: "inactive",
-                        fluid: "fluid"
-                    }
-                });               
+                elem.scooch(scope.options);
             }
         };
     }]);

@@ -7,7 +7,7 @@ angular.module('onboarding',
     .config(['$stateProvider',function ($stateProvider) {
        $stateProvider
             .state('mobileOnboardingSignUp', {
-                url: "/mobile-onboarding-signUp",
+                url: "/mobile-onboarding-sign-up",
                 templateUrl: "onboarding/partials/mobileOnboardingSignUp.html",
                 controller: 'mobileOnboardingSignUpCtrl',
                 data: {
@@ -21,7 +21,6 @@ angular.module('onboarding',
                 data: {
                     requireLogin: false
                 }
-
             });    
     }])
     .config(['$tooltipProvider', function($tooltipProvider){

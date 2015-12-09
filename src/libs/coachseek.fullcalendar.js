@@ -3098,7 +3098,7 @@ var Grid = fc.Grid = RowRenderer.extend({
             }
         };
 
-        if(Modernizr.touch){
+        if(Modernizr.touchevents){
             el = new Hammer(el.get(0));
             el.on('press tap', onMousedown);
         } else {
@@ -3179,7 +3179,7 @@ var Grid = fc.Grid = RowRenderer.extend({
             cellOver: function(cell, isOrig, origCell) {
                 if (origCell) { // click needs to have started on a cell
                     dayClickCell = isOrig ? cell : null; // single-cell selection is a day click
-                    if (dayClickCell && Modernizr.touch) {
+                    if (dayClickCell && Modernizr.touchevents) {
                         view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev, ev);
                     }
                     if (isSelectable) {
@@ -3200,7 +3200,7 @@ var Grid = fc.Grid = RowRenderer.extend({
                 enableCursor();
             },
             listenStop: function(ev) {
-                if (dayClickCell && !Modernizr.touch) {
+                if (dayClickCell && !Modernizr.touchevents) {
                     view.trigger('dayClick', _this.getCellDayEl(dayClickCell), dayClickCell.start, ev, ev);
                 }
                 if (selectionRange) {
@@ -3698,7 +3698,7 @@ Grid.mixin({
                 }
             },
             function(name, func) {
-                if(Modernizr.touch && name === "mousedown"){
+                if(Modernizr.touchevents && name === "mousedown"){
                     _this.el.hammer({domEvents:true})
                         // attach the handler to the container element and only listen for real event elements via bubbling
                         .on('press', '.fc-event-container > *', function(ev) {

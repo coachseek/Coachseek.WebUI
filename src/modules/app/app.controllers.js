@@ -1,9 +1,10 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal','$window',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal,$window) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _; //allow lodash.js to be used in angular partials
+            $rootScope.Modernizr = Modernizr; //allow Modernizr.js to be used in angular partials
 
             $rootScope.addAlert = function(alert){
 
@@ -39,10 +40,7 @@ angular.module('app.controllers', [])
             };
 
             $rootScope.logout = function(){
-                $http.defaults.headers.common.Authorization = null;
-                delete sessionService.user;
-                delete sessionService.business;
-                delete $rootScope.currentUser;
+                $rootScope.resetSession();
                 $cookies.remove('coachseekLogin')
                 // Intercom('shutdown');
                 document.addEventListener("deviceready", function () {
@@ -58,6 +56,14 @@ angular.module('app.controllers', [])
                     return $state.go($state.current, {}, {reload: true});
                 });
             };
+
+            $rootScope.resetSession = function(){
+                $http.defaults.headers.common.Authorization = null;
+                delete sessionService.user;
+                delete sessionService.business;
+                delete $rootScope.currentUser;
+                if(window.Intercom) Intercom('shutdown');
+            }
 
             $rootScope.login = function(){
                 loginModal.open().then(function () {
@@ -224,11 +230,4 @@ angular.module('app.controllers', [])
             };
 
             $scope.cancel = $scope.$dismiss;
-        }])
-        .controller('comingSoonCtrl', ['$scope', 
-            function ($scope) {
-                $scope.saveFeedback = function(){
-                    // Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
-                    $scope.feedbackSent = true;
-                };
         }]);

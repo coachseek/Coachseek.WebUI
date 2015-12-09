@@ -166,7 +166,7 @@ angular.module('scheduling.controllers', [])
                         if(view.type === 'month'){
                             uiCalendarConfig.calendars.sessionCalendar.fullCalendar('changeView', 'agendaDay');
                             uiCalendarConfig.calendars.sessionCalendar.fullCalendar('gotoDate', date);
-                        } else if (Modernizr.touch && ev.type !== "tap") {
+                        } else if (Modernizr.touchevents && ev.type !== "tap") {
                             handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
                     },

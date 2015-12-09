@@ -1,4 +1,10 @@
 {
+    "export-csv": "export.csv",
+    "download-csv": "Download CSV",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email Address",
+    "phone": "Phone Number",
     "yes": "Yes",
     "no": "No",
     "on": "On",
@@ -66,7 +72,9 @@
         "EUR": "€",
         "GBP": "£",
         "SEK": "kr",
-        "ZAR": "R"
+        "ZAR": "R",
+        "CNY": "¥",
+        "SGD": "$"
     },
     "operating-sport": "What's your sport?",
     "sports" : {
@@ -84,6 +92,7 @@
         "hockey": "Hockey",
         "squash": "Squash",
         "yoga-pilates": "Yoga/Pilates",
+        "cricket": "Cricket",
         "other": "Other"
     },
     "trial-live" : "You have __count__ day left on your trial.",
