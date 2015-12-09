@@ -28,24 +28,14 @@ angular.module('onboarding.directives', [])
             }
         };
     }])
-    .directive('mobileOnboardingSignUpSlider', [function () {
+    .directive('scoochSlider', [function () {
         return {
-            restrict: 'E',
-            templateUrl:'onboarding/partials/mobileOnboardingSignUpSlider.html',
+            restrict: 'A',
+            scope: {
+                options: '='
+            },
             link: function (scope, elem) {
-                $(elem).find('.m-scooch').scooch();
-            }
-        };
-    }])
-    .directive('mobileOnboardingDefaultSlider', [function () {
-        return {
-            restrict: 'E',
-            templateUrl:'onboarding/partials/mobileOnboardingDefaultSlider.html',
-            link: function (scope, elem) {
-                 $(elem).find('.m-scooch').scooch({
-                    draggable: false,
-                    // dotNav: false
-                });               
+                elem.scooch(scope.options);
             }
         };
     }]);
