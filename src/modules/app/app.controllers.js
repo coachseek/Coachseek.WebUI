@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal','$window',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal,$window) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _; //allow lodash.js to be used in angular partials
             $rootScope.Modernizr = Modernizr; //allow Modernizr.js to be used in angular partials
@@ -40,12 +40,8 @@ angular.module('app.controllers', [])
             };
 
             $rootScope.logout = function(){
-                $http.defaults.headers.common.Authorization = null;
-                delete sessionService.user;
-                delete sessionService.business;
-                delete $rootScope.currentUser;
+                $rootScope.resetSession();
                 $cookies.remove('coachseekLogin')
-                if(window.Intercom) Intercom('shutdown');
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -56,6 +52,14 @@ angular.module('app.controllers', [])
                     return $state.go($state.current, {}, {reload: true});
                 });
             };
+
+            $rootScope.resetSession = function(){
+                $http.defaults.headers.common.Authorization = null;
+                delete sessionService.user;
+                delete sessionService.business;
+                delete $rootScope.currentUser;
+                if(window.Intercom) Intercom('shutdown');
+            }
 
             $rootScope.login = function(){
                 loginModal.open().then(function () {
@@ -72,7 +76,8 @@ angular.module('app.controllers', [])
                             app_id: "udg0papy",
                             name: user.firstName + " " + user.lastName,
                             email: user.email,
-                            created_at: _.now()
+                            created_at: _.now(),
+                            business_domain: business.domain
                         });
                     //returning user
                     } else {
@@ -129,7 +134,16 @@ angular.module('app.controllers', [])
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
-                if(businessDomain !== ENV.defaultSubdomain && !sessionService.business){
+
+                if(ENV.name !== 'prod') $window.localStorage.clear();
+                var applaunchCount = $window.localStorage.getItem('launchCount');
+
+                if(!$cookies.get('coachseekLogin') && !applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
+                    event.preventDefault();
+                    sessionService.mobileOnboarding.showMobileOnboarding = true;           
+                    $state.go("mobileOnboardingSignUp");
+                    $window.localStorage.setItem('launchCount',1);
+                }else if(businessDomain !== ENV.defaultSubdomain && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding){
                     event.preventDefault();
                     $rootScope.appLoading = true;
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
@@ -153,10 +167,10 @@ angular.module('app.controllers', [])
                         }).finally(function(){
                             $rootScope.appLoading = false;
                         });
-                } else if (requireBusinessDomain && businessDomain === 'app') {
+                } else if (requireBusinessDomain && businessDomain === 'app'&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
                     $state.go('scheduling');
-                } else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business) {
+                } else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
 
                     var coachseekLogin = $cookies.get('coachseekLogin');
@@ -193,7 +207,7 @@ angular.module('app.controllers', [])
                         }).finally(function(){
                             $rootScope.appLoading = false;
                         });
-                } else if (requireLogin && !sessionService.user) {
+                } else if (requireLogin && !sessionService.user&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
 
                     loginModal.open().then(function () {

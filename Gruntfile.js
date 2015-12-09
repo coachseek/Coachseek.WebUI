@@ -321,7 +321,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    dest: '<%= pkg.version %>/testing/',
+                    dest: '<%= pkg.version %>/mobile-onboarding/',
                     src: ['css/style.css', 'js/*.js']
                 }]
             },

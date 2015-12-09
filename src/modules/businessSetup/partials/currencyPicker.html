@@ -1,5 +1,7 @@
 <div class="form-input">
     <label name="currency">{{'operating-currency' | i18next}}</label>
-    <select name="currency" class="currency-picker" ng-model="currentCurrency" ng-options="currency as currency for currency in currencies" required></select>
+    <select name="currency" class="currency-picker" ng-model="currentCurrency" ng-options="currency as currency for currency in currencies" required>
+    	   <option ng-show="sessionService.mobileOnboarding.showMobileOnboarding" value=''>{{'onboarding:mobileOnboardingDefault.price-select-placeholder' | i18next}}</option>
+    </select>
     <select-overlay selected-option="currentCurrency"></select-overlay>
 </div>
