@@ -95,6 +95,8 @@
         "nice-work": "Nice work!",
         "wrap-up-1": "Now your customers can book",
         "wrap-up-2": "online!",
-        "wrap-up-continue": "Continue to edit my settings"
+        "wrap-up-3": "We've sent you an email to help you along this journey. Check your inbox for the link to share this lesson with your students.",
+        "wrap-up-continue": "Continue to edit my settings",
+        "finish-button": "Sweet as, I'm finished!"
     }
 }
