@@ -3,7 +3,8 @@ angular.module('app.controllers', [])
     .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal','$window',
         function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal,$window) {
             // TODO - add ability to remove alerts by view
-            $rootScope._ = _;
+            $rootScope._ = _; //allow lodash.js to be used in angular partials
+            $rootScope.Modernizr = Modernizr; //allow Modernizr.js to be used in angular partials
 
             $rootScope.addAlert = function(alert){
 
@@ -60,6 +61,14 @@ angular.module('app.controllers', [])
                 });
             };
 
+            $rootScope.resetSession = function(){
+                $http.defaults.headers.common.Authorization = null;
+                delete sessionService.user;
+                delete sessionService.business;
+                delete $rootScope.currentUser;
+                if(window.Intercom) Intercom('shutdown');
+            }
+
             $rootScope.login = function(){
                 loginModal.open().then(function () {
                     $rootScope.removeAlerts();
@@ -84,6 +93,15 @@ angular.module('app.controllers', [])
                     businessName: business.name,
                     email: user.email
                 });
+            }
+
+            function startFullstory(user, business){
+                if(window.FS){
+                    FS.identify(business.id, {
+                      displayName: business.name,
+                      email: user.email
+                    });
+                }
             }
 
             $rootScope.setupCurrentUser = function(user, business){
@@ -112,17 +130,54 @@ angular.module('app.controllers', [])
 
               $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                if (requireLogin  && $window.localStorage.getItem('coachseekLogin') && !sessionService.business) {
+                var requireBusinessDomain = toState.data.requireBusinessDomain;
+                var businessDomain = _.first($location.host().split("."));
+
+                if(ENV.name !== 'prod') $window.localStorage.clear();
+                var applaunchCount = $window.localStorage.getItem('launchCount');
+
+                if(!$cookies.get('coachseekLogin') && !applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
+                    event.preventDefault();
+                    sessionService.mobileOnboarding.showMobileOnboarding = true;           
+                    $state.go("mobileOnboardingSignUp");
+                    $window.localStorage.setItem('launchCount',1);
+                }else if(businessDomain !== ENV.defaultSubdomain && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding){
+                    event.preventDefault();
+                    $rootScope.appLoading = true;
+                    onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
+                        .then(function(business){
+                            sessionService.business = business;
+                            startHeapAnalytics({}, business);
+                            startFullstory({}, business);
+                            heap.track('Online Booking Page View');
+                            if($location.search().currentBooking){
+                                sessionService.currentBooking = JSON.parse($location.search().currentBooking);
+                                $state.go('booking.confirmation');
+                            } else {
+                                $state.go('booking.selection');
+                            }
+                        }, function(){
+                            $rootScope.addAlert({
+                                type: 'warning',
+                                message: 'businessDomain-invalid'
+                            });
+                            $rootScope.redirectToApp();
+                        }).finally(function(){
+                            $rootScope.appLoading = false;
+                        });
+                } else if (requireBusinessDomain && businessDomain === 'app'&&!sessionService.mobileOnboarding.showMobileOnboarding) {
+                    event.preventDefault();
+                    $state.go('scheduling');
+                } else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
 
-                    var coachseekLogin = $window.localStorage.getItem('coachseekLogin');
+                    var coachseekLogin = $cookies.get('coachseekLogin');
                     $http.defaults.headers.common.Authorization = 'Basic ' + coachseekLogin;
                     $rootScope.appLoading = true;
                     coachSeekAPIService.get({section: 'Business'})
                         .$promise.then(function(business){
                             var userData = atob(coachseekLogin).split(':');
-                            // $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
-                             $window.localStorage.setItem('coachseekLogin', coachseekLogin);
+                            $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
                             var user = {
                                 email: userData[0],
                                 password: userData[1]
@@ -133,12 +188,24 @@ angular.module('app.controllers', [])
                             $http.defaults.headers.common.Authorization = null;
                             $rootScope.addAlert({
                                 type: 'danger',
-                                message: error.statusText
+                                message: error.statusText,
+                                code: error.data.code
                             });
+                            $cookies.remove('coachseekLogin');
+
+                            if(error.status === 403 && error.data.code === 'license-expired'){
+                                expiredLicenseModal.open();
+                                heap.track('Show Expired License Modal');
+                            } else {
+                                loginModal.open().then(function () {
+                                    $rootScope.removeAlerts();
+                                    return $state.go(toState.name, toParams);
+                                });
+                            }
                         }).finally(function(){
                             $rootScope.appLoading = false;
                         });
-                } else if (requireLogin && !sessionService.user) {
+                } else if (requireLogin && !sessionService.user&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
 
                     loginModal.open().then(function () {
@@ -176,8 +243,8 @@ angular.module('app.controllers', [])
                 delete keys[e.which];
             });
         }])
-        .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies', 'expiredLicenseModal','$window',
-            function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $cookies, expiredLicenseModal,$window) {
+        .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies', 'expiredLicenseModal',
+            function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $cookies, expiredLicenseModal) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
@@ -224,11 +291,4 @@ angular.module('app.controllers', [])
             };
 
             $scope.cancel = $scope.$dismiss;
-        }])
-        .controller('comingSoonCtrl', ['$scope', 
-            function ($scope) {
-                $scope.saveFeedback = function(){
-                    // Intercom('trackEvent', 'feedback', {feedback: $scope.feedback});
-                    $scope.feedbackSent = true;
-                };
         }]);

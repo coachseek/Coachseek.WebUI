@@ -88,7 +88,7 @@ describe('Booking Selection View', function(){
         it('should attempt to get the events', function(){
             var params = {
                 endDate: moment().add(1, 'y').format('YYYY-MM-DD'),
-                startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
+                startDate: moment().format('YYYY-MM-DD'),
                 section: 'Sessions'
             };
             expect(anonStub).to.be.calledWith(this.business.domain);

@@ -99,7 +99,39 @@ angular.module('businessSetup.directives', [])
                     'EUR',
                     'GBP',
                     'SEK',
-                    'ZAR'
+                    'ZAR',
+                    'CNY',
+                    'SGD'
+                ];
+            }
+        };
+    })
+    .directive('sportPicker', function(){
+        return {
+            restrict: 'E',
+            replace: true,
+            scope: {
+                currentSport: "=currentSport"
+            },
+            templateUrl: 'businessSetup/partials/sportPicker.html',
+            link: function(scope){
+                scope.sports = [
+                    "tennis",
+                    "swimming",
+                    "martial-arts",
+                    "gymnastics",
+                    "golf",
+                    "fencing",
+                    "cricket",
+                    "equestrian",
+                    "fitness",
+                    "basketball",
+                    "volleyball",
+                    "football",
+                    "hockey",
+                    "squash",
+                    "yoga-pilates",
+                    "other"
                 ];
             }
         };

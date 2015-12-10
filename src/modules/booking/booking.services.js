@@ -5,7 +5,8 @@ angular.module('booking.services', [])
                 return $resource(ENV.apiURL + '/OnlineBooking/:section', {}, {
                     get:   {method: 'GET', headers: {'Business-Domain': subdomain}},
                     // query: {method: 'GET', isArray:true, headers: {'Business-Domain': subdomain}},
-                    save:  {method: 'POST', headers: {'Business-Domain': subdomain}}
+                    save:  {method: 'POST', headers: {'Business-Domain': subdomain}},
+                    pricingEnquiry: {url: ENV.apiURL + '/Pricing/Enquiry', method: 'POST', transformResponse: function (data) { return {price: data}}, headers: {'Business-Domain': subdomain}}
                 })
             }
         };
@@ -26,7 +27,7 @@ angular.module('booking.services', [])
         this.getAllEvents = function(businessDomain){
             var params = {
                 endDate: moment().add(1, 'y').format('YYYY-MM-DD'),
-                startDate: moment().add(1, 'day').format('YYYY-MM-DD'),
+                startDate: moment().format('YYYY-MM-DD'),
                 section: 'Sessions'
             };
 

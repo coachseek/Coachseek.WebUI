@@ -28,3 +28,14 @@ angular.module('onboarding.directives', [])
             }
         };
     }])
+    .directive('scoochSlider', [function () {
+        return {
+            restrict: 'A',
+            scope: {
+                options: '='
+            },
+            link: function (scope, elem) {
+                elem.scooch(scope.options);
+            }
+        };
+    }]);

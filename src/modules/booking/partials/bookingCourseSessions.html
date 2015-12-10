@@ -6,7 +6,7 @@
     <div class="selected-checkbox"><i ng-class="isSelected(session) ? 'fa-check-circle' : 'fa-circle-o' " class="fa"></i></i></div>
     <div class="full-session-banner" ng-show="availableSessionSpaces <= 0">{{'booking:full-session' | i18next}}</div>
     <p>{{getSessionDate(session)}}</p>
-    <p>{{getEventTimeRange(session)}}</p>
+    <p>{{getSessionTimeRange(session)}}</p>
     <p ng-if="event.pricing.sessionPrice >=0"><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{session.pricing.sessionPrice}}&nbsp;{{'booking:per-session' | i18next}}</p>
     <p ng-i18next="[i18next]({count:availableSessionSpaces})booking:spaces-available" class="spaces-available"></p>
 </div>

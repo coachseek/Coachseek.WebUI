@@ -69,6 +69,12 @@ angular.module('app.services', [])
                 case 'US': //United States
                     return 'USD';
                     break;
+                case 'CN': //China
+                    return 'CNY';
+                    break;
+                case 'SG': //Singapore
+                    return 'SGD';
+                    break;
                 default:
                     return 'USD';
                     break;
@@ -80,7 +86,7 @@ angular.module('app.services', [])
 
         this.get = function(functionName, $scope){
             $activityIndicator.startAnimating();
-            coachSeekAPIService.query({section: functionName})
+            return coachSeekAPIService.query({section: functionName})
                 .$promise.then(function(itemList){
                     //set list data or create first item
                     if(_.size(itemList)){
@@ -204,6 +210,11 @@ angular.module('app.services', [])
             },
             onboarding: {
                 showOnboarding: false,
+                // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
+                stepsCompleted: []
+            },
+            mobileOnboarding:{
+                showMobileOnboarding: false,
                 // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
                 stepsCompleted: []
             }

@@ -59,7 +59,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.isBefore = function(session){
-            return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
+            return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(3, 'h'));
         };
     }])
     .controller('bookingSelectionCtrl', ['$scope', 'anonCoachseekAPIFactory', 'currentBooking',
@@ -137,7 +137,7 @@ angular.module('booking.controllers', [])
         };
 
         function getNewDate(timing){
-            return moment(timing.startDate, "YYYY-MM-DD");
+            return moment(timing.startDate + " " + timing.startTime, "YYYY-MM-DD HH:mm");
         };
 
         function buildLocationsAndServices(){
@@ -150,13 +150,27 @@ angular.module('booking.controllers', [])
                     $scope.services.push(event.service);
                 }
             });
-        }
+        };
+
+        function removeSessionsInPast(sessions){
+            return _.filter(sessions, function(session){
+                return getNewDate(session.timing).isAfter(moment().add(3, 'h'));
+            });
+        };
+
+        function removeCoursesInPast(courses){
+            return _.filter(courses, function(course){
+                return !_.every(course.sessions, function(session){
+                    return getNewDate(session.timing).isBefore(moment().add(3, 'h'));
+                })
+            });
+        };
 
         if(!currentBooking.allEvents){
             delete $scope.serviceDescription;
             $scope.loadingSessions = true;            
             currentBooking.getAllEvents($scope.business.domain).then(function(events){
-                currentBooking.allEvents = _.sortBy(_.union(events.courses, events.sessions),function(event){
+                currentBooking.allEvents = _.sortBy(_.union(removeCoursesInPast(events.courses), removeSessionsInPast(events.sessions)),function(event){
                     return getNewDate(event.timing).valueOf();
                 });
                 $scope.eventsExist = _.size(currentBooking.allEvents);
@@ -201,18 +215,29 @@ angular.module('booking.controllers', [])
             return onlineBookingAPIFactory.anon($scope.business.domain)
                 .save({ section: 'Customers' }, currentBooking.customer).$promise
                     .then(function (customer) {
-                        return saveBooking(customer).then(function (booking) {
-                            currentBooking.booking.id = booking.id;
-                            $scope.bookingConfirmed = payLater;
-                            $scope.redirectingToPaypal = !payLater;
-                            heap.track('Online Booking Confirmed', {onlinePaymentEnabled: _.get($scope.business, 'payment.isOnlinePaymentEnabled'), payLater: payLater});
-                        }, function(error){
-                            $scope.handleErrors(error);
-                            // make sure paypal form doesn't submit if error;
-                            return $q.reject();
-                        }).finally(function(){
-                            $scope.processingBooking = false;
-                        });
+                        return onlineBookingAPIFactory.anon($scope.business.domain)
+                            .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
+                                .then(function(response){
+                                    currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
+                                    return saveBooking(customer).then(function (booking) {
+                                        currentBooking.booking.id = booking.id;
+                                        $scope.bookingConfirmed = payLater;
+                                        $scope.redirectingToPaypal = !payLater;
+                                        heap.track('Online Booking Confirmed', {onlinePaymentEnabled: _.get($scope.business, 'payment.isOnlinePaymentEnabled'), payLater: payLater});
+                                    }, function(error){
+                                        $scope.handleErrors(error);
+                                        // make sure paypal form doesn't submit if error;
+                                        return $q.reject();
+                                    }).finally(function(){
+                                        $scope.processingBooking = false;
+                                    });
+                            }, function(error){
+                                $scope.handleErrors(error);
+                                // make sure paypal form doesn't submit if error;
+                                return $q.reject();
+                            }).finally(function(){
+                                $scope.processingBooking = false;
+                            });
                 }, function(error){
                     $scope.processingBooking = false;
                     $scope.handleErrors(error);
@@ -290,18 +315,18 @@ angular.module('booking.controllers', [])
             $scope.$apply();
         });
 
+        $scope.$on('$stateChangeStart', function () {
+            $scope.business = angular.copy(businessCopy);
+        });
+
         $scope.shareToFacebook = function(){
-            facebookConnectPlugin.showDialog({
-                method: 'share',
+            FB.ui({
+                method: 'feed',
                 name: i18n.t("booking:booking-admin.facebook-share-name"),
-                href: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
+                link: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
                 picture: 'https://az789256.vo.msecnd.net/assets/'+$scope.ENV.version+'/pics/facebook-share.png',
                 caption: i18n.t("booking:booking-admin.facebook-share-caption"),
                 description: i18n.t("booking:booking-admin.facebook-share-description")
-            }, function (response) {
-                // console.log(response)
-            }, function (error) {
-                // console.log(error)
             });
             heap.track('Facebook Share');
         }

@@ -1,4 +1,55 @@
 angular.module('app.directives', [])
+    .directive('exportToCsv', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'app/partials/exportToCsv.html',
+            scope: {
+                exportData: "=",
+                keys: "=",
+                filename: "="
+            },
+            link: function(scope){
+                scope.downloadCsvData = function(){
+                    var csv = convertArrayOfObjectsToCSV();
+                    if (csv == null) return;
+                    var $link = $('<a></a>', {
+                        class: "export-csv",
+                        href: 'data:attachment/csv,' + encodeURI(csv),
+                        download: scope.filename || i18n.t('export-csv')
+                    }).appendTo('body');
+                    $link[0].click();
+                    $link.remove();
+                };
+
+                function convertArrayOfObjectsToCSV() {
+                    if (scope.exportData == null || !scope.exportData.length) {
+                        return null;
+                    }
+                    var result,
+                        columnDelimiter = ',',
+                        lineDelimiter = '\n',
+                        keys = scope.keys || _.keys(scope.exportData[0]);
+
+                    result = '';
+                    result += _.map(keys, function(key){return i18n.t(key) || key}).join(columnDelimiter);
+                    result += lineDelimiter;
+
+                    _.each(scope.exportData, function(item, index) {
+                        var ctr = 0;
+                        _.each(keys,function(key) {
+                            if (ctr > 0) result += columnDelimiter;
+
+                            result += item[key] || '';
+                            ctr++;
+                        });
+                        result += lineDelimiter;
+                    });
+                    console.log(result)
+                    return result;
+                }
+            }
+        };
+    })
     .directive('durationPicker', function(){
         return {
             scope: {
