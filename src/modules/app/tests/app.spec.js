@@ -69,22 +69,17 @@ describe('App Module', function() {
             });
         });
     });
-    describe.only('when navigating to the app for the first time',function(){
+    describe('when navigating to the app for the first time',function(){
         var stateGoSpy;
         beforeEach(function(){
             stateGoSpy = this.sinon.spy($state,'go');
-            $injector.get('sessionService').isBigScreen = true;
+            $injector.get('sessionService').isBigScreen = false;
             $state.go('scheduling');
             $timeout.flush();
         });
         describe('and the user is on the mobile device',function(){
             it('should open mobile onboarding sign up page',function(){
                 expect(stateGoSpy).to.be.calledWith('mobileOnboardingSignUp');
-            });
-        });
-        describe('and the user is not on a mobile device', function(){
-            it('should go navigate to new user sign up page', function(){
-                expect(stateGoSpy).to.be.calledWith('newUserSetup');
             });
         });
     });

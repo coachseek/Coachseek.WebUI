@@ -129,14 +129,13 @@ angular.module('app.controllers', [])
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
 
-                if(ENV.name !== 'prod') $window.localStorage.clear();
-                var applaunchCount = $window.localStorage.getItem('launchCount');
-
-                if(businessDomain === ENV.defaultSubdomain && !$cookies.get('coachseekLogin') && !applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
+                if(ENV.name !== 'prod') $window.localStorage.removeItem('hasLaunchedCoachseek');
+                var hasLaunchedCoachseek = $window.localStorage.getItem('hasLaunchedCoachseek');
+                if(businessDomain === ENV.defaultSubdomain && !$cookies.get('coachseekLogin') && !hasLaunchedCoachseek && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
                     event.preventDefault();
                     sessionService.mobileOnboarding.showMobileOnboarding = true;           
+                    $window.localStorage.setItem('hasLaunchedCoachseek', true);
                     $state.go("mobileOnboardingSignUp");
-                    $window.localStorage.setItem('launchCount',1);
                 }else if(businessDomain !== ENV.defaultSubdomain && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding){
                     event.preventDefault();
                     $rootScope.appLoading = true;
