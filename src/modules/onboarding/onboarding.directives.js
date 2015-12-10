@@ -28,7 +28,7 @@ angular.module('onboarding.directives', [])
             }
         };
     }])
-    .directive('scoochSlider', [function () {
+    .directive('scoochSlider', function () {
         return {
             restrict: 'A',
             scope: {
@@ -38,4 +38,45 @@ angular.module('onboarding.directives', [])
                 elem.scooch(scope.options);
             }
         };
-    }]);
+    })
+    .directive('mobileOnboardingDefaultSlider', function(){
+        return {
+            restrict: 'A',
+            link: function (scope, elem) {
+                elem.find('input, select').on('focus', function(event){
+                    elem.find('input').not(this).attr("readonly", "readonly");
+                    elem.find('select').not(this).attr("disabled", "disabled");
+                });
+
+                elem.find('input, select').on('blur', function(event){
+                    elem.find('input').removeAttr("readonly");
+                    elem.find('select').removeAttr("disabled");
+                });
+
+                scope.slideNext = function(inputNames){
+                    //validate inputs if necessary
+                    if(inputNames){
+                        if(inputsValid(inputNames)){
+                            elem.scooch('next');
+                        }else{
+                            _.each(inputNames,function(inputName){
+                                scope.mobileOnboardingDefaultForm[inputName].$setTouched();
+                            });
+                        }
+                    }else{
+                        elem.scooch('next');
+                    }  
+                };
+
+                scope.slidePrev = function(){
+                    elem.scooch('prev');
+                };
+
+                function inputsValid(inputNames){
+                    return  _.every(inputNames,function(inputName){
+                        return scope.mobileOnboardingDefaultForm[inputName].$valid;
+                    });
+                }
+            }
+        };
+    });
