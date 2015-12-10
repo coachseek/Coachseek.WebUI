@@ -223,7 +223,6 @@ angular.module('booking.controllers', [])
                                         currentBooking.booking.id = booking.id;
                                         $scope.bookingConfirmed = payLater;
                                         $scope.redirectingToPaypal = !payLater;
-                                        heap.track('Online Booking Confirmed', {onlinePaymentEnabled: _.get($scope.business, 'payment.isOnlinePaymentEnabled'), payLater: payLater});
                                     }, function(error){
                                         $scope.handleErrors(error);
                                         // make sure paypal form doesn't submit if error;
@@ -328,6 +327,5 @@ angular.module('booking.controllers', [])
                 caption: i18n.t("booking:booking-admin.facebook-share-caption"),
                 description: i18n.t("booking:booking-admin.facebook-share-description")
             });
-            heap.track('Facebook Share');
         }
     }]);

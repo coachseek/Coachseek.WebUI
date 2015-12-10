@@ -21,7 +21,6 @@ angular.module('onboarding.directives', [])
                                 elem[0].dispatchEvent(new Event(scope.onboardingShow));
                             });
                         }, function(){
-                            heap.track('Onboarding Close', {step: scope.onboardingStep});
                             sessionService.onboarding.showOnboarding = false;
                         });
                 }

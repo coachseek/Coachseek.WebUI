@@ -93,14 +93,6 @@ angular.module('app.controllers', [])
                 }
             };
 
-            function startHeapAnalytics(user, business){
-                heap.identify({
-                    handle: business.id,
-                    businessName: business.name,
-                    email: user.email
-                });
-            }
-
             function startFullstory(user, business){
                 if(window.FS){
                     FS.identify(business.id, {
@@ -116,7 +108,6 @@ angular.module('app.controllers', [])
                 });
                 $rootScope.setUserAuth(user.email, user.password)
                 startIntercom(user, business);
-                startHeapAnalytics(user, business);
                 startFullstory(user, business);
                 $rootScope.business    = sessionService.business = business;
                 $rootScope.currentUser = sessionService.user     = user;
@@ -152,9 +143,7 @@ angular.module('app.controllers', [])
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             sessionService.business = business;
-                            startHeapAnalytics({}, business);
                             startFullstory({}, business);
-                            heap.track('Online Booking Page View');
                             if($location.search().currentBooking){
                                 sessionService.currentBooking = JSON.parse($location.search().currentBooking);
                                 $state.go('booking.confirmation');
@@ -200,7 +189,6 @@ angular.module('app.controllers', [])
 
                             if(error.status === 403 && error.data.code === 'license-expired'){
                                 expiredLicenseModal.open();
-                                heap.track('Show Expired License Modal');
                             } else {
                                 loginModal.open().then(function () {
                                     $rootScope.removeAlerts();
@@ -270,7 +258,6 @@ angular.module('app.controllers', [])
                             if(error.status === 403 && error.data.code === 'license-expired'){
                                 $scope.$dismiss();
                                 expiredLicenseModal.open();
-                                heap.track('Show Expired License Modal');
                             }
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({

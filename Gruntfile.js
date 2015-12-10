@@ -283,8 +283,7 @@ module.exports = function(grunt) {
                 dest : './src/index.html',
                 options : {
                     context : {
-                        version : '<%= pkg.version %>',
-                        heapId: '3710647468'
+                        version : '<%= pkg.version %>'
                     }
                 }
             },
@@ -293,8 +292,7 @@ module.exports = function(grunt) {
                 dest : './testing/index.html',
                 options : {
                     context : {
-                        version : '<%= pkg.version %>',
-                        heapId: '3710647468'
+                        version : '<%= pkg.version %>'
                     }
                 }
             },
@@ -303,8 +301,7 @@ module.exports = function(grunt) {
                 dest : './prod/index.html',
                 options : {
                     context : {
-                        version : '<%= pkg.version %>',
-                        heapId: '2818681617'
+                        version : '<%= pkg.version %>'
                     }
                 }
             }
