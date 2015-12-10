@@ -131,7 +131,9 @@
                     <div class="calendar-container calendar-container-desktop">
                         <div class="calendar" id="mobile-onboarding-calendar" ui-calendar="uiConfig.onboardingCalendar" ng-model="events" calendar="mobileOnboardingCalendar"></div>
                     </div>
-                    <button ng-click="slideNext()" ng-show="hideSkipButton" class="group-btn green">{{'onboarding:mobileOnboardingDefault.finish-button' | i18next}}</button>
+                    <div class="calendar-continue-button">
+                        <button ng-click="slideNext()" ng-show="hideSkipButton" class="group-btn green">{{'onboarding:mobileOnboardingDefault.finish-button' | i18next}}</button>
+                    </div>
                 </div>
                 <div class="m-item wrap-up">
 	                <p class="strong">{{'onboarding:mobileOnboardingDefault.nice-work' | i18next}}</p>

@@ -142,6 +142,7 @@
 
         .m-scooch-photos .m-item{
             padding-top: 20px;
+            height: 100vh;
             img{
                 width:76px;
                 margin-bottom: 0px;
@@ -347,8 +348,12 @@
                             }
                         }
                 }
-                .group-btn{
-                    margin-top: 8px;
+                .calendar-continue-button{
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                    z-index: 1;
+                    background: $white;
                 }
             }
             &.wrap-up{

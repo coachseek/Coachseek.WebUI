@@ -76,7 +76,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
                         });
 
                         $timeout(function(){
-                            var heightToSet = $(window).height() - 200;
+                            var heightToSet = $(window).height() - 125;
                             uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('option', 'height', heightToSet);
                         });
                     },
