@@ -122,7 +122,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
         };
 
         $scope.skipModal = function(){
-            onboardingModal.open('mobileOnboardingSkipModal', null, 'mobile-onboarding')
+            onboardingModal.open('mobileOnboardingSkipModal', null, 'mobile-onboarding-backdrop')
                 .then({}, function(){
                     $scope.resetSession();
                     $state.go('newUserSetup');

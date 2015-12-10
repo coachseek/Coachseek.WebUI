@@ -6,7 +6,7 @@ angular.module('onboarding.services', [])
                     var instance = $modal.open({
                         templateUrl: 'onboarding/partials/' + template + '.html',
                         controller: ctrl,
-                        windowClass: 'onboarding-modal-backdrop ' + windowClass ? windowClass : '',
+                        windowClass: 'onboarding-modal-backdrop ' + (windowClass ? windowClass : ''),
                         backdrop: 'static'
                     });
 
