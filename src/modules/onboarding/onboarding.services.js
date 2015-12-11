@@ -2,11 +2,11 @@ angular.module('onboarding.services', [])
     .service('onboardingModal', ['$modal', '$rootScope',
         function ($modal, $rootScope) {
             return {
-                open: function(template, ctrl) {
+                open: function(template, ctrl, windowClass) {
                     var instance = $modal.open({
                         templateUrl: 'onboarding/partials/' + template + '.html',
                         controller: ctrl,
-                        windowClass: 'onboarding-modal-backdrop',
+                        windowClass: 'onboarding-modal-backdrop ' + (windowClass ? windowClass : ''),
                         backdrop: 'static'
                     });
 
