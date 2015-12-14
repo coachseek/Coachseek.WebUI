@@ -236,26 +236,10 @@
         }
     }
 }
-.customer-list .customer-details .item-title {
-    &.first-name,&.last-name{
-        max-width: 190px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        float: left;
-
-    }
-}
 @media (max-width: 768px){
     [state^="scheduling"] .session-modal div.session-modal-title{
         padding: 5px 35px 10px 35px;
     }
-    .customer-list .customer-details .item-title {
-        &.first-name,&.last-name{
-            max-width: 90px;
-
-        }
-    }
-
     .attendance-list div.customer-list {
         .search-container{
             width: 95%;

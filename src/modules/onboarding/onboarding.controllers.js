@@ -37,8 +37,8 @@ angular.module('onboarding.controllers', ['businessSetup'])
                 $state.go('mobileOnboardingDefault');
             };
     }])
-    .controller('mobileOnboardingDefaultCtrl', ['$q','$stateParams', '$state','$rootScope','$scope','$timeout', '$activityIndicator','coachSeekAPIService','serviceDefaults','coachDefaults','onboardingModal','sessionService','uiCalendarConfig', 'getOnboardingDefaults',
-        function ($q, $stateParams, $state, $rootScope, $scope, $timeout, $activityIndicator, coachSeekAPIService, serviceDefaults, coachDefaults, onboardingModal,sessionService,uiCalendarConfig, getOnboardingDefaults) {
+    .controller('mobileOnboardingDefaultCtrl', ['$q','$stateParams', '$state','$rootScope','$scope','$timeout', '$activityIndicator','coachSeekAPIService','serviceDefaults','coachDefaults','onboardingModal','sessionService','uiCalendarConfig', 'getOnboardingDefaults','$window',
+        function ($q, $stateParams, $state, $rootScope, $scope, $timeout, $activityIndicator, coachSeekAPIService, serviceDefaults, coachDefaults, onboardingModal,sessionService,uiCalendarConfig, getOnboardingDefaults,$window) {
         $scope.business = {};
         $scope.admin = {};
         $scope.events=[];
@@ -90,6 +90,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
                         $rootScope.appLoading = true;
                         createInitialSession(initialService, initialLocation, initialCoach, date).then(function(session){
                             uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('renderEvent', buildCalendarEvent(date, session), true);
+                            $window.localStorage.setItem('completedCoachseekMobileOnboarding', true);
                             //show continue button
                         }, $scope.handleErrors).finally(function(){
                             $rootScope.appLoading = false;
@@ -103,6 +104,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
         $scope.skipModal = function(){
             onboardingModal.open('mobileOnboardingSkipModal', null, 'mobile-onboarding-backdrop')
                 .then({}, function(){
+                    $window.localStorage.setItem('completedCoachseekMobileOnboarding', true);
                     $scope.resetSession();
                     $state.go('newUserSetup');
                 });
