@@ -128,42 +128,14 @@ angular.module('app.controllers', [])
 
               $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
-                var requireBusinessDomain = toState.data.requireBusinessDomain;
-                var businessDomain = _.first($location.host().split("."));
 
-                if(ENV.name !== 'prod') $window.localStorage.removeItem('hasLaunchedCoachseek');
-                var hasLaunchedCoachseek = $window.localStorage.getItem('hasLaunchedCoachseek');
-                if(businessDomain === ENV.defaultSubdomain && !$cookies.get('coachseekLogin') && !hasLaunchedCoachseek && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
+                if(ENV.name !== 'prod') $window.localStorage.removeItem('completedCoachseekMobileOnboarding');
+                var completedCoachseekMobileOnboarding = $window.localStorage.getItem('completedCoachseekMobileOnboarding');
+                if( !$cookies.get('coachseekLogin') && !completedCoachseekMobileOnboarding && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
                     event.preventDefault();
-                    sessionService.mobileOnboarding.showMobileOnboarding = true;           
-                    $window.localStorage.setItem('hasLaunchedCoachseek', true);
+                    sessionService.mobileOnboarding.showMobileOnboarding = true;          
                     $state.go("mobileOnboardingSignUp");
-                }else if(businessDomain !== ENV.defaultSubdomain && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding){
-                    event.preventDefault();
-                    $rootScope.appLoading = true;
-                    onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
-                        .then(function(business){
-                            sessionService.business = business;
-                            startFullstory({}, business);
-                            if($location.search().currentBooking){
-                                sessionService.currentBooking = JSON.parse($location.search().currentBooking);
-                                $state.go('booking.confirmation');
-                            } else {
-                                $state.go('booking.selection');
-                            }
-                        }, function(){
-                            $rootScope.addAlert({
-                                type: 'warning',
-                                message: 'businessDomain-invalid'
-                            });
-                            $rootScope.redirectToApp();
-                        }).finally(function(){
-                            $rootScope.appLoading = false;
-                        });
-                } else if (requireBusinessDomain && businessDomain === 'app'&&!sessionService.mobileOnboarding.showMobileOnboarding) {
-                    event.preventDefault();
-                    $state.go('scheduling');
-                } else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding) {
+                }else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding) {
                     event.preventDefault();
 
                     var coachseekLogin = $cookies.get('coachseekLogin');

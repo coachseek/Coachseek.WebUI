@@ -7,10 +7,7 @@ angular.module('scheduling.controllers', [])
             var tempEventId,
                 currentEventCopy,
                 $currentEvent,
-                totalNumSessions,
-                cachedRanges,
-                loadingRanges,
-                currentMonthLoaded; //used to not stop calendar loading when initally loading next/previous month
+                totalNumSessions;
 
             $scope.draggableOptions = {
                 helper: function(event) {
@@ -169,51 +166,6 @@ angular.module('scheduling.controllers', [])
                         } else if (Modernizr.touchevents && ev.type !== "tap") {
                             handleServiceDrop(date, angular.copy(serviceDefaults));
                         }
-                    },
-                    waitForFetch: function(fetchNeeded, intervalStart, reportEvents){
-                        startCalendarLoading();
-                        $scope.uiConfig.calendar[fetchNeeded](intervalStart, reportEvents, 2);
-                    },
-                    getPreviousMonthEvents: function(start, reportEvents, monthsToSubtract){
-                        var previousDate = start.clone().subtract(monthsToSubtract || 1, 'M');
-                        var monthStart = previousDate.clone().startOf('month').format('YYYY-MM-DD');
-                        if(!_.includes(cachedRanges.rangesLoading, monthStart)){
-                            loadNextOrPreviousMonth(monthStart, previousDate, reportEvents).then(function(){
-                                cachedRanges.cachedRangeStart = moment(previousDate.clone().startOf('month').format('YYYY-MM-DD'));
-                            });
-                        }
-                    },
-                    getNextMonthEvents: function(start, reportEvents, monthsToAdd, a, b, c){
-                        var nextDate = start.clone().add(monthsToAdd || 1, 'M');
-                        var monthStart = nextDate.clone().startOf('month').format('YYYY-MM-DD');
-                        if(!_.includes(cachedRanges.rangesLoading, monthStart)){
-                            loadNextOrPreviousMonth(monthStart, nextDate, reportEvents).then(function(){
-                                cachedRanges.cachedRangeEnd = moment(nextDate.clone().endOf('month').format('YYYY-MM-DD'));
-                            });
-                        }
-                    },
-                    events: function(start, end, intervalStart, timezone, renderEvents, reportEvents){
-                        if(!cachedRanges) cachedRanges = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('getCachedRanges');
-                        cachedRanges.rangesLoading = [];
-                        if(!showOnboarding()){
-                            var getSessionsParams = buildGetSessionsParams(intervalStart);
-                            cachedRanges.cachedRangeStart = moment(getSessionsParams.startDate);
-                            cachedRanges.cachedRangeEnd = moment(getSessionsParams.endDate);
-                            $scope.events = [];
-                            currentMonthLoaded = false;
-
-                            startCalendarLoading();
-                            getAndRenderSessions(getSessionsParams)
-                                .then(function(){
-                                    renderEvents($scope.events);
-                                    currentMonthLoaded = true;
-                                    $scope.$broadcast('fetchSuccesful');
-                                }, $scope.handleErrors).finally(function(){
-                                    stopCalendarLoading();
-                                });
-                            $scope.uiConfig.calendar.getPreviousMonthEvents(intervalStart, reportEvents, 1);
-                            $scope.uiConfig.calendar.getNextMonthEvents(intervalStart, reportEvents, 1);
-                        }
                     }
                 }
             };
@@ -247,6 +199,7 @@ angular.module('scheduling.controllers', [])
                         html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
                     }).appendTo(element.find('.fc-content'));
                 }
+                
             };
 
             var handleWindowResize = function(viewName){
@@ -290,6 +243,19 @@ angular.module('scheduling.controllers', [])
                         $scope.currentEvent.course = {pricing:newEvent.session.pricing};
                         if(showSessionModalPopover()) $scope.$broadcast('showSessionModalPopover', 500);
                     }
+                });
+            };
+
+            var addCoursesWithinInterval = function(courses){
+                _.forEach(courses, function(course){
+                    addSessionsWithinInterval(course.sessions, course);
+                });
+            };
+
+            var addSessionsWithinInterval = function(sessions, course){
+                _.forEach(sessions, function(session){
+                    var newDate = getNewDate(session.timing);
+                    $scope.events.push(buildCalendarEvent(newDate, session, course));
                 });
             };
 
@@ -427,6 +393,7 @@ angular.module('scheduling.controllers', [])
                         if(sessionService.onboarding.showOnboarding) {
                             onboardingModal.open('onboardingReviewModal')
                                 .then().finally(function(){
+                                    heap.track('Onboarding Close', {step: 'onboardingReview'});
                                     sessionService.onboarding.showOnboarding = false;
                                 });
                         }
@@ -608,6 +575,7 @@ angular.module('scheduling.controllers', [])
                         .then(function(){
                             $state.reload();
                         }, function(){
+                            heap.track('Onboarding Close', {step: 'createDefaults'});
                             sessionService.onboarding.showOnboarding = false;
                         });
                 });
