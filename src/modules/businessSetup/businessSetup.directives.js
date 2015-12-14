@@ -136,35 +136,6 @@ angular.module('businessSetup.directives', [])
             }
         };
     })
-    .directive('sportPicker', function(){
-        return {
-            restrict: 'E',
-            replace: true,
-            scope: {
-                currentSport: "=currentSport"
-            },
-            templateUrl: 'businessSetup/partials/sportPicker.html',
-            link: function(scope){
-                scope.sports = [
-                    "tennis",
-                    "swimming",
-                    "martial-arts",
-                    "gymnastics",
-                    "golf",
-                    "fencing",
-                    "equestrian",
-                    "fitness",
-                    "basketball",
-                    "volleyball",
-                    "football",
-                    "hockey",
-                    "squash",
-                    "yoga-pilates",
-                    "other"
-                ];
-            }
-        };
-    })
     .directive('timeSlot', function(){
         return {
             replace: false,

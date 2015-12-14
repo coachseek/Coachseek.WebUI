@@ -121,10 +121,8 @@
         .back{
             position: absolute;
             z-index: 1050;
-            left: 5%;
-            top: 6%;
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
         }
         .m-scooch-bulleted{
             text-align: center;
@@ -142,6 +140,7 @@
 
         .m-scooch-photos .m-item{
             padding-top: 20px;
+            height: 100vh;
             img{
                 width:76px;
                 margin-bottom: 0px;
@@ -347,8 +346,12 @@
                             }
                         }
                 }
-                .group-btn{
-                    margin-top: 8px;
+                .calendar-continue-button{
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                    z-index: 1;
+                    background: $white;
                 }
             }
             &.wrap-up{
@@ -359,7 +362,7 @@
         }
     }
 }
-.onboarding-modal-backdrop{
+.onboarding-modal-backdrop.mobile-onboarding-backdrop{
     .modal-dialog{
         margin-top: 25px;
     }

@@ -47,82 +47,61 @@ angular.module('onboarding.controllers', ['businessSetup'])
             initialLocation;
         /*onboarding calendar config*/
         $scope.uiConfig = {
-                onboardingCalendar:{
-                    firstDay: 1,
-                    allDaySlot: false,
-                    titleFormat: {month:'MMM YYYY', week:'MMM YYYY', day:'D MMM YYYY'},
-                    snapDuration: '00:15:00',
-                    defaultView: 'agendaDay',
-                    eventDurationEditable: false,
-                    scrollTime:  "08:00:00",
-                    defaultDate: moment().add(1, 'd'),
-                    header:{
-                        left: '',
-                        center: 'prev title next',
-                        right: '' 
-                    },
-                    eventRender: function(event, element, view) {
-                        if(view.type !== 'month'){
-                            $('<div></div>', {
-                                class: 'fc-location',
-                                text: event.session.location.name
-                            }).appendTo(element.find('.fc-content'));
-                        }
-                    },
-                    viewRender: function(view){
-                        _.assign(sessionService.calendarView, {
-                            view: view.type,
-                            start: view.intervalStart
-                        });
+            onboardingCalendar:{
+                firstDay: 1,
+                allDaySlot: false,
+                titleFormat: {month:'MMM YYYY', week:'MMM YYYY', day:'D MMM YYYY'},
+                snapDuration: '00:15:00',
+                defaultView: 'agendaDay',
+                eventDurationEditable: false,
+                scrollTime:  "08:00:00",
+                defaultDate: moment().add(1, 'd'),
+                header:{
+                    left: '',
+                    center: 'prev title next',
+                    right: '' 
+                },
+                eventRender: function(event, element, view) {
+                    if(view.type !== 'month'){
+                        $('<div></div>', {
+                            class: 'fc-location',
+                            text: event.session.location.name
+                        }).appendTo(element.find('.fc-content'));
+                    }
+                },
+                viewRender: function(view){
+                    _.assign(sessionService.calendarView, {
+                        view: view.type,
+                        start: view.intervalStart
+                    });
 
-                        $timeout(function(){
-                            var heightToSet = $(window).height() - 200;
-                            uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('option', 'height', heightToSet);
+                    $timeout(function(){
+                        var heightToSet = $(window).height() - 125;
+                        uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('option', 'height', heightToSet);
+                    });
+                },
+                dayClick: function(date, jsEvent, ev, view) {
+                    if(view.type === 'month'){
+                        uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('changeView', 'agendaDay');
+                        uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('gotoDate', date);
+                    } else if (Modernizr.touchevents && ev.type !== "tap") {
+                        //add already created event to calendar
+                        $scope.hideSkipButton = true;
+                        $rootScope.appLoading = true;
+                        createInitialSession(initialService, initialLocation, initialCoach, date).then(function(session){
+                            uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('renderEvent', buildCalendarEvent(date, session), true);
+                            //show continue button
+                        }, $scope.handleErrors).finally(function(){
+                            $rootScope.appLoading = false;
                         });
-                    },
-                    dayClick: function(date, jsEvent, ev, view) {
-                        if(view.type === 'month'){
-                            uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('changeView', 'agendaDay');
-                            uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('gotoDate', date);
-                        } else if (Modernizr.touchevents && ev.type !== "tap") {
-                            //add already created event to calendar
-                            $scope.hideSkipButton = true;
-                            $rootScope.appLoading = true;
-                            createInitialSession(initialService, initialLocation, initialCoach, date).then(function(session){
-                                uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('renderEvent', buildCalendarEvent(date, session), true);
-                                //show continue button
-                            }, $scope.handleErrors).finally(function(){
-                                $rootScope.appLoading = false;
-                            });
-                        }
                     }
                 }
+            }
         };
         /*calendar config end*/
 
-        $scope.slideNext = function(inputNames){
-            //validate inputs if necessary
-            if(inputNames){
-                if( _.every(inputNames,function(inputName){
-                    return $scope.mobileOnboardingDefaultForm[inputName].$valid;
-                })){
-                    $('.m-scooch').scooch('next');
-                }else{
-                    _.each(inputNames,function(inputName){
-                        $scope.mobileOnboardingDefaultForm[inputName].$setTouched();
-                    });
-                }
-            }else{
-                $('.m-scooch').scooch('next');
-            }
-            
-        };
-        $scope.slidePrev = function(){
-            $('.m-scooch').scooch('prev');
-        };
-
         $scope.skipModal = function(){
-            onboardingModal.open('mobileOnboardingSkipModal')
+            onboardingModal.open('mobileOnboardingSkipModal', null, 'mobile-onboarding-backdrop')
                 .then({}, function(){
                     $scope.resetSession();
                     $state.go('newUserSetup');

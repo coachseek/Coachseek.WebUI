@@ -71,11 +71,6 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
         ui: function(){}
     }
 
-    heap = {
-        track: function(){},
-        identify: function(){}
-    };
-
     this.sinon = sinon.sandbox.create();
 
     modalStub = this.sinon.stub($injector.get('$modal'), 'open', function(){

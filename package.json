@@ -1,6 +1,6 @@
 {
   "name": "coachseek",
-  "version": "1.4.55",
+  "version": "1.4.58",
   "devDependencies": {
     "chai": "^1.10.0",
     "chai-jquery": "^2.0.0",

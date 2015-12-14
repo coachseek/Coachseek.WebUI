@@ -128,28 +128,25 @@ angular.module('app.controllers', [])
                 }, 5000)
             };
 
-              $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var businessDomain = _.first($location.host().split("."));
 
-                if(ENV.name !== 'prod') $window.localStorage.clear();
-                var applaunchCount = $window.localStorage.getItem('launchCount');
-
-                if(!$cookies.get('coachseekLogin') && !applaunchCount && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
+                if(ENV.name !== 'prod') $window.localStorage.removeItem('hasLaunchedCoachseek');
+                var hasLaunchedCoachseek = $window.localStorage.getItem('hasLaunchedCoachseek');
+                if(businessDomain === ENV.defaultSubdomain && !$cookies.get('coachseekLogin') && !hasLaunchedCoachseek && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
                     event.preventDefault();
                     sessionService.mobileOnboarding.showMobileOnboarding = true;           
+                    $window.localStorage.setItem('hasLaunchedCoachseek', true);
                     $state.go("mobileOnboardingSignUp");
-                    $window.localStorage.setItem('launchCount',1);
                 }else if(businessDomain !== ENV.defaultSubdomain && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding){
                     event.preventDefault();
                     $rootScope.appLoading = true;
                     onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
                         .then(function(business){
                             sessionService.business = business;
-                            startHeapAnalytics({}, business);
                             startFullstory({}, business);
-                            heap.track('Online Booking Page View');
                             if($location.search().currentBooking){
                                 sessionService.currentBooking = JSON.parse($location.search().currentBooking);
                                 $state.go('booking.confirmation');
@@ -195,7 +192,6 @@ angular.module('app.controllers', [])
 
                             if(error.status === 403 && error.data.code === 'license-expired'){
                                 expiredLicenseModal.open();
-                                heap.track('Show Expired License Modal');
                             } else {
                                 loginModal.open().then(function () {
                                     $rootScope.removeAlerts();
@@ -265,7 +261,6 @@ angular.module('app.controllers', [])
                             if(error.status === 403 && error.data.code === 'license-expired'){
                                 $scope.$dismiss();
                                 expiredLicenseModal.open();
-                                heap.track('Show Expired License Modal');
                             }
                             $http.defaults.headers.common.Authorization = null;
                             $scope.addAlert({
