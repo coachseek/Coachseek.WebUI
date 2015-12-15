@@ -10,7 +10,8 @@ angular.module('booking', [
                 templateUrl: "booking/partials/bookingAdminView.html",
                 controller: 'bookingAdminCtrl',
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 }
             })
             .state('booking', {
@@ -29,7 +30,8 @@ angular.module('booking', [
                 },
                 data: {
                     requireLogin: false,
-                    requireBusinessDomain: true
+                    requireBusinessDomain: true,
+                    sessionType: 'online-booking'
                 }
             })
             .state('booking.details', {
@@ -42,7 +44,8 @@ angular.module('booking', [
                 },
                 data: {
                     requireLogin: false,
-                    requireBusinessDomain: true
+                    requireBusinessDomain: true,
+                    sessionType: 'online-booking'
                 }
             })
             .state('booking.payment', {
@@ -55,7 +58,8 @@ angular.module('booking', [
                 },
                 data: {
                     requireLogin: false,
-                    requireBusinessDomain: true
+                    requireBusinessDomain: true,
+                    sessionType: 'online-booking'
                 }
             })
             .state('booking.confirmation', {
@@ -68,7 +72,8 @@ angular.module('booking', [
                 },
                 data: {
                     requireLogin: false,
-                    requireBusinessDomain: true
+                    requireBusinessDomain: true,
+                    sessionType: 'online-booking'
                 }
             });
     }]);

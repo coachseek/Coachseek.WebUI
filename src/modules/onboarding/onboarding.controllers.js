@@ -31,6 +31,8 @@ angular.module('onboarding.controllers', ['businessSetup'])
                 loginModal.open().then(function () {
                     $rootScope.removeAlerts();
                     $state.go('scheduling');
+                }, function(){
+                    sessionService.sessionType = null;
                 });
             };
             $rootScope.joinUs = function(){
@@ -103,6 +105,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
         $scope.skipModal = function(){
             onboardingModal.open('mobileOnboardingSkipModal', null, 'mobile-onboarding-backdrop')
                 .then({}, function(){
+                    sessionService.sessionType = null;
                     $scope.resetSession();
                     $state.go('newUserSetup');
                 });

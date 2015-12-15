@@ -11,7 +11,8 @@ angular.module('onboarding',
                 templateUrl: "onboarding/partials/mobileOnboardingSignUp.html",
                 controller: 'mobileOnboardingSignUpCtrl',
                 data: {
-                    requireLogin: false
+                    requireLogin: false,
+                    sessionType: 'mobile-onboarding'
                 }
             })
             .state('mobileOnboardingDefault',{
@@ -19,7 +20,8 @@ angular.module('onboarding',
                 templateUrl: "onboarding/partials/mobileOnboardingDefault.html",
                 controller: 'mobileOnboardingDefaultCtrl',
                 data: {
-                    requireLogin: false
+                    requireLogin: false,
+                    sessionType: 'mobile-onboarding'
                 }
             });    
     }])

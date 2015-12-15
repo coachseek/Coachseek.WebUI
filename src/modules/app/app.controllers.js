@@ -41,7 +41,6 @@ angular.module('app.controllers', [])
 
             $rootScope.logout = function(){
                 $rootScope.resetSession();
-                $cookies.remove('coachseekLogin')
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -54,6 +53,8 @@ angular.module('app.controllers', [])
             };
 
             $rootScope.resetSession = function(){
+                sessionService.sessionType = null;
+                $cookies.remove('coachseekLogin')
                 $http.defaults.headers.common.Authorization = null;
                 delete sessionService.user;
                 delete sessionService.business;
@@ -103,6 +104,7 @@ angular.module('app.controllers', [])
             }
 
             $rootScope.setupCurrentUser = function(user, business){
+                sessionService.sessionType = 'app';
                 _.assign(user, {
                     trialDaysLeft: moment(business.authorisedUntil).diff(moment().add(15, 'd'), 'days')
                 });
@@ -116,12 +118,6 @@ angular.module('app.controllers', [])
             $rootScope.setUserAuth = function(email, password){
                 var authHeader = 'Basic ' + btoa(email + ':' + password);
                 $http.defaults.headers.common.Authorization = authHeader;
-            };
-
-            $rootScope.redirectToApp = function(){
-                $timeout(function(){
-                    window.location = 'https://' + ENV.defaultSubdomain + '.coachseek.com';
-                }, 5000)
             };
 
             $rootScope.detectCurrentStateNameOnMobile = function(currentStateName) {
@@ -153,87 +149,124 @@ angular.module('app.controllers', [])
 
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
+                var toStateSessionType = toState.data.sessionType;
                 var businessDomain = _.first($location.host().split("."));
+                if(ENV.name !== 'prod') $window.localStorage.removeItem('completedCoachseekMobileOnboarding');
 
-                if(ENV.name !== 'prod') $window.localStorage.removeItem('hasLaunchedCoachseek');
-                var hasLaunchedCoachseek = $window.localStorage.getItem('hasLaunchedCoachseek');
-                if(businessDomain === ENV.defaultSubdomain && !$cookies.get('coachseekLogin') && !hasLaunchedCoachseek && !sessionService.mobileOnboarding.showMobileOnboarding && !sessionService.isBigScreen){  
-                    event.preventDefault();
-                    sessionService.mobileOnboarding.showMobileOnboarding = true;           
-                    $window.localStorage.setItem('hasLaunchedCoachseek', true);
-                    $state.go("mobileOnboardingSignUp");
-                }else if(businessDomain !== ENV.defaultSubdomain && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding){
-                    event.preventDefault();
-                    $rootScope.appLoading = true;
-                    onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
-                        .then(function(business){
-                            sessionService.business = business;
-                            startFullstory({}, business);
-                            if($location.search().currentBooking){
-                                sessionService.currentBooking = JSON.parse($location.search().currentBooking);
-                                $state.go('booking.confirmation');
-                            } else {
-                                $state.go('booking.selection');
+                if(!sessionService.sessionType){
+                    if(businessDomain !== ENV.defaultSubdomain) {
+                        toStateSessionType = 'online-booking';
+                    } else if(toStateSessionType !== 'app'){
+                        // is not a url going to app but needs to be. default to scheduling
+                        event.preventDefault();
+                        $state.go('scheduling');
+                        return false;
+                    }
+
+                    //determine session type
+                    switch (toStateSessionType) {
+                        case 'app':
+                            if(!$window.localStorage.getItem('completedCoachseekMobileOnboarding') && !sessionService.isBigScreen){
+                                //launch mobile onboarding
+                                event.preventDefault();
+                                sessionService.sessionType = 'mobile-onboarding';
+                                $state.go("mobileOnboardingSignUp");
+                            } else if(requireLogin) {
+                                if($cookies.get('coachseekLogin')){
+                                    //login with cookies
+                                    event.preventDefault();
+                                    rememberMeLogin(toState, toParams);
+                                } else {
+                                    //loginModal
+                                    event.preventDefault();
+                                    loginModal.open().then(function () {
+                                        $rootScope.removeAlerts();
+                                        return $state.go(toState.name, toParams);
+                                    });
+                                }
                             }
-                        }, function(){
-                            $rootScope.addAlert({
-                                type: 'warning',
-                                message: 'businessDomain-invalid'
-                            });
-                            $rootScope.redirectToApp();
-                        }).finally(function(){
-                            $rootScope.appLoading = false;
-                        });
-                } else if (requireBusinessDomain && businessDomain === 'app'&&!sessionService.mobileOnboarding.showMobileOnboarding) {
+                            break;
+                        case 'online-booking':
+                            event.preventDefault();
+                            sessionService.sessionType = 'online-booking';
+                            runOnlineBookingSite(businessDomain)
+                            break;
+                        default:
+                            //navigate to 404?
+                            break;
+                    }
+                } else if(toStateSessionType && sessionService.sessionType !== toStateSessionType) {
+                    //redirect to default
                     event.preventDefault();
-                    $state.go('scheduling');
-                } else if (requireLogin && $cookies.get('coachseekLogin') && !sessionService.business&&!sessionService.mobileOnboarding.showMobileOnboarding) {
-                    event.preventDefault();
-
-                    var coachseekLogin = $cookies.get('coachseekLogin');
-                    $http.defaults.headers.common.Authorization = 'Basic ' + coachseekLogin;
-                    $rootScope.appLoading = true;
-                    coachSeekAPIService.get({section: 'Business'})
-                        .$promise.then(function(business){
-                            var userData = atob(coachseekLogin).split(':');
-                            $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
-                            var user = {
-                                email: userData[0],
-                                password: userData[1]
-                            };
-                            $rootScope.setupCurrentUser(user, business);
-                            $state.go(toState.name, toParams);
-                        }, function(error){
-                            $http.defaults.headers.common.Authorization = null;
-                            $rootScope.addAlert({
-                                type: 'danger',
-                                message: error.statusText,
-                                code: error.data.code
-                            });
-                            $cookies.remove('coachseekLogin');
-
-                            if(error.status === 403 && error.data.code === 'license-expired'){
-                                expiredLicenseModal.open();
-                            } else {
-                                loginModal.open().then(function () {
-                                    $rootScope.removeAlerts();
-                                    return $state.go(toState.name, toParams);
-                                });
-                            }
-                        }).finally(function(){
-                            $rootScope.appLoading = false;
-                        });
-                } else if (requireLogin && !sessionService.user&&!sessionService.mobileOnboarding.showMobileOnboarding) {
-                    event.preventDefault();
-
-                    loginModal.open().then(function () {
-                        $rootScope.removeAlerts();
-                        return $state.go(toState.name, toParams);
-                    });
+                    switch (sessionService.sessionType) {
+                        case 'app':
+                            $state.go('scheduling');
+                            break;
+                        case 'online-booking':
+                            $state.go('booking.selection');
+                            break;
+                        default:
+                            //navigate to 404?
+                            break;
+                    }
                 } else {
                     $rootScope.removeAlerts();
                 }
             });
+
+            function runOnlineBookingSite(businessDomain){
+                $rootScope.appLoading = true;
+                onlineBookingAPIFactory.anon(businessDomain).get({section:'Business'}).$promise
+                    .then(function(business){
+                        sessionService.business = business;
+                        startFullstory({}, business);
+                        if($location.search().currentBooking){
+                            sessionService.currentBooking = JSON.parse($location.search().currentBooking);
+                            $state.go('booking.confirmation');
+                        } else {
+                            $state.go('booking.selection');
+                        }
+                    }, function(){
+                        $state.go('error.404');
+                    }).finally(function(){
+                        $rootScope.appLoading = false;
+                    });
+            }
+
+            function rememberMeLogin(toState, toParams){
+                var coachseekLogin = $cookies.get('coachseekLogin');
+                $http.defaults.headers.common.Authorization = 'Basic ' + coachseekLogin;
+                $rootScope.appLoading = true;
+                coachSeekAPIService.get({section: 'Business'})
+                    .$promise.then(function(business){
+                        var userData = atob(coachseekLogin).split(':');
+                        $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
+                        var user = {
+                            email: userData[0],
+                            password: userData[1]
+                        };
+                        $rootScope.setupCurrentUser(user, business);
+                        $state.go(toState.name, toParams);
+                    }, function(error){
+                        $rootScope.resetSession()
+                        $rootScope.addAlert({
+                            type: 'danger',
+                            message: error.statusText,
+                            code: error.data.code
+                        });
+
+                        if(error.status === 403 && error.data.code === 'license-expired'){
+                            expiredLicenseModal.open();
+                        } else {
+                            loginModal.open().then(function () {
+                                $rootScope.removeAlerts();
+                                return $state.go(toState.name, toParams);
+                            });
+                        }
+                    }).finally(function(){
+                        $rootScope.appLoading = false;
+                    });
+            }
 
             $rootScope.showFeature = function(){
                 return ENV.name === 'dev' || _.includes(_.get(ENV, 'allFeaturesWhitelist'), _.get(sessionService, 'user.email'))
@@ -248,7 +281,6 @@ angular.module('app.controllers', [])
             });
 
             var keys = {};
-
             $(document).keydown(function (e) {
                 keys[e.which] = true;
                 if(keys[16] && keys[32] && keys[79]){
