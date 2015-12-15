@@ -44,7 +44,6 @@ angular.module('app.directives', [])
                         });
                         result += lineDelimiter;
                     });
-                    console.log(result)
                     return result;
                 }
             }
