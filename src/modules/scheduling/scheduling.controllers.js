@@ -191,15 +191,25 @@ angular.module('scheduling.controllers', [])
                 });
             };
 
-            var handleFullyBooked = function(event,element,view){
-                if(event.session.booking.studentCapacity - _.size(event.session.booking.bookings) <= 0){
+            var handleFullyBooked = function(event, element, view){
+                var html,
+                    studentCapacity = event.session.booking.studentCapacity;
+                if(studentCapacity - _.size(event.session.booking.bookings) <= 0){
                     $scope.viewType = view.type;
+                    if(studentCapacity === 1 && view.type !== 'month'){
+                        //show private lesson customer name
+                        var customer = event.session.booking.bookings[0].customer;
+                        html = $compile("<calendar-private-session first-name='"+customer.firstName+"' last-name='"+customer.lastName+"'></calendar-private-session")($scope);
+                    } else {
+                        //show fully booked banner
+                        html = $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope);
+                    }
+
                     $('<div></div>', {
-                        class: 'fc-fullybooked-'+view.type+' '+event.session.presentation.colour,
-                        html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
+                        class: 'fc-fullybooked-' + view.type + ' ' + event.session.presentation.colour,
+                        html: html
                     }).appendTo(element.find('.fc-content'));
                 }
-                
             };
 
             var handleWindowResize = function(viewName){

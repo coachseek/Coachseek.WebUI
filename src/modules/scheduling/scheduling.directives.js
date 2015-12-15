@@ -385,4 +385,14 @@ angular.module('scheduling.directives', [])
                 });
             }
         };
-    }]);
+    }])
+    .directive('calendarPrivateSession', function(){
+        return {
+            restrict: "E",
+            templateUrl:'scheduling/partials/calendarPrivateSession.html',
+            scope: {
+                firstName: '@',
+                lastName: '@'
+            }
+        };
+    });
