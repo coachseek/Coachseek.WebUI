@@ -48,6 +48,20 @@ angular.module('app',
             var $state = $injector.get("$state");
             $state.go("scheduling");
         });
+
+        $stateProvider
+            .state('error', {
+                url: "/",
+                abstract: true,
+                template: '<ui-view/>'
+            })
+            .state('error.404', {
+                templateUrl: "app/partials/404ErrorPage.html",
+                data: {
+                    requireLogin: false
+                }
+            })
+
     }])
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);

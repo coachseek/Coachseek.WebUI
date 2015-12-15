@@ -1,4 +1,7 @@
 {
+    "oh-no": "OH NO!",
+    "page-no-exist": "It looks like the address you're trying to visit doesn't exist.",
+    "try-again": "Give it another go?",
     "export-csv": "export.csv",
     "download-csv": "Download CSV",
     "firstName": "First Name",
