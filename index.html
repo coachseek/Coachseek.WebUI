@@ -44,6 +44,7 @@
         <div class="navbar navbar-inverse navbar-fixed-top" ng-show="currentUser">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <span class="" ng-show="displayCurrentStateNameOnMobile&&!isBigScreen">{{currentStateNameOnMobile}}</span>
                     <button class="navbar-toggle pull-left" type="button" ng-click="isCollapsed = !isCollapsed">
                         <i class="fa fa-bars fa-2x"></i>
                     </button>
