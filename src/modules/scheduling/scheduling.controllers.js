@@ -7,7 +7,8 @@ angular.module('scheduling.controllers', [])
             var tempEventId,
                 currentEventCopy,
                 $currentEvent,
-                totalNumSessions;
+                totalNumSessions,
+                copyEventDrag;
 
             $scope.draggableOptions = {
                 helper: function(event) {
@@ -102,6 +103,13 @@ angular.module('scheduling.controllers', [])
                     windowResize: function(view){
                         handleWindowResize(view.name);
                     },
+                    eventDragStart: function(){
+                        if($scope.shiftKeydown){
+                            copyEventDrag = true;
+                        } else {
+                            copyEventDrag = false;
+                        }
+                    },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
                         if(event.tempEventId){
@@ -109,7 +117,37 @@ angular.module('scheduling.controllers', [])
                                 startDate: event._start.format('YYYY-MM-DD'),
                                 startTime: event._start.format('HH:mm')
                             });
-                        } else {
+                        } else if (copyEventDrag){
+                            revertDate();
+                            //remove id and save with new date
+                            var newEvent = angular.copy(event);
+                            if(newEvent.course){
+                                //have to set $scope.currentEvent so sessionOrCourseModal can return id
+                                $scope.currentEvent = newEvent;
+                                sessionOrCourseModal($scope).then(function(id){
+                                    startCalendarLoading();
+                                    if(id === newEvent.course.id){
+                                        startCalendarLoading();
+                                        delete newEvent.session.id;
+                                        delete newEvent.course.id;
+                                        delete newEvent.session.booking.bookings;
+                                        delete newEvent.course.booking.bookings;
+                                        updateSessionTiming(newEvent.course, delta, revertDate, true);
+                                    } else {
+                                        delete newEvent.session.id;
+                                        delete newEvent.session.booking.bookings;
+                                        updateSessionTiming(newEvent.session, delta, revertDate, true);
+                                    }
+                                }, function(){
+                                    revertDate();
+                                });
+                            } else {
+                                delete newEvent.session.id;
+                                delete newEvent.session.booking.bookings;
+                                startCalendarLoading();
+                                updateSessionTiming(newEvent.session, delta, revertDate, true);
+                            }
+                        } else  {
                             if(event.course){
                                 //have to set $scope.currentEvent so sessionOrCourseModal can return id
                                 $scope.currentEvent = event;
@@ -170,7 +208,7 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            var updateSessionTiming = function(session, delta, revertDate, reloadRanges){
+            function updateSessionTiming(session, delta, revertDate, reloadRanges){
                 var newDate = getNewDate(session.timing);
                 newDate.add(delta);
 
@@ -237,7 +275,7 @@ angular.module('scheduling.controllers', [])
                 });
             };
 
-            var handleServiceDrop = function(date, serviceData){
+            function handleServiceDrop(date, serviceData){
                 $scope.currentTab = 'general';
                 $scope.showModal = true;
                 var session = buildSessionObject(date, serviceData);
@@ -406,10 +444,9 @@ angular.module('scheduling.controllers', [])
                                     sessionService.onboarding.showOnboarding = false;
                                 });
                         }
-                    } else {
-                        closeModal();
                     }
-
+                        
+                    closeModal();
                     $scope.removeAlerts();
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 }, handleCalendarErrors);
