@@ -272,9 +272,9 @@ button:disabled{
 }
 
 .trial-status{
-    position: absolute;
+    position: relative;
     height: 20px;
-    bottom: -20px;
+    // bottom: -20px;
     width: 100%;
     color: $white;
     text-align: center;
