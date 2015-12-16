@@ -129,7 +129,7 @@
         "10": "November",
         "11": "December"
     },
-    "stateName":{
+    "state-name":{
         "scheduling" : "Calendar",
         "customers" : "Customers",
         "businessSetup" : "Settings",

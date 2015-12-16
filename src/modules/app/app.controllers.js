@@ -120,32 +120,8 @@ angular.module('app.controllers', [])
                 $http.defaults.headers.common.Authorization = authHeader;
             };
 
-            $rootScope.detectCurrentStateNameOnMobile = function(currentStateName) {
-                switch(currentStateName){
-                    case 'scheduling':
-                        $rootScope.currentStateNameOnMobile = i18n.t("app:stateName.scheduling");
-                        $rootScope.displayCurrentStateNameOnMobile = true;
-                        break;
-                    case 'customers':
-                        $rootScope.currentStateNameOnMobile = i18n.t("app:stateName.customers");
-                        $rootScope.displayCurrentStateNameOnMobile = true;
-                        break;
-                    case 'businessSetup.business':
-                        $rootScope.currentStateNameOnMobile = i18n.t("app:stateName.businessSetup");
-                        $rootScope.displayCurrentStateNameOnMobile = true;
-                        break;
-                    case 'bookingAdmin':
-                        $rootScope.currentStateNameOnMobile = i18n.t("app:stateName.bookingAdmin");
-                        $rootScope.displayCurrentStateNameOnMobile = true;
-                        break;
-                    default:
-                        $rootScope.displayCurrentStateNameOnMobile = false;
-                }       
-            }
-
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-                $rootScope.detectCurrentStateNameOnMobile(toState.name);
-                $rootScope.displayCurrentStateNameOnMobile = true;
+                $rootScope.currentTabTitle = toState.name.split(".")[0];
 
                 var requireLogin = toState.data.requireLogin;
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
