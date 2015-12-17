@@ -18,12 +18,19 @@ describe('Booking Admin Page', function(){
         return 're@d.e';
     });
 
-    var scope;
+    var scope, saveStub;
     beforeEach(function(){
         scope = $rootScope.$new();
         _.set(scope, 'currentUser.email', this.currentUserEmail)
         $injector.get('sessionService').business = this.business;
         createViewWithController(scope, 'booking/partials/bookingAdminView.html', 'bookingAdminCtrl');
+
+        var self = this;
+        self.savePromise = this.savePromise;
+        var coachSeekAPIService = $injector.get('coachSeekAPIService');
+        saveStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
+            return self.savePromise;
+        });
     });
     it('should show the `Online booking` and `Payment` tabs', function(){
         expect($testRegion.find('.booking-admin-nav-container').hasClass('ng-hide')).to.be.false;
@@ -56,14 +63,7 @@ describe('Booking Admin Page', function(){
         })
     });
     describe('when clicking on the payments tab', function(){
-        var saveStub;
         beforeEach(function(){
-            var self = this;
-            self.savePromise = this.savePromise;
-            var coachSeekAPIService = $injector.get('coachSeekAPIService');
-            saveStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
-                return self.savePromise;
-            });
             $testRegion.find('.booking-nav.payments').trigger('click');
         });
         it('should show the `Payments` tab', function(){
@@ -133,6 +133,15 @@ describe('Booking Admin Page', function(){
                         expect(scope.business).to.eql(this.business);
                     });
                 });
+                describe('and then switching tabs', function(){
+                    beforeEach(function(){
+                        $testRegion.find('.booking-nav.pricing').trigger('click');
+                    });
+                    it('should reset the business attributes', function(){
+                        expect($injector.get('sessionService').business).to.eql(this.business);
+                        expect(scope.business).to.eql(this.business);
+                    });
+                })
             });
         });
         describe('when online payments are ON', function(){
@@ -153,13 +162,14 @@ describe('Booking Admin Page', function(){
                     expect($testRegion.find('.save-button ').attr('disabled')).to.equal('disabled')
                 });
             });
-            describe('and the merchant identifier is set to true', function(){
+            describe('and the merchant identifier is set', function(){
                 let('business', function(){
                     return {
                         domain: 'bizdomain',
                         payment:{
                             merchantAccountIdentifier: 'dude@duder.com',
-                            isOnlinePaymentEnabled: true
+                            isOnlinePaymentEnabled: true,
+                            paymentProvider: "PayPal"
                         }
                     }
                 });
@@ -208,6 +218,31 @@ describe('Booking Admin Page', function(){
                    it('should not make a save call to the API', function(){
                         expect(saveStub).to.not.be.called;
                    });
+                });
+            });
+        });
+    });
+    describe('when clicking the pricing tab', function(){
+        beforeEach(function(){
+            $testRegion.find('.booking-nav.pricing').trigger('click');
+        });
+        it('should show the `Payments` tab', function(){
+            expect(scope.activeTab).to.equal('pricing');
+        });
+        describe('when clicking the pro rata switch', function(){
+            beforeEach(function(){
+                $testRegion.find('.booking-admin-pricing .toggle-bg').trigger('click');
+            });
+            it('should not attempt to save', function(){
+                expect(saveStub).to.not.be.called;
+            });
+            describe('and then waiting 1 second', function(){
+                beforeEach(function(){
+                    clock.tick(1000);
+                    $timeout.flush()
+                });
+                it('should attempt to save after 1 second', function(){
+                    expect(saveStub).to.be.calledOnce;
                 });
             });
         });

@@ -1,6 +1,7 @@
 <div class="booking-admin-nav-container slider-nav" ng-init="activeTab = 'onlineBooking'">
     <div class="booking-nav slider-nav-option online-booking" ng-click="activeTab = 'onlineBooking'" ng-class="{'active':activeTab==='onlineBooking'}">{{'booking:booking-admin.onlinebooking' | i18next}}</div>
     <div class="booking-nav slider-nav-option payments" ng-click="activeTab = 'payments'" ng-class="{'active':activeTab==='payments'}">{{'booking:booking-admin.payments' | i18next}}</div>
+    <div class="booking-nav slider-nav-option pricing" ng-click="activeTab = 'pricing'" ng-class="{'active':activeTab==='pricing'}">{{'booking:booking-admin.pricing' | i18next}}</div>
 </div>
 <div class="booking-admin-container" ng-switch="activeTab">    
     <hr class="double-wide">
@@ -37,19 +38,13 @@
                     negative="'no'"
                 ></toggle-switch>
             </div>
-            <div class="toggle-switch-container pro-rata">
-                {{'booking:pro-rata' | i18next}}
-                <toggle-switch ng-disabled="AILoading"
-                    property="business.payment.useProRataPricing" 
-                    positive="'yes'"
-                    negative="'no'"
-                ></toggle-switch>
-            </div>
-            <hr class="double-wide">
             <div class="paypal-payment crud-item">
+                <div class="paypal-merchant-title">
+                    {{'booking:booking-admin.merchant' | i18next}}
+                </div>
                 <form class="edit-paypal" name="form" novalidate>
-                    <p>{{'booking:booking-admin.activate' | i18next}}</p>
                     <div class="form-input">
+                        <img ng-src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/secured-by-paypal.png">
                         <input type="email" name="email" ng-model="business.payment.merchantAccountIdentifier" placeholder="{{'booking:booking-admin.email' | i18next}}" ng-maxlength="100" required/>
 
                         <div class="error-messages" ng-messages="form.email.$error" ng-if="form.email.$touched">
@@ -58,10 +53,23 @@
                             <div ng-message="email">{{'businessSetup:error.email' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                         </div>
                     </div>
+                    <p>{{'booking:booking-admin.activate' | i18next}}</p>
                     <button class="save-button" ng-click="save()" ng-disabled="AILoading || !form.$valid"><span class="save-text" ng-i18next="{{getSaveButtonState()}}"></span>&nbsp;<span ng-if="saved" class="fa fa-check"></span><ellipsis-animated ng-show="AILoading"/></button>
                     <button class="cancel-button" ng-show="!saved" ng-if="!AILoading" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
                 </form>
             </div>
         </div>
+        <hr class="double-wide">
+    </div>
+    <div class="booking-admin-pricing" ng-switch-when="pricing">
+        <div class="toggle-switch-container pro-rata">
+            {{'booking:pro-rata' | i18next}}
+            <toggle-switch ng-disabled="AILoading"
+                property="business.payment.useProRataPricing" 
+                positive="'yes'"
+                negative="'no'"
+            ></toggle-switch>
+        </div>
+        <hr class="double-wide">
     </div>
 </div>
