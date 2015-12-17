@@ -37,6 +37,14 @@
                     negative="'no'"
                 ></toggle-switch>
             </div>
+            <div class="toggle-switch-container pro-rata">
+                {{'booking:pro-rata' | i18next}}
+                <toggle-switch ng-disabled="AILoading"
+                    property="business.payment.useProRataPricing" 
+                    positive="'yes'"
+                    negative="'no'"
+                ></toggle-switch>
+            </div>
             <hr class="double-wide">
             <div class="paypal-payment crud-item">
                 <form class="edit-paypal" name="form" novalidate>
@@ -50,7 +58,7 @@
                             <div ng-message="email">{{'businessSetup:error.email' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                         </div>
                     </div>
-                    <button class="save-button" ng-click="save()" ng-disabled="AILoading || !form.$valid"><span class="save-text" ng-i18next="{{getSaveButtonState()}}"></span><ellipsis-animated ng-show="AILoading"/></button>
+                    <button class="save-button" ng-click="save()" ng-disabled="AILoading || !form.$valid"><span class="save-text" ng-i18next="{{getSaveButtonState()}}"></span>&nbsp;<span ng-if="saved" class="fa fa-check"></span><ellipsis-animated ng-show="AILoading"/></button>
                     <button class="cancel-button" ng-show="!saved" ng-if="!AILoading" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
                 </form>
             </div>

@@ -14,13 +14,18 @@ describe('Booking Price Directive', function(){
         return null;
     });
 
+    let('business', function(){
+        return {
+            payment: {
+                currency: "USD",
+                useProRataPricing: true
+            }
+        };
+    });
+
     beforeEach(function(){
         scope = $rootScope.$new();
-        scope.business = {
-            payment: {
-                currency: "USD"
-            }
-        }
+        scope.business = this.business;
         scope.availableSessions = this.booking.sessions;
 
         $injector.get("currentBooking").booking = this.booking;
@@ -86,8 +91,23 @@ describe('Booking Price Directive', function(){
                 });
 
                 describe('and some sessions are in the past', function(){
-                    it('should show the prorated course price', function(){
-                        expect($bookingPrice.html()).to.contain('6.66&nbsp;' + scope.business.payment.currency);
+                    describe('and pro rata pricing is turned ON', function(){
+                        it('should show the prorated course price', function(){
+                            expect($bookingPrice.html()).to.contain('6.66&nbsp;' + scope.business.payment.currency);
+                        });
+                    });
+                    describe('and pro rata pricing is turned OFF', function(){
+                        let('business', function(){
+                            return {
+                                payment: {
+                                    currency: "USD",
+                                    useProRataPricing: false
+                                }
+                            };
+                        });
+                        it('should show the whole course price', function(){
+                            expect($bookingPrice.html()).to.contain('10.00&nbsp;' + scope.business.payment.currency);
+                        });
                     });
                 });
             });

@@ -18,7 +18,7 @@ angular.module('booking.directives', [])
 
                 function getFullCoursePrice(){
                     var event = scope.event;
-                    if(scope.isBefore(event)){
+                    if(scope.isBefore(event) && scope.business.payment.useProRataPricing){
                         // SUM SESSION PRICES
                         if(event.pricing.sessionPrice >= 0){
                             return sumSessionCosts(event.sessions);
@@ -167,7 +167,9 @@ angular.module('booking.directives', [])
                             return course.pricing.sessionPrice.toFixed(2);
                         // COURSE IN PAST
                         } else if(isBefore(course)){
-                            if(course.pricing.coursePrice && !course.pricing.sessionPrice){
+                            if(!scope.business.payment.useProRataPricing && course.pricing.coursePrice){
+                                return course.pricing.coursePrice.toFixed(2);
+                            } else if (course.pricing.coursePrice && !course.pricing.sessionPrice){
                                 //PRO RATE
                                 var numSessionsInFuture = _.size(_.filter(course.sessions, function(session){return !isBefore(session)}));
                                 var perSessionPrice = Math.round((course.pricing.coursePrice / course.repetition.sessionCount) * 100) / 100;
@@ -193,7 +195,7 @@ angular.module('booking.directives', [])
                 };
 
                 function isBefore(session){
-                    return moment(session.timing.startDate, "YYYY-MM-DD").isBefore(moment());
+                    return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(3, 'h'));
                 };
             }
         };
