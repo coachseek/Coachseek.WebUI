@@ -1,7 +1,7 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', '$cookies', 'expiredLicenseModal','$window',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, $cookies, expiredLicenseModal,$window) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', 'expiredLicenseModal','$window',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, expiredLicenseModal,$window) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _; //allow lodash.js to be used in angular partials
             $rootScope.Modernizr = Modernizr; //allow Modernizr.js to be used in angular partials
@@ -54,7 +54,7 @@ angular.module('app.controllers', [])
 
             $rootScope.resetSession = function(){
                 sessionService.sessionType = null;
-                $cookies.remove('coachseekLogin')
+                $window.localStorage.removeItem('coachseekLogin');
                 $http.defaults.headers.common.Authorization = null;
                 delete sessionService.user;
                 delete sessionService.business;
@@ -148,7 +148,7 @@ angular.module('app.controllers', [])
                                 sessionService.sessionType = 'mobile-onboarding';
                                 $state.go("mobileOnboardingSignUp");
                             } else if(requireLogin) {
-                                if($cookies.get('coachseekLogin')){
+                                if($window.localStorage.getItem('coachseekLogin')){
                                     //login with cookies
                                     event.preventDefault();
                                     rememberMeLogin(toState, toParams);
@@ -210,13 +210,13 @@ angular.module('app.controllers', [])
             }
 
             function rememberMeLogin(toState, toParams){
-                var coachseekLogin = $cookies.get('coachseekLogin');
+                var coachseekLogin = $window.localStorage.getItem('coachseekLogin');
                 $http.defaults.headers.common.Authorization = 'Basic ' + coachseekLogin;
                 $rootScope.appLoading = true;
                 coachSeekAPIService.get({section: 'Business'})
                     .$promise.then(function(business){
                         var userData = atob(coachseekLogin).split(':');
-                        $cookies.put('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
+                        $window.localStorage.setItem('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
                         var user = {
                             email: userData[0],
                             password: userData[1]
@@ -269,8 +269,8 @@ angular.module('app.controllers', [])
                 delete keys[e.which];
             });
         }])
-        .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$cookies', 'expiredLicenseModal',
-            function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $cookies, expiredLicenseModal) {
+        .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window', 'expiredLicenseModal',
+            function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $window, expiredLicenseModal) {
             
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
@@ -285,7 +285,7 @@ angular.module('app.controllers', [])
                                 password: password
                             };
 
-                            if($scope.rememberMe) $cookies.put('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
+                            if($scope.rememberMe) $window.localStorage.setItem('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
                             $scope.$close({user:user, business:business});
                         }, function(error){
                             if(error.status === 403 && error.data.code === 'license-expired'){
