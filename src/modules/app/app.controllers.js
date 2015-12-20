@@ -216,7 +216,6 @@ angular.module('app.controllers', [])
                 coachSeekAPIService.get({section: 'Business'})
                     .$promise.then(function(business){
                         var userData = atob(coachseekLogin).split(':');
-                        $window.localStorage.setItem('coachseekLogin', coachseekLogin, {'expires': moment().add(14, 'd').toDate()});
                         var user = {
                             email: userData[0],
                             password: userData[1]
@@ -285,7 +284,7 @@ angular.module('app.controllers', [])
                                 password: password
                             };
 
-                            if($scope.rememberMe) $window.localStorage.setItem('coachseekLogin', btoa(email + ':' + password), {'expires': moment().add(14, 'd').toDate()});
+                            if($scope.rememberMe) $window.localStorage.setItem('coachseekLogin', btoa(email + ':' + password));
                             $scope.$close({user:user, business:business});
                         }, function(error){
                             if(error.status === 403 && error.data.code === 'license-expired'){
