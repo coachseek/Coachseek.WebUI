@@ -80,6 +80,25 @@ module.exports = function(grunt) {
                 dest: 'prod/css/style.css'
             }
         },
+        babel: {
+            options: {
+                plugins: ['transform-react-jsx'],
+                compact: false
+            },
+            dev: {
+                files: {
+                    'src/js/scripts.js': 'src/js/scripts.js'
+                }
+            },
+            prod: {
+                files: {
+                    'prod/js/scripts.js': [
+                        'src/modules/**/*.js',
+                        '!src/modules/**/*.spec.js'
+                    ]
+                }
+            }
+        },
         wrap:{
             dev: {
                 src: ['src/js/scripts.js'],
@@ -142,10 +161,7 @@ module.exports = function(grunt) {
         //TODO - switch to ng-annotate?
         uglify: {
             prodApp: {
-                src: [
-                    'src/modules/**/*.js',
-                    '!src/modules/**/*.spec.js'
-                ],
+                src: 'prod/js/scripts.js',
                 dest: 'prod/js/scripts.js'
             },
             prodLibs: {
@@ -193,7 +209,7 @@ module.exports = function(grunt) {
                     'src/modules/**/*.js',
                     '!src/modules/**/*.spec.js'
                 ],
-                tasks: ['newer:concat:devApp', 'wrap:dev']
+                tasks: ['newer:concat:devApp', 'babel:dev', 'wrap:dev']
             },
             jsLibs: {
                 files: ['src/libs/*.js'],
@@ -363,6 +379,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-azure-blob');
     grunt.loadNpmTasks('grunt-preprocess');
     grunt.loadNpmTasks('grunt-file-append');
+    grunt.loadNpmTasks('grunt-babel');
 
     // Default task(s).
     grunt.registerTask('default', [
@@ -377,6 +394,7 @@ module.exports = function(grunt) {
             'preprocess:dev',
             'concat:devCss',
             'concat:devApp',
+            'babel:dev',
             'concat:devLibs',
             'file_append:dev',
             'wrap:dev',
@@ -400,6 +418,7 @@ module.exports = function(grunt) {
             'wrap:prod',
             'htmlmin',
             'ngtemplates:prod',
+            'babel:prod',
             'uglify',
             'sass:prod',
             'merge-json:i18nProd',
