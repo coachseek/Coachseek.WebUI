@@ -294,6 +294,10 @@ angular.module('booking.controllers', [])
                 if(newVal.isOnlinePaymentEnabled === false && businessCopy.payment.isOnlinePaymentEnabled !== false) {
                     $scope.save();
                 }
+
+                if(oldVal.useProRataPricing !== newVal.useProRataPricing){
+                    savePaymentDebounce();
+                }
             }
         }, true);
 
@@ -305,13 +309,22 @@ angular.module('booking.controllers', [])
                     businessCopy = angular.copy($scope.business);
                     $scope.saved = true;
                 }, $scope.handleErrors).finally(function(){
+                    $scope.cancelEdit();
                     $activityIndicator.stopAnimating();
                 });
         };
 
+        var savePaymentDebounce = _.debounce($scope.save, 1000);
+
         $timeout(function(){
             $scope.buttonHTML = view.get(0).outerHTML;
             $scope.$apply();
+        });
+
+        $scope.$watch('activeTab', function(newVal){
+            if(newVal){
+                $scope.business = angular.copy(businessCopy);
+            }
         });
 
         $scope.$on('$stateChangeStart', function () {

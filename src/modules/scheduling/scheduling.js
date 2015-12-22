@@ -14,7 +14,8 @@ angular.module('scheduling',
                 templateUrl: "scheduling/partials/schedulingView.html",
                 controller: 'schedulingCtrl',
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 }
             });
     }]);
