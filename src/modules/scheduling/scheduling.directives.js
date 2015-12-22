@@ -87,7 +87,7 @@ angular.module('scheduling.directives', [])
                     }
                 }
 
-                $(".session-form").css("height", "100%").css("height", "-=285px"); 
+                $(".session-form").css("height", "100%").css("height", "-=320px"); 
             }
         };
     }])

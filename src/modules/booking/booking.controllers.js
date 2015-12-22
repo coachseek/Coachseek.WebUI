@@ -336,7 +336,7 @@ angular.module('booking.controllers', [])
                 method: 'share',
                 name: i18n.t("booking:booking-admin.facebook-share-name"),
                 href: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
-                picture: 'https://az789256.vo.msecnd.net/assets/'+$scope.ENV.version+'/pics/facebook-share.png',
+                picture: 'assets/pics/facebook-share.png',
                 caption: i18n.t("booking:booking-admin.facebook-share-caption"),
                 description: i18n.t("booking:booking-admin.facebook-share-description")
             }, function (response) {

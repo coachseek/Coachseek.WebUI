@@ -110,7 +110,7 @@ angular.module('app.controllers', [])
 
                 if(!sessionService.sessionType){
                     if(businessDomain !== ENV.defaultSubdomain) {
-                        toStateSessionType = 'online-booking';
+                        toStateSessionType = 'app';
                     } else if(toStateSessionType !== 'app'){
                         // is not a url going to app but needs to be. default to scheduling
                         event.preventDefault();
@@ -147,7 +147,7 @@ angular.module('app.controllers', [])
                             runOnlineBookingSite(businessDomain)
                             break;
                         default:
-                            //navigate to 404?
+                            //navigate to 404?grunt
                             break;
                     }
                 } else if(toStateSessionType && sessionService.sessionType !== toStateSessionType) {

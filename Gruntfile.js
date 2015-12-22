@@ -264,14 +264,14 @@ module.exports = function(grunt) {
         file_append: {
             dev: {
                 files: [{
-                    prepend: "$asset-url: 'https://az789256.vo.msecnd.net/assets/<%= pkg.version %>';",
+                    prepend: "$asset-url: '../assets';",
                     input: 'src/css/style.css',
                     output: 'src/css/style.css'
                 }]
             },
             prod: {
                 files: [{
-                    prepend: "$asset-url: 'https://az789256.vo.msecnd.net/assets/<%= pkg.version %>';",
+                    prepend: "$asset-url: '../assets';",
                     input: 'src/css/style.css',
                     output: 'prod/css/style.css'
                 }]
