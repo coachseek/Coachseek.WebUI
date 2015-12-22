@@ -54,7 +54,7 @@
             }
 
             .add-to-titles{
-                width: 95%;
+                width: 85%;
                 margin: 0 auto;
 
                 div{
@@ -275,16 +275,17 @@
             }
         }
         ul{
-            height: calc(100vh - 330px);
+                height: 100vh;
                 &.short-list{
-                    height: calc(100vh - 365px);
-                }
-        }
+                    height: 100vh;
+                    }
+            }
+        
     }
     .attendance-list {
         padding: 0px 10px;
         .student-list {
-              height: calc(100vh - 330px);
+            height: 100vh;
             .student-details{
                 .item-title{
                     line-height: 21px;
@@ -434,10 +435,10 @@ and (-webkit-min-device-pixel-ratio: 3) {
     .attendance-list {
         .student-list, div.customer-list ul {
             height: calc(100vh - 320px);
-            &.short-list  {
-                height: calc(100vh - 420px);
             }
+            
         }
+
     }
 
 }

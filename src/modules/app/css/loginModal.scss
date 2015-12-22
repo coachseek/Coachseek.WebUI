@@ -101,6 +101,17 @@
                     margin: 0;
                 }
             }
+
+            .version-number{
+                text-align: right;
+                width: 100%;
+                position: fixed;
+                bottom: 10px;
+                left: 0px;
+                color: $white;
+                font-size: 12px;
+                padding-right: 10px;
+            }
         }
     }
 }

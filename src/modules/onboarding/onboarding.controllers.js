@@ -1,6 +1,6 @@
 angular.module('onboarding.controllers', ['businessSetup'])
-    .controller('onboardingDefaultsModalCtrl', ['$scope', '$q', '$timeout', '$activityIndicator', 'getOnboardingDefaults',
-      function($scope, $q, $timeout, $activityIndicator, getOnboardingDefaults){
+    .controller('onboardingDefaultsModalCtrl', ['$scope', '$q', '$activityIndicator', 'getOnboardingDefaults',
+      function($scope, $q, $activityIndicator, getOnboardingDefaults){
         $scope.coachFirstName = $scope.currentUser.firstName;
         $scope.coachLastName = $scope.currentUser.lastName;
         $scope.createDefaults = function () {
@@ -25,20 +25,22 @@ angular.module('onboarding.controllers', ['businessSetup'])
             }
         };
     }])
-    .controller('mobileOnboardingSignUpCtrl', ['$rootScope','$scope', '$q', '$stateParams', '$state' , 'loginModal', 'ENV',
-        function($rootScope,$scope, $q, $stateParams, $state ,loginModal,ENV){     
-            $rootScope.signIn = function(){
+    .controller('mobileOnboardingSignUpCtrl', ['$scope', '$state' , 'loginModal', 'sessionService',
+        function($scope, $state ,loginModal, sessionService){
+            $scope.signIn = function(){
                 loginModal.open().then(function () {
-                    $rootScope.removeAlerts();
+                    $scope.removeAlerts();
                     $state.go('scheduling');
+                }, function(){
+                    sessionService.sessionType = null;
                 });
             };
-            $rootScope.joinUs = function(){
+            $scope.joinUs = function(){
                 $state.go('mobileOnboardingDefault');
             };
     }])
-    .controller('mobileOnboardingDefaultCtrl', ['$q','$stateParams', '$state','$rootScope','$scope','$timeout', '$activityIndicator','coachSeekAPIService','serviceDefaults','coachDefaults','onboardingModal','sessionService','uiCalendarConfig', 'getOnboardingDefaults','$window',
-        function ($q, $stateParams, $state, $rootScope, $scope, $timeout, $activityIndicator, coachSeekAPIService, serviceDefaults, coachDefaults, onboardingModal,sessionService,uiCalendarConfig, getOnboardingDefaults,$window) {
+    .controller('mobileOnboardingDefaultCtrl', ['$window', '$q', '$state','$rootScope','$scope','$timeout', 'coachSeekAPIService', 'onboardingModal', 'uiCalendarConfig', 'getOnboardingDefaults', 'sessionService',
+        function ($window, $q, $state, $rootScope, $scope, $timeout, coachSeekAPIService, onboardingModal, uiCalendarConfig, getOnboardingDefaults, sessionService) {
         $scope.business = {};
         $scope.admin = {};
         $scope.events=[];
@@ -70,11 +72,6 @@ angular.module('onboarding.controllers', ['businessSetup'])
                     }
                 },
                 viewRender: function(view){
-                    _.assign(sessionService.calendarView, {
-                        view: view.type,
-                        start: view.intervalStart
-                    });
-
                     $timeout(function(){
                         var heightToSet = $(window).height() - 125;
                         uiCalendarConfig.calendars.mobileOnboardingCalendar.fullCalendar('option', 'height', heightToSet);
@@ -104,6 +101,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
         $scope.skipModal = function(){
             onboardingModal.open('mobileOnboardingSkipModal', null, 'mobile-onboarding-backdrop')
                 .then({}, function(){
+                    sessionService.sessionType = null;
                     $window.localStorage.setItem('completedCoachseekMobileOnboarding', true);
                     $scope.resetSession();
                     $state.go('newUserSetup');

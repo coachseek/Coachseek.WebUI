@@ -5,8 +5,9 @@
     <meta http-equiv="expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Small & ambitious sports coaching businesses love Coachseek. The single place to manage your coaching business.">
     <title>Coachseek</title>
-    <link rel="shortcut icon" href="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/pics/favicon.png">
+    <link rel="shortcut icon" href="../assets/pics/favicon.png">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
     <!-- @if env == 'development' -->
     <link rel="stylesheet" href="css/style.css">
@@ -19,11 +20,11 @@
     <!-- @endif -->
 
     <!-- @if env == 'testing' -->
-    <link rel="stylesheet" href="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/testing/css/style.css">
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/testing/js/libs.js"></script>
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/testing/js/config.js"></script>
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/testing/js/scripts.js"></script>
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/testing/js/templates.js"></script>
+    <link rel="stylesheet" href="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/css/style.css">
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/libs.js"></script>
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/config.js"></script>
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/scripts.js"></script>
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/templates.js"></script>
     <!-- @endif -->
 
     <!-- @if env == 'production' -->
@@ -41,11 +42,13 @@
             <div ng-class="{active: appLoading}" class='inner-logo'></div>
         </div>
     </div>
+    <trial-status ng-if="business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status>
 
     <div id="wrapper" ng-class="!isCollapsed?'toggled': ''">
         <div class="navbar navbar-inverse navbar-fixed-top" ng-show="currentUser">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <span class="navbar-header-title" ng-show="!isBigScreen"  ng-i18next="state-name.{{currentTabTitle}}"></span>
                     <button class="navbar-toggle pull-left" type="button" ng-click="isCollapsed = !isCollapsed">
                         <i class="fa fa-bars fa-2x"></i>
                     </button>
@@ -72,7 +75,7 @@
                     </li>
                  </ul>
             </div>
-            <trial-status ng-if="business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status>
+        
         </div>
 
         <div id="page-content-wrapper" ng-click="isCollapsed = true">

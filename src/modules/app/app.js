@@ -49,12 +49,30 @@ angular.module('app',
             var $state = $injector.get("$state");
             $state.go("scheduling");
         });
+
+        $stateProvider
+            .state('error', {
+                url: "/",
+                abstract: true,
+                template: '<ui-view/>'
+            })
+            .state('error.404', {
+                templateUrl: "app/partials/404ErrorPage.html",
+                data: {
+                    requireLogin: false
+                }
+            })
+
     }])
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }])
     .run(['$rootScope', '$state', '$stateParams','$window','sessionService',
         function($rootScope, $state, $stateParams,$window,sessionService){
+            document.addEventListener("deviceready", function () {
+                Appsee.start("e38b85aaeb124119bbc049bd463e7f62");
+                Appsee.startScreen();
+            }, false);
             FastClick.attach(document.body);
 
             $rootScope.$state = $state;

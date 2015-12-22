@@ -78,43 +78,43 @@ describe('Booking Module', function() {
             it('should map to the correct controller', function(){
                 expect(viewAttrs.controller).to.equal('bookingSelectionCtrl');
             });
-        });
-        describe('when navigating to booking.details', function(){
-            var viewAttrs;
-            beforeEach(function(){
-                $injector.get('sessionService').business = {};
-                $state.go('booking.details');
-                $rootScope.$digest();
+            describe('when navigating to booking.details', function(){
+                var viewAttrs;
+                beforeEach(function(){
+                    $injector.get('sessionService').business = {};
+                    $state.go('booking.details');
+                    $rootScope.$digest();
 
-                viewAttrs = $state.current.views['booking-view'];
+                    viewAttrs = $state.current.views['booking-view'];
+                });
+                it('should NOT attempt to bring up the login modal', function(){
+                    expect(loginModalSpy).to.be.not.be.called;
+                });
+                it('should map to correct template', function(){
+                    expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingCustomerDetailsView.html');
+                });
+                it('should map to the correct controller', function(){
+                    expect(viewAttrs.controller).to.equal('bookingCustomerDetailsCtrl');
+                });
             });
-            it('should NOT attempt to bring up the login modal', function(){
-                expect(loginModalSpy).to.be.not.be.called;
-            });
-            it('should map to correct template', function(){
-                expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingCustomerDetailsView.html');
-            });
-            it('should map to the correct controller', function(){
-                expect(viewAttrs.controller).to.equal('bookingCustomerDetailsCtrl');
-            });
-        });
-        describe('when navigating to booking.confirmation', function(){
-            var viewAttrs;
-            beforeEach(function(){
-                $injector.get('sessionService').business = {};
-                $state.go('booking.confirmation');
-                $rootScope.$digest();
+            describe('when navigating to booking.confirmation', function(){
+                var viewAttrs;
+                beforeEach(function(){
+                    $injector.get('sessionService').business = {};
+                    $state.go('booking.confirmation');
+                    $rootScope.$digest();
 
-                viewAttrs = $state.current.views['booking-view'];
-            });
-            it('should NOT attempt to bring up the login modal', function(){
-                expect(loginModalSpy).to.be.not.be.called;
-            });
-            it('should map to correct template', function(){
-                expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingConfirmationView.html');
-            });
-            it('should map to the correct controller', function(){
-                expect(viewAttrs.controller).to.equal('bookingConfirmationCtrl');
+                    viewAttrs = $state.current.views['booking-view'];
+                });
+                it('should NOT attempt to bring up the login modal', function(){
+                    expect(loginModalSpy).to.be.not.be.called;
+                });
+                it('should map to correct template', function(){
+                    expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingConfirmationView.html');
+                });
+                it('should map to the correct controller', function(){
+                    expect(viewAttrs.controller).to.equal('bookingConfirmationCtrl');
+                });
             });
         });
     });

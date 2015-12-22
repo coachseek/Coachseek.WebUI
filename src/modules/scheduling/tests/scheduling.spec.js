@@ -530,23 +530,10 @@ describe('Scheduling Module', function() {
                     locationId: '',
                     coachId: '',
                     section: 'Sessions'
-                };
-                expect(getSessionsStub).to.be.calledWith(getSessionsParams);
-            });
-            it('should make a call to get for NEXT month', function(){
+            it('should make a call to get', function(){
                 var getSessionsParams = {
-                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').startOf('month').format('YYYY-MM-DD'),
-                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().add(1, 'M').endOf('month').format('YYYY-MM-DD'),
-                    locationId: '',
-                    coachId: '',
-                    section: 'Sessions'
-                };
-                expect(getSessionsStub).to.be.calledWith(getSessionsParams);
-            });
-            it('should make a call to get for PREVIOUS month', function(){
-                var getSessionsParams = {
-                    startDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().subtract(1, 'M').startOf('month').format('YYYY-MM-DD'),
-                    endDate: sessionCalendar.fullCalendar('getView').intervalStart.clone().subtract(1, 'M').endOf('month').format('YYYY-MM-DD'),
+                    startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
+                    endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
                     locationId: '',
                     coachId: '',
                     section: 'Sessions'
@@ -1010,8 +997,15 @@ describe('Scheduling Module', function() {
                             $calendar.find('.fc-today-button').trigger('click');
                             $timeout.flush();
                         });
-                        it('should NOT make a call to GET sessions', function(){
-                            expect(getSessionsStub).to.not.be.called;
+                        it('shouldnt make a call to GET sessions', function(){
+                            var getSessionsParams = {
+                                startDate: sessionCalendar.fullCalendar('getView').start.clone().format('YYYY-MM-DD'),
+                                endDate: sessionCalendar.fullCalendar('getView').end.clone().format('YYYY-MM-DD'),
+                                locationId: '',
+                                coachId: '',
+                                section: 'Sessions'
+                            };
+                            expect(getSessionsStub).to.be.calledWith(getSessionsParams);
                         });
                     });
                     describe('and then switching to `week`', function(){

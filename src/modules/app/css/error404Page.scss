@@ -1,0 +1,64 @@
+[state^="error.404"] {
+	.error-page-container{
+		height: 100vh;
+		margin: 0 auto;
+		width: 75%;
+		max-width: 1200px;
+
+		img, div{
+			color: $green;
+		}
+
+		div{
+			h1{
+				font-weight: $lato-bold;
+				font-size: 50px;
+			}
+			h2{
+				font-weight: $lato-light;
+				font-size: 30px;
+			}
+		}
+	}
+}
+@media (min-width: 769px){
+	[state^="error.404"] {
+		.error-page-container{
+			img, div{
+				position: relative;
+				top: 50%;
+				-webkit-transform: translateY(-50%);
+				-ms-transform: translateY(-50%);
+				transform: translateY(-50%);
+				width: 50%;
+				text-align: left;
+				float: right;
+			}
+		}
+	}
+}
+@media (max-width: 768px){
+	[state^="error.404"] {
+		.error-page-container{
+			width: 100%;
+
+			img, div{
+				text-align: center;
+			}
+			img{
+				width: 65%;
+				margin: 0 auto;
+				display: block;
+			}
+			div{
+				width: 100%;
+				h1{
+					font-size: 35px;
+				}
+				h2{
+					font-size: 20px;
+				}
+			}
+		}
+	}
+}

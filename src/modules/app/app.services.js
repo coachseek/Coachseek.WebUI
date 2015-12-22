@@ -108,8 +108,6 @@ angular.module('app.services', [])
                     if($scope.newItem){
                         var updateObject = {};
                         updateObject[functionName] = $scope.itemList.length;
-                        heap.track('Create ' + functionName);
-                        // Intercom('update', updateObject);
 
                           document.addEventListener("deviceready", function () {
                              intercom.updateUser({  
@@ -208,6 +206,7 @@ angular.module('app.services', [])
     .service('sessionService', function(){
         var isBigScreen = $(window).width() > 768;
         return {
+            sessionType: null, //Possible types: app, online-booking, mobile-onboarding
             isBigScreen: isBigScreen,
             calendarView: {
                 coachId: "",
@@ -216,11 +215,6 @@ angular.module('app.services', [])
             },
             onboarding: {
                 showOnboarding: false,
-                // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
-                stepsCompleted: []
-            },
-            mobileOnboarding:{
-                showMobileOnboarding: false,
                 // ['createDefaults', 'dragService', 'sessionModal', 'onboardingReview']
                 stepsCompleted: []
             }

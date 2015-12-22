@@ -10,7 +10,8 @@ angular.module('businessSetup',
                 templateUrl: "businessSetup/partials/businessRegistrationView.html",
                 controller: 'businessRegistrationCtrl',
                 data: {
-                    requireLogin: false
+                    requireLogin: false,
+                    sessionType: 'app'
                 }
             })
             .state('businessSetup', {
@@ -26,7 +27,8 @@ angular.module('businessSetup',
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 }
             })
             .state('businessSetup.locations', {
@@ -38,7 +40,8 @@ angular.module('businessSetup',
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 }
             })
             .state('businessSetup.coachList', {
@@ -50,7 +53,8 @@ angular.module('businessSetup',
                     }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 }
             })
             .state('businessSetup.services', {
@@ -62,14 +66,16 @@ angular.module('businessSetup',
                      }
                 },
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 }
             })
             .state('businessSetup.services.newItem', {
                 url: "/new-item",
                 data: {
                     newService: true,
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 },
                 views: {
                     "list-item-view": { 

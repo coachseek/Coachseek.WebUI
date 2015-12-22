@@ -294,6 +294,10 @@ angular.module('booking.controllers', [])
                 if(newVal.isOnlinePaymentEnabled === false && businessCopy.payment.isOnlinePaymentEnabled !== false) {
                     $scope.save();
                 }
+
+                if(oldVal.useProRataPricing !== newVal.useProRataPricing){
+                    savePaymentDebounce();
+                }
             }
         }, true);
 
@@ -305,13 +309,22 @@ angular.module('booking.controllers', [])
                     businessCopy = angular.copy($scope.business);
                     $scope.saved = true;
                 }, $scope.handleErrors).finally(function(){
+                    $scope.cancelEdit();
                     $activityIndicator.stopAnimating();
                 });
         };
 
+        var savePaymentDebounce = _.debounce($scope.save, 1000);
+
         $timeout(function(){
             $scope.buttonHTML = view.get(0).outerHTML;
             $scope.$apply();
+        });
+
+        $scope.$watch('activeTab', function(newVal){
+            if(newVal){
+                $scope.business = angular.copy(businessCopy);
+            }
         });
 
         $scope.$on('$stateChangeStart', function () {
@@ -319,13 +332,17 @@ angular.module('booking.controllers', [])
         });
 
         $scope.shareToFacebook = function(){
-            FB.ui({
-                method: 'feed',
+            facebookConnectPlugin.showDialog({
+                method: 'share',
                 name: i18n.t("booking:booking-admin.facebook-share-name"),
-                link: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
-                picture: 'https://az789256.vo.msecnd.net/assets/'+$scope.ENV.version+'/pics/facebook-share.png',
+                href: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
+                picture: 'assets/pics/facebook-share.png',
                 caption: i18n.t("booking:booking-admin.facebook-share-caption"),
                 description: i18n.t("booking:booking-admin.facebook-share-description")
+            }, function (response) {
+                // console.log(response)
+            }, function (error) {
+                // console.log(error)
             });
         }
     }]);
