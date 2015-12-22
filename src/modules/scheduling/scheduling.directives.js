@@ -339,7 +339,7 @@ angular.module('scheduling.directives', [])
                         scope.courseBooking.bookings[index].sessionId = sessionId;
                     }, scope.handleErrors).finally(function(){
                         scope.sessionBookingLoading = false;
-                        scope.stopCourseLoading();  
+                        scope.stopCourseLoading();
                     });
                 }
             }
@@ -353,9 +353,6 @@ angular.module('scheduling.directives', [])
            link: function(scope, elem){
                 var itemsLoadingCounter = 0;
                 scope.courseLoading = true;
-                $(elem).find('table.session-data').on('scroll', function(event) {
-                    $('div.session-headers').css("left", 175-$(event.currentTarget).scrollLeft());
-                });
 
                 scope.blockAddBookings = function(){
                     if(scope.currentEvent){
@@ -398,19 +395,17 @@ angular.module('scheduling.directives', [])
                         //only run if course changes otherwise would re-render same data
                         if(_.get(newVal, 'course.id') !== _.get(oldVal, 'course.id') || !_.has(newVal, 'course.id')) {
                            console.log('CURRENTEVENT COURSE CHANGE')
-                           console.time("courseBookingsLoaded")
                            scope.showCustomers = false;
                            scope.courseLoading = 'idle';
 
                            //TODO don't delay if modal open?
-                           $timeout(function(){
+                           // $timeout(function(){
                                scope.courseBookingData = getCourseBookingData();
                                $timeout(function(){
-                                    $(elem).find('.attendance-list').width(175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125));
+                                    $(elem).find('.attendance-list').animate({width: (175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))});
                                     scope.$emit('centerModal'); 
-                                    console.timeEnd("courseBookingsLoaded");
                                })
-                           });
+                           // });
                        }
                     }
                 });
@@ -425,6 +420,8 @@ angular.module('scheduling.directives', [])
                 });
 
                 function getCourseBookingData(){
+                    //TODO restructure as PAYMENT and BOOKINGS for tabs 
+                    //TODO gauruntee in order date sequence
                     // go through session bookings and pluck out unique customers
                     // [{customer: {}, bookings:[booking, sessionId, booking]}, {customer: {}, bookings:[sessionId, sessionId, booking]}]
                     var courseBookingData = [];
@@ -464,4 +461,99 @@ angular.module('scheduling.directives', [])
            replace: false,
            templateUrl:'scheduling/partials/generalSettingsModal.html'
         }; 
+    })
+    .directive('reactCustomerDataTable', function(){
+        return {
+            restrict: "E",
+            replace: false,
+            // <table class="session-data">
+            //     <tbody>
+            //         <td class="course-session-attendance" ng-class="{'current': currentEvent.session.id === booking.sessionId}" ng-repeat="booking in courseBooking.bookings track by $index">
+            //             <customer-attendance-status ng-if="!booking.showAddToSessionButton && modalTab === 'attendance'"></customer-attendance-status>  
+            //             <customer-payment-status ng-if="!booking.showAddToSessionButton && modalTab === 'payment'"></customer-payment-status>   
+            //             <add-to-session ng-if="booking.showAddToSessionButton"></add-to-session>
+            //         </td>
+            //         <!-- <div class="no-students" ng-if="!currentEvent.course.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div> -->
+            //     </tbody>
+            // </table>
+            link: function(scope, elem){
+                scope.$watch('courseBookingData', function(newVal){
+                    if(newVal && (scope.modalTab === 'attendance' || scope.modalTab === 'payment')){
+                       console.time("courseBookingsLoaded")
+                        ReactDOM.render(
+                          <CustomerDataTable data={newVal}/>,
+                          elem.get(0)
+                        );
+                        console.timeEnd("courseBookingsLoaded");
+                    }
+                });
+                scope.$watch('modalTab', function(newVal){
+                    if(newVal === 'attendance' || newVal === 'payment'){
+                       console.time("courseBookingsLoaded")
+                        ReactDOM.render(
+                          <CustomerDataTable data={scope.courseBookingData}/>,
+                          elem.get(0)
+                        );
+                        console.timeEnd("courseBookingsLoaded");
+                    }
+                });
+
+                var CustomerDataTable = React.createClass({
+                    handleScroll: function(){
+                        $('div.session-headers').css("left", 175-$(event.currentTarget).scrollLeft());
+                    },
+                    render: function(){
+                        var customerNodes = this.props.data.map(function(bookingData) {
+                          return (
+                            <CustomerDataColumn key={bookingData.customer.id} data={bookingData.bookings}/>
+                          );
+                        });
+                        return (
+                            <table className="session-data" onScroll={this.handleScroll}>
+                                <tbody>
+                                    {customerNodes}
+                                </tbody>
+                            </table>
+                        );
+                    }
+                });
+
+                function getAttendanceStatus(status){
+                    if(status === true){
+                        return 'present';
+                    } else if (status === false){
+                        return 'absent';
+                    } else {
+                        return '';
+                    }
+                }
+
+                var CustomerDataColumn = React.createClass({
+                    updateAttendance: function(){
+                        console.log('updateattendance')
+                    },
+                    render: function(){
+                        var bookingNodes = this.props.data.map(function(booking) {
+                            // console.log(booking)
+                            if(booking.showAddToSessionButton){
+                                return (<td key={booking.sessionId}><button className="add-student to-session fa fa-plus" ></button></td>);
+                            } else if(scope.modalTab === "payment"){
+                                return (<td key={booking.id} ><div className={"payment-status " + booking.paymentStatus}></div></td>);
+                            } else if(scope.modalTab === "attendance"){
+                                return (<td className="course-session-attendance" key={booking.id}>
+                                        <div className={"attending-checkbox " + getAttendanceStatus(booking.attendanceStatus)} >
+                                            <i className="fa fa-check"></i>
+                                        </div>
+                                    </td>);
+                            }
+                        });
+                        return (
+                            <tr onClick={this.updateAttendance}>
+                                {bookingNodes}
+                            </tr>
+                        );
+                    }
+                });
+            }
+        }
     });

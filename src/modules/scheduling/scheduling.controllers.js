@@ -567,9 +567,9 @@ angular.module('scheduling.controllers', [])
             });
 
             function centerModal(){
-                _.defer(function(){
+                $timeout(function(){
                     var $modalContainer = $('.modal-container');
-                    $modalContainer.css( { marginLeft : -($modalContainer.width()/2) + 'px' });
+                    $modalContainer.animate( { marginLeft : -($modalContainer.width()/2) + 'px' });
                 })
             };
 

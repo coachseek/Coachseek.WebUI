@@ -68,27 +68,25 @@
 					height: 84vh;
 					table{
 						border-collapse: collapse;
-						tr{
-							td{
-								padding: 0px;
-								vertical-align: top;
-								background: $white;
-								border-top: 15px solid $background-beige;
-								line-height: 22px;
-								text-align: center;
+						td{
+							padding: 0px;
+							vertical-align: top;
+							background: $white;
+							border-top: 15px solid $background-beige;
+							line-height: 22px;
+							text-align: center;
 
-								&.current.course-session-attendance{
-									border-top: 15px solid rgb(179,215,243);
-									background: rgb(179,215,243);
-								}
+							&.current.course-session-attendance{
+								border-top: 15px solid rgb(179,215,243);
+								background: rgb(179,215,243);
+							}
 
-								&.course-session-attendance{
-									.attending-checkbox{
-										width: 80px;
-										height: 45px;
-										margin: 0 auto;
-										display: block;
-									}
+							&.course-session-attendance{
+								.attending-checkbox{
+									width: 80px;
+									height: 45px;
+									margin: 0 auto;
+									display: block;
 								}
 							}
 						}
@@ -121,14 +119,16 @@
 								display: block;
 								margin-top: 55px;
 								tr{
-									button.add-student, customer-attendance-status, customer-payment-status{
+									white-space: nowrap;
+									td{
+										height: 60px;
 										width: 125px;
-										height: 45px;
-										display: block;
+										display: inline-block;
 									}
 
 									.payment-status{
 									    line-height: 45px;
+									    height: 60px;
 									    width: 80px;
 									    margin: 0 auto;
 									    font-size: 14px;
@@ -178,7 +178,6 @@
 									        color: $text-grey;
 									    }
 									}
-
 								}
 							}
 						}

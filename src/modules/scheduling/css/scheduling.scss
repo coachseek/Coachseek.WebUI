@@ -22,37 +22,86 @@
             -moz-box-shadow: 0px 0px 2px 2px rgba(77,77,77,0.2);
             box-shadow: 0px 0px 2px 2px rgba(77,77,77,0.2);
 
-            .close-modal-button{
-                position: absolute;
-                top: 5px;
-                left: 5px;
-                font-size: 25px;
-                border: none;
-                background: none;
+            &.general{
+                max-width: 600px;
+            }
+
+            .modal-header{
+                width: 100%;
+                color: $white;
+                height: 40px;
+                padding: 0px;
+                line-height: 40px;
+                text-align: center;
+                font-size: 16px;
+                font-weight: $lato-light;
+                @extend %service-background-colors;
+
+                .close-modal-button{
+                    position: absolute;
+                    top: 5px;
+                    left: 5px;
+                    font-size: 25px;
+                    border: none;
+                    background: none;
+                    color: $white;
+                }
             }
 
             .modal-nav{
-                width: 300px;
-                height: 40px;
-                margin: 15px auto;
-                border-radius: 5px;
                 background: $white;
-                color: $dark-grey;
+                height: 60px;
+                padding-top: 12.5px;
+                margin-bottom: 15px;
 
-                .general-header,
-                .attendance-header,
-                .payment-header{
-                    width: 100px;
-                    float: left;
-                    display: inline-block;
-                    height: 40px;
-                    text-align: center;
-                    padding: 10px;
-                    cursor: pointer;
+                .slider-nav{
+                    margin: 0px auto;
+                    width: 300px;
+                    height: 35px;
+                    border-radius: 5px;
+                    color: $dark-grey;
 
-                    &.active{
-                        color: white;
+                    .general-header,
+                    .attendance-header,
+                    .payment-header{
+                        width: 100px;
+                        float: left;
+                        display: inline-block;
+                        height: 35px;
+                        text-align: center;
+                        padding: 7.5px;
+                        cursor: pointer;
+
+                        &.active{
+                            color: white;
+                        }
                     }
+                }
+            }
+
+            .form-input{
+                &.is-online-bookable{
+                    width: 23%;
+                }
+
+                label, span.title, span.total-of{
+                    font-weight: $lato-light;
+                    font-size: 12px;
+                }
+            }
+
+            repeat-selector{
+                width: 75%;
+                margin-left: 2%;
+                float: left;
+
+                .form-input{
+                    width: 30%;
+                    float: left;
+                }
+                .frequency-selector{
+                    margin-left: 3%;
+                    width: 67%;
                 }
             }
         }
