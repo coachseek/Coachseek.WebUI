@@ -390,7 +390,7 @@ angular.module('scheduling.directives', [])
 
                 function renderCustomerTable(courseBookingData){
                     console.time("courseBookingsLoaded");
-                    //scope.courseBookingData[newVal]
+                    //scope.courseBookingData[newVal]?
                      ReactDOM.render(
                        <CustomerDataTable data={courseBookingData}/>,
                        elem.get(0)
