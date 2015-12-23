@@ -3,10 +3,10 @@
         &[disabled]{
             pointer-events: none;
         }
-        &.absent{
+        &.absent, &.false{
             background: $red;
         }
-        &.present{
+        &.present, &.true{
             background: $green;
         }
         -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);

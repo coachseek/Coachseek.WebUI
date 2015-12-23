@@ -24,8 +24,8 @@
         <div class="coach-title" ng-show="isBigScreen">{{getCurrentCoach() || 'All Coaches'}}</div>
         <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="events" calendar="sessionCalendar"></div>
     </div>
-    <div class="modal-backdrop" ng-show="showModal" ng-click="showModal = false">
-        <div class="modal-container" ng-click="$event.stopPropagation();" ng-class="modalTab">
+    <div class="modal-backdrop" ng-show="showModal">
+        <div class="modal-container" ng-class="modalTab">
             <div class="modal-header" ng-class='currentEvent.session.presentation.colour'>
                 <button class="close-modal-button fa fa-close" ng-click="cancelModalEdit()"></button>
                 {{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}},&nbsp;{{currentEvent._start | amDateFormat:'h:mm a'}}

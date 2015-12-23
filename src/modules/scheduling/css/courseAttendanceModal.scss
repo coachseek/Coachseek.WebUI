@@ -124,6 +124,9 @@
 										height: 60px;
 										width: 125px;
 										display: inline-block;
+										&[disabled=true]{
+										    pointer-events: none;
+										}
 									}
 
 									.payment-status{
@@ -139,14 +142,11 @@
 									    -webkit-user-select: none; 
 									    user-select: none;
 
-									    &[disabled]{
-									        pointer-events: none;
-									    }
-
 									    &.pending-invoice, &.pending-payment{
 									        background: $dark-grey;
 									        padding: 8px 0;
 									        line-height: 15px;
+								            white-space: initial;
 									    }
 
 									    &.paid{

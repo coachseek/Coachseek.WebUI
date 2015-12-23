@@ -218,112 +218,9 @@ angular.module('scheduling.directives', [])
                         scope.bookingLoading = false;
                     });
                 }
-
-                var paymentStatusOptions = [
-                    'pending-invoice',
-                    'pending-payment',
-                    'paid',
-                    'overdue-payment'
-                ];
-
-                var paymentStatusIndex = _.indexOf(paymentStatusOptions, scope.booking.paymentStatus);
-                // if we havn't set payment status set to default
-                if(paymentStatusIndex === -1) paymentStatusIndex = 0;
-                scope.paymentStatus = paymentStatusOptions[paymentStatusIndex];
-
-                scope.changePaymentStatus = function(){
-                    paymentStatusIndex++;
-                    if(paymentStatusIndex === _.size(paymentStatusOptions)) {
-                        paymentStatusIndex = 0;
-                    }
-
-                    scope.paymentStatus = paymentStatusOptions[paymentStatusIndex];
-                    savePaymentStatus();
-                };
-
-                var savePaymentStatus = _.debounce(function(){
-                    updateBooking({
-                        commandName: 'BookingSetPaymentStatus',
-                        paymentStatus: scope.paymentStatus
-                    }).then(function(){
-                        scope.booking.paymentStatus = scope.paymentStatus;
-
-                        // scope.addAlert({
-                        //     type: 'success',
-                        //     message: "scheduling:alert.update-payment-status." + scope.paymentStatus,
-                        //     customerName: customerName
-                        // });
-                    },scope.handleErrors).finally(function(){
-                        scope.stopCourseLoading();  
-                    });
-                }, 1000);
-
-                function updateBooking(updateCommand){
-                    scope.startCourseLoading(true);
-                    return coachSeekAPIService.save({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
-                }
             }
         };
     }])
-    .directive('customerAttendanceStatus', ['coachSeekAPIService', function(coachSeekAPIService){
-        return {
-            restrict: "E",
-            replace: false,
-            templateUrl:'scheduling/partials/customerAttendanceStatus.html',
-            link: function(scope){
-                var attendanceStatusOptions = [
-                    null, //no value
-                    true, //present
-                    false //absent
-                ];
-
-                var attendanceStatusIndex = _.indexOf(attendanceStatusOptions, _.get(scope, 'booking.hasAttended'));
-                // if we havn't set payment status set to default
-                if(attendanceStatusIndex === -1) attendanceStatusIndex = 0;
-                scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
-
-                scope.changeAttendanceStatus = function(){
-                    attendanceStatusIndex++;
-                    if(attendanceStatusIndex === _.size(attendanceStatusOptions)) {
-                        attendanceStatusIndex = 0;
-                    }
-
-                    scope.attendanceStatus = attendanceStatusOptions[attendanceStatusIndex];
-                    scope.startCourseLoading();
-                    saveAttendanceStatus();
-                };
-
-                var saveAttendanceStatus = _.debounce(function(){
-                    updateBooking({
-                        commandName: 'BookingSetAttendance',
-                        hasAttended: scope.attendanceStatus
-                    }).then(function(){
-                        scope.booking.hasAttended = scope.attendanceStatus;
-                    },scope.handleErrors).finally(function(){
-                        scope.sessionBookingLoading = false;
-                        scope.stopCourseLoading();
-                    });
-                }, 1000);
-
-                function updateBooking(updateCommand){
-                    scope.sessionBookingLoading = true;
-                    scope.startCourseLoading(true);
-                    return coachSeekAPIService.save({section: 'Bookings', id: scope.booking.id}, updateCommand).$promise;
-                }
-
-                scope.$on('stopBookingLoading', function(){
-                    scope.bookingLoading = false;
-                });
-            }
-        }
-    }])
-    .directive('customerCourseBooking', function(){
-        return {
-            restrict: "A",
-            replace: false,
-            templateUrl:'scheduling/partials/customerCourseBooking.html'
-        }
-    })
     .directive('addToSession', ['bookingManager', function(bookingManager){
         return {
             // restrict: "A",
@@ -345,6 +242,13 @@ angular.module('scheduling.directives', [])
             }
         }
     }])
+    .directive('generalSettingsModal', function(){
+        return {
+           restrict: "E",
+           replace: false,
+           templateUrl:'scheduling/partials/generalSettingsModal.html'
+        }; 
+    })
     .directive('courseAttendanceModal', ['coachSeekAPIService', '$timeout', function(coachSeekAPIService, $timeout){
         return {
            restrict: "E",
@@ -401,10 +305,10 @@ angular.module('scheduling.directives', [])
                            //TODO don't delay if modal open?
                            // $timeout(function(){
                                scope.courseBookingData = getCourseBookingData();
-                               $timeout(function(){
+                               // $timeout(function(){
                                     $(elem).find('.attendance-list').animate({width: (175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))});
                                     scope.$emit('centerModal'); 
-                               })
+                               // })
                            // });
                        }
                     }
@@ -420,7 +324,7 @@ angular.module('scheduling.directives', [])
                 });
 
                 function getCourseBookingData(){
-                    //TODO restructure as PAYMENT and BOOKINGS for tabs 
+                    //TODO restructure as PAYMENT and BOOKINGS for tabs?
                     //TODO gauruntee in order date sequence
                     // go through session bookings and pluck out unique customers
                     // [{customer: {}, bookings:[booking, sessionId, booking]}, {customer: {}, bookings:[sessionId, sessionId, booking]}]
@@ -445,6 +349,7 @@ angular.module('scheduling.directives', [])
                             });
                         });
                     });
+                    //TODO ignore upper/lower case
                     return _.sortByAll(courseBookingData, ['customer.lastName', 'customer.firstName']);
                 }
 
@@ -455,17 +360,12 @@ angular.module('scheduling.directives', [])
            }
         }; 
     }])
-    .directive('generalSettingsModal', function(){
-        return {
-           restrict: "E",
-           replace: false,
-           templateUrl:'scheduling/partials/generalSettingsModal.html'
-        }; 
-    })
-    .directive('reactCustomerDataTable', function(){
+    .directive('reactCustomerDataTable', ['bookingManager', 'coachSeekAPIService', function(bookingManager, coachSeekAPIService){
         return {
             restrict: "E",
             replace: false,
+            //BIG TODO: FIGURE OUT HOW TO UPDATE CURRENT EVENT GRACEFULLY
+            //          AND HAVE IT RENDER IN THE GRID AS WELL
             // <table class="session-data">
             //     <tbody>
             //         <td class="course-session-attendance" ng-class="{'current': currentEvent.session.id === booking.sessionId}" ng-repeat="booking in courseBooking.bookings track by $index">
@@ -479,34 +379,39 @@ angular.module('scheduling.directives', [])
             link: function(scope, elem){
                 scope.$watch('courseBookingData', function(newVal){
                     if(newVal && (scope.modalTab === 'attendance' || scope.modalTab === 'payment')){
-                       console.time("courseBookingsLoaded")
-                        ReactDOM.render(
-                          <CustomerDataTable data={newVal}/>,
-                          elem.get(0)
-                        );
-                        console.timeEnd("courseBookingsLoaded");
+                        renderCustomerTable(newVal);
                     }
                 });
                 scope.$watch('modalTab', function(newVal){
                     if(newVal === 'attendance' || newVal === 'payment'){
-                       console.time("courseBookingsLoaded")
-                        ReactDOM.render(
-                          <CustomerDataTable data={scope.courseBookingData}/>,
-                          elem.get(0)
-                        );
-                        console.timeEnd("courseBookingsLoaded");
+                        renderCustomerTable(scope.courseBookingData);
                     }
                 });
 
+                function renderCustomerTable(courseBookingData){
+                    console.time("courseBookingsLoaded");
+                    //scope.courseBookingData[newVal]
+                     ReactDOM.render(
+                       <CustomerDataTable data={courseBookingData}/>,
+                       elem.get(0)
+                     );
+                     console.timeEnd("courseBookingsLoaded");
+                }
+
+                //TODO split into CustomerAttendanceTable and CustomerPaymentTable
                 var CustomerDataTable = React.createClass({
-                    handleScroll: function(){
+                    handleScroll: function(event){
                         $('div.session-headers').css("left", 175-$(event.currentTarget).scrollLeft());
                     },
                     render: function(){
                         var customerNodes = this.props.data.map(function(bookingData) {
-                          return (
-                            <CustomerDataColumn key={bookingData.customer.id} data={bookingData.bookings}/>
-                          );
+                            return (
+                                <CustomerDataRow 
+                                    key={bookingData.customer.id} 
+                                    customer={bookingData.customer}
+                                    bookings={bookingData.bookings}
+                                    />
+                            );
                         });
                         return (
                             <table className="session-data" onScroll={this.handleScroll}>
@@ -518,42 +423,147 @@ angular.module('scheduling.directives', [])
                     }
                 });
 
-                function getAttendanceStatus(status){
-                    if(status === true){
-                        return 'present';
-                    } else if (status === false){
-                        return 'absent';
-                    } else {
-                        return '';
-                    }
-                }
-
-                var CustomerDataColumn = React.createClass({
-                    updateAttendance: function(){
-                        console.log('updateattendance')
-                    },
+                var CustomerDataRow = React.createClass({
                     render: function(){
-                        var bookingNodes = this.props.data.map(function(booking) {
-                            // console.log(booking)
+                        var bookingNodes = this.props.bookings.map(function(booking) {
                             if(booking.showAddToSessionButton){
-                                return (<td key={booking.sessionId}><button className="add-student to-session fa fa-plus" ></button></td>);
+                                return (<AddCustomerToSession customer={this.props.customer} sessionId={booking.sessionId} key={booking.sessionId}/>);
                             } else if(scope.modalTab === "payment"){
-                                return (<td key={booking.id} ><div className={"payment-status " + booking.paymentStatus}></div></td>);
+                                return (<CustomerPaymentStatus paymentStatus={booking.paymentStatus} bookingId={booking.id} key={booking.id}/>);
                             } else if(scope.modalTab === "attendance"){
-                                return (<td className="course-session-attendance" key={booking.id}>
-                                        <div className={"attending-checkbox " + getAttendanceStatus(booking.attendanceStatus)} >
-                                            <i className="fa fa-check"></i>
-                                        </div>
-                                    </td>);
+                                return (<CustomerAttendanceStatus 
+                                            bookingId={booking.id} 
+                                            hasAttended={booking.hasAttended} 
+                                            key={booking.id}
+                                        />);
                             }
-                        });
+                        }, this);
                         return (
-                            <tr onClick={this.updateAttendance}>
+                            <tr>
                                 {bookingNodes}
                             </tr>
                         );
                     }
                 });
+
+                var AddCustomerToSession = React.createClass({
+                    addToSession: function(){
+                        scope.startCourseLoading(true);
+                        bookingManager.addToSession(this.props.customer, this.props.sessionId).then(function(courseBooking){
+                            // scope.courseBookingData[customerIndex].bookings[bookingIndex] = courseBooking.sessionBookings[0];
+                            //TODO do i need this anymore? possibly for checking if session is current one or loading?
+                            // scope.courseBookingData[customerIndex].bookings[bookingIndex].sessionId = self.props.sessionId;
+                            // renderCustomerTable(scope.courseBookingData)
+                        }, scope.handleErrors).finally(function(){
+                            scope.stopCourseLoading();
+                        });
+                    },
+                    render: function(){
+                        return (
+                            <td onClick={this.addToSession}>
+                                <button className="add-student to-session fa fa-plus" ></button>
+                            </td>
+                        );
+                    }
+                });
+
+
+                var CustomerPaymentStatus = React.createClass({
+                    paymentStatusOptions: ['pending-invoice', 'pending-payment', 'paid', 'overdue-payment'],
+                    updatePaymentStatus: function(event){
+                        while(this.paymentStatusOptions[0] !== this.state.paymentStatus){
+                            this.paymentStatusOptions.push(this.paymentStatusOptions.shift());
+                        }
+                        this.paymentStatusOptions.push(this.paymentStatusOptions.shift());
+                        this.setState({paymentStatus: this.paymentStatusOptions[0]});
+                        scope.startCourseLoading();
+                        this.savePaymentStatus();
+                    },
+                    savePaymentStatus: _.debounce(function(){
+                        var self = this;
+                        this.setState({loading: true})
+                        this.updateBooking({
+                            commandName: 'BookingSetPaymentStatus',
+                            paymentStatus: this.state.paymentStatus
+                        }).then({},scope.handleErrors).finally(function(){
+                            self.setState({loading: false})
+                            scope.stopCourseLoading();  
+                        });
+                    }, 1000),
+                    updateBooking: function(updateCommand){
+                        scope.startCourseLoading(true);
+                        return coachSeekAPIService.save({section: 'Bookings', id: this.props.bookingId}, updateCommand).$promise;
+                    },
+                    getInitialState: function(){
+                        return {
+                            paymentStatus: this.props.paymentStatus
+                        };
+                    },
+                    render: function(){
+                        return (
+                            <td onClick={this.updatePaymentStatus} disabled={this.state.loading}>
+                                <div className={"payment-status " + this.state.paymentStatus}>
+                                    {i18n.t('scheduling:payment-status.' + this.state.paymentStatus)}
+                                </div>
+                            </td>);
+                    }
+                });
+
+                var CustomerAttendanceStatus = React.createClass({
+                    attendanceStatusOptions: [undefined, true, false],
+                    updateAttendance: function(event){
+                        while(this.attendanceStatusOptions[0] !== this.state.hasAttended){
+                            this.attendanceStatusOptions.push(this.attendanceStatusOptions.shift());
+                        }
+                        this.attendanceStatusOptions.push(this.attendanceStatusOptions.shift());
+                        this.setState({
+                            hasAttended: this.attendanceStatusOptions[0],
+                            attendanceLogo: getAttendanceLogo(this.attendanceStatusOptions[0])
+                        });
+                        scope.startCourseLoading();
+                        this.saveAttendanceStatus();
+                    },
+                    saveAttendanceStatus: _.debounce(function(){
+                        var self = this;
+                        this.setState({loading: true})
+                        this.updateBooking({
+                            commandName: 'BookingSetAttendance',
+                            hasAttended: this.state.hasAttended
+                        }).then({},scope.handleErrors).finally(function(){
+                            self.setState({loading: false})
+                            scope.stopCourseLoading();
+                        });
+                    }, 1000),
+                    updateBooking: function(updateCommand){
+                        scope.startCourseLoading(true);
+                        return coachSeekAPIService.save({section: 'Bookings', id: this.props.bookingId}, updateCommand).$promise;
+                    },
+                    getInitialState: function(){
+                        return {
+                            hasAttended: this.props.hasAttended,
+                            attendanceLogo: getAttendanceLogo(this.props.hasAttended)
+                        };
+                    },
+                    render: function(){
+                        return (
+                            <td className="course-session-attendance" onClick={this.updateAttendance} disabled={this.state.loading}>
+                               <div className={"attending-checkbox " + this.state.hasAttended} >
+                                   <i className={"fa " + this.state.attendanceLogo}></i>
+                               </div>
+                            </td>
+                        );
+                    }
+                });
+
+                function getAttendanceLogo(status){
+                    if(status === true){
+                        return 'fa-check'
+                    } else if (status === false){
+                        return 'fa-close';
+                    } else {
+                        return ''
+                    }
+                };
             }
         }
-    });
+    }]);
