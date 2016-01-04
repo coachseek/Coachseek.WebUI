@@ -1,4 +1,8 @@
 /*!
+ * DO NOT REMOVE NEED FOR DRAGGABLE ELEMENTS ON TOUCH DEVICES
+ */
+
+/*!
  * jQuery UI Touch Punch 0.2.3
  *
  * Copyright 2011–2014, Dave Furfero
