@@ -40,13 +40,6 @@
 
             <general-settings-modal ng-show="modalTab === 'general'"></general-settings-modal>
             <course-attendance-modal ng-show="modalTab === 'attendance' || modalTab === 'payment'"></course-attendance-modal>
-
-            <div class="edit-button-container">
-                <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
-                    <i class="fa fa-trash-o"></i>
-                </button>
-                <button class="save-button" ng-click="checkFormValidThenSave()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details' }}</span><ellipsis-animated ng-show="calendarLoading"/></button>
-            </div>
         </div>
     </div>
 </div>

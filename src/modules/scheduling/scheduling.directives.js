@@ -298,36 +298,42 @@ angular.module('scheduling.directives', [])
 
                         //only run if course changes otherwise would re-render same data
                         if(_.get(newVal, 'course.id') !== _.get(oldVal, 'course.id') || !_.has(newVal, 'course.id')) {
-                           console.log('CURRENTEVENT COURSE CHANGE')
-                           scope.showCustomers = false;
-                           scope.courseLoading = 'idle';
+                            console.log('CURRENTEVENT COURSE CHANGE')
+                            scope.showCustomers = false;
+                            scope.courseLoading = 'idle';
 
-                           //TODO don't delay if modal open?
-                           // $timeout(function(){
-                               scope.courseBookingData = getCourseBookingData();
-                               // $timeout(function(){
-                                    $(elem).find('.attendance-list').animate({width: (175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))});
-                                    scope.$emit('centerModal'); 
-                               // })
-                           // });
+                            scope.getCourseBookingData();
+                            $(elem).find('.attendance-list').animate({width: (175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))});
+                            $timeout(centerModal);
                        }
                     }
                 });
 
-
-                scope.$on('addBookingToCourse', function(){
-                    console.time("addBookingLoaded")
-                    scope.courseBookingData = getCourseBookingData();
-                    $timeout(function(){
-                        console.timeEnd("addBookingLoaded")
-                    })
+                scope.$watch('modalTab', function(newVal){
+                    if(newVal && scope.showModal){
+                        $timeout(centerModal);
+                    }
                 });
 
-                function getCourseBookingData(){
+                $(window).on('resize', function(){
+                    centerModal();
+                });
+
+                function centerModal(){
+                    var $modalContainer = $('.modal-container');
+                    $modalContainer.animate( { marginLeft : -($modalContainer.width()/2) + 'px' }, 200);
+                };
+
+                scope.$on('addBookingToCourse', function(){
+                    scope.getCourseBookingData();
+                });
+
+                scope.getCourseBookingData = function(){
                     //TODO restructure as PAYMENT and BOOKINGS for tabs?
                     //TODO gauruntee in order date sequence
                     // go through session bookings and pluck out unique customers
-                    // [{customer: {}, bookings:[booking, sessionId, booking]}, {customer: {}, bookings:[sessionId, sessionId, booking]}]
+                    // [{customer: {}, bookings:[booking, sessionId, booking]},{customer: {}, bookings:[sessionId, sessionId, booking]}]
+                    console.time("getCourseBookingData")
                     var courseBookingData = [];
                     var bookings = _.get(scope.currentEvent, 'course.booking.bookings') || _.get(scope.currentEvent, 'session.booking.bookings');
                     _.each(bookings, function(booking){
@@ -349,8 +355,10 @@ angular.module('scheduling.directives', [])
                             });
                         });
                     });
-                    //TODO ignore upper/lower case
-                    return _.sortByAll(courseBookingData, ['customer.lastName', 'customer.firstName']);
+                    scope.courseBookingData = _.sortByAll(courseBookingData, function(booking){
+                        return [booking.customer.lastName.toLowerCase(), booking.customer.firstName.toLowerCase()]
+                    });
+                    console.timeEnd("getCourseBookingData")
                 }
 
                 coachSeekAPIService.query({section: 'Customers'})
@@ -366,16 +374,6 @@ angular.module('scheduling.directives', [])
             replace: false,
             //BIG TODO: FIGURE OUT HOW TO UPDATE CURRENT EVENT GRACEFULLY
             //          AND HAVE IT RENDER IN THE GRID AS WELL
-            // <table class="session-data">
-            //     <tbody>
-            //         <td class="course-session-attendance" ng-class="{'current': currentEvent.session.id === booking.sessionId}" ng-repeat="booking in courseBooking.bookings track by $index">
-            //             <customer-attendance-status ng-if="!booking.showAddToSessionButton && modalTab === 'attendance'"></customer-attendance-status>  
-            //             <customer-payment-status ng-if="!booking.showAddToSessionButton && modalTab === 'payment'"></customer-payment-status>   
-            //             <add-to-session ng-if="booking.showAddToSessionButton"></add-to-session>
-            //         </td>
-            //         <!-- <div class="no-students" ng-if="!currentEvent.course.booking.bookings">{{'scheduling:no-students-found' | i18next}}</div> -->
-            //     </tbody>
-            // </table>
             link: function(scope, elem){
                 scope.$watch('courseBookingData', function(newVal){
                     if(newVal && (scope.modalTab === 'attendance' || scope.modalTab === 'payment')){
@@ -400,17 +398,17 @@ angular.module('scheduling.directives', [])
 
                 //TODO split into CustomerAttendanceTable and CustomerPaymentTable
                 var CustomerDataTable = React.createClass({
-                    handleScroll: function(event){
+                    handleScroll(event){
                         $('div.session-headers').css("left", 175-$(event.currentTarget).scrollLeft());
                     },
-                    render: function(){
+                    render(){
                         var customerNodes = this.props.data.map(function(bookingData) {
                             return (
                                 <CustomerDataRow 
                                     key={bookingData.customer.id} 
                                     customer={bookingData.customer}
                                     bookings={bookingData.bookings}
-                                    />
+                                />
                             );
                         });
                         return (
@@ -424,17 +422,27 @@ angular.module('scheduling.directives', [])
                 });
 
                 var CustomerDataRow = React.createClass({
-                    render: function(){
+                    render(){
                         var bookingNodes = this.props.bookings.map(function(booking) {
                             if(booking.showAddToSessionButton){
-                                return (<AddCustomerToSession customer={this.props.customer} sessionId={booking.sessionId} key={booking.sessionId}/>);
+                                return  (<AddCustomerToSession 
+                                            key={booking.sessionId}
+                                            customer={this.props.customer} 
+                                            sessionId={booking.sessionId} 
+                                        />);
                             } else if(scope.modalTab === "payment"){
-                                return (<CustomerPaymentStatus paymentStatus={booking.paymentStatus} bookingId={booking.id} key={booking.id}/>);
+                                return  (<CustomerPaymentStatus 
+                                            key={booking.id}
+                                            paymentStatus={booking.paymentStatus} 
+                                            bookingId={booking.id}
+                                            sessionId={booking.sessionId} 
+                                        />);
                             } else if(scope.modalTab === "attendance"){
-                                return (<CustomerAttendanceStatus 
+                                return  (<CustomerAttendanceStatus 
+                                            key={booking.id}
                                             bookingId={booking.id} 
                                             hasAttended={booking.hasAttended} 
-                                            key={booking.id}
+                                            sessionId={booking.sessionId} 
                                         />);
                             }
                         }, this);
@@ -447,20 +455,21 @@ angular.module('scheduling.directives', [])
                 });
 
                 var AddCustomerToSession = React.createClass({
-                    addToSession: function(){
+                    addToSession(){
                         scope.startCourseLoading(true);
                         bookingManager.addToSession(this.props.customer, this.props.sessionId).then(function(courseBooking){
-                            // scope.courseBookingData[customerIndex].bookings[bookingIndex] = courseBooking.sessionBookings[0];
-                            //TODO do i need this anymore? possibly for checking if session is current one or loading?
-                            // scope.courseBookingData[customerIndex].bookings[bookingIndex].sessionId = self.props.sessionId;
-                            // renderCustomerTable(scope.courseBookingData)
+                            scope.getCourseBookingData();
                         }, scope.handleErrors).finally(function(){
                             scope.stopCourseLoading();
                         });
                     },
-                    render: function(){
+                    render(){
+                        var tdClassNames = classNames({
+                            "current": scope.currentEvent.session.id === this.props.sessionId
+                        });
+
                         return (
-                            <td onClick={this.addToSession}>
+                            <td className={tdClassNames}  onClick={this.addToSession}>
                                 <button className="add-student to-session fa fa-plus" ></button>
                             </td>
                         );
@@ -470,38 +479,42 @@ angular.module('scheduling.directives', [])
 
                 var CustomerPaymentStatus = React.createClass({
                     paymentStatusOptions: ['pending-invoice', 'pending-payment', 'paid', 'overdue-payment'],
-                    updatePaymentStatus: function(event){
+                    updatePaymentStatus(event){
                         while(this.paymentStatusOptions[0] !== this.state.paymentStatus){
                             this.paymentStatusOptions.push(this.paymentStatusOptions.shift());
                         }
                         this.paymentStatusOptions.push(this.paymentStatusOptions.shift());
                         this.setState({paymentStatus: this.paymentStatusOptions[0]});
                         scope.startCourseLoading();
-                        this.savePaymentStatus();
+                        this.debounceSavePaymentStatus();
                     },
-                    savePaymentStatus: _.debounce(function(){
+                    savePaymentStatus(){
                         var self = this;
-                        this.setState({loading: true})
-                        this.updateBooking({
+                        this.setState({loading: true});
+                        scope.startCourseLoading(true);
+                        bookingManager.updateBooking(this.props.bookingId, {
                             commandName: 'BookingSetPaymentStatus',
                             paymentStatus: this.state.paymentStatus
                         }).then({},scope.handleErrors).finally(function(){
+                            scope.getCourseBookingData();
                             self.setState({loading: false})
                             scope.stopCourseLoading();  
                         });
-                    }, 1000),
-                    updateBooking: function(updateCommand){
-                        scope.startCourseLoading(true);
-                        return coachSeekAPIService.save({section: 'Bookings', id: this.props.bookingId}, updateCommand).$promise;
                     },
-                    getInitialState: function(){
+                    componentWillMount() {
+                       this.debounceSavePaymentStatus = _.debounce(this.savePaymentStatus, 1000);
+                    },
+                    getInitialState(){
                         return {
                             paymentStatus: this.props.paymentStatus
                         };
                     },
-                    render: function(){
+                    render(){
+                        var tdClassNames = classNames({
+                            "current": scope.currentEvent.session.id === this.props.sessionId
+                        });
                         return (
-                            <td onClick={this.updatePaymentStatus} disabled={this.state.loading}>
+                            <td className={tdClassNames} onClick={this.updatePaymentStatus} disabled={this.state.loading}>
                                 <div className={"payment-status " + this.state.paymentStatus}>
                                     {i18n.t('scheduling:payment-status.' + this.state.paymentStatus)}
                                 </div>
@@ -511,7 +524,7 @@ angular.module('scheduling.directives', [])
 
                 var CustomerAttendanceStatus = React.createClass({
                     attendanceStatusOptions: [undefined, true, false],
-                    updateAttendance: function(event){
+                    updateAttendance(event){
                         while(this.attendanceStatusOptions[0] !== this.state.hasAttended){
                             this.attendanceStatusOptions.push(this.attendanceStatusOptions.shift());
                         }
@@ -521,32 +534,36 @@ angular.module('scheduling.directives', [])
                             attendanceLogo: getAttendanceLogo(this.attendanceStatusOptions[0])
                         });
                         scope.startCourseLoading();
-                        this.saveAttendanceStatus();
+                        this.debounceSaveAttendanceStatus();
                     },
-                    saveAttendanceStatus: _.debounce(function(){
+                    saveAttendanceStatus(){
                         var self = this;
                         this.setState({loading: true})
-                        this.updateBooking({
+                        scope.startCourseLoading(true);
+                        bookingManager.updateBooking(this.props.bookingId, {
                             commandName: 'BookingSetAttendance',
                             hasAttended: this.state.hasAttended
                         }).then({},scope.handleErrors).finally(function(){
+                            scope.getCourseBookingData();
                             self.setState({loading: false})
                             scope.stopCourseLoading();
                         });
-                    }, 1000),
-                    updateBooking: function(updateCommand){
-                        scope.startCourseLoading(true);
-                        return coachSeekAPIService.save({section: 'Bookings', id: this.props.bookingId}, updateCommand).$promise;
                     },
-                    getInitialState: function(){
+                    componentWillMount() {
+                       this.debounceSaveAttendanceStatus = _.debounce(this.saveAttendanceStatus, 1000);
+                    },
+                    getInitialState(){
                         return {
                             hasAttended: this.props.hasAttended,
                             attendanceLogo: getAttendanceLogo(this.props.hasAttended)
                         };
                     },
-                    render: function(){
+                    render(){
+                        var tdClassNames = classNames({
+                            "current": scope.currentEvent.session.id === this.props.sessionId
+                        });
                         return (
-                            <td className="course-session-attendance" onClick={this.updateAttendance} disabled={this.state.loading}>
+                            <td className={tdClassNames} onClick={this.updateAttendance} disabled={this.state.loading}>
                                <div className={"attending-checkbox " + this.state.hasAttended} >
                                    <i className={"fa " + this.state.attendanceLogo}></i>
                                </div>

@@ -10,7 +10,6 @@
 				min-width: 400px;
 				height: 90vh;
 				background: $background-beige;
-				overflow: hidden;
 				div.session-headers{
 					position: absolute;
 					left: 175px;
@@ -24,7 +23,7 @@
 						text-align: center;
 
 						&.current{
-							background: rgb(179,215,243);
+							background: $background-grey;
 						}
 					}
 					span{
@@ -66,6 +65,7 @@
 					overflow-y: scroll;
 					overflow-x: hidden;
 					height: 84vh;
+					padding-bottom: 70px;
 					table{
 						border-collapse: collapse;
 						td{
@@ -76,18 +76,16 @@
 							line-height: 22px;
 							text-align: center;
 
-							&.current.course-session-attendance{
-								border-top: 15px solid rgb(179,215,243);
-								background: rgb(179,215,243);
+							&.current{
+								border-top: 15px solid $background-grey;
+								background: $background-grey;
 							}
 
-							&.course-session-attendance{
-								.attending-checkbox{
-									width: 80px;
-									height: 45px;
-									margin: 0 auto;
-									display: block;
-								}
+							.attending-checkbox{
+								width: 80px;
+								height: 45px;
+								margin: 0 auto;
+								display: block;
 							}
 						}
 						&.customer-names{
@@ -131,7 +129,6 @@
 
 									.payment-status{
 									    line-height: 45px;
-									    height: 60px;
 									    width: 80px;
 									    margin: 0 auto;
 									    font-size: 14px;
@@ -194,6 +191,10 @@
 			    padding: 10px;
 			    background: $background-beige;
 			    z-index: 49;
+
+			    -webkit-box-shadow: -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    -moz-box-shadow:    -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    box-shadow:         -3px -3px 1.5px 0px rgba(0,0,0,0.25);
 
 			    -webkit-transition:right linear 0.3s;
 			    transition:right linear 0.3s;
@@ -302,6 +303,10 @@
 			    z-index: 101;
 			    -webkit-transition:right linear 0.3s;
 			    transition:right linear 0.3s;
+
+			    -webkit-box-shadow: -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    -moz-box-shadow:    -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    box-shadow:         -3px -3px 1.5px 0px rgba(0,0,0,0.25);
 
 			    &.showing{
 			        right: 345px;

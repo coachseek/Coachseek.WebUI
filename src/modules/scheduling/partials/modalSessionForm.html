@@ -46,21 +46,19 @@
             </div>
         </div>
 
-        <div class="form-input right-col">
-            <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
-            <input name="studentCapacity" type="number" ng-model="currentEvent.session.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  ng-min="1"  ng-max="100" required/>
+        <div class="form-input right-col two-inputs">
+            <label name="studentCapacity" class="float-left">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
+            <label name="isOnlineBookable" class="float-right">{{'businessSetup:service-details.is-online-bookable' | i18next}}</label>
+            <input name="studentCapacity" class="float-left" type="number" ng-model="currentEvent.session.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  ng-min="1"  ng-max="100" required/>
 
             <div class="prompt-messages" ng-messages="currentSessionForm.studentCapacity.$error" ng-if="currentSessionForm.studentCapacity.$touched">
                 <div ng-message="max">{{'businessSetup:error.max-capacity' | i18next}}</div>
                 <div ng-message="min">{{'businessSetup:error.min-capacity' | i18next}}</div>
                 <div ng-message="required">{{'businessSetup:error.capacity-required' | i18next}}</div>
             </div>
-        </div>
 
-        <div class="form-input is-online-bookable">
-            <label name="isOnlineBookable">{{'businessSetup:service-details.is-online-bookable' | i18next}}</label>
             <select-arrows></select-arrows>
-            <select class="online-bookable" name="isOnlineBookable"
+            <select class="online-bookable float-right" name="isOnlineBookable"
                 ng-model="currentEvent.session.booking.isOnlineBookable"
                 ng-options="opt.value as (opt.text |i18next) for opt in [{text:'yes', value: true},{text:'no', value: false}]">
             </select>

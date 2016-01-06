@@ -556,23 +556,6 @@ angular.module('scheduling.controllers', [])
                     });
             }
 
-            $scope.$watch('modalTab', function(newVal){
-                if(newVal && $scope.showModal){
-                    centerModal();
-                }
-            })
-
-            $scope.$on('centerModal', function(){
-                centerModal();
-            });
-
-            function centerModal(){
-                $timeout(function(){
-                    var $modalContainer = $('.modal-container');
-                    $modalContainer.animate( { marginLeft : -($modalContainer.width()/2) + 'px' });
-                })
-            };
-
             if(showOnboarding()){
                 onboardingModal.open('onboardingDefaultsModal', 'onboardingDefaultsModalCtrl').then(function(response){
                     sessionService.onboarding.stepsCompleted.push('createDefaults');
