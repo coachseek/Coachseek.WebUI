@@ -130,6 +130,7 @@ describe('App Module', function() {
                 $http = $injector.get('$http');
                 $http.defaults.headers.common['Authorization'] = 'TEST AUTH';
                 $rootScope.currentUser = "TESTUSER";
+                $rootScope.business = {};
                 sessionService = $injector.get('sessionService');
                 sessionService.user = {};
                 sessionService.business = {};
@@ -144,8 +145,9 @@ describe('App Module', function() {
                 $('.modal-backdrop').remove();
                 $loginModal.remove();
             });
-            it('should unset the currentUser', function(){
+            it('should unset the currentUser and business from the rootScope', function(){
                 expect($rootScope.currentUser).to.be.undefined;
+                expect($rootScope.business).to.be.undefined;
             });
             it('should unset the business and user from sessionService', function(){
                 expect(sessionService.user).to.be.undefined;
