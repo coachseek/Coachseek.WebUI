@@ -3,7 +3,8 @@ describe('Booking Admin Page', function(){
         return {
             domain: 'bizdomain',
             payment: {
-                isOnlinePaymentEnabled: false
+                isOnlinePaymentEnabled: false,
+                paymentProvider: "PayPal"
             }
         }
     });
@@ -175,7 +176,7 @@ describe('Booking Admin Page', function(){
                 });
                 it('should show the saved button in a `Saved` state', function(){
                     expect($testRegion.find('.save-button .save-text').attr('ng-i18next')).to.equal('saved')
-                })
+                });
             });
             describe('when turning online payments OFF', function(){
                 beforeEach(function(){

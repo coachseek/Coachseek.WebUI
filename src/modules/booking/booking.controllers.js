@@ -286,7 +286,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.$watch('business.payment', function(newVal, oldVal){
-            if(newVal !== oldVal){
+            if(newVal && oldVal && newVal !== oldVal){
                 $scope.saved = false;
                 if(newVal.isOnlinePaymentEnabled === false && businessCopy.payment.isOnlinePaymentEnabled !== false) {
                     $scope.save();
