@@ -1,18 +1,25 @@
 <div class="booking-details-container">
     <div class="booking-details" ng-hide="bookingConfirmed">
+        <p>{{'booking:confirmation.order' | i18next}}</p><br>
         <h4>{{'booking:confirmation.who' | i18next}}</h4>
-        <p>{{currentBooking.customer.firstName}}&nbsp;{{currentBooking.customer.lastName}}</p>
+        <p>{{currentBooking.customer.firstName}}&nbsp;{{currentBooking.customer.lastName}}</p><br>
         <h4>{{'booking:confirmation.what' | i18next}}</h4>
-        <p>{{currentBooking.filters.service.name}}</p>
+        <p>{{currentBooking.filters.service.name}}</p><br>
         <h4>{{'booking:confirmation.where' | i18next}}</h4>
-        <p>{{currentBooking.filters.location.name}}</p>
+        <p>{{currentBooking.filters.location.name}}</p><br>
         <h4>{{'booking:confirmation.when' | i18next}}</h4>
-        <p>{{currentBooking.dateRange || calculateBookingDateRange()}}</p>
+        <p>{{currentBooking.dateRange || calculateBookingDateRange()}}</p><br>
+        <em><h4>{{'booking:confirmation.total' | i18next}}</h4>
+        <p><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{currentBooking.totalPrice || calculateTotalPrice()}}</p></em>
+       
     </div>
     <div ng-show="bookingConfirmed" class="booking-confirmed">
-        <h4>{{'booking:confirmation.booking-confirmed' | i18next}}</h4>
+        <img src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/m-onboarding-thumbs-up.png" alt="">
     </div>
-    <h2>{{'booking:confirmation.total' | i18next}}&nbsp;<span ng-i18next="denominations.{{business.payment.currency}}"></span>{{currentBooking.totalPrice || calculateTotalPrice()}}&nbsp;{{business.payment.currency}}</h2>
+    <div ng-show="bookingConfirmed" class="booking-confirmed">
+        <h4>{{currentBooking.customer.firstName}}{{'booking:confirmation.booking-for' | i18next}}&nbsp;<span>{{currentBooking.filters.service.name}}</span>&nbsp;{{'booking:confirmation.booking-at' | i18next}}&nbsp;<span>{{currentBooking.filters.location.name}}</span>&nbsp;{{'booking:confirmation.booking-confirmed' | i18next}}&nbsp;<span>{{currentBooking.dateRange || calculateBookingDateRange()}}</span></h4>
+    </div>
+    <!-- <h2>{{'booking:confirmation.total' | i18next}}&nbsp;<span ng-i18next="denominations.{{business.payment.currency}}"></span>{{currentBooking.totalPrice || calculateTotalPrice()}}&nbsp;{{business.payment.currency}}</h2> -->
     <div ng-show="bookingConfirmed" class="booking-confirmed">
         <span ng-switch="business.id">
             <p ng-switch-default ng-i18next="booking:confirmation.{{paidWithPaypal ? 'paypal-paid' : 'pay-later'}}"></p>
@@ -26,7 +33,7 @@
                 <p class="m-sports">{{'booking:msports.issues' | i18next}}</p>
             </span>
         </span>
-        <button class="continue-button" ng-click="resetBookings()">{{'booking:confirmation.reset-bookings' | i18next}}</button>
+        <button ng-hide="bookingConfirmed" class="continue-button" ng-click="resetBookings()">{{'booking:confirmation.reset-bookings' | i18next}}</button>
     </div>
     <a ng-if="business.id === '42f7fa52-2c36-4cb0-8877-bbe0ed423dca'" class="terms-link" href="https://az789256.vo.msecnd.net/assets/terms/aqua-sport-ts.pdf" target="_blank">{{business.name}}&nbsp;{{'booking:terms-and-conditions' | i18next}}</a>
     <div class="button-container" ng-hide="processingBooking || redirectingToPaypal || bookingConfirmed">
