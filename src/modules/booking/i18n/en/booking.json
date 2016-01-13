@@ -57,10 +57,15 @@
         "total": "Total:",
         "processing-booking": "Processing booking",
         "paypal-redirect": "Redirecting to PayPal",
+        "order": "Order:",
         "who": "Who:",
         "what": "What:",
         "where": "Where:",
-        "when": "When:"
+        "when": "When:",
+        "total":"Total:",
+        "booking-for": ", your booking for",
+        "booking-at": "at",
+        "booking-confirmed":"is confirmed for"
     },
     "booking-admin":{
         "onlinebooking":"Online booking",
