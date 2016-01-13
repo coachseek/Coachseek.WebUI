@@ -1,8 +1,10 @@
 angular.module('booking.controllers', [])
     .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService',
       function($scope, $state, onlineBookingAPIFactory, currentBooking, sessionService){
+        $scope.bookingConfirmed = false;
         $scope.currentBooking = currentBooking;
         $scope.business = sessionService.business;
+        $scope.limitedSpace = false;
 
         $scope.selectEvent = function (event) {
             if($scope.selectedEvent !== event){
@@ -24,6 +26,10 @@ angular.module('booking.controllers', [])
             currentBooking.resetBooking();
             delete $scope.selectedEvent;
         };
+
+        $scope.$on('bookingConfirmed', function(bookingConfirmed){
+            $scope.bookingConfirmed = bookingConfirmed;
+        });
 
         $scope.toggleSessionSelect = function(session){
             if(_.includes(currentBooking.booking.sessions, session)){
@@ -192,7 +198,6 @@ angular.module('booking.controllers', [])
     }])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', '$sce', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'ENV',
       function($scope, $q, $state, $location, $sce, onlineBookingAPIFactory, currentBooking, sessionService, ENV){
-        $scope.bookingConfirmed = false;
         $scope.paidWithPaypal = false;
         $scope.paypalURL = $sce.trustAsResourceUrl($scope.ENV.paypalURL);
 
@@ -204,7 +209,7 @@ angular.module('booking.controllers', [])
                 dateRange: sessionService.currentBooking.dateRange
             });
             delete sessionService.currentBooking;
-            $scope.bookingConfirmed = true;
+            $scope.$emit('bookingConfirmed', true);
             $scope.paidWithPaypal = true;
         } else if( !currentBooking.filters.location ){
             $state.go('booking.selection');
@@ -221,7 +226,7 @@ angular.module('booking.controllers', [])
                                     currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
                                     return saveBooking(customer).then(function (booking) {
                                         currentBooking.booking.id = booking.id;
-                                        $scope.bookingConfirmed = payLater;
+                                        $scope.$emit('bookingConfirmed', payLater);
                                         $scope.redirectingToPaypal = !payLater;
                                     }, function(error){
                                         $scope.handleErrors(error);
