@@ -19,7 +19,7 @@
     },
     "repeat-selector": {
         "is-repeatable": "Repeat session",
-        "repeat-session": "Repeat this session",
+        "repeat-session": "daily or weekly",
         "total-of": "for a total of",
         "weekly": "weekly",
         "weekly-plural": "weeks",
