@@ -30,6 +30,7 @@
 
                 .button-container{
                     width: 100%;
+                    text-align: center;
 
                     button{
                         width: 40%;
@@ -38,13 +39,15 @@
                         border-radius: 5px;
                         color: $text-dark-grey;
                         background: $white;
+                        text-align: center;
+                        margin-top: 10px;
 
                         &.session-button{
                             float: left;
                             margin-left: 5px;
                         }
 
-                        &.course-button{
+                        &.course-button, .remove-button{
                             float: right;
                             margin-right: 5px;
                         }

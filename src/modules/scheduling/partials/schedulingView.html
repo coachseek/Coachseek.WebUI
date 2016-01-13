@@ -32,9 +32,9 @@
             </div>
             <div class="modal-nav">
                 <div class="slider-nav">
-                    <div class="slider-nav-option general-header" ng-click="modalTab = 'general'" ng-class="{'active': modalTab === 'general'}">{{'scheduling:general' | i18next}}</div>
-                    <div class="slider-nav-option attendance-header" ng-click="modalTab = 'attendance'" ng-class="{'active': modalTab === 'attendance'}">{{'scheduling:attendance' | i18next}}</div>
-                    <div class="slider-nav-option payment-header" ng-click="modalTab = 'payment'" ng-class="{'active': modalTab === 'payment'}">{{'scheduling:payment' | i18next}}</div>
+                    <div class="slider-nav-option general-header" data-tab-name="general" ng-click="modalTab = 'general'" ng-class="{'active': modalTab === 'general'}">{{'scheduling:general' | i18next}}</div>
+                    <div class="slider-nav-option attendance-header" data-tab-name="attendance" ng-disabled="currentEvent.tempEventId" ng-click="modalTab = 'attendance'" ng-class="{'active': modalTab === 'attendance'}">{{'scheduling:attendance' | i18next}}</div>
+                    <div class="slider-nav-option payment-header" data-tab-name="payment" ng-disabled="currentEvent.tempEventId" ng-click="modalTab = 'payment'" ng-class="{'active': modalTab === 'payment'}">{{'scheduling:payment' | i18next}}</div>
                 </div>
             </div>
 

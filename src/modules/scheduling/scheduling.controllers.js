@@ -104,32 +104,28 @@ angular.module('scheduling.controllers', [])
                     },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
-                        if(event.tempEventId){
-                            _.assign($scope.currentEvent.session.timing, {
-                                startDate: event._start.format('YYYY-MM-DD'),
-                                startTime: event._start.format('HH:mm')
+                        if(event.course){
+                            //have to set $scope.currentEvent so sessionOrCourseModal can return id
+                            $scope.currentEvent = event;
+                            sessionOrCourseModal($scope).then(function(id){
+                                if(id === event.course.id){
+                                    startCalendarLoading();
+                                    updateSessionTiming(event.course, delta, revertDate, true);
+                                } else {
+                                    updateSessionTiming(event.session, delta, revertDate, false);
+                                }
+                            }, function(){
+                                revertDate();
                             });
                         } else {
-                            if(event.course){
-                                //have to set $scope.currentEvent so sessionOrCourseModal can return id
-                                $scope.currentEvent = event;
-                                sessionOrCourseModal($scope).then(function(id){
-                                    if(id === event.course.id){
-                                        startCalendarLoading();
-                                        updateSessionTiming(event.course, delta, revertDate, true);
-                                    } else {
-                                        updateSessionTiming(event.session, delta, revertDate, false);
-                                    }
-                                }, function(){
-                                    revertDate();
-                                });
-                            } else {
-                                updateSessionTiming(event.session, delta, revertDate, false);
-                            }
+                            updateSessionTiming(event.session, delta, revertDate, false);
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
-                        if(!$scope.showModal) $scope.currentTab = 'general';
+                        if(!$scope.showModal) {
+                            $scope.$broadcast('triggerSliderSlide', 'general')
+                            $scope.currentTab = 'general';
+                        }
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
 
@@ -229,11 +225,12 @@ angular.module('scheduling.controllers', [])
             };
 
             var handleServiceDrop = function(date, serviceData){
-                $scope.currentTab = 'general';
                 $scope.showModal = true;
+                $scope.$broadcast('triggerSliderSlide', 'general')
+                $scope.currentTab = 'general';
                 var session = buildSessionObject(date, serviceData);
                 var repeatFrequency = serviceData.repetition.repeatFrequency;
-                tempEventId = _.uniqueId('service_');
+                tempEventId = _.uniqueId('tempService_');
 
                 _.times(serviceData.repetition.sessionCount, function(index){
                     var newEvent = buildCalendarEvent(moment(date).add(index, repeatFrequency), session);

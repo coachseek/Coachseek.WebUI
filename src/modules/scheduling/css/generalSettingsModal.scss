@@ -200,13 +200,24 @@
         left: 0px;
         background: $white;
         width: 100%;
-        padding: 10px 15px;
+        height: 60px;
+        padding: 0px 15px;
 
         .delete-button{
             @extend %delete-button;
             height: 35px;
             font-size: 22px;
             float: left;
+            line-height: 60px;
+        }
+        .close-button{
+            background: transparent;
+            border: none;
+            color: $grey;
+            line-height: 60px;
+        }
+        .save-button{
+            margin-top: 10px;
         }
     }
 }

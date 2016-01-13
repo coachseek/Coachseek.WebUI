@@ -11,6 +11,11 @@
         -o-transition: color 400ms linear;
         -ms-transition: color 400ms linear;
         transition: color 400ms linear;
+
+        &[disabled]{
+            opacity: 0.5;
+            pointer-events: none;
+        }
     }
 
     .slider-nav-slider{

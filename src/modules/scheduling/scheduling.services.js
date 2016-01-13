@@ -1,6 +1,6 @@
 angular.module('scheduling.services', [])
-    .service('sessionOrCourseModal', ['$modal', '$rootScope',
-        function ($modal, $rootScope) {
+    .service('sessionOrCourseModal', ['$modal',
+        function ($modal) {
             return function(scope) {
                 scope.removeAlerts();
                 var instance = $modal.open({
@@ -16,11 +16,24 @@ angular.module('scheduling.services', [])
             };
         }
     ])
+    .service('removeFromCourseModal', ['$modal',
+        function ($modal) {
+            return function() {
+                var instance = $modal.open({
+                    templateUrl: 'scheduling/partials/removeFromCourseModal.html',
+                    backdropClass: 'session-or-course-modal-backdrop',
+                    windowClass: 'session-or-course-modal-window'
+                });
+
+                return instance.result;
+            };
+        }
+    ])
     .service('currentEventService', function(){
         return {};
     })
-    .service('bookingManager', ['coachSeekAPIService', 'uiCalendarConfig', 'currentEventService',
-        function(coachSeekAPIService, uiCalendarConfig, currentEventService){
+    .service('bookingManager', ['$q', 'coachSeekAPIService', 'uiCalendarConfig', 'currentEventService',
+        function($q, coachSeekAPIService, uiCalendarConfig, currentEventService){
 
         this.addToCourse = function(customer){
             return coachSeekAPIService.save({section: 'Bookings'}, buildBooking(customer))
@@ -33,7 +46,6 @@ angular.module('scheduling.services', [])
 
         function updateCourse(){
             return getUpdatedEvents(currentEventService.event.course.id).then(function(course){
-                    console.log('COURSE UPDATED')
                 _.each(currentEventService.currentCourseEvents , function(courseEvent){
                     //fullcalendar needs original event so we get it from the calendar here
                     event = uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents', courseEvent._id)[0];
@@ -96,9 +108,17 @@ angular.module('scheduling.services', [])
         this.updateBooking = function(bookingId, updateCommand){
             return coachSeekAPIService.save({section: 'Bookings', id: bookingId}, updateCommand)
                 .$promise.then(function(booking){
-                    return updateCourse().then(function(){
-                        return booking;
-                    });
+                    if(currentEventService.event.course){
+                        //Update session and course
+                        return updateCourse().then(function(){
+                            return booking;
+                        });
+                    } else {
+                        //Update standalone session
+                        return updateStandaloneSession().then(function(){
+                            return booking;
+                        });
+                    }
                 });
         };
 
@@ -108,9 +128,17 @@ angular.module('scheduling.services', [])
             });
         }
 
-        this.removeFromCourse = function(bookingId){
-            return deleteBooking(bookingId).then(function(){
-                return updateCourse();
+        //accepts all courseBookings. deletes using $q.all
+        this.removeFromCourse = function(courseBookings){
+            var bookingsToDelete = [];
+            _.each(courseBookings, function(booking){
+                console.log(booking.id)
+                bookingsToDelete.push(deleteBooking(booking.parentId));
+            });
+            return $q.all(bookingsToDelete).then(function(bookings){
+                return updateCourse().then(function(){
+                    return bookings
+                });
             });
         }
 

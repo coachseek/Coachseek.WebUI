@@ -1,9 +1,10 @@
-<div class="session-modal session-modal-responsive" onboarding-popover onboarding-step="'sessionModal'" onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" id="session-modal" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="left">
+<div class="session-modal session-modal-responsive" id="session-modal">
     <modal-session-form></modal-session-form>
-    <div class="edit-button-container">
+    <div class="edit-button-container" onboarding-popover onboarding-step="'sessionModal'" onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="top">
         <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
             <i class="fa fa-trash-o"></i>
         </button>
+        <button class="close-button" ng-click="cancelModalEdit()">{{'close' | i18next}}</button>
         <button class="save-button" ng-click="checkFormValidThenSave()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details' }}</span><ellipsis-animated ng-show="calendarLoading"/></button>
     </div>
 </div>

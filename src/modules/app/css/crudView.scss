@@ -109,6 +109,11 @@
     }
 
     .course-price, .session-price{
+      &[disabled]{
+          pointer-events: none;
+          opacity: 0.5;
+      }
+      
       input{
         padding-left: 20px;
       }

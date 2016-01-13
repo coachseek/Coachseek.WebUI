@@ -7,7 +7,7 @@
     </select>
 </div>
 
-<div class="form-input frequency-selector" ng-show="isRepeatable">
+<div class="form-input frequency-selector" ng-disabled="!isRepeatable">
     <span class="title">{{'businessSetup:repeat-selector.repeat-session' | i18next}}</span>
     <select class="repeat-frequency" name="frequency" ng-model="repeatFrequency">
         <option ng-repeat="item in frequencies" value="{{item.value}}" ng-i18next>businessSetup:repeat-selector.{{item.text}}</option>

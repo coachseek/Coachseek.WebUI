@@ -5,22 +5,29 @@ repeat-selector{
         width: 25px
     }
 
-    label.repeat-label{
-        display: inline;
-        cursor: pointer;
-    }
+    .form-input{
+        &[disabled]{
+            pointer-events: none;
+            opacity: 0.5;
+        }
 
-    input.session-count{
-        width: 15%;
-        text-align: center;
-        margin: 0 5px;
-    }
+        label.repeat-label{
+            display: inline;
+            cursor: pointer;
+        }
 
-    select{
-        margin: 0 5px;
-    }
+        input.session-count{
+            width: 15%;
+            text-align: center;
+            margin: 0 5px;
+        }
 
-    .error-messages div{
-        float: right;
+        select{
+            margin: 0 5px;
+        }
+
+        .error-messages div{
+            float: right;
+        }
     }
 }

@@ -226,6 +226,10 @@ angular.module('app.directives', [])
                     $navTabs.on('click', function(){
                         $slider.animate({left: $(this).position().left})
                     });
+
+                    scope.$on('triggerSliderSlide', function(event, tabName){
+                        element.find('[data-tab-name="' + tabName + '"]').trigger('click');
+                    });
                 });
             }
         }
