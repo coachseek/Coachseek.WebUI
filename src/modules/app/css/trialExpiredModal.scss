@@ -58,12 +58,15 @@
 }
 @media(max-width: 768px){
 	.trial-status{
-		height: 40px;
+		height: 20px;
 		span{
 			display: inherit;
 		}
 		i{
-			font-size: 30px;
+			font-size: 18px;
+			&.fa-close{
+				top: 2px;
+			}
 		}
 	}
 }
