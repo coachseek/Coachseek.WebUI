@@ -69,10 +69,6 @@ angular.module('app',
     }])
     .run(['$rootScope', '$state', '$stateParams','$window','sessionService',
         function($rootScope, $state, $stateParams,$window,sessionService){
-            document.addEventListener("deviceready", function () {
-                Appsee.start("e38b85aaeb124119bbc049bd463e7f62");
-                Appsee.startScreen();
-            }, false);
             FastClick.attach(document.body);
 
             $rootScope.$state = $state;
