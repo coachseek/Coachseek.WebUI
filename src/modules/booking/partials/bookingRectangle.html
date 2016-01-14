@@ -1,7 +1,7 @@
-<div ng-click="toggleEventSelect()" class="event" ng-disabled="isSoldOut()">
-    <div class="selected-checkbox" ng-hide="event.sessions && event.pricing.sessionPrice >= 0"><i ng-class="selectedEvent && selectedEvent.id === event.id ? 'fa-check-circle' : 'fa-circle-o' " class="fa"></i></div>
-    <i ng-show="isBigScreen" class="expand fa fa-expand" ng-if="event.sessions && event.pricing.sessionPrice >= 0 && selectedEvent.id !== event.id"></i>
-    <div class="full-session-banner" ng-show="isSoldOut()">{{'booking:full-session' | i18next}}</div>
+<div ng-click="toggleEventSelect()" class="event" ng-class="{'limited-space': spacesAvailable<=2 && spacesAvailable>0}" ng-disabled="isSoldOut()">
+    <i class="expand fa fa-bars" ng-if="selectedEvent.id !== event.id"></i>
+    <div class="full-session-banner" ng-show="isSoldOut()"><span>{{'booking:full-session' | i18next}}</span></div>
+    <div class="limited-space-banner" ng-if="spacesAvailable<=2 && spacesAvailable>0"><p ng-if="!isBigScreen">Limited Space</p></div>
     <div class="event-info-container">
         <p class="date-range">{{getEventDateRange()}}</p>
         <p class="session-type" ng-if="event.sessions" ng-i18next="[i18next]({count:event.repetition.sessionCount})booking:{{event.repetition.repeatFrequency}}"></p>
@@ -13,16 +13,29 @@
         <div class="booking-rectangle-info">
             <i class="fa fa-usd"></i>
             <p ng-if="event.pricing.sessionPrice >=0"><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{event.pricing.sessionPrice}}&nbsp;{{'booking:per-session' | i18next}}</p>  
-            <p ng-if="event.sessions && event.pricing.coursePrice >=0"><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{fullCoursePrice}}&nbsp;{{'booking:full-course' | i18next}}</p>
+
+            <p ng-if="event.sessions && event.pricing.coursePrice >=0">  <i class="fa fa-usd"></i><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{fullCoursePrice}}&nbsp;{{'booking:full-course' | i18next}}</p>
         </div>
         <div class="booking-rectangle-info">
             <i class="fa fa-user"></i>
             <p ng-i18next="[i18next]({count:spacesAvailable})booking:spaces-available" class="spaces-available"></p>
         </div>
+        <div class="course-sessions-container" ng-class="{'selected': selected, 'is-before': isBefore, 'sold-out': spacesAvailable <= 0}" ng-show="selectedEvent.id == event.id&&!event.sessions" >
+            <div class="close-event" ng-click="closeEvent()"><span ng-if="isBigScreen">{{'booking:close' | i18next}}</span><i class="fa fa-close"></i></div>
+            <!--  <hr/> -->
+            <div class="course-session session-box" ng-class="{'selected':selected&&selectedEvent.id == event.id}">
+                <div class="selected-checkbox"><i class="fa fa-check"></i></div>
+                <p>{{getEventDateRange()}}</p>
+                <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{getEventTimeRange()}}</p>
+                <p ng-if="event.pricing.sessionPrice >=0"><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{event.pricing.sessionPrice}}</p>
+                <p class="spaces-available">  <i class="fa fa-user"></i>&nbsp;&nbsp;{{spacesAvailable}}</p>
+            </div>
+            
+        </div>
     </div>
     <div class="course-sessions-container" ng-show="event.sessions && selectedEvent.id === event.id && event.pricing.sessionPrice >=0">
         <div class="close-event" ng-click="closeEvent()"><span ng-if="isBigScreen">{{'booking:close' | i18next}}</span><i class="fa fa-close"></i></div>
-        <hr/>
+       <!--  <hr/> -->
         <div class="event-begun" ng-show="isBefore(event)"><i class="fa fa-exclamation-circle"> {{'booking:event-begun' | i18next}}</i></div>
         <booking-course-sessions></booking-course-sessions>
     </div>

@@ -1,5 +1,8 @@
 {
     "whole-course": "Enitre Course",
+    "oh-no": "OH NO!",
+    "page-no-exist": "It looks like the address you're trying to visit doesn't exist.",
+    "try-again": "Give it another go?",
     "export-csv": "export.csv",
     "download-csv": "Download CSV",
     "firstName": "First Name",
@@ -74,7 +77,8 @@
         "GBP": "£",
         "SEK": "kr",
         "ZAR": "R",
-        "CNY": "¥"
+        "CNY": "¥",
+        "SGD": "$"
     },
     "operating-sport": "What's your sport?",
     "sports" : {
@@ -92,6 +96,7 @@
         "hockey": "Hockey",
         "squash": "Squash",
         "yoga-pilates": "Yoga/Pilates",
+        "cricket": "Cricket",
         "other": "Other"
     },
     "trial-live" : "You have __count__ day left on your trial.",
@@ -107,7 +112,7 @@
         "continue-using": "if you'd like to continue using Coachseek."
     },
     "upgrade":"Upgrade your account now.",
-    "birth-date": "Date of Birth (if under 18):",
+    "birth-date": "Date of Birth",
     "month": "Month",
     "day": "Day",
     "year": "Year",
@@ -124,5 +129,11 @@
         "9": "October",
         "10": "November",
         "11": "December"
+    },
+    "state-name":{
+        "scheduling" : "Calendar",
+        "customers" : "Customers",
+        "businessSetup" : "Settings",
+        "bookingAdmin" : "Booking"
     }
 }

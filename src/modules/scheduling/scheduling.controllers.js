@@ -7,7 +7,8 @@ angular.module('scheduling.controllers', [])
             var tempEventId,
                 currentEventCopy,
                 $currentEvent,
-                totalNumSessions;
+                totalNumSessions,
+                copyEventDrag;
 
             $scope.draggableOptions = {
                 helper: function(event) {
@@ -102,6 +103,13 @@ angular.module('scheduling.controllers', [])
                     windowResize: function(view){
                         handleWindowResize(view.name);
                     },
+                    eventDragStart: function(){
+                        if($scope.shiftKeydown){
+                            copyEventDrag = true;
+                        } else {
+                            copyEventDrag = false;
+                        }
+                    },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
                         if(event.course){
@@ -117,8 +125,53 @@ angular.module('scheduling.controllers', [])
                             }, function(){
                                 revertDate();
                             });
-                        } else {
-                            updateSessionTiming(event.session, delta, revertDate, false);
+                        } else if (copyEventDrag){
+                            revertDate();
+                            //remove id and save with new date
+                            var newEvent = angular.copy(event);
+                            if(newEvent.course){
+                                //have to set $scope.currentEvent so sessionOrCourseModal can return id
+                                $scope.currentEvent = newEvent;
+                                sessionOrCourseModal($scope).then(function(id){
+                                    startCalendarLoading();
+                                    if(id === newEvent.course.id){
+                                        startCalendarLoading();
+                                        delete newEvent.session.id;
+                                        delete newEvent.course.id;
+                                        delete newEvent.session.booking.bookings;
+                                        delete newEvent.course.booking.bookings;
+                                        updateSessionTiming(newEvent.course, delta, revertDate, true);
+                                    } else {
+                                        delete newEvent.session.id;
+                                        delete newEvent.session.booking.bookings;
+                                        updateSessionTiming(newEvent.session, delta, revertDate, true);
+                                    }
+                                }, function(){
+                                    revertDate();
+                                });
+                            } else {
+                                delete newEvent.session.id;
+                                delete newEvent.session.booking.bookings;
+                                startCalendarLoading();
+                                updateSessionTiming(newEvent.session, delta, revertDate, true);
+                            }
+                        } else  {
+                            if(event.course){
+                                //have to set $scope.currentEvent so sessionOrCourseModal can return id
+                                $scope.currentEvent = event;
+                                sessionOrCourseModal($scope).then(function(id){
+                                    if(id === event.course.id){
+                                        startCalendarLoading();
+                                        updateSessionTiming(event.course, delta, revertDate, true);
+                                    } else {
+                                        updateSessionTiming(event.session, delta, revertDate, false);
+                                    }
+                                }, function(){
+                                    revertDate();
+                                });
+                            } else {
+                                updateSessionTiming(event.session, delta, revertDate, false);
+                            }
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
@@ -167,7 +220,7 @@ angular.module('scheduling.controllers', [])
                 }
             };
 
-            var updateSessionTiming = function(session, delta, revertDate, reloadRanges){
+            function updateSessionTiming(session, delta, revertDate, reloadRanges){
                 var newDate = getNewDate(session.timing);
                 newDate.add(delta);
 
@@ -188,15 +241,25 @@ angular.module('scheduling.controllers', [])
                 });
             };
 
-            var handleFullyBooked = function(event,element,view){
-                if(event.session.booking.studentCapacity - _.size(event.session.booking.bookings) <= 0){
+            var handleFullyBooked = function(event, element, view){
+                var html,
+                    studentCapacity = event.session.booking.studentCapacity;
+                if(studentCapacity - _.size(event.session.booking.bookings) <= 0){
                     $scope.viewType = view.type;
+                    if(studentCapacity === 1 && view.type !== 'month'){
+                        //show private lesson customer name
+                        var customer = event.session.booking.bookings[0].customer;
+                        html = $compile("<calendar-private-session first-name='"+customer.firstName+"' last-name='"+customer.lastName+"'></calendar-private-session")($scope);
+                    } else {
+                        //show fully booked banner
+                        html = $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope);
+                    }
+
                     $('<div></div>', {
-                        class: 'fc-fullybooked-'+view.type+' '+event.session.presentation.colour,
-                        html: $compile($templateCache.get('scheduling/partials/calendarFullyBooked.html'))($scope)
+                        class: 'fc-fullybooked-' + view.type + ' ' + event.session.presentation.colour,
+                        html: html
                     }).appendTo(element.find('.fc-content'));
                 }
-                
             };
 
             var handleWindowResize = function(viewName){
@@ -224,7 +287,7 @@ angular.module('scheduling.controllers', [])
                 });
             };
 
-            var handleServiceDrop = function(date, serviceData){
+            function handleServiceDrop(date, serviceData){
                 $scope.showModal = true;
                 $scope.$broadcast('triggerSliderSlide', 'general')
                 $scope.currentTab = 'general';
@@ -388,14 +451,12 @@ angular.module('scheduling.controllers', [])
                         if(sessionService.onboarding.showOnboarding) {
                             onboardingModal.open('onboardingReviewModal')
                                 .then().finally(function(){
-                                    heap.track('Onboarding Close', {step: 'onboardingReview'});
                                     sessionService.onboarding.showOnboarding = false;
                                 });
                         }
-                    } else {
-                        closeModal();
                     }
-
+                        
+                    closeModal();
                     $scope.removeAlerts();
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');
                 }, handleCalendarErrors);
@@ -562,7 +623,6 @@ angular.module('scheduling.controllers', [])
                         .then(function(){
                             $state.reload();
                         }, function(){
-                            heap.track('Onboarding Close', {step: 'createDefaults'});
                             sessionService.onboarding.showOnboarding = false;
                         });
                 });

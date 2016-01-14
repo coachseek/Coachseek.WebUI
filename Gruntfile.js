@@ -299,8 +299,7 @@ module.exports = function(grunt) {
                 dest : './src/index.html',
                 options : {
                     context : {
-                        version : '<%= pkg.version %>',
-                        heapId: '3710647468'
+                        version : '<%= pkg.version %>'
                     }
                 }
             },
@@ -309,8 +308,7 @@ module.exports = function(grunt) {
                 dest : './testing/index.html',
                 options : {
                     context : {
-                        version : '<%= pkg.version %>',
-                        heapId: '3710647468'
+                        version : '<%= pkg.version %>'
                     }
                 }
             },
@@ -319,8 +317,7 @@ module.exports = function(grunt) {
                 dest : './prod/index.html',
                 options : {
                     context : {
-                        version : '<%= pkg.version %>',
-                        heapId: '2818681617'
+                        version : '<%= pkg.version %>'
                     }
                 }
             }
@@ -337,7 +334,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    dest: '<%= pkg.version %>/course-modal/',
+                    dest: '<%= pkg.version %>/mobile-onboarding/',
                     src: ['css/style.css', 'js/*.js']
                 }]
             },
@@ -357,10 +354,17 @@ module.exports = function(grunt) {
                     src: ['**']
                 }]
             }
+            // terms: {
+            //     files: [{
+            //         expand: true,
+            //         cwd: 'assets/terms/',
+            //         dest: 'terms/',
+            //         src: ['**']
+            //     }]
+            // }
         }
     });
 
-    // Load the plugin that provides the "uglify" task.
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');

@@ -211,11 +211,6 @@
      */
     var deviceIsIOSWithBadTarget = deviceIsIOS && (/OS [6-7]_\d/).test(navigator.userAgent);
 
-    var deviceIsIOSWithNoLongTapDelay = deviceIsIOS && ((/OS 8_\d/).test(navigator.userAgent)
-                                            //WTF the iOS simulator returns the OSX version it's running on
-                                            || ((/OS 10_10_\d/).test(navigator.userAgent) &&
-                                                (/Version\/8/).test(navigator.userAgent)));
-
     /**
      * BlackBerry requires exceptions.
      *
@@ -404,12 +399,8 @@
         targetElement = this.getTargetElementFromEventTarget(event.target);
         touch = event.targetTouches[0];
 
-            // Ignore touches on contenteditable elements to prevent conflict with text selection (issue #127).
-            if (targetElement.isContentEditable) {
-                return true;
-            }
+        if (deviceIsIOS) {
 
-            if (deviceIsIOS) {
             // Only trusted events will deselect text on iOS (issue #49)
             selection = window.getSelection();
             if (selection.rangeCount && !selection.isCollapsed) {
@@ -522,26 +513,6 @@
 
 
     /**
-     * Attempt to find the label which the target element is nested within.
-     *
-     * @param {HTMLElement} targetElement
-     * @returns {HTMLLabelElement|null}
-     */
-    FastClick.prototype.getLabel = function(targetElement) {
-        'use strict';
-        var candidate = targetElement;
-        while (candidate !== void(0) && candidate !== null) {
-            if (candidate.tagName.toLowerCase() === 'label') {
-                return candidate;
-            }
-
-            candidate = candidate.parentElement;
-        }
-
-        return null;
-    };
-
-    /**
      * On touch end, determine whether to send a click event at once.
      *
      * @param {Event} event
@@ -549,7 +520,7 @@
      */
     FastClick.prototype.onTouchEnd = function(event) {
         var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement;
-        var isLabelWithSyntheticClick = false;
+
         if (!this.trackingClick) {
             return true;
         }
@@ -586,22 +557,18 @@
         }
 
         targetTagName = targetElement.tagName.toLowerCase();
-        var originalTargetElement = targetElement;
         if (targetTagName === 'label') {
             forElement = this.findControl(targetElement);
-            if (forElement && !forElement.disabled) {
+            if (forElement) {
                 this.focus(targetElement);
                 if (deviceIsAndroid) {
                     return false;
                 }
 
                 targetElement = forElement;
-            } else {
-                //Since there is no input behaviour, we can just do a synthetic click
-                //on the label.
-                isLabelWithSyntheticClick = true;
             }
         } else if (this.needsFocus(targetElement)) {
+
             // Case 1: If the touch started a while ago (best guess is 100ms based on tests for issue #36) then focus will be triggered anyway. Return early and unset the target element reference so that the subsequent click will be allowed through.
             // Case 2: Without this exception for input elements tapped when the document is contained in an iframe, then any inputted text won't be visible even though the value attribute is updated as the user types (issue #37).
             if ((event.timeStamp - trackingClickStart) > 100 || (deviceIsIOS && window.top !== window && targetTagName === 'input')) {
@@ -634,27 +601,7 @@
 
         // Prevent the actual click from going though - unless the target node is marked as requiring
         // real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
-        if (isLabelWithSyntheticClick || !this.needsClick(targetElement)) {
-            if (deviceIsIOSWithNoLongTapDelay) {
-                //If the touch lasted longer than ~125ms, iOS 8 will also dispatch
-                //a mative click event. We should shut this one up; e.preventDefault
-                //also doesn't cut it.
-                var layer = this.layer;
-                var clickListener = function clickListener(ev) {
-                    if (!ev.forwardedTouchEvent && ev.target === originalTargetElement) {
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                        ev.stopImmediatePropagation();
-                        layer.removeEventListener('click', clickListener, true);
-                    }
-                };
-                //Add the event listener in the capture phase, to cancel it before
-                //anything else hears it
-                layer.addEventListener('click', clickListener, true);
-                setTimeout(function(){
-                    layer.removeEventListener('click', clickListener, true);
-                }, 310);
-            }
+        if (!this.needsClick(targetElement)) {
             event.preventDefault();
             this.sendClick(targetElement, event);
         }
@@ -866,6 +813,7 @@
 
         return false;
     };
+
 
     /**
      * Factory method for creating a FastClick object

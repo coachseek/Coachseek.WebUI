@@ -48,18 +48,33 @@ angular.module('app',
             var $state = $injector.get("$state");
             $state.go("scheduling");
         });
+
+        $stateProvider
+            .state('error', {
+                url: "/",
+                abstract: true,
+                template: '<ui-view/>'
+            })
+            .state('error.404', {
+                templateUrl: "app/partials/404ErrorPage.html",
+                data: {
+                    requireLogin: false
+                }
+            })
+
     }])
     .config(['$compileProvider', function ($compileProvider) {
         $compileProvider.debugInfoEnabled(false);
     }])
-    .run(['$rootScope', '$state', '$stateParams','$window',
-        function($rootScope, $state, $stateParams,$window){
+    .run(['$rootScope', '$state', '$stateParams','$window','sessionService',
+        function($rootScope, $state, $stateParams,$window,sessionService){
             FastClick.attach(document.body);
 
             $rootScope.$state = $state;
             $rootScope.$stateParams = $stateParams;
 
             $rootScope.alerts = [];
+
 
             $window.fbAsyncInit = function() {
                 FB.init({

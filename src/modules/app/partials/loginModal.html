@@ -12,4 +12,5 @@
         {{'login.remember-me' | i18next}}
     </label>
     <button class="save-button" ng-click="attemptLogin(email, password)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'login.logging-in' : 'login.login-to-coachseek'}}</span><ellipsis-animated ng-show="AILoading"/></button>
+    <span class="version-number">v{{ENV.version}}</span>
 </div>

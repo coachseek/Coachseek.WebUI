@@ -1,8 +1,10 @@
 angular.module('booking.controllers', [])
     .controller('bookingCtrl', ['$scope', '$state', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService',
       function($scope, $state, onlineBookingAPIFactory, currentBooking, sessionService){
+        $scope.bookingConfirmed = false;
         $scope.currentBooking = currentBooking;
         $scope.business = sessionService.business;
+        $scope.limitedSpace = false;
 
         $scope.selectEvent = function (event) {
             if($scope.selectedEvent !== event){
@@ -24,6 +26,10 @@ angular.module('booking.controllers', [])
             currentBooking.resetBooking();
             delete $scope.selectedEvent;
         };
+
+        $scope.$on('bookingConfirmed', function(bookingConfirmed){
+            $scope.bookingConfirmed = bookingConfirmed;
+        });
 
         $scope.toggleSessionSelect = function(session){
             if(_.includes(currentBooking.booking.sessions, session)){
@@ -192,7 +198,6 @@ angular.module('booking.controllers', [])
     }])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', '$sce', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'ENV',
       function($scope, $q, $state, $location, $sce, onlineBookingAPIFactory, currentBooking, sessionService, ENV){
-        $scope.bookingConfirmed = false;
         $scope.paidWithPaypal = false;
         $scope.paypalURL = $sce.trustAsResourceUrl($scope.ENV.paypalURL);
 
@@ -204,7 +209,7 @@ angular.module('booking.controllers', [])
                 dateRange: sessionService.currentBooking.dateRange
             });
             delete sessionService.currentBooking;
-            $scope.bookingConfirmed = true;
+            $scope.$emit('bookingConfirmed', true);
             $scope.paidWithPaypal = true;
         } else if( !currentBooking.filters.location ){
             $state.go('booking.selection');
@@ -221,9 +226,8 @@ angular.module('booking.controllers', [])
                                     currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
                                     return saveBooking(customer).then(function (booking) {
                                         currentBooking.booking.id = booking.id;
-                                        $scope.bookingConfirmed = payLater;
+                                        $scope.$emit('bookingConfirmed', payLater);
                                         $scope.redirectingToPaypal = !payLater;
-                                        heap.track('Online Booking Confirmed', {onlinePaymentEnabled: _.get($scope.business, 'payment.isOnlinePaymentEnabled'), payLater: payLater});
                                     }, function(error){
                                         $scope.handleErrors(error);
                                         // make sure paypal form doesn't submit if error;
@@ -266,9 +270,6 @@ angular.module('booking.controllers', [])
             view = $compile(markup)($scope),
             businessCopy = angular.copy(sessionService.business);
 
-        $scope.business = angular.copy(sessionService.business);
-        $scope.business.payment.paymentProvider = "PayPal";
-
         $scope.saved = true;
 
         $scope.getSaveButtonState = function(){
@@ -290,10 +291,14 @@ angular.module('booking.controllers', [])
         };
 
         $scope.$watch('business.payment', function(newVal, oldVal){
-            if(newVal !== oldVal){
+            if(newVal && oldVal && newVal !== oldVal){
                 $scope.saved = false;
                 if(newVal.isOnlinePaymentEnabled === false && businessCopy.payment.isOnlinePaymentEnabled !== false) {
                     $scope.save();
+                }
+
+                if(oldVal.useProRataPricing !== newVal.useProRataPricing){
+                    savePaymentDebounce();
                 }
             }
         }, true);
@@ -306,13 +311,23 @@ angular.module('booking.controllers', [])
                     businessCopy = angular.copy($scope.business);
                     $scope.saved = true;
                 }, $scope.handleErrors).finally(function(){
+                    $scope.cancelEdit();
                     $activityIndicator.stopAnimating();
                 });
         };
 
+        var savePaymentDebounce = _.debounce($scope.save, 1000);
+
         $timeout(function(){
             $scope.buttonHTML = view.get(0).outerHTML;
             $scope.$apply();
+        });
+
+        $scope.$watch('activeTab', function(newVal){
+            if(newVal){
+                $scope.business = angular.copy(businessCopy);
+                $scope.business.payment.paymentProvider = "PayPal";
+            }
         });
 
         $scope.$on('$stateChangeStart', function () {
@@ -328,6 +343,5 @@ angular.module('booking.controllers', [])
                 caption: i18n.t("booking:booking-admin.facebook-share-caption"),
                 description: i18n.t("booking:booking-admin.facebook-share-description")
             });
-            heap.track('Facebook Share');
         }
     }]);

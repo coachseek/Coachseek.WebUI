@@ -69,13 +69,30 @@ describe('App Module', function() {
             });
         });
     });
-
+    describe('when navigating to the app for the first time',function(){
+        var stateGoSpy;
+        beforeEach(function(){
+            stateGoSpy = this.sinon.spy($state,'go');
+            $injector.get('sessionService').isBigScreen = false;
+            $state.go('scheduling');
+            $timeout.flush();
+        });
+        describe('and the user is on the mobile device',function(){
+            it('should open mobile onboarding sign up page',function(){
+                expect(stateGoSpy).to.be.calledWith('mobileOnboardingSignUp');
+            });
+        });
+    });
     describe('login modal', function(){
-        var intercomStub, $loginModal;
+        var intercomStub, $loginModal, $window;
         beforeEach(function(){
             modalStub.restore();
             intercomStub = this.sinon.stub(window, 'Intercom');
+            $window = $injector.get('$window');
         });
+        afterEach(function(){
+            $window.localStorage.removeItem('coachseekLogin');
+        })
         describe('when clicking the login button', function(){
             beforeEach(function(){
                 createViewWithController($rootScope, 'index.html', 'appCtrl')
@@ -106,14 +123,14 @@ describe('App Module', function() {
             });
         });
         describe('when clicking the logout button', function(){
-            var $http, $stateStub, sessionService, $cookies;
+            var $http, $stateStub, sessionService;
             beforeEach(function(){
-                $cookies = $injector.get('$cookies');
-                $cookies.put('coachseekLogin', 'testValue')
+                $window.localStorage.setItem('coachseekLogin', 'testValue')
                 $stateStub = this.sinon.stub($state, 'go');
                 $http = $injector.get('$http');
                 $http.defaults.headers.common['Authorization'] = 'TEST AUTH';
                 $rootScope.currentUser = "TESTUSER";
+                $rootScope.business = {};
                 sessionService = $injector.get('sessionService');
                 sessionService.user = {};
                 sessionService.business = {};
@@ -128,8 +145,9 @@ describe('App Module', function() {
                 $('.modal-backdrop').remove();
                 $loginModal.remove();
             });
-            it('should unset the currentUser', function(){
+            it('should unset the currentUser and business from the rootScope', function(){
                 expect($rootScope.currentUser).to.be.undefined;
+                expect($rootScope.business).to.be.undefined;
             });
             it('should unset the business and user from sessionService', function(){
                 expect(sessionService.user).to.be.undefined;
@@ -145,7 +163,7 @@ describe('App Module', function() {
                 expect(intercomStub).to.be.calledWith('shutdown');
             });
             it('should unset the login cookie', function(){
-                expect($cookies.get('coachseekLogin')).to.be.undefined;
+                expect($window.localStorage.getItem('coachseekLogin')).to.be.null;
             });
         });
         describe('when navigating to a page that requires a login', function(){
@@ -177,10 +195,10 @@ describe('App Module', function() {
             });
 
             describe('and the login cookie is set', function(){
-                var cookiePutSpy;
+                var $window;
                 beforeEach(function(){
-                    $cookies.put('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password))
-                    cookiePutSpy = this.sinon.spy($cookies, 'put');
+                    $window = $injector.get('$window');
+                    $window.localStorage.setItem('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password))
                     $state.go('scheduling');
                     $rootScope.$digest();
                     $loginModal = $('.modal');
@@ -205,9 +223,6 @@ describe('App Module', function() {
                     });
                     it('should make a call to Intercom', function(){
                         expect(intercomStub).to.be.calledWith('boot');
-                    });
-                    it('should set the login cookie', function(){
-                        expect(cookiePutSpy).to.be.calledWith('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password), {'expires': moment().add(14, 'd').toDate()})
                     });
                 });
                 describe('when the login is unsuccessful', function(){
@@ -238,9 +253,9 @@ describe('App Module', function() {
                 });
             });
             describe('and the login cookie is NOT set', function(){
-                var cookiePutSpy;
+                var setItemSpy;
                 beforeEach(function(){
-                    cookiePutSpy = this.sinon.spy($cookies, 'put');
+                    setItemSpy = this.sinon.spy($window.localStorage, 'setItem');
                     $state.go('scheduling');
                     $rootScope.$digest();
                     $loginModal = $('.modal');
@@ -260,7 +275,7 @@ describe('App Module', function() {
                         $timeout.flush();
                     });
                     it('should set the login cookie', function(){
-                        expect(cookiePutSpy).to.be.calledWith('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password), {'expires': moment().add(14, 'd').toDate()})
+                        expect(setItemSpy).to.be.calledWith('coachseekLogin', btoa($rootScope.email + ':' + $rootScope.password));
                     });
                 });
                 describe('when the rememberMe checkbox is NOT checked', function(){
@@ -269,7 +284,7 @@ describe('App Module', function() {
                         $timeout.flush();
                     });
                     it('should NOT set the login cookie', function(){
-                        expect($cookies.get('coachseekLogin')).to.be.undefined;
+                        expect($window.localStorage.getItem('coachseekLogin')).to.be.null;
                     });
                 });
                 describe('when attempting to login and form is valid', function(){
@@ -405,7 +420,7 @@ describe('App Module', function() {
             return {};
         });
 
-        var anonStub, anonGetStub, redirectStub, stateGoSpy;
+        var anonStub, anonGetStub, stateGoSpy;
         beforeEach(function(){
             var self = this;
             locationStub.restore();
@@ -419,7 +434,6 @@ describe('App Module', function() {
             });
 
             stateGoSpy = this.sinon.spy($state, 'go');
-            redirectStub = this.sinon.stub($rootScope, 'redirectToApp');
 
             onlineBookingAPIFactory = $injector.get('onlineBookingAPIFactory');
             anonGetStub = this.sinon.stub(onlineBookingAPIFactory.anon(), 'get', function(){
@@ -469,13 +483,8 @@ describe('App Module', function() {
                         return deferred.promise;
                     });
 
-                    it('should show an error message', function(){
-                        expect($rootScope.alerts[0].type).to.equal('warning');
-                        expect($rootScope.alerts[0].message).to.equal('businessDomain-invalid');
-                    });
-
-                    it('should attempt to redirect to app.coachseek', function(){
-                        expect(redirectStub).to.be.calledOnce;
+                    it('should show 404 error page', function(){
+                        expect($state.current.name).to.equal('error.404');
                     });
                 })
             });
@@ -483,11 +492,11 @@ describe('App Module', function() {
 
         describe('when subdomain is app', function(){
             let('subdomain', function(){
-                return 'app';
+                return 'app-testing';
             });
 
-            it('should direct to scheduling', function(){
-                expect(stateGoSpy).to.be.calledWith('scheduling');
+            it('should open login', function(){
+                expect(loginModalSpy).to.be.calledOnce;
             });
         })
 

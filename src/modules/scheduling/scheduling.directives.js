@@ -10,6 +10,19 @@ angular.module('scheduling.directives', [])
             }
         };
     }])
+    .directive('shiftDragEvents', ['$window', function($window){
+        return {
+            restrict: "A",
+            link: function(scope){
+                scope.shiftKeydown = false;
+                $(window).on('keydown', function(event){
+                    scope.shiftKeydown = event.shiftKey;
+                }).on('keyup', function(event){
+                    scope.shiftKeydown = false;
+                });
+            }
+        };
+    }])
     .directive('modalSessionForm', ['uiCalendarConfig', 'sessionService', function(uiCalendarConfig, sessionService){
         return {
             restrict: "E",
@@ -582,5 +595,15 @@ angular.module('scheduling.directives', [])
                     }
                 };
             }
-        }
-    }]);
+        };
+    }])
+    .directive('calendarPrivateSession', function(){
+        return {
+            restrict: "E",
+            templateUrl:'scheduling/partials/calendarPrivateSession.html',
+            scope: {
+                firstName: '@',
+                lastName: '@'
+            }
+        };
+    });

@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8">
+    <meta http-equiv="expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
+    <meta name="description" content="Small & ambitious sports coaching businesses love Coachseek. The single place to manage your coaching business.">
     <title>Coachseek</title>
     <link rel="shortcut icon" href="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/pics/favicon.png">
     <link href='https://fonts.googleapis.com/css?family=Lato:400,300,700' rel='stylesheet' type='text/css'>
@@ -16,11 +18,11 @@
     <!-- @endif -->
 
     <!-- @if env == 'testing' -->
-    <link rel="stylesheet" href="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/course-modal/css/style.css">
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/course-modal/js/libs.js"></script>
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/course-modal/js/config.js"></script>
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/course-modal/js/scripts.js"></script>
-    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/course-modal/js/templates.js"></script>
+    <link rel="stylesheet" href="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/css/style.css">
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/libs.js"></script>
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/config.js"></script>
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/scripts.js"></script>
+    <script src="https://az789256.vo.msecnd.net/assets/<!-- @echo version -->/mobile-onboarding/js/templates.js"></script>
     <!-- @endif -->
 
     <!-- @if env == 'production' -->
@@ -38,11 +40,13 @@
             <div ng-class="{active: appLoading}" class='inner-logo'></div>
         </div>
     </div>
+    <trial-status ng-if="business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status>
 
     <div id="wrapper" ng-class="!isCollapsed?'toggled': ''">
         <div class="navbar navbar-inverse navbar-fixed-top" ng-show="currentUser">
             <div class="container-fluid">
                 <div class="navbar-header">
+                    <span class="navbar-header-title" ng-show="!isBigScreen"  ng-i18next="state-name.{{currentTabTitle}}"></span>
                     <button class="navbar-toggle pull-left" type="button" ng-click="isCollapsed = !isCollapsed">
                         <i class="fa fa-bars fa-2x"></i>
                     </button>
@@ -69,7 +73,7 @@
                     </li>
                  </ul>
             </div>
-            <trial-status ng-if="business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status>
+        
         </div>
 
         <div id="page-content-wrapper" ng-click="isCollapsed = true">
@@ -85,11 +89,21 @@
     </div>
     <!-- @if env == 'production' -->
     <script src="//static.intercomcdn.com/intercom.v1.js"></script>
-    <!-- @endif -->
-    <script type="text/javascript">
-        window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var n=t.forceSSL||"https:"===document.location.protocol,a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src=(n?"https:":"http:")+"//cdn.heapanalytics.com/js/heap-"+e+".js";var o=document.getElementsByTagName("script")[0];o.parentNode.insertBefore(a,o);for(var r=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["clearEventProperties","identify","setEventProperties","track","unsetEventProperty"],c=0;c<p.length;c++)heap[p[c]]=r(p[c])};
-        heap.load("<!-- @echo heapId -->");
+    <script>
+    window['_fs_debug'] = false;
+    window['_fs_host'] = 'www.fullstory.com';
+    window['_fs_org'] = 'NB1H';
+    (function(m,n,e,t,l,o,g,y){
+      g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[];
+      o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js';
+      y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+      g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){FS(l,v)};
+      g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;FS(o,v)};
+      g.clearUserCookie=function(d,i){d=n.domain;while(1){n.cookie='fs_uid=;domain='+d+
+      ';path=/;expires='+new Date(0);i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}}
+    })(window,document,'FS','script','user');
     </script>
+    <!-- @endif -->
     <script src="//connect.facebook.net/en_US/sdk.js"></script>
 </body>
 </html>

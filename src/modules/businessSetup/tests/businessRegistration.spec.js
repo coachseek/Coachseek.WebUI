@@ -55,11 +55,9 @@ describe('BusinessSetup Register', function(){
         scope.$digest()
     });
     describe('when hitting the save button', function(){
-        var setupCurrentUserSpy, heapIdentifySpy, heapTrackSpy, $stateStub;
+        var setupCurrentUserSpy, $stateStub;
         beforeEach(function(){
             setupCurrentUserSpy = this.sinon.spy(scope, 'setupCurrentUser');
-            heapIdentifySpy = this.sinon.spy(heap, 'identify');
-            heapTrackSpy = this.sinon.spy(heap, 'track');
             $stateStub = this.sinon.stub($state, 'go');
 
             $testRegion.find('.save-button').trigger('click');
@@ -155,6 +153,16 @@ describe('BusinessSetup Register', function(){
                 });
             });
 
+            describe('when the country is Singapore', function(){
+                let('location', function(){
+                    return {country_code: 'SG'};
+                });
+
+                it('should set the currency to SGD', function(){
+                    expect(this.business.currency).to.equal('SGD');
+                });
+            });
+
             describe('when the country is not a country', function(){
                 let('location', function(){
                     return {country_code: 'BOOBS'};
@@ -177,16 +185,6 @@ describe('BusinessSetup Register', function(){
                 });
                 it('should navigate to scheduling page', function(){
                     expect($stateStub).to.be.calledWith('scheduling');
-                });
-                it('should setup heap', function(){
-                    expect(heapIdentifySpy).to.be.calledWith({
-                        handle: this.newBusiness.business.id,
-                        businessName: this.business.name,
-                        email: this.admin.email
-                    })
-                });
-                it('should send a New User Signup event to Heap', function(){
-                    expect(heapTrackSpy).to.be.calledWith('New User Sign Up');
                 });
             });
             describe('and the save fails', function(){

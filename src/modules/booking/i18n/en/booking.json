@@ -1,4 +1,5 @@
 {
+    "terms-and-conditions": "Terms and Conditions",
     "hey-there": "Hey there!",
     "no-events": "Looks like there are no events in the next 3 months. If this seems wrong let us know and we'll give the coach a nudge to make sure he's not napping.",
     "book-now": "Book now!",
@@ -15,6 +16,7 @@
     "event-begun": "This course is currently being run and some previously run sessions are understandably unavailable. ",
     "toggle-online-payment": "Receive online payments?",
     "force-payment": "Only accept online payment?",
+    "pro-rata": "Use pro rata pricing?",
     "common": {
         "next": "Continue Booking",
         "back": "Back",
@@ -55,20 +57,27 @@
         "total": "Total:",
         "processing-booking": "Processing booking",
         "paypal-redirect": "Redirecting to PayPal",
+        "order": "Your Order",
         "who": "Who:",
         "what": "What:",
         "where": "Where:",
-        "when": "When:"
+        "when": "When:",
+        "total":"Total:",
+        "booking-for": ", your booking for",
+        "booking-at": "at",
+        "booking-confirmed":"is confirmed for"
     },
     "booking-admin":{
         "onlinebooking":"Online booking",
         "payments": "Payments",
+        "pricing": "Pricing",
         "address":"Here’s your Online Booking website address",
         "code":"Want a cool ‘Book Now’ button for your own website? Just copy and paste this into your website on any pages you want a Book Now button!",
         "address-btn":"View preview site",
         "code-btn":"Copy code",
         "copied":"Copied!",
         "paypal":"PayPal",
+        "merchant":"PayPal Merchant Account Email:",
         "activate":"Activate your PayPal account to accept online payments! - You must have a PayPal business or premier account.",
         "email":"Enter your PayPal email address",
         "facebook":"Let everyone know you’re ready to be booked online! Click to Share your booking site on your Facebook page",
@@ -79,8 +88,8 @@
     "msports": {
         "cash-or-check": "– Cash or Cheque: Posted to M Sports Ltd, 46 Ocean View Rd, Northcote 0627",
         "internet-banking": "– Internet banking:",
-        "north-shore-schools": "North Shore Schools: 12-3489-0006996-03",
-        "auckland-schools": "City/East/West Auckland Schools: 12-3489-0006996-04",
+        "north-shore-schools": "North Shore Schools: 12-3489-0006996-04",
+        "auckland-schools": "City/East/West Auckland Schools: 12-3489-0006996-03",
         "reference": "Please use childs name and school as reference",
         "issues": "If you experience any issues, or have queries, please email us at admincity@msports.co.nz"
 

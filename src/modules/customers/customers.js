@@ -11,7 +11,8 @@ angular.module('customers',
                 templateUrl: "customers/partials/customersView.html",
                 controller: 'customersCtrl',
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    sessionType: 'app'
                 }
             });
     }]);

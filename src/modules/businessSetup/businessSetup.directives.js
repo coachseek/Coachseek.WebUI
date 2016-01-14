@@ -100,7 +100,8 @@ angular.module('businessSetup.directives', [])
                     'GBP',
                     'SEK',
                     'ZAR',
-                    'CNY'
+                    'CNY',
+                    'SGD'
                 ];
             }
         };
@@ -121,6 +122,7 @@ angular.module('businessSetup.directives', [])
                     "gymnastics",
                     "golf",
                     "fencing",
+                    "cricket",
                     "equestrian",
                     "fitness",
                     "basketball",

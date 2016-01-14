@@ -1,9 +1,9 @@
 [state^="bookingAdmin"] {
     background: transparent;
-    margin-top: 55px;
+    margin-top: 45px;
 
     .booking-admin-nav-container{
-        width:280px;
+        width:420px;
         margin:0 auto 30px auto;
         background: $white;
         border-radius: 5px;
@@ -88,7 +88,7 @@
             }
         }
 
-        .booking-admin-payments{
+        .booking-admin-payments, .booking-admin-pricing{
 
             toggle-switch{
                 float: right;
@@ -99,17 +99,14 @@
             }
 
             .toggle-switch-container{
-                font-size: 18px;
-                font-weight: bold;
+                font-size: 16px;
                 float: left;
                 width: 100%;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
                 line-height: 40px;
             }
 
             .paypal-payment{
-                clear: both;
-
                 .edit-button, .cancel-button{
                     color: $green;
                     float: right;
@@ -122,12 +119,31 @@
                     margin-top: 10px;
                 }
 
-                .edit-paypal{
-                    float: left;
-                    margin-top: 20px;
+                .paypal-merchant-title{
+                    font-size: 16px;
+                    line-height: 40px;
+                }
 
-                    label{
-                        font-weight: bold;
+                .edit-paypal{
+                    margin-top: 0px;
+                    img{
+                        height: 30px;
+                        position: absolute;
+                        right: 5px;
+                        top: 5px;
+                    }
+                    .form-input{
+                        input{
+                            height: 40px;
+                        }
+                        .error-messages i{
+                            top: -35px;
+                            right: 95px;
+                        }
+                    }
+
+                    p{
+                        margin-bottom: 15px;
                     }
                 }
             }
@@ -149,12 +165,35 @@
             clear: both;
         }
     }
-    @media (max-width: 768px){
+}
+@media (max-width: 768px){
+    [state^="bookingAdmin"] {
+        margin-top: 0px;
         .booking-admin-container {
             width: 100%;
             padding-left: 15px;
             padding-right: 15px;
         }
-    }
+        .booking-admin-nav-container{
+            width: 100%;
+            border-radius: 0px;
+            color:$mobile-text-grey;
 
+            .booking-nav{
+                width: calc(100%/3);
+                height: 45px;
+                line-height: 45px;
+                padding: 0px;
+
+                &.active {
+                    background: $mobile-background-dark;
+                    color:$white;
+                    border-right: 0px solid $mobile-text-grey;
+                }
+            }
+            .slider-nav-slider{
+                display: none;
+            }
+        }
+    }
 }
