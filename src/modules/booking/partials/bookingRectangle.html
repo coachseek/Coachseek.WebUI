@@ -1,5 +1,5 @@
 <div ng-click="toggleEventSelect()" class="event" ng-class="{'limited-space': spacesAvailable<=2 && spacesAvailable>0}" ng-disabled="isSoldOut()">
-    <i ng-show="isBigScreen" class="expand fa fa-bars" ng-if="selectedEvent.id !== event.id"></i>
+    <i class="expand fa fa-bars" ng-if="selectedEvent.id !== event.id"></i>
     <div class="full-session-banner" ng-show="isSoldOut()"><span>{{'booking:full-session' | i18next}}</span></div>
     <div class="limited-space-banner" ng-if="spacesAvailable<=2 && spacesAvailable>0"><p ng-if="!isBigScreen">Limited Space</p></div>
     <div class="event-info-container">

@@ -893,6 +893,10 @@
                         margin-left: 0%;
                         .selected-checkbox{
                             width: 50px;
+                            background: $online-booking-border-grey;
+                            i{
+                                display: none !important;
+                            }
                         }
                         &.selected{
                             .event{
@@ -907,13 +911,13 @@
                                 top: 15px;
                             }
                             .session-box{
-                                    
+                                border: 2px solid $online-booking-border-grey;   
                                 &.selected{
                                     box-shadow:none;
                                     border: 2px solid $online-booking-green;
                                     .selected-checkbox{
                                         i{
-
+                                            display: block !important;
                                         }
                                     }
                                 }

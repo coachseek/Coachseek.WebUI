@@ -1,4 +1,4 @@
-<div class="full-course session-box" ng-click="toggleEntireCourse()" ng-disabled="availableSessions.length === 0" ng-class="{'selected': booking.course && booking.course.id === event.id}">
+<div class="full-course session-box" ng-click="toggleEntireCourse()" ng-disabled="availableSessions.length === 0" ng-class="{'selected': entireCourseSelected()}">
     <div class="selected-checkbox"><i class="fa fa-check"></i></div>
     <span ng-i18next="[html]booking:{{isBefore(event) ? 'rest-of-course' : 'full-course'}}"></span> <span ng-i18next="denominations.{{business.payment.currency}}"></span>{{fullCoursePrice}}
 </div>
