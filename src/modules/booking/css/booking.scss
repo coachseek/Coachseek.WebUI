@@ -518,7 +518,7 @@
                             width: 225px;
                             position: absolute;
                             top:120px;
-                            right: 390px;
+                            right: 20%;
                         }
                     }
 
@@ -715,7 +715,8 @@
             .booking-content-container{
                 .booking-details-container{
                     margin-top: 0px;
-                    width: 100%;
+                    width: 100%;                
+                    max-width: 100%;
                     h2{
                         font-size: 18px;
                         border-top: 1px solid $white;
@@ -737,16 +738,19 @@
                         }
                     }
                     .button-container .pay-later{
-                        background: $orange;
+                        background: $online-booking-green;
                         color: $white;
                         border-radius: 4px;
                     }
                     .button-container{
-                        .paypal-button{
-                            position: relative;
-                            top: 0;
-                            right: 0;
+                        paypal-payment-button{
+                            .paypal-button{
+                                position: relative;
+                                top: 0;
+                                right: 0;
+                            }
                         }
+                        
                     }
                     .booking-confirmed{
                         padding: 0px 25px;
