@@ -77,15 +77,26 @@
                                 }
                             }
                         }
-
-                        input{
-                            border: 1px solid $light-grey;
-                            background: $white;
+                        select, input{
+                            width: 100%;
                             height: 40px;
                             font-size: 15px;
+                            border: 1px solid $light-grey;
+                            background: $white;
+
+                            &.repeat-frequency, &.session-count{
+                                width: 46%;
+                                .days-or-weeks{
+                                    top: 35px;
+                                }
+                            }
 
                             &.time-picker-time{
                                 background: $white;
+                            }
+
+                            &.ng-touched.ng-invalid-required{
+                                border-color: $orange;
                             }
                         }
 
@@ -104,64 +115,6 @@
                         }
                     }
 
-                    select, input{
-                        width: 100%;
-                        height: 40px;
-                        border: 1px solid $light-grey;
-
-                        &.ng-touched.ng-invalid-required{
-                            border-color: $orange;
-                        }
-                    }
-                    repeat-selector{
-                        color: $text-dark-grey;
-                        label{
-                            display: block;
-                        }
-                        select{
-                            height: 40px;
-                            margin: 0;
-                            border: 1px solid $light-grey;
-                            width: 100%;
-                        }
-                        .frequency-selector{
-                            .title{
-                                width: 46%;
-                                float: left;
-                            }
-
-                            select.repeat-frequency{
-                                width: 46%;
-                                float: left;
-                                clear: left;
-                            }
-
-                            .total-of{
-                                width: 46%;
-                                float: right;
-                                margin-top: -20px; 
-                            }
-
-                            .session-count{
-                                width: 46%;
-                                float: right;
-                                height: 40px;
-                                text-align: left;
-                                padding-left: 40px;
-                            }
-
-                            .error-messages .fa-times{
-                                top: -35px;
-                            }
-
-                            .days-or-weeks{
-                                width: 46%;
-                                position: absolute;
-                                top: 30px;
-                                right: -88px;
-                            }
-                        }
-                    }
                     label {
                         color: $text-dark-grey;
                         font-size: 14px;

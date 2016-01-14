@@ -84,20 +84,6 @@
                     font-size: 12px;
                 }
             }
-
-            repeat-selector{
-                width: 100%;
-                float: left;
-
-                .form-input{
-                    width: 30%;
-                    float: left;
-                }
-                .frequency-selector{
-                    margin-left: 3%;
-                    width: 67%;
-                }
-            }
         }
     }
 }
@@ -121,6 +107,7 @@
             top: 55px;
             margin-left: -50%;
             width: 100%;
+            max-width: 100%;
             height: calc(100% - 55px);
         }
         .session-modal.crud-item{

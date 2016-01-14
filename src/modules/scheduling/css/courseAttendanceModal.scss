@@ -331,3 +331,15 @@
 		}
 	}
 }
+
+@media (max-width: 768px){
+    [state^="scheduling"] {
+	    .modal-container{
+			course-attendance-modal{
+				.attendance-list{
+					min-width: 0px;
+				}
+			}
+		}
+	}
+}

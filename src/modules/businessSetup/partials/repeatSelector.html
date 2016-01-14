@@ -1,5 +1,6 @@
-<div class="form-input">
+<div class="repeat-selector form-input">
     <label name="repeatable" class="repeat-label">{{'businessSetup:repeat-selector.is-repeatable' | i18next}}</label>
+    <select-arrows></select-arrows>
     <select class="repeatable-dropdown"
         ng-model="isRepeatable"
         ng-options="opt.value as (opt.text |i18next) for opt in repeatableOptions"
@@ -8,11 +9,12 @@
 </div>
 
 <div class="form-input frequency-selector" ng-disabled="!isRepeatable">
-    <span class="title">{{'businessSetup:repeat-selector.repeat-session' | i18next}}</span>
+    <label class="title">{{'businessSetup:repeat-selector.repeat-session' | i18next}}</label>
+    <select-arrows></select-arrows>
     <select class="repeat-frequency" name="frequency" ng-model="repeatFrequency">
         <option ng-repeat="item in frequencies" value="{{item.value}}" ng-i18next>businessSetup:repeat-selector.{{item.text}}</option>
     </select>
-    <span class="total-of">{{'businessSetup:repeat-selector.total-of' | i18next}}</span>
+    <label class="total-of">{{'businessSetup:repeat-selector.total-of' | i18next}}</label>
     <input class="session-count" name="sessionCount" ng-blur="setValues()" ng-focus="isFocused = true" type="number" ng-model="sessionCount" placeholder="{{'businessSetup:repeat-selector.placeholder.session-count' | i18next}}"  min="1" max="{{repeatFrequency === 'w' ? 26 : 30}}" step="1"/>
 
     <div class="error-messages" ng-messages="form.sessionCount.$error" ng-if="form.sessionCount.$touched">
