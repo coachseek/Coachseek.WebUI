@@ -300,7 +300,6 @@ angular.module('scheduling.directives', [])
                     bookingManager[functionName](bookingId).then(function(booking){
                         // var customerName = customer.firstName + " " + scope.item.lastName;
                         // showSuccessAlert(actionName, customerName, course.service.name)
-                        console.log(booking);
                         scope.getCourseBookingData();
                     }, scope.handleErrors).finally(function(){
                         scope.stopCourseLoading();
@@ -351,7 +350,6 @@ angular.module('scheduling.directives', [])
                     //TODO gauruntee in order date sequence
                     // go through session bookings and pluck out unique customers
                     // [{customer: {}, bookings:[booking, sessionId, booking]},{customer: {}, bookings:[sessionId, sessionId, booking]}]
-                    console.time("getCourseBookingData")
                     var courseBookingData = [];
                     var bookings = _.get(scope.currentEvent, 'course.booking.bookings') || _.get(scope.currentEvent, 'session.booking.bookings');
                     _.each(bookings, function(booking){
@@ -377,7 +375,6 @@ angular.module('scheduling.directives', [])
                         return [booking.customer.lastName.toLowerCase(), booking.customer.firstName.toLowerCase()]
                     });
                     if(!_.size(courseBookingData)) scope.showCustomers = true;
-                    console.timeEnd("getCourseBookingData")
                 }
 
                 coachSeekAPIService.query({section: 'Customers'})

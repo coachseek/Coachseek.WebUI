@@ -15,8 +15,8 @@ module.exports = function(grunt) {
                 constants: {
                     ENV: {
                         name: 'dev',
-                        defaultSubdomain: 'course-modal',
-                        apiURL: 'https://api.coachseek.com',
+                        defaultSubdomain: 'app-testing',
+                        apiURL: 'https://api-testing.coachseek.com',
                         paypalURL: 'https://www.sandbox.paypal.com/cgi-bin/webscr',
                         version : '<%= pkg.version %>'
                     }
