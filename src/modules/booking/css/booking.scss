@@ -212,18 +212,19 @@
                     .selected-checkbox{
                         position: absolute;
                         top: 0px;
-                        background: $white;
+                        background: $online-booking-border-grey;
                         right: 0px;
                         height: 100%;
                         width: 79px;
 
                         i{
-                            color: $text-dark-grey;
-                            opacity:0.3;
+                            display: none !important;
+                            color: $white;
                             font-size: 22px;
                             position: relative;
                             line-height: 40px;
                         }
+
 
                         .fa-check-circle{
                             color: $green;
@@ -387,6 +388,7 @@
                                      i{
                                         color: $white;
                                         opacity: 1;
+                                        display: block !important;
                                      }
                                 }
                             }
