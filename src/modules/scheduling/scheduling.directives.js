@@ -160,13 +160,10 @@ angular.module('scheduling.directives', [])
 
                 scope.$watch('currentEvent.session.booking.bookings', function(newBookings){
                     if(newBookings){
-                        var customerBooking = getSessionBooking(newBookings);
-                        // is standalone session
-                        if(!scope.currentCourseEvents){
-                            scope.isSessionStudent = customerBooking;
+                        if(scope.currentEvent.course){
+                            scope.isCourseStudent = getCustomerBooking(scope.currentEvent.course.booking.bookings);
                         } else {
-                            scope.isCourseStudent = customerBooking ? isCourseStudent(customerBooking) : false;
-                            scope.isSessionStudent = customerBooking && !scope.isCourseStudent;
+                            scope.isSessionStudent = getCustomerBooking(newBookings);
                         }
                     }
                 });
@@ -180,18 +177,7 @@ angular.module('scheduling.directives', [])
                     });
                 }
 
-                function isCourseStudent(customerBooking){
-                    var sessionBookings = [];
-                    _.each(scope.currentCourseEvents, function(event){
-                        var booking = _.find(event.session.booking.bookings, function(booking){
-                            return booking.parentId === customerBooking.parentId;
-                        });
-                        if(booking) sessionBookings.push(booking);
-                    });
-                    return _.size(scope.currentCourseEvents) === _.size(sessionBookings);
-                };
-
-                function getSessionBooking(bookings){
+                function getCustomerBooking(bookings){
                     return _.find(bookings, function(booking){
                         return booking.customer.id === scope.item.id;
                     });
