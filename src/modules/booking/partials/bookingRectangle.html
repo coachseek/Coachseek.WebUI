@@ -11,23 +11,23 @@
             <p>{{getEventTimeRange()}}</p>    
         </div>
         <div class="booking-rectangle-info">
-            <i class="fa fa-usd"></i>
             <p ng-if="event.pricing.sessionPrice >=0"><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{event.pricing.sessionPrice}}&nbsp;{{'booking:per-session' | i18next}}</p>  
 
-            <p ng-if="event.sessions && event.pricing.coursePrice >=0">  <i class="fa fa-usd"></i><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{fullCoursePrice}}&nbsp;{{'booking:full-course' | i18next}}</p>
+            <p ng-if="event.sessions && event.pricing.coursePrice >=0">&nbsp; <span ng-i18next="denominations.{{business.payment.currency}}"></span>{{fullCoursePrice}}&nbsp;{{'booking:full-course' | i18next}}</p>
         </div>
         <div class="booking-rectangle-info">
             <i class="fa fa-user"></i>
             <p ng-i18next="[i18next]({count:spacesAvailable})booking:spaces-available" class="spaces-available"></p>
         </div>
-        <div class="course-sessions-container" ng-class="{'selected': selected, 'is-before': isBefore, 'sold-out': spacesAvailable <= 0}" ng-show="selectedEvent.id == event.id&&!event.sessions" >
+        <div class="course-sessions-container" ng-class="{'selected': selected, 'is-before': isBefore, 'sold-out': spacesAvailable <= 0}" ng-show="(selectedEvent.id == event.id&&!event.sessions) || (selectedEvent.id == event.id&&!event.pricing.sessionPrice&&event.pricing.sessionPrice!==0)">
             <div class="close-event" ng-click="closeEvent()"><span ng-if="isBigScreen">{{'booking:close' | i18next}}</span><i class="fa fa-close"></i></div>
             <!--  <hr/> -->
             <div class="course-session session-box" ng-class="{'selected':selected&&selectedEvent.id == event.id}">
                 <div class="selected-checkbox"><i class="fa fa-check"></i></div>
-                <p>{{getEventDateRange()}}</p>
+                <p ng-class="{'larger-width':event.pricing.coursePrice >=0}">{{getEventDateRange()}}</p>
                 <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{getEventTimeRange()}}</p>
                 <p ng-if="event.pricing.sessionPrice >=0"><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{event.pricing.sessionPrice}}</p>
+                <p ng-class="{'course-price':event.pricing.coursePrice >=0}" ng-if="event.pricing.coursePrice >=0"><span ng-i18next="denominations.{{business.payment.currency}}"></span>{{event.pricing.coursePrice}}</p>
                 <p class="spaces-available">  <i class="fa fa-user"></i>&nbsp;&nbsp;{{spacesAvailable}}</p>
             </div>
             

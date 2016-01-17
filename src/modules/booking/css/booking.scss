@@ -64,6 +64,10 @@
                         font-size: 18px;
                         font-weight: $lato-regular;
                         text-align: left;
+                        width: 100%;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+
                     }
                 }            
             }
@@ -409,9 +413,16 @@
                                 p{
                                     &:first-of-type{
                                         text-align: left;
+                                       
+                                    }
+                                    &.larger-width{
+                                        width: 30%; 
                                     }
                                     &:last-of-type{
                                         text-align: left;
+                                    }
+                                    &.course-price{
+                                        width: 20%;
                                     }
                                     display: inline-block;
                                     width: 24%;
@@ -516,16 +527,15 @@
                             border:none;
                             height: 90px;
                             width: 225px;
-                            position: absolute;
-                            top:120px;
-                            right: 20%;
+                            margin-right:0px;
+                            margin-left: 5px;
                         }
                     }
 
                     .pay-later{
                         background: transparent;
                         border:none;
-                        color: $orange;
+                        color: $green;
 
                         &.pay-later-only, &.orange{
                             @extend %green-button; 
@@ -543,7 +553,8 @@
                 .booking-details{
                     width: 100%;
                     max-width: 400px;
-                    text-align: left;
+                    text-align: center;
+                    margin: 0 auto;
 
                     h4{
                         font-weight: $lato-light;
@@ -627,7 +638,7 @@
         color: $white;
 
         div{
-            font-size: 8px;
+            font-size: 10px;
             line-height: 20px;
             margin: 0 auto;
             width: 225px;
@@ -639,7 +650,7 @@
             }
 
             .logo{
-                width: 65px;
+                width: 100px;
                 background: url(#{$asset-url}/pics/logo-white.png) center no-repeat;   
                 background-size: 85%;
             }
