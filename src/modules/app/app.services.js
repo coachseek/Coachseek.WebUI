@@ -75,6 +75,9 @@ angular.module('app.services', [])
                 case 'SG': //Singapore
                     return 'SGD';
                     break;
+                case 'CA': //Canada
+                    return 'CAD';
+                    break;
                 default:
                     return 'USD';
                     break;

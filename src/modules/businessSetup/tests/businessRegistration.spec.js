@@ -163,6 +163,16 @@ describe('BusinessSetup Register', function(){
                 });
             });
 
+            describe('when the country is Canada', function(){
+                let('location', function(){
+                    return {country_code: 'CA'};
+                });
+
+                it('should set the currency to CAD', function(){
+                    expect(this.business.currency).to.equal('CAD');
+                });
+            });
+
             describe('when the country is not a country', function(){
                 let('location', function(){
                     return {country_code: 'BOOBS'};
