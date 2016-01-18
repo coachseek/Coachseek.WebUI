@@ -9,12 +9,19 @@ angular.module('booking.directives', [])
                 scope.spacesAvailable = getSpacesAvailable();
                 scope.fullCoursePrice = getFullCoursePrice();
                 scope.isSoldOut = function(){
-                    if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
+                    if(_.has(scope.event,'sessions')){
+                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);     
+                    }else if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
                         return scope.spacesAvailable <= 0;
-                    } else {
+                    }else {
                         return !scope.event.sessions && scope.spacesAvailable <= 0;
                     }
-                }
+                };
+                function checkAllSessionsSpacesSoldOut(sessions){
+                    return _.every(sessions,function(session){
+                        return scope.getSessionSpacesAvailable(session) <= 0 ;
+                    });
+                };
 
                 function getFullCoursePrice(){
                     var event = scope.event;
