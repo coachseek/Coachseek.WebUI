@@ -78,7 +78,8 @@
         "SEK": "kr",
         "ZAR": "R",
         "CNY": "¥",
-        "SGD": "$"
+        "SGD": "$",
+        "CAD": "$"
     },
     "operating-sport": "What's your sport?",
     "sports" : {

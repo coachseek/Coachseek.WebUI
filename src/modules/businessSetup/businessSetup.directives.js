@@ -101,7 +101,8 @@ angular.module('businessSetup.directives', [])
                     'SEK',
                     'ZAR',
                     'CNY',
-                    'SGD'
+                    'SGD',
+                    'CAD'
                 ];
             }
         };
