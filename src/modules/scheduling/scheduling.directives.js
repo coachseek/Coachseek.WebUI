@@ -310,7 +310,16 @@ angular.module('scheduling.directives', [])
                             scope.courseLoading = 'idle';
 
                             scope.getCourseBookingData();
-                            $(elem).find('.attendance-list').animate({width: (175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))});
+                            $(elem).find('.attendance-list').animate(
+                                {
+                                    width: (175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))
+                                }, 300, function(){
+                                    $(elem).find('.course-table-container').scrollbar({
+                                        "autoScrollSize": false,
+                                        "scrollx": null,
+                                        "scrolly": $('.external-scroll_y')
+                                    });
+                                });
                             $timeout(centerModal);
                        }
                     }
@@ -400,8 +409,16 @@ angular.module('scheduling.directives', [])
 
                 //TODO split into CustomerAttendanceTable and CustomerPaymentTable
                 var CustomerDataTable = React.createClass({
-                    handleScroll(event){
-                        $('div.session-headers').css("left", 175-$(event.currentTarget).scrollLeft());
+                    _handleScroll(event, scrollLeft){
+                        $('div.session-headers').css("left", 160-scrollLeft);
+                    },
+                    componentDidMount(){
+                        $(ReactDOM.findDOMNode(this)).scrollbar({
+                            "autoScrollSize": false,
+                            "scrollx": $('.external-scroll_x'),
+                            "scrolly": null
+                        });
+                        $(ReactDOM.findDOMNode(this)).on('scrollbar-x-scroll', this._handleScroll);
                     },
                     render(){
                         var customerNodes = this.props.data.map(function(bookingData) {
@@ -414,7 +431,7 @@ angular.module('scheduling.directives', [])
                             );
                         });
                         return (
-                            <table className="session-data" onScroll={this.handleScroll}>
+                            <table className="session-data">
                                 <tbody>
                                     {customerNodes}
                                 </tbody>

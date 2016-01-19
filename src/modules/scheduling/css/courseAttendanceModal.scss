@@ -1,18 +1,14 @@
 [state^="scheduling"] {
     .modal-container{
     	overflow: hidden;
-		.course-header{
-		}
-
 		course-attendance-modal{
 			.attendance-list{
 				max-width: 100%;
 				min-width: 600px;
-				height: 90vh;
 				background: $background-beige;
 				div.session-headers{
 					position: absolute;
-					left: 175px;
+					left: 160px;
 					white-space: nowrap;
 					z-index: 1;
 					line-height: 30px;
@@ -37,7 +33,7 @@
 					left: 0;
 					z-index: 49;
 					height: 60px;
-					width: 175px;
+					width: 160px;
 					background: $background-beige;
 					text-align: center;
 					line-height: 59px;
@@ -45,8 +41,7 @@
 				.course-table-container{
 					overflow-y: scroll;
 					overflow-x: hidden;
-					height: 84vh;
-					padding-bottom: 70px;
+					height: calc(75vh - 60px);
 					table{
 						border-collapse: collapse;
 						td{
@@ -108,7 +103,7 @@
 										height: 60px;
 										width: 125px;
 										display: inline-block;
-										&[disabled=true]{
+										&[disabled]{
 										    pointer-events: none;
 										}
 									}
@@ -176,7 +171,7 @@
 			    width: 345px;
 			    padding: 10px;
 			    background: rgba(238,238,238,0.9);
-			    z-index: 49;
+			    z-index: 51;
 
 			    -webkit-box-shadow: -3px -3px 1.5px 0px rgba(0,0,0,0.25);
 			    -moz-box-shadow:    -3px -3px 1.5px 0px rgba(0,0,0,0.25);
@@ -338,6 +333,9 @@
 			course-attendance-modal{
 				.attendance-list{
 					min-width: 0px;
+					.course-table-container{
+						height: calc(85vh - 60px);
+					}
 				}
 			}
 		}
