@@ -43,7 +43,7 @@
     },
     "general": "General",
     "payment": "Payment",
-    "add-student": "Add Student",
+    "add-student": "Add Booking",
     "back": "Back",
     "attendance": "Attendance",
     "clashing-error": "This change clashes with __alert.clashingMessage__",
