@@ -92,6 +92,7 @@ describe('App Module', function() {
         });
         afterEach(function(){
             $window.localStorage.removeItem('coachseekLogin');
+            $window.localStorage.removeItem('completedCoachseekMobileOnboarding');
         })
         describe('when clicking the login button', function(){
             beforeEach(function(){
@@ -311,6 +312,9 @@ describe('App Module', function() {
                         });
                         it('should make a call to Intercom', function(){
                             expect(intercomStub).to.be.calledWith('boot');
+                        });
+                        it('should set mobile onboarding to completed', function(){
+                            expect(setItemSpy).to.be.calledWith('completedCoachseekMobileOnboarding', true);
                         });
                     });
                     describe('when the login is unsuccessful', function(){
