@@ -175,7 +175,8 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
-                        if(!$scope.showModal) {
+                        if(!$scope.showModal && event._id !== _.get($scope.currentEvent, '_id')) {
+                            $scope.showModal = true;
                             $scope.$broadcast('triggerSliderSlide', 'general')
                             $scope.currentTab = 'general';
                         }
