@@ -468,6 +468,7 @@ angular.module('scheduling.directives', [])
 
                 var AddCustomerToSession = React.createClass({
                     addToSession(){
+                        this.setState({loading: true})
                         scope.startCourseLoading(true);
                         bookingManager.addToSession(this.props.customer, this.props.sessionId).then(function(courseBooking){
                             scope.getCourseBookingData();
@@ -475,14 +476,24 @@ angular.module('scheduling.directives', [])
                             scope.stopCourseLoading();
                         });
                     },
+                    getInitialState(){
+                        return {
+                            loading: false
+                        };
+                    },
                     render(){
                         var tdClassNames = classNames({
                             "current": scope.currentEvent.session.id === this.props.sessionId
                         });
 
                         return (
-                            <td className={tdClassNames}  onClick={this.addToSession}>
+                            <td className={tdClassNames}  onClick={this.addToSession} disabled={this.state.loading}>
                                 <button className="add-student to-session fa fa-plus" ></button>
+                                <span className='ellipsis_animated-inner add-student'>
+                                    <span>.</span>
+                                    <span>.</span>
+                                    <span>.</span>
+                                </span>
                             </td>
                         );
                     }
@@ -501,11 +512,14 @@ angular.module('scheduling.directives', [])
                         this.debounceSavePaymentStatus();
                     },
                     savePaymentStatus(){
+                        var self = this;
+                        this.setState({loading: true})
                         scope.startCourseLoading(true);
                         bookingManager.updateBooking(this.props.bookingId, {
                             commandName: 'BookingSetPaymentStatus',
                             paymentStatus: this.state.paymentStatus
                         }).then({},scope.handleErrors).finally(function(){
+                            if (this.isMounted()) self.setState({loading: false})
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();  
                         });
@@ -546,11 +560,14 @@ angular.module('scheduling.directives', [])
                         this.debounceSaveAttendanceStatus();
                     },
                     saveAttendanceStatus(){
+                        var self = this;
+                        this.setState({loading: true})
                         scope.startCourseLoading(true);
                         bookingManager.updateBooking(this.props.bookingId, {
                             commandName: 'BookingSetAttendance',
                             hasAttended: this.state.hasAttended
                         }).then({},scope.handleErrors).finally(function(){
+                            if (this.isMounted()) self.setState({loading: false})
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();
                         });

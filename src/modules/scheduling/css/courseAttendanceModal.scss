@@ -104,8 +104,22 @@
 										height: 60px;
 										width: 125px;
 										display: inline-block;
+
 										&[disabled]{
 										    pointer-events: none;
+										    button.add-student{
+										    	display: none;
+										    }
+										    .ellipsis_animated-inner{
+										    	display: block;
+										    	line-height: 30px;
+										    	font-size: 25px;
+										    	color: $green;
+										    }
+										}
+
+										.ellipsis_animated-inner{
+											display: none;
 										}
 									}
 
@@ -135,11 +149,6 @@
 									    &.overdue-payment{
 									        background: $red;
 									    }
-									}
-
-									ellipsis-animated{
-										line-height: 30px;
-										font-size: 25px;
 									}
 
 									button.add-student{
@@ -263,12 +272,6 @@
 			            	     color: $text-grey;
 			            	 }
 
-			            }
-			            ellipsis-animated{
-			                color: $green;
-			                font-size: 22px;
-			                float: right;
-			                margin-right: 20px;
 			            }
 			        }
 			    }
