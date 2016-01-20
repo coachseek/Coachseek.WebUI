@@ -392,8 +392,10 @@ angular.module('scheduling.controllers', [])
                 if(currentEventCopy){
                     // must keep autosaved edits even if canceled
                     currentEventCopy.session.booking = $scope.currentEvent.session.booking
-                    currentEventCopy.course.booking = $scope.currentEvent.course.booking
-                    currentEventCopy.course.sessions = $scope.currentEvent.course.sessions
+                    if(currentEventCopy.course){
+                        currentEventCopy.course.booking = $scope.currentEvent.course.booking
+                        currentEventCopy.course.sessions = $scope.currentEvent.course.sessions
+                    }
                     _.assign($scope.currentEvent, currentEventCopy);
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('updateEvent', $scope.currentEvent);
                 }
