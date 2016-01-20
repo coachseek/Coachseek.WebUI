@@ -15,16 +15,18 @@
         <hr class="double-wide" ng-if="isBigScreen"/>
         <ul infinite-scroll='loadMore()'>
             <li class="customer-details" ng-repeat="item in customerList track by item.id">
+                <span ng-click="openActionsheet(item)"class="customer-contact fa fa-envelope-o fa-2x"></span>
+                <!-- <span ng-click="editItem(item)" class="customer-edit fa fa-edit fa-2x"></span> -->
                 <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
                 <div ng-if="searchText">
                     <span class="item-title first-name" ng-bind-html="item.firstName | highlight:this">{{item.firstName}}</span>
                     <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
-                    <span class="item-subtitle last" ng-bind-html="item.phone | highlight:this">{{item.phone}}</span>
+                    <span class="item-subtitle last" ng-bind-html="item.phone | highlight:this">{{item.phone}}&nbsp;</span>
                 </div>
-                <div ng-if="!searchText">
+                <div ng-if="!searchText" >
                     <span class="item-title first-name">{{item.firstName}}</span>
                     <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
-                    <span class="item-subtitle last">{{item.phone}}</span>
+                    <span class="item-subtitle last">{{item.phone}}&nbsp;</span>
                 </div>
                 <hr/>
             </li>
