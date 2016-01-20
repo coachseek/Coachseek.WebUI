@@ -110,7 +110,7 @@ angular.module('app.controllers', [])
                 var requireBusinessDomain = toState.data.requireBusinessDomain;
                 var toStateSessionType = toState.data.sessionType;
                 var businessDomain = _.first($location.host().split("."));
-                if(ENV.name !== 'prod') $window.localStorage.removeItem('completedCoachseekMobileOnboarding');
+                // if(ENV.name !== 'prod') $window.localStorage.removeItem('completedCoachseekMobileOnboarding');
 
                 if(!sessionService.sessionType){
                     if(businessDomain !== ENV.defaultSubdomain) {
@@ -268,6 +268,8 @@ angular.module('app.controllers', [])
                             };
 
                             if($scope.rememberMe) $window.localStorage.setItem('coachseekLogin', btoa(email + ':' + password));
+                            //if user has logged in we can assume they've compelted mobile onboarding and don't want to see it again
+                            $window.localStorage.setItem('completedCoachseekMobileOnboarding', true);
                             $scope.$close({user:user, business:business});
                         }, function(error){
                             if(error.status === 403 && error.data.code === 'license-expired'){
