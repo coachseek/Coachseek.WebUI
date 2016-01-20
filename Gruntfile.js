@@ -24,7 +24,7 @@ module.exports = function(grunt) {
             },
             prod: {
                 options: {
-                    dest: 'prod/js/config.js'
+                    dest: 'www/js/config.js'
                 },
                 constants: {
                     ENV: {
@@ -77,7 +77,7 @@ module.exports = function(grunt) {
             },
             prodCss: {
                 src: ['src/modules/**/css/*.scss'],
-                dest: 'prod/css/style.css'
+                dest: 'www/css/style.css'
             }
         },
         wrap:{
@@ -90,7 +90,7 @@ module.exports = function(grunt) {
             },
             prod: {
                 src: ['src/js/scripts.js'],
-                dest: 'prod/js/scripts.js',
+                dest: 'www/js/scripts.js',
                 options: {
                     wrapper: ["'use strict';\n(function(){", "})();"]
                 }
@@ -103,7 +103,7 @@ module.exports = function(grunt) {
                     collapseWhitespace: true
                 },
                 files: {                                   // Dictionary of files
-                    'prod/index.html': 'prod/index.html'
+                    'www/index.html': 'www/index.html'
                 }
             }
         },
@@ -119,7 +119,7 @@ module.exports = function(grunt) {
                 },
                 cwd: 'src/modules',
                 src:'**/partials/*.html',
-                dest:'prod/js/templates.js'
+                dest:'www/js/templates.js'
             },
             dev:{
                 options:{
@@ -146,11 +146,11 @@ module.exports = function(grunt) {
                     'src/modules/**/*.js',
                     '!src/modules/**/*.spec.js'
                 ],
-                dest: 'prod/js/scripts.js'
+                dest: 'www/js/scripts.js'
             },
             prodLibs: {
                 src: 'src/libs/*.js',
-                dest: 'prod/js/libs.js'
+                dest: 'www/js/libs.js'
             }
         },
         sass: {
@@ -160,7 +160,7 @@ module.exports = function(grunt) {
                     sourcemap: 'none'
                 },
                 files: {
-                    'prod/css/style.css': 'prod/css/style.css'
+                    'www/css/style.css': 'www/css/style.css'
                 }
             },
             dev: {
@@ -184,7 +184,7 @@ module.exports = function(grunt) {
             },
             i18nProd: {
                 src: [ "src/modules/**/i18n/en/*.json" ],
-                dest: "prod/i18n/en.json"
+                dest: "www/i18n/en.json"
             }
         },
         watch: {
@@ -273,7 +273,7 @@ module.exports = function(grunt) {
                 files: [{
                     prepend: "$asset-url: '../assets';",
                     input: 'src/css/style.css',
-                    output: 'prod/css/style.css'
+                    output: 'www/css/style.css'
                 }]
             }
         },
@@ -298,7 +298,7 @@ module.exports = function(grunt) {
             },
             prod : {
                 src : './index.html',
-                dest : './prod/index.html',
+                dest : './www/index.html',
                 options : {
                     context : {
                         version : '<%= pkg.version %>'
@@ -325,8 +325,8 @@ module.exports = function(grunt) {
             prod: {
                 files: [{
                     expand: true,
-                    cwd: 'prod/',
-                    dest: '<%= pkg.version %>/prod/',
+                    cwd: 'www/',
+                    dest: '<%= pkg.version %>/www/',
                     src: ['css/style.css', 'js/*.js']
                 }]
             },
