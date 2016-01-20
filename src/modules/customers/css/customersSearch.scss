@@ -26,8 +26,14 @@
             margin-left: 7px;
             font-size: 27px;
             color: $green;
-            
             line-height: 36px;
+            border: 0;
+            background: none;
+            padding: 0;
+            margin: 0;
+            &.disabled{
+                opacity:0.3;
+            }
         }
         .item-title{
             clear: none;
