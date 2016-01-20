@@ -1,6 +1,68 @@
 angular.module('customers.controllers', [])
-    .controller('customersCtrl', ['$scope', 'CRUDService',
-        function($scope, CRUDService){
+    .controller('customersCtrl', ['$scope', 'CRUDService','$cordovaActionSheet','$cordovaSms','$cordovaDialogs',
+        function($scope, CRUDService,$cordovaActionSheet,$cordovaSms,$cordovaDialogs){
+        $scope.openActionsheet = function(customer){
+            var options = {
+                title: i18n.t("customers:cutomer-actionsheet.title"),
+                buttonLabels: hasPhoneNumber()?['Email','SMS','Call '+customer.phone]:['Email'],
+                addCancelButtonWithLabel: 'Cancel',
+                androidEnableCancelButton : true,
+                winphoneEnableCancelButton : true,
+            };
+            function hasPhoneNumber(){
+                if(customer.phone) 
+                    return true; 
+                else 
+                    return false;
+            }
+            document.addEventListener('deviceready', function () {
+                $cordovaActionSheet.show(options)
+                    .then(function(btnIndex) {
+                        if(hasPhoneNumber()){
+                            if(btnIndex === 1){
+                             cordova.plugins.email.open({
+                                to:      customer.email,
+                                cc:      '',
+                                bcc:     '',
+                                subject: '',
+                                body:    ''
+                            });
+                            }else if(btnIndex === 2){
+                                $cordovaSms
+                                .send(customer.phone, '', options)
+                                .then(function() {
+                                    // Success! SMS was sent
+                                }, function(error) {
+                                    $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
+                                        .then(function() {
+                                      // callback success
+                                    });
+                                });
+                            }else if(btnIndex === 3){
+                                window.plugins.CallNumber.callNumber(function(){
+                                }, function(){
+                                    $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
+                                        .then(function() {
+                                      // callback success
+                                    });
+                                }, customer.phone, true);
+                            }
+                        }else{
+                            if(btnIndex === 1){
+                                cordova.plugins.email.open({
+                                    to:      customer.email,
+                                    cc:      '',
+                                    bcc:     '',
+                                    subject: customer.firstName,
+                                    body:    ''
+                                });
+                            }
+                        }
+                    });
+            }, false);
+          
+        };
+
 
         $scope.createItem = function(){
             if(!$scope.item){
