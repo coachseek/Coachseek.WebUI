@@ -519,9 +519,9 @@ angular.module('scheduling.directives', [])
                             commandName: 'BookingSetPaymentStatus',
                             paymentStatus: this.state.paymentStatus
                         }).then({},scope.handleErrors).finally(function(){
-                            if (this.isMounted()) self.setState({loading: false})
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();  
+                            if (this.isMounted()) self.setState({loading: false})
                         });
                     },
                     componentWillMount() {
@@ -567,9 +567,9 @@ angular.module('scheduling.directives', [])
                             commandName: 'BookingSetAttendance',
                             hasAttended: this.state.hasAttended
                         }).then({},scope.handleErrors).finally(function(){
-                            if (this.isMounted()) self.setState({loading: false})
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();
+                            if (this.isMounted()) self.setState({loading: false})
                         });
                     },
                     componentWillMount() {
