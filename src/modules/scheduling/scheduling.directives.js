@@ -383,8 +383,7 @@ angular.module('scheduling.directives', [])
         return {
             restrict: "E",
             replace: false,
-            //BIG TODO: FIGURE OUT HOW TO UPDATE CURRENT EVENT GRACEFULLY
-            //          AND HAVE IT RENDER IN THE GRID AS WELL
+            templateUrl:'scheduling/partials/reactCustomerDataTable.html',
             link: function(scope, elem){
                 scope.$watch('courseBookingData', function(newVal){
                     if(newVal && (scope.modalTab === 'attendance' || scope.modalTab === 'payment')){
@@ -401,41 +400,35 @@ angular.module('scheduling.directives', [])
                     console.time("courseBookingsLoaded");
                     //scope.courseBookingData[newVal]?
                      ReactDOM.render(
-                       <CustomerDataTable data={courseBookingData}/>,
-                       elem.get(0)
+                       <CustomerDataTable courseBookings={courseBookingData}/>,
+                       $(elem).find('table.session-data').get(0)
                      );
+                     $(elem).find('table.session-data').scrollbar({
+                         "autoScrollSize": false,
+                         "scrollx": $('.external-scroll_x'),
+                         "scrolly": null
+                     }).on('scrollbar-x-scroll', function(event, scrollLeft){
+                         $('div.session-headers').css("left", 160-scrollLeft);
+                     });
                      console.timeEnd("courseBookingsLoaded");
                 }
 
                 //TODO split into CustomerAttendanceTable and CustomerPaymentTable
                 var CustomerDataTable = React.createClass({
-                    _handleScroll(event, scrollLeft){
-                        $('div.session-headers').css("left", 160-scrollLeft);
-                    },
-                    componentDidMount(){
-                        $(ReactDOM.findDOMNode(this)).scrollbar({
-                            "autoScrollSize": false,
-                            "scrollx": $('.external-scroll_x'),
-                            "scrolly": null
-                        });
-                        $(ReactDOM.findDOMNode(this)).on('scrollbar-x-scroll', this._handleScroll);
-                    },
                     render(){
-                        var customerNodes = this.props.data.map(function(bookingData) {
+                        var customerNodes = this.props.courseBookings.map(function(courseBooking) {
                             return (
                                 <CustomerDataRow 
-                                    key={bookingData.customer.id} 
-                                    customer={bookingData.customer}
-                                    bookings={bookingData.bookings}
+                                    key={courseBooking.customer.id} 
+                                    customer={courseBooking.customer}
+                                    bookings={courseBooking.bookings}
                                 />
                             );
                         });
                         return (
-                            <table className="session-data">
-                                <tbody>
-                                    {customerNodes}
-                                </tbody>
-                            </table>
+                            <tbody>
+                                {customerNodes}
+                            </tbody>
                         );
                     }
                 });
