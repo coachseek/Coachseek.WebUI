@@ -161,7 +161,7 @@ angular.module('scheduling.directives', [])
                 scope.$watch('currentEvent.session.booking.bookings', function(newBookings){
                     if(newBookings){
                         if(scope.currentEvent.course){
-                            scope.isCourseStudent = getCustomerBooking(scope.currentEvent.course.booking.bookings);
+                            scope.isCourseStudent = getCustomerBooking(_.get(scope.currentEvent, 'course.booking.bookings'));
                         } else {
                             scope.isSessionStudent = getCustomerBooking(newBookings);
                         }
