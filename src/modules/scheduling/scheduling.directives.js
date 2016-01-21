@@ -489,7 +489,7 @@ angular.module('scheduling.directives', [])
                         return (
                             <td className={tdClassNames}  onClick={this.addToSession} disabled={this.state.loading}>
                                 <button className="add-student to-session fa fa-plus" ></button>
-                                <span className='ellipsis_animated-inner add-student'>
+                                <span className='course-table ellipsis_animated-inner add-student'>
                                     <span>.</span>
                                     <span>.</span>
                                     <span>.</span>

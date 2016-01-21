@@ -110,7 +110,7 @@
 										    button.add-student{
 										    	display: none;
 										    }
-										    .ellipsis_animated-inner{
+										    .course-table.ellipsis_animated-inner{
 										    	display: block;
 										    	line-height: 30px;
 										    	font-size: 25px;
@@ -179,8 +179,7 @@
 			    top: 0px;
 			    right: -345px;
 			    width: 345px;
-			    padding: 10px;
-			    background: rgba(238,238,238,0.9);
+			    background: $background-beige;
 			    z-index: 51;
 
 			    -webkit-box-shadow: -3px -3px 1.5px 0px rgba(0,0,0,0.25);
@@ -216,9 +215,6 @@
 			        }
 
 			        .add-to-titles{
-			            width: 85%;
-			            margin: 0 auto;
-
 			            div{
 			                height: 35px;
 			                width: 60px;
@@ -276,6 +272,12 @@
 			        }
 			    }
 			}
+            ellipsis-animated{
+                color: $green;
+                font-size: 22px;
+                float: right;
+                margin-right: 20px;
+            }
 			.show-customer-list-button{
 			    height: 100%;
 			    width: 35px;
@@ -339,6 +341,9 @@
 					min-width: 0px;
 					.course-table-container{
 						height: calc(100vh - 210px);
+					}
+					.external-scroll_y {
+					    display: none;
 					}
 				}
 			}
