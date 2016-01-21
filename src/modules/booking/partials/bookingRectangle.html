@@ -22,7 +22,7 @@
         <div class="course-sessions-container" ng-class="{'selected': selected, 'is-before': isBefore, 'sold-out': spacesAvailable <= 0}" ng-show="(selectedEvent.id == event.id&&!event.sessions) || (selectedEvent.id == event.id&&!event.pricing.sessionPrice&&event.pricing.sessionPrice!==0)">
             <div class="close-event" ng-click="closeEvent()"><span ng-if="isBigScreen">{{'booking:close' | i18next}}</span><i class="fa fa-close"></i></div>
             <!--  <hr/> -->
-            <div class="course-session session-box" ng-class="{'selected':selected&&selectedEvent.id == event.id}">
+            <div class="course-session session-box selected">
                 <div class="selected-checkbox"><i class="fa fa-check"></i></div>
                 <p ng-class="{'larger-width':event.pricing.coursePrice >=0}">{{getEventDateRange()}}</p>
                 <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{getEventTimeRange()}}</p>
