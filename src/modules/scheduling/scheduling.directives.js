@@ -312,7 +312,7 @@ angular.module('scheduling.directives', [])
                             scope.getCourseBookingData();
                             $(elem).find('.attendance-list').animate(
                                 {
-                                    width: (175 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))
+                                    width: (180 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))
                                 }, 300, function(){
                                     $(elem).find('.course-table-container').scrollbar({
                                         "autoScrollSize": false,
@@ -408,7 +408,7 @@ angular.module('scheduling.directives', [])
                          "scrollx": $('.external-scroll_x'),
                          "scrolly": null
                      }).on('scrollbar-x-scroll', function(event, scrollLeft){
-                         $('div.session-headers').css("left", 160-scrollLeft);
+                         $('div.session-headers').css("left", 180-scrollLeft);
                      });
                      console.timeEnd("courseBookingsLoaded");
                 }
