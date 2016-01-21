@@ -155,7 +155,7 @@
             // do not init if in ignorable browser
             if ((browser.mobile && o.ignoreMobile)
                 || (browser.overlay && o.ignoreOverlay)
-                || (browser.macosx && !browser.webkit) // still required to ignore nonWebKit browsers on Mac
+                // || (browser.macosx && !browser.webkit) // still required to ignore nonWebKit browsers on Mac
                 ) {
                 return false;
             }
