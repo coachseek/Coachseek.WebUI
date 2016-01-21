@@ -23,7 +23,7 @@
         &.cricket{background-image: url(#{$asset-url}/pics/online-booking-cricket.jpg) ;}
     }
     .booking-nav-banner{
-        background: $white;
+        background: rgba($white,0.8);
         height: 69px;
         position: fixed;
         width: 100%;
