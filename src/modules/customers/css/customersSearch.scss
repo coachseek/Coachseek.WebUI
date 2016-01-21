@@ -21,8 +21,7 @@
             &:focus{
                 text-decoration: none;
             }
-            &.disabled{
-                cursor: default;
+            &[disabled]{
                 pointer-events: none;
                 opacity:0.3;
             }
