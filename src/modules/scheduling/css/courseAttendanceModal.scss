@@ -9,7 +9,7 @@
 				padding-right: 30px;
 				div.session-headers{
 					position: absolute;
-					left: 160px;
+					left: 190px;
 					white-space: nowrap;
 					z-index: 1;
 					line-height: 30px;
@@ -34,7 +34,7 @@
 					left: 0;
 					z-index: 49;
 					height: 60px;
-					width: 160px;
+					width: 180px;
 					background: $background-beige;
 					text-align: center;
 					line-height: 59px;
@@ -82,9 +82,18 @@
 								text-overflow: ellipsis;
 								cursor: pointer;
 								
+								&.delete-booking, &.mail-to, a{
+									color: $text-grey;
+									width:30px;
+									font-size: 16px;
+									[disabled]{
+										pointer-events: none;
+										opacity: 0.3;
+									}
+								}
+
 								&.delete-booking{
-									width:40px;
-									font-size: 18px;
+									padding-left: 10px;
 								}
 							}
 						}
@@ -344,6 +353,11 @@
 					}
 					.external-scroll_y {
 					    display: none;
+					}
+				}
+				.customer-names{
+					td.delete-booking{
+						padding-left: 0;
 					}
 				}
 			}
