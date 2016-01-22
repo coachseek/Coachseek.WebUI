@@ -75,6 +75,13 @@ module.exports = function(grunt) {
                 src: ['src/libs/*.js'],
                 dest: 'src/js/libs.js'
             },
+            prodApp: {
+                src: [
+                    'src/modules/**/*.js',
+                    '!src/modules/**/*.spec.js'
+                ],
+                dest: 'prod/js/scripts.js'
+            },
             prodCss: {
                 src: ['src/modules/**/css/*.scss'],
                 dest: 'prod/css/style.css'
@@ -82,6 +89,7 @@ module.exports = function(grunt) {
         },
         babel: {
             options: {
+                presets: ["es2015"],
                 plugins: ['transform-react-jsx'],
                 compact: false
             },
@@ -92,10 +100,7 @@ module.exports = function(grunt) {
             },
             prod: {
                 files: {
-                    'prod/js/scripts.js': [
-                        'src/modules/**/*.js',
-                        '!src/modules/**/*.spec.js'
-                    ]
+                    'prod/js/scripts.js': 'prod/js/scripts.js'
                 }
             }
         },
@@ -334,7 +339,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'src/',
-                    dest: '<%= pkg.version %>/mobile-onboarding/',
+                    dest: '<%= pkg.version %>/testing/',
                     src: ['css/style.css', 'js/*.js']
                 }]
             },
@@ -422,6 +427,7 @@ module.exports = function(grunt) {
             'wrap:prod',
             'htmlmin',
             'ngtemplates:prod',
+            'concat:prodApp',
             'babel:prod',
             'uglify',
             'sass:prod',
