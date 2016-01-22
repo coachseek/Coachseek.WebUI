@@ -2,14 +2,12 @@
     <span class="item-title first-name" ng-bind-html="item.firstName | highlight:this">{{item.firstName}}</span>
     <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
 
-    <button class="add-student to-course fa"
+    <button class="add-student to-course fa fa-plus"
     	ng-if="currentEvent.course"
-    	ng-class="isCourseStudent ? 'fa-check' : 'fa-plus'"
         ng-click="addBooking('addToCourse', item)"
     	ng-hide="bookingLoading"></button>
 
-    <button class="add-student to-session fa"
-    	ng-class="isSessionStudent ? 'fa-check' : 'fa-plus'"
+    <button class="add-student to-session fa fa-plus"
     	ng-click="addBooking('addToSession', item, currentEvent.session.id)"
     	ng-hide="bookingLoading"></button>
 
