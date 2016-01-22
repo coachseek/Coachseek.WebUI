@@ -217,7 +217,7 @@
 			        overflow: hidden;
 			        z-index: 1;
 			        position: absolute;
-			        width: 330px;
+			        width: 100%;
 
 			        input{
 			            margin-bottom: 10px;
@@ -353,6 +353,19 @@
 					}
 					.external-scroll_y {
 					    display: none;
+					}
+					.customer-list{
+					    right: -285px;
+					    width: 285px;
+
+					    &.showing {
+					        right: 0;
+					    }
+					}
+					.show-customer-list-button{
+					    &.showing{
+					        right: 285px;
+					    }
 					}
 				}
 				.customer-names{

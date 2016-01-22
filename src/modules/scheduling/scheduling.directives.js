@@ -513,7 +513,7 @@ angular.module('scheduling.directives', [])
                     },
                     savePaymentStatus(){
                         var self = this;
-                        this.setState({loading: true})
+                        if(this.isMounted()) this.setState({loading: true});
                         scope.startCourseLoading(true);
                         bookingManager.updateBooking(this.props.bookingId, {
                             commandName: 'BookingSetPaymentStatus',
@@ -521,7 +521,7 @@ angular.module('scheduling.directives', [])
                         }).then({},scope.handleErrors).finally(function(){
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();  
-                            self.setState({loading: false})
+                            if(self.isMounted()) self.setState({loading: false});
                         });
                     },
                     componentWillMount() {
@@ -561,7 +561,7 @@ angular.module('scheduling.directives', [])
                     },
                     saveAttendanceStatus(){
                         var self = this;
-                        this.setState({loading: true})
+                        if(this.isMounted()) this.setState({loading: true})
                         scope.startCourseLoading(true);
                         bookingManager.updateBooking(this.props.bookingId, {
                             commandName: 'BookingSetAttendance',
@@ -569,7 +569,7 @@ angular.module('scheduling.directives', [])
                         }).then({},scope.handleErrors).finally(function(){
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();
-                            self.setState({loading: false})
+                            if(self.isMounted()) self.setState({loading: false});
                         });
                     },
                     componentWillMount() {
