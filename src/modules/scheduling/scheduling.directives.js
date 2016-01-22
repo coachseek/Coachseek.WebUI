@@ -521,7 +521,7 @@ angular.module('scheduling.directives', [])
                         }).then({},scope.handleErrors).finally(function(){
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();  
-                            if (this.isMounted()) self.setState({loading: false})
+                            self.setState({loading: false})
                         });
                     },
                     componentWillMount() {
@@ -569,7 +569,7 @@ angular.module('scheduling.directives', [])
                         }).then({},scope.handleErrors).finally(function(){
                             scope.getCourseBookingData();
                             scope.stopCourseLoading();
-                            if (this.isMounted()) self.setState({loading: false})
+                            self.setState({loading: false})
                         });
                     },
                     componentWillMount() {
