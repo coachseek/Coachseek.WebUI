@@ -37,7 +37,7 @@ repeat-selector{
                 float: right;
                 height: 30px;
                 text-align: left;
-                padding-left: 40px;
+                padding: 0px 0px 0px 40px;
             }
 
             .error-messages .fa-times{
@@ -49,7 +49,6 @@ repeat-selector{
                 position: absolute;
                 top: 25px;
                 right: -28%;
-                line-height: 40px;
             }
 
             select-arrows{
