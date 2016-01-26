@@ -101,8 +101,8 @@ describe('repeatSelector directive', function(){
             it('should set the repeatFrequency to null', function(){
                 expect(scope.repeatFrequency).to.equal(undefined);
             });
-            it('should hide the frequency selector', function(){
-                expect($frequencySelector.hasClass('ng-hide')).to.be.true;
+            it('should disable the frequency selector', function(){
+                expect($frequencySelector.attr('disabled')).to.equal('disabled');
             });
         });
     });
@@ -133,7 +133,7 @@ describe('repeatSelector directive', function(){
                 describe('and the sessionCount is blurred', function(){
                     it('should hide the frequency selector', function(){
                         angular.element($sessionCount).triggerHandler('blur');
-                        expect($frequencySelector.hasClass('ng-hide')).to.be.true;
+                        expect($frequencySelector.attr('disabled')).to.equal('disabled');
                     });
                 });
             })
