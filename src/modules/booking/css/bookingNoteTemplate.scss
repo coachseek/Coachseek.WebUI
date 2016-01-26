@@ -1,0 +1,39 @@
+$booking-note-height: 40px;
+booking-note-template{
+    .booking-note-container{
+        height: $booking-note-height;
+        margin-bottom: 20px;
+        .note-name, 
+        .is-required, 
+        .is-active{
+            float: left;
+        }
+        .note-name{
+            width: 40%;
+            line-height: $booking-note-height;
+            i{
+                width: 15%;
+                line-height: $booking-note-height;
+                cursor: pointer;
+            }
+            input, span{
+                width: 75%;
+
+                &.display-name{
+                    cursor: pointer;
+                }
+            }
+        }
+        .is-required{
+            width: 30%;
+            line-height: $booking-note-height;
+            cursor: pointer;
+            input{
+                width: 30px;
+            }
+        }
+        .is-active{
+            width: 30%;
+        }
+    }
+}

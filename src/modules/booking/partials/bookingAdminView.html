@@ -1,9 +1,10 @@
 <div class="booking-admin-nav-container slider-nav" ng-init="activeTab = 'onlineBooking'">
     <div class="booking-nav slider-nav-option online-booking" ng-click="activeTab = 'onlineBooking'" ng-class="{'active':activeTab==='onlineBooking'}">{{'booking:booking-admin.onlinebooking' | i18next}}</div>
+    <div class="booking-nav slider-nav-option booking-notes" ng-click="activeTab = 'bookingNotes'" ng-class="{'active':activeTab==='bookingNotes'}">{{'booking:booking-admin.booking-notes' | i18next}}</div>
     <div class="booking-nav slider-nav-option payments" ng-click="activeTab = 'payments'" ng-class="{'active':activeTab==='payments'}">{{'booking:booking-admin.payments' | i18next}}</div>
     <div class="booking-nav slider-nav-option pricing" ng-click="activeTab = 'pricing'" ng-class="{'active':activeTab==='pricing'}">{{'booking:booking-admin.pricing' | i18next}}</div>
 </div>
-<div class="booking-admin-container" ng-switch="activeTab">    
+<div class="booking-admin-container" ng-switch="activeTab">
     <hr class="double-wide">
     <div class="booking-admin-onlinebooking" ng-switch-when="onlineBooking">
         <label>{{'booking:booking-admin.address' | i18next}}</label>
@@ -19,6 +20,10 @@
 
         <label class="clearfix">{{'booking:booking-admin.facebook' | i18next}}</label>
         <a class="booking-admin-facebook-btn clearfix" href="" ng-click="shareToFacebook()" ></a>
+    </div>
+    <div class="booking-admin-booking-notes" ng-switch-when="bookingNotes">
+        <booking-note-template ng-init="note = {}"></booking-note-template>
+        <booking-note-template ng-repeat="note in bookingNotes"></booking-note-template>
     </div>
     <div class="booking-admin-payments" ng-switch-when="payments">
         <div class="toggle-switch-container enable-payment">

@@ -1,0 +1,28 @@
+<div class="booking-note-container" ng-init="tempName = note.name">
+	<div class="note-name" ng-init="editName = !note.name">
+		<span ng-hide="editName" ng-click="editName = true">
+			<i class="fa fa-pencil"></i>
+			<span class='display-name' ng-hide="editName">{{note.name}}</span>
+		</span>
+		<span ng-show="editName">
+		    <form name="noteNameForm" novalidate ng-enter="saveName()" ng-esc="cancelEdit()">
+				<i class="fa fa-check" ng-click="saveName()"></i>
+				<input name="noteName" ng-model="tempName" placeholder="{{'booking:booking-admin.note-name-placeholder' | i18next}}" ng-maxlength="50" required/>
+
+<!-- 				<div class="error-messages" ng-messages="noteNameForm.noteName.$error" ng-if="noteNameForm.noteName.$touched">
+				    <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+				    <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+				</div> -->
+			</form>
+		</span>
+	</div>
+	<label class="is-required">
+	    <input type="checkbox" ng-model="note.isRequired">
+	    {{'booking:booking-admin.is-required' | i18next}}
+	</label>
+	<toggle-switch class="is-active" ng-disabled="AILoading"
+	    property="note.isActive" 
+	    positive="'yes'"
+	    negative="'no'"
+	></toggle-switch>
+</div

@@ -236,4 +236,27 @@ angular.module('booking.directives', [])
                 };
             }
         }
+    }])
+    .directive('bookingNoteTemplate', ['coachSeekAPIService', function(coachSeekAPIService){
+        return {
+            restrict: "E",
+            templateUrl:'booking/partials/bookingNoteTemplate.html',
+            link: function(scope, elem){
+                scope.saveName = function(){
+                    //validate form
+                    //save name
+                    scope.editName = false;
+                    scope.note.name = scope.tempName;
+                }
+
+                scope.$watchCollection('note', function(note){
+                    console.log(note)
+                })
+
+                scope.cancelEdit = function(){
+                    scope.editName = false;
+                    scope.tempName = scope.note.name;
+                }
+            }
+        }
     }]);
