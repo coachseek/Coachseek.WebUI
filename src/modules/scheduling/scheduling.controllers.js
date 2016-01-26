@@ -112,20 +112,7 @@ angular.module('scheduling.controllers', [])
                     },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
-                        if(event.course){
-                            //have to set $scope.currentEvent so sessionOrCourseModal can return id
-                            $scope.currentEvent = event;
-                            sessionOrCourseModal($scope).then(function(id){
-                                if(id === event.course.id){
-                                    startCalendarLoading();
-                                    updateSessionTiming(event.course, delta, revertDate, true);
-                                } else {
-                                    updateSessionTiming(event.session, delta, revertDate, false);
-                                }
-                            }, function(){
-                                revertDate();
-                            });
-                        } else if (copyEventDrag){
+                        if (copyEventDrag){
                             revertDate();
                             //remove id and save with new date
                             var newEvent = angular.copy(event);
