@@ -80,11 +80,11 @@ module.exports = function(grunt) {
                     'src/modules/**/*.js',
                     '!src/modules/**/*.spec.js'
                 ],
-                dest: 'prod/js/scripts.js'
+                dest: 'www/js/scripts.js'
             },
             prodCss: {
                 src: ['src/modules/**/css/*.scss'],
-                dest: 'prod/css/style.css'
+                dest: 'www/css/style.css'
             }
         },
         babel: {
@@ -100,7 +100,7 @@ module.exports = function(grunt) {
             },
             prod: {
                 files: {
-                    'prod/js/scripts.js': 'prod/js/scripts.js'
+                    'www/js/scripts.js': 'www/js/scripts.js'
                 }
             }
         },
@@ -166,12 +166,12 @@ module.exports = function(grunt) {
         //TODO - switch to ng-annotate?
         uglify: {
             prodApp: {
-                src: 'prod/js/scripts.js',
-                dest: 'prod/js/scripts.js'
+                src: 'www/js/scripts.js',
+                dest: 'www/js/scripts.js'
             },
             prodLibs: {
                 src: 'src/libs/*.js',
-                dest: 'prod/js/libs.js'
+                dest: 'www/js/libs.js'
             }
         },
         sass: {

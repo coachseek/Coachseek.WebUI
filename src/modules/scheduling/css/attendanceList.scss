@@ -253,13 +253,11 @@ and (-webkit-min-device-pixel-ratio: 3) {
     .attendance-list {
         .student-list, div.customer-list ul {
             height: calc(100vh - 320px);
-            }
-            
         }
-
+            
     }
-
 }
+
 
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) { 
     .attendance-list {
