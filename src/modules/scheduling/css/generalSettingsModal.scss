@@ -1,0 +1,333 @@
+[state^="scheduling"] {
+    .modal-container{
+        general-settings-modal{
+            width: 100%;
+
+            .session-modal-nav{
+                margin: 15px auto;
+                width: 60%;
+                overflow: hidden;
+                div{
+                    cursor: pointer;
+                    font-size: 14px;
+                    width: 45%;
+                    height: 30px;
+                    float: left;
+                    line-height: 30px;
+                    border-radius: 5px;
+                    color: $dark-grey;
+                    text-align: center;
+
+                    &.attendance{
+                        float: right;
+
+                        &[disabled]{
+                            pointer-events: none;
+                            opacity: 0.5;
+                        }
+                    }
+
+                    &.active{
+                        color: $white;
+                        background: $dark-grey;
+                    }
+                }
+            }
+
+            .session-modal-title{
+                width: 330px;
+                text-align: center;
+                border-bottom: 1px solid $light-grey;
+                padding: 5px 0px 10px 0px;
+                margin: 0 auto 15px auto;
+                color: $text-dark-grey;
+                font-size: 18px;
+
+                i{
+                    float: right;
+                    font-size: 21px;
+                    cursor: pointer;
+                }
+            }
+
+            .session-form{
+                height: calc(100vh - 210px);
+                overflow-y: scroll;
+                padding: 0 20px;
+
+                form{            
+                    margin: 0 auto 20px auto;
+                    width: 100%;
+
+                    .form-input{
+                        margin-bottom: 12px;
+
+                        .title{
+                            padding: 2.5px 0;
+                        }
+
+                        &.two-inputs{
+                            input, select, label{
+                                width: 48%;
+                                &.float-left{
+                                    float: left;
+                                }
+                                &.float-right{
+                                    float: right;
+                                }
+                            }
+                        }
+
+                        .days-or-weeks{
+                            line-height: 40px;
+                        }
+
+                        select, input{
+                            width: 100%;
+                            height: 40px;
+                            font-size: 15px;
+                            border: 1px solid $light-grey;
+                            background: $white;
+
+                            &.repeat-frequency, &.session-count{
+                                width: 46%;
+                            }
+
+                            &.time-picker-time{
+                                background: $white;
+                            }
+
+                            &.ng-touched.ng-invalid-required{
+                                border-color: $orange;
+                            }
+                        }
+
+                        select-arrows{
+                            height: 40px;
+                            .fa-caret-up{
+                                top: 8px;
+                            }
+                            .fa-caret-down{
+                                bottom: 8px;
+                            }
+                        }
+
+                        .time-picker-container{
+                            width: auto;
+                        }
+                    }
+
+                    label {
+                        color: $text-dark-grey;
+                        font-size: 14px;
+                    }
+
+                    .time-picker-time{
+                        display: block;
+                        margin: 0 auto;
+                        width: 100%;
+                    }
+
+                    .money-sign{
+                        top: 32px;
+                    }
+
+                    .error-messages{
+                        text-align: right;
+
+                        .required{
+                            color: $orange;
+                        }
+                    }
+
+                    .prompt-messages{
+                        color: $orange;
+                        font-size: 12px;
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+    .edit-button-container{
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        background: $white;
+        width: 100%;
+        height: 60px;
+        padding: 0px 15px;
+
+        .delete-button{
+            @extend %delete-button;
+            height: 35px;
+            font-size: 22px;
+            float: left;
+            line-height: 60px;
+        }
+
+        .save-button{
+            margin-top: 10px;
+        }
+    }
+}
+
+@media (max-width: 768px){
+    [state^="scheduling"] {
+        .session-modal{
+            &.session-modal-responsive{
+                width: 100%;
+            }
+             .session-form{
+                form{
+                    .form-input{
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+        .edit-button-container{
+            .save-button{
+                width: 130px;
+            }
+            .cancel-button{
+                margin-right: 20px;
+            }
+        }    
+    }
+}
+
+//iPhone 4s and below in portrait & landscape
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 480px)
+and (-webkit-min-device-pixel-ratio: 2) { 
+    [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 370px);            
+            }
+        }    
+    }
+}
+
+//iPhone 5&5s in portrait & landscape
+@media only screen 
+and (min-device-width : 320px) 
+and (max-device-width : 568px)
+and (-webkit-min-device-pixel-ratio: 2) {
+    [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 370px);            
+            }
+        }    
+    }
+}
+/* ----------- Galaxy S3 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 320px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 2) {
+     [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 300px);            
+            }
+        }    
+    }
+
+}
+
+/* ----------- Galaxy S4 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 320px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3){
+     [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 300px);            
+            }
+        }    
+    }
+
+}
+
+/* ----------- Galaxy S5 ----------- */
+
+/* Portrait and Landscape */
+@media screen 
+  and (device-width: 360px) 
+  and (device-height: 640px) 
+  and (-webkit-device-pixel-ratio: 3) {
+     [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 300px);            
+            }
+        }    
+    }
+
+}
+
+
+
+// iPhone 6 in portrait & landscape
+@media only screen 
+and (min-device-width : 375px) 
+and (max-device-width : 667px) 
+and (-webkit-min-device-pixel-ratio: 2){ 
+    [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 370px);            
+            }
+        }    
+    }
+}
+
+//iPhone 6 plus in portrait & landscape
+@media only screen 
+and (min-device-width : 414px) 
+and (max-device-width : 736px)
+and (-webkit-min-device-pixel-ratio: 3) { 
+    [state^="scheduling"] {
+        .session-modal{     
+             .session-form{
+                height: calc(100vh - 370px);            
+            }
+        }    
+    }
+}
+
+// iPad in portrait
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) { 
+    [state^="scheduling"] {
+        .session-modal{
+            .session-form{
+                height: calc(100vh - 320px);
+            }
+        }
+    }
+
+}
+
+
+/*Ipad Landscape*/
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+    [state^="scheduling"] {
+        .session-modal{
+            .session-form{
+                height: calc(100vh - 320px);
+            }
+        }
+    }
+}

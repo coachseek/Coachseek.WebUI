@@ -5,7 +5,6 @@
 </div>
 <div class="booking-admin-container" ng-switch="activeTab">    
     <hr class="double-wide">
-    <label>{{'booking:booking-admin.notavailable' | i18next}}</label>
     <div class="booking-admin-onlinebooking" ng-switch-when="onlineBooking">
  
        <!--   <input type="text" ng-readonly="true" class="booking-url" value="{{business.domain}}.coachseek.com">
@@ -46,7 +45,7 @@
                 </div>
                 <form class="edit-paypal" name="form" novalidate>
                     <div class="form-input">
-                        <img src="assets/pics/secured-by-paypal.png">
+                        <img ng-src="https://az789256.vo.msecnd.net/assets/{{ENV.version}}/pics/secured-by-paypal.png">
                         <input type="email" name="email" ng-model="business.payment.merchantAccountIdentifier" placeholder="{{'booking:booking-admin.email' | i18next}}" ng-maxlength="100" required/>
 
                         <div class="error-messages" ng-messages="form.email.$error" ng-if="form.email.$touched">

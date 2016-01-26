@@ -1,0 +1,379 @@
+[state^="scheduling"] {
+    .modal-container{
+    	overflow: hidden;
+		course-attendance-modal{
+			.attendance-list{
+				max-width: 100%;
+				min-width: 600px;
+				background: $background-beige;
+				padding-right: 30px;
+				div.session-headers{
+					position: absolute;
+					left: 190px;
+					white-space: nowrap;
+					z-index: 1;
+					line-height: 30px;
+					height: 60px;
+					li{
+						background: $background-beige;
+						display: inline-block;
+						text-align: center;
+
+						&.current{
+							background: $background-grey;
+						}
+					}
+					span{
+						width: 125px;
+						display: block;
+					}
+				}
+
+				.cover-box{
+					position: absolute;
+					left: 0;
+					z-index: 49;
+					height: 60px;
+					width: 180px;
+					background: $background-beige;
+					text-align: center;
+					line-height: 59px;
+				}
+				.course-table-container{
+					overflow-y: scroll;
+					overflow-x: hidden;
+					height: calc(85vh - 160px);
+					table{
+						border-collapse: collapse;
+						td{
+							padding: 0px;
+							vertical-align: top;
+							background: $white;
+							border-top: 15px solid $background-beige;
+							line-height: 22px;
+							text-align: center;
+
+							&.current{
+								border-top: 15px solid $background-grey;
+								background: $background-grey;
+							}
+
+							.attending-checkbox{
+								width: 80px;
+								height: 45px;
+								margin: 0 auto;
+								display: block;
+							}
+						}
+						&.customer-names{
+							float: left;
+							margin-top: 55px;
+							tr{
+								height: 60px
+							}
+							td{
+								width: 120px;
+								height:60px;
+								display: block;
+								float: left;
+								line-height: 45px;
+								white-space: nowrap;
+								overflow: hidden;
+								text-overflow: ellipsis;
+								cursor: pointer;
+								
+								&.delete-booking, &.mail-to, a{
+									color: $text-grey;
+									width:30px;
+									font-size: 16px;
+									[disabled]{
+										pointer-events: none;
+										opacity: 0.3;
+									}
+								}
+
+								&.delete-booking{
+									padding-left: 10px;
+								}
+							}
+						}
+						&.session-data{
+							display: block;
+							max-width: 87%;
+							min-height: 100%;
+							padding-bottom: 75px;
+							overflow-x: scroll;
+							overflow-y: hidden; 
+							tbody{
+								display: block;
+								margin-top: 55px;
+								tr{
+									white-space: nowrap;
+									td{
+										height: 60px;
+										width: 125px;
+										display: inline-block;
+
+										&[disabled]{
+										    pointer-events: none;
+										    button.add-student{
+										    	display: none;
+										    }
+										    .course-table.ellipsis_animated-inner{
+										    	display: block;
+										    	line-height: 30px;
+										    	font-size: 25px;
+										    	color: $green;
+										    }
+										}
+
+										.ellipsis_animated-inner{
+											display: none;
+										}
+									}
+
+									.payment-status{
+									    line-height: 45px;
+									    width: 80px;
+									    margin: 0 auto;
+									    font-size: 14px;
+									    text-align: center;
+									    color: white;
+									    cursor: pointer;
+									    -moz-user-select: none; 
+									    -webkit-user-select: none; 
+									    user-select: none;
+
+									    &.pending-invoice, &.pending-payment{
+									        background: $dark-grey;
+									        padding: 8px 0;
+									        line-height: 15px;
+								            white-space: initial;
+									    }
+
+									    &.paid{
+									        background: $green;
+									    }
+
+									    &.overdue-payment{
+									        background: $red;
+									    }
+									}
+
+									button.add-student{
+									    border: none;
+									    background: none;
+
+									    font-size: 23px;
+									    line-height: 44px;
+									    padding: 0;
+
+									    &.fa-plus{
+									        color: $green;                    
+									    }
+									    &.fa-check{
+									        color: $text-grey;
+									    }
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			.customer-list{
+			    height: 100%;
+			    overflow-y: auto;
+			    position: absolute;
+			    top: 0px;
+			    right: -345px;
+			    width: 345px;
+			    background: $background-beige;
+			    z-index: 51;
+
+			    -webkit-box-shadow: -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    -moz-box-shadow:    -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    box-shadow:         -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+
+			    -webkit-transition:right linear 0.3s;
+			    transition:right linear 0.3s;
+
+			    &.showing {
+			        right: 0;
+			    }
+
+			    &.short-list{
+			        ul{
+			            margin-top: 90px;
+			            .customer-details {
+			                ellipsis-animated{
+			                    margin-right: 45px;
+			                }
+			            }
+			        }
+			    }
+
+			    .search-container{
+			        overflow: hidden;
+			        z-index: 1;
+			        position: absolute;
+			        width: 100%;
+
+			        input{
+			            margin-bottom: 10px;
+			        }
+
+			        .add-to-titles{
+			            div{
+			                height: 35px;
+			                width: 60px;
+			                float: right;
+			                text-align: center;
+			            }
+			        }
+			    }
+
+			    ul{
+			        margin-top: 85px;
+
+			        .customer-details{
+			            width: 95%;
+			            margin: 0 auto;
+			            height: 40px;
+
+			            &[disabled]{
+			                pointer-events: none;
+
+			                button{
+			                    pointer-events: none;
+			                    &.fa-plus{
+			                        color: transparent;
+			                    }
+			                }
+			            }
+
+			            .item-title{
+			                line-height: 35px;
+			                &.first-name,&.last-name{
+			                    max-width: 80px;
+			                    overflow: hidden;
+			                    text-overflow: ellipsis;
+			                    float: left;
+			                }
+			            }
+			            button{
+			            	width: 60px;
+			            	 height: 35px;
+			            	 border: none;
+			            	 background: none;
+			            	 float: right;
+
+			            	 font-size: 23px;
+			            	 line-height: 35px;
+			            	 &.fa-plus{
+			            	     color: $green;                    
+			            	 }
+			            	 &.fa-check{
+			            	     color: $text-grey;
+			            	 }
+
+			            }
+			        }
+			    }
+			}
+            ellipsis-animated{
+                color: $green;
+                font-size: 22px;
+                float: right;
+                margin-right: 20px;
+            }
+			.show-customer-list-button{
+			    height: 100%;
+			    width: 35px;
+			    position: absolute;
+			    top: 0;
+			    right: 0;
+			    background: $background-grey;
+			    cursor: pointer;
+			    border: none;
+			    z-index: 101;
+			    -webkit-transition:right linear 0.3s;
+			    transition:right linear 0.3s;
+
+			    -webkit-box-shadow: -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    -moz-box-shadow:    -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+			    box-shadow:         -3px -3px 1.5px 0px rgba(0,0,0,0.25);
+
+			    &.showing{
+			        right: 345px;
+			    }
+
+			    span{
+			        -ms-transform: rotate(270deg); /* IE 9 */
+			        -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+			        transform: rotate(270deg);
+			        display: inline-block;
+			        position: absolute;
+			        left: -32px;
+			        top: 50px;
+			        width: 100px;
+			    }
+			}
+			.edit-button-container{
+				.loading-animation-container{
+					height: 60px;
+					width: 125px;
+					position: absolute;
+					top:0px;
+					right: 35px;
+				}
+				span.saved{
+					position: absolute;
+					right: 50px;
+					color: $green;
+					font-size: 18px;
+					line-height: 60px;
+					i{
+						margin-left: 5px;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 768px){
+    [state^="scheduling"] {
+	    .modal-container{
+			course-attendance-modal{
+				.attendance-list{
+					min-width: 0px;
+					.course-table-container{
+						height: calc(100vh - 210px);
+					}
+					.external-scroll_y {
+					    display: none;
+					}
+					.customer-list{
+					    right: -285px;
+					    width: 285px;
+
+					    &.showing {
+					        right: 0;
+					    }
+					}
+					.show-customer-list-button{
+					    &.showing{
+					        right: 285px;
+					    }
+					}
+				}
+				.customer-names{
+					td.delete-booking{
+						padding-left: 0;
+					}
+				}
+			}
+		}
+	}
+}

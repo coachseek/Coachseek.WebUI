@@ -1,124 +1,7 @@
 .attendance-list{
     width: 100%;
-    padding: 0px 35px;
     position: relative;
-
-    .create-item{
-        display: block;
-        border: none;
-        margin: 20px auto;
-        color: $white;
-        background: $green;
-        border-radius: 5px;
-        padding: 7.5px 25px;
-    }
-
-    .customer-list{
-        height: calc(100vh - 245px);
-        overflow-y: auto;
-
-        &.short-list{
-            ul{
-                margin-top: 90px;
-                .customer-details {
-                    ellipsis-animated{
-                        margin-right: 45px;
-                    }
-                }
-            }
-        }
-
-        .back-arrow{
-            height: 35px;
-            cursor: pointer;
-            width: 55px;
-            position: absolute;
-            top: 0px;
-            left: 20px;
-            line-height: 35px;
-            font-size: 15px;
-            i{
-                color: $text-dark-grey;            
-            }
-        }
-
-        .search-container{
-            overflow: hidden;
-            z-index: 1;
-            background: $background-beige;
-            position: absolute;
-            width: 330px;
-
-            input{
-                margin-bottom: 10px;
-            }
-
-            .add-to-titles{
-                width: 85%;
-                margin: 0 auto;
-
-                div{
-                    height: 35px;
-                    width: 60px;
-                    float: right;
-                    text-align: center;
-                }
-            }
-        }
-
-        ul{
-            margin-top: 45px;
-
-            .customer-details{
-                width: 95%;
-                margin: 0 auto;
-                height: 40px;
-
-                &[disabled]{
-                    pointer-events: none;
-
-                    button{
-                        pointer-events: none;
-                        &.fa-plus{
-                            color: transparent;
-                        }
-                    }
-                }
-
-                .item-title{
-                    line-height: 35px;
-                    &.first-name,&.last-name{
-                        max-width: 90px;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        float: left;
-                    }
-                }
-                button{
-                    width: 60px;
-                    height: 35px;
-                    border: none;
-                    background: none;
-                    float: right;
-
-                    font-size: 23px;
-                    line-height: 35px;
-                    &.fa-plus{
-                        color: $green;                    
-                    }
-                    &.fa-check{
-                        color: $text-grey;
-                    }
-                }
-                ellipsis-animated{
-                    color: $green;
-                    font-size: 22px;
-                    float: right;
-                    margin-right: 20px;
-                }
-            }
-        }
-    }
+    clear: both;
 
     .no-students{
         margin-top: 30px;
@@ -153,70 +36,6 @@
 
             ellipsis-animated{
                 font-size: 23px;
-            }
-            
-            .attending-checkbox{
-                &[disabled]{
-                    pointer-events: none;
-                }
-                &.absent{
-                    background: $red;
-                }
-                &.present{
-                    background: $green;
-                }
-                -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-                -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-                box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
-
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                user-select: none;
-
-                cursor: pointer;
-                background: $dark-grey;
-                width: 45px;
-                height: 45px;
-                color: $white;
-                text-align: center;
-
-                .fa{
-                    line-height: 45px;
-                    font-size: 30px;
-                }
-            }
-
-            .payment-status{
-                float: right;
-                width: 80px;
-                padding: 0px 5px;
-                height: 45px;
-                line-height: 45px;
-                font-size: 14px;
-                text-align: center;
-                color: white;
-                cursor: pointer;
-                -moz-user-select: none; 
-                -webkit-user-select: none; 
-                user-select: none;
-
-                &[disabled]{
-                    pointer-events: none;
-                }
-
-                &.pending-invoice, &.pending-payment{
-                    background: $dark-grey;
-                    padding-top: 6.5px;
-                    line-height: 15px;
-                }
-
-                &.paid{
-                    background: $green;
-                }
-
-                &.overdue-payment{
-                    background: $red;
-                }
             }
 
             .delete-booking{
@@ -283,7 +102,6 @@
         
     }
     .attendance-list {
-        padding: 0px 10px;
         .student-list {
             height: 100vh;
             .student-details{

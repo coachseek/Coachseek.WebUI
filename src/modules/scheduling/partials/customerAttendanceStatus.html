@@ -1,0 +1,3 @@
+<div class="attending-checkbox" ng-class="{'absent': attendanceStatus == false, 'present': attendanceStatus == true}" ng-disabled="sessionBookingLoading" ng-click="changeAttendanceStatus()">
+    <i class="fa" ng-class="{'fa-check': attendanceStatus, 'fa-close': attendanceStatus === false}"></i>
+</div>

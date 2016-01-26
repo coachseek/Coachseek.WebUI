@@ -14,6 +14,18 @@
     }
 
     .customer-details {
+        a{
+            &:hover{
+                text-decoration: none;
+            }
+            &:focus{
+                text-decoration: none;
+            }
+            &[disabled]{
+                pointer-events: none;
+                opacity:0.3;
+            }
+        }
         .customer-edit{
             float: right;
             font-size: 33px;

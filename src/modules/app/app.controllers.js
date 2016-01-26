@@ -41,10 +41,6 @@ angular.module('app.controllers', [])
 
             $rootScope.logout = function(){
                 $rootScope.resetSession();
-                // Intercom('shutdown');
-                document.addEventListener("deviceready", function () {
-                    intercom.reset();
-                }, false);
                 $rootScope.addAlert({
                     type: 'success',
                     message: 'logged-out'
@@ -63,7 +59,11 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
-                if(window.Intercom) Intercom('shutdown');
+                delete $rootScope.business;
+            // Intercom('shutdown');
+                document.addEventListener("deviceready", function () {
+                    intercom.reset();
+                }, false);
             }
 
             $rootScope.login = function(){
@@ -72,17 +72,6 @@ angular.module('app.controllers', [])
                     $state.go('scheduling');
                 });
             };
-
-            // var startIntercom = function(user, date){
-            //     if(window.Intercom){
-            //         Intercom('boot', {
-            //             app_id: "udg0papy",
-            //             name: user.firstName && user.lastName ? user.firstName + " " + user.lastName : user.email,
-            //             email: user.email,
-            //             created_at: date
-            //         });
-            //     }
-            // };
 
             $rootScope.setupCurrentUser = function(user, business){
                 sessionService.sessionType = 'app';
@@ -151,7 +140,7 @@ angular.module('app.controllers', [])
                             runOnlineBookingSite(businessDomain)
                             break;
                         default:
-                            //navigate to 404?grunt
+                            //navigate to 404?
                             break;
                     }
                 } else if(toStateSessionType && sessionService.sessionType !== toStateSessionType) {

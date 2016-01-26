@@ -3,6 +3,7 @@ angular.module('booking.controllers', [])
       function($scope, $state, onlineBookingAPIFactory, currentBooking, sessionService){
         $scope.currentBooking = currentBooking;
         $scope.business = sessionService.business;
+        $scope.limitedSpace = false;
 
         $scope.selectEvent = function (event) {
             if($scope.selectedEvent !== event){
@@ -289,7 +290,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.$watch('business.payment', function(newVal, oldVal){
-            if(newVal !== oldVal){
+            if(newVal && oldVal && newVal !== oldVal){
                 $scope.saved = false;
                 if(newVal.isOnlinePaymentEnabled === false && businessCopy.payment.isOnlinePaymentEnabled !== false) {
                     $scope.save();

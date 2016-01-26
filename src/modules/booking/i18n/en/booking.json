@@ -1,7 +1,7 @@
 {
     "terms-and-conditions": "Terms and Conditions",
     "hey-there": "Hey there!",
-    "no-events": "Looks like there are no events in the next 3 months. If this seems wrong let us know and we'll give the coach a nudge to make sure he's not napping.",
+    "no-events": "Looks like there are no events in the next 3 months. If this seems wrong let us know and we'll give the coach a nudge to make sure they're not napping.",
     "book-now": "Book now!",
     "powered-by": "Powered by",
     "full-session": "Session full",
@@ -57,10 +57,15 @@
         "total": "Total:",
         "processing-booking": "Processing booking",
         "paypal-redirect": "Redirecting to PayPal",
+        "order": "Your Order",
         "who": "Who:",
         "what": "What:",
         "where": "Where:",
-        "when": "When:"
+        "when": "When:",
+        "total":"Total:",
+        "booking-for": ", your booking for",
+        "booking-at": "at",
+        "booking-confirmed":"is confirmed for"
     },
     "booking-admin":{
         "notavailable":"This feature only available on mobile optimised/desktop",

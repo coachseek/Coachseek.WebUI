@@ -3,7 +3,8 @@ describe('Booking Admin Page', function(){
         return {
             domain: 'bizdomain',
             payment: {
-                isOnlinePaymentEnabled: false
+                isOnlinePaymentEnabled: false,
+                paymentProvider: "PayPal"
             }
         }
     });
@@ -56,7 +57,7 @@ describe('Booking Admin Page', function(){
                 method: 'feed',
                 name: i18n.t("booking:booking-admin.facebook-share-name"),
                 link: 'https://'+scope.business.domain +(scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
-                picture: 'assets/pics/facebook-share.png',
+                picture: 'https://az789256.vo.msecnd.net/assets/'+scope.ENV.version+'/pics/facebook-share.png',
                 caption: i18n.t("booking:booking-admin.facebook-share-caption"),
                 description: i18n.t("booking:booking-admin.facebook-share-description")
             })
@@ -175,7 +176,7 @@ describe('Booking Admin Page', function(){
                 });
                 it('should show the saved button in a `Saved` state', function(){
                     expect($testRegion.find('.save-button .save-text').attr('ng-i18next')).to.equal('saved')
-                })
+                });
             });
             describe('when turning online payments OFF', function(){
                 beforeEach(function(){
