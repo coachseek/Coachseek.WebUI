@@ -75,7 +75,6 @@ angular.module('app',
 
             $rootScope.alerts = [];
 
-
             $window.fbAsyncInit = function() {
                 FB.init({
                   appId      : '172144976459129',
