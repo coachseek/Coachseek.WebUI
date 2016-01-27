@@ -163,7 +163,7 @@ angular.module('scheduling.directives', [])
                         if(scope.currentEvent.course){
                             scope.isCourseStudent = getCustomerBooking(_.get(scope.currentEvent, 'course.booking.bookings'));
                         } else {
-                            scope.isSessionStudent = getCustomerBooking(newBookings);
+                            scope.isCourseStudent = getCustomerBooking(newBookings);
                         }
                     }
                 });
@@ -397,20 +397,20 @@ angular.module('scheduling.directives', [])
                 });
 
                 function renderCustomerTable(courseBookingData){
-                    console.time("courseBookingsLoaded");
+                    var bookingLoadStart = new Date()
                     //scope.courseBookingData[newVal]?
-                     ReactDOM.render(
-                       <CustomerDataTable courseBookings={courseBookingData}/>,
-                       $(elem).find('table.session-data').get(0)
-                     );
-                     $(elem).find('table.session-data').scrollbar({
-                         "autoScrollSize": false,
-                         "scrollx": $('.external-scroll_x'),
-                         "scrolly": null
-                     }).on('scrollbar-x-scroll', function(event, scrollLeft){
-                         $('div.session-headers').css("left", 180-scrollLeft);
-                     });
-                     console.timeEnd("courseBookingsLoaded");
+                    ReactDOM.render(
+                      <CustomerDataTable courseBookings={courseBookingData}/>,
+                      $(elem).find('table.session-data').get(0)
+                    );
+                    $(elem).find('table.session-data').scrollbar({
+                        "autoScrollSize": false,
+                        "scrollx": $('.external-scroll_x'),
+                        "scrolly": null
+                    }).on('scrollbar-x-scroll', function(event, scrollLeft){
+                        $('div.session-headers').css("left", 180-scrollLeft);
+                    });
+                    console.log('courseBookingsLoaded: ' + (new Date() - bookingLoadStart) + 'ms')
                 }
 
                 //TODO split into CustomerAttendanceTable and CustomerPaymentTable
