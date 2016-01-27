@@ -1,10 +1,103 @@
 /* Controllers */
 angular.module('app.controllers', [])
-    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', 'expiredLicenseModal','$window',
-        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, expiredLicenseModal,$window) {
+    .controller('appCtrl', ['$rootScope', '$location', '$state', '$http', '$timeout', 'loginModal', 'onlineBookingAPIFactory', 'ENV', 'sessionService', 'coachSeekAPIService', 'expiredLicenseModal','$window','$cordovaActionSheet','$cordovaSms','$cordovaDialogs',
+        function ($rootScope, $location, $state, $http, $timeout, loginModal, onlineBookingAPIFactory, ENV, sessionService, coachSeekAPIService, expiredLicenseModal,$window,$cordovaActionSheet,$cordovaSms,$cordovaDialogs) {
             // TODO - add ability to remove alerts by view
             $rootScope._ = _; //allow lodash.js to be used in angular partials
             $rootScope.Modernizr = Modernizr; //allow Modernizr.js to be used in angular partials
+            $rootScope.openActionsheet = function(customer){
+                var options = {
+                    title: i18n.t("customers:cutomer-actionsheet.title"),
+                    buttonLabels: checkButtonLabels(),
+                    addCancelButtonWithLabel: 'Cancel',
+                    androidEnableCancelButton : true,
+                    winphoneEnableCancelButton : true,
+                };
+                function checkButtonLabels (){
+                    if(customer.phone && customer.email){
+                        return ['Email','SMS','Call '+customer.phone];
+                    }else if (customer.phone){
+                        return ['SMS','Call '+customer.phone];
+                    }else if(customer.email){
+                        return ['Email'];
+                    }else{
+                        return [''];
+                    }
+                }
+                document.addEventListener('deviceready', function () {
+                    $cordovaActionSheet.show(options)
+                        .then(function(btnIndex) {
+                            if(customer.email){
+                                if(customer.phone){
+                                    if(btnIndex === 1){
+                                     cordova.plugins.email.open({
+                                        to:      customer.email,
+                                        cc:      '',
+                                        bcc:     '',
+                                        subject: '',
+                                        body:    ''
+                                    });
+                                    }else if(btnIndex === 2){
+                                        $cordovaSms
+                                        .send(customer.phone, '', options)
+                                        .then(function() {
+                                            // Success! SMS was sent
+                                        }, function(error) {
+                                            $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
+                                                .then(function() {
+                                              // callback success
+                                            });
+                                        });
+                                    }else if(btnIndex === 3){
+                                        window.plugins.CallNumber.callNumber(function(){
+                                        }, function(){
+                                            $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
+                                                .then(function() {
+                                              // callback success
+                                            });
+                                        }, customer.phone, true);
+                                    }
+                                }else{
+                                    if(btnIndex === 1){
+                                        cordova.plugins.email.open({
+                                            to:      customer.email,
+                                            cc:      '',
+                                            bcc:     '',
+                                            subject: customer.firstName,
+                                            body:    ''
+                                        });
+                                    }
+                                }
+                            }else{
+                                if(customer.phone){
+                                    if(btnIndex === 1){
+                                        $cordovaSms
+                                        .send(customer.phone, '', options)
+                                        .then(function() {
+                                            // Success! SMS was sent
+                                        }, function(error) {
+                                            $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
+                                                .then(function() {
+                                              // callback success
+                                            });
+                                        });
+                                    }else if(btnIndex === 2){
+                                        window.plugins.CallNumber.callNumber(function(){
+                                        }, function(){
+                                            $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
+                                                .then(function() {
+                                              // callback success
+                                            });
+                                        }, customer.phone, true);
+                                    }
+                                }
+                            }
+                        });
+                }, false);
+              
+            };
+
+
 
             $rootScope.addAlert = function(alert){
 

@@ -25,7 +25,7 @@
                         {{courseBooking.customer.firstName}}&nbsp;{{courseBooking.customer.lastName}}
                     </td>
                     <td class="mail-to">
-                        <a ng-href="mailto:{{courseBooking.customer.email}}" ng-disabled="!courseBooking.customer.email"><span class="customer-contact fa fa-envelope-o"></span></a>
+                        <a ng-click="openActionsheet(courseBooking.customer)"  ng-disabled="!courseBooking.customer.email"><span class="customer-contact fa fa-envelope-o"></span></a>
                     </td>
                 </tr>
             </tbody>

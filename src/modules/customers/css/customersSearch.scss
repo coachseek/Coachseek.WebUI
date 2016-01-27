@@ -14,18 +14,6 @@
     }
 
     .customer-details {
-        a{
-            &:hover{
-                text-decoration: none;
-            }
-            &:focus{
-                text-decoration: none;
-            }
-            &[disabled]{
-                pointer-events: none;
-                opacity:0.3;
-            }
-        }
         .customer-edit{
             float: right;
             font-size: 33px;
@@ -38,7 +26,14 @@
             margin-left: 7px;
             font-size: 27px;
             color: $green;
-            line-height: 38px;
+            line-height: 36px;
+            border: 0;
+            background: none;
+            padding: 0;
+            margin: 0;
+            &.disabled{
+                opacity:0.3;
+            }
         }
         .item-title{
             clear: none;
