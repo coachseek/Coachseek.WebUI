@@ -68,7 +68,7 @@
         "booking-confirmed":"is confirmed for"
     },
     "booking-admin":{
-        "notavailable":"This feature only available on mobile optimised/desktop",
+        "notavailable":"Please login to Coachseek on your desktop or mobile browser to access this feature",
         "onlinebooking":"Online booking",
         "payments": "Payments",
         "pricing": "Pricing",
