@@ -332,18 +332,18 @@ angular.module('booking.controllers', [])
             $scope.business = angular.copy(businessCopy);
         });
 
-        $scope.shareToFacebook = function(){
-            facebookConnectPlugin.showDialog({
-                method: 'share',
-                name: i18n.t("booking:booking-admin.facebook-share-name"),
-                href: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
-                picture: 'assets/pics/facebook-share.png',
-                caption: i18n.t("booking:booking-admin.facebook-share-caption"),
-                description: i18n.t("booking:booking-admin.facebook-share-description")
-            }, function (response) {
-                // console.log(response)
-            }, function (error) {
-                // console.log(error)
-            });
-        }
+        // $scope.shareToFacebook = function(){
+        //     facebookConnectPlugin.showDialog({
+        //         method: 'share',
+        //         name: i18n.t("booking:booking-admin.facebook-share-name"),
+        //         href: 'https://'+$scope.business.domain +($scope.ENV.name === 'dev' ? '.testing' : '')+ '.coachseek.com',
+        //         picture: 'assets/pics/facebook-share.png',
+        //         caption: i18n.t("booking:booking-admin.facebook-share-caption"),
+        //         description: i18n.t("booking:booking-admin.facebook-share-description")
+        //     }, function (response) {
+        //         // console.log(response)
+        //     }, function (error) {
+        //         // console.log(error)
+        //     });
+        // }
     }]);
