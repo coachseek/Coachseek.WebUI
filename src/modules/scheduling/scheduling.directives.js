@@ -163,7 +163,7 @@ angular.module('scheduling.directives', [])
                         if(scope.currentEvent.course){
                             scope.isCourseStudent = getCustomerBooking(_.get(scope.currentEvent, 'course.booking.bookings'));
                         } else {
-                            scope.isSessionStudent = getCustomerBooking(newBookings);
+                            scope.isCourseStudent = getCustomerBooking(newBookings);
                         }
                     }
                 });
