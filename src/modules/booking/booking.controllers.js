@@ -267,6 +267,7 @@ angular.module('booking.controllers', [])
             businessCopy = angular.copy(sessionService.business);
 
         $scope.saved = true;
+        $scope.initNoteLoad = true;
 
         $scope.getSaveButtonState = function(){
             if($scope.AILoading){
@@ -340,4 +341,40 @@ angular.module('booking.controllers', [])
                 description: i18n.t("booking:booking-admin.facebook-share-description")
             });
         }
+
+        //TODO validate form, sort by filter
+        var newNoteDefaults = {
+            type: 'customer',
+            name: '',
+            isRequired: false,
+        };
+        $scope.newNote = angular.copy(newNoteDefaults);
+        $scope.showAddNote = false;
+        $scope.saveNewNote = function(){
+            //check form valid
+            $activityIndicator.startAnimating();
+            coachSeekAPIService.save({section: 'CustomFields'}, $scope.newNote).$promise
+                .then(function(note){
+                    $scope.bookingNotes.push(note);
+                    $scope.newNote = angular.copy(newNoteDefaults);
+                    $scope.showAddNote = false;
+                }, $scope.handleErrors).finally(function(){
+                    $activityIndicator.stopAnimating();
+                });
+        };
+
+        $scope.addNoteShow = function(){
+            $scope.showAddNote = true;
+        }
+
+        $scope.addNoteHide = function(){
+            $scope.showAddNote = false;
+        }
+
+        coachSeekAPIService.query({section: 'CustomFields', type: 'customer'})
+            .$promise.then(function(bookingNotes){
+                $scope.bookingNotes = bookingNotes;
+            }, $scope.handleErrors).finally(function(){
+                $scope.initNoteLoad = false;
+            });
     }]);

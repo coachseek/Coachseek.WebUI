@@ -242,21 +242,41 @@ angular.module('booking.directives', [])
             restrict: "E",
             templateUrl:'booking/partials/bookingNoteTemplate.html',
             link: function(scope, elem){
+                scope.loading = false;
                 scope.saveName = function(){
                     //validate form
                     //save name
                     scope.editName = false;
                     scope.note.name = scope.tempName;
+                    saveNote().then(function(){
+                        scope.tempName = scope.note.name;
+                    }, function(errors){
+                        scope.editName = true;
+                        scope.handleErrors(errors);
+                    }).finally(function(){
+                        scope.loading = false;
+                    });
                 }
 
-                scope.$watchCollection('note', function(note){
-                    console.log(note)
-                })
+                scope.$watchCollection('note', function(newVal, oldVal){
+                    if(newVal !== oldVal && !scope.editName){
+                        saveNote().then(function(note){
+                        }, scope.handleErrors)
+                            .finally(function(){
+                                scope.loading = false;
+                            })
+                    }
+                });
 
                 scope.cancelEdit = function(){
                     scope.editName = false;
                     scope.tempName = scope.note.name;
                 }
+
+                function saveNote(){
+                    scope.loading = true;
+                    return coachSeekAPIService.save({section:'CustomFields'}, scope.note).$promise
+                };
             }
         }
     }]);

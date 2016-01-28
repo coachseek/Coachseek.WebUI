@@ -1,8 +1,8 @@
 <div class="booking-admin-nav-container slider-nav" ng-init="activeTab = 'onlineBooking'">
     <div class="booking-nav slider-nav-option online-booking" ng-click="activeTab = 'onlineBooking'" ng-class="{'active':activeTab==='onlineBooking'}">{{'booking:booking-admin.onlinebooking' | i18next}}</div>
-    <div class="booking-nav slider-nav-option booking-notes" ng-click="activeTab = 'bookingNotes'" ng-class="{'active':activeTab==='bookingNotes'}">{{'booking:booking-admin.booking-notes' | i18next}}</div>
     <div class="booking-nav slider-nav-option payments" ng-click="activeTab = 'payments'" ng-class="{'active':activeTab==='payments'}">{{'booking:booking-admin.payments' | i18next}}</div>
     <div class="booking-nav slider-nav-option pricing" ng-click="activeTab = 'pricing'" ng-class="{'active':activeTab==='pricing'}">{{'booking:booking-admin.pricing' | i18next}}</div>
+    <div class="booking-nav slider-nav-option booking-notes" ng-click="activeTab = 'bookingNotes'" ng-class="{'active':activeTab==='bookingNotes'}">{{'booking:booking-admin.booking-notes' | i18next}}</div>
 </div>
 <div class="booking-admin-container" ng-switch="activeTab">
     <hr class="double-wide">
@@ -22,8 +22,41 @@
         <a class="booking-admin-facebook-btn clearfix" href="" ng-click="shareToFacebook()" ></a>
     </div>
     <div class="booking-admin-booking-notes" ng-switch-when="bookingNotes">
-        <booking-note-template ng-init="note = {}"></booking-note-template>
+        <div class="add-note-container">
+            <div class="show-add-note" ng-hide="showAddNote">
+                <button class="save-button" ng-click="addNoteShow()">
+                    <i class="fa fa-plus"></i>&nbsp;{{'booking:booking-admin.add-note' | i18next}}
+                </button>
+            </div>
+            <div class="new-booking-note-container" ng-show="showAddNote">
+                <div class="note-name">
+                    <form name="newNoteNameForm" novalidate ng-enter="saveNewNote()" ng-esc="addNoteHide()">
+                        <input name="noteName" ng-model="newNote.name" placeholder="{{'booking:booking-admin.note-name-placeholder' | i18next}}" ng-maxlength="100" required/>
+
+    <!--                    <div class="error-messages" ng-messages="newNoteNameForm.noteName.$error" ng-if="newNoteNameForm.noteName.$touched">
+                            <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                            <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                        </div> -->
+                    </form>
+                </div>
+                <label class="is-required">
+                    <input type="checkbox" ng-model="newNote.isRequired">
+                </label>
+                <div class="new-note-save-container">
+                    <button class="save-button" ng-click="saveNewNote()" ng-disabled="AILoading">
+                        <span ng-i18next="{{AILoading ? 'saving' : 'save'}}"></span>
+                        <ellipsis-animated ng-show="AILoading"/></button>
+                </div>
+            </div>
+        </div>
+        <div class="booking-note-headers">
+            <h5 class="name">{{'booking:booking-admin.name' | i18next}}</h5>
+            <h5 class="is-required">{{'booking:booking-admin.is-required' | i18next}}</h5>
+            <h5 class="is-active">{{'booking:booking-admin.is-active' | i18next}}</h5>
+        </div>
+        <hr class="double-wide">
         <booking-note-template ng-repeat="note in bookingNotes"></booking-note-template>
+        <loading-animation ng-show="initNoteLoad"></loading-animation>
     </div>
     <div class="booking-admin-payments" ng-switch-when="payments">
         <div class="toggle-switch-container enable-payment">

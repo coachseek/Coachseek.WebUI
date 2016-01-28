@@ -7,33 +7,68 @@ booking-note-template{
         .is-required, 
         .is-active{
             float: left;
+            &[disabled]{
+                background: $background-grey;
+                opacity: 0.5;
+                pointer-events: none;
+            }
         }
         .note-name{
             width: 40%;
             line-height: $booking-note-height;
-            i{
+            i, ellipsis-animated{
                 width: 15%;
                 line-height: $booking-note-height;
                 cursor: pointer;
-            }
-            input, span{
-                width: 75%;
-
-                &.display-name{
-                    cursor: pointer;
+                text-align: center;
+                display: inline-block;
+                float: left;
+                color: $green;
+                &.fa-save{
+                    color: $text-dark-grey;
                 }
+            }
+            input{
+                width: 85%;
+                height: 40px;
+                float: left;
+            }
+            span.display-name{
+                width: 85%;
+                height: 40px;
+                float: left;
+                cursor: pointer;
+                padding-left: 10px;
             }
         }
         .is-required{
             width: 30%;
             line-height: $booking-note-height;
+            height: 40px;
             cursor: pointer;
-            input{
-                width: 30px;
+            text-align: center;
+            input[type=checkbox]{
+                width: auto;
+                cursor: pointer;
             }
         }
         .is-active{
             width: 30%;
+            height: 40px;
+
+            &.grey-background{
+                background: rgba(200,200,200,0.5)
+            }
+
+            .toggle-bg{
+                float: none;
+                margin: 0 auto;
+                height: 30px;
+                margin-top: 5px;
+                .switch{
+                    height: 28px;
+                }
+            }
         }
     }
 }

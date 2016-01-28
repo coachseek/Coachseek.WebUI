@@ -86,6 +86,10 @@
         "facebook-share-caption":"I’ve just set up my own Online Booking site with Coachseek. All of my lessons & courses are available to book here.",
         "facebook-share-description":"Powered by Coachseek",
         "is-required": "Required field",
+        "is-required": "Required field",
+        "is-active": "Active",
+        "name": "Name",
+        "add-note": "Add note",
         "note-name-placeholder": "e.g. Medical Info"
     },
     "msports": {
