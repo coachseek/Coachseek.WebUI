@@ -127,13 +127,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
                         initialCoach = response.coach;
                         $scope.hideScoochBullets = true;
                         $('.m-scooch').scooch('next');
-                        if(google_trackConversion) {
-                            google_trackConversion({
-                                google_conversion_id: 963132874,
-                                google_conversion_label: "6bn0CIz1vGMQyvugywM",
-                                google_remarketing_only: false
-                            });
-                        }
+                        if(ga) ga('send', 'event', 'conversions', 'newUserSignUp');
                     }, $scope.handleErrors).finally(function(){
                         $rootScope.appLoading = false;
                     });
