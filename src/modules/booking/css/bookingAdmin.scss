@@ -148,56 +148,53 @@
         }
 
         .booking-admin-booking-notes{
-            .add-note-container{
-                padding-top-top: 20px;
-                height: 60px;
-                .show-add-note{
-                    height: 40px;
-                    text-align: center;
-                    overflow: hidden;
-                    -webkit-transition:height linear 0.3s;
-                    transition:height linear 0.3s;
-
-                    &.ng-hide {
-                        height: 0;
+            .show-add-note{
+                height: 40px;
+                margin-bottom: 20px;
+                text-align: center;
+                overflow: hidden;
+                &[disabled]{
+                    opacity: 0.5;
+                    pointer-events: none;
+                }
+                button.save-button{
+                    width: 30%;
+                    float: none;
+                }
+            }
+            .new-booking-note-container{
+                height: 40px;
+                margin-bottom: 20px;
+                position: relative;
+                .note-name, 
+                .is-required, 
+                .new-note-save-container{
+                    float: left;
+                }
+                .note-name{
+                    width: 40%;
+                    input{
+                        height: 40px;
                     }
-                    button.save-button{
-                        width: 30%;
-                        float: none;
+                    div.error-messages{
+                        div{
+                            i{
+                                top: -35px;
+                                left: 175px;
+                            }
+                        }
                     }
                 }
-                .new-booking-note-container{
-                    height: 40px;
-                    overflow: hidden;
-
-                    -webkit-transition:height linear 0.3s;
-                    transition:height linear 0.3s;
-
-                    &.ng-hide {
-                        height: 0;
+                .is-required, .new-note-save-container{
+                    width: 30%;
+                    text-align: center;
+                    cursor: pointer;
+                    input[type=checkbox]{
+                        width: auto;
                     }
-                    .note-name, 
-                    .is-required, 
-                    .new-note-save-container{
-                        float: left;
-                    }
-                    .note-name{
-                        width: 40%;
-                        input{
-                            height: 40px;
-                        }
-                    }
-                    .is-required, .new-note-save-container{
-                        width: 30%;
-                        text-align: center;
-                        cursor: pointer;
-                        input[type=checkbox]{
-                            width: auto;
-                        }
-                        button.save-button{
-                            width: 75%;
-                            float: none;
-                        }
+                    button.save-button{
+                        width: 75%;
+                        float: none;
                     }
                 }
             }

@@ -352,15 +352,18 @@ angular.module('booking.controllers', [])
         $scope.showAddNote = false;
         $scope.saveNewNote = function(){
             //check form valid
-            $activityIndicator.startAnimating();
-            coachSeekAPIService.save({section: 'CustomFields'}, $scope.newNote).$promise
-                .then(function(note){
-                    $scope.bookingNotes.push(note);
-                    $scope.newNote = angular.copy(newNoteDefaults);
-                    $scope.showAddNote = false;
-                }, $scope.handleErrors).finally(function(){
-                    $activityIndicator.stopAnimating();
-                });
+            // must do $childHead here because ng-switch creates a new scope. lame.
+            if($scope.$$childHead.newNoteNameForm.$valid){
+                $activityIndicator.startAnimating();
+                coachSeekAPIService.save({section: 'CustomFields'}, $scope.newNote).$promise
+                    .then(function(note){
+                        $scope.bookingNotes.unshift(note);
+                        $scope.newNote = angular.copy(newNoteDefaults);
+                        $scope.showAddNote = false;
+                    }, $scope.handleErrors).finally(function(){
+                        $activityIndicator.stopAnimating();
+                    });
+            }
         };
 
         $scope.addNoteShow = function(){

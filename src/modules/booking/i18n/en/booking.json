@@ -69,7 +69,7 @@
     },
     "booking-admin":{
         "onlinebooking":"Online booking",
-        "booking-notes": "Booking notes",
+        "booking-notes": "Booking fields",
         "payments": "Payments",
         "pricing": "Pricing",
         "address":"Here’s your Online Booking website address",

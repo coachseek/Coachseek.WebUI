@@ -75,24 +75,6 @@
       }
     }
 
-    .error-messages, .prompt-messages{
-      /* Needs to be positioned absolutley so error
-         messages dont move form down */
-        position: absolute;
-        bottom: -20px;
-        height: 20px;
-        width: 100%;
-        color: $red;
-
-        i{
-          display: inline;
-          color: $red;
-          position: absolute;
-          top: -30px;
-          right: 7.5px;
-        }
-    }
-
     form{
       margin-top: 20px;
       margin-bottom: 10px;
@@ -140,6 +122,24 @@
 .save-button{
     @extend %green-button;
     float: right;
+}
+
+.error-messages, .prompt-messages{
+  /* Needs to be positioned absolutley so error
+     messages dont move form down */
+    position: absolute;
+    bottom: -20px;
+    height: 20px;
+    width: 100%;
+    color: $red;
+
+    i{
+      display: inline;
+      color: $red;
+      position: absolute;
+      top: -30px;
+      right: 7.5px;
+    }
 }
 
 @media (max-width: 767px){

@@ -237,33 +237,34 @@ angular.module('booking.directives', [])
             }
         }
     }])
-    .directive('bookingNoteTemplate', ['coachSeekAPIService', function(coachSeekAPIService){
+    .directive('bookingNoteTemplate', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
         return {
             restrict: "E",
             templateUrl:'booking/partials/bookingNoteTemplate.html',
             link: function(scope, elem){
                 scope.loading = false;
                 scope.saveName = function(){
-                    //validate form
-                    //save name
-                    scope.editName = false;
-                    scope.note.name = scope.tempName;
-                    saveNote().then(function(){
-                        scope.tempName = scope.note.name;
-                    }, function(errors){
-                        scope.editName = true;
-                        scope.handleErrors(errors);
-                    }).finally(function(){
-                        scope.loading = false;
-                    });
+                    if(scope.noteNameForm.$valid){
+                        scope.editName = false;
+                        scope.note.name = scope.tempName;
+                        saveNote().then(function(){
+                            scope.tempName = scope.note.name;
+                        }, function(errors){
+                            scope.editName = true;
+                            scope.handleErrors(errors);
+                        }).finally(function(){
+                            scope.loading = false;
+                            $activityIndicator.stopAnimating();
+                        });
+                    }
                 }
 
                 scope.$watchCollection('note', function(newVal, oldVal){
                     if(newVal !== oldVal && !scope.editName){
-                        saveNote().then(function(note){
-                        }, scope.handleErrors)
+                        saveNote().then({}, scope.handleErrors)
                             .finally(function(){
                                 scope.loading = false;
+                                $activityIndicator.stopAnimating();
                             })
                     }
                 });
@@ -274,6 +275,7 @@ angular.module('booking.directives', [])
                 }
 
                 function saveNote(){
+                    $activityIndicator.startAnimating();
                     scope.loading = true;
                     return coachSeekAPIService.save({section:'CustomFields'}, scope.note).$promise
                 };

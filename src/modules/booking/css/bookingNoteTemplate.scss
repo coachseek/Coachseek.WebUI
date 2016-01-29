@@ -3,6 +3,7 @@ booking-note-template{
     .booking-note-container{
         height: $booking-note-height;
         margin-bottom: 20px;
+        position: relative;
         .note-name, 
         .is-required, 
         .is-active{
@@ -16,7 +17,7 @@ booking-note-template{
         .note-name{
             width: 40%;
             line-height: $booking-note-height;
-            i, ellipsis-animated{
+            .fa-pencil, .fa-save, ellipsis-animated{
                 width: 15%;
                 line-height: $booking-note-height;
                 cursor: pointer;
@@ -24,9 +25,6 @@ booking-note-template{
                 display: inline-block;
                 float: left;
                 color: $green;
-                &.fa-save{
-                    color: $text-dark-grey;
-                }
             }
             input{
                 width: 85%;
@@ -39,6 +37,16 @@ booking-note-template{
                 float: left;
                 cursor: pointer;
                 padding-left: 10px;
+            }
+            div.error-messages{
+                left: 30px;
+                div{
+                    line-height: 20px;
+                    i{
+                        top: -35px;
+                        left: 145px;
+                    }
+                }
             }
         }
         .is-required{
