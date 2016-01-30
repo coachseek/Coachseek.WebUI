@@ -109,6 +109,13 @@
                 }
             }
 
+            .loading-messages{
+                text-align: center;
+                position: relative;
+                height: 100px;
+                margin-top: 30px;
+            }
+
             .form-input{
                 display: inline-block;
                 position: relative;
@@ -494,6 +501,36 @@
                 }
             }
 
+            .booking-customer-notes{
+                customer-note{
+                    .form-input{
+                        clear: both;
+                        margin: 0 auto;
+                        width: 75%;
+                        float: none;
+                        display: block;
+                        overflow: hidden;
+
+                        label{
+                            width: 20%;
+                            padding-left: 0px;
+                            float: left;
+                            line-height: 32px;
+                        }
+                        textarea{
+                            float: left;
+                            width: 80%;
+                            margin-bottom: 20px;
+                        }
+                        .error-messages{
+                            right: 0;
+                            width: auto;
+                            bottom: 0;
+                        }
+                    }
+                }
+            }
+
             .booking-details-container{
                 overflow: hidden;
                 width: 100%;
@@ -541,13 +578,6 @@
                             @extend %green-button; 
                         }
                     }
-                }
-
-                .loading-messages{
-                    text-align: center;
-                    position: relative;
-                    height: 100px;
-                    margin-top: 30px;
                 }
 
                 .booking-details{

@@ -42,7 +42,11 @@
         "phone": "Phone number",
         "phone-placeholder": "(If under 18, contact details of parent/carer)",
         "email": "Email",
-        "email-placeholder": "(If under 18, contact details of parent/carer)"
+        "email-placeholder": "(If under 18, contact details of parent/carer)",
+        "processing-customer": "Saving customer"
+    },
+    "notes": {
+        "processing-notes": "Saving notes"
     },
     "confirmation": {
         "text-confirm": "A confirmation email has been sent to your email address and your booking is now complete.",

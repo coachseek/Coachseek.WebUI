@@ -186,10 +186,42 @@ angular.module('booking.controllers', [])
             $scope.filterByService();
         }
     }])
-    .controller('bookingCustomerDetailsCtrl', ['$scope', '$state', 'currentBooking', function($scope, $state, currentBooking){
+    .controller('bookingCustomerDetailsCtrl', ['$scope', '$state', 'currentBooking', 'onlineBookingAPIFactory', 
+      function($scope, $state, currentBooking, onlineBookingAPIFactory){
         if(!currentBooking.filters.location){
             $state.go('booking.selection');
         }
+
+        $scope.getCustomer = function(){
+            $scope.processingBooking = true;
+            onlineBookingAPIFactory.anon($scope.business.domain)
+                .save({ section: 'Customers' }, currentBooking.customer).$promise
+                    .then(function (customer) {
+                        currentBooking.customer = customer;
+                        $state.go('booking.notes');
+                }, function(error){
+                    $scope.processingBooking = false;
+                    $scope.handleErrors(error);
+                });
+        } 
+    }])
+    .controller('bookingCustomerNotesCtrl', ['$scope', '$state', 'currentBooking', 'onlineBookingAPIFactory', 
+      function($scope, $state, currentBooking, onlineBookingAPIFactory){
+        if(!currentBooking.filters.location){
+            $state.go('booking.selection');
+        }
+
+        $scope.saveCustomerNotes = function(){
+            $scope.processingBooking = true;
+            onlineBookingAPIFactory.anon($scope.business.domain)
+                .save({ section: 'Customers' }, currentBooking.customer).$promise
+                    .then(function (customer) {
+                        $state.go('booking.confirmation');
+                }, function(error){
+                    $scope.processingBooking = false;
+                    $scope.handleErrors(error);
+                });
+        } 
     }])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', '$sce', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'ENV',
       function($scope, $q, $state, $location, $sce, onlineBookingAPIFactory, currentBooking, sessionService, ENV){
@@ -214,35 +246,26 @@ angular.module('booking.controllers', [])
         $scope.processBooking = function (payLater) {
             $scope.processingBooking = true;
             return onlineBookingAPIFactory.anon($scope.business.domain)
-                .save({ section: 'Customers' }, currentBooking.customer).$promise
-                    .then(function (customer) {
-                        return onlineBookingAPIFactory.anon($scope.business.domain)
-                            .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
-                                .then(function(response){
-                                    currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
-                                    return saveBooking(customer).then(function (booking) {
-                                        currentBooking.booking.id = booking.id;
-                                        $scope.bookingConfirmed = payLater;
-                                        $scope.redirectingToPaypal = !payLater;
-                                    }, function(error){
-                                        $scope.handleErrors(error);
-                                        // make sure paypal form doesn't submit if error;
-                                        return $q.reject();
-                                    }).finally(function(){
-                                        $scope.processingBooking = false;
-                                    });
-                            }, function(error){
-                                $scope.handleErrors(error);
-                                // make sure paypal form doesn't submit if error;
-                                return $q.reject();
-                            }).finally(function(){
-                                $scope.processingBooking = false;
-                            });
+                .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
+                    .then(function(response){
+                        currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
+                        return saveBooking(customer).then(function (booking) {
+                            currentBooking.booking.id = booking.id;
+                            $scope.bookingConfirmed = payLater;
+                            $scope.redirectingToPaypal = !payLater;
+                        }, function(error){
+                            $scope.handleErrors(error);
+                            // make sure paypal form doesn't submit if error;
+                            return $q.reject();
+                        }).finally(function(){
+                            $scope.processingBooking = false;
+                        });
                 }, function(error){
-                    $scope.processingBooking = false;
                     $scope.handleErrors(error);
                     // make sure paypal form doesn't submit if error;
                     return $q.reject();
+                }).finally(function(){
+                    $scope.processingBooking = false;
                 });
         };
 
