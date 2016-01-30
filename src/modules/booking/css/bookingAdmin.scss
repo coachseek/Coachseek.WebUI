@@ -158,7 +158,7 @@
                     pointer-events: none;
                 }
                 button.save-button{
-                    width: 30%;
+                    width: 150px;
                     float: none;
                 }
             }
@@ -242,6 +242,7 @@
 @media (max-width: 768px){
     [state^="bookingAdmin"] {
         margin-top: 0px;
+        width: 100%;
         .booking-admin-container {
             width: 100%;
             padding-left: 15px;
@@ -251,9 +252,10 @@
             width: 100%;
             border-radius: 0px;
             color:$mobile-text-grey;
+            margin-top: 0px;
 
             .booking-nav{
-                width: calc(100%/3);
+                width: calc(100%/4);
                 height: 45px;
                 line-height: 45px;
                 padding: 0px;
