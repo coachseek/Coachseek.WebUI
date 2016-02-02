@@ -487,7 +487,7 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.closePopover = function(hidePopoverTrigger){
-                $scope.$broadcast(hidePopoverTrigger, 0, true);
+                $scope.$broadcast(hidePopoverTrigger, 0, false);
             };
 
             var deleteSessions = function(id){
