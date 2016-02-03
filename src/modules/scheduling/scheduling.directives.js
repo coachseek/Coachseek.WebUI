@@ -366,7 +366,7 @@ angular.module('scheduling.directives', [])
                             });
                         });
                     });
-                    scope.courseBookingData = _.sortByAll(courseBookingData, function(booking){
+                    scope.courseBookingData = _.sortBy(courseBookingData, function(booking){
                         return [booking.customer.lastName.toLowerCase(), booking.customer.firstName.toLowerCase()]
                     });
                     if(!_.size(courseBookingData)) scope.showCustomers = true;

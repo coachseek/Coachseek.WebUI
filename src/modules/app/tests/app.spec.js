@@ -46,8 +46,8 @@ describe('App Module', function() {
             it('should remove the correct alert', function(){
                 $rootScope.closeAlert(1);
 
-                expect(_.contains($rootScope.alerts, this.alertOne)).to.be.true;
-                expect(_.contains($rootScope.alerts, this.alertThree)).to.be.true;
+                expect(_.includes($rootScope.alerts, this.alertOne)).to.be.true;
+                expect(_.includes($rootScope.alerts, this.alertThree)).to.be.true;
             });
         });
         describe('when calling removeAlerts()', function(){

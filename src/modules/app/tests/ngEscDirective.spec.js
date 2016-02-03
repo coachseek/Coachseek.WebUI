@@ -3,7 +3,7 @@ describe('ngEsc directive', function(){
     var scope;
     beforeEach(function(){
         scope = $rootScope.$new();
-        createDirective(scope, '<form ng-enter="someFunction()"></form>');
+        createDirective(scope, '<form ng-esc="someFunction()"></form>');
     });
     it('should call the function when the enter key is pressed', function(done){
 

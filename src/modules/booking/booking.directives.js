@@ -40,7 +40,7 @@ angular.module('booking.directives', [])
                 };
 
                 function sumSessionCosts(sessions){
-                    return _.sum(sessions, function(session){
+                    return _.sumBy(sessions, function(session){
                         if(scope.isBefore(session) || scope.getSessionSpacesAvailable(session) <= 0){
                             return 0;
                         }else{
@@ -194,7 +194,7 @@ angular.module('booking.directives', [])
                         }
                     // ONLY COURSE SESSIONS SELECTED
                     } else if (!currentBooking.totalPrice && currentBooking.booking.sessions){
-                        return _.sum(currentBooking.booking.sessions, 'pricing.sessionPrice').toFixed(2);
+                        return _.sumBy(currentBooking.booking.sessions, 'pricing.sessionPrice').toFixed(2);
                     //NOTHING SELECTED
                     } else {
                         return "0.00"

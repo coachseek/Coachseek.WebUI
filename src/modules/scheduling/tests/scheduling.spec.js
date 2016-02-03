@@ -463,7 +463,7 @@ describe('Scheduling Module', function() {
             });
             it('should add `createDefaults` to onboaring steps completed', function(){
                 var stepsCompleted = _.get($injector.get('sessionService'), 'onboarding.stepsCompleted')
-                expect(_.contains(stepsCompleted, 'createDefaults')).to.be.true;
+                expect(_.includes(stepsCompleted, 'createDefaults')).to.be.true;
             })
             it('should attempt to get existing services, locations, and coaches', function(){
                 expect(getStub).to.be.calledWith({section: 'Coaches'})
