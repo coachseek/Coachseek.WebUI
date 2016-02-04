@@ -198,7 +198,7 @@ angular.module('booking.controllers', [])
                 customer: onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Customers' }, currentBooking.customer).$promise,
                 customerNotes: onlineBookingAPIFactory.anon($scope.business.domain).getCustomFields({}).$promise
             }).then(function(response) {
-                    currentBooking.customer = response.customer;
+                    currentBooking.customerID = response.customer.id;
                     currentBooking.customerNotes = _.filter(response.customerNotes, function(note) { return note.isActive; });
 
                     if(_.size(currentBooking.customerNotes)){
@@ -222,7 +222,7 @@ angular.module('booking.controllers', [])
         $scope.saveCustomerNotes = function(){
             $scope.processingBooking = true;
             onlineBookingAPIFactory.anon($scope.business.domain)
-                .save({ section: 'Customers', id: currentBooking.customer.id }, {customFields: getCustomFieldsArray()}).$promise
+                .save({ section: 'Customers', id: currentBooking.customerId }, {customFields: getCustomFieldsArray()}).$promise
                     .then(function (customer) {
                         $state.go('booking.confirmation');
                 }, function(error){

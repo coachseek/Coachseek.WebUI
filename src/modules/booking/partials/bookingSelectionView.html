@@ -1,6 +1,6 @@
 <div class="booking-selection-container" ng-show="eventsExist">
     <div class="form-input location-selection">
-        <label for="location">{{'booking:location-section.label' | i18next}}</label>
+        <label for="location" ng-disabled="loadingSessions">{{'booking:location-section.label' | i18next}}</label>
         <select-arrows></select-arrows>
         <select name="location" ng-disabled="loadingSessions" ng-options="location.name for location in locations" ng-model="currentBooking.filters.location" id="location" required ng-change="filterByLocation(true)">
         </select>

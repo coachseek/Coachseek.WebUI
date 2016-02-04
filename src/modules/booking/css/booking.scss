@@ -505,22 +505,18 @@
                 .form-input{
                     clear: both;
                     margin: 0 auto;
-                    width: 75%;
+                    width: 60%;
                     float: none;
                     display: block;
                     overflow: hidden;
 
                     label{
-                        width: 25%;
+                        width: 100%;
                         padding-left: 0px;
-                        float: left;
-                        line-height: 32px;
-                        text-align: right;
-                        padding-right: 10px;
+                        margin-bottom: 0px;
                     }
                     textarea{
-                        float: left;
-                        width: 75% !important;
+                        width: 100% !important;
                         margin-bottom: 20px;
                     }
                     .error-messages{
@@ -863,6 +859,16 @@
                         }
 
                     }
+                }
+                .booking-customer-notes{
+                    .form-input{
+                        width: 100%;
+                        border-bottom: 1px solid $background-grey;
+                        textarea{
+                            margin-bottom: 0px;
+                            border-radius: 0px;
+                        }
+                   }
                 }
                 .form-input{
                     width:100%;
