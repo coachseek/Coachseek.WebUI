@@ -40,7 +40,7 @@
             <button ng-switch-default class="pay-later" ng-class="{'pay-later-only': !business.payment.isOnlinePaymentEnabled}" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.confirm-pay-later' | i18next}}</button>
             <button ng-switch-when="6ed632c5-5ea1-49b5-8702-4ae072f22e0c" class="pay-later orange" ng-show="!business.payment.isOnlinePaymentEnabled || !business.payment.forceOnlinePayment" ng-click="processBooking(true)">{{'booking:confirmation.further-payment-options' | i18next}}</button>
         </span>
-        <button class="back-button" ui-sref="booking.details">{{'booking:confirmation.change-booking' | i18next}}</button>
+        <button class="back-button" ui-sref="booking.notes">{{'booking:confirmation.change-booking' | i18next}}</button>
     </div>
     <div class="loading-messages" ng-show="processingBooking || redirectingToPaypal">
         <loading-animation></loading-animation>
