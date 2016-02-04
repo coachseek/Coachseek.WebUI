@@ -198,7 +198,8 @@ angular.module('booking.controllers', [])
                 customer: onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Customers' }, currentBooking.customer).$promise,
                 customerNotes: onlineBookingAPIFactory.anon($scope.business.domain).getCustomFields({}).$promise
             }).then(function(response) {
-                    currentBooking.customerID = response.customer.id;
+                    currentBooking.customerId = response.customer.id;
+                    currentBooking.customFields = response.customer.customFields;
                     currentBooking.customerNotes = _.filter(response.customerNotes, function(note) { return note.isActive; });
 
                     if(_.size(currentBooking.customerNotes)){
@@ -217,7 +218,7 @@ angular.module('booking.controllers', [])
         if(!currentBooking.filters.location){
             $state.go('booking.selection');
         }
-        $scope.fields = _.keyBy(currentBooking.customer.customFields, 'key');
+        $scope.fields = _.keyBy(currentBooking.customFields, 'key');
 
         $scope.saveCustomerNotes = function(){
             $scope.processingBooking = true;
@@ -264,6 +265,7 @@ angular.module('booking.controllers', [])
                 .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
                     .then(function(response){
                         currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
+                        _.assign(currentBooking.customer, {id: currentBooking.customerId})
                         return saveBooking(currentBooking.customer).then(function (booking) {
                             currentBooking.booking.id = booking.id;
                             $scope.bookingConfirmed = payLater;
