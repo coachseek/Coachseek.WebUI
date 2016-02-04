@@ -1,7 +1,7 @@
 angular.module('customers.controllers', [])
-    .controller('customersCtrl', ['$scope', 'CRUDService',
-        function($scope, CRUDService){
-
+    .controller('customersCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$q', '$activityIndicator',
+        function($scope, coachSeekAPIService, CRUDService, $q, $activityIndicator){
+        $scope.exportKeys = ['firstName', 'lastName', 'email', 'phone'];
         $scope.createItem = function(){
             if(!$scope.item){
                 $scope.newItem = true;
@@ -11,6 +11,7 @@ angular.module('customers.controllers', [])
 
         $scope.editItem = function(customer){
             _.pull($scope.itemList, customer);
+            customer.fields = _.keyBy(customer.customFields, 'key');
             $scope.itemCopy = angular.copy(customer);
 
             $scope.item = customer;
@@ -19,9 +20,51 @@ angular.module('customers.controllers', [])
         $scope.saveItem = function(customer){
             var formValid = CRUDService.validateForm($scope);
             if(formValid){
-                CRUDService.update('Customers', $scope, customer);
-            }
+                $activityIndicator.startAnimating();
+                var customFields = getCustomFieldsArray(customer.fields);
+                //save customer general fields
+                coachSeekAPIService.save({section: 'Customers'}, customer).$promise
+                    .then(function(_customer){
+                        //only save customFields if they exist
+                        if(_.size(customFields)){
+                            coachSeekAPIService.save({section: 'Customers', id: _customer.id}, {customFields: customFields}).$promise
+                                .then(function(_customer_){
+                                    resetCustomerList(_customer_);
+                                },$scope.handleErrors).finally(function(){
+                                    $activityIndicator.stopAnimating();
+                                });
+                            } else {
+                                resetCustomerList(_customer);
+                                $activityIndicator.stopAnimating();
+                            }
+                    }, function(errors){
+                        $activityIndicator.stopAnimating();
+                        $scope.handleErrors(errors);
+                    });
+                }
         };
+
+        function resetCustomerList(customer){
+            $scope.itemList.push(customer);
+            if($scope.newItem){
+                var updateObject = {};
+                updateObject['Customers'] = $scope.itemList.length;
+                if(window.Intercom) Intercom('update', updateObject);
+            }
+            $scope.item = null;
+            $scope.itemForm.$setPristine();
+            $scope.itemForm.$setUntouched();
+            $scope.removeAlerts();
+            $scope.newItem = null;
+            $scope.itemCopy = null;
+        };
+
+        function getCustomFieldsArray(fields){
+            _.each(fields, function(field, key){
+                field.key = key;
+            });
+            return _.values(fields)
+        }
 
         $scope.cancelEdit = function(){
             CRUDService.cancelEdit($scope);
@@ -37,7 +80,20 @@ angular.module('customers.controllers', [])
             }
         });
 
-        CRUDService.get('Customers', $scope);
+        $scope.initCustomerLoad = true;
+        $q.all({
+            customers: coachSeekAPIService.query({section: 'Customers'}).$promise,
+            customerNotes: coachSeekAPIService.query({section: 'CustomFields', type: 'customer'}).$promise
+        }).then(function(response) {
+            $scope.itemList = response.customers;
+
+            $scope.customerNotes = _.filter(response.customerNotes, function(note) { return note.isActive; });
+            var customFields = [];
+            _.each($scope.customerNotes, function(note){customFields.push(note.key); });
+            $scope.exportKeys.push({customFields: customFields});
+        },$scope.handleErrors).finally(function(){
+            $scope.initCustomerLoad = false;
+        });
     }])
     .controller('customerSearchCtrl', ['$scope', '$filter', function($scope, $filter){
         var peopleList;

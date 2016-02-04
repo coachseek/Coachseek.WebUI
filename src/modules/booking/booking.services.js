@@ -2,10 +2,11 @@ angular.module('booking.services', [])
     .factory('onlineBookingAPIFactory', ['$resource', 'ENV', function($resource, ENV){
         return {
             anon: function (subdomain) {
-                return $resource(ENV.apiURL + '/OnlineBooking/:section', {}, {
+                return $resource(ENV.apiURL + '/OnlineBooking/:section/:id', {}, {
                     get:   {method: 'GET', headers: {'Business-Domain': subdomain}},
                     // query: {method: 'GET', isArray:true, headers: {'Business-Domain': subdomain}},
                     save:  {method: 'POST', headers: {'Business-Domain': subdomain}},
+                    getCustomFields: {url: ENV.apiURL + '/CustomFields?type=customer', method: 'GET', isArray: true, headers: {'Business-Domain': subdomain}},
                     pricingEnquiry: {url: ENV.apiURL + '/Pricing/Enquiry', method: 'POST', transformResponse: function (data) { return {price: data}}, headers: {'Business-Domain': subdomain}}
                 })
             }

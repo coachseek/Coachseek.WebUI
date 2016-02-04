@@ -44,17 +44,35 @@ angular.module('app.directives', [])
                         lineDelimiter = '\n',
                         keys = scope.keys || _.keys(scope.exportData[0]);
 
+                    var headings = angular.copy(keys);
+                    _.each(headings, function(heading, i){
+                        if(_.isObject(heading)){
+                            headings[i] = _.values(heading);
+                        }
+                    });
+                    headings = _.flattenDeep(headings);
+
                     result = '';
-                    result += _.map(keys, function(key){return i18n.t(key) || key}).join(columnDelimiter);
+                    result += _.map(headings, function(heading){return i18n.t(heading) || heading}).join(columnDelimiter);
                     result += lineDelimiter;
 
                     _.each(scope.exportData, function(item, index) {
                         var ctr = 0;
                         _.each(keys,function(key) {
-                            if (ctr > 0) result += columnDelimiter;
+                            //this is really on for custom fields at the moment
+                            if(_.isObject(key)){
+                                _.each(item[_.keys(key)[0]], function(item){
+                                    if (ctr > 0) result += columnDelimiter;
 
-                            result += item[key] || '';
-                            ctr++;
+                                    result += item.value || '';
+                                    ctr++;
+                                });
+                            } else {
+                                if (ctr > 0) result += columnDelimiter;
+
+                                result += item[key] || '';
+                                ctr++;
+                            }
                         });
                         result += lineDelimiter;
                     });

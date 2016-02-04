@@ -1,5 +1,5 @@
 <div class="customers-list-view crud-list" ng-hide="item" ng-tab-add="createItem()">
-    <export-to-csv ng-if="!Modernizr.touchevents" export-data="itemList" keys="['firstName', 'lastName', 'email', 'phone']" filename="business.domain + '-customers.csv'"></export-to-csv>
+    <export-to-csv ng-if="!Modernizr.touchevents" ng-disabled="initCustomerLoad" export-data="itemList" keys="exportKeys" filename="business.domain + '-customers.csv'"></export-to-csv>
     <button class="create-item" ng-click="createItem()" ng-disabled="AILoading">
         <i class="fa fa-plus"></i>
         {{'customers:add-customer' | i18next}}
@@ -14,7 +14,7 @@
         </div>
         <hr class="double-wide" ng-if="isBigScreen"/>
         <ul infinite-scroll='loadMore()'>
-            <li class="customer-details" ng-repeat="item in customerList track by item.id">
+            <li class="customer-details" ng-repeat="item in itemList track by item.id">
                 <a ng-href="mailto:{{item.email}}" ng-disabled="!item.email" class="customer-contact fa fa-envelope-o fa-2x" target="_blank"></a>
                 <!-- <span ng-click="editItem(item)" class="customer-edit fa fa-edit fa-2x"></span> -->
                 <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
@@ -30,7 +30,7 @@
                 </div>
                 <hr/>
             </li>
-            <div class="no-customers" ng-if="!customerList.length && !AILoading">{{'customers:no-customers-found' | i18next}}</div>
+            <div class="no-customers" ng-if="!customerList.length && !initCustomerLoad">{{'customers:no-customers-found' | i18next}}</div>
         </ul>
     </div>
 </div>
@@ -79,13 +79,9 @@
 
             <date-picker date="item.dateOfBirth" form="itemForm"></date-picker>
 
-            <div class="form-input" ng-repeat="note in item.customFields">
+            <div class="form-input" ng-repeat="note in customerNotes">
                 <label dynamic-name="note.key">{{note.name}}</label>
-                <textarea dynamic-name="note.key" ng-model="note.value" ng-required="note.isRequired">{{note.value}}</textarea>
-
-                <div class="error-messages" ng-messages="itemForm[note.key].$error" ng-if="itemForm[note.key].$touched">
-                    <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
-                </div>
+                <textarea dynamic-name="note.key" ng-model="item.fields[note.key].value"></textarea>
             </div>
         </form>
 
@@ -93,3 +89,5 @@
         <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
     </div>
 </div>
+<loading-animation ng-show="initCustomerLoad"></loading-animation>
+

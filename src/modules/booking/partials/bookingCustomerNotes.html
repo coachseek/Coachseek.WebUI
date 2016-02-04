@@ -1,8 +1,8 @@
 <div class="booking-customer-notes">
     <form name="form" class="booking-customer-notes-form crud-item" ng-hide="processingBooking">
-	    <div class="form-input" ng-repeat="note in currentBooking.customer.customFields">
+	    <div class="form-input" ng-repeat="note in currentBooking.customerNotes">
 		    <label dynamic-name="note.key">{{note.name}}</label>
-		    <textarea dynamic-name="note.key" ng-model="note.value" ng-required="note.isRequired">{{note.value}}</textarea>
+		    <textarea dynamic-name="note.key" ng-model="fields[note.key].value" ng-required="note.isRequired"></textarea>
 
 		    <div class="error-messages" ng-messages="form[note.key].$error" ng-if="form[note.key].$touched">
 		        <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>

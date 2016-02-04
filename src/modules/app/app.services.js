@@ -98,6 +98,7 @@ angular.module('app.services', [])
                         $scope.itemList = [];
                         $scope.createItem();
                     }
+                    return itemList;
                 }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
