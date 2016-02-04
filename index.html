@@ -42,7 +42,7 @@
             <div ng-class="{active: appLoading}" class='inner-logo'></div>
         </div>
     </div>
-    <trial-status ng-if="business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status>
+    <!-- <trial-status ng-if="business.subscriptionPlan === 'Trial'" trial-days-left="currentUser.trialDaysLeft"></trial-status> -->
 
     <div id="wrapper" ng-class="!isCollapsed?'toggled': ''">
         <div class="navbar navbar-inverse navbar-fixed-top" ng-show="currentUser">
@@ -66,7 +66,7 @@
                     <li><a ui-sref="scheduling" ui-sref-active="active">{{'scheduling' | i18next}}</a></li>
                     <li><a ui-sref="customers" ui-sref-active="active">{{'customers' | i18next}}</a></li>
                     <li><a ui-sref="businessSetup.business" ng-class="{ active: $state.includes('businessSetup') }">{{'settings' | i18next}}</a></li>
-                    <li><a ui-sref="bookingAdmin" ui-sref-active="active">{{'booking' | i18next}}</a></li>
+                    <!-- <li><a ui-sref="bookingAdmin" ui-sref-active="active">{{'booking' | i18next}}</a></li> -->
                     <li>
                     </li>
                     <li class="login-right">
