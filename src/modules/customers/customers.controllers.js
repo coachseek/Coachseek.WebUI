@@ -87,7 +87,7 @@ angular.module('customers.controllers', [])
         }).then(function(response) {
             $scope.itemList = response.customers;
 
-            $scope.customerNotes = response.customerNotes;
+            $scope.customerNotes = _.filter(response.customerNotes, function(note) { return note.isActive; });
             var customFields = [];
             _.each($scope.customerNotes, function(note){customFields.push(note.key); });
             $scope.exportKeys.push({customFields: customFields});
