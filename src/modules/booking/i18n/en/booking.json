@@ -93,8 +93,9 @@
         "is-required": "Required field",
         "is-active": "Active",
         "name": "Name",
-        "add-note": "Add note",
-        "note-name-placeholder": "e.g. Medical Info"
+        "add-note": "Add field",
+        "note-name-placeholder": "e.g. Medical Info",
+        "no-booking-notes": "Need to capture details about your customers other than their Name, Phone Number, Email and Date of Birth? Add any additional info required here."
     },
     "msports": {
         "cash-or-check": "– Cash or Cheque: Posted to M Sports Ltd, 46 Ocean View Rd, Northcote 0627",

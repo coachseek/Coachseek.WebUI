@@ -107,5 +107,6 @@
         </div>
         <booking-note-template ng-repeat="note in bookingNotes |  orderBy:'isActive':true"></booking-note-template>
         <loading-animation ng-show="initNoteLoad"></loading-animation>
+        <h4 class="no-booking-notes" ng-show="!initNoteLoad && !_.size(bookingNotes) && !showAddNote">{{'booking:booking-admin.no-booking-notes' | i18next}}</h4>
     </div>
 </div>
