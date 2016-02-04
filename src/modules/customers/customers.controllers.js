@@ -30,11 +30,13 @@ angular.module('customers.controllers', [])
                             coachSeekAPIService.save({section: 'Customers', id: _customer.id}, {customFields: customFields}).$promise
                                 .then(function(_customer_){
                                     resetCustomerList(_customer_);
+                                    $scope.$broadcast('updateSuccess');
                                 },$scope.handleErrors).finally(function(){
                                     $activityIndicator.stopAnimating();
                                 });
                             } else {
                                 resetCustomerList(_customer);
+                                $scope.$broadcast('updateSuccess');
                                 $activityIndicator.stopAnimating();
                             }
                     }, function(errors){
@@ -46,10 +48,8 @@ angular.module('customers.controllers', [])
 
         function resetCustomerList(customer){
             $scope.itemList.push(customer);
-            if($scope.newItem){
-                var updateObject = {};
-                updateObject['Customers'] = $scope.itemList.length;
-                if(window.Intercom) Intercom('update', updateObject);
+            if($scope.newItem && window.Intercom){
+                Intercom('update', {Customers: $scope.itemList.length});
             }
             $scope.item = null;
             $scope.itemForm.$setPristine();
