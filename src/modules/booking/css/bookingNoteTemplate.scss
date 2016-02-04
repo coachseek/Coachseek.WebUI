@@ -37,6 +37,9 @@ booking-note-template{
                 float: left;
                 cursor: pointer;
                 padding-left: 10px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
             }
             div.error-messages{
                 left: 30px;
