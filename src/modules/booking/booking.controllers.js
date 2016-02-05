@@ -275,6 +275,7 @@ angular.module('booking.controllers', [])
                             // make sure paypal form doesn't submit if error;
                             return $q.reject();
                         }).finally(function(){
+                            delete currentBooking.customer.id;
                             $scope.processingBooking = false;
                         });
                 }, function(error){
