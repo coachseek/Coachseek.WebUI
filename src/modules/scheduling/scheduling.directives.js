@@ -350,7 +350,7 @@ angular.module('scheduling.directives', [])
                     _.each(bookings, function(booking){
                         courseBookingData.push({customer: booking.customer, bookings: []});
                     });
-                    courseBookingData = _.uniq(courseBookingData, 'customer.id')
+                    courseBookingData = _.uniqBy(courseBookingData, 'customer.id')
                     var sessions = _.get(scope.currentEvent, 'course.sessions') || [_.get(scope.currentEvent, 'session')];
                     _.each(sessions, function(session, sessionIndex){
                         // if there are no bookings at all need to still loop through in order to get add to session button in there
