@@ -87,3 +87,20 @@ booking-note-template{
         }
     }
 }
+@media (max-width: 768px){
+    [state^="bookingAdmin"] {
+        booking-note-template{
+            .note-name{
+                width: 50%;
+            }
+            .is-required{
+                width: 20%;
+            }
+            div.error-messages{
+                i{
+                    display: none;
+                }
+            }
+        }
+    }
+}

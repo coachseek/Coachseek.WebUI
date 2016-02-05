@@ -252,8 +252,46 @@
         width: 100%;
         .booking-admin-container {
             width: 100%;
-            padding-left: 15px;
-            padding-right: 15px;
+            padding-left: 5px;
+            padding-right: 5px;
+            .booking-admin-booking-notes{
+                .new-booking-note-container{
+                    .note-name{
+                        width: 50%;
+                        div.error-messages{
+                            i{
+                                display: none;
+                            }
+                        }
+                    }
+                    .is-required {
+                        width: 20%;
+                    }
+                    .new-note-save-container{
+                        width: 30%;
+                        button.save-button{
+                            width: 90%;
+                        }
+                    }
+                }
+                .booking-note-headers{
+                    overflow: hidden;
+                    margin-bottom: 10px;
+                    h5{
+                        float: left;
+                        text-align: center;
+                        &.name{
+                            width: 50%;
+                        }
+                        &.is-required{
+                            width: 20%;
+                        }
+                        &.is-active{
+                            width: 30%;
+                        }
+                    } 
+                }
+            }
         }
         .booking-admin-nav-container{
             width: 100%;
