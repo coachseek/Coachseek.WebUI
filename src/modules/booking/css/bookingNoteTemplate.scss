@@ -1,8 +1,7 @@
-$booking-note-height: 40px;
+$booking-note-height: 60px;
 booking-note-template{
     .booking-note-container{
         height: $booking-note-height;
-        margin-bottom: 20px;
         position: relative;
         .note-name, 
         .is-required, 
@@ -19,21 +18,24 @@ booking-note-template{
             line-height: $booking-note-height;
             .fa-pencil, .fa-save, ellipsis-animated{
                 width: 15%;
-                line-height: $booking-note-height;
                 cursor: pointer;
                 text-align: center;
                 display: inline-block;
                 float: left;
                 color: $green;
+                line-height: 60px;
             }
             input{
                 width: 85%;
+                margin-top: 10px;
                 height: 40px;
+                line-height: 40px;
                 float: left;
             }
             span.display-name{
                 width: 85%;
-                height: 40px;
+                height: $booking-note-height;
+                line-height: $booking-note-height;
                 float: left;
                 cursor: pointer;
                 padding-left: 10px;
@@ -56,17 +58,18 @@ booking-note-template{
         .is-required{
             width: 30%;
             line-height: $booking-note-height;
-            height: 40px;
+            height: $booking-note-height;;
             cursor: pointer;
             text-align: center;
             input[type=checkbox]{
                 width: auto;
                 cursor: pointer;
+                height: 30px !important;
             }
         }
         .is-active{
             width: 30%;
-            height: 40px;
+            height: $booking-note-height;;
 
             &.grey-background{
                 background: rgba(200,200,200,0.5)
@@ -76,7 +79,7 @@ booking-note-template{
                 float: none;
                 margin: 0 auto;
                 height: 30px;
-                margin-top: 5px;
+                margin-top: 15px;
                 .switch{
                     height: 28px;
                 }
