@@ -380,7 +380,6 @@ angular.module('scheduling.directives', [])
                     }, scope.handleErrors);
            }
         }; 
->>>>>>> origin/master
     }])
     .directive('reactCustomerDataTable', ['bookingManager', 'coachSeekAPIService', function(bookingManager, coachSeekAPIService){
         return {
