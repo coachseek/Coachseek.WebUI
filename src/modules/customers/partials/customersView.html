@@ -15,7 +15,7 @@
         <hr class="double-wide" ng-if="isBigScreen"/>
         <ul infinite-scroll='loadMore()'>
             <li class="customer-details" ng-repeat="item in customerList track by item.id">
-                <a ng-href="mailto:{{item.email}}" ng-disabled="!item.email" class="customer-contact fa fa-envelope-o fa-2x" target="_blank"></a>
+                 <button ng-click="openActionsheet(item)" ng-disabled="!item.phone&&!item.email" ng-class="{'disabled':!item.phone&&!item.email}" class="customer-contact fa fa-envelope-o fa-2x"></button>
                 <!-- <span ng-click="editItem(item)" class="customer-edit fa fa-edit fa-2x"></span> -->
                 <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
                 <div ng-if="searchText">
