@@ -383,11 +383,10 @@ angular.module('booking.controllers', [])
             });
         }
 
-        //TODO validate form, sort by filter
         var newNoteDefaults = {
             type: 'customer',
             name: '',
-            isRequired: false,
+            isRequired: false
         };
         $scope.newNote = angular.copy(newNoteDefaults);
         $scope.showAddNote = false;

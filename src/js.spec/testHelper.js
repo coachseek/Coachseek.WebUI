@@ -92,6 +92,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
 
 
 afterEach(function(){
+    clock.restore();
     this.sinon.restore();
 
     $testRegion.remove();
