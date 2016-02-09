@@ -1,0 +1,77 @@
+<div class="attendance-list" ng-init="showCustomers = false">
+    <div class="cover-box"></div>
+    <div class="session-headers">
+        <!-- <td><span>{{'whole-course'  | i18next}}</span></td> -->
+        <li ng-repeat="session in currentEvent.course.sessions || [currentEvent.session] track by $index" ng-class="{'current': currentEvent.session.id === session.id}">
+            <span>{{getSessionDate(session)}}</span>
+            <span><i class="fa fa-user"></i>&nbsp;{{session.booking.bookingCount}}/{{session.booking.studentCapacity}}</span>
+        </li>
+    </div>
+    <div class="external-scroll_y">
+        <div class="scroll-element_outer">
+            <div class="scroll-element_size"></div>
+            <div class="scroll-element_track"></div>
+            <div class="scroll-bar"></div>
+        </div>
+    </div>
+    <div class="course-table-container">
+        <table class="customer-names">
+            <tbody>
+                <tr ng-repeat="courseBooking in courseBookingData track by courseBooking.customer.id">
+                    <td class="delete-booking delete-button" ng-click="removeBooking(courseBooking)" ng-disabled="bookingLoading">
+                        <i class="fa fa-trash-o"></i>
+                    </td>
+                    <td class="item-title">
+                        {{courseBooking.customer.firstName}}&nbsp;{{courseBooking.customer.lastName}}
+                    </td>
+                    <td class="mail-to">
+                        <a ng-href="mailto:{{courseBooking.customer.email}}" target="_blank" ng-disabled="!courseBooking.customer.email"><span class="customer-contact fa fa-envelope-o"></span></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <react-customer-data-table></react-customer-data-table>
+    </div>
+    <button class="show-customer-list-button" ng-click="showCustomers = !showCustomers " ng-class="{'showing': showCustomers && !blockAddBookings()}" ng-disabled="blockAddBookings()">
+        <span class="add-student-text">
+            <div ng-if="!showCustomers">
+                <i class="fa fa-lg fa-plus"></i>
+                &nbsp;{{'scheduling:add-student' | i18next}}
+            </div>
+            <div ng-if="showCustomers">
+                <i class="fa fa-lg fa-caret-down"></i>
+                &nbsp;{{'close' | i18next}}
+            </div>
+        </span>
+    </button>
+    <div class="customer-list" ng-class="{'showing': showCustomers && !blockAddBookings()}" ng-controller="customerSearchCtrl" ng-class="{'short-list': currentEvent.course}">
+        <div class="search-container">
+            <i class="fa fa-lg fa-search"></i>    
+            <input ng-model="searchText" placeholder="{{'customers:search-customers' | i18next}}"/>
+            <div class="add-to-titles" ng-if="currentEvent.course">
+                <div>{{'customers:entire-course'  | i18next}}</div>
+                <div>{{getSessionDate(currentEvent.session)}}</div>
+            </div>
+        </div>
+        <ul infinite-scroll='loadMore()' infinite-scroll-parent="true">
+            <modal-customer-details ng-repeat="item in customerList"></modal-customer-details>
+            <div class="no-customers" ng-show="!customerList.length">{{'customers:no-customers-found' | i18next}}</div>
+        </ul>
+    </div>
+</div>
+<div class="edit-button-container">
+    <div class="external-scroll_x">
+        <div class="scroll-element_outer">
+            <div class="scroll-element_size"></div>
+            <div class="scroll-element_track"></div>
+            <div class="scroll-bar"></div>
+        </div>
+    </div>
+    <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
+        <i class="fa fa-trash-o"></i>
+    </button>
+    <div class="loading-animation-container">
+        <loading-animation ng-show="courseLoading === true"></loading-animation>
+    </div>
+    <span class="saved" ng-show="!courseLoading">{{'saved' | i18next}}&nbsp;&nbsp;<i class="fa fa-check"></i></span>
+</div>

@@ -1,28 +1,23 @@
-<div class="session-modal-title">
-    {{'scheduling:service-details.general' | i18next}}
-    <i class="fa fa-times" ng-click="cancelModalEdit()"></i>
-</div>
-
 <div class="session-form crud-item">
     <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
-        <div class="form-input">
+        <div class="form-input left-col">
             <label name="duration">{{'scheduling:service-details.start-time' | i18next}}</label>
             <start-time-picker start-time="currentEvent.session.timing.startTime"></start-time-picker>
         </div>
 
-        <div class="form-input">
+        <div class="form-input right-col">
             <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
             <duration-picker duration="currentEvent.session.timing.duration"></duration-picker>
         </div>
     
-        <div class="form-input">
+        <div class="form-input left-col">
             <label name="services">{{'scheduling:service-name' | i18next}}</label>
             <select-arrows></select-arrows>
 
             <select class="services" name="services" ng-change="changeServiceName()" ng-options="service.id as service.name for service in serviceList" ng-model="currentEvent.session.service.id" required></select>
         </div>
 
-        <div class="form-input">
+        <div class="form-input right-col">
             <label name="locations">{{'scheduling:location' | i18next}}</label>
             <select-arrows></select-arrows>
             <select class="locations" name="locations" ng-change="changeLocationName()"  ng-model="currentEvent.session.location.id" required>
@@ -37,7 +32,7 @@
             </div>
         </div>
 
-        <div class="form-input">
+        <div class="form-input left-col">
             <label name="coaches">{{'scheduling:coach' | i18next}}</label>
             <select-arrows></select-arrows>
             <select class="coaches" name="coaches" ng-model="currentEvent.session.coach.id" required>
@@ -51,34 +46,25 @@
             </div>
         </div>
 
-        <div class="form-input">
-            <label name="studentCapacity">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
-            <input name="studentCapacity" type="number" ng-model="currentEvent.session.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  ng-min="1"  ng-max="100" required/>
+        <div class="form-input right-col two-inputs">
+            <label name="studentCapacity" class="float-left">{{'businessSetup:service-details.student-capacity' | i18next}}</label>
+            <label name="isOnlineBookable" class="float-right">{{'businessSetup:service-details.is-online-bookable' | i18next}}</label>
+            <input name="studentCapacity" class="float-left" type="number" ng-model="currentEvent.session.booking.studentCapacity" placeholder="{{'businessSetup:service-details.placeholder.student-capacity' | i18next}}"  ng-min="1"  ng-max="100" required/>
 
             <div class="prompt-messages" ng-messages="currentSessionForm.studentCapacity.$error" ng-if="currentSessionForm.studentCapacity.$touched">
                 <div ng-message="max">{{'businessSetup:error.max-capacity' | i18next}}</div>
                 <div ng-message="min">{{'businessSetup:error.min-capacity' | i18next}}</div>
                 <div ng-message="required">{{'businessSetup:error.capacity-required' | i18next}}</div>
             </div>
-        </div>
 
-        <div class="form-input">
-            <label name="isOnlineBookable">{{'businessSetup:service-details.is-online-bookable' | i18next}}</label>
             <select-arrows></select-arrows>
-            <select class="online-bookable" name="isOnlineBookable"
+            <select class="online-bookable float-right" name="isOnlineBookable"
                 ng-model="currentEvent.session.booking.isOnlineBookable"
                 ng-options="opt.value as (opt.text |i18next) for opt in [{text:'yes', value: true},{text:'no', value: false}]">
             </select>
         </div>
 
-        <repeat-selector
-            ng-show="currentEvent.tempEventId"
-            repeat-frequency="currentEvent.session.repetition.repeatFrequency"
-            session-count="currentEvent.session.repetition.sessionCount"
-            form="currentSessionForm"
-        ></repeat-selector>
-
-        <div class="session-price form-input">
+        <div class="session-price form-input left-col">
             <label name="sessionPrice">{{'scheduling:service-details.session-price' | i18next}}</label>
             <span class="money-sign" ng-i18next="denominations.{{business.payment.currency}}"></span>
             <input name="sessionPrice" type="number" ng-model="currentEvent.session.pricing.sessionPrice" placeholder="{{'scheduling:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  ng-required="requireSessionPrice()"/>
@@ -88,7 +74,7 @@
             </div>
         </div>
 
-        <div class="course-price form-input" ng-show="currentEvent.session.repetition.sessionCount > 1 || currentEvent.course.sessions" >
+        <div class="course-price form-input right-col" ng-show="!currentEvent.tempEventId && (currentEvent.session.repetition.sessionCount > 1 || currentEvent.course.sessions)">
             <label name="coursePrice">{{'scheduling:service-details.course-price' | i18next}}</label>
             <span class="money-sign" ng-i18next="denominations.{{business.payment.currency}}"></span>
             <input name="coursePrice" type="number" ng-model="currentEvent.course.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" ng-required="requireCoursePrice()"/>
@@ -97,12 +83,22 @@
                 <div class="required" ng-message="required">{{'scheduling:error.price-required' | i18next}}</div>
             </div>
         </div>
+
+        <div class="course-price form-input right-col" ng-show="currentEvent.tempEventId" ng-disabled="currentEvent.session.repetition.sessionCount <= 1">
+            <label name="coursePrice">{{'scheduling:service-details.course-price' | i18next}}</label>
+            <span class="money-sign" ng-i18next="denominations.{{business.payment.currency}}"></span>
+            <input name="coursePrice" type="number" ng-model="currentEvent.course.pricing.coursePrice" placeholder="{{'scheduling:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" ng-required="requireCoursePrice()"/>
+
+            <div class="error-messages price" ng-messages="currentSessionForm.coursePrice.$error" ng-show="currentSessionForm.coursePrice.$touched">
+                <div class="required" ng-message="required">{{'scheduling:error.price-required' | i18next}}</div>
+            </div>
+        </div>
+
+        <repeat-selector
+            ng-show="currentEvent.tempEventId"
+            repeat-frequency="currentEvent.session.repetition.repeatFrequency"
+            session-count="currentEvent.session.repetition.sessionCount"
+            form="currentSessionForm"
+        ></repeat-selector>
     </form>
-</div>
-<div class="edit-button-container">
-    <button class="delete-button delete-session" ng-click="deleteSession()" ng-hide="currentEvent.tempEventId">
-        <i class="fa fa-trash-o"></i>
-    </button>
-    <button class="save-button" ng-click="saveModalEdit()" ng-disabled="calendarLoading"><span ng-i18next>{{calendarLoading ? 'saving' : 'save-details' }}</span><ellipsis-animated ng-show="calendarLoading"/></button>
-    <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelModalEdit()">{{'close' | i18next}}</button>
 </div>

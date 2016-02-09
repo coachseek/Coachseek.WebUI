@@ -239,9 +239,13 @@ describe('Scheduling Module', function() {
                         colour: this.serviceOne.colour
                     },
                     booking: {
-                        bookings: []
+                        bookings: [{
+                            customer: {id: 'customer_one', firstName: 'man', lastName: 'guy'}
+                        },{
+                            customer: {id: 'customer_two', firstName: 'hannah', lastName: 'fasen'}
+                        }]
                     },
-                    sessions: [this.sessionTwo, this.sessionTwo]                     
+                    sessions: [this.sessionOne, this.sessionTwo]                     
                 }],
                 sessions: [this.sessionOne]
             }
@@ -393,6 +397,37 @@ describe('Scheduling Module', function() {
             // attached to them and the tests do not wait. could possibly use done() instead?
             $timeout.flush();
         });
+        it('should load the coaches into the coach selector', function(){
+            var $coachOptions = $testRegion.find('.coach-list option');
+            _.forEach($coachOptions, function(coachOption, index){
+                // UNDEFINED OPTION (ALL COACHES)
+                var $coachOption = $(coachOption);
+                if(index === 0){
+                    expect($coachOption.val()).to.equal("");
+                    expect($coachOption.text()).to.equal("");
+                // COACH NAMES
+                } else {
+                    expect($coachOption.text()).to.equal(self.coaches[index - 1].name);
+                }
+            });
+        });
+        it('should load the locations into the location selector', function(){
+            var $locationOptions = $testRegion.find('.location-list option');
+            _.forEach($locationOptions, function(locationOption, index){
+                // UNDEFINED OPTION (ALL LOCATIONS)
+                var $locationOption = $(locationOption);
+                if(index === 0){
+                    expect($locationOption.val()).to.equal("");
+                    expect($locationOption.text()).to.equal("");
+                // LOCATION NAMES
+                } else {
+                    expect($locationOption.text()).to.equal(self.locations[index - 1].name);
+                }
+            });
+        })
+        it('should NOT show the course modal', function(){
+            expect($testRegion.find('.course-modal-backdrop').hasClass('ng-hide')).to.be.true;
+        });
         describe('when onboarding is turned off', function(){
             it('should attempt to get existing services, locations, and coaches', function(){
                 expect(getStub).to.be.calledWith({section: 'Coaches'})
@@ -428,7 +463,7 @@ describe('Scheduling Module', function() {
             });
             it('should add `createDefaults` to onboaring steps completed', function(){
                 var stepsCompleted = _.get($injector.get('sessionService'), 'onboarding.stepsCompleted')
-                expect(_.contains(stepsCompleted, 'createDefaults')).to.be.true;
+                expect(_.includes(stepsCompleted, 'createDefaults')).to.be.true;
             })
             it('should attempt to get existing services, locations, and coaches', function(){
                 expect(getStub).to.be.calledWith({section: 'Coaches'})
@@ -481,37 +516,6 @@ describe('Scheduling Module', function() {
                 expect($testRegion.find('.calendar-loading').hasClass('ng-hide')).to.be.false;
             });
         });
-        it('should load the coaches into the coach selector', function(){
-            var $coachOptions = $testRegion.find('.coach-list option');
-            _.forEach($coachOptions, function(coachOption, index){
-                // UNDEFINED OPTION (ALL COACHES)
-                var $coachOption = $(coachOption);
-                if(index === 0){
-                    expect($coachOption.val()).to.equal("");
-                    expect($coachOption.text()).to.equal("");
-                // COACH NAMES
-                } else {
-                    expect($coachOption.text()).to.equal(self.coaches[index - 1].name);
-                }
-            });
-        });
-        it('should load the locations into the location selector', function(){
-            var $locationOptions = $testRegion.find('.location-list option');
-            _.forEach($locationOptions, function(locationOption, index){
-                // UNDEFINED OPTION (ALL LOCATIONS)
-                var $locationOption = $(locationOption);
-                if(index === 0){
-                    expect($locationOption.val()).to.equal("");
-                    expect($locationOption.text()).to.equal("");
-                // LOCATION NAMES
-                } else {
-                    expect($locationOption.text()).to.equal(self.locations[index - 1].name);
-                }
-            });
-        })
-        it('should NOT show the session modal', function(){
-            expect($testRegion.find('.session-modal').hasClass('ng-hide')).to.be.true;
-        });
         describe('when loading the list of services', function(){
             it('should set the title', function(){
                 var firstServiceTitle = $firstService.find('.service-name').text();
@@ -551,22 +555,22 @@ describe('Scheduling Module', function() {
         });
         describe('when clicking on a session in the calendar', function(){
 
-            var $calendarEvent, $sessionModal;
+            var $calendarEvent, $courseModal;
             beforeEach(function(){
                 $calendarEvent = $calendar.find('.fc-event');
                 $calendarEvent.trigger('click');
                 $timeout.flush();
-                $sessionModal = $testRegion.find('.session-modal');
+                $courseModal = $testRegion.find('.course-modal-backdrop');
             });
             it('should show the session modal', function(){
-                expect($sessionModal.hasClass('ng-hide')).to.be.false;
+                expect($courseModal.hasClass('ng-hide')).to.be.false;
             });
-            it('should hide the session form', function(){
-                expect($sessionModal.find('modal-session-form').hasClass('ng-hide')).to.be.true;
+            it('should show the session form', function(){
+                expect(scope.modalTab).to.equal('general');
+                expect($courseModal.find('modal-session-form').hasClass('ng-hide')).to.be.false;
             });
-            it('should show the attendance list', function(){
-                expect(scope.currentTab).to.equal('attendance');
-                expect($sessionModal.find('modal-session-attendance-list').hasClass('ng-hide')).to.be.false;
+            it('should not show attendance or payment list', function(){
+                expect($courseModal.find('course-attendance-modal').hasClass('ng-hide')).to.be.true;
             });
             it('should set the currentEvent on the scope', function(){
                 expect(scope.currentEvent).to.exist;
@@ -574,7 +578,7 @@ describe('Scheduling Module', function() {
             it('should disable the session list', function(){
                 expect($servicesList.find('.services-list').attr('disabled')).to.equal('disabled');
             });
-            describe('the session modal', function(){
+            describe('the course modal', function(){
                 it('should load the coach into the coach list', function(){
                     var $coachOptions = $testRegion.find('.form-input .coaches option');
                     _.forEach($coachOptions, function(coachOption, index){
@@ -607,7 +611,7 @@ describe('Scheduling Module', function() {
                                 updateStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                                     return {$promise: $q.defer().promise}
                                 });
-                                $sessionModal.find('.save-button').trigger('click');
+                                $courseModal.find('.save-button').trigger('click');
                             });
                             it('should start calendar loading', function(){
                                 expect(scope.calendarLoading).to.be.true;
@@ -631,13 +635,13 @@ describe('Scheduling Module', function() {
                                     }
                                 });
                                 scope.$digest();
-                                $sessionModal.find('.save-button').trigger('click');
+                                $courseModal.find('.save-button').trigger('click');
                             });
                             it('should attempt to save the session', function(){
                                 expect(updateStub).to.be.calledWith({section: 'Sessions'}, scope.currentEvent.session);
                             });
                             it('should hide the session modal', function(){
-                                expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                                expect($courseModal.hasClass('ng-hide')).to.be.true;
                             });
                             it('should enable the session list', function(){
                                 expect($servicesList.attr('disabled')).to.equal(undefined);
@@ -654,53 +658,34 @@ describe('Scheduling Module', function() {
                                     }
                                 });
                                 scope.$digest();
-                                $sessionModal.find('.save-button').trigger('click');
+                                $courseModal.find('.save-button').trigger('click');
                             });
                             it('should NOT attempt to save the session', function(){
                                 expect(updateStub).to.not.be.called;
                             });
                             it('should show error messages', function(){
-                                expect($sessionModal.find('.error-messages.locations .required').length).not.equal(0);
-                                expect($sessionModal.find('.error-messages.coaches .required').length).not.equal(0);
+                                expect($courseModal.find('.error-messages.locations .required').length).not.equal(0);
+                                expect($courseModal.find('.error-messages.coaches .required').length).not.equal(0);
                             });
                             it('should disable the session list', function(){
                                 expect($servicesList.find('.services-list').attr('disabled')).to.equal('disabled');
                             });
                         });
                     });
-                    describe('and then cancelling with the cancel button', function(){
-                        beforeEach(function(){
-                            $sessionModal.find('.form-input .duration').trigger('input');
-                            $sessionModal.find('.cancel-button').trigger('click');
-                        });
-                        it('should NOT attempt to save the session', function(){
-                            expect(updateStub).to.not.be.called;
-                        });
-                        it('should hide the session modal', function(){
-                            expect($sessionModal.hasClass('ng-hide')).to.be.true;
-                        });
-                        it('should set the form to untouched and pristine', function(){
-                            expect(scope.currentSessionForm.$pristine).to.be.true;
-                            expect($sessionModal.find('form').hasClass('ng-dirty')).to.be.false;
-                        });
-                        it('should enable the session list', function(){
-                            expect($servicesList.attr('disabled')).to.equal(undefined);
-                        });
-                    });
                     describe('and then cancelling with the `X` button', function(){
                         beforeEach(function(){
-                            $sessionModal.find('.form-input .duration').trigger('input');
-                            $sessionModal.find('i.fa-times').trigger('click');
+                            $courseModal.find('.form-input .duration').trigger('input');
+                            $courseModal.find('.close-modal-button').trigger('click');
                         });
                         it('should NOT attempt to save the session', function(){
                             expect(updateStub).to.not.be.called;
                         });
                         it('should hide the session modal', function(){
-                            expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                            expect($courseModal.hasClass('ng-hide')).to.be.true;
                         });
                         it('should set the form to untouched and pristine', function(){
                             expect(scope.currentSessionForm.$pristine).to.be.true;
-                            expect($sessionModal.find('form').hasClass('ng-dirty')).to.be.false;
+                            expect($courseModal.find('form').hasClass('ng-dirty')).to.be.false;
                         });
                         it('should enable the session list', function(){
                             expect($servicesList.attr('disabled')).to.equal(undefined);
@@ -717,7 +702,7 @@ describe('Scheduling Module', function() {
                         deleteStub = this.sinon.stub($injector.get('coachSeekAPIService'), 'delete', function(){
                             return {$promise: self.deletePromise};
                         });
-                        $sessionModal.find('.delete-session').trigger('click');
+                        $courseModal.find('.delete-session').first().trigger('click');
                     })
                     describe('when the session is in a course', function(){
                         it('should bring up the session or course modal', function(){
@@ -732,7 +717,7 @@ describe('Scheduling Module', function() {
                             });
                             describe('and deletion is successful', function(){
                                 it('should hide the session modal', function(){
-                                    expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                                    expect($courseModal.hasClass('ng-hide')).to.be.true;
                                 });
                                 it('should enable the session list', function(){
                                     expect($servicesList.attr('disabled')).to.equal(undefined);
@@ -769,7 +754,7 @@ describe('Scheduling Module', function() {
                             });
                             describe('and deletion is successful', function(){
                                 it('should hide the session modal', function(){
-                                    expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                                    expect($courseModal.hasClass('ng-hide')).to.be.true;
                                 });
                                 it('should enable the session list', function(){
                                     expect($servicesList.attr('disabled')).to.equal(undefined);
@@ -813,7 +798,7 @@ describe('Scheduling Module', function() {
                         });
                         describe('and deletion is successful', function(){
                             it('should hide the session modal', function(){
-                                expect($sessionModal.hasClass('ng-hide')).to.be.true;
+                                expect($courseModal.hasClass('ng-hide')).to.be.true;
                             });
                             it('should enable the session list', function(){
                                 expect($servicesList.attr('disabled')).to.equal(undefined);
@@ -842,46 +827,39 @@ describe('Scheduling Module', function() {
                 });
             });
             describe('the attendance tab', function(){
-                var $attendanceList;
+                var $attendanceList, $generalSettingsForm;
                 beforeEach(function(){
-                    $sessionModal.find('.session-modal-nav .attendance').trigger('click');
-                    $attendanceList = $sessionModal.find('modal-session-attendance-list');
+                    $courseModal.find('.slider-nav .attendance-header').trigger('click');
+                    $generalSettingsForm = $courseModal.find('general-settings-modal');
+                    $attendanceList = $courseModal.find('course-attendance-modal');
                 });
                 it('should show the student list', function(){
-                    expect(scope.currentTab).to.equal('attendance');
+                    expect(scope.modalTab).to.equal('attendance');
                     expect($attendanceList.hasClass('ng-hide')).to.be.false;
                 });
                 it('should hide the customer list', function(){ 
-                    expect($attendanceList.find('.customer-list').hasClass('ng-hide')).to.be.true;
-                });
-                it('should show the student list', function(){
-                    expect($attendanceList.find('.student-list').hasClass('ng-hide')).to.be.false;
+                    expect($attendanceList.find('.customer-list').hasClass('showing')).to.be.false;
                 });
                 it('should have as many students as are in bookings', function(){
-                    expect($attendanceList.find('customer-booking').length).to.equal(this.sessionTwo.booking.bookings.length);
+                    expect($attendanceList.find('table.customer-names tr').length).to.equal(this.sessionTwo.booking.bookings.length);
+                    expect($attendanceList.find('table.session-data tr').length).to.equal(this.sessionTwo.booking.bookings.length);
                 });
                 it('should show a list of all the customers', function(){
                     expect($attendanceList.find('modal-customer-details').length).to.equal(this.customers.length);
                 });
-                describe('when clicking the "ADD STUDENT" button', function(){
+                describe('when clicking the "ADD BOOKING" button', function(){
                     beforeEach(function(){
-                        $attendanceList.find('.create-item').trigger('click');
-                    });
-                    it('should hide the student list', function(){
-                        expect($attendanceList.find('.student-list').hasClass('ng-hide')).to.be.true;
+                        $attendanceList.find('.show-customer-list-button').trigger('click');
                     });
                     it('should show the customer list', function(){
-                        expect($attendanceList.find('.customer-list').hasClass('ng-hide')).to.be.false;
+                        expect($attendanceList.find('.customer-list').hasClass('showing')).to.be.true;
                     });
-                    describe('and then clicking the back arrow', function(){
+                    describe('and then clicking the close button', function(){
                         beforeEach(function(){
-                            $attendanceList.find('.back-arrow').trigger('click');
+                            $attendanceList.find('.show-customer-list-button').trigger('click');
                         });
                         it('should hide the customer list', function(){ 
-                            expect($attendanceList.find('.customer-list').hasClass('ng-hide')).to.be.true;
-                        });
-                        it('should show the student list', function(){
-                            expect($attendanceList.find('.student-list').hasClass('ng-hide')).to.be.false;
+                            expect($attendanceList.find('.customer-list').hasClass('showing')).to.be.false;
                         });
                     });
                 });
@@ -962,6 +940,12 @@ describe('Scheduling Module', function() {
                     expect($calendar.find('.fc-location').first().text()).to.equal('');
                 });
                 describe('and then to a new month', function(){
+                    let('dateOne', function(){
+                        return moment().add(1, 'days').add(1, 'months');
+                    });
+                    let('dateTwo', function(){
+                        return moment().add(1, 'days').add(1, 'hours').add(1, 'months');
+                    });
                     beforeEach(function(){
                         getSessionsStub.restore();
                         getSessionsStub = this.sinon.stub(coachSeekAPIService, 'get', function(){

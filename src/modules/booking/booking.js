@@ -48,6 +48,20 @@ angular.module('booking', [
                     sessionType: 'online-booking'
                 }
             })
+            .state('booking.notes', {
+                url: "/notes",
+                views: {
+                    "booking-view": { 
+                        templateUrl: "booking/partials/bookingCustomerNotes.html",
+                        controller: 'bookingCustomerNotesCtrl'
+                    }
+                },
+                data: {
+                    requireLogin: false,
+                    requireBusinessDomain: true,
+                    sessionType: 'online-booking'
+                }
+            })
             .state('booking.payment', {
                 url: "/payment",
                 views: {

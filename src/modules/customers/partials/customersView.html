@@ -1,6 +1,6 @@
 <div class="customers-list-view crud-list" ng-hide="item" ng-tab-add="createItem()">
-    <export-to-csv ng-if="!Modernizr.touchevents" export-data="itemList" keys="['firstName', 'lastName', 'email', 'phone']" filename="business.domain + '-customers.csv'"></export-to-csv>
-    <button class="create-item" ng-click="createItem()" ng-disabled="AILoading">
+    <export-to-csv ng-if="!Modernizr.touchevents" ng-disabled="initCustomerLoad" export-data="itemList" keys="exportKeys" filename="business.domain + '-customers.csv'"></export-to-csv>
+    <button class="create-item" ng-click="createItem()" ng-disabled="initCustomerLoad">
         <i class="fa fa-plus"></i>
         {{'customers:add-customer' | i18next}}
     </button>
@@ -15,7 +15,7 @@
         <hr class="double-wide" ng-if="isBigScreen"/>
         <ul infinite-scroll='loadMore()'>
             <li class="customer-details" ng-repeat="item in customerList track by item.id">
-                <button ng-click="openActionsheet(item)" ng-disabled="!item.phone&&!item.email" ng-class="{'disabled':!item.phone&&!item.email}" class="customer-contact fa fa-envelope-o fa-2x"></button>
+                <a ng-href="mailto:{{item.email}}" ng-disabled="!item.email" class="customer-contact fa fa-envelope-o fa-2x" target="_blank"></a>
                 <!-- <span ng-click="editItem(item)" class="customer-edit fa fa-edit fa-2x"></span> -->
                 <button class="edit-item" ng-click="editItem(item)">{{'edit-details' | i18next}}</button>
                 <div ng-if="searchText">
@@ -23,14 +23,14 @@
                     <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
                     <span class="item-subtitle last" ng-bind-html="item.phone | highlight:this">{{item.phone}}&nbsp;</span>
                 </div>
-                <div ng-if="!searchText" >
+                <div ng-if="!searchText">
                     <span class="item-title first-name">{{item.firstName}}</span>
                     <span class="item-title last-name" ng-bind-html="item.lastName | highlight:this">{{item.lastName}}</span>
                     <span class="item-subtitle last">{{item.phone}}&nbsp;</span>
                 </div>
                 <hr/>
             </li>
-            <div class="no-customers" ng-if="!customerList.length && !AILoading">{{'customers:no-customers-found' | i18next}}</div>
+            <div class="no-customers" ng-if="!customerList.length && !initCustomerLoad">{{'customers:no-customers-found' | i18next}}</div>
         </ul>
     </div>
 </div>
@@ -78,9 +78,16 @@
             </div>
 
             <date-picker date="item.dateOfBirth" form="itemForm"></date-picker>
+
+            <div class="form-input" ng-repeat="note in customerNotes">
+                <label dynamic-name="note.key">{{note.name}}</label>
+                <textarea dynamic-name="note.key" ng-model="item.fields[note.key].value"></textarea>
+            </div>
         </form>
 
-        <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
+        <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading || itemForm.$invalid"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
         <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
     </div>
 </div>
+<loading-animation ng-show="initCustomerLoad"></loading-animation>
+

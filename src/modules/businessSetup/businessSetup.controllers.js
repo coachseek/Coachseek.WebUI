@@ -22,6 +22,7 @@ angular.module('businessSetup.controllers', [])
                         }, newBusiness.business);
                         $state.go('scheduling');
                         if($scope.isBigScreen) sessionService.onboarding.showOnboarding = true;
+                        if(window.ga) ga('send', 'event', 'conversions', 'newUserSignUp');
                     }, $scope.handleErrors).finally(function(){
                     $activityIndicator.stopAnimating();
                 });

@@ -1,15 +1,23 @@
 [state^="bookingAdmin"] {
     background: transparent;
-    margin-top: 45px;
+    width: 500px;
+    margin: 0 auto;
 
     .booking-admin-nav-container{
-        width:420px;
-        margin:0 auto 30px auto;
+        margin:45px auto 30px auto;
         background: $white;
         border-radius: 5px;
         overflow: hidden;
 
         .booking-nav{
+            width: 25%;
+            font-size: 14px;
+            color: $dark-grey;
+            padding: 5px;
+            cursor: pointer;
+            text-align: center;
+            float: left;
+
             &.active{
               color: $white;
             }
@@ -17,20 +25,10 @@
             &:last-of-type{
               margin-right: 0;
             }
-            width: 140px;
-            font-size: 14px;
-            color: $dark-grey;
-            padding: 5px;
-            cursor: pointer;
-            text-align: center;
-            float: left;
         }
     }
 
     .booking-admin-container{
-        width:448px;
-        margin:0 auto;
-
         .booking-admin-onlinebooking{
             .booking-preview-button{
                 float: right;
@@ -107,8 +105,6 @@
             }
 
             .paypal-payment{
-                margin-top: 20px;
-
                 .edit-button, .cancel-button{
                     color: $green;
                     float: right;
@@ -151,6 +147,88 @@
             }
         }
 
+        .booking-admin-booking-notes{
+            .show-add-note{
+                height: 40px;
+                margin-bottom: 20px;
+                text-align: center;
+                overflow: hidden;
+                &[disabled]{
+                    opacity: 0.5;
+                    pointer-events: none;
+                }
+                button.save-button{
+                    width: 150px;
+                    float: none;
+                }
+            }
+            .new-booking-note-container{
+                height: 40px;
+                margin-bottom: 10px;
+                position: relative;
+                .note-name, 
+                .is-required, 
+                .new-note-save-container{
+                    float: left;
+                }
+                .note-name{
+                    width: 40%;
+                    input{
+                        height: 40px;
+                    }
+                    div.error-messages{
+                        div{
+                            i{
+                                top: -35px;
+                                left: 175px;
+                                width: 0px;
+                            }
+                        }
+                    }
+                }
+                .is-required, .new-note-save-container{
+                    width: 30%;
+                    text-align: center;
+                    cursor: pointer;
+                    input[type=checkbox]{
+                        width: auto;
+                    }
+                    button.save-button{
+                        width: 75%;
+                        float: none;
+                    }
+                }
+            }
+            .booking-note-headers{
+                overflow: hidden;
+                margin-bottom: 10px;
+                h5{
+                    float: left;
+                    text-align: center;
+                    &.name{
+                        width: 40%;
+                    }
+                    &.is-required, &.is-active{
+                        width: 30%;
+                    }
+                }
+            }
+
+            .no-booking-notes{
+                text-align: center;
+                font-size: 16px;
+                line-height: 20px;
+            }
+
+            input[type=checkbox]{
+                height: 20px;
+                zoom: 1.5;
+            }
+            .double-wide{
+                margin-bottom: 20px;
+            }
+        }
+
         select{
             margin:20px 0;
             width: 100%;
@@ -171,10 +249,71 @@
 @media (max-width: 768px){
     [state^="bookingAdmin"] {
         margin-top: 0px;
+        width: 100%;
         .booking-admin-container {
             width: 100%;
-            padding-left: 15px;
-            padding-right: 15px;
+            padding-left: 5px;
+            padding-right: 5px;
+            .booking-admin-booking-notes{
+                .new-booking-note-container{
+                    .note-name{
+                        width: 50%;
+                        div.error-messages{
+                            i{
+                                display: none;
+                            }
+                        }
+                    }
+                    .is-required {
+                        width: 20%;
+                    }
+                    .new-note-save-container{
+                        width: 30%;
+                        button.save-button{
+                            width: 90%;
+                        }
+                    }
+                }
+                .booking-note-headers{
+                    overflow: hidden;
+                    margin-bottom: 10px;
+                    h5{
+                        float: left;
+                        text-align: center;
+                        &.name{
+                            width: 50%;
+                        }
+                        &.is-required{
+                            width: 20%;
+                        }
+                        &.is-active{
+                            width: 30%;
+                        }
+                    } 
+                }
+            }
+        }
+        .booking-admin-nav-container{
+            width: 100%;
+            border-radius: 0px;
+            color:$mobile-text-grey;
+            margin-top: 0px;
+
+            .booking-nav{
+                width: calc(100%/4);
+                height: 45px;
+                line-height: 45px;
+                padding: 0px;
+
+                &.active {
+                    background: $mobile-background-dark;
+                    color:$white;
+                    border-right: 0px solid $mobile-text-grey;
+                }
+            }
+            .slider-nav-slider{
+                display: none;
+            }
         }
         .booking-admin-nav-container{
             width: 100%;

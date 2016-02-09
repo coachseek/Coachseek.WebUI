@@ -1,5 +1,5 @@
 {
-	"data-required" : "Date required.",
+	"data-required" : "Data required.",
 	"user-duplicate" : "This user already exists.",
 	"user-invalid" : "This user is not valid.",
 	"currency-not-supported" : "This currency is not supported",

@@ -1,7 +1,7 @@
 {
     "terms-and-conditions": "Terms and Conditions",
     "hey-there": "Hey there!",
-    "no-events": "Looks like there are no events in the next 3 months. If this seems wrong let us know and we'll give the coach a nudge to make sure he's not napping.",
+    "no-events": "Looks like there are no events in the next 3 months. If this seems wrong let us know and we'll give the coach a nudge to make sure they're not napping.",
     "book-now": "Book now!",
     "powered-by": "Powered by",
     "full-session": "Session full",
@@ -42,7 +42,11 @@
         "phone": "Phone number",
         "phone-placeholder": "(If under 18, contact details of parent/carer)",
         "email": "Email",
-        "email-placeholder": "(If under 18, contact details of parent/carer)"
+        "email-placeholder": "(If under 18, contact details of parent/carer)",
+        "processing-customer": "Saving customer"
+    },
+    "notes": {
+        "processing-notes": "Saving notes"
     },
     "confirmation": {
         "text-confirm": "A confirmation email has been sent to your email address and your booking is now complete.",
@@ -57,13 +61,19 @@
         "total": "Total:",
         "processing-booking": "Processing booking",
         "paypal-redirect": "Redirecting to PayPal",
+        "order": "Your Order",
         "who": "Who:",
         "what": "What:",
         "where": "Where:",
-        "when": "When:"
+        "when": "When:",
+        "total":"Total:",
+        "booking-for": ", your booking for",
+        "booking-at": "at",
+        "booking-confirmed":"is confirmed for"
     },
     "booking-admin":{
         "onlinebooking":"Online booking",
+        "booking-notes": "Booking fields",
         "payments": "Payments",
         "pricing": "Pricing",
         "address":"Here’s your Online Booking website address",
@@ -78,15 +88,21 @@
         "facebook":"Let everyone know you’re ready to be booked online! Click to Share your booking site on your Facebook page",
         "facebook-share-name":"Book Now on my new Online Booking site!",
         "facebook-share-caption":"I’ve just set up my own Online Booking site with Coachseek. All of my lessons & courses are available to book here.",
-        "facebook-share-description":"Powered by Coachseek"
+        "facebook-share-description":"Powered by Coachseek",
+        "is-required": "Required field",
+        "is-required": "Required field",
+        "is-active": "Active",
+        "name": "Name",
+        "add-note": "Add field",
+        "note-name-placeholder": "e.g. Medical Info",
+        "no-booking-notes": "Need to capture details about your customers other than their Name, Phone Number, Email and Date of Birth? Add any additional info required here."
     },
     "msports": {
         "cash-or-check": "– Cash or Cheque: Posted to M Sports Ltd, 46 Ocean View Rd, Northcote 0627",
         "internet-banking": "– Internet banking:",
         "north-shore-schools": "North Shore Schools: 12-3489-0006996-04",
-        "auckland-schools": "City/East/West Auckland Schools: 12-3489-0006996-03",
+        "auckland-schools": "City/East/West Auckland Schools: 12-3427-0124081-00",
         "reference": "Please use childs name and school as reference",
         "issues": "If you experience any issues, or have queries, please email us at admincity@msports.co.nz"
-
     }
 }

@@ -1,4 +1,4 @@
-<div class="scheduling-container" ng-class="{'calendar-fix': showModal}">
+<div class="scheduling-container" ng-class="{'calendar-fix': showModal}" ng-init="modalTab = 'general'" shift-drag-events>
     <div class="services-list-container" ng-class="{closed: !isBigScreen || !calendarView.serviceDrawerOpen}">
         <scheduling-services-list></scheduling-services-list>
     </div>
@@ -24,22 +24,22 @@
         <div class="coach-title" ng-show="isBigScreen">{{getCurrentCoach() || 'All Coaches'}}</div>
         <div class="calendar" id="session-calendar" ui-calendar="uiConfig.calendar" ng-model="events" calendar="sessionCalendar"></div>
     </div>
+    <div class="modal-backdrop course-modal-backdrop" ng-show="showModal">
+        <div class="modal-container" ng-class="modalTab">
+            <div class="modal-header" ng-class='currentEvent.session.presentation.colour'>
+                <button class="close-modal-button fa fa-close" ng-click="cancelModalEdit()"></button>
+                {{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}},&nbsp;{{currentEvent._start | amDateFormat:'h:mm a'}}
+            </div>
+            <div class="modal-nav">
+                <div class="slider-nav">
+                    <div class="slider-nav-option general-header" data-tab-name="general" ng-click="modalTab = 'general'" ng-class="{'active': modalTab === 'general'}">{{'scheduling:general' | i18next}}</div>
+                    <div class="slider-nav-option attendance-header" data-tab-name="attendance" ng-disabled="currentEvent.tempEventId" ng-click="modalTab = 'attendance'" ng-class="{'active': modalTab === 'attendance'}">{{'scheduling:attendance' | i18next}}</div>
+                    <div class="slider-nav-option payment-header" data-tab-name="payment" ng-disabled="currentEvent.tempEventId" ng-click="modalTab = 'payment'" ng-class="{'active': modalTab === 'payment'}">{{'scheduling:payment' | i18next}}</div>
+                </div>
+            </div>
 
-    <div class="session-modal session-modal-responsive" onboarding-popover onboarding-step="'sessionModal'" shift-drag-events onboarding-show="'showSessionModalPopover'" onboarding-hide="'hideSessionModalPopover'" ng-show="showModal" id="session-modal" popover-template="'onboarding/partials/sessionModalPopover.html'" popover-trigger="showSessionModalPopover" popover-placement="left">
-        <div class="session-header" ng-class='currentEvent.session.presentation.colour'>
-            <p class="date" ng-class="{'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'dddd, MMMM Do YYYY'}}</p>
-            <p ng-show="!isBigScreen" class="inline-on-mobile">&nbsp;-&nbsp;</p>
-            <p class="time" ng-class=" {'inline-on-mobile' : !isBigScreen}">{{currentEvent._start | amDateFormat:'h:mm a'}}</p>
+            <general-settings-modal ng-show="modalTab === 'general'"></general-settings-modal>
+            <course-attendance-modal ng-show="modalTab === 'attendance' || modalTab === 'payment'"></course-attendance-modal>
         </div>
-        <div class="session-modal-nav" ng-init="currentTab = 'general'">
-            <div class="general" ng-class="{active: currentTab === 'general'}" ng-click="currentTab = 'general'">{{'scheduling:general' | i18next}}</div>
-            <div class="attendance" ng-disabled="currentEvent.tempEventId" ng-class="{active: currentTab === 'attendance'}" ng-click="currentTab = 'attendance'">{{'scheduling:attendance' | i18next}}</div>
-        </div>
-        <hr class="double-wide"/>
-            
-        <modal-session-form ng-show="currentTab === 'general'"></modal-session-form>
-
-        <modal-session-attendance-list ng-show="currentTab === 'attendance'"></modal-session-attendance-list> 
-
     </div>
 </div>

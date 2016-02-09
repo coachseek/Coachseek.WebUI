@@ -1,6 +1,6 @@
 angular.module('scheduling.controllers', [])
-    .controller('schedulingCtrl', ['$scope', '$q', '$state', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal',
-        function($scope, $q, $state, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal){
+    .controller('schedulingCtrl', ['$scope', '$q', '$state', '$timeout', 'sessionService', 'coachSeekAPIService', '$activityIndicator', 'sessionOrCourseModal', 'serviceDefaults', 'uiCalendarConfig','$compile','$templateCache', 'onboardingModal', 'currentEventService',
+        function($scope, $q, $state, $timeout, sessionService, coachSeekAPIService, $activityIndicator, sessionOrCourseModal, serviceDefaults, uiCalendarConfig,$compile,$templateCache, onboardingModal, currentEventService){
             $scope.events = [];
             $scope.calendarView = sessionService.calendarView;
 
@@ -112,12 +112,7 @@ angular.module('scheduling.controllers', [])
                     },
                     // handle event drag/drop within calendar
                     eventDrop: function( event, delta, revertDate){
-                        if(event.tempEventId){
-                            _.assign($scope.currentEvent.session.timing, {
-                                startDate: event._start.format('YYYY-MM-DD'),
-                                startTime: event._start.format('HH:mm')
-                            });
-                        } else if (copyEventDrag){
+                        if (copyEventDrag){
                             revertDate();
                             //remove id and save with new date
                             var newEvent = angular.copy(event);
@@ -167,7 +162,11 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
-                        if(!$scope.showModal) $scope.currentTab = 'attendance';
+                        if(!$scope.showModal && event._id !== _.get($scope.currentEvent, '_id')) {
+                            $scope.showModal = true;
+                            $scope.$broadcast('triggerSliderSlide', 'general')
+                            $scope.currentTab = 'general';
+                        }
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
 
@@ -177,6 +176,7 @@ angular.module('scheduling.controllers', [])
                         }
 
                         $scope.currentEvent = event;
+                        currentEventService.event = $scope.currentEvent;
                         currentEventCopy = angular.copy(event);
 
                         if(event.course){
@@ -276,11 +276,12 @@ angular.module('scheduling.controllers', [])
             };
 
             function handleServiceDrop(date, serviceData){
-                $scope.currentTab = 'general';
                 $scope.showModal = true;
+                $scope.$broadcast('triggerSliderSlide', 'general')
+                $scope.currentTab = 'general';
                 var session = buildSessionObject(date, serviceData);
                 var repeatFrequency = serviceData.repetition.repeatFrequency;
-                tempEventId = _.uniqueId('service_');
+                tempEventId = _.uniqueId('tempService_');
 
                 _.times(serviceData.repetition.sessionCount, function(index){
                     var newEvent = buildCalendarEvent(moment(date).add(index, repeatFrequency), session);
@@ -377,7 +378,11 @@ angular.module('scheduling.controllers', [])
             $scope.cancelModalEdit = function(){
                 if(currentEventCopy){
                     // must keep autosaved edits even if canceled
-                    _.assign(currentEventCopy.session.booking.bookings, $scope.currentEvent.session.booking.bookings);
+                    currentEventCopy.session.booking = $scope.currentEvent.session.booking
+                    if(currentEventCopy.course){
+                        currentEventCopy.course.booking = $scope.currentEvent.course.booking
+                        currentEventCopy.course.sessions = $scope.currentEvent.course.sessions
+                    }
                     _.assign($scope.currentEvent, currentEventCopy);
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('updateEvent', $scope.currentEvent);
                 }
@@ -385,24 +390,21 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.saveModalEdit = function(){
-                forceFormTouched();
-                if($scope.currentSessionForm.$valid){
-                    var course = $scope.currentEvent.course;
-                    if($scope.currentEvent.tempEventId && course){
-                        var session = $scope.currentEvent.session;
-                        _.set(session, 'pricing.coursePrice', _.get($scope.currentEvent, 'course.pricing.coursePrice'));
-                         saveSession(session);
-                    } else if(course){
-                        sessionOrCourseModal($scope).then(function(id){
-                            if(id === course.id){
-                                saveSession(assignCourseAttributes(course));
-                            } else {
-                                saveSession($scope.currentEvent.session);
-                            }
-                        }); 
-                    } else {
-                        saveSession($scope.currentEvent.session);
-                    }
+                var course = $scope.currentEvent.course;
+                if($scope.currentEvent.tempEventId && course){
+                    var session = $scope.currentEvent.session;
+                    _.set(session, 'pricing.coursePrice', _.get($scope.currentEvent, 'course.pricing.coursePrice'));
+                     saveSession(session);
+                } else if(course){
+                    sessionOrCourseModal($scope).then(function(id){
+                        if(id === course.id){
+                            saveSession(assignCourseAttributes(course));
+                        } else {
+                            saveSession($scope.currentEvent.session);
+                        }
+                    }); 
+                } else {
+                    saveSession($scope.currentEvent.session);
                 }
             };
 
@@ -462,7 +464,7 @@ angular.module('scheduling.controllers', [])
             });
 
             $scope.setCurrentCourseEvents = function(){
-                $scope.currentCourseEvents = _.filter(uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents'), function(event){
+                $scope.currentCourseEvents = currentEventService.currentCourseEvents = _.filter(uiCalendarConfig.calendars.sessionCalendar.fullCalendar('clientEvents'), function(event){
                     return _.get(event, 'course.id', 1) === _.get($scope, 'currentEvent.course.id', 1);
                 });
             };
@@ -485,7 +487,7 @@ angular.module('scheduling.controllers', [])
             };
 
             $scope.closePopover = function(hidePopoverTrigger){
-                $scope.$broadcast(hidePopoverTrigger, 0, true);
+                $scope.$broadcast(hidePopoverTrigger, 0, false);
             };
 
             var deleteSessions = function(id){
@@ -525,18 +527,10 @@ angular.module('scheduling.controllers', [])
             var closeModal = function(resetTimePicker){
                 removeTempEvents();
                 $scope.$broadcast('closeTimePicker', resetTimePicker);
-                $scope.currentSessionForm.$setUntouched();
-                $scope.currentSessionForm.$setPristine();
+                $scope.$broadcast('resetSessionForm', resetTimePicker);
                 $scope.$broadcast('hideSessionModalPopover');
                 if(showDragServicePopover()) $scope.$broadcast('showDragServicePopover');
                 $scope.showModal = false;
-            };
-
-            var forceFormTouched = function(){
-                $scope.currentSessionForm.coaches.$setTouched();
-                $scope.currentSessionForm.locations.$setTouched();
-                $scope.currentSessionForm.sessionPrice.$setTouched();
-                $scope.currentSessionForm.coursePrice.$setTouched();
             };
 
             var removeTempEvents = function(){

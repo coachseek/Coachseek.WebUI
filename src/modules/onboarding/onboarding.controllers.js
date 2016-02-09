@@ -127,6 +127,7 @@ angular.module('onboarding.controllers', ['businessSetup'])
                         initialCoach = response.coach;
                         $scope.hideScoochBullets = true;
                         $('.m-scooch').scooch('next');
+                        if(window.ga) ga('send', 'event', 'conversions', 'newUserSignUp');
                     }, $scope.handleErrors).finally(function(){
                         $rootScope.appLoading = false;
                     });

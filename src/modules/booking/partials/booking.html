@@ -1,6 +1,6 @@
 <div class="online-booking-container" ng-class="business.sport">
 	<div class="current-booking-status">
-	    <div class="border-right"><p>{{'booking:current-booking' | i18next}}&nbsp;{{business.name}}<p></div>
+	    <div class="border-right"><p>{{business.name}}<p></div>
 	    <div class="border-right"><p>{{currentBooking.filters.location.name}}</p></div>
 	    <div class="border-right"><p>{{currentBooking.filters.service.name}}</p></div>
 	    <booking-date-range></booking-date-range>
@@ -9,7 +9,7 @@
 	<div class="booking-container">
 	    <div ui-view="booking-view" class="booking-content-container"></div>
 	</div>
-	<div class="booking-nav-banner" ng-hide="isBigScreen">		
+	<div class="booking-nav-banner">		
 	</div>
 	<a class="powered-by" href="http://www.coachseek.com/" target="_blank">
 	    <div><span>{{'booking:powered-by' | i18next}}</span><span class="logo"></span></div>

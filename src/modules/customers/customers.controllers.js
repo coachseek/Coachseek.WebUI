@@ -1,99 +1,7 @@
 angular.module('customers.controllers', [])
-    .controller('customersCtrl', ['$scope', 'CRUDService','$cordovaActionSheet','$cordovaSms','$cordovaDialogs',
-        function($scope, CRUDService,$cordovaActionSheet,$cordovaSms,$cordovaDialogs){
-        $scope.openActionsheet = function(customer){
-            var options = {
-                title: i18n.t("customers:cutomer-actionsheet.title"),
-                buttonLabels: checkButtonLabels(),
-                addCancelButtonWithLabel: 'Cancel',
-                androidEnableCancelButton : true,
-                winphoneEnableCancelButton : true,
-            };
-            function checkButtonLabels (){
-                if(customer.phone && customer.email){
-                    return ['Email','SMS','Call '+customer.phone];
-                }else if (customer.phone){
-                    return ['SMS','Call '+customer.phone];
-                }else if(customer.email){
-                    return ['Email'];
-                }else{
-                    return [''];
-                }
-            }
-            document.addEventListener('deviceready', function () {
-                $cordovaActionSheet.show(options)
-                    .then(function(btnIndex) {
-                        if(customer.email){
-                            if(customer.phone){
-                                if(btnIndex === 1){
-                                 cordova.plugins.email.open({
-                                    to:      customer.email,
-                                    cc:      '',
-                                    bcc:     '',
-                                    subject: '',
-                                    body:    ''
-                                });
-                                }else if(btnIndex === 2){
-                                    $cordovaSms
-                                    .send(customer.phone, '', options)
-                                    .then(function() {
-                                        // Success! SMS was sent
-                                    }, function(error) {
-                                        $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
-                                            .then(function() {
-                                          // callback success
-                                        });
-                                    });
-                                }else if(btnIndex === 3){
-                                    window.plugins.CallNumber.callNumber(function(){
-                                    }, function(){
-                                        $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
-                                            .then(function() {
-                                          // callback success
-                                        });
-                                    }, customer.phone, true);
-                                }
-                            }else{
-                                if(btnIndex === 1){
-                                    cordova.plugins.email.open({
-                                        to:      customer.email,
-                                        cc:      '',
-                                        bcc:     '',
-                                        subject: customer.firstName,
-                                        body:    ''
-                                    });
-                                }
-                            }
-                        }else{
-                            if(customer.phone){
-                                if(btnIndex === 1){
-                                    $cordovaSms
-                                    .send(customer.phone, '', options)
-                                    .then(function() {
-                                        // Success! SMS was sent
-                                    }, function(error) {
-                                        $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
-                                            .then(function() {
-                                          // callback success
-                                        });
-                                    });
-                                }else if(btnIndex === 2){
-                                    window.plugins.CallNumber.callNumber(function(){
-                                    }, function(){
-                                        $cordovaDialogs.alert('phone number wrong', 'error', 'Dismiss')
-                                            .then(function() {
-                                          // callback success
-                                        });
-                                    }, customer.phone, true);
-                                }
-                            }
-                        }
-                    });
-            }, false);
-          
-        };
-
-
+    .controller('customersCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$q', '$activityIndicator',
+        function($scope, coachSeekAPIService, CRUDService, $q, $activityIndicator){
+        $scope.exportKeys = ['firstName', 'lastName', 'email', 'phone'];
         $scope.createItem = function(){
             if(!$scope.item){
                 $scope.newItem = true;
@@ -103,6 +11,7 @@ angular.module('customers.controllers', [])
 
         $scope.editItem = function(customer){
             _.pull($scope.itemList, customer);
+            customer.fields = _.keyBy(customer.customFields, 'key');
             $scope.itemCopy = angular.copy(customer);
 
             $scope.item = customer;
@@ -111,9 +20,51 @@ angular.module('customers.controllers', [])
         $scope.saveItem = function(customer){
             var formValid = CRUDService.validateForm($scope);
             if(formValid){
-                CRUDService.update('Customers', $scope, customer);
-            }
+                $activityIndicator.startAnimating();
+                var customFields = getCustomFieldsArray(customer.fields);
+                //save customer general fields
+                coachSeekAPIService.save({section: 'Customers'}, customer).$promise
+                    .then(function(_customer){
+                        //only save customFields if they exist
+                        if(_.size(customFields)){
+                            coachSeekAPIService.save({section: 'Customers', id: _customer.id}, {customFields: customFields}).$promise
+                                .then(function(_customer_){
+                                    resetCustomerList(_customer_);
+                                    $scope.$broadcast('updateSuccess');
+                                },$scope.handleErrors).finally(function(){
+                                    $activityIndicator.stopAnimating();
+                                });
+                            } else {
+                                resetCustomerList(_customer);
+                                $scope.$broadcast('updateSuccess');
+                                $activityIndicator.stopAnimating();
+                            }
+                    }, function(errors){
+                        $activityIndicator.stopAnimating();
+                        $scope.handleErrors(errors);
+                    });
+                }
         };
+
+        function resetCustomerList(customer){
+            $scope.itemList.push(customer);
+            if($scope.newItem && window.Intercom){
+                Intercom('update', {Customers: $scope.itemList.length});
+            }
+            $scope.item = null;
+            $scope.itemForm.$setPristine();
+            $scope.itemForm.$setUntouched();
+            $scope.removeAlerts();
+            $scope.newItem = null;
+            $scope.itemCopy = null;
+        };
+
+        function getCustomFieldsArray(fields){
+            _.each(fields, function(field, key){
+                field.key = key;
+            });
+            return _.values(fields)
+        }
 
         $scope.cancelEdit = function(){
             CRUDService.cancelEdit($scope);
@@ -129,7 +80,20 @@ angular.module('customers.controllers', [])
             }
         });
 
-        CRUDService.get('Customers', $scope);
+        $scope.initCustomerLoad = true;
+        $q.all({
+            customers: coachSeekAPIService.query({section: 'Customers'}).$promise,
+            customerNotes: coachSeekAPIService.query({section: 'CustomFields', type: 'customer'}).$promise
+        }).then(function(response) {
+            $scope.itemList = response.customers;
+
+            $scope.customerNotes = _.filter(response.customerNotes, function(note) { return note.isActive; });
+            var customFields = [];
+            _.each($scope.customerNotes, function(note){customFields.push(note.key); });
+            $scope.exportKeys.push({customFields: customFields});
+        },$scope.handleErrors).finally(function(){
+            $scope.initCustomerLoad = false;
+        });
     }])
     .controller('customerSearchCtrl', ['$scope', '$filter', function($scope, $filter){
         var peopleList;

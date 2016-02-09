@@ -3,6 +3,7 @@ angular.module('booking.controllers', [])
       function($scope, $state, onlineBookingAPIFactory, currentBooking, sessionService){
         $scope.currentBooking = currentBooking;
         $scope.business = sessionService.business;
+        $scope.limitedSpace = false;
 
         $scope.selectEvent = function (event) {
             if($scope.selectedEvent !== event){
@@ -185,9 +186,57 @@ angular.module('booking.controllers', [])
             $scope.filterByService();
         }
     }])
-    .controller('bookingCustomerDetailsCtrl', ['$scope', '$state', 'currentBooking', function($scope, $state, currentBooking){
+    .controller('bookingCustomerDetailsCtrl', ['$scope', '$q', '$state', 'currentBooking', 'onlineBookingAPIFactory', 
+      function($scope, $q, $state, currentBooking, onlineBookingAPIFactory){
         if(!currentBooking.filters.location){
             $state.go('booking.selection');
+        }
+
+        $scope.getCustomer = function(){
+            $scope.processingBooking = true;
+            $q.all({
+                customer: onlineBookingAPIFactory.anon($scope.business.domain).save({ section: 'Customers' }, currentBooking.customer).$promise,
+                customerNotes: onlineBookingAPIFactory.anon($scope.business.domain).getCustomFields({}).$promise
+            }).then(function(response) {
+                    currentBooking.customerId = response.customer.id;
+                    currentBooking.customFields = response.customer.customFields;
+                    currentBooking.customerNotes = _.filter(response.customerNotes, function(note) { return note.isActive; });
+
+                    if(_.size(currentBooking.customerNotes)){
+                        $state.go('booking.notes');
+                    } else {
+                        $state.go('booking.confirmation');
+                    }
+                }, function(error){
+                    $scope.processingBooking = false;
+                    $scope.handleErrors(error);
+                });
+        } 
+    }])
+    .controller('bookingCustomerNotesCtrl', ['$scope', '$state', 'currentBooking', 'onlineBookingAPIFactory', 
+      function($scope, $state, currentBooking, onlineBookingAPIFactory){
+        if(!currentBooking.filters.location){
+            $state.go('booking.selection');
+        }
+        $scope.fields = _.keyBy(currentBooking.customFields, 'key');
+
+        $scope.saveCustomerNotes = function(){
+            $scope.processingBooking = true;
+            onlineBookingAPIFactory.anon($scope.business.domain)
+                .save({ section: 'Customers', id: currentBooking.customerId }, {customFields: getCustomFieldsArray()}).$promise
+                    .then(function (customer) {
+                        $state.go('booking.confirmation');
+                }, function(error){
+                    $scope.processingBooking = false;
+                    $scope.handleErrors(error);
+                });
+        }
+
+        function getCustomFieldsArray(){
+            _.each($scope.fields, function(field, key){
+                field.key = key;
+            });
+            return _.values($scope.fields);
         }
     }])
     .controller('bookingConfirmationCtrl', ['$scope', '$q', '$state', '$location', '$sce', 'onlineBookingAPIFactory', 'currentBooking', 'sessionService', 'ENV',
@@ -213,35 +262,28 @@ angular.module('booking.controllers', [])
         $scope.processBooking = function (payLater) {
             $scope.processingBooking = true;
             return onlineBookingAPIFactory.anon($scope.business.domain)
-                .save({ section: 'Customers' }, currentBooking.customer).$promise
-                    .then(function (customer) {
-                        return onlineBookingAPIFactory.anon($scope.business.domain)
-                            .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
-                                .then(function(response){
-                                    currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
-                                    return saveBooking(customer).then(function (booking) {
-                                        currentBooking.booking.id = booking.id;
-                                        $scope.bookingConfirmed = payLater;
-                                        $scope.redirectingToPaypal = !payLater;
-                                    }, function(error){
-                                        $scope.handleErrors(error);
-                                        // make sure paypal form doesn't submit if error;
-                                        return $q.reject();
-                                    }).finally(function(){
-                                        $scope.processingBooking = false;
-                                    });
-                            }, function(error){
-                                $scope.handleErrors(error);
-                                // make sure paypal form doesn't submit if error;
-                                return $q.reject();
-                            }).finally(function(){
-                                $scope.processingBooking = false;
-                            });
+                .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
+                    .then(function(response){
+                        currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
+                        _.assign(currentBooking.customer, {id: currentBooking.customerId})
+                        return saveBooking(currentBooking.customer).then(function (booking) {
+                            currentBooking.booking.id = booking.id;
+                            $scope.bookingConfirmed = payLater;
+                            $scope.redirectingToPaypal = !payLater;
+                        }, function(error){
+                            $scope.handleErrors(error);
+                            // make sure paypal form doesn't submit if error;
+                            return $q.reject();
+                        }).finally(function(){
+                            delete currentBooking.customer.id;
+                            $scope.processingBooking = false;
+                        });
                 }, function(error){
-                    $scope.processingBooking = false;
                     $scope.handleErrors(error);
                     // make sure paypal form doesn't submit if error;
                     return $q.reject();
+                }).finally(function(){
+                    $scope.processingBooking = false;
                 });
         };
 
@@ -269,6 +311,7 @@ angular.module('booking.controllers', [])
         $scope.business.payment.paymentProvider = "PayPal";
 
         $scope.saved = true;
+        $scope.initNoteLoad = true;
 
         $scope.getSaveButtonState = function(){
             if($scope.AILoading){
@@ -289,7 +332,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.$watch('business.payment', function(newVal, oldVal){
-            if(newVal !== oldVal){
+            if(newVal && oldVal && newVal !== oldVal){
                 $scope.saved = false;
                 if(newVal.isOnlinePaymentEnabled === false && businessCopy.payment.isOnlinePaymentEnabled !== false) {
                     $scope.save();
@@ -324,6 +367,7 @@ angular.module('booking.controllers', [])
         $scope.$watch('activeTab', function(newVal){
             if(newVal){
                 $scope.business = angular.copy(businessCopy);
+                $scope.business.payment.paymentProvider = "PayPal";
             }
         });
 
@@ -345,4 +389,43 @@ angular.module('booking.controllers', [])
                 // console.log(error)
             });
         }
+
+        //TODO validate form, sort by filter
+        var newNoteDefaults = {
+            type: 'customer',
+            name: '',
+            isRequired: false,
+        };
+        $scope.newNote = angular.copy(newNoteDefaults);
+        $scope.showAddNote = false;
+        $scope.saveNewNote = function(){
+            //check form valid
+            // must do $childHead here because ng-switch creates a new scope. lame.
+            if($scope.$$childHead.newNoteNameForm.$valid){
+                $activityIndicator.startAnimating();
+                coachSeekAPIService.save({section: 'CustomFields'}, $scope.newNote).$promise
+                    .then(function(note){
+                        $scope.bookingNotes.unshift(note);
+                        $scope.newNote = angular.copy(newNoteDefaults);
+                        $scope.showAddNote = false;
+                    }, $scope.handleErrors).finally(function(){
+                        $activityIndicator.stopAnimating();
+                    });
+            }
+        };
+
+        $scope.addNoteShow = function(){
+            $scope.showAddNote = true;
+        }
+
+        $scope.addNoteHide = function(){
+            $scope.showAddNote = false;
+        }
+
+        coachSeekAPIService.query({section: 'CustomFields', type: 'customer'})
+            .$promise.then(function(bookingNotes){
+                $scope.bookingNotes = bookingNotes;
+            }, $scope.handleErrors).finally(function(){
+                $scope.initNoteLoad = false;
+            });
     }]);

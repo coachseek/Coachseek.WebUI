@@ -1,0 +1,106 @@
+$booking-note-height: 60px;
+booking-note-template{
+    .booking-note-container{
+        height: $booking-note-height;
+        position: relative;
+        .note-name, 
+        .is-required, 
+        .is-active{
+            float: left;
+            &[disabled]{
+                background: $background-grey;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+        }
+        .note-name{
+            width: 40%;
+            line-height: $booking-note-height;
+            .fa-pencil, .fa-save, ellipsis-animated{
+                width: 15%;
+                cursor: pointer;
+                text-align: center;
+                display: inline-block;
+                float: left;
+                color: $green;
+                line-height: 60px;
+            }
+            input{
+                width: 85%;
+                margin-top: 10px;
+                height: 40px;
+                line-height: 40px;
+                float: left;
+            }
+            span.display-name{
+                width: 85%;
+                height: $booking-note-height;
+                line-height: $booking-note-height;
+                float: left;
+                cursor: pointer;
+                padding-left: 10px;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+            }
+            div.error-messages{
+                left: 30px;
+                div{
+                    line-height: 20px;
+                    i{
+                        top: -35px;
+                        left: 145px;
+                        width: 0px;
+                    }
+                }
+            }
+        }
+        .is-required{
+            width: 30%;
+            line-height: $booking-note-height;
+            height: $booking-note-height;;
+            cursor: pointer;
+            text-align: center;
+            input[type=checkbox]{
+                width: auto;
+                cursor: pointer;
+                height: 30px !important;
+            }
+        }
+        .is-active{
+            width: 30%;
+            height: $booking-note-height;;
+
+            &.grey-background{
+                background: rgba(200,200,200,0.5)
+            }
+
+            .toggle-bg{
+                float: none;
+                margin: 0 auto;
+                height: 30px;
+                margin-top: 15px;
+                .switch{
+                    height: 28px;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 768px){
+    [state^="bookingAdmin"] {
+        booking-note-template{
+            .note-name{
+                width: 50%;
+            }
+            .is-required{
+                width: 20%;
+            }
+            div.error-messages{
+                i{
+                    display: none;
+                }
+            }
+        }
+    }
+}

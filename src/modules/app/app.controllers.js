@@ -63,6 +63,7 @@ angular.module('app.controllers', [])
                 delete sessionService.user;
                 delete sessionService.business;
                 delete $rootScope.currentUser;
+                delete $rootScope.business;
                 if(window.Intercom) Intercom('shutdown');
             }
 

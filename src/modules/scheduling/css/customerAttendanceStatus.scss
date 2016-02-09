@@ -1,0 +1,36 @@
+/*customer-attendance-status{*/
+    .attending-checkbox{
+        &[disabled]{
+            pointer-events: none;
+        }
+        &.absent, &.false{
+            background: $red;
+        }
+        &.present, &.true{
+            background: $green;
+        }
+        -webkit-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+        -moz-box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+        box-shadow: 1.5px 0px 1.5px 0px rgba(200,200,200,1);
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+
+        cursor: pointer;
+        background: $dark-grey;
+        width: 45px;
+        height: 45px;
+        color: $white;
+        text-align: center;
+
+        .fa{
+            line-height: 45px;
+            font-size: 30px;
+        }
+        ellipsis-animated{
+            font-size: 20px;
+            line-height: 35px;
+        }
+    }
+/*}*/

@@ -67,6 +67,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
     };
 
     Intercom = function(){};
+    ga = function(){};
     FB = {
         ui: function(){}
     }

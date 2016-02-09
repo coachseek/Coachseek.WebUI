@@ -42,13 +42,15 @@
         "overdue-payment": "Overdue"
     },
     "general": "General",
-    "add-student": "Add Student",
+    "payment": "Payment",
+    "add-student": "Add Booking",
     "back": "Back",
     "attendance": "Attendance",
     "clashing-error": "This change clashes with __alert.clashingMessage__",
     "delete-session-success": "You have deleted __alert.name__ which started on __alert.startDate__",
     "delete-course-success": "You have deleted all sessions associated with __alert.name__ which started on __alert.startDate__",
     "session-or-course": "Are you wanting to make these changes for this session only or for all sessions in the entire course?",
+    "remove-from-course": "Are you sure you want to remove this customer from the entire course?",
     "this-session": "This session",
     "entire-course": "Entire course",
     "alert": {

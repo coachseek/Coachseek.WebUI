@@ -9,12 +9,19 @@ angular.module('booking.directives', [])
                 scope.spacesAvailable = getSpacesAvailable();
                 scope.fullCoursePrice = getFullCoursePrice();
                 scope.isSoldOut = function(){
-                    if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
+                    if(_.has(scope.event,'sessions')){
+                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);     
+                    }else if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
                         return scope.spacesAvailable <= 0;
-                    } else {
+                    }else {
                         return !scope.event.sessions && scope.spacesAvailable <= 0;
                     }
-                }
+                };
+                function checkAllSessionsSpacesSoldOut(sessions){
+                    return _.every(sessions,function(session){
+                        return scope.getSessionSpacesAvailable(session) <= 0 ;
+                    });
+                };
 
                 function getFullCoursePrice(){
                     var event = scope.event;
@@ -33,7 +40,7 @@ angular.module('booking.directives', [])
                 };
 
                 function sumSessionCosts(sessions){
-                    return _.sum(sessions, function(session){
+                    return _.sumBy(sessions, function(session){
                         if(scope.isBefore(session) || scope.getSessionSpacesAvailable(session) <= 0){
                             return 0;
                         }else{
@@ -187,7 +194,7 @@ angular.module('booking.directives', [])
                         }
                     // ONLY COURSE SESSIONS SELECTED
                     } else if (!currentBooking.totalPrice && currentBooking.booking.sessions){
-                        return _.sum(currentBooking.booking.sessions, 'pricing.sessionPrice').toFixed(2);
+                        return _.sumBy(currentBooking.booking.sessions, 'pricing.sessionPrice').toFixed(2);
                     //NOTHING SELECTED
                     } else {
                         return "0.00"
@@ -226,6 +233,51 @@ angular.module('booking.directives', [])
                             elem.find('.paypal-form').submit();
                         });
                     });
+                };
+            }
+        }
+    }])
+    .directive('bookingNoteTemplate', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
+        return {
+            restrict: "E",
+            templateUrl:'booking/partials/bookingNoteTemplate.html',
+            link: function(scope, elem){
+                scope.loading = false;
+                scope.saveName = function(){
+                    if(scope.noteNameForm.$valid){
+                        scope.editName = false;
+                        scope.note.name = scope.tempName;
+                        saveNote().then(function(){
+                            scope.tempName = scope.note.name;
+                        }, function(errors){
+                            scope.editName = true;
+                            scope.handleErrors(errors);
+                        }).finally(function(){
+                            scope.loading = false;
+                            $activityIndicator.stopAnimating();
+                        });
+                    }
+                }
+
+                scope.$watchCollection('note', function(newVal, oldVal){
+                    if(newVal !== oldVal && !scope.editName){
+                        saveNote().then({}, scope.handleErrors)
+                            .finally(function(){
+                                scope.loading = false;
+                                $activityIndicator.stopAnimating();
+                            })
+                    }
+                });
+
+                scope.cancelEdit = function(){
+                    scope.editName = false;
+                    scope.tempName = scope.note.name;
+                }
+
+                function saveNote(){
+                    $activityIndicator.startAnimating();
+                    scope.loading = true;
+                    return coachSeekAPIService.save({section:'CustomFields'}, scope.note).$promise
                 };
             }
         }

@@ -1,10 +1,30 @@
 [state^="customers"] {
     max-width: 475px;
-    margin: 45px auto;
-
+    margin: 45px auto 200px auto;
+    padding-bottom: 150px;
+    .form-input{
+        textarea{
+            max-width: 100%;
+            min-width: 100%;
+        }
+    }
     .create-item{
         margin-bottom: 40px;
+    }
 
+    export-to-csv{
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        z-index: 100;
+        &[disabled]{
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        button{
+            @extend %grey-button;
+            height: 40px;
+        }
     }
 
     export-to-csv{

@@ -1,0 +1,19 @@
+<div class="booking-customer-notes">
+    <form name="form" class="booking-customer-notes-form crud-item" ng-hide="processingBooking">
+	    <div class="form-input" ng-repeat="note in currentBooking.customerNotes">
+		    <label dynamic-name="note.key">{{note.name}}</label>
+		    <textarea dynamic-name="note.key" ng-model="fields[note.key].value" ng-required="note.isRequired"></textarea>
+
+		    <div class="error-messages" ng-messages="form[note.key].$error" ng-if="form[note.key].$touched">
+		        <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+		    </div>
+		</div>
+        <customer-note ng-repeat="note in currentBooking.customer.customFields"></customer-note>
+    </form>
+    <button class="back-button" ui-sref="booking.details">{{'booking:common.back' | i18next}}</button>
+    <button class="continue-button" ng-disabled="form.$invalid  || processingBooking" ng-click="saveCustomerNotes()">{{'booking:common.next' | i18next}}</button>
+    <div class="loading-messages" ng-show="processingBooking">
+        <loading-animation></loading-animation>
+        <h4 class="processing">{{'booking:notes.processing-notes' | i18next}}</h4>
+    </div>
+</div>

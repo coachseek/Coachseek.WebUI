@@ -1,12 +1,15 @@
 {
   "name": "coachseek",
-  "version": "1.4.63",
+  "version": "1.5.386",
   "devDependencies": {
+    "babel-plugin-transform-react-jsx": "^6.3.13",
+    "babel-preset-es2015": "^6.3.13",
     "chai": "^1.10.0",
     "chai-jquery": "^2.0.0",
     "grunt": "^0.4.5",
     "grunt-angular-templates": "^0.5.7",
     "grunt-azure-blob": "0.0.2",
+    "grunt-babel": "^6.0.0",
     "grunt-contrib-concat": "^0.5.0",
     "grunt-contrib-connect": "^0.9.0",
     "grunt-contrib-htmlmin": "^0.3.0",
