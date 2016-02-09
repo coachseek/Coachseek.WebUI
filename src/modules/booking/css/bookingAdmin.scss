@@ -315,26 +315,5 @@
                 display: none;
             }
         }
-        .booking-admin-nav-container{
-            width: 100%;
-            border-radius: 0px;
-            color:$mobile-text-grey;
-
-            .booking-nav{
-                width: calc(100%/3);
-                height: 45px;
-                line-height: 45px;
-                padding: 0px;
-
-                &.active {
-                    background: $mobile-background-dark;
-                    color:$white;
-                    border-right: 0px solid $mobile-text-grey;
-                }
-            }
-            .slider-nav-slider{
-                display: none;
-            }
-        }
     }
 }

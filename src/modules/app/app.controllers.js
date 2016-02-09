@@ -152,7 +152,7 @@ angular.module('app.controllers', [])
                             runOnlineBookingSite(businessDomain)
                             break;
                         default:
-                            //navigate to 404?grunt
+                            //navigate to 404?
                             break;
                     }
                 } else if(toStateSessionType && sessionService.sessionType !== toStateSessionType) {

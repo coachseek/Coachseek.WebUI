@@ -307,9 +307,6 @@ angular.module('booking.controllers', [])
             view = $compile(markup)($scope),
             businessCopy = angular.copy(sessionService.business);
 
-        $scope.business = angular.copy(sessionService.business);
-        $scope.business.payment.paymentProvider = "PayPal";
-
         $scope.saved = true;
         $scope.initNoteLoad = true;
 

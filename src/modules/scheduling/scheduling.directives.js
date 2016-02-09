@@ -106,8 +106,6 @@ angular.module('scheduling.directives', [])
                         return !price;
                     }
                 }
-
-                $(".session-form").css("height", "100%").css("height", "-=320px"); 
             }
         };
     }])
