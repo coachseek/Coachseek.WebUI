@@ -101,6 +101,7 @@ angular.module('app.controllers', [])
                       displayName: business.name,
                       email: user.email
                     });
+                    console.log('version ' + ENV.version);
                 }
             }
 
