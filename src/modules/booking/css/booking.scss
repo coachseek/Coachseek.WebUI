@@ -571,7 +571,13 @@
                         color: $green;
 
                         &.pay-later-only, &.orange{
-                            @extend %green-button; 
+                            @extend %green-button;
+                        }
+
+                        &.m-sport{
+                            @extend %green-button;
+                            padding: none;
+                            width: auto;
                         }
                     }
                 }
