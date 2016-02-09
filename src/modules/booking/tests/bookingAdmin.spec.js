@@ -296,6 +296,14 @@ describe('Booking Admin Page', function(){
             it('should show the new note form', function(){
                 expect($testRegion.find('.new-booking-note-container').hasClass('ng-hide')).to.be.false;
             });
+            describe('and then clicking the cancel button', function(){
+                beforeEach(function(){
+                    $testRegion.find('.note-name i.fa-times').trigger('click');
+                });
+                it('should hide the new note form', function(){
+                    expect($testRegion.find('.new-booking-note-container').hasClass('ng-hide')).to.be.true;
+                });
+            });
             describe('when saving the new note form', function(){
                 describe('and the form is invalid', function(){
                     beforeEach(function(){

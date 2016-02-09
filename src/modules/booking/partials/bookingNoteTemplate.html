@@ -1,14 +1,14 @@
 <div class="booking-note-container" ng-init="tempName = note.name">
 	<div class="note-name" ng-init="editName = !note.name" ng-disabled="!note.isActive">
-		<div ng-hide="editName" ng-click="editName = true">
+		<div ng-hide="editName" ng-click="editName = true" class="display-name-container">
 			<i class="fa fa-lg fa-pencil" ng-hide="loading"></i>
 			<ellipsis-animated ng-show="loading"></ellipsis-animated>
 			<span class='display-name' ng-hide="editName">{{note.name}}</span>
 		</div>
-		<div ng-show="editName">
+		<div ng-show="editName" class="edit-name-container">
 		    <form name="noteNameForm" novalidate ng-enter="saveName()" ng-esc="cancelEdit()">
 				<i class="fa fa-lg fa-save" ng-click="saveName()"></i>
-				<input name="noteName" ng-model="tempName" placeholder="{{'booking:booking-admin.note-name-placeholder' | i18next}}" ng-maxlength="100" required/>
+				<input name="noteName" ng-model="tempName" ng-blur="saveName()" placeholder="{{'booking:booking-admin.note-name-placeholder' | i18next}}" ng-maxlength="100" required/>
 
 				<div class="error-messages" ng-messages="noteNameForm.noteName.$error" ng-if="noteNameForm.noteName.$touched">
 				    <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>

@@ -173,10 +173,21 @@
                 }
                 .note-name{
                     width: 40%;
+                    i.close-new-note{
+                        color: $green;
+                        width: 15%;
+                        cursor: pointer;
+                        text-align: center;
+                        display: inline-block;
+                        float: left;
+                        line-height: 40px;
+                    }
                     input{
+                        width: 85%;
                         height: 40px;
                     }
                     div.error-messages{
+                        left: 30px;
                         div{
                             i{
                                 top: -35px;
