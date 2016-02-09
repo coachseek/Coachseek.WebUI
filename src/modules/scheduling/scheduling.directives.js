@@ -150,8 +150,6 @@ angular.module('scheduling.directives', [])
                 scope.addBooking = function(functionName, customer, sessionId){
                     scope.bookingLoading = true;
                     bookingManager[functionName](customer, sessionId).then(function(){
-                        // var customerName = customer.firstName + " " + customer.lastName;
-                        // showSuccessAlert(actionName, customerName, course.service.name)
                         scope.getCourseBookingData();
                     }, scope.handleErrors).finally(function(){
                         scope.bookingLoading = false;
@@ -342,7 +340,6 @@ angular.module('scheduling.directives', [])
 
                 scope.getCourseBookingData = function(){
                     //TODO restructure as PAYMENT and BOOKINGS for tabs?
-                    //TODO gauruntee in order date sequence
                     // go through session bookings and pluck out unique customers
                     // [{customer: {}, bookings:[booking, sessionId, booking]},{customer: {}, bookings:[sessionId, sessionId, booking]}]
                     var courseBookingData = [];
@@ -397,7 +394,6 @@ angular.module('scheduling.directives', [])
                 });
 
                 function renderCustomerTable(courseBookingData){
-                    var bookingLoadStart = new Date()
                     //scope.courseBookingData[newVal]?
                     ReactDOM.render(
                       <CustomerDataTable courseBookings={courseBookingData}/>,
@@ -410,7 +406,6 @@ angular.module('scheduling.directives', [])
                     }).on('scrollbar-x-scroll', function(event, scrollLeft){
                         $('div.session-headers').css("left", 180-scrollLeft);
                     });
-                    console.log('courseBookingsLoaded: ' + (new Date() - bookingLoadStart) + 'ms')
                 }
 
                 //TODO split into CustomerAttendanceTable and CustomerPaymentTable
