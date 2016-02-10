@@ -97,6 +97,25 @@ describe('Booking Module', function() {
                     expect(viewAttrs.controller).to.equal('bookingCustomerDetailsCtrl');
                 });
             });
+            describe('when navigating to booking.notes', function(){
+                var viewAttrs;
+                beforeEach(function(){
+                    $injector.get('sessionService').business = {};
+                    $state.go('booking.notes');
+                    $rootScope.$digest();
+
+                    viewAttrs = $state.current.views['booking-view'];
+                });
+                it('should NOT attempt to bring up the login modal', function(){
+                    expect(loginModalSpy).to.be.not.be.called;
+                });
+                it('should map to correct template', function(){
+                    expect(viewAttrs.templateUrl).to.equal('booking/partials/bookingCustomerNotes.html');
+                });
+                it('should map to the correct controller', function(){
+                    expect(viewAttrs.controller).to.equal('bookingCustomerNotesCtrl');
+                });
+            });
             describe('when navigating to booking.confirmation', function(){
                 var viewAttrs;
                 beforeEach(function(){

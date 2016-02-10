@@ -8,7 +8,6 @@
 		        <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
 		    </div>
 		</div>
-        <customer-note ng-repeat="note in currentBooking.customer.customFields"></customer-note>
     </form>
     <button class="back-button" ui-sref="booking.details">{{'booking:common.back' | i18next}}</button>
     <button class="continue-button" ng-disabled="form.$invalid  || processingBooking" ng-click="saveCustomerNotes()">{{'booking:common.next' | i18next}}</button>

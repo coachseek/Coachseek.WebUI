@@ -112,7 +112,7 @@ describe('Booking Confirmation View', function(){
             return {$promise: self.anonPricingEnquiryStubPromise}
         });
 
-        anonStub = this.sinon.stub(onlineBookingAPIFactory, 'anon', function(thing){
+        anonStub = this.sinon.stub(onlineBookingAPIFactory, 'anon', function(){
             return {
                 save: anonSaveStub,
                 pricingEnquiry: anonPricingEnquiryStub
@@ -172,79 +172,41 @@ describe('Booking Confirmation View', function(){
         beforeEach(function(){
             $testRegion.find('.pay-later').trigger('click');
         });
-        it('should make a call to save the customer', function(){
+        it('should make a call to get the price', function(){
             expect(anonStub).to.be.calledWith(this.business.domain);
-            expect(anonSaveStub).to.be.calledWith({ section: 'Customers' }, this.customer)
+            expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
         });
-        describe('while loading', function(){
-            it('should show the loading animation', function(){
-                expect($testRegion.find('loading-animation').hasClass('ng-hide')).to.be.false;
-            });
-            it('should show `Processing Booking` message', function(){
-                expect($testRegion.find('.loading-messages .processing').hasClass('ng-hide')).to.be.false;
-            });
-        });
-        describe('and the Customers API call is successful', function(){
-            // TODO these will change with new cherrypicking data structure
-            // describe('when a course is selected')
-            // describe('when multiple sessions are selected')
-            let('anonCustomersSavePromise', function(){
+
+        describe('and the pricing enquiry is successful', function(){
+            let('anonPricingEnquiryStubPromise', function(){
                 var deferred = $q.defer();
-                deferred.resolve(this.customer);
+                deferred.resolve({price: 69.34});
                 return deferred.promise;
             });
-
-            it('should make a call to get the price', function(){
-                expect(anonStub).to.be.calledWith(this.business.domain);
-                expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
+            it('should set the price as the total price', function(){
+                expect($injector.get('currentBooking').totalPrice).to.equal("69.34")
+            });
+            it('should then make a call to `Bookings`', function(){
+                expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
             });
 
-            describe('and the pricing enquiry is successful', function(){
-                let('anonPricingEnquiryStubPromise', function(){
+            describe('and the Bookings API call is successful', function(){
+                let('anonBookingsSavePromise', function(){
                     var deferred = $q.defer();
-                    deferred.resolve({price: 69.34});
+                    deferred.resolve([this.booking]);
                     return deferred.promise;
                 });
-                it('should set the price as the total price', function(){
-                    expect($injector.get('currentBooking').totalPrice).to.equal("69.34")
-                });
-                it('should then make a call to `Bookings`', function(){
-                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
-                });
 
-                describe('and the Bookings API call is successful', function(){
-                    let('anonBookingsSavePromise', function(){
-                        var deferred = $q.defer();
-                        deferred.resolve([this.booking]);
-                        return deferred.promise;
-                    });
-
-                    it('should show the booking confirmation', function(){
-                        expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;
-                    });
-                    it('should hide the pay now/pay later/change booking buttons', function(){
-                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
-                    });
+                it('should show the booking confirmation', function(){
+                    expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;
                 });
-
-                describe('and the Bookings API call fails', function(){
-                    let('anonBookingsSavePromise', function(){
-                        var deferred = $q.defer();
-                        deferred.reject({data: [{message: "error"}]});
-                        return deferred.promise;
-                    });
-                    it('should show an error message', function(){
-                        expect($rootScope.alerts[0].type).to.equal('danger');
-                        expect($rootScope.alerts[0].message).to.equal('error');
-                    });
-                    it('should show the button container', function(){
-                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
-                    });
+                it('should hide the pay now/pay later/change booking buttons', function(){
+                    expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
                 });
             });
 
-            describe('and the pricing enquiry fails', function(){
-                let('anonPricingEnquiryStubPromise', function(){
+            describe('and the Bookings API call fails', function(){
+                let('anonBookingsSavePromise', function(){
                     var deferred = $q.defer();
                     deferred.reject({data: [{message: "error"}]});
                     return deferred.promise;
@@ -257,10 +219,10 @@ describe('Booking Confirmation View', function(){
                     expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
                 });
             });
-
         });
-        describe('and the Customers API call fails', function(){
-            let('anonCustomersSavePromise', function(){
+
+        describe('and the pricing enquiry fails', function(){
+            let('anonPricingEnquiryStubPromise', function(){
                 var deferred = $q.defer();
                 deferred.reject({data: [{message: "error"}]});
                 return deferred.promise;
@@ -281,84 +243,46 @@ describe('Booking Confirmation View', function(){
             $testRegion.find('paypal-payment-button button').trigger('click');
         });
 
-        it('should make a call to save the customer', function(){
+        it('should make a call to get the price', function(){
             expect(anonStub).to.be.calledWith(this.business.domain);
-            expect(anonSaveStub).to.be.calledWith({ section: 'Customers' }, this.customer)
+            expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
         });
-        describe('while loading', function(){
-            it('should show the loading animation', function(){
-                expect($testRegion.find('loading-animation').hasClass('ng-hide')).to.be.false;
-            });
-            it('should show `Processing Booking` message', function(){
-                expect($testRegion.find('.loading-messages .processing').hasClass('ng-hide')).to.be.false;
-            });
-        });
-        describe('and the Customers API call is successful', function(){
-            let('anonCustomersSavePromise', function(){
+
+        describe('and the pricing enquiry is successful', function(){
+            let('anonPricingEnquiryStubPromise', function(){
                 var deferred = $q.defer();
-                deferred.resolve(this.customer);
+                deferred.resolve({price: 69.0000});
                 return deferred.promise;
             });
-
-            it('should make a call to get the price', function(){
-                expect(anonStub).to.be.calledWith(this.business.domain);
-                expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
+            it('should set the price as the total price', function(){
+                expect($injector.get('currentBooking').totalPrice).to.equal("69.00")
+            });
+            it('should then make a call to `Bookings`', function(){
+                expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
             });
 
-            describe('and the pricing enquiry is successful', function(){
-                let('anonPricingEnquiryStubPromise', function(){
+            describe('and the Bookings API call is successful', function(){
+                let('anonBookingsSavePromise', function(){
                     var deferred = $q.defer();
-                    deferred.resolve({price: 69.0000});
+                    deferred.resolve([this.booking]);
                     return deferred.promise;
                 });
-                it('should set the price as the total price', function(){
-                    expect($injector.get('currentBooking').totalPrice).to.equal("69.00")
+                it('should hide the pay now/pay later/change booking buttons', function(){
+                    expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
                 });
-                it('should then make a call to `Bookings`', function(){
-                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
-                });
-
-                describe('and the Bookings API call is successful', function(){
-                    let('anonBookingsSavePromise', function(){
-                        var deferred = $q.defer();
-                        deferred.resolve([this.booking]);
-                        return deferred.promise;
-                    });
-                    it('should hide the pay now/pay later/change booking buttons', function(){
-                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
-                    });
-                    it('should attempt to submit PayPal form', function(){
-                        $timeout.flush();
-                        expect(submitStub).to.be.calledOnce;
-                    });
-                });
-
-                describe('and the Bookings API call fails', function(){
-                    let('anonBookingsSavePromise', function(){
-                        var deferred = $q.defer();
-                        deferred.reject({data: [{message: "error"}]});
-                        return deferred.promise;
-                    });
-
-                    it('should NOT attempt to submit PayPal form', function(){
-                        $timeout.flush();
-                        expect(submitStub).to.not.be.calledOnce;
-                    });
-                    it('should show an error message', function(){
-                        expect($rootScope.alerts[0].type).to.equal('danger');
-                        expect($rootScope.alerts[0].message).to.equal('error');
-                    });
-                    it('should show the button container', function(){
-                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
-                    });
+                it('should attempt to submit PayPal form', function(){
+                    $timeout.flush();
+                    expect(submitStub).to.be.calledOnce;
                 });
             });
-            describe('and the pricing enquiry fails', function(){
-                let('anonPricingEnquiryStubPromise', function(){
+
+            describe('and the Bookings API call fails', function(){
+                let('anonBookingsSavePromise', function(){
                     var deferred = $q.defer();
                     deferred.reject({data: [{message: "error"}]});
                     return deferred.promise;
                 });
+
                 it('should NOT attempt to submit PayPal form', function(){
                     $timeout.flush();
                     expect(submitStub).to.not.be.calledOnce;
@@ -372,13 +296,12 @@ describe('Booking Confirmation View', function(){
                 });
             });
         });
-        describe('and the Customers API call fails', function(){
-            let('anonCustomersSavePromise', function(){
+        describe('and the pricing enquiry fails', function(){
+            let('anonPricingEnquiryStubPromise', function(){
                 var deferred = $q.defer();
                 deferred.reject({data: [{message: "error"}]});
                 return deferred.promise;
             });
-
             it('should NOT attempt to submit PayPal form', function(){
                 $timeout.flush();
                 expect(submitStub).to.not.be.calledOnce;
