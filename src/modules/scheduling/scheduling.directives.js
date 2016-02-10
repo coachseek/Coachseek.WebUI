@@ -275,7 +275,7 @@ angular.module('scheduling.directives', [])
                     var courseBookings = _.filter(courseBooking.bookings, function(booking){
                         return !booking.showAddToSessionButton
                     });
-                    courseBookings = _.uniq(courseBookings, 'parentId');
+                    courseBookings = _.uniqBy(courseBookings, 'parentId');
                     bookingRemoval('removeFromCourse', courseBookings);
                 };
 
