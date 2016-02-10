@@ -109,14 +109,14 @@ module.exports = function(grunt) {
                 src: ['src/js/scripts.js'],
                 dest: 'src/js/scripts.js',
                 options: {
-                    wrapper: ["'use strict';\n(function(){", "})();"]
+                    wrapper: ["(function(){", "})();"]
                 }
             },
             prod: {
                 src: ['src/js/scripts.js'],
                 dest: 'prod/js/scripts.js',
                 options: {
-                    wrapper: ["'use strict';\n(function(){", "})();"]
+                    wrapper: ["(function(){", "})();"]
                 }
             }
         },
