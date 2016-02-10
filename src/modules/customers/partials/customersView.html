@@ -85,7 +85,7 @@
             </div>
         </form>
 
-        <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading || itemForm.$invalid"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
+        <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading || itemForm.$invalid"><span class='save-text'ng-i18next="{{AILoading ? 'saving' : 'save-details'}}"></span><ellipsis-animated ng-show="AILoading"/></button>
         <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>
     </div>
 </div>

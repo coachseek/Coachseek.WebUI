@@ -7,7 +7,8 @@ describe('Customers CRUD Control', function(){
                 lastName: 'Cuss',
                 phone: '8829323',
                 email: 'one@guy.com',
-                dateOfBirth: '1959-02-06'
+                dateOfBirth: '1959-02-06',
+                customFields: this.customFields
             }
         });
 
@@ -32,9 +33,32 @@ describe('Customers CRUD Control', function(){
             return deferred.promise;
         });
 
+        let('customFields', function(){
+            return [
+                {key: 'noteone', value: 'boobs'},
+                {key: 'notetwo', value: 'moreboobs'}
+            ];
+        });
+
+        let('customerNotes', function(){
+            return [{
+                key: 'noteone',
+                isRequired: true
+            },{
+                key: 'notetwo',
+                isRequired: false
+            }]
+        });
+
+        let('customFieldsPromise', function(){
+            var deferred = $q.defer();
+            deferred.resolve(this.customerNotes);
+            return deferred.promise;
+        });
+
         let('savepromise', function(){
             var deferred = $q.defer();
-            deferred.resolve(this.customerTwo);
+            deferred.resolve(this.customerOne);
             return deferred.promise;
         });
 
@@ -51,7 +75,11 @@ describe('Customers CRUD Control', function(){
             scope = $rootScope.$new();
 
             getStub = this.sinon.stub(coachSeekAPIService, 'query', function(param){
-                return {$promise: self.customersPromise};
+                if(param.section === 'Customers'){
+                    return {$promise: self.customersPromise};
+                } else if (param.section === 'CustomFields') {
+                    return {$promise: self.customFieldsPromise};
+                }
             });
             createViewWithController(scope, 'customers/partials/customersView.html', 'customersCtrl');
             $customerListView = $testRegion.find('.customers-list-view');
@@ -60,8 +88,16 @@ describe('Customers CRUD Control', function(){
         it('should attempt to get existing customers', function(){
             expect(getStub).to.be.calledWith({section: 'Customers'})
         });
+        it('should attempt to get business` custom fields', function(){
+            expect(getStub).to.be.calledWith({section: 'CustomFields', type: 'customer'})
+        });
         it('should show the export-to-csv button', function(){
             expect($testRegion.find('export-to-csv').length).to.equal(1);
+        });
+        it('should add the custom files to the export keys', function(){
+            _.each(this.customFields, function(customField){
+                expect(_.includes(_.last(scope.exportKeys).customFields, customField.key)).to.be.true;            
+            });
         });
         describe('and the device is a touch device', function(){
             let('ModernizrTouchevents', function(){
@@ -81,26 +117,7 @@ describe('Customers CRUD Control', function(){
                 expect($customerListView.find('.create-item').attr('disabled')).to.equal('disabled');
             });
         });
-        describe('and there are no customers', function(){
-
-            let('customerList', function(){
-                return [];
-            });
-
-            it('should not show the customer list view', function(){
-                expect($customerListView.hasClass('ng-hide')).to.be.true;
-            });
-            it('should show the customer item view', function(){
-                expect($customerItemView.hasClass('ng-hide')).to.be.false;
-            });
-            it('should set the list item to default value', function(){
-                expect(scope.item).to.eql({});
-            });
-            it('should not show the cancel button', function(){
-                expect($customerItemView.find('.cancel-button').hasClass('ng-hide')).to.be.true;
-            });
-        });
-        describe('and there are one or more customers', function(){
+        describe('and there is one or more customers', function(){
             it('should show the customer list view', function(){
                 expect($customerListView.hasClass('ng-hide')).to.be.false;
             });
@@ -143,14 +160,42 @@ describe('Customers CRUD Control', function(){
 
                 describe('when clicking the save button', function(){
                     
-                    var saveCustomerStub;
+                    var saveStub;
                     beforeEach(function(){
                         self.savepromise = this.savepromise;
 
-                        saveCustomerStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
+                        saveStub = this.sinon.stub(coachSeekAPIService, 'save', function(){
                             return {$promise: self.savepromise};
                         });
                     });
+
+                    describe('when there are custom fields', function(){
+                        beforeEach(function(){
+                            $customerItemView.find('.save-button').trigger('click');
+                        });
+                        it('should attempt to save the customer', function(){
+                            expect(saveStub).to.be.calledWith({section: 'Customers'}, this.customerOne);
+                        });
+                        it('should then attempt to save the custom fields', function(){
+                            expect(saveStub).to.be.calledWith({section: 'Customers', id: this.customerOne.id}, {customFields: this.customerOne.customFields}); 
+                        });
+                    });
+
+                    describe('when there are NO custom fields', function(){
+                        let('customFields', function(){
+                            return [];
+                        });
+                        beforeEach(function(){
+                            $customerItemView.find('.save-button').trigger('click');
+                        });
+                        it('should attempt to save the customer', function(){
+                            expect(saveStub).to.be.calledWith({section: 'Customers'}, this.customerOne);
+                        });
+                        it('should NOT attempt to save the custom fields', function(){
+                            expect(saveStub).to.be.calledOnce;
+                        });
+                    });
+
 
                     describe('during save', function(){
 
@@ -165,13 +210,10 @@ describe('Customers CRUD Control', function(){
                         it('should disable the save item button while loading', function(){
                             expect($customerItemView.find('.save-button').attr('disabled')).to.equal('disabled');
                         });
-                        it('should show `saving...` on the save button'
-                        // These fail intermittently. It's more important that the buttion is disabled
-                        // I think i18next intermittently compiles too slow    
-                        //     , function(){
-                        //     var saveButtonText = $customerItemView.find('.save-button').text();
-                        //     expect(saveButtonText).to.equal(i18n.t('saving'));
-                        // }
+                        it('should show `saving...` on the save button', function(){
+                            var saveButtonText = $customerItemView.find('.save-button .save-text').text();
+                            expect(saveButtonText).to.equal(i18n.t('saving'));
+                        }
                         );
                     });
 
