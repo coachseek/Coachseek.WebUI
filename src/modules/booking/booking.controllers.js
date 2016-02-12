@@ -348,13 +348,31 @@ angular.module('booking.controllers', [])
                     sessionService.business = $scope.business;
                     businessCopy = angular.copy($scope.business);
                     $scope.saved = true;
-                }, $scope.handleErrors).finally(function(){
+                }, function(errors){
                     $scope.cancelEdit();
+                    $scope.handleErrors(errors);
+                }).finally(function(){
                     $activityIndicator.stopAnimating();
                 });
         };
 
-        var savePaymentDebounce = _.debounce($scope.save, 1000);
+        var savePaymentDebounce = _.debounce(saveProRataPricing, 1000);
+
+        function saveProRataPricing(){
+            $activityIndicator.startAnimating();
+            coachSeekAPIService.save({section: "Business", id:"Settings"}, {
+                commandName: 'BusinessSetUseProRataPricing',
+                useProRataPricing: $scope.business.payment.useProRataPricing
+            }).$promise.then(function(){
+                sessionService.business = $scope.business;
+                businessCopy = angular.copy($scope.business);
+            }, function(errors){
+                $scope.cancelEdit();
+                $scope.handleErrors(errors);
+            }).finally(function(){
+                $activityIndicator.stopAnimating();
+            });
+        };
 
         $timeout(function(){
             $scope.buttonHTML = view.get(0).outerHTML;

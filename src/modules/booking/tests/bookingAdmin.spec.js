@@ -4,7 +4,8 @@ describe('Booking Admin Page', function(){
             domain: 'bizdomain',
             payment: {
                 isOnlinePaymentEnabled: false,
-                paymentProvider: "PayPal"
+                paymentProvider: "PayPal",
+                useProRataPricing: true
             }
         }
     });
@@ -244,6 +245,16 @@ describe('Booking Admin Page', function(){
         });
     });
     describe('when clicking the pricing tab', function(){
+        let('business', function(){
+            return {
+                domain: 'bizdomain',
+                payment: {
+                    isOnlinePaymentEnabled: true,
+                    paymentProvider: "PayPal",
+                    useProRataPricing: true
+                }
+            }
+        });
         beforeEach(function(){
             $testRegion.find('.booking-nav.pricing').trigger('click');
         });
@@ -262,7 +273,7 @@ describe('Booking Admin Page', function(){
                     clock.tick(1000);
                 });
                 it('should attempt to save after 1 second', function(){
-                    expect(saveStub).to.be.calledOnce;
+                    expect(saveStub).to.be.calledWith({ id: "Settings", section: "Business" }, { commandName: "BusinessSetUseProRataPricing", useProRataPricing: !this.business.payment.useProRataPricing });
                 });
             });
         });
