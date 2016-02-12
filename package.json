@@ -1,6 +1,6 @@
 {
   "name": "coachseek",
-  "version": "1.5.389",
+  "version": "1.5.390",
   "devDependencies": {
     "babel-plugin-transform-react-jsx": "^6.3.13",
     "babel-preset-es2015": "^6.3.13",
