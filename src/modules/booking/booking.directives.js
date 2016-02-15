@@ -10,7 +10,7 @@ angular.module('booking.directives', [])
                 scope.fullCoursePrice = getFullCoursePrice();
                 scope.isSoldOut = function(){
                     if(_.has(scope.event,'sessions')){
-                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);     
+                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);
                     }else if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
                         return scope.spacesAvailable <= 0;
                     }else {
@@ -78,7 +78,7 @@ angular.module('booking.directives', [])
                     // var sessions = _.filter(, function(session){
                     //     return getNewDate(session.timing).isAfter();
                     // });
-                    return _.max(scope.event.sessions, "booking.bookingCount").booking.bookingCount;
+                    return _.maxBy(scope.event.sessions, "booking.bookingCount").booking.bookingCount;
                 };
 
                 function getNewDate(timing){
