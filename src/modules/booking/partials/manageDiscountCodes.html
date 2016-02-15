@@ -1,0 +1,42 @@
+<div class="show-add-discount-code" ng-disabled="showAddDiscountCode">
+    <button class="save-button" ng-click="addDiscountCodeShow()" ng-tab-add="addDiscountCodeShow()">
+        <i class="fa fa-plus"></i>&nbsp;{{'booking:booking-admin.add-discount-code' | i18next}}
+    </button>
+</div>
+<div class="booking-discount-code-headers">
+    <h5 class="discount-percent">{{'booking:booking-admin.discount-percent' | i18next}}</h5>
+    <h5 class="discount-code">{{'booking:booking-admin.discount-code' | i18next}}</h5>
+    <h5 class="is-active">{{'booking:booking-admin.is-active' | i18next}}</h5>
+</div>
+<hr class="double-wide">
+<div class="new-discount-code-container" ng-show="showAddDiscountCode">
+    <form name="newDiscountCodeForm" novalidate ng-enter="saveNewDiscountCode()" ng-esc="addDiscounCodeHide()">
+        <i class="fa fa-lg fa-times close-new-discount-code" ng-click="addDiscounCodeHide()"></i>
+
+        <div class="discount-input-container">
+            <input name="discountPercent" class="new-discount-percent" type="number" ng-model="newDiscountCode.discountPercent" placeholder="{{'booking:booking-admin.discount-percent-placeholder' | i18next}}" ng-min="1" ng-max="99" required ng-disabled="AILoading"/>
+            <i class="percent-symbol">%</i>
+            <div class="error-messages" ng-messages="newDiscountCodeForm.discountPercent.$error" ng-if="newDiscountCodeForm.discountPercent.$touched">
+                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                 <div ng-message="max">{{'businessSetup:error.max' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                 <div ng-message="min">{{'businessSetup:error.min' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+             </div>
+        </div>
+
+        <div class="code-input-container">
+            <input name="code" ng-model="newDiscountCode.code" class="new-discount-code" placeholder="{{'booking:booking-admin.discount-code-placeholder' | i18next}}" ng-maxlength="10" required ng-disabled="AILoading"/>
+            <div class="error-messages" ng-messages="newDiscountCodeForm.code.$error" ng-if="newDiscountCodeForm.code.$touched">
+                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                 <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+             </div>
+        </div>
+    </form>
+    <div class="new-discount-code-save-container">
+        <button class="save-button" ng-click="saveNewDiscountCode()" ng-disabled="AILoading">
+            <span ng-i18next="{{AILoading ? 'saving' : 'save'}}"></span>
+            <ellipsis-animated ng-show="AILoading"/></button>
+    </div>
+</div>
+<booking-discount-code ng-repeat="discountCode in discountCodes |  orderBy:'isActive':true"></booking-discount-code>
+<loading-animation ng-show="initDiscountCodeLoad"></loading-animation>
+<h4 class="no-discount-codes" ng-show="!initDiscountCodeLoad && !_.size(discountCodes) && !showAddDiscountCode">{{'booking:booking-admin.no-discount-codes' | i18next}}</h4>

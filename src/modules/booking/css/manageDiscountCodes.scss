@@ -1,0 +1,203 @@
+[state^="bookingAdmin"] .booking-admin-pricing manage-discount-codes{
+    .show-add-discount-code{
+        height: 40px;
+        margin-bottom: 20px;
+        text-align: center;
+        overflow: hidden;
+        &[disabled]{
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        button.save-button{
+            width: 150px;
+            float: none;
+        }
+    }
+    .new-discount-code-container{
+        height: 40px;
+        margin-bottom: 10px;
+        position: relative;
+        .new-discount-percent,
+        .new-discount-code{
+            width: 30%;
+            float: left;
+            height: 40px;
+            text-align: center;
+        }
+        i.close-new-discount-code{
+            color: $green;
+            width: 7%;
+            cursor: pointer;
+            text-align: center;
+            display: inline-block;
+            float: left;
+            line-height: 40px;
+        }
+        .new-discount-code{
+            margin-left: 3%;
+        }
+        i.percent-symbol{
+            height: 40px;
+            line-height: 40px;
+            width: 30px;
+            position: absolute;
+            left: 25%;
+        }
+        .new-discount-code-save-container{
+            width: 30%;
+            float: left;
+            text-align: center;
+            cursor: pointer;
+
+            button.save-button{
+                width: 75%;
+                float: none;
+            }
+        }
+        div.error-messages{
+            left: 7%;
+            div{
+                i{
+                    top: -35px;
+                    left: 125px;
+                    width: 0px;
+                }
+            }
+        }
+        .code-input-container{
+            div.error-messages{
+                left: 40%;
+            }
+        }
+    }
+    .booking-discount-code-headers{
+        overflow: hidden;
+        margin-bottom: 10px;
+        h5{
+            float: left;
+            text-align: center;
+            &.discount-percent, &.discount-code{
+                width: 35%;
+            }
+            &.is-active{
+                width: 30%;
+            }
+        }
+    }
+
+    .no-discount-codes{
+        text-align: center;
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    input[type=checkbox]{
+        height: 20px;
+        zoom: 1.5;
+    }
+    .double-wide{
+        margin-bottom: 20px;
+    }
+    booking-discount-code{
+        $booking-discount-code-height: 60px;
+        .booking-discount-code-container{
+            height: $booking-note-height;
+            position: relative;
+            .discount-code-display{
+                width: 70%;
+                float: left;
+                &[disabled]{
+                    background: $background-grey;
+                    opacity: 0.5;
+                    pointer-events: none;
+                }
+
+                .discount-percent,
+                .discount-code{
+                    text-align: center;
+                    width: 42.5%;
+                    float: left;
+                }
+
+                span.discount-percent,
+                span.discount-code{
+                    cursor: pointer;
+                    height: 60px;
+                    line-height: 60px;
+                }
+
+                input.discount-percent,
+                input.discount-code,
+                {
+                    margin-top: 10px;
+                    height: 40px;
+                }
+
+                i.percent-symbol{
+                    height: 40px;
+                    line-height: 40px;
+                    width: 30px;
+                    position: absolute;
+                    left: 25%;
+                    top: 10px;
+                }
+
+                .fa-pencil, .fa-save, ellipsis-animated{
+                    width: 10%;
+                    cursor: pointer;
+                    text-align: center;
+                    display: inline-block;
+                    float: left;
+                    color: $green;
+                    line-height: 60px;
+                }
+                .discount-code{
+                    margin-left: 5%;
+                }
+                div.error-messages{
+                    left: 7%;
+                    bottom: -10px;
+                    div{
+                        i{
+                            top: -35px;
+                            left: 125px;
+                            width: 0px;
+                        }
+                    }
+                }
+                .code-input-container{
+                    div.error-messages{
+                        left: 40%;
+                    }
+                }
+            }
+            .is-active{
+                width: 30%;
+                height: $booking-discount-code-height;
+
+                &.grey-background{
+                    background: rgba(200,200,200,0.5)
+                }
+
+                .toggle-bg{
+                    float: none;
+                    margin: 0 auto;
+                    height: 30px;
+                    margin-top: 15px;
+                    .switch{
+                        height: 28px;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 768px){
+    [state^="bookingAdmin"] .booking-admin-pricing manage-discount-codes{
+        div.error-messages{
+            i{
+                display: none;
+            }
+        }
+    }
+}

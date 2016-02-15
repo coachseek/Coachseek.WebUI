@@ -169,7 +169,7 @@ angular.module('booking.controllers', [])
 
         if(!currentBooking.allEvents){
             delete $scope.serviceDescription;
-            $scope.loadingSessions = true;            
+            $scope.loadingSessions = true;
             currentBooking.getAllEvents($scope.business.domain).then(function(events){
                 currentBooking.allEvents = _.sortBy(_.union(removeCoursesInPast(events.courses), removeSessionsInPast(events.sessions)),function(event){
                     return getNewDate(event.timing).valueOf();
@@ -186,7 +186,7 @@ angular.module('booking.controllers', [])
             $scope.filterByService();
         }
     }])
-    .controller('bookingCustomerDetailsCtrl', ['$scope', '$q', '$state', 'currentBooking', 'onlineBookingAPIFactory', 
+    .controller('bookingCustomerDetailsCtrl', ['$scope', '$q', '$state', 'currentBooking', 'onlineBookingAPIFactory',
       function($scope, $q, $state, currentBooking, onlineBookingAPIFactory){
         if(!currentBooking.filters.location){
             $state.go('booking.selection');
@@ -211,9 +211,9 @@ angular.module('booking.controllers', [])
                     $scope.processingBooking = false;
                     $scope.handleErrors(error);
                 });
-        } 
+        }
     }])
-    .controller('bookingCustomerNotesCtrl', ['$scope', '$state', 'currentBooking', 'onlineBookingAPIFactory', 
+    .controller('bookingCustomerNotesCtrl', ['$scope', '$state', 'currentBooking', 'onlineBookingAPIFactory',
       function($scope, $state, currentBooking, onlineBookingAPIFactory){
         if(!currentBooking.filters.location){
             $state.go('booking.selection');

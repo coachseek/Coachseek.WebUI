@@ -2,6 +2,7 @@ describe('Booking Admin Page', function(){
     let('business', function(){
         return {
             domain: 'bizdomain',
+            name: 'BIZ Name',
             payment: {
                 isOnlinePaymentEnabled: false,
                 paymentProvider: "PayPal",
@@ -51,7 +52,7 @@ describe('Booking Admin Page', function(){
         });
         getNotesStub = this.sinon.stub(coachSeekAPIService, 'query', function(){
             return self.getNotesPromise;
-        }); 
+        });
         createViewWithController(scope, 'booking/partials/bookingAdminView.html', 'bookingAdminCtrl');
     });
     it('should make a call to get custom field templates', function(){
@@ -174,7 +175,7 @@ describe('Booking Admin Page', function(){
                         isOnlinePaymentEnabled: true
                     }
                 }
-            }); 
+            });
             it('should SHOW the force payment toggle switch and merchant form', function(){
                 $forcePaymentMerchantContainer = $testRegion.find('.force-payment-merchant-form-container');
                 expect($forcePaymentMerchantContainer.hasClass('ng-hide')).to.be.false;
@@ -248,6 +249,7 @@ describe('Booking Admin Page', function(){
         let('business', function(){
             return {
                 domain: 'bizdomain',
+                name: 'BIZ Name',
                 payment: {
                     isOnlinePaymentEnabled: true,
                     paymentProvider: "PayPal",
@@ -261,9 +263,12 @@ describe('Booking Admin Page', function(){
         it('should show the `Payments` tab', function(){
             expect(scope.activeTab).to.equal('pricing');
         });
+        it('should show the manage discount codes directive', function(){
+            expect(_.size($testRegion.find('manage-discount-codes'))).to.equal(1);
+        })
         describe('when clicking the pro rata switch', function(){
             beforeEach(function(){
-                $testRegion.find('.booking-admin-pricing .toggle-bg').trigger('click');
+                $testRegion.find('.booking-admin-pricing .toggle-switch-container .toggle-bg').trigger('click');
             });
             it('should not attempt to save', function(){
                 expect(saveStub).to.not.be.called;
@@ -282,7 +287,7 @@ describe('Booking Admin Page', function(){
         beforeEach(function(){
             $testRegion.find('.booking-nav.booking-notes').trigger('click');
         });
-        it('should show the `Payments` tab', function(){
+        it('should show the `Booking fields` tab', function(){
             expect(scope.activeTab).to.equal('bookingNotes');
         });
         it('should hide the new note form', function(){

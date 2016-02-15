@@ -34,7 +34,7 @@
             <div class="toggle-switch-container force-payment">
                 {{'booking:force-payment' | i18next}}
                 <toggle-switch ng-disabled="AILoading"
-                    property="business.payment.forceOnlinePayment" 
+                    property="business.payment.forceOnlinePayment"
                     positive="'yes'"
                     negative="'no'"
                 ></toggle-switch>
@@ -66,12 +66,13 @@
         <div class="toggle-switch-container pro-rata">
             {{'booking:pro-rata' | i18next}}
             <toggle-switch ng-disabled="AILoading"
-                property="business.payment.useProRataPricing" 
+                property="business.payment.useProRataPricing"
                 positive="'yes'"
                 negative="'no'"
             ></toggle-switch>
         </div>
         <hr class="double-wide">
+        <manage-discount-codes></manage-discount-codes>
     </div>
     <div class="booking-admin-booking-notes" ng-switch-when="bookingNotes">
         <div class="show-add-note" ng-disabled="showAddNote">

@@ -95,7 +95,13 @@
         "name": "Name",
         "add-note": "Add field",
         "note-name-placeholder": "e.g. Medical Info",
-        "no-booking-notes": "Need to capture details about your customers other than their Name, Phone Number, Email and Date of Birth? Add any additional info required here."
+        "no-booking-notes": "Need to capture details about your customers other than their Name, Phone Number, Email and Date of Birth? Add any additional info required here.",
+        "discount-percent": "Discount",
+        "discount-code": "Code",
+        "add-discount-code": "Add discount",
+        "discount-percent-placeholder": "10",
+        "discount-code-placeholder": "SAVE10",
+        "no-discount-codes": "Add discount codes here to distribute to your customers."
     },
     "msports": {
         "cash-or-check": "– Cash or Cheque: Posted to M Sports Ltd, 46 Ocean View Rd, Northcote 0627",

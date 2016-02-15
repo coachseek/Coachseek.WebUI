@@ -10,7 +10,7 @@ angular.module('booking.directives', [])
                 scope.fullCoursePrice = getFullCoursePrice();
                 scope.isSoldOut = function(){
                     if(_.has(scope.event,'sessions')){
-                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);     
+                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);
                     }else if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
                         return scope.spacesAvailable <= 0;
                     }else {
@@ -278,6 +278,101 @@ angular.module('booking.directives', [])
                     $activityIndicator.startAnimating();
                     scope.loading = true;
                     return coachSeekAPIService.save({section:'CustomFields'}, scope.note).$promise
+                };
+            }
+        }
+    }])
+    .directive('manageDiscountCodes', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
+        return {
+            restrict: "E",
+            templateUrl: "booking/partials/manageDiscountCodes.html",
+            link: function(scope, elem){
+                var newDiscountCodeDefaults = {
+                    code: scope.business.name.substring(0,4).trim().toUpperCase() + 10,
+                    discountPercent: 10
+                };
+                scope.newDiscountCode = angular.copy(newDiscountCodeDefaults);
+                scope.showAddDiscountCode = false;
+                scope.saveNewDiscountCode = function(){
+                    //check form valid
+                    if(scope.newDiscountCodeForm.$valid){
+                        $activityIndicator.startAnimating();
+                        coachSeekAPIService.save({section: 'DiscountCodes'}, scope.newDiscountCode).$promise
+                            .then(function(code){
+                                scope.discountCodes.unshift(code);
+                                scope.newDiscountCode = angular.copy(newDiscountCodeDefaults);
+                                scope.showAddDiscountCode = false;
+                            }, scope.handleErrors).finally(function(){
+                                $activityIndicator.stopAnimating();
+                            });
+                    }
+                };
+
+                scope.addDiscountCodeShow = function(){
+                    scope.showAddDiscountCode = true;
+                }
+
+                scope.addDiscounCodeHide = function(){
+                    scope.showAddDiscountCode = false;
+                }
+
+                scope.initDiscountCodeLoad = true;
+                coachSeekAPIService.query({section: 'DiscountCodes'})
+                    .$promise.then(function(discountCodes){
+                        scope.discountCodes = discountCodes;
+                    }, scope.handleErrors).finally(function(){
+                        scope.initDiscountCodeLoad = false;
+                    });
+            }
+        };
+    }])
+    .directive('bookingDiscountCode', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
+        return {
+            restrict: "E",
+            templateUrl:'booking/partials/bookingDiscountCode.html',
+            link: function(scope, elem){
+                scope.editCode = false;
+                scope.loading = false;
+                scope.tempCode = scope.discountCode.code;
+                scope.tempPercent = scope.discountCode.discountPercent;
+                scope.saveDiscountCode = function(){
+                    if(scope.discountCodeForm.$valid){
+                        scope.editCode = false;
+                        scope.discountCode.code = scope.tempCode;
+                        scope.discountCode.discountPercent = scope.tempPercent;
+                        saveDiscountCode().then(function(){
+                            scope.tempCode = scope.discountCode.code;
+                            scope.tempPercent = scope.discountCode.discountPercent;
+                        }, function(errors){
+                            scope.editCode = true;
+                            scope.handleErrors(errors);
+                        }).finally(function(){
+                            scope.loading = false;
+                            $activityIndicator.stopAnimating();
+                        });
+                    }
+                }
+
+                scope.$watchCollection('discountCode.isActive', function(newVal, oldVal){
+                    if(newVal !== oldVal && !scope.editCode){
+                        saveDiscountCode().then({}, scope.handleErrors)
+                            .finally(function(){
+                                scope.loading = false;
+                                $activityIndicator.stopAnimating();
+                            });
+                    }
+                });
+
+                scope.cancelEdit = function(){
+                    scope.editCode = false;
+                    scope.tempCode = scope.discountCode.code;
+                    scope.tempPercent = scope.discountCode.discountPercent;
+                }
+
+                function saveDiscountCode(){
+                    $activityIndicator.startAnimating();
+                    scope.loading = true;
+                    return coachSeekAPIService.save({section:'DiscountCodes'}, scope.discountCode).$promise
                 };
             }
         }

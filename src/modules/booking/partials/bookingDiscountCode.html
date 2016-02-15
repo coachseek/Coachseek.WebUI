@@ -1,0 +1,37 @@
+<div class="booking-discount-code-container">
+    <div class="discount-code-display" ng-disabled="!discountCode.isActive">
+        <div ng-hide="editCode" ng-click="editCode = true" class="display-code-container">
+            <i class="fa fa-lg fa-pencil" ng-hide="loading"></i>
+            <ellipsis-animated ng-show="loading"></ellipsis-animated>
+            <span class='discount-percent' ng-hide="editCode">{{discountCode.discountPercent}}%</span>
+            <span class='discount-code' ng-hide="editCode">{{discountCode.code}}</span>
+        </div>
+        <div ng-show="editCode" class="edit-code-container">
+            <form name="discountCodeForm" novalidate ng-enter="saveDiscountCode()" ng-blur="saveDiscountCode()" ng-esc="cancelEdit()">
+                <i class="fa fa-lg fa-save" ng-click="saveDiscountCode()"></i>
+                <div class="discount-input-container">
+                    <input name="discountPercent" class="discount-percent" type="number" ng-model="tempPercent" placeholder="{{'booking:booking-admin.discount-percent-placeholder' | i18next}}" ng-min="1" ng-max="99" required ng-disabled="AILoading"/>
+                    <i class="percent-symbol">%</i>
+                    <div class="error-messages" ng-messages="discountCodeForm.discountPercent.$error" ng-if="discountCodeForm.discountPercent.$touched">
+                         <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                         <div ng-message="max">{{'businessSetup:error.max' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                         <div ng-message="min">{{'businessSetup:error.min' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                     </div>
+                </div>
+
+                <div class="code-input-container">
+                    <input name="code" class="discount-code" ng-model="tempCode" placeholder="{{'booking:booking-admin.discount-code-placeholder' | i18next}}" ng-maxlength="10" required ng-disabled="AILoading"/>
+                    <div class="error-messages" ng-messages="discountCodeForm.code.$error" ng-if="discountCodeForm.code.$touched">
+                         <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                         <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <toggle-switch class="is-active" ng-class="{'grey-background':!discountCode.isActive}"
+        property="discountCode.isActive"
+        positive="'yes'"
+        negative="'no'"
+    ></toggle-switch>
+</div>
