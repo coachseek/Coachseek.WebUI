@@ -78,7 +78,7 @@ angular.module('booking.directives', [])
                     // var sessions = _.filter(, function(session){
                     //     return getNewDate(session.timing).isAfter();
                     // });
-                    return _.max(scope.event.sessions, "booking.bookingCount").booking.bookingCount;
+                    return _.maxBy(scope.event.sessions, "booking.bookingCount").booking.bookingCount;
                 };
 
                 function getNewDate(timing){
