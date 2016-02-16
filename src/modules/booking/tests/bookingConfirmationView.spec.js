@@ -98,7 +98,7 @@ describe('Booking Confirmation View', function(){
             return self.subdomain;
         });
 
-        onlineBookingAPIFactory = $injector.get('onlineBookingAPIFactory');
+        var onlineBookingAPIFactory = $injector.get('onlineBookingAPIFactory');
 
         anonSaveStub = this.sinon.stub(onlineBookingAPIFactory.anon(), 'save', function(apiCall){
             if(apiCall.section === "Bookings") {
@@ -127,6 +127,9 @@ describe('Booking Confirmation View', function(){
     });
     it('should hide the booking confirmation view', function(){
         expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.true;
+    });
+    it('should show the apply discount code input', function(){
+        expect($testRegion.find('apply-discount-code').hasClass('ng-hide')).to.be.false;
     });
     describe('pay now/pay later buttons', function(){
         describe('when online payments are turned OFF', function(){
@@ -326,10 +329,13 @@ describe('Booking Confirmation View', function(){
             }
         });
         it('should show the booking confirmation', function(){
-            expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;                
+            expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;
         });
         it('should hide the pay now/pay later/change booking buttons', function(){
-            expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;                
+            expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
+        });
+        it('should hide the apply discount code input', function(){
+            expect($testRegion.find('apply-discount-code').hasClass('ng-hide')).to.be.true;
         });
     });
 });

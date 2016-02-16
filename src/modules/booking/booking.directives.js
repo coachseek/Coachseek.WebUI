@@ -376,4 +376,29 @@ angular.module('booking.directives', [])
                 };
             }
         }
+    }])
+    .directive('applyDiscountCode', ['onlineBookingAPIFactory', 'currentBooking', function(onlineBookingAPIFactory, currentBooking){
+        return {
+            restrict: "E",
+            templateUrl:'booking/partials/applyDiscountCode.html',
+            link: function(scope, elem){
+                scope.discountCodeLoading = false;
+                scope.showDiscountErrors = false;
+                scope.applyDiscountCode = function(){
+                    if(scope.applyDiscountFrom.$valid){
+                        scope.discountCodeLoading = true;
+                        // attempt to save and then apply to price
+                        onlineBookingAPIFactory.anon(scope.business.domain)
+                            .pricingEnquiry({}, {
+                                sessions: currentBooking.booking.sessions,
+                                discountCode: scope.discountCode
+                            }).$promise.then({}, {}).finally(function(){
+                                scope.discountCodeLoading = true;
+                            });
+                    } else {
+                        scope.showDiscountErrors = true;
+                    }
+                }
+            }
+        };
     }]);

@@ -69,7 +69,11 @@
         "total":"Total:",
         "booking-for": ", your booking for",
         "booking-at": "at",
-        "booking-confirmed":"is confirmed for"
+        "booking-confirmed":"is confirmed for",
+        "discount-code-placeholder": "SAVE10",
+        "apply-discount": "Apply discount code:",
+        "apply": "Apply",
+        "applying": "Applying"
     },
     "booking-admin":{
         "onlinebooking":"Online booking",

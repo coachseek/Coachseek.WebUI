@@ -34,6 +34,7 @@
         <button class="continue-button new-booking" ng-click="resetBookings()">{{'booking:confirmation.reset-bookings' | i18next}}</button>
     </div>
     <a ng-if="business.id === '42f7fa52-2c36-4cb0-8877-bbe0ed423dca'" class="terms-link" href="https://az789256.vo.msecnd.net/assets/terms/aqua-sport-ts.pdf" target="_blank">{{business.name}}&nbsp;{{'booking:terms-and-conditions' | i18next}}</a>
+    <apply-discount-code ng-hide="processingBooking || redirectingToPaypal || bookingConfirmed"></apply-discount-code>
     <div class="button-container" ng-hide="processingBooking || redirectingToPaypal || bookingConfirmed">
         <paypal-payment-button ng-show="business.payment.isOnlinePaymentEnabled"></paypal-payment-button>
         <span ng-switch="business.id">
