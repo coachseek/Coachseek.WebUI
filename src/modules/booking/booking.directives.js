@@ -239,6 +239,50 @@ angular.module('booking.directives', [])
             }
         }
     }])
+    .directive('manageBookingNotes', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
+        return {
+            restrict: "E",
+            templateUrl: "booking/partials/manageBookingNotes.html",
+            link: function(scope){
+                var newNoteDefaults = {
+                    type: 'customer',
+                    name: '',
+                    isRequired: false
+                };
+                scope.newNote = angular.copy(newNoteDefaults);
+                scope.showAddNote = false;
+                scope.saveNewNote = function(){
+                    //check form valid
+                    if(scope.newNoteNameForm.$valid){
+                        $activityIndicator.startAnimating();
+                        coachSeekAPIService.save({section: 'CustomFields'}, scope.newNote).$promise
+                            .then(function(note){
+                                scope.bookingNotes.unshift(note);
+                                scope.newNote = angular.copy(newNoteDefaults);
+                                scope.showAddNote = false;
+                            }, scope.handleErrors).finally(function(){
+                                $activityIndicator.stopAnimating();
+                            });
+                    }
+                };
+
+                scope.addNoteShow = function(){
+                    scope.showAddNote = true;
+                }
+
+                scope.addNoteHide = function(){
+                    scope.showAddNote = false;
+                }
+
+                coachSeekAPIService.query({section: 'CustomFields', type: 'customer'})
+                    .$promise.then(function(bookingNotes){
+                        scope.bookingNotes = bookingNotes;
+                    }, scope.handleErrors).finally(function(){
+                        scope.initNoteLoad = false;
+                    });
+            }
+        }
+    }])
     .directive('bookingNoteTemplate', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
         return {
             restrict: "E",
