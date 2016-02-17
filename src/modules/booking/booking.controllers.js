@@ -250,6 +250,7 @@ angular.module('booking.controllers', [])
                 customer: sessionService.currentBooking.customer,
                 filters: sessionService.currentBooking.filters,
                 totalPrice: sessionService.currentBooking.totalPrice,
+                discountPrice: sessionService.currentBooking.discountPrice,
                 dateRange: sessionService.currentBooking.dateRange
             });
             delete sessionService.currentBooking;
@@ -261,12 +262,31 @@ angular.module('booking.controllers', [])
 
         $scope.processBooking = function (payLater) {
             $scope.processingBooking = true;
+            //don't need pricingEnquiry have already done
+            if(currentBooking.discountPrice){
+                return saveBooking(payLater);
+            //do pricing enquiry
+            } else {
+                return onlineBookingAPIFactory.anon($scope.business.domain)
+                    .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
+                        .then(function(response){
+                            currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
+                            return saveBooking(payLater);
+                    }, function(error){
+                        $scope.handleErrors(error);
+                        // make sure paypal form doesn't submit if error;
+                        return $q.reject();
+                    }).finally(function(){
+                        $scope.processingBooking = false;
+                    });
+            }
+        };
+
+        function saveBooking(payLater){
+            _.assign(currentBooking.customer, {id: currentBooking.customerId});
             return onlineBookingAPIFactory.anon($scope.business.domain)
-                .pricingEnquiry({}, {sessions: currentBooking.booking.sessions}).$promise
-                    .then(function(response){
-                        currentBooking.totalPrice = parseFloat(response.price).toFixed(2);
-                        _.assign(currentBooking.customer, {id: currentBooking.customerId})
-                        return saveBooking(currentBooking.customer).then(function (booking) {
+                .save({ section: 'Bookings' }, {sessions: currentBooking.booking.sessions, customer: currentBooking.customer}).$promise
+                    .then(function (booking) {
                             currentBooking.booking.id = booking.id;
                             $scope.bookingConfirmed = payLater;
                             $scope.redirectingToPaypal = !payLater;
@@ -278,18 +298,6 @@ angular.module('booking.controllers', [])
                             delete currentBooking.customer.id;
                             $scope.processingBooking = false;
                         });
-                }, function(error){
-                    $scope.handleErrors(error);
-                    // make sure paypal form doesn't submit if error;
-                    return $q.reject();
-                }).finally(function(){
-                    $scope.processingBooking = false;
-                });
-        };
-
-        function saveBooking(customer){
-            return onlineBookingAPIFactory.anon($scope.business.domain)
-                    .save({ section: 'Bookings' }, {sessions: currentBooking.booking.sessions, customer: customer}).$promise;
         };
 
         $scope.resetBookings = function () {

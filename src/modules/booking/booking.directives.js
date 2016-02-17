@@ -220,7 +220,9 @@ angular.module('booking.directives', [])
                     return JSON.stringify({
                         customer: currentBooking.customer,
                         filters: currentBooking.filters,
-                        totalPrice: scope.calculateTotalPrice(),
+                        //TODO check this keeps correct number from pricingEnquiry
+                        totalPrice: currentBooking.totalPrice || scope.calculateTotalPrice(),
+                        discountPrice: currentBooking.discountPrice,
                         dateRange: scope.calculateBookingDateRange()
                     });
                 };
@@ -387,13 +389,16 @@ angular.module('booking.directives', [])
                 scope.applyDiscountCode = function(){
                     if(scope.applyDiscountFrom.$valid){
                         scope.discountCodeLoading = true;
-                        // attempt to save and then apply to price
                         onlineBookingAPIFactory.anon(scope.business.domain)
                             .pricingEnquiry({}, {
                                 sessions: currentBooking.booking.sessions,
                                 discountCode: scope.discountCode
-                            }).$promise.then({}, {}).finally(function(){
-                                scope.discountCodeLoading = true;
+                            }).$promise.then(function(discountPrice){
+                                currentBooking.discountPrice = discountPrice;
+                                _.assign(currentBooking.discountPrice, {originalPrice: currentBooking.totalPrice});
+                                currentBooking.totalPrice = discountPrice.amount;
+                            }, scope.handleErrors).finally(function(){
+                                scope.discountCodeLoading = false;
                             });
                     } else {
                         scope.showDiscountErrors = true;

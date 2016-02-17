@@ -73,7 +73,9 @@
         "discount-code-placeholder": "SAVE10",
         "apply-discount": "Apply discount code:",
         "apply": "Apply",
-        "applying": "Applying"
+        "applying": "Applying",
+        "with": "With",
+        "discount-applied": "discount applied"
     },
     "booking-admin":{
         "onlinebooking":"Online booking",
