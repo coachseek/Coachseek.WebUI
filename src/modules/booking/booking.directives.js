@@ -9,14 +9,19 @@ angular.module('booking.directives', [])
                 scope.spacesAvailable = getSpacesAvailable();
                 scope.fullCoursePrice = getFullCoursePrice();
                 scope.isSoldOut = function(){
-                    if(_.has(scope.event,'sessions')){
-                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);
-                    }else if( _.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
+                    // course with no session price
+                    if(_.has(scope.event, 'pricing.coursePrice') && !_.has(scope.event, 'pricing.sessionPrice') ){
                         return scope.spacesAvailable <= 0;
+                    // any course that does not have only course price
+                    }else if(_.has(scope.event,'sessions') ){
+                        return checkAllSessionsSpacesSoldOut(scope.event.sessions);
+                    // returns true if single session with space
+                    // returns false if course
                     }else {
                         return !scope.event.sessions && scope.spacesAvailable <= 0;
                     }
                 };
+
                 function checkAllSessionsSpacesSoldOut(sessions){
                     return _.every(sessions,function(session){
                         return scope.getSessionSpacesAvailable(session) <= 0 ;
@@ -65,8 +70,10 @@ angular.module('booking.directives', [])
                 function getSpacesAvailable(){
                     var booking = scope.event.booking;
                     var spacesAvailable;
+                    // for course
                     if(scope.event.sessions){
                         spacesAvailable = booking.studentCapacity - getMaxBookingSessionCount();
+                    // for session
                     } else {
                         spacesAvailable = booking.studentCapacity - booking.bookingCount;
                     }
