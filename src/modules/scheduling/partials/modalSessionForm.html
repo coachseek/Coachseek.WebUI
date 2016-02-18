@@ -1,5 +1,5 @@
 <div class="session-form crud-item">
-    <form name="currentSessionForm" novalidate ng-enter="saveEdit()" ng-show="currentTab === 'general'">
+    <form name="currentSessionForm" novalidate>
         <div class="form-input left-col">
             <label name="duration">{{'scheduling:service-details.start-time' | i18next}}</label>
             <start-time-picker start-time="currentEvent.session.timing.startTime"></start-time-picker>
@@ -9,7 +9,7 @@
             <label name="duration">{{'scheduling:service-details.duration' | i18next}}</label>
             <duration-picker duration="currentEvent.session.timing.duration"></duration-picker>
         </div>
-    
+
         <div class="form-input left-col">
             <label name="services">{{'scheduling:service-name' | i18next}}</label>
             <select-arrows></select-arrows>
