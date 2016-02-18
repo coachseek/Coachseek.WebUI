@@ -41,7 +41,7 @@ angular.module('scheduling.controllers', [])
                     header:{
                         left: '',
                         center: 'prev title next',
-                        right: 'month agendaWeek agendaDay today' 
+                        right: 'month agendaWeek agendaDay today'
                     },
                     externalDragStart: function(){
                         $scope.$broadcast('hideDragServicePopover');
@@ -162,10 +162,10 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
-                        if(!$scope.showModal && event._id !== _.get($scope.currentEvent, '_id')) {
+                        if(_.get(event, 'course.id') !== _.get($scope.currentEvent, 'course.id')) {
                             $scope.showModal = true;
-                            $scope.$broadcast('triggerSliderSlide', 'general')
-                            $scope.currentTab = 'general';
+                            $scope.$broadcast('triggerSliderSlide', 'attendance')
+                            $scope.currentTab = 'attendance';
                         }
                         if($scope.isBigScreen || view.type == 'agendaDay'){
                             $scope.showModal = true;
@@ -402,7 +402,7 @@ angular.module('scheduling.controllers', [])
                         } else {
                             saveSession($scope.currentEvent.session);
                         }
-                    }); 
+                    });
                 } else {
                     saveSession($scope.currentEvent.session);
                 }
@@ -447,7 +447,7 @@ angular.module('scheduling.controllers', [])
                                 });
                         }
                     }
-                        
+
                     closeModal();
                     $scope.removeAlerts();
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('refetchEvents');

@@ -209,9 +209,9 @@ angular.module('scheduling.directives', [])
            restrict: "E",
            replace: false,
            templateUrl:'scheduling/partials/generalSettingsModal.html'
-        }; 
+        };
     })
-    .directive('courseAttendanceModal', ['coachSeekAPIService', 'bookingManager', 'sessionOrCourseModal', 'removeFromCourseModal', '$timeout', 
+    .directive('courseAttendanceModal', ['coachSeekAPIService', 'bookingManager', 'sessionOrCourseModal', 'removeFromCourseModal', '$timeout',
       function(coachSeekAPIService, bookingManager, sessionOrCourseModal, removeFromCourseModal, $timeout){
         return {
            restrict: "E",
@@ -243,7 +243,7 @@ angular.module('scheduling.directives', [])
                 scope.stopCourseLoading = function(){
                     itemsLoadingCounter--;
                     if(itemsLoadingCounter === 0){
-                        scope.courseLoading = false;                    
+                        scope.courseLoading = false;
                     }
                 };
 
@@ -302,24 +302,21 @@ angular.module('scheduling.directives', [])
                             }
                         });
 
-                        //only run if course changes otherwise would re-render same data
-                        if(_.get(newVal, 'course.id') !== _.get(oldVal, 'course.id') || !_.has(newVal, 'course.id')) {
-                            scope.showCustomers = false;
-                            scope.courseLoading = 'idle';
+                        scope.showCustomers = false;
+                        scope.courseLoading = 'idle';
 
-                            scope.getCourseBookingData();
-                            $(elem).find('.attendance-list').animate(
-                                {
-                                    width: (180 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))
-                                }, 300, function(){
-                                    $(elem).find('.course-table-container').scrollbar({
-                                        "autoScrollSize": false,
-                                        "scrollx": null,
-                                        "scrolly": $('.external-scroll_y')
-                                    });
+                        scope.getCourseBookingData();
+                        $(elem).find('.attendance-list').animate(
+                            {
+                                width: (180 + (_.size(_.get(scope.currentEvent, 'course.sessions')) * 125))
+                            }, 300, function(){
+                                $(elem).find('.course-table-container').scrollbar({
+                                    "autoScrollSize": false,
+                                    "scrollx": null,
+                                    "scrolly": $('.external-scroll_y')
                                 });
-                            $timeout(centerModal);
-                       }
+                            });
+                        $timeout(centerModal);
                     }
                 });
 
@@ -374,7 +371,7 @@ angular.module('scheduling.directives', [])
                         scope.itemList  =  customerList;
                     }, scope.handleErrors);
            }
-        }; 
+        };
     }])
     .directive('reactCustomerDataTable', ['bookingManager', 'coachSeekAPIService', function(bookingManager, coachSeekAPIService){
         return {
@@ -388,7 +385,7 @@ angular.module('scheduling.directives', [])
                     }
                 });
                 scope.$watch('modalTab', function(newVal){
-                    if(newVal === 'attendance' || newVal === 'payment'){
+                    if(scope.courseBookingData && (newVal === 'attendance' || newVal === 'payment')){
                         renderCustomerTable(scope.courseBookingData);
                     }
                 });
@@ -413,8 +410,8 @@ angular.module('scheduling.directives', [])
                     render(){
                         var customerNodes = this.props.courseBookings.map(function(courseBooking) {
                             return (
-                                <CustomerDataRow 
-                                    key={courseBooking.customer.id} 
+                                <CustomerDataRow
+                                    key={courseBooking.customer.id}
                                     customer={courseBooking.customer}
                                     bookings={courseBooking.bookings}
                                 />
@@ -432,24 +429,24 @@ angular.module('scheduling.directives', [])
                     render(){
                         var bookingNodes = this.props.bookings.map(function(booking) {
                             if(booking.showAddToSessionButton){
-                                return  (<AddCustomerToSession 
+                                return  (<AddCustomerToSession
                                             key={booking.sessionId}
-                                            customer={this.props.customer} 
-                                            sessionId={booking.sessionId} 
+                                            customer={this.props.customer}
+                                            sessionId={booking.sessionId}
                                         />);
                             } else if(scope.modalTab === "payment"){
-                                return  (<CustomerPaymentStatus 
+                                return  (<CustomerPaymentStatus
                                             key={booking.id}
-                                            paymentStatus={booking.paymentStatus} 
+                                            paymentStatus={booking.paymentStatus}
                                             bookingId={booking.id}
-                                            sessionId={booking.sessionId} 
+                                            sessionId={booking.sessionId}
                                         />);
                             } else if(scope.modalTab === "attendance"){
-                                return  (<CustomerAttendanceStatus 
+                                return  (<CustomerAttendanceStatus
                                             key={booking.id}
-                                            bookingId={booking.id} 
-                                            hasAttended={booking.hasAttended} 
-                                            sessionId={booking.sessionId} 
+                                            bookingId={booking.id}
+                                            hasAttended={booking.hasAttended}
+                                            sessionId={booking.sessionId}
                                         />);
                             }
                         }, this);
@@ -515,7 +512,7 @@ angular.module('scheduling.directives', [])
                             paymentStatus: this.state.paymentStatus
                         }).then({},scope.handleErrors).finally(function(){
                             scope.getCourseBookingData();
-                            scope.stopCourseLoading();  
+                            scope.stopCourseLoading();
                             if(self.isMounted()) self.setState({loading: false});
                         });
                     },
