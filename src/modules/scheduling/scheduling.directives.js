@@ -315,8 +315,8 @@ angular.module('scheduling.directives', [])
                                     "scrollx": null,
                                     "scrolly": $('.external-scroll_y')
                                 });
+                                centerModal();
                             });
-                        $timeout(centerModal);
                     }
                 });
 
