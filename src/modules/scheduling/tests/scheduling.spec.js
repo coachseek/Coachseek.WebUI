@@ -34,7 +34,7 @@ describe('Scheduling Module', function() {
                 id: "coach_2",
                 email: "test@exaple.com",
                 phone: "900909"
-            }; 
+            };
         })
 
         let('coaches', function(){
@@ -245,7 +245,7 @@ describe('Scheduling Module', function() {
                             customer: {id: 'customer_two', firstName: 'hannah', lastName: 'fasen'}
                         }]
                     },
-                    sessions: [this.sessionOne, this.sessionTwo]                     
+                    sessions: [this.sessionOne, this.sessionTwo]
                 }],
                 sessions: [this.sessionOne]
             }
@@ -293,7 +293,7 @@ describe('Scheduling Module', function() {
         let('customersPromise', function(){
             var deferred = $q.defer();
             deferred.resolve(this.customers);
-            return deferred.promise;   
+            return deferred.promise;
         });
 
         let('nextMonthSessionsPromise', function(){
@@ -558,12 +558,10 @@ describe('Scheduling Module', function() {
             it('should show the session modal', function(){
                 expect($courseModal.hasClass('ng-hide')).to.be.false;
             });
-            it('should show the session form', function(){
-                expect(scope.modalTab).to.equal('general');
-                expect($courseModal.find('modal-session-form').hasClass('ng-hide')).to.be.false;
-            });
-            it('should not show attendance or payment list', function(){
-                expect($courseModal.find('course-attendance-modal').hasClass('ng-hide')).to.be.true;
+            it('should show the attendance grid', function(){
+                expect(scope.modalTab).to.equal('attendance');
+                expect($courseModal.find('general-settings-modal').hasClass('ng-hide')).to.be.true;
+                expect($courseModal.find('course-attendance-modal').hasClass('ng-hide')).to.be.false;
             });
             it('should set the currentEvent on the scope', function(){
                 expect(scope.currentEvent).to.exist;
@@ -830,7 +828,7 @@ describe('Scheduling Module', function() {
                     expect(scope.modalTab).to.equal('attendance');
                     expect($attendanceList.hasClass('ng-hide')).to.be.false;
                 });
-                it('should hide the customer list', function(){ 
+                it('should hide the customer list', function(){
                     expect($attendanceList.find('.customer-list').hasClass('showing')).to.be.false;
                 });
                 it('should have as many students as are in bookings', function(){
@@ -851,7 +849,7 @@ describe('Scheduling Module', function() {
                         beforeEach(function(){
                             $attendanceList.find('.show-customer-list-button').trigger('click');
                         });
-                        it('should hide the customer list', function(){ 
+                        it('should hide the customer list', function(){
                             expect($attendanceList.find('.customer-list').hasClass('showing')).to.be.false;
                         });
                     });
