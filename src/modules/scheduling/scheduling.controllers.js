@@ -162,7 +162,7 @@ angular.module('scheduling.controllers', [])
                         }
                     },
                     eventClick: function(event, jsEvent, view) {
-                        if(_.get(event, 'course.id') !== _.get($scope.currentEvent, 'course.id')) {
+                        if(_.get(event, 'course.id') !== _.get($scope.currentEvent, 'course.id') || !_.has(event, 'course.id')) {
                             $scope.showModal = true;
                             $scope.$broadcast('triggerSliderSlide', 'attendance')
                             $scope.currentTab = 'attendance';
@@ -385,6 +385,7 @@ angular.module('scheduling.controllers', [])
                     }
                     _.assign($scope.currentEvent, currentEventCopy);
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('updateEvent', $scope.currentEvent);
+                    currentEventCopy = null;
                 }
                 closeModal(true);
             };
@@ -537,6 +538,7 @@ angular.module('scheduling.controllers', [])
                 if(tempEventId){
                     uiCalendarConfig.calendars.sessionCalendar.fullCalendar('removeEvents', tempEventId);
                     tempEventId = null;
+                    delete $scope.currentEvent.tempEventId;
                 }
             };
 
