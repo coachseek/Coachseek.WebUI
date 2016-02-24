@@ -342,8 +342,10 @@ angular.module('booking.directives', [])
             link: function(scope, elem){
                 var newDiscountCodeDefaults = {
                     code: scope.business.name.substring(0,4).trim().toUpperCase() + 10,
-                    discountPercent: 10
+                    discountPercent: 10,
+                    isActive: true
                 };
+                scope.discountCodes = [];
                 scope.newDiscountCode = angular.copy(newDiscountCodeDefaults);
                 scope.showAddDiscountCode = false;
                 scope.saveNewDiscountCode = function(){

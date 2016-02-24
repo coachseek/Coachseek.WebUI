@@ -81,7 +81,7 @@ describe('bookingDiscountCodes Directive', function(){
                     $testRegion.find('.new-discount-code-save-container button.save-button').trigger('click');
                 });
                 it('should save the discount code', function(){
-                    expect(saveStub).to.be.calledWith({section: 'DiscountCodes'}, {code:discountCode, discountPercent: 10});
+                    expect(saveStub).to.be.calledWith({section: 'DiscountCodes'}, {code:discountCode, discountPercent: 10, isActive: true});
                 });
                 it('should hide the new discount code form', function(){
                     expect($testRegion.find('.new-discount-code-container').hasClass('ng-hide')).to.be.true;
