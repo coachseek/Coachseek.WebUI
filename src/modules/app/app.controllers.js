@@ -30,7 +30,7 @@ angular.module('app.controllers', [])
                     });
                 });
             };
-            
+
             $rootScope.closeAlert = function(index) {
                 $rootScope.alerts.splice(index, 1);
             };
@@ -271,7 +271,7 @@ angular.module('app.controllers', [])
         }])
         .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window', 'expiredLicenseModal',
             function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $window, expiredLicenseModal) {
-            
+
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
                 if($scope.loginForm.$valid){

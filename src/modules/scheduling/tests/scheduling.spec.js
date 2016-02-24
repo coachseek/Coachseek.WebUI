@@ -561,7 +561,7 @@ describe('Scheduling Module', function() {
             it('should show the attendance grid', function(){
                 expect(scope.modalTab).to.equal('attendance');
                 expect($courseModal.find('general-settings-modal').hasClass('ng-hide')).to.be.true;
-                expect($courseModal.find('course-attendance-modal').hasClass('ng-hide')).to.be.false;
+                expect($courseModal.find('course-overview-modal').hasClass('ng-hide')).to.be.false;
             });
             it('should set the currentEvent on the scope', function(){
                 expect(scope.currentEvent).to.exist;
@@ -822,7 +822,7 @@ describe('Scheduling Module', function() {
                 beforeEach(function(){
                     $courseModal.find('.slider-nav .attendance-header').trigger('click');
                     $generalSettingsForm = $courseModal.find('general-settings-modal');
-                    $attendanceList = $courseModal.find('course-attendance-modal');
+                    $attendanceList = $courseModal.find('course-overview-modal');
                 });
                 it('should show the student list', function(){
                     expect(scope.modalTab).to.equal('attendance');

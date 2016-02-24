@@ -22,7 +22,7 @@ beforeEach(module(function($urlRouterProvider, $compileProvider) {
   $compileProvider.debugInfoEnabled(true);
 }));
 
-beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_, _$q_, _$state_, _$timeout_) { 
+beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_, _$q_, _$state_, _$timeout_) {
     $controller = _$controller_;
     $compile = _$compile_;
     $rootScope = _$rootScope_;
@@ -34,6 +34,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
     // these two lines are here so we can use sinon fakeTimers to move debounce/throttle forward
     clock = sinon.useFakeTimers();
     _ = _.runInContext();
+    $.fx.off = true; //get rid of jquery animation delays
 
     $controller('appCtrl', {
         $scope: $rootScope
@@ -87,7 +88,7 @@ beforeEach(inject(function(_$controller_, _$compile_, _$rootScope_, _$injector_,
     });
 
     $testRegion = $('<div></div>');
-    $rootScope.$digest();    
+    $rootScope.$digest();
 }));
 
 
