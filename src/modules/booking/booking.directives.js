@@ -449,7 +449,7 @@ angular.module('booking.directives', [])
                                 discountCode: scope.discountCode
                             }).$promise.then(function(discountPrice){
                                 currentBooking.discountPrice = discountPrice;
-                                _.assign(currentBooking.discountPrice, {originalPrice: currentBooking.totalPrice});
+                                _.assign(currentBooking.discountPrice, {originalPrice: currentBooking.totalPrice || scope.calculateTotalPrice()});
                                 currentBooking.totalPrice = discountPrice.amount;
                             }, scope.handleErrors).finally(function(){
                                 scope.discountCodeLoading = false;
