@@ -20,10 +20,11 @@
                 </div>
 
                 <div class="code-input-container">
-                    <input name="code" class="discount-code" ng-model="tempCode" placeholder="{{'booking:booking-admin.discount-code-placeholder' | i18next}}" ng-maxlength="10" required ng-disabled="AILoading"/>
+                    <input name="code" class="discount-code" ng-model="tempCode" placeholder="{{'booking:booking-admin.discount-code-placeholder' | i18next}}" ng-minlength="3" ng-maxlength="8" required ng-disabled="AILoading"/>
                     <div class="error-messages" ng-messages="discountCodeForm.code.$error" ng-if="discountCodeForm.code.$touched">
                          <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                          <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+                         <div ng-message="minlength">{{'businessSetup:error.minlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
                      </div>
                 </div>
             </form>
