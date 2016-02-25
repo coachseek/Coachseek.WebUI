@@ -217,6 +217,8 @@ angular.module('booking.controllers', [])
       function($scope, $state, currentBooking, onlineBookingAPIFactory){
         if(!currentBooking.filters.location){
             $state.go('booking.selection');
+        } else if(!_.size(currentBooking.customerNotes)) {
+            $state.go('booking.details');
         }
         $scope.fields = _.keyBy(currentBooking.customFields, 'key');
 
