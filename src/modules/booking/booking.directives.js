@@ -313,6 +313,10 @@ angular.module('booking.directives', [])
                 }
 
                 scope.$watchCollection('note', function(newVal, oldVal){
+                    // don't autosave if editing name
+                    // this is actually sort of useless after adding ng-blur
+                    // keeping just in case ng-blur doesn't trigger
+                    // if it doesn't, possible to change isActive and not autosave.
                     if(newVal !== oldVal && !scope.editName){
                         saveNote().then({}, scope.handleErrors)
                             .finally(function(){
