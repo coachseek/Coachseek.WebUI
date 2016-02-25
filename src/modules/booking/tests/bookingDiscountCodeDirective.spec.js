@@ -134,7 +134,16 @@ describe('bookingDiscountCode Directive', function(){
     });
     describe('when changing the isActive toggle', function(){
         beforeEach(function(){
+            $testRegion.find('.edit-code-container form input').val('BOOBS').trigger('input');
             $testRegion.find('toggle-switch input').trigger('click');
+        });
+        it('should cancel any edits', function(){
+            expect($testRegion.find('.discount-input-container input').val()).to.equal(this.discountCode.discountPercent+'');
+            expect($testRegion.find('.code-input-container input').val()).to.equal(this.discountCode.code);
+        });
+        it('should close the edit form', function(){
+            expect($testRegion.find('.edit-code-container').hasClass('ng-hide')).to.be.true;
+            expect($testRegion.find('.display-code-container').hasClass('ng-hide')).to.be.false;
         });
         it('should attempt to save the code', function(){
             expect(saveStub).to.be.calledWith({ section: "DiscountCodes" }, this.discountCode);

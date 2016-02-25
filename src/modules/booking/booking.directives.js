@@ -408,8 +408,9 @@ angular.module('booking.directives', [])
                     }
                 }
 
-                scope.$watchCollection('discountCode.isActive', function(newVal, oldVal){
-                    if(newVal !== oldVal && !scope.editCode){
+                scope.$watch('discountCode.isActive', function(newVal, oldVal){
+                    if(newVal !== oldVal){
+                        scope.cancelEdit();
                         saveDiscountCode().then({}, scope.handleErrors)
                             .finally(function(){
                                 scope.loading = false;
