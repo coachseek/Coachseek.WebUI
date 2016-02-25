@@ -7,7 +7,7 @@
             <span class='discount-code' ng-hide="editCode">{{discountCode.code}}</span>
         </div>
         <div ng-show="editCode" class="edit-code-container">
-            <form name="discountCodeForm" novalidate ng-enter="saveDiscountCode()" ng-blur="saveDiscountCode()" ng-esc="cancelEdit()">
+            <form name="discountCodeForm" novalidate ng-enter="saveDiscountCode()" ng-esc="cancelEdit()">
                 <i class="fa fa-lg fa-save" ng-click="saveDiscountCode()"></i>
                 <div class="discount-input-container">
                     <input name="discountPercent" class="discount-percent" type="number" ng-model="tempPercent" placeholder="{{'booking:booking-admin.discount-percent-placeholder' | i18next}}" ng-min="1" ng-max="99" required ng-disabled="AILoading"/>

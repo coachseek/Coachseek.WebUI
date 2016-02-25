@@ -93,29 +93,6 @@ describe('bookingDiscountCode Directive', function(){
                 });
             });
         });
-        describe('when blurring the input', function(){
-            beforeEach(function(){
-                $testRegion.find('.edit-code-container form').trigger('blur');
-            });
-            describe('and the input is valid', function(){
-                it('should attempt to save the code', function(){
-                    expect(saveStub).to.be.calledWith({ section: "DiscountCodes" }, this.discountCode);
-                });
-            });
-            describe('and the input is invalid', function(){
-                 let('discountCode', function(){
-                     return {
-                         id: 'code_id',
-                         code: '',
-                         discountPercent: 31,
-                         isActive: true
-                     }
-                 });
-                it('should NOT attempt to save the code', function(){
-                    expect(saveStub).to.not.be.called;
-                });
-            });
-        });
         describe('when hitting esc', function(){
             beforeEach(function(){
                 $testRegion.find('.edit-code-container form input').val('BOOBS').trigger('input');
@@ -124,7 +101,12 @@ describe('bookingDiscountCode Directive', function(){
                 $testRegion.find('.edit-code-container form').trigger(e);
             });
             it('should cancel the edit', function(){
+                expect($testRegion.find('.discount-input-container input').val()).to.equal(this.discountCode.discountPercent+'');
                 expect($testRegion.find('.code-input-container input').val()).to.equal(this.discountCode.code);
+            });
+            it('should close the edit form', function(){
+                expect($testRegion.find('.edit-code-container').hasClass('ng-hide')).to.be.true;
+                expect($testRegion.find('.display-code-container').hasClass('ng-hide')).to.be.false;
             });
             it('should NOT attempt to save the code', function(){
                 //in reality it saves because focus is blurred but at least it saves the old state
