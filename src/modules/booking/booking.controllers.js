@@ -306,6 +306,7 @@ angular.module('booking.controllers', [])
             currentBooking.resetBooking();
             currentBooking.filters = {};
             delete currentBooking.totalPrice;
+            delete currentBooking.discountPrice;
             delete currentBooking.dateRange;
             delete currentBooking.allEvents;
             $state.go('booking.selection');
