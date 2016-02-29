@@ -454,13 +454,20 @@ angular.module('booking.directives', [])
                             }).$promise.then(function(discountPrice){
                                 currentBooking.discountPrice = discountPrice;
                                 _.assign(currentBooking.discountPrice, {originalPrice: currentBooking.totalPrice || scope.calculateTotalPrice()});
-                                currentBooking.totalPrice = discountPrice.amount;
+                                currentBooking.discountPrice.discountPercent = getDiscountPercent();
+                                currentBooking.totalPrice = discountPrice.price;
                             }, scope.handleErrors).finally(function(){
                                 scope.discountCodeLoading = false;
                             });
                     } else {
                         scope.showDiscountErrors = true;
                     }
+                }
+
+                function getDiscountPercent(){
+                    var originalPrice = parseFloat(currentBooking.discountPrice.originalPrice);
+                    var discountPrice = parseFloat(currentBooking.discountPrice.price);
+                    return Math.round((originalPrice - discountPrice)/originalPrice * 100);
                 }
             }
         };

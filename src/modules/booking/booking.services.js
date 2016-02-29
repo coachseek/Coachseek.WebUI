@@ -7,7 +7,7 @@ angular.module('booking.services', [])
                     // query: {method: 'GET', isArray:true, headers: {'Business-Domain': subdomain}},
                     save:  {method: 'POST', headers: {'Business-Domain': subdomain}},
                     getCustomFields: {url: ENV.apiURL + '/CustomFields?type=customer', method: 'GET', isArray: true, headers: {'Business-Domain': subdomain}},
-                    pricingEnquiry: {url: ENV.apiURL + '/Pricing/Enquiry', method: 'POST', headers: {'Business-Domain': subdomain}}
+                    pricingEnquiry: {url: ENV.apiURL + '/Pricing/Enquiry', method: 'POST', transformResponse: function (data) { return {price: data}}, headers: {'Business-Domain': subdomain}}
                 })
             }
         };
