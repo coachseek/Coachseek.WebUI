@@ -23,6 +23,9 @@ angular.module('app.controllers', [])
 
             $rootScope.handleErrors = function(errors){
                 _.forEach(errors.data, function(error){
+                    if(typeof error === "string"){
+                        error = JSON.parse(error)[0];
+                    }
                     $rootScope.addAlert({
                         type: 'danger',
                         code: error.code,

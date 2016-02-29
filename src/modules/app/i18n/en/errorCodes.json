@@ -1,4 +1,5 @@
 {
+	"discountcode-invalid" : "Oops! Looks like this code is not valid. Re-enter it and try again.",
 	"discountcode-duplicate" : "Oops! Looks like this code is a duplicate. Try a different one.",
 	"data-required" : "Data required.",
 	"user-duplicate" : "This user already exists.",
