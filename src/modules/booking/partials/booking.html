@@ -1,17 +1,20 @@
 <div class="online-booking-container" ng-class="business.sport">
-	<div class="current-booking-status">
-	    <div class="border-right"><p>{{business.name}}<p></div>
-	    <div class="border-right"><p>{{currentBooking.filters.location.name}}</p></div>
-	    <div class="border-right"><p>{{currentBooking.filters.service.name}}</p></div>
-	    <booking-date-range></booking-date-range>
-	    <booking-price></booking-price>
-	</div>
-	<div class="booking-container">
-	    <div ui-view="booking-view" class="booking-content-container"></div>
-	</div>
-	<div class="booking-nav-banner">		
-	</div>
-	<a class="powered-by" href="http://www.coachseek.com/" target="_blank">
-	    <div><span>{{'booking:powered-by' | i18next}}</span><span class="logo"></span></div>
-	</a>
+    <div class="current-booking-status">
+        <div class="border-right" ng-switch="business.id">
+            <p ng-switch-default>{{business.name}}</p>
+            <p ng-switch-when="fedc92a4-4b13-48b2-aef0-9cfaaebee528" class="gsm-leisure-logo"></p>
+        </div>
+        <div class="border-right"><p>{{currentBooking.filters.location.name}}</p></div>
+        <div class="border-right"><p>{{currentBooking.filters.service.name}}</p></div>
+        <booking-date-range></booking-date-range>
+        <booking-price></booking-price>
+    </div>
+    <div class="booking-container">
+        <div ui-view="booking-view" class="booking-content-container"></div>
+    </div>
+    <div class="booking-nav-banner">
+    </div>
+    <a class="powered-by" href="http://www.coachseek.com/" target="_blank">
+        <div><span>{{'booking:powered-by' | i18next}}</span><span class="logo"></span></div>
+    </a>
 </p>
