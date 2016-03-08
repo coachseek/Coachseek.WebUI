@@ -13,7 +13,7 @@
     <div class="note-name">
         <form name="newNoteNameForm" novalidate ng-enter="saveNewNote()" ng-esc="addNoteHide()">
             <i class="fa fa-lg fa-times close-new-note" ng-click="addNoteHide()"></i>
-            <input name="noteName" ng-model="newNote.name" placeholder="{{'booking:booking-admin.note-name-placeholder' | i18next}}" ng-maxlength="100" required ng-disabled="AILoading"/>
+            <input name="noteName" ng-model="newNote.name" placeholder="{{'booking:booking-admin.note-name-placeholder' | i18next}}" ng-maxlength="50" required ng-disabled="AILoading"/>
 
            <div class="error-messages" ng-messages="newNoteNameForm.noteName.$error" ng-if="newNoteNameForm.noteName.$touched">
                 <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
