@@ -124,7 +124,7 @@ angular.module('scheduling.services', [])
             return getUpdatedEvents(sessionId).then(function(session){
                 //fullcalendar needs original event so we get it from the calendar here
                 var event = getCalendarEventBySessionId(session.id);
-                event.session = session;
+                if(event) event.session = session;
             });
         }
 
@@ -148,8 +148,7 @@ angular.module('scheduling.services', [])
         function getBookingSessionsArray(sessionId){
             if(sessionId){
                 return [{
-                    id:  sessionId,
-                    name: currentEventService.event.session.service.name
+                    id:  sessionId
                 }];
             } else {
                 return currentEventService.event.course.sessions;

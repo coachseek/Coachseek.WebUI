@@ -18,11 +18,7 @@ describe('applyDiscountCode Directive', function(){
     });
 
     let('discountPrice', function(){
-        return {
-            amount: this.originalPrice * ((100 - this.discountPercent)/100),
-            currency: 'USD',
-            discountPercent: this.discountPercent
-        }
+        return {price: this.originalPrice * ((100 - this.discountPercent)/100)};
     })
 
     let('anonPricingEnquiryStubPromise', function(){
@@ -108,7 +104,7 @@ describe('applyDiscountCode Directive', function(){
             });
             describe('when the discount code is verfied', function(){
                 it('should set the correct totalPrice on the currentBooking', function(){
-                    expect($injector.get('currentBooking').totalPrice).to.equal(this.discountPrice.amount)
+                    expect($injector.get('currentBooking').totalPrice).to.equal(this.discountPrice.price)
                 });
                 it('should stop the discount code from loading', function(){
                     expect(scope.discountCodeLoading).to.be.false;

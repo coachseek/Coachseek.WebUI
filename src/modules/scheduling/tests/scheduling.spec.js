@@ -724,7 +724,7 @@ describe('Scheduling Module', function() {
 
                                 let('deletePromise', function(){
                                     var deferred = $q.defer();
-                                    deferred.reject({data: {message:"error-message"}});
+                                    deferred.reject({data: [{message:"error-message"}]});
                                     return deferred.promise;
                                 });
 
@@ -761,7 +761,7 @@ describe('Scheduling Module', function() {
 
                                 let('deletePromise', function(){
                                     var deferred = $q.defer();
-                                    deferred.reject({data: {message:"error-message"}});
+                                    deferred.reject({data: [{message:"error-message"}]});
                                     return deferred.promise;
                                 });
 
@@ -805,7 +805,7 @@ describe('Scheduling Module', function() {
 
                             let('deletePromise', function(){
                                 var deferred = $q.defer();
-                                deferred.reject({data: {message:"error-message"}});
+                                deferred.reject({data: [{message:"error-message"}]});
                                 return deferred.promise;
                             });
 
