@@ -94,7 +94,7 @@
 
     .booking-container {
         height: calc(100vh - 80px);
-        padding: 30px 60px 150px 60px;
+        padding: 30px 60px;
         color: $white;
         position: relative;
         overflow-y: scroll;
@@ -103,6 +103,7 @@
             max-width: 810px;
             width: 100%;
             margin: 0 auto;
+            padding-bottom: 150px;
 
             .no-events-message{
                 width: 75%;
@@ -794,7 +795,7 @@
 
         .booking-container{
             height: calc(100vh - 80px);
-            padding: 0px 0px 150px 0px;
+            padding: 0px;
             .booking-content-container{
                 .booking-details-container{
                     margin-top: 0px;
