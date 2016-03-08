@@ -174,27 +174,6 @@ angular.module('scheduling.directives', [])
             }
         };
     }])
-    .directive('addToSession', ['bookingManager', function(bookingManager){
-        return {
-            // restrict: "A",
-            replace: false,
-            templateUrl:'scheduling/partials/addToSession.html',
-            link: function(scope){
-                scope.sessionBookingLoading = false;
-                scope.addToSession = function(customer, sessionId, index){
-                    scope.sessionBookingLoading = sessionId;
-                    scope.startCourseLoading(true);
-                    bookingManager.addToSession(customer, sessionId).then(function(courseBooking){
-                        scope.courseBooking.bookings[index] = courseBooking.sessionBookings[0];
-                        scope.courseBooking.bookings[index].sessionId = sessionId;
-                    }, scope.handleErrors).finally(function(){
-                        scope.sessionBookingLoading = false;
-                        scope.stopCourseLoading();
-                    });
-                }
-            }
-        }
-    }])
     .directive('generalSettingsModal', function(){
         return {
            restrict: "E",
