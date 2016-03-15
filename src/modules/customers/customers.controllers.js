@@ -1,7 +1,7 @@
 angular.module('customers.controllers', [])
     .controller('customersCtrl', ['$scope', 'coachSeekAPIService', 'CRUDService', '$q', '$activityIndicator',
         function($scope, coachSeekAPIService, CRUDService, $q, $activityIndicator){
-        $scope.exportKeys = ['firstName', 'lastName', 'email', 'phone'];
+        $scope.exportKeys = ['firstName', 'lastName', 'email', 'phone', 'dateOfBirth'];
         $scope.createItem = function(){
             if(!$scope.item){
                 $scope.newItem = true;
@@ -111,12 +111,12 @@ angular.module('customers.controllers', [])
             peopleList = $scope.itemList;
             if($scope.searchLetter){
                 peopleList = $filter('byLastName')(peopleList, $scope.searchLetter);
-            } 
+            }
             peopleList = $filter('searchBox')(peopleList, $scope.searchText);
             peopleList = $filter('orderBy')(peopleList, ['lastName', 'firstName']);
             peopleList = _.chunk(peopleList, 20);
             $scope.customerList = [];
-            $scope.loadMore(); 
+            $scope.loadMore();
         };
 
         $scope.$on('updateSuccess', function(){
