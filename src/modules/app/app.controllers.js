@@ -134,7 +134,11 @@ angular.module('app.controllers', [])
                 var businessDomain = _.first($location.host().split("."));
 
                 if(!sessionService.sessionType){
-                    if(businessDomain !== ENV.defaultSubdomain) {
+                    if($location.search().showoff){
+                        var showoffLogin = JSON.parse($location.search().showoff);
+                        $window.localStorage.setItem('coachseekLogin', btoa(showoffLogin.email + ':' + showoffLogin.password));
+                        rememberMeLogin('scheduling', {});
+                    } else if(businessDomain !== ENV.defaultSubdomain) {
                         toStateSessionType = 'online-booking';
                     } else if(toStateSessionType !== 'app'){
                         // is not a url going to app but needs to be. default to scheduling
