@@ -209,7 +209,7 @@ angular.module('booking.directives', [])
                 };
 
                 function isBefore(session){
-                    return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(3, 'h'));
+                    return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(1, 'm'));
                 };
             }
         };

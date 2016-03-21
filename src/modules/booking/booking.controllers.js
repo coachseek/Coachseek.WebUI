@@ -60,7 +60,7 @@ angular.module('booking.controllers', [])
         };
 
         $scope.isBefore = function(session){
-            return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(3, 'h'));
+            return moment(session.timing.startDate + " " + session.timing.startTime, "YYYY-MM-DD HH:mm").isBefore(moment().add(1, 'm'));
         };
     }])
     .controller('bookingSelectionCtrl', ['$scope', 'anonCoachseekAPIFactory', 'currentBooking',
@@ -155,14 +155,14 @@ angular.module('booking.controllers', [])
 
         function removeSessionsInPast(sessions){
             return _.filter(sessions, function(session){
-                return getNewDate(session.timing).isAfter(moment().add(3, 'h'));
+                return getNewDate(session.timing).isAfter(moment().add(1, 'm'));
             });
         };
 
         function removeCoursesInPast(courses){
             return _.filter(courses, function(course){
                 return !_.every(course.sessions, function(session){
-                    return getNewDate(session.timing).isBefore(moment().add(3, 'h'));
+                    return getNewDate(session.timing).isBefore(moment().add(1, 'm'));
                 })
             });
         };
