@@ -113,7 +113,7 @@ angular.module('customers.controllers', [])
                 peopleList = $filter('byLastName')(peopleList, $scope.searchLetter);
             }
             peopleList = $filter('searchBox')(peopleList, $scope.searchText);
-            peopleList = $filter('orderBy')(peopleList, ['lastName', 'firstName']);
+            peopleList = $filter('orderBy')(peopleList, ['firstName', 'lastName']);
             peopleList = _.chunk(peopleList, 20);
             $scope.customerList = [];
             $scope.loadMore();
