@@ -467,7 +467,7 @@
                             padding: 0 0 5px 20px;
                         }
 
-                        input, select-overlay, select{
+                        input, select-overlay, select, span.age{
                             font-size: 16px;
                             height: 50px;
                             padding: 10px;
@@ -487,8 +487,18 @@
                             }
                         }
 
+                        &.sex select-overlay{
+                            position: absolute;
+                            left: 0px;
+                            border-radius: 5px;
+                            text-align: center;
+                            z-index: 5;
+                            background: $white;
+                            color: $text-dark-grey;
+                        }
+
                         select.date-picker{
-                            width: 45%;
+                            width: 32.5%;
                         }
 
                         .error-messages {
@@ -864,18 +874,6 @@
 
                 }
                 .booking-customer-details .booking-customer-form{
-                    date-picker{
-                        input{
-                            width: 27.5%;
-                            margin-left: 0px;
-                        }
-                        .form-input{
-                            select-overlay{
-                                top:20px;
-                            }
-                        }
-                    }
-
                     .form-input{
                         width:100%;
                         margin-bottom: 0px;
@@ -892,6 +890,10 @@
                                 }
                             }
                         }
+                        &.sex select-overlay{
+                            top: 15px;
+                        }
+
                         &:last-child{
                             margin-bottom:45px;
                         }
@@ -913,6 +915,21 @@
                             border-radius: 0px;
                         }
 
+                        date-of-birth {
+                            date-picker{
+                                input{
+                                    margin-left: 0px;
+                                }
+                                select-overlay{
+                                    top:20px;
+                                }
+                            }
+                            span.age{
+                                height: 40px;
+                                line-height: 25px;
+                                font-size: 12px;
+                            }
+                        }
                     }
                 }
                 .booking-customer-notes{

@@ -24,6 +24,12 @@
         <div class="form-input date-picker">
             <date-of-birth birth-date="currentBooking.customer.dateOfBirth" parent-form="form"></date-of-birth>
         </div>
+
+        <div class="form-input sex">
+            <label name="sex">{{'sex.label' | i18next}}</label>
+            <sex-picker sex="currentBooking.customer.sex"></sex-picker>
+        </div>
+
         <div class="form-input">
             <label name="email">{{'booking:details.email' | i18next}}</label>
             <input type="email" name="email" ng-model="currentBooking.customer.email" placeholder="{{'booking:details.email-placeholder' | i18next}}" ng-maxlength="100" required/>

@@ -1,4 +1,16 @@
 angular.module('app.directives', [])
+    .directive('sexPicker', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'app/partials/sexPicker.html',
+            scope: {
+                sex: "="
+            },
+            link: function(scope) {
+                scope.sexOptions = ["male", "female", "other"];
+            }
+        };
+    })
     .directive('dateOfBirth', function(){
         return {
             restrict: 'E',
