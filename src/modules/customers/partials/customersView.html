@@ -79,6 +79,10 @@
 
             <date-picker date="item.dateOfBirth" form="itemForm"></date-picker>
 
+            <div class="form-input date-picker">
+                <date-of-birth birth-date="item.dateOfBirth" parent-form="itemForm"></date-of-birth>
+            </div>
+
             <div class="form-input" ng-repeat="note in customerNotes">
                 <label dynamic-name="note.key">{{note.name}}</label>
                 <textarea dynamic-name="note.key" ng-model="item.fields[note.key].value"></textarea>

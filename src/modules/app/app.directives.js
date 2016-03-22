@@ -1,4 +1,19 @@
 angular.module('app.directives', [])
+    .directive('dateOfBirth', function(){
+        return {
+            restrict: 'E',
+            templateUrl: 'app/partials/dateOfBirth.html',
+            scope: {
+                birthDate: "=",
+                parentForm: "="
+            },
+            link: function(scope) {
+                scope.getAgeFromDate = function(){
+                    return moment().diff(scope.birthDate, 'years');
+                };
+            }
+        };
+    })
     .directive('dynamicName', ['$compile', '$parse', function($compile, $parse) {
         return {
             restrict: 'A',
@@ -70,7 +85,11 @@ angular.module('app.directives', [])
                             } else {
                                 if (ctr > 0) result += columnDelimiter;
 
-                                result += item[key] || '';
+                                if(key === "dateOfBirth"){
+                                    result += moment().diff(item[key], 'years') || '';
+                                } else {
+                                    result += item[key] || '';
+                                }
                                 ctr++;
                             }
                         });
@@ -99,7 +118,7 @@ angular.module('app.directives', [])
                 scope.$watch('duration', function(newVal) {
                     scope.duration = newVal;
                     if(scope.duration){
-                        hours = Math.floor( scope.duration / 60);          
+                        hours = Math.floor( scope.duration / 60);
                         minutes = scope.duration % 60;
 
                         scope.time = displayHours() + ":" + displayMinutes();
@@ -130,7 +149,7 @@ angular.module('app.directives', [])
                 scope.$on('closeTimePicker', function(event, resetTime){
                     if(resetTime && durationCopy){
                         scope.duration = durationCopy;
-                    } 
+                    }
                     scope.editingTime = false;
                     $timePickerContainer.one('$animate:after', function(){
                         durationCopy = null;
@@ -192,7 +211,7 @@ angular.module('app.directives', [])
     .directive('selectArrows', function(){
         return {
             restrict: "E",
-            templateUrl:'app/partials/selectArrows.html'    
+            templateUrl:'app/partials/selectArrows.html'
         };
     })
     .directive('ellipsisAnimated', function () {
