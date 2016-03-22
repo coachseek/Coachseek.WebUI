@@ -20,6 +20,10 @@
                 <div ng-message="duplicatename"><i class='fa fa-2x fa-times'></i></div>
             </div>
         </div>
+
+        <div class="form-input date-picker">
+            <date-of-birth birth-date="currentBooking.customer.dateOfBirth" parent-form="form"></date-of-birth>
+        </div>
         <div class="form-input">
             <label name="email">{{'booking:details.email' | i18next}}</label>
             <input type="email" name="email" ng-model="currentBooking.customer.email" placeholder="{{'booking:details.email-placeholder' | i18next}}" ng-maxlength="100" required/>
@@ -30,6 +34,7 @@
                 <div ng-message="email">{{'businessSetup:error.email' | i18next}}<i class='fa fa-2x fa-times'></i></div>
             </div>
         </div>
+
         <div class="form-input">
             <label name="phone">{{'booking:details.phone' | i18next}}</label>
             <input name="phone" ng-model="currentBooking.customer.phone" placeholder="{{'booking:details.phone-placeholder' | i18next}}" ng-maxlength="50" required/>
@@ -40,7 +45,6 @@
             </div>
         </div>
 
-        <date-picker date="currentBooking.customer.dateOfBirth" form="form"></date-picker>
     </form>
     <button class="back-button" ui-sref="booking.selection">{{'booking:common.back' | i18next}}</button>
     <button class="continue-button" ng-disabled="form.$invalid || processingBooking" ng-click="getCustomer()">{{'booking:common.next' | i18next}}</button>
