@@ -20,7 +20,7 @@ angular.module('booking.controllers', [])
             }
         };
 
-        $scope.closeEvent = function(){
+        $scope.closeEvent = function(event){
             event.stopPropagation();
             currentBooking.resetBooking();
             delete $scope.selectedEvent;
