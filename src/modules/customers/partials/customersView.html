@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="form-input">
+            <div class="form-input phone-number">
                 <label name="phone">{{'person-details.phone' | i18next}}</label>
                 <input name="phone" ng-model="item.phone" placeholder="{{'person-details.placeholder.phone' | i18next}}" ng-maxlength=50 />
 
@@ -77,7 +77,10 @@
                 </div>
             </div>
 
-            <date-picker date="item.dateOfBirth" form="itemForm"></date-picker>
+            <div class="form-input sex">
+                <label name="sex">{{'sex.label' | i18next}}</label>
+                <sex-picker sex="item.sex"></sex-picker>
+            </div>
 
             <div class="form-input date-picker">
                 <date-of-birth birth-date="item.dateOfBirth" parent-form="itemForm"></date-of-birth>

@@ -74,7 +74,7 @@
                             background-size: auto 100%;
                         }
                     }
-                }            
+                }
             }
             h4{
                 font-size: 20px;
@@ -82,7 +82,7 @@
                 text-align: center;
             }
             h4, p{
-                @extend %vertical-align; 
+                @extend %vertical-align;
             }
 
             p{
@@ -321,7 +321,7 @@
                             line-height: 115px;
                             span{
                                 font-size: 14px;
-                                font-weight: $lato-regular;   
+                                font-weight: $lato-regular;
                                 text-transform: uppercase;
                             }
                         }
@@ -347,7 +347,7 @@
                         }
 
                         .booking-rectangle-info{
-                        
+
                             width: 32%;
                             margin-right: 1%;
                             float: left;
@@ -426,10 +426,10 @@
                                 p{
                                     &:first-of-type{
                                         text-align: left;
-                                       
+
                                     }
                                     &.larger-width{
-                                        width: 30%; 
+                                        width: 30%;
                                     }
                                     &:last-of-type{
                                         text-align: left;
@@ -452,7 +452,7 @@
                                 }
                             }
                         }
-                    
+
                 }
             }
 
@@ -464,10 +464,10 @@
                         margin-bottom: 30px;
 
                         label{
-                            padding: 0 0 5px 20px; 
+                            padding: 0 0 5px 20px;
                         }
 
-                        input, select-overlay, select{
+                        input, select-overlay, select, span.age{
                             font-size: 16px;
                             height: 50px;
                             padding: 10px;
@@ -487,8 +487,18 @@
                             }
                         }
 
+                        &.sex select-overlay{
+                            position: absolute;
+                            left: 0px;
+                            border-radius: 5px;
+                            text-align: center;
+                            z-index: 5;
+                            background: $white;
+                            color: $text-dark-grey;
+                        }
+
                         select.date-picker{
-                            width: 45%;
+                            width: 32.5%;
                         }
 
                         .error-messages {
@@ -611,8 +621,8 @@
                         font-weight: $lato-regular;
                         font-size: 17px;
                         margin-bottom: 20px;
-                        display: inline-block;    
-                        line-height: 22px;                    
+                        display: inline-block;
+                        line-height: 22px;
                     }
                 }
 
@@ -645,9 +655,9 @@
                     }
                     p{
                         font-weight: $lato-light;
-                        font-size: 20px;  
+                        font-size: 20px;
                     }
-        
+
                     button{
                         width: auto;
                         margin-top: 25px;
@@ -689,7 +699,7 @@
 
             .logo{
                 width: 100px;
-                background: url(#{$asset-url}/pics/logo-white.png) center no-repeat;   
+                background: url(#{$asset-url}/pics/logo-white.png) center no-repeat;
                 background-size: 85%;
             }
         }
@@ -750,7 +760,7 @@
                 }
                 &:nth-child(2){
                     display:none !important;
-                } 
+                }
                 &:nth-child(3){
                     display:none !important;
                 }
@@ -764,7 +774,7 @@
             .booking-content-container{
                 .booking-details-container{
                     margin-top: 0px;
-                    width: 100%;                
+                    width: 100%;
                     max-width: 100%;
                     h2{
                         font-size: 18px;
@@ -772,7 +782,7 @@
                         padding-top: 20px;
                     }
                     .booking-details{
-                        width: 100%;  
+                        width: 100%;
                         padding-left: 0px;
                         text-align: center;
                         h4{
@@ -799,7 +809,7 @@
                                 right: 0;
                             }
                         }
-                        
+
                     }
                     .booking-confirmed{
                         padding: 0px 25px;
@@ -808,7 +818,7 @@
                         }
                         p{
                           font-family: lato-light;
-                          font-size:15px;    
+                          font-size:15px;
                         }
                         button{
                             width:46%;
@@ -819,7 +829,7 @@
                         }
                     }
 
-                } 
+                }
                 .booking-customer-details .booking-customer-form{
                     date-picker{
                         input{
@@ -829,10 +839,10 @@
                         .form-input{
                             select-overlay{
                                 top:20px;
-                            } 
+                            }
                         }
                     }
-                       
+
                     .form-input{
                         width:100%;
                         margin-bottom: 0px;
@@ -849,6 +859,10 @@
                                 }
                             }
                         }
+                        &.sex select-overlay{
+                            top: 15px;
+                        }
+
                         &:last-child{
                             margin-bottom:45px;
                         }
@@ -870,6 +884,21 @@
                             border-radius: 0px;
                         }
 
+                        date-of-birth {
+                            date-picker{
+                                input{
+                                    margin-left: 0px;
+                                }
+                                select-overlay{
+                                    top:20px;
+                                }
+                            }
+                            span.age{
+                                height: 40px;
+                                line-height: 25px;
+                                font-size: 12px;
+                            }
+                        }
                     }
                 }
                 .booking-customer-notes{
@@ -893,7 +922,7 @@
                         background: $white;
                         color: $text-dark-grey;
                         font-weight: $lato-light;
-                        font-size: 14px;                   
+                        font-size: 14px;
                         padding-top: 5px;
                         &[disabled]{
                             opacity:0.5;
@@ -954,7 +983,7 @@
                     }
                     booking-rectangle{
                         width: 100%;
-                        margin-right: 0%; 
+                        margin-right: 0%;
                         margin-left: 0%;
                         .selected-checkbox{
                             width: 50px;
@@ -970,13 +999,13 @@
                                 box-shadow: inset 0px 0px 2px 2px rgba(242,120,75,0.56);
                             }
                         }
-                        .event{    
+                        .event{
                             margin-bottom: 20px;
                             .course-sessions-container .close-event {
                                 top: 15px;
                             }
                             .session-box{
-                                border: 2px solid $online-booking-border-grey;   
+                                border: 2px solid $online-booking-border-grey;
                                 &.selected{
                                     box-shadow:none;
                                     border: 2px solid $online-booking-green;
@@ -989,13 +1018,13 @@
                                 .selected-checkbox{
                                     i{
                                         font-size: 14px;
-                                        line-height: 60px;  
+                                        line-height: 60px;
                                     }
                                 }
                                 &.full-course{
                                     .selected-checkbox{
                                         i{
-                                            line-height: 40px;  
+                                            line-height: 40px;
                                         }
                                     }
                                 }
@@ -1020,7 +1049,7 @@
                                             z-index: 0;
                                             left: 10px;
                                             text-align: left;
-                                            margin-right: 40px;                     
+                                            margin-right: 40px;
                                         }
                                         &:nth-of-type(3){
                                             position: absolute;
@@ -1035,7 +1064,7 @@
                                 }
                             }
                         }
-                        
+
                         &.expanded{
                             width: 100%;
                             .event-info-container{
@@ -1108,10 +1137,10 @@
                                     }
                                     &:nth-child(2){
                                         p{
-                                            
+
                                         }
                                     }
-                          
+
                                     p{
                                         display:inline-block;
                                         // padding-left:20px;
@@ -1124,16 +1153,16 @@
                                             right: 0px;
                                             // padding-left:35px;
                                         }
-                                     
+
                                     }
                                 }
                             }
                         }
                     }
                 }
-               
+
             }
         }
-        
+
     }
 }

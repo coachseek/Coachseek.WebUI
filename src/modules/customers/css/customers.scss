@@ -7,6 +7,32 @@
             max-width: 100%;
             min-width: 100%;
         }
+
+        &.phone-number{
+            width: 70%;
+            float: left;
+        }
+
+        &.sex{
+            width: 25%;
+            float: right;
+
+            select{
+                width: 100%;
+            }
+
+            select-overlay{
+                position: absolute;
+                left: 0px;
+                top: 20px;
+                height: 32px;
+                line-height: 32px;
+                background: #FFFFFF;
+                color: #525252;
+                text-align: center;
+                border-radius: 5px;
+            }
+        }
     }
     .create-item{
         margin-bottom: 40px;

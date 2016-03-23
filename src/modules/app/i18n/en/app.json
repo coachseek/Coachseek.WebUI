@@ -1,4 +1,10 @@
 {
+    "sex": {
+        "label": "Sex",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+    },
     "age": "Age:",
     "whole-course": "Enitre Course",
     "oh-no": "OH NO!",
