@@ -137,6 +137,8 @@ angular.module('app.controllers', [])
                     if($location.search().showoff){
                         var showoffLogin = JSON.parse($location.search().showoff);
                         $window.localStorage.setItem('coachseekLogin', btoa(showoffLogin.email + ':' + showoffLogin.password));
+                        sessionService.onboarding.showOnboarding = true;
+                        sessionService.onboarding.stepsCompleted.push('createDefaults');
                         rememberMeLogin({name: 'scheduling'}, {});
                     } else if(businessDomain !== ENV.defaultSubdomain) {
                         toStateSessionType = 'online-booking';
