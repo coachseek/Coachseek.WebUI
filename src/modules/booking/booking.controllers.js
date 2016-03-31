@@ -287,8 +287,12 @@ angular.module('booking.controllers', [])
         function saveBooking(payLater){
             _.assign(currentBooking.customer, {id: currentBooking.customerId});
             return onlineBookingAPIFactory.anon($scope.business.domain)
-                .save({ section: 'Bookings' }, {sessions: currentBooking.booking.sessions, customer: currentBooking.customer}).$promise
-                    .then(function (booking) {
+                .save({ section: 'Bookings' }, {
+                        sessions: currentBooking.booking.sessions,
+                        customer: currentBooking.customer,
+                        discountPercent: _.get(currentBooking, 'discountPrice.discountPercent', 0)
+                    }).$promise.then(function (booking) {
+                            console.log(booking);
                             currentBooking.booking.id = booking.id;
                             $scope.bookingConfirmed = payLater;
                             $scope.redirectingToPaypal = !payLater;

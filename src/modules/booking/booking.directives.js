@@ -453,7 +453,10 @@ angular.module('booking.directives', [])
                                 discountCode: scope.discountCode
                             }).$promise.then(function(discountPrice){
                                 currentBooking.discountPrice = discountPrice;
-                                _.assign(currentBooking.discountPrice, {originalPrice: currentBooking.totalPrice || scope.calculateTotalPrice()});
+                                _.assign(currentBooking.discountPrice, {
+                                    originalPrice: currentBooking.totalPrice || scope.calculateTotalPrice()
+                                });
+                                // have to set this seperately as we need the original price to calculate percent
                                 currentBooking.discountPrice.discountPercent = getDiscountPercent();
                                 currentBooking.totalPrice = discountPrice.price;
                             }, scope.handleErrors).finally(function(){
