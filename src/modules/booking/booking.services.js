@@ -1,4 +1,4 @@
-angular.module('booking.services', [])  
+angular.module('booking.services', [])
     .factory('onlineBookingAPIFactory', ['$resource', 'ENV', function($resource, ENV){
         return {
             anon: function (subdomain) {

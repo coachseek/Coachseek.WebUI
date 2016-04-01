@@ -81,16 +81,24 @@ describe('Booking Confirmation View', function(){
         return null
     });
 
-    var self, anonStub, anonSaveStub;
+    let('discountPrice', function(){
+        return null;
+    });
+
+    var self, anonStub, anonSaveStub, scope;
     beforeEach(function(){
         self = this;
         self.anonCustomersSavePromise = this.anonCustomersSavePromise;
         self.anonPricingEnquiryStubPromise = this.anonPricingEnquiryStubPromise;
         self.anonBookingsSavePromise = this.anonBookingsSavePromise;
+        self.discountPrice = this.discountPrice;
+        self.business = this.business;
+        self.currentBooking = this.currentBooking;
         $injector.get('currentBooking').filters = this.filters;
         $injector.get('currentBooking').customer = this.customer;
         $injector.get('currentBooking').booking = this.booking;
-        $injector.get('sessionService').business = this.business;
+        $injector.get('currentBooking').discountPrice = self.discountPrice;
+        $injector.get('sessionService').business = self.business;
         $injector.get('sessionService').currentBooking = this.currentBooking;
 
         locationStub.restore();
@@ -98,7 +106,7 @@ describe('Booking Confirmation View', function(){
             return self.subdomain;
         });
 
-        onlineBookingAPIFactory = $injector.get('onlineBookingAPIFactory');
+        var onlineBookingAPIFactory = $injector.get('onlineBookingAPIFactory');
 
         anonSaveStub = this.sinon.stub(onlineBookingAPIFactory.anon(), 'save', function(apiCall){
             if(apiCall.section === "Bookings") {
@@ -120,13 +128,18 @@ describe('Booking Confirmation View', function(){
         });
 
         var bookingScope = $rootScope.$new();
-        var scope = bookingScope.$new();
+        scope = bookingScope.$new();
         createViewWithController(bookingScope, 'booking/partials/booking.html', 'bookingCtrl');
         createViewWithController(scope, 'booking/partials/bookingConfirmationView.html', 'bookingConfirmationCtrl');
-        $rootScope.$apply();
     });
     it('should hide the booking confirmation view', function(){
         expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.true;
+    });
+    it('should show the apply discount code input', function(){
+        expect($testRegion.find('apply-discount-code').hasClass('ng-hide')).to.be.false;
+    });
+    it('should hide the discount applied price', function(){
+        expect($testRegion.find('.applied-discount-price').hasClass('ng-hide')).to.be.true;
     });
     describe('pay now/pay later buttons', function(){
         describe('when online payments are turned OFF', function(){
@@ -172,19 +185,87 @@ describe('Booking Confirmation View', function(){
         beforeEach(function(){
             $testRegion.find('.pay-later').trigger('click');
         });
-        it('should make a call to get the price', function(){
-            expect(anonStub).to.be.calledWith(this.business.domain);
-            expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
-        });
-
-        describe('and the pricing enquiry is successful', function(){
-            let('anonPricingEnquiryStubPromise', function(){
-                var deferred = $q.defer();
-                deferred.resolve({price: 69.34});
-                return deferred.promise;
+        describe('when there is no discountPrice', function(){
+            it('should make a call to get the price', function(){
+                expect(anonStub).to.be.calledWith(this.business.domain);
+                expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
             });
-            it('should set the price as the total price', function(){
-                expect($injector.get('currentBooking').totalPrice).to.equal("69.34")
+
+            describe('and the pricing enquiry is successful', function(){
+                let('anonPricingEnquiryStubPromise', function(){
+                    var deferred = $q.defer();
+                    deferred.resolve({price: 69.34});
+                    return deferred.promise;
+                });
+                it('should set the price as the total price', function(){
+                    expect($injector.get('currentBooking').totalPrice).to.equal("69.34")
+                });
+                it('should then make a call to `Bookings`', function(){
+                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
+                });
+
+                describe('and the Bookings API call is successful', function(){
+                    let('anonBookingsSavePromise', function(){
+                        var deferred = $q.defer();
+                        deferred.resolve([this.booking]);
+                        return deferred.promise;
+                    });
+
+                    it('should show the booking confirmation', function(){
+                        expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;
+                    });
+                    it('should hide the pay now/pay later/change booking buttons', function(){
+                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
+                    });
+                });
+
+                describe('and the Bookings API call fails', function(){
+                    let('anonBookingsSavePromise', function(){
+                        var deferred = $q.defer();
+                        deferred.reject({data: [{message: "error"}]});
+                        return deferred.promise;
+                    });
+                    it('should show an error message', function(){
+                        expect($rootScope.alerts[0].type).to.equal('danger');
+                        expect($rootScope.alerts[0].message).to.equal('error');
+                    });
+                    it('should show the button container', function(){
+                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
+                    });
+                });
+            });
+
+            describe('and the pricing enquiry fails', function(){
+                let('anonPricingEnquiryStubPromise', function(){
+                    var deferred = $q.defer();
+                    deferred.reject({data: [{message: "error"}]});
+                    return deferred.promise;
+                });
+                it('should show an error message', function(){
+                    expect($rootScope.alerts[0].type).to.equal('danger');
+                    expect($rootScope.alerts[0].message).to.equal('error');
+                });
+                it('should show the button container', function(){
+                    expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
+                });
+            });
+        });
+        describe('when there has been a discountPrice applied', function(){
+            let('discountPrice', function(){
+                return {
+                    amount: 80,
+                    currency: 'USD',
+                    discountPercent: 20
+                }
+            });
+            it('should hide the apply discount code input', function(){
+                expect($testRegion.find('apply-discount-code').hasClass('ng-hide')).to.be.true;
+            });
+            it('should show the discount applied price', function(){
+                expect($testRegion.find('.applied-discount-price').hasClass('ng-hide')).to.be.false;
+            });
+            it('should NOT make a call to get the price', function(){
+                expect(anonPricingEnquiryStub).to.not.be.called;
             });
             it('should then make a call to `Bookings`', function(){
                 expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
@@ -220,21 +301,6 @@ describe('Booking Confirmation View', function(){
                 });
             });
         });
-
-        describe('and the pricing enquiry fails', function(){
-            let('anonPricingEnquiryStubPromise', function(){
-                var deferred = $q.defer();
-                deferred.reject({data: [{message: "error"}]});
-                return deferred.promise;
-            });
-            it('should show an error message', function(){
-                expect($rootScope.alerts[0].type).to.equal('danger');
-                expect($rootScope.alerts[0].message).to.equal('error');
-            });
-            it('should show the button container', function(){
-                expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
-            });
-        });
     });
     describe('when clicking on the PayPal pay now button', function(){
         var submitStub;
@@ -243,19 +309,95 @@ describe('Booking Confirmation View', function(){
             $testRegion.find('paypal-payment-button button').trigger('click');
         });
 
-        it('should make a call to get the price', function(){
-            expect(anonStub).to.be.calledWith(this.business.domain);
-            expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
-        });
-
-        describe('and the pricing enquiry is successful', function(){
-            let('anonPricingEnquiryStubPromise', function(){
-                var deferred = $q.defer();
-                deferred.resolve({price: 69.0000});
-                return deferred.promise;
+        describe('and there is no discountPrice', function(){
+            it('should make a call to get the price', function(){
+                expect(anonStub).to.be.calledWith(this.business.domain);
+                expect(anonPricingEnquiryStub).to.be.calledWith({}, {sessions: this.sessions});
             });
-            it('should set the price as the total price', function(){
-                expect($injector.get('currentBooking').totalPrice).to.equal("69.00")
+
+            describe('and the pricing enquiry is successful', function(){
+                let('anonPricingEnquiryStubPromise', function(){
+                    var deferred = $q.defer();
+                    deferred.resolve({price: 69.0000});
+                    return deferred.promise;
+                });
+                it('should set the price as the total price', function(){
+                    expect($injector.get('currentBooking').totalPrice).to.equal("69.00")
+                });
+                it('should then make a call to `Bookings`', function(){
+                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
+                });
+
+                describe('and the Bookings API call is successful', function(){
+                    let('anonBookingsSavePromise', function(){
+                        var deferred = $q.defer();
+                        deferred.resolve([this.booking]);
+                        return deferred.promise;
+                    });
+                    it('should hide the pay now/pay later/change booking buttons', function(){
+                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
+                    });
+                    it('should attempt to submit PayPal form', function(){
+                        $timeout.flush();
+                        expect(submitStub).to.be.calledOnce;
+                    });
+                });
+
+                describe('and the Bookings API call fails', function(){
+                    let('anonBookingsSavePromise', function(){
+                        var deferred = $q.defer();
+                        deferred.reject({data: [{message: "error"}]});
+                        return deferred.promise;
+                    });
+
+                    it('should NOT attempt to submit PayPal form', function(){
+                        $timeout.flush();
+                        expect(submitStub).to.not.be.calledOnce;
+                    });
+                    it('should show an error message', function(){
+                        expect($rootScope.alerts[0].type).to.equal('danger');
+                        expect($rootScope.alerts[0].message).to.equal('error');
+                    });
+                    it('should show the button container', function(){
+                        expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
+                    });
+                });
+            });
+            describe('and the pricing enquiry fails', function(){
+                let('anonPricingEnquiryStubPromise', function(){
+                    var deferred = $q.defer();
+                    deferred.reject({data: [{message: "error"}]});
+                    return deferred.promise;
+                });
+                it('should NOT attempt to submit PayPal form', function(){
+                    $timeout.flush();
+                    expect(submitStub).to.not.be.calledOnce;
+                });
+                it('should show an error message', function(){
+                    expect($rootScope.alerts[0].type).to.equal('danger');
+                    expect($rootScope.alerts[0].message).to.equal('error');
+                });
+                it('should show the button container', function(){
+                    expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
+                });
+            });
+        });
+        describe('and a discountPrice has been applied', function(){
+            let('discountPrice', function(){
+                return {
+                    amount: 80,
+                    currency: 'USD',
+                    discountPercent: 20
+                }
+            });
+            it('should hide the apply discount code input', function(){
+                expect($testRegion.find('apply-discount-code').hasClass('ng-hide')).to.be.true;
+            });
+            it('should show the discount applied price', function(){
+                expect($testRegion.find('.applied-discount-price').hasClass('ng-hide')).to.be.false;
+            });
+            it('should NOT make a call to get the price', function(){
+                expect(anonPricingEnquiryStub).to.not.be.called;
             });
             it('should then make a call to `Bookings`', function(){
                 expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
@@ -295,25 +437,7 @@ describe('Booking Confirmation View', function(){
                     expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
                 });
             });
-        });
-        describe('and the pricing enquiry fails', function(){
-            let('anonPricingEnquiryStubPromise', function(){
-                var deferred = $q.defer();
-                deferred.reject({data: [{message: "error"}]});
-                return deferred.promise;
-            });
-            it('should NOT attempt to submit PayPal form', function(){
-                $timeout.flush();
-                expect(submitStub).to.not.be.calledOnce;
-            });
-            it('should show an error message', function(){
-                expect($rootScope.alerts[0].type).to.equal('danger');
-                expect($rootScope.alerts[0].message).to.equal('error');
-            });
-            it('should show the button container', function(){
-                expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.false;
-            });
-        });
+        })
     });
     describe('when coming back from a successful payment', function(){
         let('currentBooking', function(){
@@ -322,14 +446,26 @@ describe('Booking Confirmation View', function(){
                 filters: this.filters,
                 booking: {
                     course: _.first(this.sessions)
+                },
+                discountPrice: {
+                    amount: 80,
+                    currency: 'USD',
+                    discountPercent: 20,
+                    orignalPrice: 100
                 }
             }
         });
         it('should show the booking confirmation', function(){
-            expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;                
+            expect($testRegion.find('.booking-confirmed').hasClass('ng-hide')).to.be.false;
         });
         it('should hide the pay now/pay later/change booking buttons', function(){
-            expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;                
+            expect($testRegion.find('.button-container').hasClass('ng-hide')).to.be.true;
+        });
+        it('should hide the apply discount code input', function(){
+            expect($testRegion.find('apply-discount-code').hasClass('ng-hide')).to.be.true;
+        });
+        it('should show the discount applied price', function(){
+            expect($testRegion.find('.applied-discount-price').hasClass('ng-hide')).to.be.false;
         });
     });
 });

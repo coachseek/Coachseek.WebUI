@@ -93,6 +93,14 @@ describe('Booking Customer Notes View', function(){
             expect($stateStub).to.be.calledWith('booking.selection');
         });
     });
+    describe('when there are no customerNotes', function(){
+        let('customerNotes', function(){
+            return [];
+        });
+        it('should navigate to selection view', function(){
+            expect($stateStub).to.be.calledWith('booking.details');
+        });
+    });
     describe('when location and service have been selected', function(){
         describe('when all required fields have been filled out', function(){
             it('should enable the continue button', function(){

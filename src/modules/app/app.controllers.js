@@ -23,6 +23,9 @@ angular.module('app.controllers', [])
 
             $rootScope.handleErrors = function(errors){
                 _.forEach(errors.data, function(error){
+                    if(typeof error === "string"){
+                        error = JSON.parse(error)[0];
+                    }
                     $rootScope.addAlert({
                         type: 'danger',
                         code: error.code,
@@ -30,7 +33,7 @@ angular.module('app.controllers', [])
                     });
                 });
             };
-            
+
             $rootScope.closeAlert = function(index) {
                 $rootScope.alerts.splice(index, 1);
             };
@@ -131,7 +134,11 @@ angular.module('app.controllers', [])
                 var businessDomain = _.first($location.host().split("."));
 
                 if(!sessionService.sessionType){
-                    if(businessDomain !== ENV.defaultSubdomain) {
+                    if($location.search().showoff){
+                        var showoffLogin = JSON.parse($location.search().showoff);
+                        $window.localStorage.setItem('coachseekLogin', btoa(showoffLogin.email + ':' + showoffLogin.password));
+                        rememberMeLogin({name: 'scheduling'}, {});
+                    } else if(businessDomain !== ENV.defaultSubdomain) {
                         toStateSessionType = 'online-booking';
                     } else if(toStateSessionType !== 'app'){
                         // is not a url going to app but needs to be. default to scheduling
@@ -271,7 +278,7 @@ angular.module('app.controllers', [])
         }])
         .controller('loginModalCtrl', ['$q', '$scope', 'coachSeekAPIService', '$http', '$activityIndicator', '$window', 'expiredLicenseModal',
             function ($q, $scope, coachSeekAPIService, $http, $activityIndicator, $window, expiredLicenseModal) {
-            
+
             $scope.attemptLogin = function (email, password) {
                 $scope.removeAlerts();
                 if($scope.loginForm.$valid){

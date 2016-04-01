@@ -227,7 +227,9 @@ angular.module('booking.directives', [])
                     return JSON.stringify({
                         customer: currentBooking.customer,
                         filters: currentBooking.filters,
-                        totalPrice: scope.calculateTotalPrice(),
+                        //TODO check this keeps correct number from pricingEnquiry
+                        totalPrice: currentBooking.totalPrice || scope.calculateTotalPrice(),
+                        discountPrice: currentBooking.discountPrice,
                         dateRange: scope.calculateBookingDateRange()
                     });
                 };
@@ -241,6 +243,50 @@ angular.module('booking.directives', [])
                         });
                     });
                 };
+            }
+        }
+    }])
+    .directive('manageBookingNotes', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
+        return {
+            restrict: "E",
+            templateUrl: "booking/partials/manageBookingNotes.html",
+            link: function(scope){
+                var newNoteDefaults = {
+                    type: 'customer',
+                    name: '',
+                    isRequired: false
+                };
+                scope.newNote = angular.copy(newNoteDefaults);
+                scope.showAddNote = false;
+                scope.saveNewNote = function(){
+                    //check form valid
+                    if(scope.newNoteNameForm.$valid){
+                        $activityIndicator.startAnimating();
+                        coachSeekAPIService.save({section: 'CustomFields'}, scope.newNote).$promise
+                            .then(function(note){
+                                scope.bookingNotes.unshift(note);
+                                scope.newNote = angular.copy(newNoteDefaults);
+                                scope.showAddNote = false;
+                            }, scope.handleErrors).finally(function(){
+                                $activityIndicator.stopAnimating();
+                            });
+                    }
+                };
+
+                scope.addNoteShow = function(){
+                    scope.showAddNote = true;
+                }
+
+                scope.addNoteHide = function(){
+                    scope.showAddNote = false;
+                }
+
+                coachSeekAPIService.query({section: 'CustomFields', type: 'customer'})
+                    .$promise.then(function(bookingNotes){
+                        scope.bookingNotes = bookingNotes;
+                    }, scope.handleErrors).finally(function(){
+                        scope.initNoteLoad = false;
+                    });
             }
         }
     }])
@@ -267,6 +313,10 @@ angular.module('booking.directives', [])
                 }
 
                 scope.$watchCollection('note', function(newVal, oldVal){
+                    // don't autosave if editing name
+                    // this is actually sort of useless after adding ng-blur
+                    // keeping just in case ng-blur doesn't trigger
+                    // if it doesn't, possible to change isActive and not autosave.
                     if(newVal !== oldVal && !scope.editName){
                         saveNote().then({}, scope.handleErrors)
                             .finally(function(){
@@ -288,4 +338,140 @@ angular.module('booking.directives', [])
                 };
             }
         }
+    }])
+    .directive('manageDiscountCodes', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
+        return {
+            restrict: "E",
+            templateUrl: "booking/partials/manageDiscountCodes.html",
+            link: function(scope, elem){
+                var newDiscountCodeDefaults = {
+                    code: scope.business.name.substring(0,4).trim().toUpperCase() + 10,
+                    discountPercent: 10,
+                    isActive: true
+                };
+                scope.discountCodes = [];
+                scope.newDiscountCode = angular.copy(newDiscountCodeDefaults);
+                scope.showAddDiscountCode = false;
+                scope.saveNewDiscountCode = function(){
+                    //check form valid
+                    if(scope.newDiscountCodeForm.$valid){
+                        $activityIndicator.startAnimating();
+                        coachSeekAPIService.save({section: 'DiscountCodes'}, scope.newDiscountCode).$promise
+                            .then(function(code){
+                                scope.discountCodes.unshift(code);
+                                scope.newDiscountCode = angular.copy(newDiscountCodeDefaults);
+                                scope.showAddDiscountCode = false;
+                            }, scope.handleErrors).finally(function(){
+                                $activityIndicator.stopAnimating();
+                            });
+                    }
+                };
+
+                scope.addDiscountCodeShow = function(){
+                    scope.showAddDiscountCode = true;
+                }
+
+                scope.addDiscounCodeHide = function(){
+                    scope.showAddDiscountCode = false;
+                }
+
+                scope.initDiscountCodeLoad = true;
+                coachSeekAPIService.query({section: 'DiscountCodes'})
+                    .$promise.then(function(discountCodes){
+                        scope.discountCodes = discountCodes;
+                    }, scope.handleErrors).finally(function(){
+                        scope.initDiscountCodeLoad = false;
+                    });
+            }
+        };
+    }])
+    .directive('bookingDiscountCode', ['coachSeekAPIService', '$activityIndicator', function(coachSeekAPIService, $activityIndicator){
+        return {
+            restrict: "E",
+            templateUrl:'booking/partials/bookingDiscountCode.html',
+            link: function(scope, elem){
+                scope.editCode = false;
+                scope.loading = false;
+                scope.tempCode = scope.discountCode.code;
+                scope.tempPercent = scope.discountCode.discountPercent;
+                scope.saveDiscountCode = function(){
+                    if(scope.discountCodeForm.$valid){
+                        scope.editCode = false;
+                        scope.discountCode.code = scope.tempCode;
+                        scope.discountCode.discountPercent = scope.tempPercent;
+                        saveDiscountCode().then(function(){
+                            scope.tempCode = scope.discountCode.code;
+                            scope.tempPercent = scope.discountCode.discountPercent;
+                        }, function(errors){
+                            scope.editCode = true;
+                            scope.handleErrors(errors);
+                        }).finally(function(){
+                            scope.loading = false;
+                            $activityIndicator.stopAnimating();
+                        });
+                    }
+                }
+
+                scope.$watch('discountCode.isActive', function(newVal, oldVal){
+                    if(newVal !== oldVal){
+                        scope.cancelEdit();
+                        saveDiscountCode().then({}, scope.handleErrors)
+                            .finally(function(){
+                                scope.loading = false;
+                                $activityIndicator.stopAnimating();
+                            });
+                    }
+                });
+
+                scope.cancelEdit = function(){
+                    scope.editCode = false;
+                    scope.tempCode = scope.discountCode.code;
+                    scope.tempPercent = scope.discountCode.discountPercent;
+                }
+
+                function saveDiscountCode(){
+                    $activityIndicator.startAnimating();
+                    scope.loading = true;
+                    return coachSeekAPIService.save({section:'DiscountCodes'}, scope.discountCode).$promise
+                };
+            }
+        }
+    }])
+    .directive('applyDiscountCode', ['onlineBookingAPIFactory', 'currentBooking', function(onlineBookingAPIFactory, currentBooking){
+        return {
+            restrict: "E",
+            templateUrl:'booking/partials/applyDiscountCode.html',
+            link: function(scope, elem){
+                scope.discountCodeLoading = false;
+                scope.showDiscountErrors = false;
+                scope.applyDiscountCode = function(){
+                    if(scope.applyDiscountFrom.$valid){
+                        scope.discountCodeLoading = true;
+                        onlineBookingAPIFactory.anon(scope.business.domain)
+                            .pricingEnquiry({}, {
+                                sessions: currentBooking.booking.sessions,
+                                discountCode: scope.discountCode
+                            }).$promise.then(function(discountPrice){
+                                currentBooking.discountPrice = discountPrice;
+                                _.assign(currentBooking.discountPrice, {
+                                    originalPrice: currentBooking.totalPrice || scope.calculateTotalPrice()
+                                });
+                                // have to set this seperately as we need the original price to calculate percent
+                                currentBooking.discountPrice.discountPercent = getDiscountPercent();
+                                currentBooking.totalPrice = discountPrice.price;
+                            }, scope.handleErrors).finally(function(){
+                                scope.discountCodeLoading = false;
+                            });
+                    } else {
+                        scope.showDiscountErrors = true;
+                    }
+                }
+
+                function getDiscountPercent(){
+                    var originalPrice = parseFloat(currentBooking.discountPrice.originalPrice);
+                    var discountPrice = parseFloat(currentBooking.discountPrice.price);
+                    return Math.round((originalPrice - discountPrice)/originalPrice * 100);
+                }
+            }
+        };
     }]);

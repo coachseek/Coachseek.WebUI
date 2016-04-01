@@ -116,9 +116,11 @@
             "d": "__count__ days max"
         },
         "max-day" : "Oops! Please choose a day within this month.",
-        "max-year" : "Oops! Please choose a year in the past. You can't be born before today."
+        "max-year" : "Oops! Please choose a year in the past. You can't be born before today.",
+        "max": "Oops! This number is too large.",
+        "min": "Oops! This number is too small."
     },
-    
+
     "name-already-exists": "Oops! It looks like somebody already has that name. Try again.",
     "service-already-exists": "Oops! It looks like one of your services already has that name. Try again.",
     "location-already-exists": "Oops! It looks like one of your locations already has that name. Try again.",

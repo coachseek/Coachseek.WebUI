@@ -1,7 +1,7 @@
 [state^="scheduling"] {
     .modal-container{
     	overflow: hidden;
-		course-attendance-modal{
+		course-overview-modal{
 			.attendance-list{
 				max-width: 100%;
 				min-width: 600px;
@@ -346,7 +346,7 @@
 @media (max-width: 768px){
     [state^="scheduling"] {
 	    .modal-container{
-			course-attendance-modal{
+			course-overview-modal{
 				.attendance-list{
 					min-width: 0px;
 					.course-table-container{

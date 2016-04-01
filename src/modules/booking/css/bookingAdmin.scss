@@ -87,6 +87,7 @@
         }
 
         .booking-admin-payments, .booking-admin-pricing{
+            padding-bottom: 50px;
 
             toggle-switch{
                 float: right;
@@ -166,8 +167,8 @@
                 height: 40px;
                 margin-bottom: 10px;
                 position: relative;
-                .note-name, 
-                .is-required, 
+                .note-name,
+                .is-required,
                 .new-note-save-container{
                     float: left;
                 }
@@ -301,7 +302,7 @@
                         &.is-active{
                             width: 30%;
                         }
-                    } 
+                    }
                 }
             }
         }

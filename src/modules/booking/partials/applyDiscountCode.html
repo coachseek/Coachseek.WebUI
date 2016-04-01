@@ -1,0 +1,15 @@
+<div class="apply-discount-code-container">
+    <form name="applyDiscountFrom" novalidate ng-enter="applyDiscountCode()">
+    	<label name="discountCode">{{'booking:confirmation.apply-discount' | i18next}}</label>
+	    <input name="discountCode" class="discount-code" ng-model="discountCode" placeholder="{{'booking:confirmation.discount-code-placeholder' | i18next}}"required ng-maxlength="10" ng-disabled="discountCodeLoading"/>
+
+	    <div class="error-messages" ng-messages="applyDiscountFrom.discountCode.$error" ng-if="showDiscountErrors">
+	        <div ng-message="required">{{'businessSetup:error.required' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+	        <div ng-message="maxlength">{{'businessSetup:error.maxlength' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+	    </div>
+	</form>
+	<button class="save-button" ng-click="applyDiscountCode()" ng-disabled="discountCodeLoading">
+		<span ng-i18next="{{discountCodeLoading ? 'booking:confirmation.applying' : 'booking:confirmation.apply'}}"></span>
+		<ellipsis-animated ng-show="discountCodeLoading"/>
+	</button>
+</div>

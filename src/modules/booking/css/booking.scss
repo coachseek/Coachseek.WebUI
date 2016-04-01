@@ -555,6 +555,7 @@
                     display: block;
                     text-decoration: underline;
                 }
+
                 .button-container{
                     text-align: center;
 
@@ -623,6 +624,40 @@
                         margin-bottom: 20px;
                         display: inline-block;
                         line-height: 22px;
+                    }
+                }
+
+                .apply-discount-code-container{
+                    width: 60%;
+                    height: 60px;
+                    margin: 20px auto;
+                    position: relative;
+                    label{
+                        height: 20px;
+                        text-align: left;
+                        width: 100%;
+                        float: left;
+                        clear: both;
+                    }
+                    input.discount-code, button.save-button{
+                        margin: 0px;
+                        height: 40px;
+                        &[disabled]{
+                            pointer-events: none;
+                        }
+                    }
+                    input.discount-code{
+                        width: 50%;
+                        float: left;
+                        text-align: center;
+                    }
+                    button.save-button{
+                        width: 40%;
+                        float: right;
+                    }
+                    div.error-messages i{
+                        left: 45%;
+                        top: -35px;
                     }
                 }
 
@@ -796,6 +831,14 @@
                             h4,p{font-size: 18px;}
                         }
                     }
+
+                    .apply-discount-code-container{
+                        width: 90%;
+                        div.error-messages i{
+                            display: none;
+                        }
+                    }
+
                     .button-container .pay-later{
                         background: $online-booking-green;
                         color: $white;
@@ -831,18 +874,6 @@
 
                 }
                 .booking-customer-details .booking-customer-form{
-                    date-picker{
-                        input{
-                            width: 27.5%;
-                            margin-left: 0px;
-                        }
-                        .form-input{
-                            select-overlay{
-                                top:20px;
-                            }
-                        }
-                    }
-
                     .form-input{
                         width:100%;
                         margin-bottom: 0px;

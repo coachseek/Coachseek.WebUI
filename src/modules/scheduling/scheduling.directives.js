@@ -166,15 +166,6 @@ angular.module('scheduling.directives', [])
                     }
                 });
 
-                function showSuccessAlert(actionName, customerName, sessionName){
-                    scope.addAlert({
-                        type: 'success',
-                        message: "scheduling:alert." + actionName,
-                        customerName: customerName,
-                        sessionName: sessionName
-                    });
-                }
-
                 function getCustomerBooking(bookings){
                     return _.find(bookings, function(booking){
                         return booking.customer.id === scope.item.id;
@@ -183,27 +174,6 @@ angular.module('scheduling.directives', [])
             }
         };
     }])
-    .directive('addToSession', ['bookingManager', function(bookingManager){
-        return {
-            // restrict: "A",
-            replace: false,
-            templateUrl:'scheduling/partials/addToSession.html',
-            link: function(scope){
-                scope.sessionBookingLoading = false;
-                scope.addToSession = function(customer, sessionId, index){
-                    scope.sessionBookingLoading = sessionId;
-                    scope.startCourseLoading(true);
-                    bookingManager.addToSession(customer, sessionId).then(function(courseBooking){
-                        scope.courseBooking.bookings[index] = courseBooking.sessionBookings[0];
-                        scope.courseBooking.bookings[index].sessionId = sessionId;
-                    }, scope.handleErrors).finally(function(){
-                        scope.sessionBookingLoading = false;
-                        scope.stopCourseLoading();
-                    });
-                }
-            }
-        }
-    }])
     .directive('generalSettingsModal', function(){
         return {
            restrict: "E",
@@ -211,12 +181,12 @@ angular.module('scheduling.directives', [])
            templateUrl:'scheduling/partials/generalSettingsModal.html'
         };
     })
-    .directive('courseAttendanceModal', ['coachSeekAPIService', 'bookingManager', 'sessionOrCourseModal', 'removeFromCourseModal', '$timeout',
+    .directive('courseOverviewModal', ['coachSeekAPIService', 'bookingManager', 'sessionOrCourseModal', 'removeFromCourseModal', '$timeout',
       function(coachSeekAPIService, bookingManager, sessionOrCourseModal, removeFromCourseModal, $timeout){
         return {
            restrict: "E",
            replace: false,
-           templateUrl:'scheduling/partials/courseAttendanceModal.html',
+           templateUrl:'scheduling/partials/courseOverviewModal.html',
            link: function(scope, elem){
                 var itemsLoadingCounter = 0;
                 scope.courseLoading = true;
@@ -279,11 +249,9 @@ angular.module('scheduling.directives', [])
                     bookingRemoval('removeFromCourse', courseBookings);
                 };
 
-                function bookingRemoval(functionName, bookingId){
+                function bookingRemoval(functionName, bookingsToDelete){
                     scope.startCourseLoading(true);
-                    bookingManager[functionName](bookingId).then(function(booking){
-                        // var customerName = customer.firstName + " " + scope.item.lastName;
-                        // showSuccessAlert(actionName, customerName, course.service.name)
+                    bookingManager[functionName](bookingsToDelete).then(function(){
                         scope.getCourseBookingData();
                     }, scope.handleErrors).finally(function(){
                         scope.stopCourseLoading();
@@ -337,14 +305,18 @@ angular.module('scheduling.directives', [])
 
                 scope.getCourseBookingData = function(){
                     //TODO restructure as PAYMENT and BOOKINGS for tabs?
-                    // go through session bookings and pluck out unique customers
                     // [{customer: {}, bookings:[booking, sessionId, booking]},{customer: {}, bookings:[sessionId, sessionId, booking]}]
                     var courseBookingData = [];
+                    // get course bookings. if do not exist we have standalone session so we get session bookings
                     var bookings = _.get(scope.currentEvent, 'course.booking.bookings') || _.get(scope.currentEvent, 'session.booking.bookings');
+                    // start building customer rows
                     _.each(bookings, function(booking){
                         courseBookingData.push({customer: booking.customer, bookings: []});
                     });
+                    // remove duplicate customers
+                    // TODO prevent beforehand?
                     courseBookingData = _.uniqBy(courseBookingData, 'customer.id')
+                    // loop through sessions and add individual session booking data for each customer row
                     var sessions = _.get(scope.currentEvent, 'course.sessions') || [_.get(scope.currentEvent, 'session')];
                     _.each(sessions, function(session, sessionIndex){
                         // if there are no bookings at all need to still loop through in order to get add to session button in there
@@ -539,7 +511,7 @@ angular.module('scheduling.directives', [])
 
                 var CustomerAttendanceStatus = React.createClass({
                     attendanceStatusOptions: [undefined, true, false],
-                    updateAttendance(event){
+                    updateAttendance(){
                         while(this.attendanceStatusOptions[0] !== this.state.hasAttended){
                             this.attendanceStatusOptions.push(this.attendanceStatusOptions.shift());
                         }

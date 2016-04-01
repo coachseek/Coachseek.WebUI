@@ -3,8 +3,8 @@ booking-note-template{
     .booking-note-container{
         height: $booking-note-height;
         position: relative;
-        .note-name, 
-        .is-required, 
+        .note-name,
+        .is-required,
         .is-active{
             float: left;
             &[disabled]{
@@ -58,7 +58,7 @@ booking-note-template{
         .is-required{
             width: 30%;
             line-height: $booking-note-height;
-            height: $booking-note-height;;
+            height: $booking-note-height;
             cursor: pointer;
             text-align: center;
             input[type=checkbox]{
@@ -69,7 +69,7 @@ booking-note-template{
         }
         .is-active{
             width: 30%;
-            height: $booking-note-height;;
+            height: $booking-note-height;
 
             &.grey-background{
                 background: rgba(200,200,200,0.5)
