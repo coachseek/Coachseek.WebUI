@@ -8,8 +8,9 @@
 <input name="year" ng-change="setSelectedDate()" type="number" ng-model="year" placeholder="{{'businessSetup:year' | i18next}}" min="1875" ng-max="getMaxBirthYear()" />
 
 <div class="error-messages" ng-messages="form.day.$error" ng-if="form.day.$touched">
-    <div ng-message="max">{{'businessSetup:error.max-day' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+    <div ng-message="max">{{'businessSetup:error.max-day' | i18next}}</div>
 </div>
 <div class="error-messages" ng-messages="form.year.$error" ng-if="form.year.$touched">
-    <div ng-message="max">{{'businessSetup:error.max-year' | i18next}}<i class='fa fa-2x fa-times'></i></div>
+    <div ng-message="min">{{'businessSetup:error.min-year' | i18next}}</div>
+    <div ng-message="max">{{'businessSetup:error.max-year' | i18next}}</div>
 </div>

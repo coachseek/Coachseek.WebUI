@@ -117,6 +117,7 @@
         },
         "max-day" : "Oops! Please choose a day within this month.",
         "max-year" : "Oops! Please choose a year in the past. You can't be born before today.",
+        "min-year" : "Oops! That is far too old. Please choose a year after 1875.",
         "max": "Oops! This number is too large.",
         "min": "Oops! This number is too small."
     },
