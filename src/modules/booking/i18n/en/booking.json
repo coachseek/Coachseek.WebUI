@@ -70,9 +70,9 @@
         "booking-for": ", your booking for",
         "booking-at": "at",
         "booking-confirmed":"is confirmed for",
-        "discount-code-placeholder": "SAVE10",
-        "apply-discount": "Apply discount code:",
-        "apply": "Apply",
+        "discount-code-placeholder": "e.g. SAVE10",
+        "apply-discount": "Discount code? (if applicable):",
+        "apply": "Apply discount",
         "applying": "Applying",
         "with": "With",
         "discount-applied": "discount applied"
