@@ -22,6 +22,7 @@ angular.module('app.controllers', [])
             };
 
             $rootScope.handleErrors = function(errors){
+                console.log(errors);
                 _.forEach(errors.data, function(error){
                     if(typeof error === "string"){
                         error = JSON.parse(error)[0];
