@@ -201,7 +201,7 @@ describe('Booking Confirmation View', function(){
                     expect($injector.get('currentBooking').totalPrice).to.equal("69.34")
                 });
                 it('should then make a call to `Bookings`', function(){
-                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
+                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions, discountPercent: 0});
                 });
 
                 describe('and the Bookings API call is successful', function(){
@@ -268,7 +268,7 @@ describe('Booking Confirmation View', function(){
                 expect(anonPricingEnquiryStub).to.not.be.called;
             });
             it('should then make a call to `Bookings`', function(){
-                expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
+                expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions, discountPercent: this.discountPrice.discountPercent});
             });
 
             describe('and the Bookings API call is successful', function(){
@@ -325,7 +325,7 @@ describe('Booking Confirmation View', function(){
                     expect($injector.get('currentBooking').totalPrice).to.equal("69.00")
                 });
                 it('should then make a call to `Bookings`', function(){
-                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
+                    expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions, discountPercent: 0});
                 });
 
                 describe('and the Bookings API call is successful', function(){
@@ -400,7 +400,7 @@ describe('Booking Confirmation View', function(){
                 expect(anonPricingEnquiryStub).to.not.be.called;
             });
             it('should then make a call to `Bookings`', function(){
-                expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions});
+                expect(anonSaveStub).to.be.calledWith({ section: 'Bookings' }, {customer: this.customer, sessions: this.sessions, discountPercent: this.discountPrice.discountPercent});
             });
 
             describe('and the Bookings API call is successful', function(){
