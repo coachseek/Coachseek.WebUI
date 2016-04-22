@@ -15,10 +15,10 @@
         <option ng-repeat="item in frequencies" value="{{item.value}}" ng-i18next>businessSetup:repeat-selector.{{item.text}}</option>
     </select>
     <label class="total-of">{{'businessSetup:repeat-selector.total-of' | i18next}}</label>
-    <input class="session-count" name="sessionCount" ng-blur="setValues()" ng-focus="isFocused = true" type="number" ng-model="sessionCount" placeholder="{{'businessSetup:repeat-selector.placeholder.session-count' | i18next}}"  min="1" max="{{repeatFrequency === 'w' ? 26 : 30}}" step="1"/>
+    <input class="session-count" name="sessionCount" ng-blur="setValues()" ng-focus="isFocused = true" type="number" ng-model="sessionCount" placeholder="{{'businessSetup:repeat-selector.placeholder.session-count' | i18next}}"  min="1" max="255" step="1"/>
 
     <div class="error-messages" ng-messages="form.sessionCount.$error" ng-if="form.sessionCount.$touched">
-        <div ng-message="max"><span ng-i18next="[i18next]({count: repeatFrequency === 'w' ? 26 : 30})error.repeat-selector-max.{{repeatFrequency}}"></span><i class='fa fa-2x fa-times'></i></div>
+        <div ng-message="max"><span ng-i18next="[i18next]({count: 255})error.repeat-selector-max.{{repeatFrequency}}"></span><i class='fa fa-2x fa-times'></i></div>
     </div>
     <span class="days-or-weeks" ng-i18next="{{ showStatus() }}"></span>
 </div>
