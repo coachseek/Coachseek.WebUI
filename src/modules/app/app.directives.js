@@ -77,6 +77,7 @@ angular.module('app.directives', [])
                             headings[i] = _.values(heading);
                         }
                     });
+                    if(_.indexOf(headings, 'dateOfBirth') > -1) headings.splice(_.indexOf('dateOfBirth'), 0, 'age');
                     headings = _.flattenDeep(headings);
 
                     result = '';
@@ -98,6 +99,8 @@ angular.module('app.directives', [])
                                 if (ctr > 0) result += columnDelimiter;
 
                                 if(key === "dateOfBirth"){
+                                    result += item[key] || '';
+                                    result += columnDelimiter;
                                     result += moment().diff(item[key], 'years') || '';
                                 } else {
                                     result += item[key] || '';

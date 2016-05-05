@@ -88,7 +88,7 @@ angular.module('customers.controllers', [])
             $scope.itemList = response.customers;
             $scope.customerNotes = _.reverse(response.customerNotes);
             var customFields = [];
-            _.each($scope.customerNotes, function(note){customFields.push(note.key); });
+            _.each($scope.customerNotes, function(note){customFields.unshift(note.key); });
             $scope.exportKeys.push({customFields: customFields});
         },$scope.handleErrors).finally(function(){
             $scope.initCustomerLoad = false;
