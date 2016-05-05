@@ -86,7 +86,7 @@ angular.module('customers.controllers', [])
             customerNotes: coachSeekAPIService.query({section: 'CustomFields', type: 'customer'}).$promise
         }).then(function(response) {
             $scope.itemList = response.customers;
-            $scope.customerNotes = response.customerNotes;
+            $scope.customerNotes = _.reverse(response.customerNotes);
             var customFields = [];
             _.each($scope.customerNotes, function(note){customFields.push(note.key); });
             $scope.exportKeys.push({customFields: customFields});
