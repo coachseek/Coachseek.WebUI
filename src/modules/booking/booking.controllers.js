@@ -199,8 +199,8 @@ angular.module('booking.controllers', [])
                 customerNotes: onlineBookingAPIFactory.anon($scope.business.domain).getCustomFields({}).$promise
             }).then(function(response) {
                     currentBooking.customerId = response.customer.id;
-                    currentBooking.customFields = response.customer.customFields;
-                    currentBooking.customerNotes = _.filter(response.customerNotes, function(note) { return note.isActive; });
+                    currentBooking.customFields = response.customer.customFields
+                    currentBooking.customerNotes = _.reverse(_.filter(response.customerNotes, function(note) { return note.isActive; }));
 
                     if(_.size(currentBooking.customerNotes)){
                         $state.go('booking.notes');
