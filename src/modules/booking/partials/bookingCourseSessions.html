@@ -2,7 +2,7 @@
     <div class="selected-checkbox"><i class="fa fa-check"></i></div>
     <span ng-i18next="[html]booking:{{isBefore(event) ? 'rest-of-course' : 'full-course'}}"></span> <span ng-i18next="denominations.{{business.payment.currency}}"></span>{{fullCoursePrice}}
 </div>
-<div class="course-session session-box" ng-init="availableSessionSpaces = getSessionSpacesAvailable(session); isBefore=isBefore(session)"  ng-repeat="session in selectedEvent.sessions" ng-click="toggleSessionSelect(session)" ng-class="{selected: isSelected(session), 'is-before': isBefore, 'sold-out': availableSessionSpaces <= 0}">
+<div class="course-session session-box" ng-if="session.booking.isOnlineBookable" ng-init="availableSessionSpaces = getSessionSpacesAvailable(session); isBefore=isBefore(session)"  ng-repeat="session in selectedEvent.sessions" ng-click="toggleSessionSelect(session)" ng-class="{selected: isSelected(session), 'is-before': isBefore, 'sold-out': availableSessionSpaces <= 0}">
     <div class="selected-checkbox"><i class="fa fa-check"></i></div>
     <div class="full-session-banner" ng-show="availableSessionSpaces <= 0"><span>{{'booking:full-session' | i18next}}</span></div>
     <p>{{getSessionDate(session)}}</p>
