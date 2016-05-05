@@ -68,24 +68,6 @@
                 current-color="item.presentation.colour"
             ></color-picker>
         </div>
-
-        <repeat-selector
-            repeat-frequency="item.repetition.repeatFrequency"
-            session-count="item.repetition.sessionCount"
-            form="itemForm"
-        ></repeat-selector>
-
-        <div class="session-price form-input left-col">
-            <label name="sessionPrice">{{'businessSetup:service-details.session-price' | i18next}}</label>
-            <span class="money-sign" ng-i18next="denominations.{{business.payment.currency}}"></span>
-            <input name="sessionPrice" type="number" ng-model="item.pricing.sessionPrice" placeholder="{{'businessSetup:service-details.placeholder.session-price' | i18next}}"  min="0" step="1.00"  />
-        </div>
-
-        <div class="course-price form-input right-col" ng-hide="item.repetition.sessionCount < 2" >
-            <label name="coursePrice">{{'businessSetup:service-details.course-price' | i18next}}</label>
-            <span class="money-sign" ng-i18next="denominations.{{business.payment.currency}}"></span>
-            <input name="coursePrice" type="number" ng-model="item.pricing.coursePrice" placeholder="{{'businessSetup:service-details.placeholder.course-price' | i18next}}"  min="0" step="1.00" />
-        </div>
     </form>
     <button class="save-button" ng-click="saveItem(item)" ng-disabled="AILoading"><span ng-i18next>{{AILoading ? 'saving' : 'save-details'}}</span><ellipsis-animated ng-show="AILoading"/></button>
     <button class="cancel-button" ng-hide="!itemList.length && newItem" ng-click="cancelEdit()">{{'cancel' | i18next}}</button>

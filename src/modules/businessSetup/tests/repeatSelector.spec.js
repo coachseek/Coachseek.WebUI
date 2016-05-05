@@ -1,6 +1,4 @@
 describe('repeatSelector directive', function(){
-    var scope;
-    
     let('sessionCount', function(){
         return 12;
     });
@@ -9,7 +7,8 @@ describe('repeatSelector directive', function(){
         return 'w';
     });
 
-    var $repeatDropdown,
+    var scope,
+        $repeatDropdown,
         $frequencySelector,
         $repeatFrequency;
     beforeEach(function(){
@@ -35,6 +34,7 @@ describe('repeatSelector directive', function(){
                 expect($repeatDropdown.val()).to.equal('boolean:true');
             });
             it('should set the repeat frequency to `w`', function(){
+                console.log($repeatFrequency.val())
                 expect($repeatFrequency.val()).to.equal('w');
             });
         });
@@ -54,7 +54,7 @@ describe('repeatSelector directive', function(){
                 });
             });
             describe('and the sessionCount is less than 2', function(){
-                
+
                 let('sessionCount', function(){
                     return 1;
                 });
@@ -167,8 +167,8 @@ describe('repeatSelector directive', function(){
             it('should set the repeatFrequency to "d"', function(){
                 expect(scope.repeatFrequency).to.equal("d")
             });
-            it('should change the max to 30', function(){
-                expect($frequencySelector.find('input').attr('max')).to.equal('30');
+            it('should change the max to 255', function(){
+                expect($frequencySelector.find('input').attr('max')).to.equal('255');
             });
             describe('and then changing it back to weeks', function(){
                 beforeEach(function(){
@@ -181,8 +181,8 @@ describe('repeatSelector directive', function(){
                 it('should set the repeatFrequency to "w"', function(){
                     expect(scope.repeatFrequency).to.equal("w")
                 });
-                it('should change the max to 26', function(){
-                    expect($frequencySelector.find('input').attr('max')).to.equal('26');
+                it('should change the max to 255', function(){
+                    expect($frequencySelector.find('input').attr('max')).to.equal('255');
                 });
             });
         });

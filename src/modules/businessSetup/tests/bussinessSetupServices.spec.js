@@ -45,7 +45,7 @@ describe('bussinessSetup Services', function(){
         self,
         scope,
         coachSeekAPIService;
-        
+
     beforeEach(function(){
         self = this;
 
@@ -82,7 +82,7 @@ describe('bussinessSetup Services', function(){
         });
     });
     describe('during loading', function(){
-        
+
         let('promise', function(){
             return $q.defer().promise;
         });
@@ -141,27 +141,6 @@ describe('bussinessSetup Services', function(){
             it('should show the cancel button', function(){
                 expect($serviceItemView.find('.cancel-button').hasClass('ng-hide')).to.be.false;
             });
-            describe('when changing the sessionCount to less than 2', function(){
-                beforeEach(function(){
-                    scope.item.repetition.sessionCount = 1;
-                    scope.$digest();
-                });
-                it('should set the coursePrice to null', function(){
-                    expect(scope.item.pricing.coursePrice).to.equal(undefined);
-                });
-                it('should hide the coursePrice field', function(){
-                    expect($serviceItemView.find('.course-price').hasClass('ng-hide')).to.be.true;
-                });
-
-                describe('and then changing the sessionCount to 2 or more', function(){
-                    it('should show the coursePrice field', function(){
-                        scope.item.repetition.sessionCount = 69;
-                        scope.$digest();
-
-                        expect($serviceItemView.find('.coursePrice').hasClass('ng-hide')).to.be.false;
-                    });
-                });
-            });
             describe('when clicking the save button', function(){
                 var saveServiceStub;
                 beforeEach(function(){
@@ -212,39 +191,6 @@ describe('bussinessSetup Services', function(){
 
                             expect($rootScope.alerts[0].type).to.equal('warning');
                             expect($rootScope.alerts[0].message).to.equal('businessSetup:studentCapacity-invalid');
-                        });
-                    });
-                    describe('when the coursePrice is invalid', function(){
-                        it('should display an invalid input alert', function(){
-                            scope.item.pricing.coursePrice = -1;
-                            scope.$digest();
-                            $serviceItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:coursePrice-invalid');
-                        });
-                    });
-                    describe('when the sessionPrice is invalid', function(){
-                        it('should display an invalid input alert', function(){
-                            scope.item.pricing.sessionPrice = -1;
-                            scope.$digest();
-                            $serviceItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
-                        });
-                    });
-                    describe('and the coursePrice and sessionPrice are invalid', function(){
-                        it('should display an alert for both', function(){
-                            scope.item.pricing.coursePrice = -1;
-                            scope.item.pricing.sessionPrice = -1;
-                            scope.$digest();
-                            $serviceItemView.find('.save-button').trigger('click');
-
-                            expect($rootScope.alerts[0].type).to.equal('warning');
-                            expect($rootScope.alerts[0].message).to.equal('businessSetup:sessionPrice-invalid');
-                            expect($rootScope.alerts[1].type).to.equal('warning');
-                            expect($rootScope.alerts[1].message).to.equal('businessSetup:coursePrice-invalid');
                         });
                     });
                 });
